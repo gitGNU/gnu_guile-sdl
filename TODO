@@ -6,7 +6,7 @@
     + methodology
     + describe limits/restrictions
     + include TODO
-  - handle #f given as optional arg
+  + handle #f given as optional arg
   - review for gc-safety of intermediate values
 
 - 0.3 "coverage"
