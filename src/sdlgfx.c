@@ -123,7 +123,7 @@ GH_DEFPROC (scale_surface, "scale-surface", 3, 0, 0,
 
 
 void
-gsdl_gfx_init (void)
+gsdl_init_gfx (void)
 {
 #include "sdlgfx.x"
 }
