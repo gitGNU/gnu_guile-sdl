@@ -1,10 +1,13 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
+(define debug? (getenv "DEBUG"))
+(and debug? (debug-enable 'debug 'backtrace))
 
-;; simple true type font test
+;; simple graphics primitives test
 
-(use-modules (sdl sdl)
-             (sdl gfx))
+(use-modules (sdl sdl))                 ; fixme: these must be separate due
+(use-modules (sdl gfx))                 ;        to compiled modules weirdness
 
 ;; initialize SDL video
 (sdl-init '(SDL_INIT_VIDEO))
@@ -27,3 +30,4 @@
 (sdl-delay 1000)
 (sdl-quit)
 
+;;; gfx.scm ends here
