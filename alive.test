@@ -1,28 +1,4 @@
-#!/bin/sh
-
-if test x"$DEBUG" = x ; then set -e ; else set -ex ; fi
-
-dirs_n_libs="
-src sdl-sup
-"
-set $dirs_n_libs
-
-while [ -n "$1" ] ; do
-    dir=$1 ; lib=$2 ; shift ; shift
-    test -f $dir/$lib.la
-    test -d $dir/.libs
-    test -f $dir/.libs/$lib.la
-    test -f $dir/.libs/$lib.so
-done
-
-test -n "$GUILE_MERGED_MODULE_CATALOG"
-test -f "$GUILE_MERGED_MODULE_CATALOG"
-
-if [ x"$DEBUG" = x ] ; then debugopt= ; else debugopt='--debug' ; fi
-
-exec guile $debugopt -s $0
-!#
-;;; scheme code starts here
+;;; alive.test --- breathe in breathe out               -*- scheme -*-
 
 (define debug? (getenv "DEBUG"))
 (define (d>> s . args)
@@ -72,9 +48,14 @@ flags->number
           (d>> "#~A (gc) => ~A\n" count (gc))
           (loop (1- count))))))
 
-(d>> "loading (sdl ttf)")
-(use-modules (sdl ttf))
+(cond (*have-ttf*
+       (d>> "loading (sdl ttf)")
+       (use-modules (sdl ttf))))
 
-exit 0
+(cond (*have-mixer*
+       (d>> "loading (sdl mixer)")
+       (use-modules (sdl mixer))))
+
+(exit #t)
 
 ;;; alive.test ends here
