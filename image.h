@@ -2,7 +2,7 @@
  *  image.h -- SDL Image functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-05-01 23:39:14 foof>                         *
- *  Time-stamp: <2001-05-16 00:19:34 foof>                         *
+ *  Time-stamp: <2001-06-18 01:07:29 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -34,35 +34,8 @@
 /* guile-sdl headers */
 #include "video.h"
 
-/* Primitive Load */
-SCM img_load_typed_rw (SCM src, SCM freesrc, SCM type);
-
 /* Convenience functions */
 SCM img_load (SCM file);
-SCM img_load_rw (SCM src, SCM freesrc);
-
-/* Functions to detect a file type, given a seekable source */
-SCM img_bmp_p (SCM src);
-SCM img_pnm_p (SCM src);
-SCM img_xpm_p (SCM src);
-SCM img_xcf_p (SCM src);
-SCM img_pcx_p (SCM src);
-SCM img_gif_p (SCM src);
-SCM img_jpg_p (SCM src);
-SCM img_tif_p (SCM src);
-SCM img_png_p (SCM src);
-
-/* Individual loading functions */
-SCM img_load_bmp_rw (SCM src);
-SCM img_load_pnm_rw (SCM src);
-SCM img_load_xpm_rw (SCM src);
-SCM img_load_xcf_rw (SCM src);
-SCM img_load_pcx_rw (SCM src);
-SCM img_load_gif_rw (SCM src);
-SCM img_load_jpg_rw (SCM src);
-SCM img_load_tif_rw (SCM src);
-SCM img_load_png_rw (SCM src);
-SCM img_load_tga_rw (SCM src);
 
 /* Initialize glue */
 void sdl_image_init (void);

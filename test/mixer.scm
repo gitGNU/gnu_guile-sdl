@@ -4,11 +4,10 @@
 ;; simple mixer test
 ;; 
 ;; Created:    <2001-06-10 19:14:30 foof>
-;; Time-stamp: <2001-06-10 21:41:44 foof>
+;; Time-stamp: <2001-06-18 01:01:07 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
-(use-modules ((sdl sdl)
-              :rename (symbol-prefix-proc 'sdl-))
+(use-modules (sdl sdl)
              (ice-9 format))
 
 ;; the directory to find the image in
@@ -44,5 +43,5 @@
 
 ;; close the audio and quit SDL
 (sdl-close-audio)
-(sdl-quit-all)
+(sdl-quit)
 

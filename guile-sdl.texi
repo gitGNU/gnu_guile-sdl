@@ -93,16 +93,13 @@ using space, n or right to go forward, backspace, p or left to go
 backwards, and escape or q to quit.
 
 @lisp
-;; use the SDL module (prefixing symbols with "sdl-")
-(use-modules ((sdl sdl)
-              :rename (symbol-prefix-proc 'sdl-)))
-
-;; srfi-1 for list processing and srfi-2 for and-let*
-(use-modules (srfi srfi-1)
+;; load the SDL module and some useful srfi's
+(use-modules (sdl sdl)
+             (srfi srfi-1)
              (srfi srfi-2))
 
 ;; initialize the video subsystem
-(init-sdl init/video)
+(sdl-init sdl-init/video)
 
 ;; directory to search for images in
 (define image-dir "/usr/share/pixmaps/")
@@ -140,31 +137,29 @@ backwards, and escape or q to quit.
 
 ;; display an image given a filename
 (define (show file)
-  (and-let* ((image (load-image file)))
-    (set-video-mode (surface:w image) (surface:h image)
-                    24 video/hwsurface)
-    (blit-surface image)
-    (flip)))
+  (and-let* ((image (sdl-load-image file)))
+    (sdl-set-video-mode (sdl-surface:w image) (sdl-surface:h image)
+                        24 sdl-video/hwsurface)
+    (sdl-blit-surface image)
+    (sdl-flip)))
 
 ;; show the first image
 (show (next-image))
 
 ;; event handler
-(let handle ((e (make-event)))
-  (if (wait-event e)
-    (case (event:type e)
+(let handle ((e (sdl-make-event)))
+  (if (sdl-wait-event e)
+    (case (sdl-event:type e)
       ((event/key-down)
-       (case (event:key:keysym:sym e)
-         ((key/left key/backspace key/p)
+       (case (sdl-event:key:keysym:sym e)
+         ((key/left key/backspace)
           (show (prev-image)))
-         ((key/right key/space key/n)
+         ((key/right key/space)
           (show (next-image)))
          ((key/escape key/q)
-          (quit-sdl)
-          (quit))))
-      (else
-        (handle e))))
-    (handle e))
+          (sdl-quit)
+          (quit))))))
+  (handle e))
 @end lisp
 
 @node Naming Conventions, Quick Start, , Introduction
@@ -186,11 +181,10 @@ library.
 @subsection Renaming C Functions
 
 As with standard guile naming conventions, all names are converted to
-lower-case, and underscores are replaced with hyphens.  By default the
-@code{SDL_} prefix is removed, though you may wish to import with an
-@code{sdl-} prefix renamer.  To avoid conflicting with the standard
-@code{quit} procedure, @code{SDL_quit} is renamed @code{quit-sdl}, and
-@code{SDL_init} is renamed @code{init-sdl} for symmetry.
+lower-case, and underscores are replaced with hyphens.  Functions that
+modify one or more arguments have an exclamation point (@code{!})
+appended, and functions which ask a question and return a boolean
+value have a question mark (@code{?}) appended.
 
 @node Enums and Constants, Create and Make, Renaming C Functions, Naming Conventions
 @subsection Enums and Constants
@@ -212,11 +206,11 @@ with @code{logior}.
 The standard SDL prefix for creating a new instance of a type is
 @code{create}.  The standard Guile prefix is @code{make}.  Wherever an
 SDL function uses the @code{create} prefix we will keep it.  SMOB
-creation functions unique to Guile, such as @code{make-rect}, will use
-@code{make} as a prefix.  In addition, we will sometimes introduce
-higher-level creation functions, such as @code{make-surface}, which is
-a wrapper to @code{create-rgb-surface} which provides useful default
-values from the current screen information.
+creation functions unique to Guile, such as @code{sdl-make-rect}, will
+use @code{make} as a prefix.  In addition, we will sometimes introduce
+higher-level creation functions, such as @code{sdl-make-surface},
+which is a wrapper to @code{sdl-create-rgb-surface} which provides
+useful default values from the current screen information.
 
 @node General SDL, Video, Introduction, Top
 @chapter General SDL

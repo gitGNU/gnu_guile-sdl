@@ -4,20 +4,17 @@
 ;; Simple Image Browser
 ;; 
 ;; Created:    <2001-06-17 18:08:20 foof>
-;; Time-stamp: <2001-06-17 19:46:20 foof>
+;; Time-stamp: <2001-06-18 01:52:21 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
-;; use the SDL module (prefixing symbols with "sdl-")
-(use-modules ((sdl sdl)
-              :rename (symbol-prefix-proc 'sdl-)))
-
-;; and srfi-1 for list processing
-(use-modules (srfi srfi-1)
+;; load the SDL module and some useful srfi's
+(use-modules (sdl sdl)
+             (srfi srfi-1)
              (srfi srfi-2))
 
 ;; initialize the video subsystem
-(init-sdl init/video)
+(sdl-init sdl-init/video)
 
 ;; directory to search for images in
 (define image-dir "/usr/share/pixmaps/")
@@ -55,28 +52,26 @@
 
 ;; display an image given a filename
 (define (show file)
-  (and-let* ((image (load-image file)))
-    (set-video-mode (surface:w image) (surface:h image)
-                    24 video/hwsurface)
-    (blit-surface image)
-    (flip)))
+  (and-let* ((image (sdl-load-image file)))
+    (sdl-set-video-mode (sdl-surface:w image) (sdl-surface:h image)
+                        24 sdl-video/hwsurface)
+    (sdl-blit-surface image)
+    (sdl-flip)))
 
 ;; show the first image
 (show (next-image))
 
 ;; event handler
-(let handle ((e (make-event)))
-  (if (wait-event e)
-    (case (event:type e)
+(let handle ((e (sdl-make-event)))
+  (if (sdl-wait-event e)
+    (case (sdl-event:type e)
       ((event/key-down)
-       (case (event:key:keysym:sym e)
+       (case (sdl-event:key:keysym:sym e)
          ((key/left key/backspace)
           (show (prev-image)))
          ((key/right key/space)
           (show (next-image)))
          ((key/escape key/q)
-          (quit-sdl)
-          (quit))))
-      (else
-        (handle e))))
-    (handle e))
+          (sdl-quit)
+          (quit))))))
+  (handle e))

@@ -2,7 +2,7 @@
  *  gfx.c -- Additional Graphics functions for Guile SDL           *
  *                                                                 *
  *  Created:    <2001-06-03 02:00:32 foof>                         *
- *  Time-stamp: <2001-06-10 19:13:51 foof>                         *
+ *  Time-stamp: <2001-06-18 01:06:58 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -35,7 +35,7 @@ vertical_flip_surface (SCM s_surface)
    /* verify args */
    SCM_ASSERT ((SCM_NIMP (s_surface)
                 && (long) SCM_CAR (s_surface) == surface_tag),
-               s_surface, SCM_ARG1, "vertical-flip-surface");
+               s_surface, SCM_ARG1, "sdl-vertical-flip-surface");
 
    /* get source and dimensions */
    src = (SDL_Surface *) SCM_CDR (s_surface);
@@ -70,7 +70,7 @@ horiztonal_flip_surface (SCM s_surface)
    /* verify args */
    SCM_ASSERT ((SCM_NIMP (s_surface)
                 && (long) SCM_CAR (s_surface) == surface_tag),
-               s_surface, SCM_ARG1, "horiztonal-flip-surface");
+               s_surface, SCM_ARG1, "sdl-horiztonal-flip-surface");
 
    /* get source and dimensions */
    src = (SDL_Surface *) SCM_CDR (s_surface);
@@ -112,15 +112,15 @@ scale_surface (SCM surface, SCM width, SCM height)
 void
 sdl_gfx_init (void)
 {
-   scm_c_define_gsubr ("vertical-flip-surface",    1, 0, 0, vertical_flip_surface);
-   scm_c_define_gsubr ("horizontal-flip-surface",  1, 0, 0, horiztonal_flip_surface);
-   scm_c_define_gsubr ("vh-flip-surface",          1, 0, 0, vh_flip_surface);
-   scm_c_define_gsubr ("scale-surface",            3, 0, 0, scale_surface);
+   scm_c_define_gsubr ("sdl-vertical-flip-surface",    1, 0, 0, vertical_flip_surface);
+   scm_c_define_gsubr ("sdl-horizontal-flip-surface",  1, 0, 0, horiztonal_flip_surface);
+   scm_c_define_gsubr ("sdl-vh-flip-surface",          1, 0, 0, vh_flip_surface);
+   /* scm_c_define_gsubr ("sdl-scale-surface",            3, 0, 0, scale_surface); */
 
-   scm_c_export ("vertical-flip-surface",
-                 "horizontal-flip-surface",
-                 "vh-flip-surface",
-                 "scale-surface",
+   scm_c_export ("sdl-vertical-flip-surface",
+                 "sdl-horizontal-flip-surface",
+                 "sdl-vh-flip-surface",
+                 /* "scale-surface", */
                  NULL);
 }
 

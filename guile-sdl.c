@@ -2,7 +2,7 @@
  *  guile-sdl.c -- SDL Video Wrappers for Guile                    *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-17 19:31:09 foof>                         *
+ *  Time-stamp: <2001-06-18 01:24:32 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -44,7 +44,7 @@ sdl_init (SCM s_subsystems)
 {
    int subsystems;
 
-   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "init");
+   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init");
    subsystems = SCM_INUM (s_subsystems);
 
    return SCM_MAKINUM (SDL_Init (subsystems));
@@ -55,7 +55,7 @@ sdl_init_subsystem (SCM s_subsystems)
 {
    int subsystems;
 
-   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "init-subsystem");
+   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init-subsystem");
    subsystems = SCM_INUM (s_subsystems);
 
    return SCM_MAKINUM (SDL_InitSubSystem (subsystems));
@@ -74,7 +74,7 @@ sdl_quit_subsystem (SCM s_subsystems)
 {
    int subsystems;
 
-   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "quit-subsystem");
+   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "sdl-quit-subsystem");
    subsystems = SCM_INUM (s_subsystems);
 
    SDL_QuitSubSystem (subsystems);
@@ -87,7 +87,7 @@ sdl_was_init (SCM s_subsystems)
 {
    int subsystems;
 
-   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "was-init");
+   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "sdl-was-init");
    subsystems = SCM_INUM (s_subsystems);
 
    return SCM_MAKINUM (SDL_WasInit (subsystems));
@@ -104,19 +104,19 @@ sdl_get_ticks (void)
 SCM
 sdl_delay (SCM ms)
 {
-   SCM_ASSERT (SCM_INUMP (ms),  ms,  SCM_ARG1, "delay");
+   SCM_ASSERT (SCM_INUMP (ms),  ms,  SCM_ARG1, "sdl-delay");
    SDL_Delay (SCM_INUM (ms));
    return SCM_UNSPECIFIED;
 }
 
 /* error functions */
 
-SCM
-sdl_get_error (void)
-{
-   char *error = SDL_GetError();
-   return scm_makfrom0str (error);
-}
+/* SCM */
+/* sdl_get_error (void) */
+/* { */
+/*    char *error = SDL_GetError(); */
+/*    return scm_makfrom0str (error); */
+/* } */
 
 void
 guile_sdl_init (void)
@@ -126,40 +126,40 @@ guile_sdl_init (void)
    scm_c_define_gsubr ("number->enum",   2, 0, 0, scm_number_to_enum);
 
    /* general initializations */
-   scm_c_define_gsubr ("init-sdl",       1, 0, 0, sdl_init);
-   scm_c_define_gsubr ("init-subsystem", 1, 0, 0, sdl_init_subsystem);
-   scm_c_define_gsubr ("quit-sdl",       0, 0, 0, sdl_quit);
-   scm_c_define_gsubr ("quit-subsystem", 1, 0, 0, sdl_quit_subsystem);
-   scm_c_define_gsubr ("was-init",       1, 0, 0, sdl_was_init);
-   scm_c_define_gsubr ("get-ticks",      0, 0, 0, sdl_get_ticks);
-   scm_c_define_gsubr ("delay",          1, 0, 0, sdl_delay);
-   scm_c_define_gsubr ("get-error",      0, 0, 0, sdl_get_error);
+   scm_c_define_gsubr ("sdl-init",           1, 0, 0, sdl_init);
+   scm_c_define_gsubr ("sdl-init-subsystem", 1, 0, 0, sdl_init_subsystem);
+   scm_c_define_gsubr ("sdl-quit",           0, 0, 0, sdl_quit);
+   scm_c_define_gsubr ("sdl-quit-subsystem", 1, 0, 0, sdl_quit_subsystem);
+   scm_c_define_gsubr ("sdl-was-init",       1, 0, 0, sdl_was_init);
+   scm_c_define_gsubr ("sdl-get-ticks",      0, 0, 0, sdl_get_ticks);
+   scm_c_define_gsubr ("sdl-delay",          1, 0, 0, sdl_delay);
+/*    scm_c_define_gsubr ("sdl-get-error",      0, 0, 0, sdl_get_error); */
 
    /* constants */
-   scm_c_define ("init/timer",       SCM_MAKINUM (SDL_INIT_TIMER));
-   scm_c_define ("init/audio",       SCM_MAKINUM (SDL_INIT_AUDIO));
-   scm_c_define ("init/video",       SCM_MAKINUM (SDL_INIT_VIDEO));
-   scm_c_define ("init/cdrom",       SCM_MAKINUM (SDL_INIT_CDROM));
-   scm_c_define ("init/joystick",    SCM_MAKINUM (SDL_INIT_JOYSTICK));
-   scm_c_define ("init/everything",  SCM_MAKINUM (SDL_INIT_EVERYTHING));
-   scm_c_define ("init/noparachute", SCM_MAKINUM (SDL_INIT_NOPARACHUTE));
-   scm_c_define ("init/eventthread", SCM_MAKINUM (SDL_INIT_EVENTTHREAD));
+   scm_c_define ("sdl-init/timer",       SCM_MAKINUM (SDL_INIT_TIMER));
+   scm_c_define ("sdl-init/audio",       SCM_MAKINUM (SDL_INIT_AUDIO));
+   scm_c_define ("sdl-init/video",       SCM_MAKINUM (SDL_INIT_VIDEO));
+   scm_c_define ("sdl-init/cdrom",       SCM_MAKINUM (SDL_INIT_CDROM));
+   scm_c_define ("sdl-init/joystick",    SCM_MAKINUM (SDL_INIT_JOYSTICK));
+   scm_c_define ("sdl-init/everything",  SCM_MAKINUM (SDL_INIT_EVERYTHING));
+   scm_c_define ("sdl-init/noparachute", SCM_MAKINUM (SDL_INIT_NOPARACHUTE));
+   scm_c_define ("sdl-init/eventthread", SCM_MAKINUM (SDL_INIT_EVENTTHREAD));
 
    /* exported symbols */
    scm_c_export (
       /* utils */
       "enum->number", "number->enum",
       /* time */
-      "get-ticks", "delay",
+      "sdl-get-ticks", "sdl-delay",
       /* errors */
-      "get-error",
+      /* "sdl-get-error", */
       /* sdl initializations */
-      "subsystems", "init-sdl", "quit-sdl", "init-subsystem",
-      "quit-subsystem", "was-init",
+      "sdl-subsystems", "sdl-init", "sdl-quit", "sdl-init-subsystem",
+      "sdl-quit-subsystem", "sdl-was-init",
       /* constants */
-      "init/timer", "init/audio", "init/video",
-      "init/cdrom", "init/joystick", "init/everything",
-      "init/noparachute", "init/eventthread",
+      "sdl-init/timer", "sdl-init/audio", "sdl-init/video",
+      "sdl-init/cdrom", "sdl-init/joystick", "sdl-init/everything",
+      "sdl-init/noparachute", "sdl-init/eventthread",
       NULL);
 
    /* wm initializations */

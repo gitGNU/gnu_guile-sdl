@@ -2,7 +2,7 @@
  *  mixer.c -- SDL_mixer for Guile                                 *
  *                                                                 *
  *  Created:    <2001-06-10 16:45:57 foof>                         *
- *  Time-stamp: <2001-06-10 21:31:56 foof>                         *
+ *  Time-stamp: <2001-06-18 01:08:31 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -57,24 +57,24 @@ mix_open_audio (SCM s_freq, SCM s_format, SCM s_stereo, SCM s_chunksize)
 
    /* handle optional args */
    if (s_freq != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_freq),  s_freq,  SCM_ARG1, "open-audio");
+      SCM_ASSERT (SCM_INUMP (s_freq),  s_freq,  SCM_ARG1, "sdl-open-audio");
       freq = SCM_INUM (s_freq);
    }
 
    if (s_format != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_format),  s_format,  SCM_ARG2, "open-audio");
+      SCM_ASSERT (SCM_INUMP (s_format),  s_format,  SCM_ARG2, "sdl-open-audio");
       format = SCM_INUM (s_format);
    }
 
    if (s_stereo != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_BOOLP (s_stereo),  s_stereo,  SCM_ARG3, "open-audio");
+      SCM_ASSERT (SCM_BOOLP (s_stereo),  s_stereo,  SCM_ARG3, "sdl-open-audio");
       if (SCM_FALSEP (s_stereo)) {
          channels = 1;
       }
    }
 
    if (s_chunksize != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_chunksize),  s_format,  SCM_ARG4, "open-audio");
+      SCM_ASSERT (SCM_INUMP (s_chunksize),  s_format,  SCM_ARG4, "sdl-open-audio");
       chunksize = SCM_INUM (s_chunksize);
    }
 
@@ -92,7 +92,7 @@ mix_allocate_channels (SCM s_numchans)
 {
    int numchans;
 
-   SCM_ASSERT (SCM_INUMP (s_numchans),  s_numchans,  SCM_ARG1, "allocate-channels");
+   SCM_ASSERT (SCM_INUMP (s_numchans),  s_numchans,  SCM_ARG1, "sdl-allocate-channels");
    numchans = SCM_INUM (s_numchans);
 
    return SCM_MAKINUM (Mix_AllocateChannels (numchans));
@@ -123,7 +123,7 @@ mix_load_music (SCM file)
    Mix_Music *music;
 
    SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
-               file, SCM_ARG1, "load-music");
+               file, SCM_ARG1, "sdl-load-music");
 
    music = Mix_LoadMUS (SCM_CHARS (file));
    SCM_RETURN_NEWSMOB (mix_music_tag, music);
@@ -136,7 +136,7 @@ mix_load_wave (SCM file)
    Mix_Chunk *chunk;
 
    SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
-               file, SCM_ARG1, "load-wave");
+               file, SCM_ARG1, "sdl-load-wave");
 
    chunk = Mix_LoadWAV (SCM_CHARS (file));
    SCM_RETURN_NEWSMOB (mix_audio_tag, chunk);
@@ -153,7 +153,7 @@ mix_load_wave (SCM file)
 SCM
 mix_reserve_channels (SCM num)
 {
-   SCM_ASSERT (SCM_INUMP (num),  num,  SCM_ARG1, "reserve-channels");
+   SCM_ASSERT (SCM_INUMP (num),  num,  SCM_ARG1, "sdl-reserve-channels");
    return SCM_MAKINUM (Mix_ReserveChannels (SCM_INUM (num)));
 }
 
@@ -168,11 +168,11 @@ mix_group_channel (SCM s_which, SCM s_tag)
 {
    int which, tag=-1;
 
-   SCM_ASSERT (SCM_INUMP (s_which), s_which, SCM_ARG1, "group-channel");
+   SCM_ASSERT (SCM_INUMP (s_which), s_which, SCM_ARG1, "sdl-group-channel");
    which = SCM_INUM (s_which);
 
    if (s_tag != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG2, "group-channel");
+      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG2, "sdl-group-channel");
       tag = SCM_INUM (s_tag);
    }
 
@@ -185,14 +185,14 @@ mix_group_channels (SCM s_from, SCM s_to, SCM s_tag)
 {
    int from, to, tag=-1;
 
-   SCM_ASSERT (SCM_INUMP (s_from), s_from, SCM_ARG1, "group-channels");
+   SCM_ASSERT (SCM_INUMP (s_from), s_from, SCM_ARG1, "sdl-group-channels");
    from = SCM_INUM (s_from);
 
-   SCM_ASSERT (SCM_INUMP (s_to), s_to, SCM_ARG2, "group-channels");
+   SCM_ASSERT (SCM_INUMP (s_to), s_to, SCM_ARG2, "sdl-group-channels");
    to = SCM_INUM (s_to);
 
    if (s_tag != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG3, "group-channels");
+      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG3, "sdl-group-channels");
       tag = SCM_INUM (s_tag);
    }
 
@@ -206,7 +206,7 @@ mix_group_available (SCM s_tag)
    int tag;
 
    if (s_tag != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "group-available");
+      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "sdl-group-available");
       tag = SCM_INUM (s_tag);
    }
 
@@ -222,7 +222,7 @@ mix_group_count (SCM s_tag)
    int tag;
 
    if (s_tag != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "group-count");
+      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "sdl-group-count");
       tag = SCM_INUM (s_tag);
    }
 
@@ -236,7 +236,7 @@ mix_group_oldest (SCM s_tag)
    int tag;
 
    if (s_tag != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "group-oldest");
+      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "sdl-group-oldest");
       tag = SCM_INUM (s_tag);
    }
 
@@ -250,7 +250,7 @@ mix_group_newer (SCM s_tag)
    int tag;
 
    if (s_tag != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "group-newer");
+      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "sdl-group-newer");
       tag = SCM_INUM (s_tag);
    }
 
@@ -273,21 +273,21 @@ mix_play_channel (SCM s_chunk, SCM s_channel, SCM s_loops,
    int ticks=-1;
    int fade=0;
 
-   SCM_ASSERT_SMOB (s_chunk, mix_audio_tag, SCM_ARG1, "play-channel");
+   SCM_ASSERT_SMOB (s_chunk, mix_audio_tag, SCM_ARG1, "sdl-play-channel");
    chunk = (Mix_Chunk*) SCM_SMOB_DATA (s_chunk);
 
    if (s_channel != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG2, "play-channel");
+      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG2, "sdl-play-channel");
       channel = SCM_INUM (s_channel);
    }
 
    if (s_loops != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_loops), s_loops, SCM_ARG3, "play-channel");
+      SCM_ASSERT (SCM_INUMP (s_loops), s_loops, SCM_ARG3, "sdl-play-channel");
       loops = SCM_INUM (s_loops);
    }
 
    if (s_ticks != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_ticks), s_ticks, SCM_ARG4, "play-channel");
+      SCM_ASSERT (SCM_INUMP (s_ticks), s_ticks, SCM_ARG4, "sdl-play-channel");
       ticks = SCM_INUM (s_ticks);
    }
 
@@ -296,7 +296,7 @@ mix_play_channel (SCM s_chunk, SCM s_channel, SCM s_loops,
       return SCM_MAKINUM (Mix_PlayChannelTimed (channel, chunk, loops, ticks));
    } else {
       /* we have a fade */
-      SCM_ASSERT (SCM_INUMP (s_fade), s_fade, SCM_ARG5, "play-channel");
+      SCM_ASSERT (SCM_INUMP (s_fade), s_fade, SCM_ARG5, "sdl-play-channel");
       fade = SCM_INUM (s_fade);
       return SCM_MAKINUM (Mix_FadeInChannelTimed (channel, chunk, loops, fade, ticks));
    }
@@ -309,11 +309,11 @@ mix_play_music (SCM s_music, SCM s_loops, SCM s_fade)
    int loops=0;
    int fade=0;
 
-   SCM_ASSERT_SMOB (s_music, mix_music_tag, SCM_ARG1, "play-music");
+   SCM_ASSERT_SMOB (s_music, mix_music_tag, SCM_ARG1, "sdl-play-music");
    music = (Mix_Music*) SCM_SMOB_DATA (s_music);
 
    if (s_loops != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_loops), s_loops, SCM_ARG2, "play-music");
+      SCM_ASSERT (SCM_INUMP (s_loops), s_loops, SCM_ARG2, "sdl-play-music");
       loops = SCM_INUM (s_loops);
    }
 
@@ -322,7 +322,7 @@ mix_play_music (SCM s_music, SCM s_loops, SCM s_fade)
       return SCM_MAKINUM (Mix_PlayMusic (music, loops));
    } else {
       /* we have a fade */
-      SCM_ASSERT (SCM_INUMP (s_fade), s_fade, SCM_ARG3, "play-music");
+      SCM_ASSERT (SCM_INUMP (s_fade), s_fade, SCM_ARG3, "sdl-play-music");
       fade = SCM_INUM (s_fade);
       return SCM_MAKINUM (Mix_FadeInMusic (music, loops, fade));
    }
@@ -341,7 +341,7 @@ mix_volume (SCM s_volume, SCM s_which)
    Mix_Chunk *chunk;
 
    if (s_volume != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_volume), s_volume, SCM_ARG1, "volume");
+      SCM_ASSERT (SCM_INUMP (s_volume), s_volume, SCM_ARG1, "sdl-volume");
       volume = SCM_INUM (s_volume);
    }
 
@@ -354,7 +354,7 @@ mix_volume (SCM s_volume, SCM s_which)
       return SCM_MAKINUM (Mix_Volume (channel, volume));
    } else {
       /* no-numeric which, must be a chunk smob */
-      SCM_ASSERT_SMOB (s_which, mix_audio_tag, SCM_ARG2, "volume");
+      SCM_ASSERT_SMOB (s_which, mix_audio_tag, SCM_ARG2, "sdl-volume");
       chunk = (Mix_Chunk*) SCM_SMOB_DATA (s_which);
       return SCM_MAKINUM (Mix_VolumeChunk (chunk, volume));
    }
@@ -366,7 +366,7 @@ mix_volume_music (SCM s_volume)
    int volume=-1;
 
    if (s_volume != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_volume), s_volume, SCM_ARG1, "music-volume");
+      SCM_ASSERT (SCM_INUMP (s_volume), s_volume, SCM_ARG1, "sdl-music-volume");
       volume = SCM_INUM (s_volume);
    }
 
@@ -380,7 +380,7 @@ mix_halt_channel (SCM s_channel)
    int channel=-1;
 
    if (s_channel != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "halt-channel");
+      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "sdl-halt-channel");
       channel = SCM_INUM (s_channel);
    }
 
@@ -393,7 +393,7 @@ mix_halt_group (SCM s_tag)
    int tag=-1;
 
    if (s_tag != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "halt-group");
+      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "sdl-halt-group");
       tag = SCM_INUM (s_tag);
    }
 
@@ -417,12 +417,12 @@ mix_expire_channel (SCM s_channel, SCM s_ticks)
    int ticks=-1;
 
    if (s_channel != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "expire-channel");
+      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "sdl-expire-channel");
       channel = SCM_INUM (s_channel);
    }
 
    if (s_ticks != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_ticks), s_ticks, SCM_ARG2, "expire-channel");
+      SCM_ASSERT (SCM_INUMP (s_ticks), s_ticks, SCM_ARG2, "sdl-expire-channel");
       ticks = SCM_INUM (s_ticks);
    }
 
@@ -440,12 +440,12 @@ mix_fade_out_channel (SCM s_which, SCM s_ms)
    int ms=0;
 
    if (s_which != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_which), s_which, SCM_ARG1, "fade-out-channel");
+      SCM_ASSERT (SCM_INUMP (s_which), s_which, SCM_ARG1, "sdl-fade-out-channel");
       channel = SCM_INUM (s_which);
    }
 
    if (s_ms != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_ms), s_ms, SCM_ARG2, "fade-out-channel");
+      SCM_ASSERT (SCM_INUMP (s_ms), s_ms, SCM_ARG2, "sdl-fade-out-channel");
       ms = SCM_INUM (s_ms);
    }
 
@@ -459,12 +459,12 @@ mix_fade_out_group (SCM s_tag, SCM s_ms)
    int ms=0;
 
    if (s_tag != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "fade-out-group");
+      SCM_ASSERT (SCM_INUMP (s_tag), s_tag, SCM_ARG1, "sdl-fade-out-group");
       tag = SCM_INUM (s_tag);
    }
 
    if (s_ms != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_ms), s_ms, SCM_ARG2, "fade-out-group");
+      SCM_ASSERT (SCM_INUMP (s_ms), s_ms, SCM_ARG2, "sdl-fade-out-group");
       ms = SCM_INUM (s_ms);
    }
 
@@ -477,7 +477,7 @@ mix_fade_out_music (SCM s_ms)
    int ms=0;
 
    if (s_ms != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_ms), s_ms, SCM_ARG1, "fade-out-music");
+      SCM_ASSERT (SCM_INUMP (s_ms), s_ms, SCM_ARG1, "sdl-fade-out-music");
       ms = SCM_INUM (s_ms);
    }
 
@@ -497,7 +497,7 @@ mix_fading_channel (SCM s_which)
    int which=-1;
 
    if (s_which != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_which), s_which, SCM_ARG1, "fading-channel");
+      SCM_ASSERT (SCM_INUMP (s_which), s_which, SCM_ARG1, "sdl-fading-channel");
       which = SCM_INUM (s_which);
    }
 
@@ -511,7 +511,7 @@ mix_pause (SCM s_channel)
    int channel=-1;
 
    if (s_channel != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "pause");
+      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "sdl-pause");
       channel = SCM_INUM (s_channel);
    }
 
@@ -526,7 +526,7 @@ mix_resume (SCM s_channel)
    int channel=-1;
 
    if (s_channel != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "resume");
+      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "sdl-resume");
       channel = SCM_INUM (s_channel);
    }
 
@@ -541,7 +541,7 @@ mix_paused (SCM s_channel)
    int channel=-1;
 
    if (s_channel != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "paused?");
+      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "sdl-paused?");
       channel = SCM_INUM (s_channel);
    }
 
@@ -585,7 +585,7 @@ mix_playing (SCM s_channel)
    int channel=-1;
 
    if (s_channel != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "playing?");
+      SCM_ASSERT (SCM_INUMP (s_channel), s_channel, SCM_ARG1, "sdl-playing?");
       channel = SCM_INUM (s_channel);
    }
 
@@ -603,7 +603,7 @@ SCM
 mix_set_music_cmd (SCM command)
 {
    SCM_ASSERT ((SCM_NIMP (command) && SCM_STRINGP (command)),
-               command, SCM_ARG1, "set-music-command");
+               command, SCM_ARG1, "sdl-set-music-command");
    return SCM_MAKINUM (Mix_SetMusicCMD (SCM_CHARS (command)));
 }
 
@@ -621,92 +621,92 @@ void
 sdl_mixer_init (void)
 {
    /* smobs */
-   mix_music_tag = scm_make_smob_type ("music", sizeof (struct Mix_Music*));
-   mix_audio_tag = scm_make_smob_type ("audio", sizeof (Mix_Chunk));
+   mix_music_tag = scm_make_smob_type ("sdl-music", sizeof (struct Mix_Music*));
+   mix_audio_tag = scm_make_smob_type ("sdl-audio", sizeof (Mix_Chunk));
    scm_set_smob_free (mix_music_tag, free_music);
    scm_set_smob_free (mix_audio_tag, free_audio);
 
    /* enums */
    fading_status_enum = scm_c_define_enum (
-      "fading-status",
-      "fading/none",    MIX_NO_FADING,
-      "fading/out",     MIX_FADING_OUT,
-      "fading/in",      MIX_FADING_IN,
+      "sdl-fading-status",
+      "sdl-fading/none",    MIX_NO_FADING,
+      "sdl-fading/out",     MIX_FADING_OUT,
+      "sdl-fading/in",      MIX_FADING_IN,
       NULL);
 
    /* functions */
-   scm_c_define_gsubr ("open-audio",               0, 4, 0, mix_open_audio);
-   scm_c_define_gsubr ("allocate-channels",        1, 0, 0, mix_allocate_channels);
-   scm_c_define_gsubr ("query-spec",               0, 0, 0, mix_query_spec);
-   scm_c_define_gsubr ("load-music",               1, 0, 0, mix_load_music);
-   scm_c_define_gsubr ("load-wave",                1, 0, 0, mix_load_wave);
-   scm_c_define_gsubr ("reserve-channels",         1, 0, 0, mix_reserve_channels);
-   scm_c_define_gsubr ("group-channel",            1, 1, 0, mix_group_channel);
-   scm_c_define_gsubr ("group-channels",           2, 1, 0, mix_group_channels);
-   scm_c_define_gsubr ("group-available",          0, 1, 0, mix_group_available);
-   scm_c_define_gsubr ("group-count",              0, 1, 0, mix_group_count);
-   scm_c_define_gsubr ("group-oldest",             0, 1, 0, mix_group_oldest);
-   scm_c_define_gsubr ("group-newer",              0, 1, 0, mix_group_newer);
-   scm_c_define_gsubr ("play-channel",             1, 4, 0, mix_play_channel);
-   scm_c_define_gsubr ("play-music",               1, 2, 0, mix_play_music);
-   scm_c_define_gsubr ("volume",                   0, 2, 0, mix_volume);
-   scm_c_define_gsubr ("volume-music",             0, 1, 0, mix_volume_music);
-   scm_c_define_gsubr ("halt-channel",             0, 1, 0, mix_halt_channel);
-   scm_c_define_gsubr ("halt-group",               0, 1, 0, mix_halt_group);
-   scm_c_define_gsubr ("halt-music",               0, 0, 0, mix_halt_music);
-   scm_c_define_gsubr ("expire-channel",           0, 2, 0, mix_expire_channel);
-   scm_c_define_gsubr ("fade-out-channel",         0, 2, 0, mix_fade_out_channel);
-   scm_c_define_gsubr ("fade-out-group",           0, 2, 0, mix_fade_out_group);
-   scm_c_define_gsubr ("fade-out-music",           0, 1, 0, mix_fade_out_music);
-   scm_c_define_gsubr ("pause",                    0, 1, 0, mix_pause);
-   scm_c_define_gsubr ("resume",                   0, 1, 0, mix_resume);
-   scm_c_define_gsubr ("paused?",                  0, 1, 0, mix_paused);
-   scm_c_define_gsubr ("pause-music",              0, 0, 0, mix_pause_music);
-   scm_c_define_gsubr ("resume-music",             0, 0, 0, mix_resume_music);
-   scm_c_define_gsubr ("rewind-music",             0, 0, 0, mix_rewind_music);
-   scm_c_define_gsubr ("paused-music?",            0, 0, 0, mix_paused_music);
-   scm_c_define_gsubr ("playing?",                 0, 1, 0, mix_playing);
-   scm_c_define_gsubr ("playing-music?",           0, 0, 0, mix_playing_music);
-   scm_c_define_gsubr ("set-music-command",        1, 0, 0, mix_set_music_cmd);
-   scm_c_define_gsubr ("close-audio",              0, 0, 0, mix_close_audio);
+   scm_c_define_gsubr ("sdl-open-audio",               0, 4, 0, mix_open_audio);
+   scm_c_define_gsubr ("sdl-allocate-channels",        1, 0, 0, mix_allocate_channels);
+   scm_c_define_gsubr ("sdl-query-spec",               0, 0, 0, mix_query_spec);
+   scm_c_define_gsubr ("sdl-load-music",               1, 0, 0, mix_load_music);
+   scm_c_define_gsubr ("sdl-load-wave",                1, 0, 0, mix_load_wave);
+   scm_c_define_gsubr ("sdl-reserve-channels",         1, 0, 0, mix_reserve_channels);
+   scm_c_define_gsubr ("sdl-group-channel",            1, 1, 0, mix_group_channel);
+   scm_c_define_gsubr ("sdl-group-channels",           2, 1, 0, mix_group_channels);
+   scm_c_define_gsubr ("sdl-group-available",          0, 1, 0, mix_group_available);
+   scm_c_define_gsubr ("sdl-group-count",              0, 1, 0, mix_group_count);
+   scm_c_define_gsubr ("sdl-group-oldest",             0, 1, 0, mix_group_oldest);
+   scm_c_define_gsubr ("sdl-group-newer",              0, 1, 0, mix_group_newer);
+   scm_c_define_gsubr ("sdl-play-channel",             1, 4, 0, mix_play_channel);
+   scm_c_define_gsubr ("sdl-play-music",               1, 2, 0, mix_play_music);
+   scm_c_define_gsubr ("sdl-volume",                   0, 2, 0, mix_volume);
+   scm_c_define_gsubr ("sdl-volume-music",             0, 1, 0, mix_volume_music);
+   scm_c_define_gsubr ("sdl-halt-channel",             0, 1, 0, mix_halt_channel);
+   scm_c_define_gsubr ("sdl-halt-group",               0, 1, 0, mix_halt_group);
+   scm_c_define_gsubr ("sdl-halt-music",               0, 0, 0, mix_halt_music);
+   scm_c_define_gsubr ("sdl-expire-channel",           0, 2, 0, mix_expire_channel);
+   scm_c_define_gsubr ("sdl-fade-out-channel",         0, 2, 0, mix_fade_out_channel);
+   scm_c_define_gsubr ("sdl-fade-out-group",           0, 2, 0, mix_fade_out_group);
+   scm_c_define_gsubr ("sdl-fade-out-music",           0, 1, 0, mix_fade_out_music);
+   scm_c_define_gsubr ("sdl-pause",                    0, 1, 0, mix_pause);
+   scm_c_define_gsubr ("sdl-resume",                   0, 1, 0, mix_resume);
+   scm_c_define_gsubr ("sdl-paused?",                  0, 1, 0, mix_paused);
+   scm_c_define_gsubr ("sdl-pause-music",              0, 0, 0, mix_pause_music);
+   scm_c_define_gsubr ("sdl-resume-music",             0, 0, 0, mix_resume_music);
+   scm_c_define_gsubr ("sdl-rewind-music",             0, 0, 0, mix_rewind_music);
+   scm_c_define_gsubr ("sdl-paused-music?",            0, 0, 0, mix_paused_music);
+   scm_c_define_gsubr ("sdl-playing?",                 0, 1, 0, mix_playing);
+   scm_c_define_gsubr ("sdl-playing-music?",           0, 0, 0, mix_playing_music);
+   scm_c_define_gsubr ("sdl-set-music-command",        1, 0, 0, mix_set_music_cmd);
+   scm_c_define_gsubr ("sdl-close-audio",              0, 0, 0, mix_close_audio);
 
    /* exported symbols */
    scm_c_export (
-      "fading-status",
-      "open-audio",
-      "allocate-channels",
-      "query-spec",
-      "load-music",
-      "load-wave",
-      "reserve-channels",
-      "group-channel",
-      "group-channels",
-      "group-available",
-      "group-count",
-      "group-oldest",
-      "group-newer",
-      "play-channel",
-      "play-music",
-      "volume",
-      "volume-music",
-      "halt-channel",
-      "halt-group",
-      "halt-music",
-      "expire-channel",
-      "fade-out-channel",
-      "fade-out-group",
-      "fade-out-music",
-      "pause",
-      "resume",
-      "paused?",
-      "pause-music",
-      "resume-music",
-      "rewind-music",
-      "paused-music?",
-      "playing?",
-      "playing-music?",
-      "set-music-command",
-      "close-audio",
+      "sdl-fading-status",
+      "sdl-open-audio",
+      "sdl-allocate-channels",
+      "sdl-query-spec",
+      "sdl-load-music",
+      "sdl-load-wave",
+      "sdl-reserve-channels",
+      "sdl-group-channel",
+      "sdl-group-channels",
+      "sdl-group-available",
+      "sdl-group-count",
+      "sdl-group-oldest",
+      "sdl-group-newer",
+      "sdl-play-channel",
+      "sdl-play-music",
+      "sdl-volume",
+      "sdl-volume-music",
+      "sdl-halt-channel",
+      "sdl-halt-group",
+      "sdl-halt-music",
+      "sdl-expire-channel",
+      "sdl-fade-out-channel",
+      "sdl-fade-out-group",
+      "sdl-fade-out-music",
+      "sdl-pause",
+      "sdl-resume",
+      "sdl-paused?",
+      "sdl-pause-music",
+      "sdl-resume-music",
+      "sdl-rewind-music",
+      "sdl-paused-music?",
+      "sdl-playing?",
+      "sdl-playing-music?",
+      "sdl-set-music-command",
+      "sdl-close-audio",
       NULL);
 }
 

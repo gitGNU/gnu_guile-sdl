@@ -4,11 +4,10 @@
 ;; simple image test
 ;; 
 ;; Created:    <2001-05-29 20:38:26 foof>
-;; Time-stamp: <2001-06-03 20:59:24 foof>
+;; Time-stamp: <2001-06-18 01:00:56 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
-(use-modules ((sdl sdl)
-              :rename (symbol-prefix-proc 'sdl-)))
+(use-modules (sdl sdl))
 
 ;; the directory to find the image in
 (define datadir (if (getenv "srcdir")
@@ -32,24 +31,24 @@
 (sdl-flip (sdl-get-video-surface))
 
 ;; wait a half-second, then flip it upside-down
-(usleep 500000)
+(sdl-delay 500)
 (let ((upside-down (sdl-vertical-flip-surface (sdl-get-video-surface))))
   (sdl-blit-surface upside-down gnu-rect (sdl-get-video-surface) gnu-rect))
 (sdl-flip (sdl-get-video-surface))
 
 ;; now flip horizontally
-(usleep 500000)
+(sdl-delay 500)
 (let ((left-right (sdl-horizontal-flip-surface (sdl-get-video-surface))))
   (sdl-blit-surface left-right gnu-rect (sdl-get-video-surface) gnu-rect))
 (sdl-flip (sdl-get-video-surface))
 
 ;; ... and finally flip back
-(usleep 500000)
+(sdl-delay 500)
 (let ((orig (sdl-vh-flip-surface (sdl-get-video-surface))))
   (sdl-blit-surface orig gnu-rect (sdl-get-video-surface) gnu-rect))
 (sdl-flip (sdl-get-video-surface))
 
 ;; wait then quit
-(usleep 500000)
-(sdl-quit-all)
+(sdl-delay 500)
+(sdl-quit)
 

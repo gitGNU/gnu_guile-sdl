@@ -2,7 +2,7 @@
  *  event.c -- SDL input handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:58:16 foof>                         *
- *  Time-stamp: <2001-06-10 22:55:45 foof>                         *
+ *  Time-stamp: <2001-06-18 01:28:11 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -45,11 +45,15 @@ free_event (SCM event)
 SCM make_event (SCM s_type)
 {
    SDL_Event *event;
+   int type=SDL_NOEVENT;
 
-   SCM_ASSERT (SCM_INUMP (s_type), s_type, SCM_ARG1, "make-event");
+   if (s_type != SCM_UNDEFINED) {
+      SCM_ASSERT (SCM_INUMP (s_type), s_type, SCM_ARG1, "sdl-make-event");
+      type = SCM_INUM (s_type);
+   }
 
-   event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), "event");
-   event->type = SCM_INUM (s_type);
+   event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), "sdl-make-event");
+   event->type = type;
 
    SCM_RETURN_NEWSMOB (event_tag, event);
 }
@@ -59,17 +63,18 @@ SCM make_keysym (SCM sym, SCM mod)
    SDL_keysym *keysym;
 
    /* alloc the keysym */
-   keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym), "keysym");
+   keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym),
+                                            "sdl-make-keysym");
 
    /* set the sym if given */
    if (sym != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (sym), sym, SCM_ARG1, "make-keysym");
+      SCM_ASSERT (SCM_INUMP (sym), sym, SCM_ARG1, "sdl-make-keysym");
       keysym->sym = (SDLKey) SCM_INUM (sym);
    }
 
    /* set the mod if given */
    if (mod != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (mod), mod, SCM_ARG2, "make-keysym");
+      SCM_ASSERT (SCM_INUMP (mod), mod, SCM_ARG2, "sdl-make-keysym");
       keysym->mod = (SDLMod) SCM_INUM (mod);
    }
 
@@ -85,19 +90,19 @@ SCM make_keysym (SCM sym, SCM mod)
 SCM event_type (SCM event)
 {
    SCM t;
-   SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "event:type");
+   SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "sdl-event:type");
    t = SCM_MAKINUM (((SDL_Event*) SCM_CDR (event))->type);
    return scm_number_to_enum (event_type_enum, t);
 }
 
 
-SCM_DEFINE_INUM_GETTER ("event:active:gain", event_active_gain, event_tag, 
-                        SDL_Event*, active.gain) 
-SCM_DEFINE_INUM_GETTER ("event:active:state", event_active_state, event_tag, 
-                        SDL_Event*, active.state) 
+SCM_DEFINE_INUM_GETTER ("sdl-event:active:gain", event_active_gain, event_tag,
+                        SDL_Event*, active.gain)
+SCM_DEFINE_INUM_GETTER ("sdl-event:active:state", event_active_state, event_tag,
+                        SDL_Event*, active.state)
 
-SCM_DEFINE_INUM_GETTER ("event:key:state", event_key_state, event_tag, 
-                        SDL_Event*, key.state) 
+SCM_DEFINE_INUM_GETTER ("sdl-event:key:state", event_key_state, event_tag,
+                        SDL_Event*, key.state)
 
 /* SCM_DEFINE_INUM_GETTER ("event:key:keysym:sym", event_key_keysym_sym,  */
 /*                         event_tag, SDL_Event*, key.keysym.sym)  */
@@ -106,76 +111,76 @@ SCM event_key_keysym_sym (SCM s_event)
    SCM sym;
    SDL_Event* event;
 
-   SCM_ASSERT_SMOB (s_event, event_tag, SCM_ARG1, "event:key:keysym:sym");
+   SCM_ASSERT_SMOB (s_event, event_tag, SCM_ARG1, "sdl-event:key:keysym:sym");
    event = (SDL_Event*) SCM_CDR (s_event);
    sym = SCM_MAKINUM (event->key.keysym.sym);
    return scm_number_to_enum (event_keysym_enum, sym);
 }
 
-SCM_DEFINE_INUM_GETTER ("event:key:keysym:mod", event_key_keysym_mod, 
-                        event_tag, SDL_Event*, key.keysym.mod) 
-SCM_DEFINE_INUM_GETTER ("event:key:keysym:scancode", event_key_keysym_scancode, 
-                        event_tag, SDL_Event*, key.keysym.scancode) 
-SCM_DEFINE_INUM_GETTER ("event:key:keysym:unicode", event_key_keysym_unicode, 
-                        event_tag, SDL_Event*, key.keysym.unicode) 
+SCM_DEFINE_INUM_GETTER ("sdl-event:key:keysym:mod", event_key_keysym_mod,
+                        event_tag, SDL_Event*, key.keysym.mod)
+SCM_DEFINE_INUM_GETTER ("sdl-event:key:keysym:scancode", event_key_keysym_scancode,
+                        event_tag, SDL_Event*, key.keysym.scancode)
+SCM_DEFINE_INUM_GETTER ("sdl-event:key:keysym:unicode", event_key_keysym_unicode,
+                        event_tag, SDL_Event*, key.keysym.unicode)
 
-SCM_DEFINE_INUM_GETTER ("event:motion:state", event_motion_state, event_tag, 
-                        SDL_Event*, motion.state) 
-SCM_DEFINE_INUM_GETTER ("event:motion:x", event_motion_x, event_tag, 
-                        SDL_Event*, motion.x) 
-SCM_DEFINE_INUM_GETTER ("event:motion:y", event_motion_y, event_tag, 
-                        SDL_Event*, motion.y) 
-SCM_DEFINE_INUM_GETTER ("event:motion:xrel", event_motion_xrel, event_tag, 
-                        SDL_Event*, motion.xrel) 
-SCM_DEFINE_INUM_GETTER ("event:motion:yrel", event_motion_yrel, event_tag, 
-                        SDL_Event*, motion.yrel) 
+SCM_DEFINE_INUM_GETTER ("sdl-event:motion:state", event_motion_state, event_tag,
+                        SDL_Event*, motion.state)
+SCM_DEFINE_INUM_GETTER ("sdl-event:motion:x", event_motion_x, event_tag,
+                        SDL_Event*, motion.x)
+SCM_DEFINE_INUM_GETTER ("sdl-event:motion:y", event_motion_y, event_tag,
+                        SDL_Event*, motion.y)
+SCM_DEFINE_INUM_GETTER ("sdl-event:motion:xrel", event_motion_xrel, event_tag,
+                        SDL_Event*, motion.xrel)
+SCM_DEFINE_INUM_GETTER ("sdl-event:motion:yrel", event_motion_yrel, event_tag,
+                        SDL_Event*, motion.yrel)
 
-SCM_DEFINE_INUM_GETTER ("event:button:button", event_button_button, event_tag, 
-                        SDL_Event*, button.button) 
-SCM_DEFINE_INUM_GETTER ("event:button:state", event_button_state, event_tag, 
-                        SDL_Event*, button.state) 
-SCM_DEFINE_INUM_GETTER ("event:button:x", event_button_x, event_tag, 
-                        SDL_Event*, button.x) 
-SCM_DEFINE_INUM_GETTER ("event:button:y", event_button_y, event_tag, 
-                        SDL_Event*, button.y) 
+SCM_DEFINE_INUM_GETTER ("sdl-event:button:button", event_button_button, event_tag,
+                        SDL_Event*, button.button)
+SCM_DEFINE_INUM_GETTER ("sdl-event:button:state", event_button_state, event_tag,
+                        SDL_Event*, button.state)
+SCM_DEFINE_INUM_GETTER ("sdl-event:button:x", event_button_x, event_tag,
+                        SDL_Event*, button.x)
+SCM_DEFINE_INUM_GETTER ("sdl-event:button:y", event_button_y, event_tag,
+                        SDL_Event*, button.y)
 
-SCM_DEFINE_INUM_GETTER ("event:jaxis:which", event_jaxis_which, event_tag, 
-                        SDL_Event*, jaxis.which) 
-SCM_DEFINE_INUM_GETTER ("event:jaxis:axis", event_jaxis_axis, event_tag, 
-                        SDL_Event*, jaxis.axis) 
-SCM_DEFINE_INUM_GETTER ("event:jaxis:value", event_jaxis_value, event_tag, 
-                        SDL_Event*, jaxis.value) 
+SCM_DEFINE_INUM_GETTER ("sdl-event:jaxis:which", event_jaxis_which, event_tag,
+                        SDL_Event*, jaxis.which)
+SCM_DEFINE_INUM_GETTER ("sdl-event:jaxis:axis", event_jaxis_axis, event_tag,
+                        SDL_Event*, jaxis.axis)
+SCM_DEFINE_INUM_GETTER ("sdl-event:jaxis:value", event_jaxis_value, event_tag,
+                        SDL_Event*, jaxis.value)
 
-SCM_DEFINE_INUM_GETTER ("event:jbutton:which", event_jbutton_which, event_tag, 
-                        SDL_Event*, jbutton.which) 
-SCM_DEFINE_INUM_GETTER ("event:jbutton:button", event_jbutton_button, event_tag, 
-                        SDL_Event*, jbutton.button) 
-SCM_DEFINE_INUM_GETTER ("event:jbutton:state", event_jbutton_state, event_tag, 
-                        SDL_Event*, jbutton.state) 
+SCM_DEFINE_INUM_GETTER ("sdl-event:jbutton:which", event_jbutton_which, event_tag,
+                        SDL_Event*, jbutton.which)
+SCM_DEFINE_INUM_GETTER ("sdl-event:jbutton:button", event_jbutton_button, event_tag,
+                        SDL_Event*, jbutton.button)
+SCM_DEFINE_INUM_GETTER ("sdl-event:jbutton:state", event_jbutton_state, event_tag,
+                        SDL_Event*, jbutton.state)
 
-SCM_DEFINE_INUM_GETTER ("event:jball:which", event_jball_which, event_tag, 
-                        SDL_Event*, jball.which) 
-SCM_DEFINE_INUM_GETTER ("event:jball:ball", event_jball_ball, event_tag, 
-                        SDL_Event*, jball.ball) 
-SCM_DEFINE_INUM_GETTER ("event:jball:xrel", event_jball_xrel, event_tag, 
-                        SDL_Event*, jball.xrel) 
-SCM_DEFINE_INUM_GETTER ("event:jball:yrel", event_jball_yrel, event_tag, 
-                        SDL_Event*, jball.yrel) 
+SCM_DEFINE_INUM_GETTER ("sdl-event:jball:which", event_jball_which, event_tag,
+                        SDL_Event*, jball.which)
+SCM_DEFINE_INUM_GETTER ("sdl-event:jball:ball", event_jball_ball, event_tag,
+                        SDL_Event*, jball.ball)
+SCM_DEFINE_INUM_GETTER ("sdl-event:jball:xrel", event_jball_xrel, event_tag,
+                        SDL_Event*, jball.xrel)
+SCM_DEFINE_INUM_GETTER ("sdl-event:jball:yrel", event_jball_yrel, event_tag,
+                        SDL_Event*, jball.yrel)
 
-SCM_DEFINE_INUM_GETTER ("event:jhat:which", event_jhat_which, event_tag, 
-                        SDL_Event*, jhat.which) 
-SCM_DEFINE_INUM_GETTER ("event:jhat:hat", event_jhat_hat, event_tag, 
-                        SDL_Event*, jhat.hat) 
-SCM_DEFINE_INUM_GETTER ("event:jhat:value", event_jhat_state, event_tag, 
-                        SDL_Event*, jhat.value) 
+SCM_DEFINE_INUM_GETTER ("sdl-event:jhat:which", event_jhat_which, event_tag,
+                        SDL_Event*, jhat.which)
+SCM_DEFINE_INUM_GETTER ("sdl-event:jhat:hat", event_jhat_hat, event_tag,
+                        SDL_Event*, jhat.hat)
+SCM_DEFINE_INUM_GETTER ("sdl-event:jhat:value", event_jhat_state, event_tag,
+                        SDL_Event*, jhat.value)
 
-SCM_DEFINE_INUM_GETTER ("event:resize:w", event_resize_w, event_tag, 
-                        SDL_Event*, resize.w) 
-SCM_DEFINE_INUM_GETTER ("event:resize:h", event_resize_h, event_tag, 
-                        SDL_Event*, resize.h) 
+SCM_DEFINE_INUM_GETTER ("sdl-event:resize:w", event_resize_w, event_tag,
+                        SDL_Event*, resize.w)
+SCM_DEFINE_INUM_GETTER ("sdl-event:resize:h", event_resize_h, event_tag,
+                        SDL_Event*, resize.h)
 
-SCM_DEFINE_INUM_GETTER ("event:user:code", event_user_code, event_tag, 
-                        SDL_Event*, user.code) 
+/* SCM_DEFINE_INUM_GETTER ("sdl-event:user:code", event_user_code, event_tag, */
+/*                         SDL_Event*, user.code) */
 /* SCM_DEFINE_INUM_GETTER ("event:user:data1", event_user_data1, event_tag,  */
 /*                         SDL_Event*, user.data1)  */
 /* SCM_DEFINE_INUM_GETTER ("event:user:data2", event_user_data2, event_tag,  */
@@ -221,7 +226,7 @@ SCM poll_event (SCM event)
       result = SDL_PollEvent (NULL);
    } else {
       /* we're given an event smob - fill it */
-      SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "poll-event");
+      SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "sdl-poll-event");
       result = SDL_PollEvent ((SDL_Event*) SCM_CDR (event));
    }
 
@@ -238,7 +243,7 @@ SCM wait_event (SCM event)
       result = SDL_WaitEvent (NULL);
    } else {
       /* we're given an event smob - fill it */
-      SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "wait-event");
+      SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "sdl-wait-event");
       result = SDL_WaitEvent ((SDL_Event*) SCM_CDR (event));
    }
 
@@ -250,7 +255,7 @@ SCM push_event (SCM event)
 {
    int result;
 
-   SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "push-event");
+   SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "sdl-push-event");
 
    result = SDL_PushEvent ((SDL_Event*) SCM_CDR (event));
    return SCM_MAKINUM (result);
@@ -275,6 +280,109 @@ SCM event_state (SCM type, SCM state)
 }
 
 
+SCM
+sdl_enable_unicode (SCM enable_p)
+{
+   int result;
+
+   if (enable_p == SCM_UNDEFINED) {
+      result = SDL_EnableUNICODE (-1);
+   } else if (SCM_FALSEP (enable_p)) {
+      result = SDL_EnableUNICODE (0);
+   } else {
+      result = SDL_EnableUNICODE (1);
+   }
+
+   return SCM_MAKINUM (result);
+}
+
+/*
+ * If 'delay' is set to 0, keyboard repeat is disabled.
+ */
+SCM
+sdl_enable_key_repeat (SCM s_delay, SCM s_interval)
+{
+   int interval, delay;
+
+   SCM_ASSERT (SCM_INUMP (s_delay), s_delay, SCM_ARG1, "sdl-enable-key-repeat");
+   SCM_ASSERT (SCM_INUMP (s_interval), s_interval, SCM_ARG2, "sdl-enable-key-repeat");
+
+   delay    = SCM_INUM (s_delay);
+   interval = SCM_INUM (s_interval);
+
+   SCM_RETURN_TRUE_IF_0 (SDL_EnableKeyRepeat (delay, interval));
+}
+
+/*
+ * Get a snapshot of the current state of the keyboard.
+ * Returns an array of keystates, indexed by the SDLK_* syms.
+ */
+SCM
+sdl_get_key_state (SCM numkeys)
+{
+   return SCM_UNSPECIFIED;
+}
+
+/*
+ * Get the current key modifier state
+ */
+SCM
+sdl_get_mod_state (void)
+{
+   return SCM_MAKINUM (SDL_GetModState ());
+}
+
+/*
+ * Set the current key modifier state
+ * This does not change the keyboard state, only the key modifier flags.
+ */
+SCM
+sdl_set_mod_state (SCM modstate)
+{
+   SCM_ASSERT (SCM_INUMP (modstate), modstate, SCM_ARG1, "sdl-set-mod-state");
+   SDL_SetModState (SCM_INUM (modstate));
+   return SCM_UNSPECIFIED;
+}
+
+/*
+ * Retrieve the current state of the mouse.
+ * The current button state is returned as a button bitmask, which can
+ * be tested using the SDL_BUTTON(X) macros, and x and y are set to the
+ * current mouse cursor position.  You can pass NULL for either x or y.
+ */
+SCM
+sdl_get_mouse_state (void)
+{
+   int buttons, x, y;
+   buttons = SDL_GetMouseState (&x, &y);
+   return SCM_LIST3 (SCM_MAKINUM (buttons),
+                     SCM_MAKINUM (x),
+                     SCM_MAKINUM (y));
+}
+
+/*
+ * Retrieve the current state of the mouse.
+ * The current button state is returned as a button bitmask, which can
+ * be tested using the SDL_BUTTON(X) macros, and x and y are set to the
+ * mouse deltas since the last call to SDL_GetRelativeMouseState().
+ */
+SCM
+sdl_get_relative_mouse_state ()
+{
+   int buttons, x, y;
+   buttons = SDL_GetMouseState (&x, &y);
+   return SCM_LIST3 (SCM_MAKINUM (buttons),
+                     SCM_MAKINUM (x),
+                     SCM_MAKINUM (y));
+}
+
+SCM
+sdl_button_p (SCM mask)
+{
+   SCM_ASSERT (SCM_INUMP (mask), mask, SCM_ARG1, "sdl-button?");
+   return SDL_BUTTON (SCM_INUM (mask)) ? SCM_BOOL_T : SCM_BOOL_F;
+}
+
 /* Initialize glue */
 void sdl_event_init (void)
 {
@@ -286,7 +394,7 @@ void sdl_event_init (void)
 
    /* event type constants */
    event_type_enum = scm_c_define_enum (
-      "event-types",
+      "sdl-event-types",
       "event/active",            SDL_ACTIVEEVENT,
       "event/key-down",          SDL_KEYDOWN,
       "event/key-up",            SDL_KEYUP,
@@ -306,7 +414,7 @@ void sdl_event_init (void)
 
    /* keysyms */
    event_keysym_enum = scm_c_define_enum (
-      "event-keys",
+      "sdl-event-keys",
       "key/backspace",  SDLK_BACKSPACE,
       "key/tab",  SDLK_TAB,
       "key/clear",  SDLK_CLEAR,
@@ -443,96 +551,130 @@ void sdl_event_init (void)
       NULL);
 
    /* modsysms */
-/*    SCM_DEFINE_CONST ("mod/none", KMOD_NONE); */
-/*    SCM_DEFINE_CONST ("mod/lshift", KMOD_LSHIFT); */
-/*    SCM_DEFINE_CONST ("mod/rshift", KMOD_RSHIFT); */
-/*    SCM_DEFINE_CONST ("mod/lctrl", KMOD_LCTRL); */
-/*    SCM_DEFINE_CONST ("mod/rctrl", KMOD_RCTRL); */
-/*    SCM_DEFINE_CONST ("mod/lalt", KMOD_LALT); */
-/*    SCM_DEFINE_CONST ("mod/ralt", KMOD_RALT); */
-/*    SCM_DEFINE_CONST ("mod/lmeta", KMOD_LMETA); */
-/*    SCM_DEFINE_CONST ("mod/rmeta", KMOD_RMETA); */
-/*    SCM_DEFINE_CONST ("mod/num", KMOD_NUM); */
-/*    SCM_DEFINE_CONST ("mod/caps", KMOD_CAPS); */
-/*    SCM_DEFINE_CONST ("mod/mode", KMOD_MODE); */
-/*    SCM_DEFINE_CONST ("mod/reserved", KMOD_RESERVED); */
+   SCM_DEFINE_CONST ("sdl-mod/none",     KMOD_NONE);
+   SCM_DEFINE_CONST ("sdl-mod/lshift",   KMOD_LSHIFT);
+   SCM_DEFINE_CONST ("sdl-mod/rshift",   KMOD_RSHIFT);
+   SCM_DEFINE_CONST ("sdl-mod/lctrl",    KMOD_LCTRL);
+   SCM_DEFINE_CONST ("sdl-mod/rctrl",    KMOD_RCTRL);
+   SCM_DEFINE_CONST ("sdl-mod/lalt",     KMOD_LALT);
+   SCM_DEFINE_CONST ("sdl-mod/ralt",     KMOD_RALT);
+   SCM_DEFINE_CONST ("sdl-mod/lmeta",    KMOD_LMETA);
+   SCM_DEFINE_CONST ("sdl-mod/rmeta",    KMOD_RMETA);
+   SCM_DEFINE_CONST ("sdl-mod/num",      KMOD_NUM);
+   SCM_DEFINE_CONST ("sdl-mod/caps",     KMOD_CAPS);
+   SCM_DEFINE_CONST ("sdl-mod/mode",     KMOD_MODE);
+   SCM_DEFINE_CONST ("sdl-mod/reserved", KMOD_RESERVED);
+   /* aggregate modifiers */
+   SCM_DEFINE_CONST ("sdl-mod/ctrl",     KMOD_CTRL);
+   SCM_DEFINE_CONST ("sdl-mod/shift",    KMOD_SHIFT);
+   SCM_DEFINE_CONST ("sdl-mod/alt",      KMOD_ALT);
+   SCM_DEFINE_CONST ("sdl-mod/meta",     KMOD_META);
+
+   /* event states */
+   SCM_DEFINE_CONST ("sdl-state/query",   SDL_QUERY);
+   SCM_DEFINE_CONST ("sdl-state/ignore",  SDL_IGNORE);
+   SCM_DEFINE_CONST ("sdl-state/disable", SDL_DISABLE);
+   SCM_DEFINE_CONST ("sdl-state/enable",  SDL_ENABLE);
 
    /* functions */
-   scm_c_define_gsubr ("make-event",  1, 0, 0, make_event);
-   scm_c_define_gsubr ("make-keysym", 0, 2, 0, make_keysym);
-   scm_c_define_gsubr ("poll-event",  0, 1, 0, poll_event);
-   scm_c_define_gsubr ("wait-event",  0, 1, 0, wait_event);
-   scm_c_define_gsubr ("push-event",  1, 0, 0, push_event);
+   scm_c_define_gsubr ("sdl-make-event",      0, 1, 0, make_event);
+   scm_c_define_gsubr ("sdl-make-keysym",     0, 2, 0, make_keysym);
+   scm_c_define_gsubr ("sdl-poll-event",      0, 1, 0, poll_event);
+   scm_c_define_gsubr ("sdl-wait-event",      0, 1, 0, wait_event);
+   scm_c_define_gsubr ("sdl-push-event",      1, 0, 0, push_event);
+   scm_c_define_gsubr ("sdl-enable-unicode",  0, 1, 0, sdl_enable_unicode);
+   scm_c_define_gsubr ("sdl-enable-key-repeat",  2, 0, 0, sdl_enable_key_repeat);
+   scm_c_define_gsubr ("sdl-get-key-state",   0, 0, 0, sdl_get_key_state);
+   scm_c_define_gsubr ("sdl-get-mod-state",   0, 0, 0, sdl_get_mod_state);
+   scm_c_define_gsubr ("sdl-set-mod-state",   1, 0, 0, sdl_set_mod_state);
+   scm_c_define_gsubr ("sdl-get-mouse-state", 0, 0, 0, sdl_get_mouse_state);
+   scm_c_define_gsubr ("sdl-get-relative-mouse-state", 0, 0, 0,
+                       sdl_get_relative_mouse_state);
+   scm_c_define_gsubr ("sdl-button?",         1, 0, 0, sdl_button_p);
 
    /* smob getters */
-   scm_c_define_gsubr ("event:type", 1, 0, 0, event_type);
-   scm_c_define_gsubr ("event:active:gain", 1, 0, 0, event_active_gain);
-   scm_c_define_gsubr ("event:active:state", 1, 0, 0, event_active_state);
-   scm_c_define_gsubr ("event:key:state", 1, 0, 0, event_key_state);
-   scm_c_define_gsubr ("event:key:keysym:sym", 1, 0, 0, event_key_keysym_sym);
-/*    scm_c_define_gsubr ("event:key:keysym:mod", 1, 0, 0, event_key_keysym_mod); */
-/*    scm_c_define_gsubr ("event:key:keysym:scancode", 1, 0, 0, event_key_keysym_scancode); */
-/*    scm_c_define_gsubr ("event:key:keysym:unicode", 1, 0, 0, event_key_keysym_unicode); */
-/*    scm_c_define_gsubr ("event:motion:state", 1, 0, 0, event_motion_state); */
-/*    scm_c_define_gsubr ("event:motion:x", 1, 0, 0, event_motion_x); */
-/*    scm_c_define_gsubr ("event:motion:y", 1, 0, 0, event_motion_y); */
-/*    scm_c_define_gsubr ("event:motion:xrel", 1, 0, 0, event_motion_xrel); */
-/*    scm_c_define_gsubr ("event:motion:yrel", 1, 0, 0, event_motion_yrel); */
-/*    scm_c_define_gsubr ("event:button:button", 1, 0, 0, event_button_button); */
-/*    scm_c_define_gsubr ("event:button:state", 1, 0, 0, event_button_state); */
-/*    scm_c_define_gsubr ("event:button:x", 1, 0, 0, event_button_x); */
-/*    scm_c_define_gsubr ("event:button:y", 1, 0, 0, event_button_y); */
-/*    scm_c_define_gsubr ("event:jaxis:which", 1, 0, 0, event_jaxis_which); */
-/*    scm_c_define_gsubr ("event:jaxis:axis", 1, 0, 0, event_jaxis_axis); */
-/*    scm_c_define_gsubr ("event:jaxis:value", 1, 0, 0, event_jaxis_value); */
-/*    scm_c_define_gsubr ("event:jbutton:which", 1, 0, 0, event_jbutton_which); */
-/*    scm_c_define_gsubr ("event:jbutton:button", 1, 0, 0, event_jbutton_button); */
-/*    scm_c_define_gsubr ("event:jbutton:state", 1, 0, 0, event_jbutton_state); */
-/*    scm_c_define_gsubr ("event:jball:which", 1, 0, 0, event_jball_which); */
-/*    scm_c_define_gsubr ("event:jball:ball", 1, 0, 0, event_jball_ball); */
-/*    scm_c_define_gsubr ("event:jball:xrel", 1, 0, 0, event_jball_xrel); */
-/*    scm_c_define_gsubr ("event:jball:yrel", 1, 0, 0, event_jball_yrel); */
-/*    scm_c_define_gsubr ("event:jhat:which", 1, 0, 0, event_jhat_which); */
-/*    scm_c_define_gsubr ("event:jhat:hat", 1, 0, 0, event_jhat_hat); */
-/*    scm_c_define_gsubr ("event:jhat:value", 1, 0, 0, event_jhat_value); */
-/*    scm_c_define_gsubr ("event:resize:w", 1, 0, 0, event_resize_w); */
-/*    scm_c_define_gsubr ("event:resize:h", 1, 0, 0, event_resize_h); */
-/*    scm_c_define_gsubr ("event:user:code", 1, 0, 0, event_user_code); */
-/* /\*    scm_c_define_gsubr ("event:user:data1", 1, 0, 0, event_user_data1); *\/ */
-/* /\*    scm_c_define_gsubr ("event:user:data2", 1, 0, 0, event_user_data2); *\/ */
-/*    scm_c_define_gsubr ("keysym:scancode", 1, 0, 0, keysym_scancode); */
-/*    scm_c_define_gsubr ("keysym:sym", 1, 0, 0, keysym_sym); */
-/*    scm_c_define_gsubr ("keysym:mod", 1, 0, 0, keysym_mod); */
-/*    scm_c_define_gsubr ("keysym:unicode", 1, 0, 0, keysym_unicode); */
+   scm_c_define_gsubr ("sdl-event:type", 1, 0, 0, event_type);
+   scm_c_define_gsubr ("sdl-event:active:gain", 1, 0, 0, event_active_gain);
+   scm_c_define_gsubr ("sdl-event:active:state", 1, 0, 0, event_active_state);
+   scm_c_define_gsubr ("sdl-event:key:state", 1, 0, 0, event_key_state);
+   scm_c_define_gsubr ("sdl-event:key:keysym:sym", 1, 0, 0, event_key_keysym_sym);
+   scm_c_define_gsubr ("sdl-event:key:keysym:mod", 1, 0, 0, event_key_keysym_mod);
+   scm_c_define_gsubr ("sdl-event:key:keysym:scancode", 1, 0, 0, event_key_keysym_scancode);
+   scm_c_define_gsubr ("sdl-event:key:keysym:unicode", 1, 0, 0, event_key_keysym_unicode);
+/*    scm_c_define_gsubr ("sdl-event:motion:state", 1, 0, 0, event_motion_state); */
+/*    scm_c_define_gsubr ("sdl-event:motion:x", 1, 0, 0, event_motion_x); */
+/*    scm_c_define_gsubr ("sdl-event:motion:y", 1, 0, 0, event_motion_y); */
+/*    scm_c_define_gsubr ("sdl-event:motion:xrel", 1, 0, 0, event_motion_xrel); */
+/*    scm_c_define_gsubr ("sdl-event:motion:yrel", 1, 0, 0, event_motion_yrel); */
+/*    scm_c_define_gsubr ("sdl-event:button:button", 1, 0, 0, event_button_button); */
+/*    scm_c_define_gsubr ("sdl-event:button:state", 1, 0, 0, event_button_state); */
+/*    scm_c_define_gsubr ("sdl-event:button:x", 1, 0, 0, event_button_x); */
+/*    scm_c_define_gsubr ("sdl-event:button:y", 1, 0, 0, event_button_y); */
+/*    scm_c_define_gsubr ("sdl-event:jaxis:which", 1, 0, 0, event_jaxis_which); */
+/*    scm_c_define_gsubr ("sdl-event:jaxis:axis", 1, 0, 0, event_jaxis_axis); */
+/*    scm_c_define_gsubr ("sdl-event:jaxis:value", 1, 0, 0, event_jaxis_value); */
+/*    scm_c_define_gsubr ("sdl-event:jbutton:which", 1, 0, 0, event_jbutton_which); */
+/*    scm_c_define_gsubr ("sdl-event:jbutton:button", 1, 0, 0, event_jbutton_button); */
+/*    scm_c_define_gsubr ("sdl-event:jbutton:state", 1, 0, 0, event_jbutton_state); */
+/*    scm_c_define_gsubr ("sdl-event:jball:which", 1, 0, 0, event_jball_which); */
+/*    scm_c_define_gsubr ("sdl-event:jball:ball", 1, 0, 0, event_jball_ball); */
+/*    scm_c_define_gsubr ("sdl-event:jball:xrel", 1, 0, 0, event_jball_xrel); */
+/*    scm_c_define_gsubr ("sdl-event:jball:yrel", 1, 0, 0, event_jball_yrel); */
+/*    scm_c_define_gsubr ("sdl-event:jhat:which", 1, 0, 0, event_jhat_which); */
+/*    scm_c_define_gsubr ("sdl-event:jhat:hat", 1, 0, 0, event_jhat_hat); */
+/*    scm_c_define_gsubr ("sdl-event:jhat:value", 1, 0, 0, event_jhat_value); */
+/*    scm_c_define_gsubr ("sdl-event:resize:w", 1, 0, 0, event_resize_w); */
+/*    scm_c_define_gsubr ("sdl-event:resize:h", 1, 0, 0, event_resize_h); */
+/*    scm_c_define_gsubr ("sdl-event:user:code", 1, 0, 0, event_user_code); */
+/* /\*    scm_c_define_gsubr ("sdl-event:user:data1", 1, 0, 0, event_user_data1); *\/ */
+/* /\*    scm_c_define_gsubr ("sdl-event:user:data2", 1, 0, 0, event_user_data2); *\/ */
+/*    scm_c_define_gsubr ("sdl-keysym:scancode", 1, 0, 0, keysym_scancode); */
+/*    scm_c_define_gsubr ("sdl-keysym:sym", 1, 0, 0, keysym_sym); */
+/*    scm_c_define_gsubr ("sdl-keysym:mod", 1, 0, 0, keysym_mod); */
+/*    scm_c_define_gsubr ("sdl-keysym:unicode", 1, 0, 0, keysym_unicode); */
 
    /* exported symbols */
    scm_c_export (
       /* enums */
-      "event-types", "event-keys",
+      "sdl-event-types", "sdl-event-keys",
+      /* mod constants */
+      "sdl-mod/none",    "sdl-mod/lshift",   "sdl-mod/rshift",
+      "sdl-mod/lctrl",   "sdl-mod/rctrl",    "sdl-mod/lalt",
+      "sdl-mod/ralt",    "sdl-mod/lmeta",    "sdl-mod/rmeta",
+      "sdl-mod/num",     "sdl-mod/caps",     "sdl-mod/mode",
+      "sdl-mod/reserved",
+      /* event states */
+      "sdl-state/query",       "sdl-state/ignore",
+      "sdl-state/disable",     "sdl-state/enable",
       /* smob getters */
-      "event:type",                "event:active:gain", 
-      "event:active:state",        "event:key:state", 
-      "event:key:keysym:sym",      "event:key:keysym:mod", 
-      "event:key:keysym:scancode", "event:key:keysym:unicode", 
-      "event:motion:state",        "event:motion:x", 
-      "event:motion:y",            "event:motion:xrel", 
-      "event:motion:yrel",         "event:button:button", 
-      "event:button:state",        "event:button:x", 
-      "event:button:y",            "event:jaxis:which", 
-      "event:jaxis:axis",          "event:jaxis:value", 
-      "event:jbutton:which",       "event:jbutton:button", 
-      "event:jbutton:state",       "event:jball:which", 
-      "event:jball:ball",          "event:jball:xrel", 
-      "event:jball:yrel",          "event:jhat:which", 
-      "event:jhat:hat",            "event:jhat:value", 
-      "event:resize:w",            "event:resize:h", 
-      "event:user:code",           "event:user:data1", 
-      "event:user:data2",          "keysym:scancode", 
-      "keysym:sym",                "keysym:mod", 
-      "keysym:unicode", 
-      /* SDL functions */
-      "make-event",  "make-keysym",  "poll-event",  "wait-event",
-      "push-event",
+      "sdl-event:type",                "sdl-event:active:gain",
+      "sdl-event:active:state",        "sdl-event:key:state",
+      "sdl-event:key:keysym:sym",      "sdl-event:key:keysym:mod",
+      "sdl-event:key:keysym:scancode", "sdl-event:key:keysym:unicode",
+/*       "sdl-event:motion:state",        "sdl-event:motion:x", */
+/*       "sdl-event:motion:y",            "sdl-event:motion:xrel", */
+/*       "sdl-event:motion:yrel",         "sdl-event:button:button", */
+/*       "sdl-event:button:state",        "sdl-event:button:x", */
+/*       "sdl-event:button:y",            "sdl-event:jaxis:which", */
+/*       "sdl-event:jaxis:axis",          "sdl-event:jaxis:value", */
+/*       "sdl-event:jbutton:which",       "sdl-event:jbutton:button", */
+/*       "sdl-event:jbutton:state",       "sdl-event:jball:which", */
+/*       "sdl-event:jball:ball",          "sdl-event:jball:xrel", */
+/*       "sdl-event:jball:yrel",          "sdl-event:jhat:which", */
+/*       "sdl-event:jhat:hat",            "sdl-event:jhat:value", */
+/*       "sdl-event:resize:w",            "sdl-event:resize:h", */
+/*       "sdl-event:user:code",           "sdl-event:user:data1", */
+/*       "sdl-event:user:data2",          "sdl-keysym:scancode", */
+/*       "sdl-keysym:sym",                "sdl-keysym:mod", */
+/*       "sdl-keysym:unicode", */
+      /* event functions */
+      "sdl-make-event",  "sdl-make-keysym",  "sdl-poll-event",  "sdl-wait-event",
+      "sdl-push-event",
+      /* keyboard functions */
+      "sdl-enable-unicode",    "sdl-enable-key-repeat",     "sdl-get-key-state",
+      "sdl-get-mod-state",     "sdl-set-mod-state",
+      /* mouse functions */
+      "sdl-get-mouse-state",   "sdl-get-relative-mouse-state", "sdl-button?",
       NULL);
 }
 

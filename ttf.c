@@ -2,7 +2,7 @@
  *  ttf.c -- SDL_ttf for Guile                                     *
  *                                                                 *
  *  Created:    <2001-06-11 18:03:28 foof>                         *
- *  Time-stamp: <2001-06-11 23:02:54 foof>                         *
+ *  Time-stamp: <2001-06-18 01:09:17 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -41,8 +41,8 @@ ttf_load_font (SCM file, SCM ptsize)
    TTF_Font *font;
 
    SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
-               file, SCM_ARG1, "load-font");
-   SCM_ASSERT (SCM_INUMP (ptsize), ptsize, SCM_ARG2, "load-font");
+               file, SCM_ARG1, "sdl-load-font");
+   SCM_ASSERT (SCM_INUMP (ptsize), ptsize, SCM_ARG2, "sdl-load-font");
 
    font = TTF_OpenFont (SCM_CHARS (file), SCM_INUM (ptsize));
    SCM_RETURN_NEWSMOB (ttf_font_tag, font);
@@ -57,7 +57,7 @@ ttf_get_font_style (SCM s_font)
 {
    TTF_Font *font;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "font:style");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:style");
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
 
    return SCM_MAKINUM (TTF_GetFontStyle (font));
@@ -69,8 +69,8 @@ ttf_set_font_style (SCM s_font, SCM s_style)
    TTF_Font *font;
    int style;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "font:set-style!");
-   SCM_ASSERT (SCM_INUMP (s_style), s_style, SCM_ARG2, "font:set-style!");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:set-style!");
+   SCM_ASSERT (SCM_INUMP (s_style), s_style, SCM_ARG2, "sdl-font:set-style!");
 
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
    style = SCM_INUM (s_style);
@@ -85,7 +85,7 @@ ttf_font_height (SCM s_font)
 {
    TTF_Font *font;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "font:height");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:height");
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
 
    return SCM_MAKINUM (TTF_FontHeight (font));
@@ -99,7 +99,7 @@ ttf_font_ascent (SCM s_font)
 {
    TTF_Font *font;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "font:ascent");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:ascent");
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
 
    return SCM_MAKINUM (TTF_FontAscent (font));
@@ -113,7 +113,7 @@ ttf_font_descent (SCM s_font)
 {
    TTF_Font *font;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "font:descent");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:descent");
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
 
    return SCM_MAKINUM (TTF_FontDescent (font));
@@ -125,7 +125,7 @@ ttf_font_line_skip (SCM s_font)
 {
    TTF_Font *font;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "font:line-skip");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:line-skip");
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
 
    return SCM_MAKINUM (TTF_FontLineSkip (font));
@@ -139,8 +139,8 @@ ttf_glyph_metrics (SCM s_font, SCM s_ch)
    Uint16 ch;
    int minx, maxx, miny, maxy, advance;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "font:glyph-metrics");
-   SCM_ASSERT (SCM_CHARP (s_ch), s_ch, SCM_ARG2, "font:glyph-metrics");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:glyph-metrics");
+   SCM_ASSERT (SCM_CHARP (s_ch), s_ch, SCM_ARG2, "sdl-font:glyph-metrics");
 
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
    ch = SCM_CHAR (s_ch);
@@ -160,9 +160,9 @@ ttf_size_text (SCM s_font, SCM s_text)
    char *text;
    int w, h;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "font:size-text");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:size-text");
    SCM_ASSERT ((SCM_NIMP (s_text) && SCM_STRINGP (s_text)),
-               s_text, SCM_ARG2, "font:size-text");
+               s_text, SCM_ARG2, "sdl-font:size-text");
 
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
    text = SCM_CHARS (s_text);
@@ -178,9 +178,9 @@ ttf_size_utf8 (SCM s_font, SCM s_text)
    char *text;
    int w, h;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "font:size-utf8");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:size-utf8");
    SCM_ASSERT ((SCM_NIMP (s_text) && SCM_STRINGP (s_text)),
-               s_text, SCM_ARG2, "font:size-utf8");
+               s_text, SCM_ARG2, "sdl-font:size-utf8");
 
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
    text = SCM_CHARS (s_text);
@@ -202,10 +202,10 @@ ttf_render_text (SCM s_font, SCM s_text, SCM s_fg, SCM s_bg)
    SDL_Surface *surface;
    char *text;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "render-text");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-render-text");
    SCM_ASSERT ((SCM_NIMP (s_text) && SCM_STRINGP (s_text)),
-               s_text, SCM_ARG2, "render-text");
-   SCM_ASSERT_SMOB (s_fg, color_tag, SCM_ARG3, "render-text");
+               s_text, SCM_ARG2, "sdl-render-text");
+   SCM_ASSERT_SMOB (s_fg, color_tag, SCM_ARG3, "sdl-render-text");
 
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
    text = SCM_CHARS (s_text);
@@ -219,7 +219,7 @@ ttf_render_text (SCM s_font, SCM s_text, SCM s_fg, SCM s_bg)
       surface = TTF_RenderText_Blended (font, text, *fg);
    } else {
       /* printf ("TTF_RenderTextShaded(\"%s\");\n", text); */
-      SCM_ASSERT_SMOB (s_bg, color_tag, SCM_ARG4, "render-text");
+      SCM_ASSERT_SMOB (s_bg, color_tag, SCM_ARG4, "sdl-render-text");
       bg = (SDL_Color*) SCM_SMOB_DATA (s_bg);
       surface = TTF_RenderText_Shaded (font, text, *fg, *bg);
    }
@@ -235,10 +235,10 @@ ttf_render_utf8 (SCM s_font, SCM s_text, SCM s_fg, SCM s_bg)
    SDL_Surface *surface;
    char *text;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "render-utf8");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-render-utf8");
    SCM_ASSERT ((SCM_NIMP (s_text) && SCM_STRINGP (s_text)),
-               s_text, SCM_ARG2, "render-utf8");
-   SCM_ASSERT_SMOB (s_fg, color_tag, SCM_ARG3, "render-utf8");
+               s_text, SCM_ARG2, "sdl-render-utf8");
+   SCM_ASSERT_SMOB (s_fg, color_tag, SCM_ARG3, "sdl-render-utf8");
 
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
    text = SCM_CHARS (s_text);
@@ -249,7 +249,7 @@ ttf_render_utf8 (SCM s_font, SCM s_text, SCM s_fg, SCM s_bg)
    } else if (SCM_BOOLP (s_bg)) {
       surface = TTF_RenderUTF8_Blended (font, text, *fg);
    } else {
-      SCM_ASSERT_SMOB (s_bg, color_tag, SCM_ARG4, "render-utf8");
+      SCM_ASSERT_SMOB (s_bg, color_tag, SCM_ARG4, "sdl-render-utf8");
       bg = (SDL_Color*) SCM_SMOB_DATA (s_bg);
       surface = TTF_RenderUTF8_Shaded (font, text, *fg, *bg);
    }
@@ -277,9 +277,9 @@ ttf_render_glyph (SCM s_font, SCM s_ch, SCM s_fg, SCM s_bg)
    SDL_Surface *surface;
    char ch;
 
-   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "render-glyph");
-   SCM_ASSERT (SCM_CHARP (s_ch), s_ch, SCM_ARG2, "render-glyph");
-   SCM_ASSERT_SMOB (s_fg, color_tag, SCM_ARG3, "render-glyph");
+   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-render-glyph");
+   SCM_ASSERT (SCM_CHARP (s_ch), s_ch, SCM_ARG2, "sdl-render-glyph");
+   SCM_ASSERT_SMOB (s_fg, color_tag, SCM_ARG3, "sdl-render-glyph");
 
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
    ch = SCM_CHAR (s_ch);
@@ -290,7 +290,7 @@ ttf_render_glyph (SCM s_font, SCM s_ch, SCM s_fg, SCM s_bg)
    } else if (SCM_BOOLP (s_bg)) {
       surface = TTF_RenderGlyph_Blended (font, ch, *fg);
    } else {
-      SCM_ASSERT_SMOB (s_bg, color_tag, SCM_ARG4, "render-glyph");
+      SCM_ASSERT_SMOB (s_bg, color_tag, SCM_ARG4, "sdl-render-glyph");
       bg = (SDL_Color*) SCM_SMOB_DATA (s_bg);
       surface = TTF_RenderGlyph_Shaded (font, ch, *fg, *bg);
    }
@@ -326,29 +326,29 @@ sdl_ttf_init (void)
    scm_set_smob_free (ttf_font_tag, free_font);
 
    /* functions */
-   scm_c_define_gsubr ("ttf-init",            0, 0, 0, ttf_init);
-   scm_c_define_gsubr ("ttf-quit",            0, 0, 0, ttf_quit);
-   scm_c_define_gsubr ("load-font",           2, 0, 0, ttf_load_font);
-   scm_c_define_gsubr ("font:style",          1, 0, 0, ttf_get_font_style);
-   scm_c_define_gsubr ("font:set-style!",     2, 0, 0, ttf_set_font_style);
-   scm_c_define_gsubr ("font:height",         1, 0, 0, ttf_font_height);
-   scm_c_define_gsubr ("font:ascent",         1, 0, 0, ttf_font_ascent);
-   scm_c_define_gsubr ("font:descent",        1, 0, 0, ttf_font_descent);
-   scm_c_define_gsubr ("font:line-skip",      1, 0, 0, ttf_font_line_skip);
-   scm_c_define_gsubr ("font:glyph-metrics",  2, 0, 0, ttf_glyph_metrics);
-   scm_c_define_gsubr ("font:size-text",      2, 0, 0, ttf_size_text);
-   scm_c_define_gsubr ("font:size-utf8",      2, 0, 0, ttf_size_utf8);
-   scm_c_define_gsubr ("render-text",         3, 1, 0, ttf_render_text);
-   scm_c_define_gsubr ("render-utf8",         3, 1, 0, ttf_render_utf8);
-   scm_c_define_gsubr ("render-glyph",        3, 1, 0, ttf_render_glyph);
+   scm_c_define_gsubr ("sdl-ttf-init",            0, 0, 0, ttf_init);
+   scm_c_define_gsubr ("sdl-ttf-quit",            0, 0, 0, ttf_quit);
+   scm_c_define_gsubr ("sdl-load-font",           2, 0, 0, ttf_load_font);
+   scm_c_define_gsubr ("sdl-font:style",          1, 0, 0, ttf_get_font_style);
+   scm_c_define_gsubr ("sdl-font:set-style!",     2, 0, 0, ttf_set_font_style);
+   scm_c_define_gsubr ("sdl-font:height",         1, 0, 0, ttf_font_height);
+   scm_c_define_gsubr ("sdl-font:ascent",         1, 0, 0, ttf_font_ascent);
+   scm_c_define_gsubr ("sdl-font:descent",        1, 0, 0, ttf_font_descent);
+   scm_c_define_gsubr ("sdl-font:line-skip",      1, 0, 0, ttf_font_line_skip);
+   scm_c_define_gsubr ("sdl-font:glyph-metrics",  2, 0, 0, ttf_glyph_metrics);
+   scm_c_define_gsubr ("sdl-font:size-text",      2, 0, 0, ttf_size_text);
+   scm_c_define_gsubr ("sdl-font:size-utf8",      2, 0, 0, ttf_size_utf8);
+   scm_c_define_gsubr ("sdl-render-text",         3, 1, 0, ttf_render_text);
+   scm_c_define_gsubr ("sdl-render-utf8",         3, 1, 0, ttf_render_utf8);
+   scm_c_define_gsubr ("sdl-render-glyph",        3, 1, 0, ttf_render_glyph);
 
    /* exported symbols */
    scm_c_export (
-      "ttf-init",             "ttf-quit",           "load-font",
-      "font:style",           "font:set-style!",    "font:height",
-      "font:ascent",          "font:descent",       "font:line-skip",
-      "font:glyph-metrics",   "font:size-text",     "font:size-utf8",
-      "render-text",          "render-utf8",        "render-glyph",
+      "sdl-ttf-init",             "sdl-ttf-quit",           "sdl-load-font",
+      "sdl-font:style",           "sdl-font:set-style!",    "sdl-font:height",
+      "sdl-font:ascent",          "sdl-font:descent",       "sdl-font:line-skip",
+      "sdl-font:glyph-metrics",   "sdl-font:size-text",     "sdl-font:size-utf8",
+      "sdl-render-text",          "sdl-render-utf8",        "sdl-render-glyph",
       NULL);
 }
 

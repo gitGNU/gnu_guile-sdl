@@ -61,16 +61,13 @@ directory, is a simple image browser.  You can cycle through images by
 using space, n or right to go forward, backspace, p or left to go
 backwards, and escape or q to quit.
 
-     ;; use the SDL module (prefixing symbols with "sdl-")
-     (use-modules ((sdl sdl)
-                   :rename (symbol-prefix-proc 'sdl-)))
-     
-     ;; srfi-1 for list processing and srfi-2 for and-let*
-     (use-modules (srfi srfi-1)
+     ;; load the SDL module and some useful srfi's
+     (use-modules (sdl sdl)
+                  (srfi srfi-1)
                   (srfi srfi-2))
      
      ;; initialize the video subsystem
-     (init-sdl init/video)
+     (sdl-init sdl-init/video)
      
      ;; directory to search for images in
      (define image-dir "/usr/share/pixmaps/")
@@ -108,31 +105,29 @@ backwards, and escape or q to quit.
      
      ;; display an image given a filename
      (define (show file)
-       (and-let* ((image (load-image file)))
-         (set-video-mode (surface:w image) (surface:h image)
-                         24 video/hwsurface)
-         (blit-surface image)
-         (flip)))
+       (and-let* ((image (sdl-load-image file)))
+         (sdl-set-video-mode (sdl-surface:w image) (sdl-surface:h image)
+                             24 sdl-video/hwsurface)
+         (sdl-blit-surface image)
+         (sdl-flip)))
      
      ;; show the first image
      (show (next-image))
      
      ;; event handler
-     (let handle ((e (make-event)))
-       (if (wait-event e)
-         (case (event:type e)
+     (let handle ((e (sdl-make-event)))
+       (if (sdl-wait-event e)
+         (case (sdl-event:type e)
            ((event/key-down)
-            (case (event:key:keysym:sym e)
-              ((key/left key/backspace key/p)
+            (case (sdl-event:key:keysym:sym e)
+              ((key/left key/backspace)
                (show (prev-image)))
-              ((key/right key/space key/n)
+              ((key/right key/space)
                (show (next-image)))
               ((key/escape key/q)
-               (quit-sdl)
-               (quit))))
-           (else
-             (handle e))))
-         (handle e))
+               (sdl-quit)
+               (quit))))))
+       (handle e))
 
 
 File: guile-sdl.info,  Node: Naming Conventions,  Next: Quick Start,  Up: Introduction
@@ -159,11 +154,10 @@ Renaming C Functions
 --------------------
 
    As with standard guile naming conventions, all names are converted to
-lower-case, and underscores are replaced with hyphens.  By default the
-`SDL_' prefix is removed, though you may wish to import with an `sdl-'
-prefix renamer.  To avoid conflicting with the standard `quit'
-procedure, `SDL_quit' is renamed `quit-sdl', and `SDL_init' is renamed
-`init-sdl' for symmetry.
+lower-case, and underscores are replaced with hyphens.  Functions that
+modify one or more arguments have an exclamation point (`!') appended,
+and functions which ask a question and return a boolean value have a
+question mark (`?') appended.
 
 
 File: guile-sdl.info,  Node: Enums and Constants,  Next: Create and Make,  Prev: Renaming C Functions,  Up: Naming Conventions
@@ -191,10 +185,10 @@ Create and Make
    The standard SDL prefix for creating a new instance of a type is
 `create'.  The standard Guile prefix is `make'.  Wherever an SDL
 function uses the `create' prefix we will keep it.  SMOB creation
-functions unique to Guile, such as `make-rect', will use `make' as a
-prefix.  In addition, we will sometimes introduce higher-level creation
-functions, such as `make-surface', which is a wrapper to
-`create-rgb-surface' which provides useful default values from the
+functions unique to Guile, such as `sdl-make-rect', will use `make' as
+a prefix.  In addition, we will sometimes introduce higher-level
+creation functions, such as `sdl-make-surface', which is a wrapper to
+`sdl-create-rgb-surface' which provides useful default values from the
 current screen information.
 
 
@@ -246,16 +240,16 @@ Tag Table:
 Node: Top187
 Node: Introduction788
 Node: Quick Start1767
-Node: Naming Conventions4649
-Node: Renaming C Functions5254
-Node: Enums and Constants5778
-Node: Create and Make6479
-Node: General SDL7106
-Node: Video7220
-Node: Events7316
-Node: OpenGL7409
-Node: TrueType7505
-Node: Audio7604
-Node: Index7696
+Node: Naming Conventions4515
+Node: Renaming C Functions5120
+Node: Enums and Constants5584
+Node: Create and Make6285
+Node: General SDL6924
+Node: Video7038
+Node: Events7134
+Node: OpenGL7227
+Node: TrueType7323
+Node: Audio7422
+Node: Index7514
 
 End Tag Table

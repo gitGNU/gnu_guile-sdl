@@ -4,13 +4,11 @@
 ;; simple opengl test
 ;; 
 ;; Created:    <2001-06-16 17:02:54 foof>
-;; Time-stamp: <2001-06-16 17:14:55 foof>
+;; Time-stamp: <2001-06-18 01:01:14 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
-(use-modules ((sdl sdl)
-              :rename (symbol-prefix-proc 'sdl-)))
-
-(use-modules (opengl opengl))
+(use-modules (sdl sdl)
+             (opengl opengl))
 
 ;; initialize the SDL video module
 (sdl-init sdl-init/video)
@@ -44,5 +42,5 @@
 
 ;; wait then quit
 (sdl-delay 3000)
-(sdl-quit-all)
+(sdl-quit)
 

@@ -2,7 +2,7 @@
  *  scm.c -- Guile helper functions                                *
  *                                                                 *
  *  Created:    <2001-06-09 19:22:27 foof>                         *
- *  Time-stamp: <2001-06-09 21:24:01 foof>                         *
+ *  Time-stamp: <2001-06-09 21:47:34 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -59,6 +59,7 @@ scm_c_define_enum (const char *name, ...)
 
    /* create the enum table */
    vec = scm_c_make_vector (max, SCM_BOOL_F);
+   /* vec = scm_make_uve (max, scm_str2symbol (name)); */
    SCM_SETCAR (s_enum, vec);
 
    /* create the enum hash */
@@ -73,6 +74,7 @@ scm_c_define_enum (const char *name, ...)
       symname = va_arg (ap, char*);
       value = va_arg (ap, int);
       sym = scm_str2symbol (symname);
+      /* scm_vector_set_x (vec, SCM_MAKINUM (value), sym); */
       scm_vector_set_x (vec, SCM_MAKINUM (value), sym);
       scm_hashq_set_x (table, sym, SCM_MAKINUM (value));
    }

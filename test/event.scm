@@ -4,11 +4,10 @@
 ;; simple event test
 ;; 
 ;; Created:    <2001-06-04 00:42:41 foof>
-;; Time-stamp: <2001-06-09 21:25:11 foof>
+;; Time-stamp: <2001-06-18 01:00:19 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
-(use-modules ((sdl sdl)
-              :rename (symbol-prefix-proc 'sdl-)))
+(use-modules (sdl sdl))
 
 ;; initialize the SDL video (and event) module
 (sdl-init sdl-init/video)
@@ -40,5 +39,5 @@
 (input-loop (sdl-make-event 0))
 
 ;; quit SDL
-(sdl-quit-all)
+(sdl-quit)
 

@@ -4,11 +4,10 @@
 ;; simple cursor test
 ;; 
 ;; Created:    <2001-06-13 00:38:13 foof>
-;; Time-stamp: <2001-06-13 00:45:03 foof>
+;; Time-stamp: <2001-06-18 01:00:12 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
-(use-modules ((sdl sdl)
-              :rename (symbol-prefix-proc 'sdl-)))
+(use-modules (sdl sdl))
 
 ;; initialize the SDL video module
 (sdl-init sdl-init/video)
@@ -39,5 +38,5 @@
 (sdl-delay 1000)
 
 ;; quit SDL
-(sdl-quit-all)
+(sdl-quit)
 
