@@ -193,17 +193,374 @@ File: guile-sdl.info,  Node: General SDL,  Next: Video,  Prev: Introduction,  Up
 General SDL
 ***********
 
+sdl-init
+
+ - primitive: sdl-init s_subsystems
+     Initializes SDL.
+
+sdl-init-subsystem
+
+ - primitive: sdl-init-subsystem s_subsystems
+     Initializes the given SDL subsystems.
+
+sdl-quit
+
+ - primitive: sdl-quit
+     Shuts down all SDL subsystems.
+
+sdl-quit-subsystem
+
+ - primitive: sdl-quit-subsystem s_subsystems
+     Shuts down the given SDL subsystems.
+
+sdl-was-init
+
+ - primitive: sdl-was-init s_subsystems
+     Check which SDL subsystems have been initialized.
+
+sdl-get-ticks
+
+ - primitive: sdl-get-ticks
+     Get the number of milliseconds since the SDL library
+     initialization.
+
+sdl-delay
+
+ - primitive: sdl-delay ms
+     Wait a specified number of milliseconds before returning.
+
+sdl-get-error
+
+ - primitive: sdl-get-error
+     Return the current SDL error string.
+
 
 File: guile-sdl.info,  Node: Video,  Next: Events,  Prev: General SDL,  Up: Top
 
 Video
 *****
 
+sdl-create-cursor
+
+ - primitive: sdl-create-cursor s_data s_mask s_w s_h s_hot_x s_hot_y
+     Creates a new cursor.
+
+sdl-create-yuv-overlay
+
+ - primitive: sdl-create-yuv-overlay s_width s_height s_format
+          [s_display]
+     Creates a new YUV overlay.
+
+sdl-get-video-surface
+
+ - primitive: sdl-get-video-surface
+     Returns the current display surface.
+
+sdl-get-video-info
+
+ - primitive: sdl-get-video-info
+     Returns information about the video hardware as an alist.
+
+sdl-video-driver-name
+
+ - primitive: sdl-video-driver-name
+     Returns the name of the video driver.
+
+sdl-list-modes
+
+ - primitive: sdl-list-modes[s_pixel_format s_flags]
+     Return a list of available screen dimensions for the given format
+     and flags.  Format defaults to that for the current screen.  Flags
+     default to none.
+
+sdl-video-mode-ok
+
+ - primitive: sdl-video-mode-ok s_width s_height s_bpp s_flags
+     Check to see if a particular video mode is supported.
+
+sdl-set-video-mode
+
+ - primitive: sdl-set-video-mode s_width s_height s_bpp [s_flags]
+     Sets the SDL video mode.
+
+sdl-update-rect
+
+ - primitive: sdl-update-rect s_surface s_x [s_y s_w s_h]
+     Makes sure a given area on a surface is updated.  Arguments are
+     the surface to be updated, followed by either an SDL-Rect or the
+     four coordinates x, y, w, and h.
+
+sdl-update-rects
+
+ - primitive: sdl-update-rects surface_smob rect_list
+     Updates the given list of rectangles on the given surface.
+
+sdl-flip
+
+ - primitive: sdl-flip[s_surface]
+     Swaps surface double buffers.
+
+sdl-set-colors!
+
+ - primitive: sdl-set-colors! s_surface s_colors
+     Sets a portion of the colormap for the given 8-bit surface.
+
+sdl-set-palette
+
+ - primitive: sdl-set-palette s_surface s_flags s_colors
+     Sets the colors in the palette of an 8-bit surface.
+
+sdl-set-gamma
+
+ - primitive: sdl-set-gamma s_redgamma s_greengamma s_bluegamma
+     Sets the color gamma function for the display.
+
+sdl-get-gamma-ramp
+
+ - primitive: sdl-get-gamma-ramp
+     Gets the gamma translation lookup tables currently used by the
+     display.  Each table is an vector of 256 integer values.
+
+sdl-set-gamma-ramp
+
+ - primitive: sdl-set-gamma-ramp s_redtable s_greentable s_bluetable
+     Sets the gamma translation lookup tables currently used by the
+     display.  Each table is an vector of 256 integer values.
+
+sdl-map-rgb
+
+ - primitive: sdl-map-rgb s_pixel_format s_r [s_g s_b]
+     Map a RGB color value to a pixel format.  Takes a pixel format
+     followed by either an SDL-Color or the three r, g, b values.
+
+sdl-map-rgba
+
+ - primitive: sdl-map-rgba s_pixel_format s_r s_g [s_b s_a]
+     Map a RGB color value to a pixel format.  Takes a pixel format
+     followed by either an SDL-Color or the three r, g, b values,
+     followed by the alpha value.
+
+sdl-get-rgb
+
+ - primitive: sdl-get-rgb s_pixel s_pixel_format
+     Get RGB values from a pixel in the specified pixel format.
+     Returns an alist with r, g and b entries.
+
+sdl-get-rgba
+
+ - primitive: sdl-get-rgba s_pixel s_pixel_format
+     Get RGBA values from a pixel in the specified pixel format.
+     Returns an alist with r, g, b and a entries.
+
+sdl-fill-rect
+
+ - primitive: sdl-fill-rect s_dst s_dstrect s_color
+     Fill a given rectangle with a color.
+
+sdl-display-format
+
+ - primitive: sdl-display-format s_surface
+     Convert a surface to the display format.
+
+sdl-display-format-alpha
+
+ - primitive: sdl-display-format-alpha s_surface
+     Convert a surface to the display format, with an alpha channel.
+
+sdl-warp-mouse
+
+ - primitive: sdl-warp-mouse s_x s_y
+     Set the position of the mouse cursor.
+
+sdl-set-cursor
+
+ - primitive: sdl-set-cursor s_cursor
+     Set the current mouse cursor.
+
+sdl-get-cursor
+
+ - primitive: sdl-get-cursor
+     Get the current mouse cursor.
+
+sdl-show-cursor
+
+ - primitive: sdl-show-cursor s_toggle
+     Toggle the visibility of the mouse cursor.
+
+sdl-gl-get-attribute
+
+ - primitive: sdl-gl-get-attribute s_attr
+     Get the value of a special SDL/OpenGL attribute.
+
+sdl-gl-set-attribute
+
+ - primitive: sdl-gl-set-attribute s_attr s_value
+     Set the value of a special SDL/OpenGL attribute.
+
+sdl-gl-swap-buffers
+
+ - primitive: sdl-gl-swap-buffers
+     Swap OpenGL framebuffers/Update Display.
+
+sdl-lock-yuv-overlay
+
+ - primitive: sdl-lock-yuv-overlay s_overlay
+     Lock the given YUV overlay.
+
+sdl-unlock-yuv-overlay
+
+ - primitive: sdl-unlock-yuv-overlay s_overlay
+     Unlock a previously locked YUV overlay.
+
+sdl-display-yuv-overlay
+
+ - primitive: sdl-display-yuv-overlay s_overlay s_dstrect
+     Blit a YUV overlay to the display over which it was created.
+
+sdl-set-caption
+
+ - primitive: sdl-set-caption s_title s_icon
+     Sets the title-bar and icon name of the display window.
+
+sdl-get-caption
+
+ - primitive: sdl-get-caption
+     Gets the title-bar and icon name of the display window.
+
+sdl-set-icon
+
+ - primitive: sdl-set-icon icon
+     Sets the icon for the display window.
+
+sdl-iconify-window
+
+ - primitive: sdl-iconify-window
+     Iconify/Minimise the window.
+
+sdl-toggle-full-screen
+
+ - primitive: sdl-toggle-full-screen[s_surface]
+     Toggles the application between windowed and fullscreen mode, if
+     supported.
+
+sdl-grab-input
+
+ - primitive: sdl-grab-input[s_mode]
+     Grabs mouse and keyboard input.
+
+sdl-make-surface
+
+ - primitive: sdl-make-surface s_width s_height [s_flags]
+     Create an empty SDL-Surface Takes 2 arguments, width and height,
+     plus an optional third argument of video flags.  Color depth and
+     masks will be those for the current video surface.
+
+sdl-create-rgb-surface
+
+ - primitive: sdl-create-rgb-surface s_flags s_width s_height s_depth
+          s_rmask s_gmask s_bmask s_amask
+     Create an empty sdl-surface.  Takes 8 arguments, directly
+     analagous to those for SDL_CreateRGBSurface.
+
+sdl-surface?
+
+ - primitive: sdl-surface? s_surface
+     Returns true iff argument is a surface.
+
+sdl-lock-surface
+
+ - primitive: sdl-lock-surface s_surface
+     Lock a surface for direct access.
+
+sdl-unlock-surface
+
+ - primitive: sdl-unlock-surface s_surface
+     Unlocks a previously locked surface.
+
+sdl-load-bmp
+
+ - primitive: sdl-load-bmp s_file
+     Loads a simple bitmap from a file.
+
+sdl-load-image
+
+ - primitive: sdl-load-image s_file
+     Loads an image from a file.
+
+sdl-save-bmp
+
+ - primitive: sdl-save-bmp s_surface s_file
+     Save an SDL_Surface as a Windows BMP file.
+
+sdl-set-color-key!
+
+ - primitive: sdl-set-color-key! s_surface s_flag s_key
+     Sets the color key in a blittable surface and RLE acceleration.
+
+sdl-set-alpha!
+
+ - primitive: sdl-set-alpha! s_surface s_flag s_alpha
+     Adjust the alpha properties of a surface.
+
+sdl-set-clip-rect!
+
+ - primitive: sdl-set-clip-rect! s_surface s_rect
+     Sets the clipping rectangle for a surface.
+
+sdl-get-clip-rect
+
+ - primitive: sdl-get-clip-rect s_surface
+     Gets the clipping rectangle for a surface.
+
+sdl-convert-surface
+
+ - primitive: sdl-convert-surface s_src s_fmt [s_flags]
+     Converts a surface to the same format as another surface.
+
+sdl-blit-surface
+
+ - primitive: sdl-blit-surface s_src [s_srcrect s_dst s_dstrect]
+     Performs a fast blit from the source surface to the destination
+     surface.
+
+sdl-roto-zoom-surface
+
+ - primitive: sdl-roto-zoom-surface surface_smob s_angle [s_zoom
+          s_smooth]
+     Returns a new rotated and zoomed copy of a surface.  Zoom defaults
+     to 1.0, and smooth defaults to #f.
+
+sdl-zoom-surface
+
+ - primitive: sdl-zoom-surface surface_smob s_zoomx [s_zoomy s_smooth]
+     Returns a new scaled copy of a surface.  ZoomY defaults to ZoomX,
+     and smooth defaults to #f.
+
+sdl-vertical-flip-surface
+
+ - primitive: sdl-vertical-flip-surface s_surface
+     Returns a new vertically flipped copy of a surface.
+
+sdl-horizontal-flip-surface
+
+ - primitive: sdl-horizontal-flip-surface s_surface
+     Returns a new horizontally flipped copy of a surface.
+
+sdl-vh-flip-surface
+
+ - primitive: sdl-vh-flip-surface s_surface
+     Returns a new vertically & horizontally flipped copy of a surface.
+
 
 File: guile-sdl.info,  Node: Events,  Next: OpenGL,  Prev: Video,  Up: Top
 
 Events
 ******
+
+sdl-make-event
+
+ - primitive: sdl-make-event[s_type]
+     Create a new SDL event.
 
 
 File: guile-sdl.info,  Node: OpenGL,  Next: TrueType,  Prev: Events,  Up: Top
@@ -231,6 +588,75 @@ Index
 
 * Menu:
 
+* sdl-blit-surface:                      Video.
+* sdl-convert-surface:                   Video.
+* sdl-create-cursor:                     Video.
+* sdl-create-rgb-surface:                Video.
+* sdl-create-yuv-overlay:                Video.
+* sdl-delay:                             General SDL.
+* sdl-display-format:                    Video.
+* sdl-display-format-alpha:              Video.
+* sdl-display-yuv-overlay:               Video.
+* sdl-fill-rect:                         Video.
+* sdl-flip:                              Video.
+* sdl-get-caption:                       Video.
+* sdl-get-clip-rect:                     Video.
+* sdl-get-cursor:                        Video.
+* sdl-get-error:                         General SDL.
+* sdl-get-gamma-ramp:                    Video.
+* sdl-get-rgb:                           Video.
+* sdl-get-rgba:                          Video.
+* sdl-get-ticks:                         General SDL.
+* sdl-get-video-info:                    Video.
+* sdl-get-video-surface:                 Video.
+* sdl-gl-get-attribute:                  Video.
+* sdl-gl-set-attribute:                  Video.
+* sdl-gl-swap-buffers:                   Video.
+* sdl-grab-input:                        Video.
+* sdl-horizontal-flip-surface:           Video.
+* sdl-iconify-window:                    Video.
+* sdl-init:                              General SDL.
+* sdl-init-subsystem:                    General SDL.
+* sdl-list-modes:                        Video.
+* sdl-load-bmp:                          Video.
+* sdl-load-image:                        Video.
+* sdl-lock-surface:                      Video.
+* sdl-lock-yuv-overlay:                  Video.
+* sdl-make-event:                        Events.
+* sdl-make-surface:                      Video.
+* sdl-map-rgb:                           Video.
+* sdl-map-rgba:                          Video.
+* sdl-quit:                              General SDL.
+* sdl-quit-subsystem:                    General SDL.
+* sdl-roto-zoom-surface:                 Video.
+* sdl-save-bmp:                          Video.
+* sdl-set-alpha!:                        Video.
+* sdl-set-caption:                       Video.
+* sdl-set-clip-rect!:                    Video.
+* sdl-set-color-key!:                    Video.
+* sdl-set-colors!:                       Video.
+* sdl-set-cursor:                        Video.
+* sdl-set-gamma:                         Video.
+* sdl-set-gamma-ramp:                    Video.
+* sdl-set-icon:                          Video.
+* sdl-set-palette:                       Video.
+* sdl-set-video-mode:                    Video.
+* sdl-show-cursor:                       Video.
+* sdl-surface?:                          Video.
+* sdl-toggle-full-screen:                Video.
+* sdl-unlock-surface:                    Video.
+* sdl-unlock-yuv-overlay:                Video.
+* sdl-update-rect:                       Video.
+* sdl-update-rects:                      Video.
+* sdl-vertical-flip-surface:             Video.
+* sdl-vh-flip-surface:                   Video.
+* sdl-video-driver-name:                 Video.
+* sdl-video-mode-ok:                     Video.
+* sdl-warp-mouse:                        Video.
+* sdl-was-init:                          General SDL.
+* sdl-zoom-surface:                      Video.
+
+
 
 Tag Table:
 Node: Top187
@@ -241,11 +667,11 @@ Node: Renaming C Functions4987
 Node: Enums and Constants5451
 Node: Create and Make6193
 Node: General SDL6832
-Node: Video6946
-Node: Events7042
-Node: OpenGL7135
-Node: TrueType7231
-Node: Audio7330
-Node: Index7422
+Node: Video7733
+Node: Events15883
+Node: OpenGL16060
+Node: TrueType16156
+Node: Audio16255
+Node: Index16347
 
 End Tag Table

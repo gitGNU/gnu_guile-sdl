@@ -1,3 +1,7 @@
+2001-07-10  Alex Shinn  <foof@synthcode.com>
+
+	* guile-sdl 0.1.6: building .x and .texi from snarfer defs
+
 2001-07-09  Alex Shinn  <foof@debian.org>
 
 	* guile-sdl 0.1.5: restructuring, bugfixes, initial snarfer defs
