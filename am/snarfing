@@ -1,9 +1,9 @@
-snarfcppopts		= $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS)
-initsnarfsuffixes	= .c .x
-docsnarfsuffixes	= .doc .texi
-c2doc			= guile-tools c2doc
-mkdocindex		= guile-tools make-twerp2texi-index
-dotdocfiles		= $(WRAPPER_SOURCES:.c=.doc)
+## am/snarfing --- init and documentation snarfing
+
+snarfcppopts	= $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS)
+c2doc		= guile-tools c2doc
+mkdocindex	= guile-tools make-twerp2texi-index
+dotdocfiles	= $(WRAPPER_SOURCES:.c=.doc)
 
 .c.x:
 	$(c2x) -o $@ $< $(snarfcppopts)
@@ -13,3 +13,14 @@ dotdocfiles		= $(WRAPPER_SOURCES:.c=.doc)
 
 .doc-index: $(dotdocfiles)
 	$(mkdocindex) -o $@ $(dotdocfiles)
+
+## vars significant to automake
+SUFFIXES	+= .x .doc
+DISTCLEANFILES	+= *.x
+noinst_DATA	+= .doc-index
+
+## Local variables:
+## mode: makefile
+## End:
+
+## am/snarfing ends here
