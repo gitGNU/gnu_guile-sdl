@@ -43,6 +43,16 @@ cd include
 ln -sf `guile-config info includedir`/guile/modsup.h
 
 ######################################################################
+# Self knowledge.
+
+if [ -d CVS ] ; then
+    # release tags all look like v-X-Y-Z
+    cvs log -h autogen.sh \
+        | sed -n '/^[^a-zA-Z]v-/{s/^.//;s/:.*//;p;q;}' \
+        > .last-release
+fi
+
+######################################################################
 # Done.
 
 : Now run configure and make.
