@@ -27,6 +27,7 @@
 #include "config.h"
 #include "argcheck.h"
 #include "sdlsmobs.h"
+#include "bool.h"
 
 
 GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
@@ -48,14 +49,14 @@ GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
   angle = gh_scm2double (s_angle);
 
   UNBOUND_MEANS_FALSE (s_zoom);
-  if (SCM_NFALSEP (s_zoom)) {
+  if (NOT_FALSEP (s_zoom)) {
     ASSERT_NUMBER (s_zoom, ARGH3);
     zoom = gh_scm2double (s_zoom);
   }
 
   UNBOUND_MEANS_FALSE (s_smooth);
 
-  new_surface = rotozoomSurface (surface, angle, zoom, SCM_NFALSEP (s_smooth));
+  new_surface = rotozoomSurface (surface, angle, zoom, NOT_FALSEP (s_smooth));
 
   RETURN_NEW_SURFACE (new_surface);
 }
@@ -83,7 +84,7 @@ GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
   zoomx = gh_scm2double (s_zoomx);
 
   UNBOUND_MEANS_FALSE (s_zoomy);
-  if (SCM_NFALSEP (s_zoomy)) {
+  if (NOT_FALSEP (s_zoomy)) {
     ASSERT_NUMBER (s_zoomy, ARGH3);
     zoomy = gh_scm2double (s_zoomy);
   } else {
@@ -92,7 +93,7 @@ GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
 
   UNBOUND_MEANS_FALSE (s_smooth);
 
-  new_surface = zoomSurface (surface, zoomx, zoomy, SCM_NFALSEP (s_smooth));
+  new_surface = zoomSurface (surface, zoomx, zoomy, NOT_FALSEP (s_smooth));
 
   RETURN_NEW_SURFACE (new_surface);
 }

@@ -29,6 +29,7 @@
 #include "wholefns.h"
 #include "retval.h"
 #include "sym.h"
+#include "sym.h"
 
 /* enum/flag types */
 SCM event_type_enum;
@@ -123,7 +124,7 @@ GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
 
   /* set the sym if given */
   UNBOUND_MEANS_FALSE (sym);
-  if (SCM_NFALSEP (sym)) {
+  if (NOT_FALSEP (sym)) {
     ASSERT_EXACT (sym, ARGH1);
     /* keysym->sym = (SDLKey) gh_scm2long (sym); */
     keysym->sym = (SDLKey) gsdl_enum2long (sym, event_keysym_enum,
