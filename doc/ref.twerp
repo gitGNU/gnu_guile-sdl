@@ -376,4 +376,18 @@ These are available in module @code{(sdl misc-utils)}.
 @twerpdoc (rotate-square)
 @twerpdoc (poll-with-push-on-timeout-proc)
 
+@node Simple Closures
+@chapter Simple Closures
+
+This module provides some simple abstractions to introduce common
+Guile-SDL programming idioms.  Although the interfaces are documented,
+they are @dfn{permanently alpha}, that is, subject to change w/o
+notice.  Instead of relying on the stability of the interface, you are
+encouraged to look at the implementation as a model for creating
+customized abstractions.
+
+@twerpdoc (simple-canvas)
+@twerpdoc (simple-stylus)
+@twerpdoc (simple-vpacked-image)
+
 @c ref.twerp ends here
