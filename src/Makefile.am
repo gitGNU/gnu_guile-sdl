@@ -20,6 +20,7 @@ WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
                   sdlenums.c sdlroto.c
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x)
+BUILT_DOCS      = $(WRAPPER_SOURCES:.c=.texi)
 
 libguileSDL_la_SOURCES = $(BUILT_SOURCES) $(WRAPPER_SOURCES)
 
@@ -31,6 +32,8 @@ libguileSDL_la_LDFLAGS =             \
         -release $(LT_RELEASE)  \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
+libguileSDL_la_DEPENDENCIES = sdl.texi sdlevent.texi sdlroto.texi \
+		  sdlsurface.texi sdlvideo.texi sdlcdrom.texi
 
 # snarfing
 GUILE_SNARF = guile-snarf
@@ -43,9 +46,9 @@ SUFFIXES = .x
 DISTCLEANFILES = *.x
 
 # docs
-info_TEXINFOS = dummy.texi
-dummy_TEXINFOS  = sdl.texi sdlevent.texi sdlroto.texi \
-		  sdlsurface.texi sdlvideo.texi
+#info_TEXINFOS = dummy.texi
+#dummy_TEXINFOS  = sdl.texi sdlevent.texi sdlroto.texi \
+#		  sdlsurface.texi sdlvideo.texi
 
 # doc snarfing
 GUILE_SNARF_DOCS = guile-snarf-docs

@@ -15,6 +15,7 @@ EXTRA_DIST = sdlttf.h
 
 WRAPPER_SOURCES = sdlttf.c
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x)
+BUILT_DOCS   = $(WRAPPER_SOURCES:.c=.texi)
 
 lib_LTLIBRARIES = libguileSDL_ttf.la
 
@@ -26,6 +27,8 @@ libguileSDL_ttf_la_LDFLAGS =             \
         -release $(LT_RELEASE)  \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
+libguileSDL_ttf_la_DEPENDENCIES = $(BUILT_DOCS)
+
 # snarfing
 GUILE_SNARF = guile-snarf
 
@@ -35,11 +38,6 @@ SUFFIXES = .x
 	|| { rm $@; false; }
 
 DISTCLEANFILES = *.x
-
-# docs
-TEXINFO_TEX = ../doc/texinfo.tex
-info_TEXINFOS = dummy.texi
-dummy_TEXINFOS = sdlttf.texi
 
 # doc snarfing
 GUILE_SNARF_DOCS = guile-snarf-docs

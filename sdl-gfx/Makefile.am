@@ -17,6 +17,7 @@ EXTRA_DIST = sdlgfx.h
 
 WRAPPER_SOURCES = sdlgfx.c
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x)
+BUILT_DOCS      = $(WRAPPER_SOURCES:.c=.texi)
 
 lib_LTLIBRARIES = libguileSDL_gfx.la
 
@@ -30,6 +31,8 @@ libguileSDL_gfx_la_LDFLAGS =             \
         -release $(LT_RELEASE)  \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
+libguileSDL_gfx_la_DEPENDENCIES = $(BUILT_DOCS)
+
 # snarfing
 GUILE_SNARF = guile-snarf
 
@@ -39,11 +42,6 @@ SUFFIXES = .x
 	|| { rm $@; false; }
 
 DISTCLEANFILES = *.x
-
-# docs
-TEXINFO_TEX = ../doc/texinfo.tex
-info_TEXINFOS = dummy.texi
-dummy_TEXINFOS = sdlgfx.texi
 
 # doc snarfing
 GUILE_SNARF_DOCS = guile-snarf-docs
