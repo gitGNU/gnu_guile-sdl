@@ -38,7 +38,7 @@ GUILE_SNARF = guile-snarf
 
 SUFFIXES = .x
 %.x: %.c
-	$(GUILE_SNARF) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $< > $@ \
+	$(GUILE_SNARF) $< $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) > $@ \
 	|| { rm $@; false; }
 
 DISTCLEANFILES = *.x
@@ -55,6 +55,7 @@ SUFFIXES = .texi .doc
 	|| { rm $@; false; }
 
 .doc.texi:
-	$(GUILE_SNARF_DOCS_TEXI) $< > $@ \
-	|| { rm $@; false; }
+	touch $@
+#	$(GUILE_SNARF_DOCS_TEXI) $< > $@ \
+#	|| { rm $@; false; }
 
