@@ -8,6 +8,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 
 ;; load the SDL module and some useful srfi's
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
+             ((sdl gfx) #:renamer (symbol-prefix-proc 'GFX:))
              (srfi srfi-1)
              (srfi srfi-2)
              (ice-9 format)
@@ -397,7 +398,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 (define (SDL:rotate-square src angle)
   (let* ((width (SDL:surface:w src))
          (height (SDL:surface:h src))
-         (rotated (SDL:roto-zoom-surface src (- angle 90) 1.0 #t))
+         (rotated (GFX:roto-zoom-surface src (- angle 90) 1.0 #t))
          (new-width (SDL:surface:w rotated))
          (new-height (SDL:surface:h rotated))
          (width-offset (quotient (- new-width width) 2))
@@ -456,7 +457,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 
 ;; Launch the ball from the current angle
 ;;   angle is translated to radians, which is what guile uses for
-;;   sin/cos, unlike SDL:roto-zoom-surface which uses degrees.
+;;   sin/cos, unlike GFX:roto-zoom-surface which uses degrees.
 (define (launch)
   (if (< balls-in-motion max-balls)
       (let ((ball (rand-ball-sprite))
