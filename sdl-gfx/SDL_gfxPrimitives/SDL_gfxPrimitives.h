@@ -107,7 +107,7 @@ DLLINTERFACE int polygonRGBA (SDL_Surface *dst, Sint16 *vx, Sint16 *vy, int n, U
 
 /* Filled Polygon */
 
-DLLINTERFACE int filledPolygonColor (SDL_Surface *dst, Sint16 *vx, Sint16 *vy, int n, int color);
+DLLINTERFACE int filledPolygonColor (SDL_Surface *dst, Sint16 *vx, Sint16 *vy, int n, Uint32 color);
 DLLINTERFACE int filledPolygonRGBA (SDL_Surface *dst, Sint16 *vx, Sint16 *vy, int n, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 /* 8x8 Characters/Strings */

@@ -2359,7 +2359,7 @@ int gfxPrimitivesCompareInt(const void *a, const void *b);
 static int *gfxPrimitivesPolyInts=NULL;
 static int gfxPrimitivesPolyAllocated=0;
 
-int filledPolygonColor (SDL_Surface *dst, Sint16 *vx, Sint16 *vy, int n, int color)
+int filledPolygonColor (SDL_Surface *dst, Sint16 *vx, Sint16 *vy, int n, Uint32 color)
 {
 	int result;
 	int i;
