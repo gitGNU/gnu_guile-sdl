@@ -4,35 +4,6 @@ AUTOMAKE_OPTIONS = gnu
 
 SUBDIRS = src sdl sdl-mixer sdl-ttf sdl-gfx doc
 
-# test suite
-TESTS = alive.test \
-	test/rect.scm test/image.scm test/event.scm test/mixer.scm \
-        test/ttf.scm  test/cursor.scm test/roto.scm test/gfx.scm
-
-TESTS_ENVIRONMENT = ./wily-guile -l $(srcdir)/test/common -s
-
-# distribution
-EXAMPLE_DIST =  examples/README \
-		examples/sicp-painter.scm \
-		examples/imagebrowser.scm \
-		examples/bustagnu.scm \
-		examples/circle.png \
-		examples/gnu-head.png \
-		examples/launcher.png \
-		examples/william-rogers.png
-TEST_DIST    =  test/README            test/crystal.ttf \
-		test/gnu-goatee.jpg    test/noise.wav \
-		test/test.wav
-INCLUDE_DIST =  include/sdl.h          include/sdlcolor.h \
-		include/sdlevent.h     include/sdlrect.h \
-		include/sdlsmobs.h     include/sdlvideo.h \
-		include/sdlcdrom.h     include/sdlenums.h \
-		include/sdljoystick.h  include/sdlroto.h \
-		include/sdlsurface.h
-
-EXTRA_DIST = $(EXAMPLE_DIST) $(TEST_DIST) $(TESTS) $(INCLUDE_DIST)
-
-
 noinst_DATA = pre-inst.merged-module-catalog
 
 pre-inst.merged-module-catalog:
@@ -63,6 +34,22 @@ install-data-hook:
 	  cd $(DESTDIR)$(GUILE_SITE) ;				\
 	  guile-tools make-module-catalog `pwd` ;		\
 	fi
+
+# test suite
+TESTS = alive.test \
+	test/rect.scm test/image.scm test/event.scm test/mixer.scm \
+        test/ttf.scm  test/cursor.scm test/roto.scm test/gfx.scm
+
+TESTS_ENVIRONMENT = ./wily-guile -l $(srcdir)/test/common -s
+
+# distribution
+as_is_dirs = examples test include
+
+EXTRA_DIST = alive.test $(as_is_dirs)
+
+dist-hook:
+	for d in $(as_is_dirs) ; do \
+	  rm -rf `find $(distdir)/$$d -name CVS` ; done
 
 ## these are to support upgrading from 0:0:0 ltlib: see README
 
