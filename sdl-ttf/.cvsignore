@@ -3,5 +3,6 @@
 Makefile
 Makefile.in
 dummy.info
+libguileSDL_ttf.la
 sdlttf.texi
 sdlttf.x

@@ -2,6 +2,7 @@
 Makefile
 Makefile.in
 dummy.info
+libguileSDL_mixer.la
 sdlmixer.lo
 sdlmixer.texi
 sdlmixer.x

@@ -10,4 +10,5 @@ config.log
 config.status
 configure
 guile-sdl
+libtool
 sdl*.texi
