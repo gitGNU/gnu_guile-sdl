@@ -178,7 +178,7 @@ GH_DEFPROC (vh_flip_surface, "vh-flip-surface", 1, 0, 0,
 #define FUNC_NAME s_vh_flip_surface
 {
   SCM temp = vertical_flip_surface (s_surface);
-  return horiztonal_flip_surface (temp);
+  return horizontal_flip_surface (temp);
 }
 #undef FUNC_NAME
 
