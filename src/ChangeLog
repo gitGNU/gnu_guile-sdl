@@ -185,6 +185,22 @@
 	(gsdl_init_rotozoom): Rename from `sdl_init_rotozoom'.
 	Remove call to `scm_c_export'.
 
+	* sdlsurface.c: Update copyright.
+	No longer include <libguile.h>.
+	Include <guile/gh.h>.
+	No longer include "sdlsurface.h".
+	Include "config.h", "argcheck.h" and "wholefns.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(surface_tag): Delete var.
+	(mark_surface): New static func.
+	(free_surface, print_surface): Make static.
+	(gsdl_init_surface): Rename from `sdl_init_surface'.
+	Register func `mark_surface'.
+	Remove calls to `scm_c_define_gsubr'.
+	Remove call to `scm_c_export'.
+
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"
