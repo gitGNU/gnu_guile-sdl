@@ -1,3 +1,7 @@
+2004-02-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ttf.scm: Check `SDL:ttf-init' return value.
+
 2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* roto.scm: Also vary the zoom parameter.
