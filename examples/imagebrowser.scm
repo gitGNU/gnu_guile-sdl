@@ -56,7 +56,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
                            (D (cons (in-vicinity image-dir file)
                                     ls)))
                           (else (D ls)))))))
-      (apply circular-list (reverse (filter file? (D '())))))))
+      (apply circular-list (reverse! (filter file? (D '())))))))
 
 ;; functions to cycle through the ring
 (define (next-image)
