@@ -1,3 +1,7 @@
+2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdl.scm: Delete file.
+
 2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdl.scm: No longer use module (ice-9 syncase).
