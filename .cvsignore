@@ -14,3 +14,4 @@ libtool
 sdl*.texi
 guile-sdl-*.tar.gz
 guile-sdl-*.tar.bz2
+aclocal.m4
