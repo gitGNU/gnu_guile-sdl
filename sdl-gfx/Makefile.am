@@ -4,7 +4,10 @@ AUTOMAKE_OPTIONS = gnu
 
 include $(top_srcdir)/am/common
 
-AM_CPPFLAGS += -I$(srcdir)/SDL_gfxPrimitives
+# We include $(SDL_CFLAGS) because SDL_gfxPrimitives.h
+# does #include <SDL.h>, instead of #include <SDL/SDL.h>;
+# $(SDL_CFLAGS) typically has `-I/usr/include/SDL'.
+AM_CPPFLAGS += $(SDL_CFLAGS) -I$(srcdir)/SDL_gfxPrimitives
 
 SUBDIRS = SDL_gfxPrimitives
 
