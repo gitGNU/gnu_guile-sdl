@@ -40,7 +40,8 @@ are preserved on all copies.
 @syncodeindex vr cp
 @syncodeindex fn cp
 
-@node Top, Introduction, (dir), (dir)
+@node Top
+@top Guile SDL Bindings
 
 @ifinfo
 This file documents the guile-sdl library, which is a generic
@@ -60,7 +61,7 @@ sdl for Guile.
 * Index::                       Procedure index.
 @end menu
 
-@node Introduction, General SDL, Top, Top
+@node Introduction
 @chapter Introduction
 
 The guile-sdl library is an interface to the SDL (Simple Direct Media
@@ -79,7 +80,7 @@ low-level 2D graphics primitives have been provided.
 * Naming Conventions::         Naming conventions
 @end menu
 
-@node Quick Start, , Naming Conventions, Introduction
+@node Quick Start
 @section Quick Start
 
 To whet your appetite, and hopefully get you excited about the ease
@@ -158,7 +159,7 @@ backwards, and escape or q to quit.
   (handle e))
 @end lisp
 
-@node Naming Conventions, Quick Start, , Introduction
+@node Naming Conventions
 @section Naming Conventions
 
 @menu
@@ -173,7 +174,7 @@ is to know the naming conventions.  Then you can begin programming
 without having to look up the exact function reference for the wrapper
 library.
 
-@node Renaming C Functions, Enums and Constants, , Naming Conventions
+@node Renaming C Functions
 @subsection Renaming C Functions
 
 As with standard guile naming conventions, all names are converted to
@@ -182,7 +183,7 @@ modify one or more arguments have an exclamation point (@code{!})
 appended, and functions which ask a question and return a boolean
 value have a question mark (@code{?}) appended.
 
-@node Enums and Constants, Create and Make, Renaming C Functions, Naming Conventions
+@node Enums and Constants
 @subsection Enums and Constants
 
 SDL enumerated types and constants are passed and returned as symbols,
@@ -197,7 +198,7 @@ You may also pass numbers, and can convert between the symbol and
 numeric value with @code{enum->number}, @code{number->enum},
 @code{flags->number}, @code{number->flags}.
 
-@node Create and Make, , Enums and Constants, Naming Conventions
+@node Create and Make
 @subsection Create and Make
 
 The standard SDL prefix for creating a new instance of a type is
@@ -209,12 +210,12 @@ higher-level creation functions, such as @code{sdl-make-surface},
 which is a wrapper to @code{sdl-create-rgb-surface} which provides
 useful default values from the current screen information.
 
-@node General SDL, Video, Introduction, Top
+@node General SDL
 @chapter General SDL
 
 @include ../src/sdl.texi
 
-@node Video, Events, General SDL, Top
+@node Video
 @chapter Video
 
 @include ../src/sdlvideo.texi
@@ -222,38 +223,37 @@ useful default values from the current screen information.
 @include ../src/sdlroto.texi
 @include ../sdl-gfx/sdlgfx.texi
 
-@node Events, Joystick, Video, Top
+@node Events
 @chapter Events
 
 @include ../src/sdlevent.texi
 
-@node Joystick, CDROM, Events, Top
+@node Joystick
 @chapter Joystick
 
 @include ../src/sdljoystick.texi
 
-@node CDROM, OpenGL, Joystick, Top
+@node CDROM
 @chapter CDROM
 
 @include ../src/sdlcdrom.texi
 
-@node OpenGL, TrueType, CDROM, Top
+@node OpenGL
 @chapter OpenGL
 
-@node TrueType, Audio, OpenGL, Top
+@node TrueType
 @chapter TrueType
 
 @include ../sdl-ttf/sdlttf.texi
 
-@node Audio, Index, TrueType, Top
+@node Audio
 @chapter Audio
 
 @include ../sdl-mixer/sdlmixer.texi
 
-@node Index,  , Audio, Top
-@comment    node-name,         next,       previous, up
+@node Index
 @unnumbered Index
-     
+
 @printindex cp
 
 @contents
