@@ -1,3 +1,9 @@
+2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlmixer.c (RETURN_FADINGSTATUS): New macro.
+	(mix_fading_music): Fix bug: Use RETURN_FADINGSTATUS.
+	(mix_fading_channel): Likewise.
+
 2004-07-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlmixer.c (init_module): Use macro `GSDL_CSCS'.
