@@ -1,5 +1,10 @@
 2003-10-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* configure.in: Replace old-fashioned AC_INIT + AM_INIT_AUTOMAKE
+	construct w/ modern AC_INIT + AC_CONFIG_SRCDIR + AM_INIT_AUTOMAKE.
+
+2003-10-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* autogen.sh: Rewrite.
 
 2001-08-07  Alex Shinn  <foof@synthcode.com>
