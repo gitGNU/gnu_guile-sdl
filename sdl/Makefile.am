@@ -33,5 +33,6 @@ retired = $(GUILE_SITE)/sdl
 install-data-hook:
 	if [ -f $(retired)/sdl.scm ] ; then \
 	  rm -f $(retired)/sdl.scm ; fi
-	if [ -d $(retired) -a "`ls $(retired)`" = "" ] ; then \
-	  rmdir $(retired) ; fi
+	if [ -d $(retired) ] ; then \
+	  if [ "`ls $(retired)`" = "" ] ; then \
+	    rmdir $(retired) ; fi ; fi
