@@ -1,468 +1,523 @@
-/*******************************************************************
- *  sdlevent.c -- SDL input handling for Guile                     *
- *                                                                 *
- *  Copyright (C) 2001 Alex Shinn                                  *
- *                                                                 *
- *  This program is free software; you can redistribute it and/or  *
- * modify it under the terms of the GNU General Public License as  *
- * published by the Free Software Foundation; either version 2 of  *
- * the License, or (at your option) any later version.             *
- *                                                                 *
- * This program is distributed in the hope that it will be useful, *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of  *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the   *
- * GNU General Public License for more details.                    *
- *                                                                 *
- * You should have received a copy of the GNU General Public       *
- * License along with this program; if not, write to the Free      *
- * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,  *
- * MA 02111-1307 USA                                               *
- ******************************************************************/
+/* sdlevent.c --- SDL input handling for Guile
+ *
+ * 	Copyright (C) 2003 Thien-Thi Nguyen
+ * 	Copyright (C) 2001 Alex Shinn
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+ * MA 02111-1307 USA
+ */
 
-/* event headers */
+#include <guile/gh.h>
+#include <SDL/SDL_events.h>
+
+#include "config.h"
+#include "argcheck.h"
 #include "sdlsmobs.h"
 #include "sdlenums.h"
-#include "sdlevent.h"
-
-/* tags for SDL smobs */
-long event_tag;
-long keysym_tag;
+#include "wholefns.h"
 
 /* enum/flag types */
 SCM event_type_enum;
 SCM event_state_enum;
 SCM event_keysym_enum;
-SCM event_mod_flags;
 
+static SCM event_mod_flags;
+
+MDEFLOCEXP (sdl_get_event_mod_flags, "flagstash:event-mod", 0, 0, 0, (),
+            "Return the flagstash object for event mod flags.")
+{
+  return event_mod_flags;
+}
+
+
+static long event_tag;
+
+#define ASSERT_EVENT(obj,which) \
+  ASSERT_SMOB (obj, event_tag, which)
+
+static
+SCM
+mark_event (SCM event)
+{
+  return event;
+}
+
+static
 size_t
 free_event (SCM event)
 {
-  free ((SDL_Event*) SCM_SMOB_DATA (event));
+  free (SMOBGET (event, SDL_Event *));
   /* return sizeof (SDL_Event); */
   return 0;
 }
 
+
+static long keysym_tag;
+
+#define ASSERT_KEYSYMe(obj,which) \
+  ASSERT_SMOB (obj, keysym_tag, which)
+
+static
+SCM
+mark_keysym (SCM keysym)
+{
+  return keysym;
+}
+
+static
+size_t
+free_keysym (SCM keysym)
+{
+  SDL_keysym *k = SMOBGET (keysym, SDL_keysym *);
+  free (k);
+  return sizeof (SDL_keysym);
+}
+
+
 /* constructors */
 
-SCM_DEFINE( make_event, "sdl-make-event", 0, 1, 0,
+MDEFLOCEXP (make_event, "sdl-make-event", 0, 1, 0,
             (SCM s_type),
-"Create a new SDL event.")
+            "Create a new SDL event.")
 #define FUNC_NAME s_make_event
 {
   SDL_Event *event;
   int type=SDL_NOEVENT;
 
-  if (s_type != SCM_UNDEFINED) {
-    type = scm_enum2long (s_type, event_type_enum, SCM_ARG1, "sdl-make-event");
+  if (! SCM_UNBNDP (s_type)) {
+    type = gsdl_enum2long (s_type, event_type_enum, SCM_ARG1, FUNC_NAME);
   }
 
-  event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), "sdl-make-event");
+  event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME);
   event->type = type;
 
   SCM_RETURN_NEWSMOB (event_tag, event);
 }
 #undef FUNC_NAME
 
-
-SCM make_keysym (SCM sym, SCM mod)
+MDEFLOCEXP (make_keysym, "sdl-make-keysym", 0, 2, 0,
+            (SCM sym, SCM mod),
+            "")
+#define FUNC_NAME s_make_keysym
 {
   SDL_keysym *keysym;
 
   /* alloc the keysym */
-  keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym),
-                                           "sdl-make-keysym");
+  keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym), FUNC_NAME);
 
   /* set the sym if given */
-  if (sym != SCM_UNDEFINED) {
-    /* SCM_ASSERT (scm_exact_p (sym), sym, SCM_ARG1, "sdl-make-keysym"); */
-    /* keysym->sym = (SDLKey) scm_num2long (sym, SCM_ARG1, "scm_num2long"); */
-    keysym->sym = (SDLKey) scm_enum2long (sym, event_keysym_enum,
-                                          SCM_ARG1, "sdl-make-keysym");
+  if (! SCM_UNBNDP (sym)) {
+    ASSERT_EXACT (sym, SCM_ARG1);
+    /* keysym->sym = (SDLKey) gh_scm2long (sym); */
+    keysym->sym = (SDLKey) gsdl_enum2long (sym, event_keysym_enum,
+                                           SCM_ARG1, FUNC_NAME);
   }
 
   /* set the mod if given */
-  if (mod != SCM_UNDEFINED) {
-    SCM_ASSERT (scm_exact_p (mod), mod, SCM_ARG2, "sdl-make-keysym");
-    keysym->mod = (SDLMod) scm_flags2ulong (mod, event_mod_flags,
-                                            SCM_ARG2, "sdl-make-keysym");
+  if (! SCM_UNBNDP (mod)) {
+    ASSERT_EXACT (mod, SCM_ARG2);
+    keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, SCM_ARG2);
   }
 
   /* return the new smob */
   SCM_RETURN_NEWSMOB (keysym_tag, keysym);
 }
+#undef FUNC_NAME
 
-/* smob getters */
+
+/* smob getters and setters */
 
-SCM_DEFINE_ENUM_GETTER ("sdl-event:type", event_type, event_tag,
-                        SDL_Event*, type, event_type_enum)
 
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:active:gain", event_active_gain, event_tag,
-                        SDL_Event*, active.gain)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:active:state", event_active_state, event_tag,
-                        SDL_Event*, active.state)
+#define ENUM_GETTER(s_frag, c_frag, c_field, etypefrag) \
+  GSDL_ENUM_GETTER ("sdl-event:" s_frag,                \
+                    event_ ## c_frag,                   \
+                    event_tag, SDL_Event *, c_field,    \
+                    etypefrag ## _enum)
 
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:key:state", event_key_state, event_tag,
-                        SDL_Event*, key.state)
+#define ENUM_SETTER(s_frag, c_frag, c_field, etypefrag) \
+  GSDL_ENUM_SETTER ("sdl-event:" s_frag,                \
+                    event_ ## c_frag,                   \
+                    event_tag, SDL_Event *,             \
+                    c_field, etypefrag ## _enum)
 
-SCM_DEFINE_ENUM_GETTER ("sdl-event:key:keysym:sym", event_key_keysym_sym,
-                        event_tag, SDL_Event*, key.keysym.sym, event_keysym_enum)
+#define ENUM_GETSET(get_s, get_c, set_s, set_c, c_field, etypefrag)     \
+  ENUM_GETTER (get_s, get_c, c_field, etypefrag)                        \
+  ENUM_SETTER (set_s, set_c, c_field, etypefrag)
 
-SCM_DEFINE_FLAG_GETTER ("sdl-event:key:keysym:mod", event_key_keysym_mod,
-                        event_tag, SDL_Event*, key.keysym.mod, event_mod_flags)
 
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:key:keysym:scancode", event_key_keysym_scancode,
-                        event_tag, SDL_Event*, key.keysym.scancode)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:key:keysym:unicode", event_key_keysym_unicode,
-                        event_tag, SDL_Event*, key.keysym.unicode)
+#define NUMBER_GETTER(s_frag, c_frag, c_field)          \
+  GSDL_NUMBER_GETTER ("sdl-event:" s_frag,              \
+                      event_ ## c_frag,                 \
+                      event_tag, SDL_Event *, c_field)
 
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:motion:state", event_motion_state, event_tag,
-                        SDL_Event*, motion.state)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:motion:x", event_motion_x, event_tag,
-                        SDL_Event*, motion.x)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:motion:y", event_motion_y, event_tag,
-                        SDL_Event*, motion.y)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:motion:xrel", event_motion_xrel, event_tag,
-                        SDL_Event*, motion.xrel)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:motion:yrel", event_motion_yrel, event_tag,
-                        SDL_Event*, motion.yrel)
+#define NUMBER_SETTER(s_frag, c_frag, c_field)  \
+  GSDL_NUMBER_SETTER ("sdl-event:" s_frag,      \
+                      event_ ## c_frag,         \
+                      event_tag, SDL_Event *,   \
+                      c_field)
 
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:button:button", event_button_button, event_tag,
-                        SDL_Event*, button.button)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:button:state", event_button_state, event_tag,
-                        SDL_Event*, button.state)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:button:x", event_button_x, event_tag,
-                        SDL_Event*, button.x)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:button:y", event_button_y, event_tag,
-                        SDL_Event*, button.y)
+#define NUM2_GETTER(a    ,    b)                \
+  NUMBER_GETTER   (#a   ":"  #b,                \
+                    a ## _ ## b,                \
+                    a ## . ## b)
 
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jaxis:which", event_jaxis_which, event_tag,
-                        SDL_Event*, jaxis.which)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jaxis:axis", event_jaxis_axis, event_tag,
-                        SDL_Event*, jaxis.axis)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jaxis:value", event_jaxis_value, event_tag,
-                        SDL_Event*, jaxis.value)
+#define NUM2_SETTER(a      ,      b)            \
+  NUMBER_SETTER   (#a   ":set-"  #b "!",        \
+                    a ## _set_ ## b,            \
+                    a ##   .   ## b)
 
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jbutton:which", event_jbutton_which, event_tag,
-                        SDL_Event*, jbutton.which)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jbutton:button", event_jbutton_button, event_tag,
-                        SDL_Event*, jbutton.button)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jbutton:state", event_jbutton_state, event_tag,
-                        SDL_Event*, jbutton.state)
+#define NUM2_GETSET(a, b) \
+  NUM2_GETTER (a, b)      \
+  NUM2_SETTER (a, b)
 
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jball:which", event_jball_which, event_tag,
-                        SDL_Event*, jball.which)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jball:ball", event_jball_ball, event_tag,
-                        SDL_Event*, jball.ball)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jball:xrel", event_jball_xrel, event_tag,
-                        SDL_Event*, jball.xrel)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jball:yrel", event_jball_yrel, event_tag,
-                        SDL_Event*, jball.yrel)
 
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jhat:which", event_jhat_which, event_tag,
-                        SDL_Event*, jhat.which)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jhat:hat", event_jhat_hat, event_tag,
-                        SDL_Event*, jhat.hat)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:jhat:value", event_jhat_state, event_tag,
-                        SDL_Event*, jhat.value)
+#define NUM3_GETTER(a    ,    b    ,    c)      \
+  NUMBER_GETTER   (#a   ":"  #b   ":"  #c,      \
+                    a ## _ ## b ## _ ## c,      \
+                    a ## . ## b ## . ## c)
 
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:resize:w", event_resize_w, event_tag,
-                        SDL_Event*, resize.w)
-SCM_DEFINE_NUMBER_GETTER ("sdl-event:resize:h", event_resize_h, event_tag,
-                        SDL_Event*, resize.h)
+#define NUM3_SETTER(a    ,    b      ,      c)          \
+  NUMBER_SETTER   (#a   ":"  #b   ":set-"  #c "!",      \
+                    a ## _ ## b ## _set_ ## c,          \
+                    a ## . ## b ##   .   ## c)
 
-/* SCM_DEFINE_NUMBER_GETTER ("sdl-event:user:code", event_user_code, event_tag, */
-/*                         SDL_Event*, user.code) */
-/* SCM_DEFINE_NUMBER_GETTER ("event:user:data1", event_user_data1, event_tag,  */
-/*                         SDL_Event*, user.data1)  */
-/* SCM_DEFINE_NUMBER_GETTER ("event:user:data2", event_user_data2, event_tag,  */
-/*                         SDL_Event*, user.data2)  */
+#define NUM3_GETSET(a, b, c) \
+  NUM3_GETTER (a, b, c)      \
+  NUM3_SETTER (a, b, c)
 
-/* SCM_DEFINE_NUMBER_GETTER ("keysym:scancode", keysym_scancode, keysym_tag,  */
-/*                         SDL_keysym*, scancode)  */
-/* SCM_DEFINE_NUMBER_GETTER ("keysym:sym", keysym_sym, keysym_tag,  */
-/*                         SDL_keysym*, sym)  */
-/* SCM_DEFINE_NUMBER_GETTER ("keysym:mod", keysym_mod, keysym_tag,  */
-/*                         SDL_keysym*, mod)  */
-/* SCM_DEFINE_NUMBER_GETTER ("keysym:unicode", keysym_unicode, keysym_tag,  */
-/*                         SDL_keysym*, unicode)  */
 
-/* SCM event_key_keysym (SCM s_event) */
-/* { */
-/* } */
+#define FLAG_GETTER(s_frag, c_frag, c_field, stash)     \
+  GSDL_FLAG_GETTER ("sdl-event:" s_frag,                \
+                    event_ ## c_frag,                   \
+                    event_tag, SDL_Event *,             \
+                    c_field, stash)
 
-SCM_DEFINE_ENUM_SETTER ("sdl-event:set-type!", event_set_type, event_tag,
-                        SDL_Event*, type, event_type_enum)
+#define FLAG_SETTER(s_frag, c_frag, c_field, stash)     \
+  GSDL_FLAG_SETTER ("sdl-event:" s_frag,                \
+                    event_ ## c_frag,                   \
+                    event_tag, SDL_Event *,             \
+                    c_field, stash)
 
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:active:set-gain!", event_active_set_gain, event_tag,
-                        SDL_Event*, active.gain)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:active:set-state!", event_active_set_state, event_tag,
-                        SDL_Event*, active.state)
+#define FLAG_GETSET(get_s, get_c, set_s, set_c, c_field, stash) \
+  FLAG_GETTER (get_s, get_c, c_field, stash)                    \
+  FLAG_SETTER (set_s, set_c, c_field, stash)
 
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:key:set-state!", event_key_set_state, event_tag,
-                        SDL_Event*, key.state)
 
-SCM_DEFINE_ENUM_SETTER ("sdl-event:key:keysym:set-sym!", event_key_keysym_set_sym,
-                        event_tag, SDL_Event*, key.keysym.sym, event_keysym_enum)
 
-SCM_DEFINE_FLAG_SETTER ("sdl-event:key:keysym:set-mod!", event_key_keysym_set_mod,
-                        event_tag, SDL_Event*, key.keysym.mod, event_mod_flags)
+ENUM_GETSET ("type",          type,
+             "set-type!", set_type,
+             type,
+             event_type)
 
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:key:keysym:set-scancode!", event_key_keysym_set_scancode,
-                        event_tag, SDL_Event*, key.keysym.scancode)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:key:keysym:set-unicode!", event_key_keysym_set_unicode,
-                        event_tag, SDL_Event*, key.keysym.unicode)
+NUM2_GETSET (active, gain)
+NUM2_GETSET (active, state)
+NUM2_GETSET (key, state)
 
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:motion:set-state!", event_motion_set_state, event_tag,
-                        SDL_Event*, motion.state)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:motion:set-x!", event_motion_set_x, event_tag,
-                        SDL_Event*, motion.x)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:motion:set-y!", event_motion_set_y, event_tag,
-                        SDL_Event*, motion.y)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:motion:set-xrel!", event_motion_set_xrel, event_tag,
-                        SDL_Event*, motion.xrel)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:motion:set-yrel!", event_motion_set_yrel, event_tag,
-                        SDL_Event*, motion.yrel)
+ENUM_GETSET ("key:keysym:sym",        key_keysym_sym,
+             "key:keysym:set-sym!", key_keysym_set_sym,
+             key.keysym.sym,
+             event_keysym)
 
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:button:set-button!", event_button_set_button, event_tag,
-                        SDL_Event*, button.button)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:button:set-state!", event_button_set_state, event_tag,
-                        SDL_Event*, button.state)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:button:set-x!", event_button_set_x, event_tag,
-                        SDL_Event*, button.x)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:button:set-y!", event_button_set_y, event_tag,
-                        SDL_Event*, button.y)
+FLAG_GETSET ("key:keysym:mod",        key_keysym_mod,
+             "key:keysym:set-mod!", key_keysym_set_mod,
+             key.keysym.mod,
+             event_mod_flags)
 
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jaxis:set-which!", event_jaxis_set_which, event_tag,
-                        SDL_Event*, jaxis.which)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jaxis:set-axis!", event_jaxis_set_axis, event_tag,
-                        SDL_Event*, jaxis.axis)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jaxis:set-value!", event_jaxis_set_value, event_tag,
-                        SDL_Event*, jaxis.value)
+NUM3_GETSET (key, keysym, scancode)
+NUM3_GETSET (key, keysym, unicode)
 
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jbutton:set-which!", event_jbutton_set_which, event_tag,
-                        SDL_Event*, jbutton.which)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jbutton:set-button!", event_jbutton_set_button, event_tag,
-                        SDL_Event*, jbutton.button)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jbutton:set-state!", event_jbutton_set_state, event_tag,
-                        SDL_Event*, jbutton.state)
+NUM2_GETSET (motion, state)
+NUM2_GETSET (motion, x)
+NUM2_GETSET (motion, y)
+NUM2_GETSET (motion, xrel)
+NUM2_GETSET (motion, yrel)
 
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jball:set-which!", event_jball_set_which, event_tag,
-                        SDL_Event*, jball.which)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jball:set-ball!", event_jball_set_ball, event_tag,
-                        SDL_Event*, jball.ball)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jball:set-xrel!", event_jball_set_xrel, event_tag,
-                        SDL_Event*, jball.xrel)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jball:set-yrel!", event_jball_set_yrel, event_tag,
-                        SDL_Event*, jball.yrel)
+NUM2_GETSET (button, button)
+NUM2_GETSET (button, state)
+NUM2_GETSET (button, x)
+NUM2_GETSET (button, y)
 
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jhat:set-which!", event_jhat_set_which, event_tag,
-                        SDL_Event*, jhat.which)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jhat:set-hat!", event_jhat_set_hat, event_tag,
-                        SDL_Event*, jhat.hat)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:jhat:set-value!", event_jhat_set_state, event_tag,
-                        SDL_Event*, jhat.value)
+NUM2_GETSET (jaxis, which)
+NUM2_GETSET (jaxis, axis)
+NUM2_GETSET (jaxis, value)
 
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:resize:set-w!", event_resize_set_w, event_tag,
-                        SDL_Event*, resize.w)
-SCM_DEFINE_NUMBER_SETTER ("sdl-event:resize:set-h!", event_resize_set_h, event_tag,
-                        SDL_Event*, resize.h)
+NUM2_GETSET (jbutton, which)
+NUM2_GETSET (jbutton, button)
+NUM2_GETSET (jbutton, state)
 
+NUM2_GETSET (jball, which)
+NUM2_GETSET (jball, ball)
+NUM2_GETSET (jball, xrel)
+NUM2_GETSET (jball, yrel)
+
+NUM2_GETSET (jhat, which)
+NUM2_GETSET (jhat, hat)
+NUM2_GETSET (jhat, value)
+
+NUM2_GETSET (resize, w)
+NUM2_GETSET (resize, h)
+
+#if 0 /* what is this? --ttn */
+NUM2_GETSET (user, code)
+NUM2_GETSET (user, data1)
+NUM2_GETSET (user, data2)
+#endif /* 0 */
+
+
 /* SDL event functions */
 
-/* extern DECLSPEC void SDL_PumpEvents(void); */
-SCM pump_events (void)
+MDEFLOCEXP (pump_events, "pump-events", 0, 0, 0, (), "")
+#define FUNC_NAME s_pump_events
 {
-  SDL_PumpEvents();
+  SDL_PumpEvents ();
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-/* extern DECLSPEC int SDL_PeepEvents(SDL_Event *events, int numevents, */
-/* 				SDL_eventaction action, Uint32 mask); */
-SCM peep_events (SCM events, SCM numevents, SCM action, SCM mask)
+MDEFLOCEXP (peep_events, "peep-events", 4, 0, 0,
+            (SCM events, SCM numevents, SCM action, SCM mask),
+            "")
+#define FUNC_NAME s_peep_events
 {
+  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
+  /*  int SDL_PeepEvents(SDL_Event *events, int numevents, */
+  /*                     SDL_eventaction action, Uint32 mask); */
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-/* extern DECLSPEC int SDL_PollEvent(SDL_Event *event); */
-SCM poll_event (SCM event)
+MDEFLOCEXP (poll_event, "poll-event", 0, 1, 0,
+            (SCM event),
+            "")
+#define FUNC_NAME s_poll_event
 {
   int result;
 
-  if (event == SCM_UNDEFINED) {
+  if (SCM_UNBNDP (event)) {
     /* no args */
     result = SDL_PollEvent (NULL);
   } else {
     /* we're given an event smob - fill it */
-    SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "sdl-poll-event");
-    result = SDL_PollEvent ((SDL_Event*) SCM_CDR (event));
+    ASSERT_SMOB (event, event_tag, SCM_ARG1);
+    result = SDL_PollEvent (SMOBGET (event, SDL_Event *));
   }
 
   return result ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-/* extern DECLSPEC int SDL_WaitEvent(SDL_Event *event); */
-SCM wait_event (SCM event)
+MDEFLOCEXP (wait_event, "wait-event", 0, 1, 0,
+            (SCM event),
+            "")
+#define FUNC_NAME s_wait_event
 {
   int result;
 
-  if (event == SCM_UNDEFINED) {
+  if (SCM_UNBNDP (event)) {
     /* no args */
     result = SDL_WaitEvent (NULL);
   } else {
     /* we're given an event smob - fill it */
-    SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "sdl-wait-event");
-    result = SDL_WaitEvent ((SDL_Event*) SCM_CDR (event));
+    ASSERT_SMOB (event, event_tag, SCM_ARG1);
+    result = SDL_WaitEvent (SMOBGET (event, SDL_Event *));
   }
 
   return result ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-/* extern DECLSPEC int SDL_PushEvent(SDL_Event *event); */
-SCM push_event (SCM event)
+MDEFLOCEXP (push_event, "push-event", 1, 0, 0,
+            (SCM event),
+            "")
+#define FUNC_NAME s_push_event
 {
   int result;
 
-  SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "sdl-push-event");
+  ASSERT_SMOB (event, event_tag, SCM_ARG1);
 
-  result = SDL_PushEvent ((SDL_Event*) SCM_CDR (event));
-  return scm_long2num (result);
+  result = SDL_PushEvent (SMOBGET (event, SDL_Event *));
+  return gh_long2scm (result);
 }
+#undef FUNC_NAME
 
-/* extern DECLSPEC void SDL_SetEventFilter(SDL_EventFilter filter); */
-SCM set_event_filter (SCM filter)
+MDEFLOCEXP (set_event_filter, "set-event-filter", 1, 0, 0,
+            (SCM filter),
+            "")
+#define FUNC_NAME s_set_event_filter
 {
+  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
+  /* extern DECLSPEC void SDL_SetEventFilter(SDL_EventFilter filter); */
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-/* extern DECLSPEC SDL_EventFilter SDL_GetEventFilter(void); */
-SCM get_event_filter (SCM filter)
+MDEFLOCEXP (get_event_filter, "get-event-filter", 1, 0, 0,
+            (SCM filter),
+            "")
+#define FUNC_NAME s_get_event_filter
 {
+  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
+  /* extern DECLSPEC SDL_EventFilter SDL_GetEventFilter(void); */
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-/* extern DECLSPEC Uint8 SDL_EventState(Uint8 type, int state); */
-SCM event_state (SCM type, SCM state)
+MDEFLOCEXP (event_state, "event-state", 2, 0, 0,
+            (SCM type, SCM state),
+            "")
+#define FUNC_NAME s_event_state
 {
+  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
+  /* extern DECLSPEC Uint8 SDL_EventState(Uint8 type, int state); */
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
 
-SCM
-sdl_enable_unicode (SCM enable_p)
+MDEFLOCEXP (sdl_enable_unicode, "sdl-enable-unicode", 0, 1, 0,
+            (SCM enable_p),
+            "")
+#define FUNC_NAME s_sdl_enable_unicode
 {
   int result;
 
-  if (enable_p == SCM_UNDEFINED) {
+  if (SCM_UNBNDP (enable_p)) {
     result = SDL_EnableUNICODE (-1);
-  } else if (SCM_FALSEP (enable_p)) {
+  } else if (! gh_scm2bool (enable_p)) {
     result = SDL_EnableUNICODE (0);
   } else {
     result = SDL_EnableUNICODE (1);
   }
 
-  return scm_long2num (result);
+  return gh_long2scm (result);
 }
+#undef FUNC_NAME
 
 /*
  * If 'delay' is set to 0, keyboard repeat is disabled.
  */
-SCM
-sdl_enable_key_repeat (SCM s_delay, SCM s_interval)
+
+MDEFLOCEXP (sdl_enable_key_repeat, "sdl-enable-key-repeat", 2, 0, 0,
+            (SCM s_delay, SCM s_interval),
+            "")
+#define FUNC_NAME s_sdl_enable_key_repeat
 {
   int interval, delay;
 
-  SCM_ASSERT (scm_exact_p (s_delay), s_delay, SCM_ARG1, "sdl-enable-key-repeat");
-  SCM_ASSERT (scm_exact_p (s_interval), s_interval, SCM_ARG2, "sdl-enable-key-repeat");
+  ASSERT_EXACT (s_delay, SCM_ARG1);
+  ASSERT_EXACT (s_interval, SCM_ARG2);
 
-  delay    = scm_num2long (s_delay, SCM_ARG1, "scm_num2long");
-  interval = scm_num2long (s_interval, SCM_ARG1, "scm_num2long");
+  delay    = gh_scm2long (s_delay);
+  interval = gh_scm2long (s_interval);
 
-  SCM_RETURN_TRUE_IF_0 (SDL_EnableKeyRepeat (delay, interval));
+  RETURN_TRUE_IF_0 (SDL_EnableKeyRepeat (delay, interval));
 }
+#undef FUNC_NAME
 
-/*
- * Get a snapshot of the current state of the keyboard.
- * Returns an array of keystates, indexed by the SDLK_* syms.
- */
-SCM
-sdl_get_key_state (SCM numkeys)
+MDEFLOCEXP (sdl_get_key_state, "sdl-get-key-state", 1, 0, 0,
+            (SCM numkeys),
+            "Get a snapshot of the current state of the keyboard.\n"
+            "Return an array of keystates, indexed by the SDLK_* syms.")
+#define FUNC_NAME s_sdl_get_key_state
 {
+  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-/*
- * Get the current key modifier state
- */
-SCM
-sdl_get_mod_state (void)
+MDEFLOCEXP (sdl_get_mod_state, "sdl-get-mod-state", 0, 0, 0,
+            (),
+            "Get the current key modifier state.")
+#define FUNC_NAME s_sdl_get_mod_state
 {
-  return scm_ulong2flags (SDL_GetModState (), event_mod_flags);
+  return gsdl_ulong2flags (SDL_GetModState (), event_mod_flags);
 }
+#undef FUNC_NAME
 
-/*
- * Set the current key modifier state
- * This does not change the keyboard state, only the key modifier flags.
- */
-SCM
-sdl_set_mod_state (SCM modstate)
+MDEFLOCEXP (sdl_set_mod_state, "sdl-set-mod-state", 1, 0, 0,
+            (SCM modstate),
+            "Set the current key modifier state.\n"
+            "This does not change the keyboard state,\n"
+            "only the key modifier flags.")
+#define FUNC_NAME s_sdl_set_mod_state
 {
-  /* SCM_ASSERT (scm_exact_p (modstate), modstate, SCM_ARG1, "sdl-set-mod-state"); */
-  SDL_SetModState (scm_flags2ulong (modstate, event_mod_flags, SCM_ARG1,
-                                    "sdl-set-mod-state"));
+  ASSERT_EXACT (modstate, SCM_ARG1);
+  SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, SCM_ARG1));
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-/*
- * Retrieve the current state of the mouse.
- */
-SCM
-sdl_get_mouse_state (void)
+SCM_SYMBOL (gsdl_sym_state, "state");
+SCM_SYMBOL (gsdl_sym_x, "x");
+SCM_SYMBOL (gsdl_sym_y, "y");
+
+MDEFLOCEXP (sdl_get_mouse_state, "sdl-get-mouse-state", 0, 0, 0,
+            (void),
+            "Retrieve the current state of the mouse.")
+#define FUNC_NAME s_sdl_get_mouse_state
 {
   int buttons, x, y;
   buttons = SDL_GetMouseState (&x, &y);
-  return scm_list_3 (scm_cons (scm_str2symbol ("state"),
-                               scm_long2num (buttons)),
-                     scm_cons (scm_str2symbol ("x"),
-                               scm_long2num (x)),
-                     scm_cons (scm_str2symbol ("y"),
-                               scm_long2num (y)));
+  return SCM_LIST3 (gh_cons (gsdl_sym_state, gh_long2scm (buttons)),
+                    gh_cons (gsdl_sym_x, gh_long2scm (x)),
+                    gh_cons (gsdl_sym_y, gh_long2scm (y)));
 }
+#undef FUNC_NAME
 
-/*
- * Retrieve the current state of the mouse.
- */
-SCM
-sdl_get_relative_mouse_state ()
+MDEFLOCEXP (sdl_get_relative_mouse_state, "sdl-get-mouse-relative-state",
+            0, 0, 0, (),
+            "Retrieve the current state of the mouse.")
+#define FUNC_NAME s_sdl_get_relative_mouse_state
 {
   int buttons, x, y;
   buttons = SDL_GetRelativeMouseState (&x, &y);
-  return scm_list_3 (scm_cons (scm_str2symbol ("state"),
-                               scm_long2num (buttons)),
-                     scm_cons (scm_str2symbol ("x"),
-                               scm_long2num (x)),
-                     scm_cons (scm_str2symbol ("y"),
-                               scm_long2num (y)));
+  return SCM_LIST3 (gh_cons (gsdl_sym_state, gh_long2scm (buttons)),
+                    gh_cons (gsdl_sym_x, gh_long2scm (x)),
+                    gh_cons (gsdl_sym_y, gh_long2scm (y)));
 }
+#undef FUNC_NAME
 
-SCM
-sdl_button_p (SCM mask)
+MDEFLOCEXP (sdl_button_p, "sdl-button?", 1, 0, 0,
+            (SCM mask),
+            "")
+#define FUNC_NAME s_sdl_button_p
 {
-  SCM_ASSERT (scm_exact_p (mask), mask, SCM_ARG1, "sdl-button?");
-  return SDL_BUTTON (scm_num2long (mask, SCM_ARG1, "sdl-button?"))
-    ? SCM_BOOL_T : SCM_BOOL_F;
+  ASSERT_EXACT (mask, SCM_ARG1);
+  return (SDL_BUTTON (gh_scm2long (mask))
+          ? SCM_BOOL_T
+          : SCM_BOOL_F);
 }
+#undef FUNC_NAME
+
+
+extern flagstash_t gsdl_kmod_flagstash;
 
 /* Initialize glue */
-void sdl_init_event (void)
+void
+gsdl_init_event (void)
 {
-  /* tags */
-  event_tag   = scm_make_smob_type ("SDL-Event",  sizeof (SDL_Event));
-  /* keysym_tag  = scm_make_smob_type ("keysym", sizeof (SDL_keysym)); */
-
+  event_tag = scm_make_smob_type ("SDL-Event",  sizeof (SDL_Event));
+  scm_set_smob_mark (event_tag, mark_event);
   scm_set_smob_free (event_tag, free_event);
 
+  keysym_tag = scm_make_smob_type ("SDL-Keysym", sizeof (SDL_keysym));
+  scm_set_smob_mark (keysym_tag, mark_keysym);
+  scm_set_smob_free (keysym_tag, free_keysym);
+
   /* event type constants */
-  event_type_enum = scm_c_define_enum (
+  event_type_enum = gsdl_define_enum (
     "sdl-event-types",
     "SDL_ACTIVEEVENT",      SDL_ACTIVEEVENT,
     "SDL_KEYDOWN",          SDL_KEYDOWN,
@@ -482,7 +537,7 @@ void sdl_init_event (void)
     NULL);
 
   /* keysyms */
-  event_keysym_enum = scm_c_define_enum (
+  event_keysym_enum = gsdl_define_enum (
     "sdl-event-keys",
     "SDLK_BACKSPACE",  SDLK_BACKSPACE,
     "SDLK_TAB",  SDLK_TAB,
@@ -619,29 +674,10 @@ void sdl_init_event (void)
     "SDLK_EURO",  SDLK_EURO,
     NULL);
 
-  event_mod_flags = scm_c_define_flag (
-    "sdl-mod-flags",
-    "KMOD_NONE",      KMOD_NONE,
-    "KMOD_LSHIFT",    KMOD_LSHIFT,
-    "KMOD_RSHIFT",    KMOD_RSHIFT,
-    "KMOD_LCTRL",     KMOD_LCTRL,
-    "KMOD_RCTRL",     KMOD_RCTRL,
-    "KMOD_LALT",      KMOD_LALT,
-    "KMOD_RALT",      KMOD_RALT,
-    "KMOD_LMETA",     KMOD_LMETA,
-    "KMOD_RMETA",     KMOD_RMETA,
-    "KMOD_NUM",       KMOD_NUM,
-    "KMOD_CAPS",      KMOD_CAPS,
-    "KMOD_MODE",      KMOD_MODE,
-    "KMOD_RESERVED",  KMOD_RESERVED,
-    "KMOD_CTRL",      KMOD_CTRL,
-    "KMOD_SHIFT",     KMOD_SHIFT,
-    "KMOD_ALT",       KMOD_ALT,
-    "KMOD_META",      KMOD_META,
-    NULL);
+  event_mod_flags = gsdl_make_flagstash (&gsdl_kmod_flagstash);
 
   /* event states */
-  event_state_enum = scm_c_define_enum (
+  event_state_enum = gsdl_define_enum (
     "sdl-event-states",
     "SDL_QUERY",  SDL_QUERY,
     "SDL_IGNORE",  SDL_IGNORE,
@@ -649,130 +685,7 @@ void sdl_init_event (void)
     "SDL_ENABLE",  SDL_ENABLE,
     NULL);
 
-  /* functions */
-  scm_c_define_gsubr ("sdl-make-event",      0, 1, 0, make_event);
-  scm_c_define_gsubr ("sdl-make-keysym",     0, 2, 0, make_keysym);
-  scm_c_define_gsubr ("sdl-poll-event",      0, 1, 0, poll_event);
-  scm_c_define_gsubr ("sdl-wait-event",      0, 1, 0, wait_event);
-  scm_c_define_gsubr ("sdl-push-event",      1, 0, 0, push_event);
-  scm_c_define_gsubr ("sdl-enable-unicode",  0, 1, 0, sdl_enable_unicode);
-  scm_c_define_gsubr ("sdl-enable-key-repeat",  2, 0, 0, sdl_enable_key_repeat);
-  scm_c_define_gsubr ("sdl-get-key-state",   0, 0, 0, sdl_get_key_state);
-  scm_c_define_gsubr ("sdl-get-mod-state",   0, 0, 0, sdl_get_mod_state);
-  scm_c_define_gsubr ("sdl-set-mod-state",   1, 0, 0, sdl_set_mod_state);
-  scm_c_define_gsubr ("sdl-get-mouse-state", 0, 0, 0, sdl_get_mouse_state);
-  scm_c_define_gsubr ("sdl-get-relative-mouse-state", 0, 0, 0,
-                      sdl_get_relative_mouse_state);
-  scm_c_define_gsubr ("sdl-button?",         1, 0, 0, sdl_button_p);
-
-  /* smob getters */
-  scm_c_define_gsubr ("sdl-event:type", 1, 0, 0, event_type);
-  scm_c_define_gsubr ("sdl-event:active:gain", 1, 0, 0, event_active_gain);
-  scm_c_define_gsubr ("sdl-event:active:state", 1, 0, 0, event_active_state);
-  scm_c_define_gsubr ("sdl-event:key:state", 1, 0, 0, event_key_state);
-  scm_c_define_gsubr ("sdl-event:key:keysym:sym", 1, 0, 0, event_key_keysym_sym);
-  scm_c_define_gsubr ("sdl-event:key:keysym:mod", 1, 0, 0, event_key_keysym_mod);
-  scm_c_define_gsubr ("sdl-event:key:keysym:scancode", 1, 0, 0, event_key_keysym_scancode);
-  scm_c_define_gsubr ("sdl-event:key:keysym:unicode", 1, 0, 0, event_key_keysym_unicode);
-  scm_c_define_gsubr ("sdl-event:motion:state", 1, 0, 0, event_motion_state);
-  scm_c_define_gsubr ("sdl-event:motion:x", 1, 0, 0, event_motion_x);
-  scm_c_define_gsubr ("sdl-event:motion:y", 1, 0, 0, event_motion_y);
-  scm_c_define_gsubr ("sdl-event:motion:xrel", 1, 0, 0, event_motion_xrel);
-  scm_c_define_gsubr ("sdl-event:motion:yrel", 1, 0, 0, event_motion_yrel);
-  scm_c_define_gsubr ("sdl-event:button:button", 1, 0, 0, event_button_button);
-  scm_c_define_gsubr ("sdl-event:button:state", 1, 0, 0, event_button_state);
-  scm_c_define_gsubr ("sdl-event:button:x", 1, 0, 0, event_button_x);
-  scm_c_define_gsubr ("sdl-event:button:y", 1, 0, 0, event_button_y);
-  scm_c_define_gsubr ("sdl-event:set-type!", 2, 0, 0, event_set_type);
-  scm_c_define_gsubr ("sdl-event:active:set-gain!", 2, 0, 0, event_active_set_gain);
-  scm_c_define_gsubr ("sdl-event:active:set-state!", 2, 0, 0, event_active_set_state);
-  scm_c_define_gsubr ("sdl-event:key:set-state!", 2, 0, 0, event_key_state);
-  scm_c_define_gsubr ("sdl-event:key:keysym:set-sym!", 2, 0, 0, event_key_keysym_set_sym);
-  scm_c_define_gsubr ("sdl-event:key:keysym:set-mod!", 2, 0, 0, event_key_keysym_set_mod);
-  scm_c_define_gsubr ("sdl-event:key:keysym:set-scancode!", 2, 0, 0, event_key_keysym_set_scancode);
-  scm_c_define_gsubr ("sdl-event:key:keysym:set-unicode!", 2, 0, 0, event_key_keysym_set_unicode);
-  scm_c_define_gsubr ("sdl-event:motion:set-state!", 2, 0, 0, event_motion_set_state);
-  scm_c_define_gsubr ("sdl-event:motion:set-x!", 2, 0, 0, event_motion_set_x);
-  scm_c_define_gsubr ("sdl-event:motion:set-y!", 2, 0, 0, event_motion_set_y);
-  scm_c_define_gsubr ("sdl-event:motion:set-xrel!", 2, 0, 0, event_motion_set_xrel);
-  scm_c_define_gsubr ("sdl-event:motion:set-yrel!", 2, 0, 0, event_motion_set_yrel);
-  scm_c_define_gsubr ("sdl-event:button:set-button!", 2, 0, 0, event_button_set_button);
-  scm_c_define_gsubr ("sdl-event:button:set-state!", 2, 0, 0, event_button_set_state);
-  scm_c_define_gsubr ("sdl-event:button:set-x!", 2, 0, 0, event_button_set_x);
-  scm_c_define_gsubr ("sdl-event:button:set-y!", 2, 0, 0, event_button_set_y);
-/*   scm_c_define_gsubr ("sdl-event:jaxis:which", 1, 0, 0, event_jaxis_which); */
-/*   scm_c_define_gsubr ("sdl-event:jaxis:axis", 1, 0, 0, event_jaxis_axis); */
-/*   scm_c_define_gsubr ("sdl-event:jaxis:value", 1, 0, 0, event_jaxis_value); */
-/*   scm_c_define_gsubr ("sdl-event:jbutton:which", 1, 0, 0, event_jbutton_which); */
-/*   scm_c_define_gsubr ("sdl-event:jbutton:button", 1, 0, 0, event_jbutton_button); */
-/*   scm_c_define_gsubr ("sdl-event:jbutton:state", 1, 0, 0, event_jbutton_state); */
-/*   scm_c_define_gsubr ("sdl-event:jball:which", 1, 0, 0, event_jball_which); */
-/*   scm_c_define_gsubr ("sdl-event:jball:ball", 1, 0, 0, event_jball_ball); */
-/*   scm_c_define_gsubr ("sdl-event:jball:xrel", 1, 0, 0, event_jball_xrel); */
-/*   scm_c_define_gsubr ("sdl-event:jball:yrel", 1, 0, 0, event_jball_yrel); */
-/*   scm_c_define_gsubr ("sdl-event:jhat:which", 1, 0, 0, event_jhat_which); */
-/*   scm_c_define_gsubr ("sdl-event:jhat:hat", 1, 0, 0, event_jhat_hat); */
-/*   scm_c_define_gsubr ("sdl-event:jhat:value", 1, 0, 0, event_jhat_value); */
-/*   scm_c_define_gsubr ("sdl-event:resize:w", 1, 0, 0, event_resize_w); */
-/*   scm_c_define_gsubr ("sdl-event:resize:h", 1, 0, 0, event_resize_h); */
-/*    scm_c_define_gsubr ("sdl-event:user:code", 1, 0, 0, event_user_code); */
-/* /\*    scm_c_define_gsubr ("sdl-event:user:data1", 1, 0, 0, event_user_data1); *\/ */
-/* /\*    scm_c_define_gsubr ("sdl-event:user:data2", 1, 0, 0, event_user_data2); *\/ */
-/*    scm_c_define_gsubr ("sdl-keysym:scancode", 1, 0, 0, keysym_scancode); */
-/*    scm_c_define_gsubr ("sdl-keysym:sym", 1, 0, 0, keysym_sym); */
-/*    scm_c_define_gsubr ("sdl-keysym:mod", 1, 0, 0, keysym_mod); */
-/*    scm_c_define_gsubr ("sdl-keysym:unicode", 1, 0, 0, keysym_unicode); */
-
-  /* exported symbols */
-  scm_c_export (
-    /* enums */
-    "sdl-event-types", "sdl-event-keys", "sdl-event-states",
-    "sdl-mod-flags",
-    /* smob getters */
-    "sdl-event:type",                "sdl-event:active:gain",
-    "sdl-event:active:state",        "sdl-event:key:state",
-    "sdl-event:key:keysym:sym",      "sdl-event:key:keysym:mod",
-    "sdl-event:key:keysym:scancode", "sdl-event:key:keysym:unicode",
-    "sdl-event:motion:state",        "sdl-event:motion:x",
-    "sdl-event:motion:y",            "sdl-event:motion:xrel",
-    "sdl-event:motion:yrel",         "sdl-event:button:button",
-    "sdl-event:button:state",        "sdl-event:button:x",
-    "sdl-event:button:y",            "sdl-event:jaxis:which",
-    "sdl-event:jaxis:axis",          "sdl-event:jaxis:value",
-    "sdl-event:jbutton:which",       "sdl-event:jbutton:button",
-    "sdl-event:jbutton:state",       "sdl-event:jball:which",
-    "sdl-event:jball:ball",          "sdl-event:jball:xrel",
-    "sdl-event:jball:yrel",          "sdl-event:jhat:which",
-    "sdl-event:jhat:hat",            "sdl-event:jhat:value",
-    "sdl-event:resize:w",            "sdl-event:resize:h",
-    "sdl-event:set-type!",                "sdl-event:active:set-gain!",
-    "sdl-event:active:set-state!",        "sdl-event:key:set-state!",
-    "sdl-event:key:keysym:set-sym!",      "sdl-event:key:keysym:set-mod!",
-    "sdl-event:key:keysym:set-scancode!", "sdl-event:key:keysym:set-unicode!",
-    "sdl-event:motion:set-state!",        "sdl-event:motion:set-x!",
-    "sdl-event:motion:set-y!",            "sdl-event:motion:set-xrel!",
-    "sdl-event:motion:set-yrel!",         "sdl-event:button:set-button!",
-    "sdl-event:button:set-state!",        "sdl-event:button:set-x!",
-    "sdl-event:button:set-y!",            "sdl-event:jaxis:set-which!",
-    "sdl-event:jaxis:set-axis!",          "sdl-event:jaxis:set-value!",
-    "sdl-event:jbutton:set-which!",       "sdl-event:jbutton:set-button!",
-    "sdl-event:jbutton:set-state!",       "sdl-event:jball:set-which!",
-    "sdl-event:jball:set-ball!",          "sdl-event:jball:set-xrel!",
-    "sdl-event:jball:set-yrel!",          "sdl-event:jhat:set-which!",
-    "sdl-event:jhat:set-hat!",            "sdl-event:jhat:set-value!",
-    "sdl-event:resize:set-w!",            "sdl-event:resize:set-h!",
-/*       "sdl-event:user:code",           "sdl-event:user:data1", */
-/*       "sdl-event:user:data2",          "sdl-keysym:scancode", */
-/*       "sdl-keysym:sym",                "sdl-keysym:mod", */
-/*       "sdl-keysym:unicode", */
-    /* event functions */
-    "sdl-make-event",  "sdl-make-keysym",  "sdl-poll-event",  "sdl-wait-event",
-    "sdl-push-event",
-    /* keyboard functions */
-    "sdl-enable-unicode",    "sdl-enable-key-repeat",     "sdl-get-key-state",
-    "sdl-get-mod-state",     "sdl-set-mod-state",
-    /* mouse functions */
-    "sdl-get-mouse-state",   "sdl-get-relative-mouse-state", "sdl-button?",
-    NULL);
+#include "sdlevent.x"
 }
 
+/* sdlevent.c ends here */
