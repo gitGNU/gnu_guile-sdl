@@ -1,12 +1,17 @@
 ## am/fspec --- mining flags out of headers to generate glue
 
+if MAINTAINER_MODE
+
 fspec2c = guile-tools fspec2c
 
 .fspec.c:
 	$(fspec2c) -o $@ $<
 
 ## var significant to automake
+EXTRA_DIST += $(FLAGSTASH:.c=.fspec)
 SUFFIXES += .fspec
+
+endif ## MAINTAINER_MODE
 
 ## Local variables:
 ## mode: makefile
