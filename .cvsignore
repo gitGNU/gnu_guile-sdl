@@ -3,4 +3,7 @@
 .deps
 .libs
 Makefile
+Makefile
+config.cache
+config.log
 guile-sdl
