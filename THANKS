@@ -9,3 +9,5 @@ Thanks to:
 
   Alex Shinn, Vikram Subramanian, and Joel Smith, for writing guile-sdl
   in the first place, and for passing it on to maintainers w/ more time.
+
+  Paolo Bonzini, for libtool help.
