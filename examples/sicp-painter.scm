@@ -5,7 +5,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 ;; SICP Picture Language Example
 ;;
 ;; Created:    <2001-06-24 16:36:53 foof>
-;; Time-stamp: <2005-01-05 14:55:28 ttn>
+;; Time-stamp: <2005-01-05 14:56:19 ttn>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
@@ -103,7 +103,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
        (h (SDL:surface:h painter))
        (depth (SDL:surface:depth painter))
        (e (SDL:make-event 'SDL_USEREVENT))
-       (i 1))
+       (i 0))
   (SDL:set-video-mode w h depth)
   (SDL:blit-surface (corner-split painter i))
   (SDL:flip)
