@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-30 01:18:48 foof>                         *
+ *  Time-stamp: <2001-07-04 02:09:37 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -1156,14 +1156,14 @@ void
 sdl_init_video (void)
 {
    /* smobs */
-   surface_tag   = scm_make_smob_type ("surface", sizeof (SDL_Surface));
-   rect_tag      = scm_make_smob_type ("rect", sizeof (SDL_Rect));
-   color_tag     = scm_make_smob_type ("color", sizeof (SDL_Color));
-   cursor_tag    = scm_make_smob_type ("cursor", sizeof (SDL_Cursor));
-   palette_tag   = scm_make_smob_type ("palette", sizeof (SDL_Palette));
-   pixel_format_tag = scm_make_smob_type ("pixel-format", sizeof (SDL_PixelFormat));
-   overlay_tag   = scm_make_smob_type ("overlay", sizeof (SDL_Overlay));
-   video_info_tag = scm_make_smob_type ("video-info", sizeof (SDL_VideoInfo));
+   surface_tag   = scm_make_smob_type ("SDL-Surface", sizeof (SDL_Surface));
+   rect_tag      = scm_make_smob_type ("SDL-Rect", sizeof (SDL_Rect));
+   color_tag     = scm_make_smob_type ("SDL-Color", sizeof (SDL_Color));
+   cursor_tag    = scm_make_smob_type ("SDL-Cursor", sizeof (SDL_Cursor));
+   palette_tag   = scm_make_smob_type ("SDL-Palette", sizeof (SDL_Palette));
+   pixel_format_tag = scm_make_smob_type ("SDL-Pixel-Format", sizeof (SDL_PixelFormat));
+   overlay_tag   = scm_make_smob_type ("SDL-Overlay", sizeof (SDL_Overlay));
+   video_info_tag = scm_make_smob_type ("SDL-Video-Info", sizeof (SDL_VideoInfo));
 
    scm_set_smob_free (surface_tag, free_surface);
    scm_set_smob_free (rect_tag, free_rect);
