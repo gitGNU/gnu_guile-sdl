@@ -4,7 +4,7 @@
 ;; simple rectangle test
 ;; 
 ;; Created:    <2001-06-02 21:47:41 foof>
-;; Time-stamp: <2001-06-18 02:42:08 foof>
+;; Time-stamp: <2001-06-18 20:15:12 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl))
@@ -37,16 +37,16 @@
 (sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 16 1)
 
 ;; draw some rectangles filled with random colors
-(do ((i 0 (1+ i)))
-    ((> i 10))
- (let ((c (random #xffffff)))
-   (sdl-with-clip-rect (rand-rect test-rect)
-     (let ((surface (sdl-make-surface (sdl-rect:w test-rect)
-                                      (sdl-rect:h test-rect))))
-       (sdl-fill-rect surface test-rect c)
-       (sdl-blit-surface surface)
-       (sdl-flip)
-       (sdl-delay 100)))))
+(let ((src-rect (sdl-make-surface (sdl-rect:w test-rect)
+                                  (sdl-rect:h test-rect))))
+  (do ((i 0 (1+ i)))
+      ((> i 10))
+    (let ((c (random #xffffff)))
+      (sdl-with-clip-rect (rand-rect test-rect)
+        (sdl-fill-rect src-rect test-rect c)
+        (sdl-blit-surface src-rect)
+        (sdl-flip)
+        (sdl-delay 100)))))
 
 ;; quit SDL
 (sdl-quit)
