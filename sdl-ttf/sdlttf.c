@@ -44,7 +44,7 @@ GH_DEFPROC (get_ttf_flags, "flagstash:ttf", 0, 0, 0, (void),
 }
 
 
-/* smob tags */
+/* Smob tags.  */
 static long ttf_font_tag;
 
 #define ASSERT_TTFONT(obj,which) \
@@ -283,14 +283,15 @@ GH_DEFPROC (ttf_render_text, "render-text", 3, 1, 0,
 
   UNBOUND_MEANS_FALSE (s_bg);
 
-  if (EXACTLY_FALSEP (s_bg)) {
+  if (EXACTLY_FALSEP (s_bg))
     surface = TTF_RenderText_Solid (font, text, *fg);
-  } else if (EXACTLY_TRUEP (s_bg)) {
+  else if (EXACTLY_TRUEP (s_bg))
     surface = TTF_RenderText_Blended (font, text, *fg);
-  } else {
-    ASSERT_COLOR (s_bg, ARGH4);
-    surface = TTF_RenderText_Shaded (font, text, *fg, *(UNPACK_COLOR (s_bg)));
-  }
+  else
+    {
+      ASSERT_COLOR (s_bg, ARGH4);
+      surface = TTF_RenderText_Shaded (font, text, *fg, *(UNPACK_COLOR (s_bg)));
+    }
 
   RETURN_NEW_SURFACE (surface);
 }
@@ -321,14 +322,15 @@ GH_DEFPROC (ttf_render_utf8, "render-utf8", 3, 1, 0,
 
   UNBOUND_MEANS_FALSE (s_bg);
 
-  if (EXACTLY_FALSEP (s_bg)) {
+  if (EXACTLY_FALSEP (s_bg))
     surface = TTF_RenderUTF8_Solid (font, text, *fg);
-  } else if (EXACTLY_TRUEP (s_bg)) {
+  else if (EXACTLY_TRUEP (s_bg))
     surface = TTF_RenderUTF8_Blended (font, text, *fg);
-  } else {
-    ASSERT_COLOR (s_bg, ARGH4);
-    surface = TTF_RenderUTF8_Shaded (font, text, *fg, *(UNPACK_COLOR (s_bg)));
-  }
+  else
+    {
+      ASSERT_COLOR (s_bg, ARGH4);
+      surface = TTF_RenderUTF8_Shaded (font, text, *fg, *(UNPACK_COLOR (s_bg)));
+    }
 
   RETURN_NEW_SURFACE (surface);
 }
@@ -359,14 +361,15 @@ GH_DEFPROC (ttf_render_glyph, "render-glyph", 3, 1, 0,
 
   UNBOUND_MEANS_FALSE (s_bg);
 
-  if (EXACTLY_FALSEP (s_bg)) {
+  if (EXACTLY_FALSEP (s_bg))
     surface = TTF_RenderGlyph_Solid (font, ch, *fg);
-  } else if (EXACTLY_TRUEP (s_bg)) {
+  else if (EXACTLY_TRUEP (s_bg))
     surface = TTF_RenderGlyph_Blended (font, ch, *fg);
-  } else {
-    ASSERT_COLOR (s_bg, ARGH4);
-    surface = TTF_RenderGlyph_Shaded (font, ch, *fg, *(UNPACK_COLOR (s_bg)));
-  }
+  else
+    {
+      ASSERT_COLOR (s_bg, ARGH4);
+      surface = TTF_RenderGlyph_Shaded (font, ch, *fg, *(UNPACK_COLOR (s_bg)));
+    }
 
   RETURN_NEW_SURFACE (surface);
 }
@@ -385,19 +388,18 @@ GH_DEFPROC (ttf_quit, "ttf-quit", 0, 0, 0,
 
 
 
+/* Initialize the ttf subsystem.  */
+
 extern flagstash_t gsdl_ttf_flagstash;
 
-/* initialize the ttf subsystem */
 static
 void
 init_module (void)
 {
-  /* smobs */
   ttf_font_tag = scm_make_smob_type ("font", sizeof (struct TTF_Font*));
   scm_set_smob_mark (ttf_font_tag, mark_font);
   scm_set_smob_free (ttf_font_tag, free_font);
 
-  /* init flags */
   ttf_flags = gsdl_make_flagstash (&gsdl_ttf_flagstash);
 
 #include "sdlttf.x"
