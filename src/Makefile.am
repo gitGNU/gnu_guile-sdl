@@ -2,39 +2,33 @@
 
 AUTOMAKE_OPTIONS = gnu
 
-AM_CPPFLAGS = -I../include/ -ISDL_gfxPrimitives/ -ISDL_rotozoom/
+AM_CPPFLAGS = -I.. -I. -I$(srcdir) -I$(top_srcdir)/include \
+  -I$(top_srcdir)/sdl-gfx/SDL_gfxPrimitives \
+  -I$(srcdir)/SDL_rotozoom
 
 SUBDIRS = SDL_rotozoom
 
-lib_LTLIBRARIES = libguileSDL.la
+cmoddir = $(guilelibsitedir)/sdl
+cmod_LTLIBRARIES = sdl-sup.la
 
 WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
-                  sdlenums.c sdlroto.c
-BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x)
+                  sdlenums.c sdlroto.c sdlgfx.c
+FLAGSTASH       = initf.c kmodf.c videof.c palettef.c overlayf.c
+BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH)
 BUILT_DOCS      = $(WRAPPER_SOURCES:.c=.texi)
 
-libguileSDL_la_SOURCES = $(BUILT_SOURCES) $(WRAPPER_SOURCES)
-
-libguileSDL_la_CFLAGS  = $(CFLAGS)
-
-libguileSDL_la_LIBADD  =  SDL_rotozoom/librotozoom.la
-
-libguileSDL_la_LDFLAGS =             \
-        -release $(LT_RELEASE)  \
-        -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
-
-libguileSDL_la_DEPENDENCIES = sdl.texi sdlevent.texi sdlroto.texi \
-			      sdlsurface.texi sdlvideo.texi sdlcdrom.texi \
-		  	      sdljoystick.texi
+sdl_sup_la_SOURCES = $(BUILT_SOURCES) $(WRAPPER_SOURCES)
+sdl_sup_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module \
+	-LSDL_rotozoom -lrotozoom
 
 # snarfing
-GUILE_SNARF = guile-snarf
+SUFFIXES = .x .texi .doc .fspec
+.c.x:
+	pre-inst-$(c2x) -o $@ $< $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS)
 
-SUFFIXES = .x .texi .doc
-%.x: %.c
-	$(GUILE_SNARF) $< $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS) > $@ \
-	|| { rm $@; false; }
+.fspec.c:
+	pre-inst-guile-tools fspec2c -o $@ $<
 
 DISTCLEANFILES = *.x
 
@@ -51,3 +45,5 @@ GUILE_SNARF_DOCS_TEXI = snarf-check-and-output-texi
 	touch $@
 #	cat $< | $(GUILE_SNARF_DOCS_TEXI) > $@ \
 #	|| { rm $@; false; }
+
+# Makefile.am ends here
