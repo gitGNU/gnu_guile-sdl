@@ -46,6 +46,11 @@ AH_BOTTOM([
 
 GUILE_SITE_DIR
 GUILE_LIBSITE_DIR
+## check for and work around guile 1.4.1.97 bug (sigh)
+case "$GUILE_LIBSITE" in
+  */site) ;;
+  *) GUILE_LIBSITE=${GUILE_LIBSITE}/site ;;
+esac
 
 ##----------------------------------------------------------------------------
 ##: MATHLIB
