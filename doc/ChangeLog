@@ -1,5 +1,15 @@
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* ef-ref.twerp: New file.
+
+	* guile-sdl.texi (Enums and Constants): Mention `flagstash-flags'.
+	Add @include ef-ref.texi.
+
+	* Makefile.am (BUILT_SOURCES): Add ef-ref.texi.
+	(EXTRA_DIST): New directive.
+
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* cov: New file.
 
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
