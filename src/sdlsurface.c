@@ -476,7 +476,7 @@ SCM_DEFINE( sdl_blit_surface, "sdl-blit-surface", 1, 3, 0,
     SCM_ASSERT_SMOB (s_dstrect, rect_tag, SCM_ARG4, "sdl-blit-surface");
     dstrect = (SDL_Rect *) SCM_SMOB_DATA (s_dstrect);
   } else {
-    dstrect = &default_rect;
+    dstrect = srcrect;
   }
 
   return scm_long2num (SDL_BlitSurface (src, srcrect, dst, dstrect));
