@@ -1,11 +1,8 @@
 /*******************************************************************
- *  mixer.c -- SDL_mixer for Guile                                 *
+ *  sdlmixer.c -- SDL_mixer for Guile                              *
  *                                                                 *
  *  Created:    <2001-06-10 16:45:57 foof>                         *
- *  Time-stamp: <2001-06-25 00:50:03 foof>                         *
- *  Author:     Alex Shinn <foof@debian.org>                       *
- *                                                                 *
- *  Copyright (C) 2001 Alex Shinn                                  *
+ *  Time-stamp: <2001-08-05 14:19:02 foof>                         *
  *                                                                 *
  *  This program is free software; you can redistribute it and/or  *
  * modify it under the terms of the GNU General Public License as  *
@@ -48,9 +45,14 @@ free_audio (SCM s_chunk)
    return sizeof (Mix_Chunk);
 }
 
-/* Open the mixer with a certain audio format */
-SCM
-mix_open_audio (SCM s_freq, SCM s_format, SCM s_stereo, SCM s_chunksize)
+
+SCM_DEFINE( mix_open_audio, "sdl-open-audio", 0, 4, 0,
+            (SCM s_freq,
+             SCM s_format,
+             SCM s_stereo,
+             SCM s_chunksize),
+"Open the mixer with a certain audio format.")
+#define FUNC_NAME s_mix_open_audio
 {
    int freq = MIX_DEFAULT_FREQUENCY;
    Uint16 format = MIX_DEFAULT_FORMAT;
@@ -84,14 +86,15 @@ mix_open_audio (SCM s_freq, SCM s_format, SCM s_stereo, SCM s_chunksize)
    return (Mix_OpenAudio (freq, MIX_DEFAULT_FORMAT, channels, 1024) == 0)
       ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-/* Dynamically change the number of channels managed by the mixer.
-   If decreasing the number of channels, the upper channels are
-   stopped.
-   This function returns the new number of allocated channels.
- */
-SCM
-mix_allocate_channels (SCM s_numchans)
+
+SCM_DEFINE( mix_allocate_channels, "sdl-allocated-channels", 1, 0, 0,
+            (SCM s_numchans),
+"Dynamically change the number of channels managed by the mixer.
+If decreasing the number of channels, the upper channels are stopped.
+This function returns the new number of allocated channels.")
+#define FUNC_NAME s_mix_allocate_channels
 {
    int numchans;
 
@@ -100,41 +103,54 @@ mix_allocate_channels (SCM s_numchans)
 
    return scm_long2num (Mix_AllocateChannels (numchans));
 }
+#undef FUNC_NAME
 
-/* Find out what the actual audio device parameters are.
-   This function returns 1 if the audio has been opened, 0 otherwise.
- */
-SCM
-mix_query_spec (void)
+
+SCM_DEFINE( mix_query_spec, "sdl-query-spec", 0, 0, 0,
+            (),
+"Find out what the actual audio device parameters are.
+If the audio has not been opened, returns #f.  Otherwise returns the
+audio parameters as an alist with the keys 'freq (frequency), 'format,
+and 'channels (the number of allocated channels).")
+#define FUNC_NAME s_mix_query_spec
 {
-   int freq, channels;
-   Uint16 format;
+  int freq, channels;
+  Uint16 format;
 
-   if (! Mix_QuerySpec (&freq, &format, &channels)) {
-      return SCM_BOOL_F;
-   }
+  if (! Mix_QuerySpec (&freq, &format, &channels)) {
+    return SCM_BOOL_F;
+  }
 
-   return SCM_LIST3 (scm_long2num (freq),
-                     scm_long2num (format),
-                     scm_long2num (channels));
+  return SCM_LIST3 (scm_cons (scm_str2symbol ("freq"),
+                              scm_long2num (freq)),
+                    scm_cons (scm_str2symbol ("format"),
+                              scm_long2num (format)),
+                    scm_cons (scm_str2symbol ("channels"),
+                              scm_long2num (channels)));
 }
+#undef FUNC_NAME
 
-/* Load a wave file or a music (.mod .s3m .it .xm) file */
-SCM
-mix_load_music (SCM file)
+
+SCM_DEFINE (mix_load_music, "sdl-load-music", 1, 0, 0,
+            (SCM file),
+"Load a wave file or a music (.mod .s3m .it .xm) file.")
+#define FUNC_NAME s_mix_load_music
 {
-   Mix_Music *music;
+  Mix_Music *music;
 
-   SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
-               file, SCM_ARG1, "sdl-load-music");
+  SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
+              file, SCM_ARG1, "sdl-load-music");
 
-   music = Mix_LoadMUS (SCM_CHARS (file));
-   SCM_RETURN_NEWSMOB (mix_music_tag, music);
+  music = Mix_LoadMUS (SCM_CHARS (file));
+  SCM_RETURN_NEWSMOB (mix_music_tag, music);
 }
+#undef FUNC_NAME
 
-/* Load a wave file */
-SCM
-mix_load_wave (SCM file)
+
+SCM_DEFINE (mix_load_wave, "sdl-load-wave", 1, 0, 0,
+            (SCM file),
+"Load a wave file.")
+#define FUNC_NAME s_mix_load_wave
 {
    Mix_Chunk *chunk;
 
@@ -144,30 +160,31 @@ mix_load_wave (SCM file)
    chunk = Mix_LoadWAV (SCM_CHARS (file));
    SCM_RETURN_NEWSMOB (mix_audio_tag, chunk);
 }
+#undef FUNC_NAME
 
-/* Free an audio chunk previously loaded */
-/* extern DECLSPEC void Mix_FreeChunk(Mix_Chunk *chunk); */
-/* extern DECLSPEC void Mix_FreeMusic(Mix_Music *music); */
 
-/* Reserve the first channels (0 -> n-1) for the application, i.e. don't allocate
-   them dynamically to the next sample if requested with a -1 value below.
-   Returns the number of reserved channels.
- */
-SCM
-mix_reserve_channels (SCM num)
+SCM_DEFINE (mix_reserve_channels, "sdl-reserve-channels", 1, 0, 0,
+            (SCM num),
+"Reserve the first channels (0 -> num-1) for the application.
+I.E. don't allocate them dynamically to the next sample if requested
+with a -1 value below.  Returns the number of reserved channels.")
+#define FUNC_NAME s_mix_reserve_channels
 {
    SCM_ASSERT (scm_exact_p (num),  num,  SCM_ARG1, "sdl-reserve-channels");
    return scm_long2num (Mix_ReserveChannels (scm_num2long (num, SCM_ARG1, "scm_num2long")));
 }
+#undef FUNC_NAME
 
-/* Attach a tag to a channel. A tag can be assigned to several mixer
-   channels, to form groups of channels.
-   If 'tag' is -1, the tag is removed (actually -1 is the tag used to
-   represent the group of all the channels).
-   Returns true if everything was OK.
- */
-SCM
-mix_group_channel (SCM s_which, SCM s_tag)
+
+SCM_DEFINE (mix_group_channel, "sdl-group-channel", 1, 1, 0,
+            (SCM s_which,
+             SCM s_tag),
+"Attach a tag to a channel.
+A tag can be assigned to several mixer channels, to form groups of
+channels.  If 'tag' is not specified, or is -1, the tag is removed
+(actually -1 is the tag used to represent the group of all the
+channels).  Returns #t if everything was OK.")
+#define FUNC_NAME s_mix_group_channel
 {
    int which, tag=-1;
 
@@ -181,10 +198,15 @@ mix_group_channel (SCM s_which, SCM s_tag)
 
    return Mix_GroupChannel (which, tag) ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-/* Assign several consecutive channels to a group */
-SCM
-mix_group_channels (SCM s_from, SCM s_to, SCM s_tag)
+
+SCM_DEFINE (mix_group_channels, "sdl-group-channels", 2, 1, 0,
+            (SCM s_from,
+             SCM s_to,
+             SCM s_tag),
+"Assign several consecutive channels to a group.")
+#define FUNC_NAME s_mix_group_channels
 {
    int from, to, tag=-1;
 
@@ -201,10 +223,13 @@ mix_group_channels (SCM s_from, SCM s_to, SCM s_tag)
 
    return Mix_GroupChannels (from, to, tag) ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-/* Finds the first available channel in a group of channels */
-SCM
-mix_group_available (SCM s_tag)
+
+SCM_DEFINE (mix_group_available, "sdl-group-available", 0, 1, 0,
+            (SCM s_tag),
+"Finds the first available channel in a group of channels.")
+#define FUNC_NAME s_mix_group_available
 {
    int tag;
 
@@ -215,12 +240,15 @@ mix_group_available (SCM s_tag)
 
    return scm_long2num (Mix_GroupAvailable (tag));
 }
+#undef FUNC_NAME
 
-/* Returns the number of channels in a group. This is also a subtle
-   way to get the total number of channels when 'tag' is -1
- */
-SCM
-mix_group_count (SCM s_tag)
+
+SCM_DEFINE (mix_group_count, "sdl-group-count", 0, 1, 0,
+            (SCM s_tag),
+"Returns the number of channels in a group.
+This is also a subtle way to get the total number of channels when
+'tag' is not given or is -1.")
+#define FUNC_NAME s_mix_group_count
 {
    int tag;
 
@@ -231,10 +259,13 @@ mix_group_count (SCM s_tag)
 
    return scm_long2num (Mix_GroupCount (tag));
 }
+#undef FUNC_NAME
 
-/* Finds the "oldest" sample playing in a group of channels */
-SCM
-mix_group_oldest (SCM s_tag)
+
+SCM_DEFINE (mix_group_oldest, "sdl-group-oldest", 0, 1, 0,
+            (SCM s_tag),
+"Finds the 'oldest' sample playing in a group of channels.")
+#define FUNC_NAME s_mix_group_oldest
 {
    int tag;
 
@@ -245,10 +276,13 @@ mix_group_oldest (SCM s_tag)
 
    return scm_long2num (Mix_GroupOldest (tag));
 }
+#undef FUNC_NAME
 
-/* Finds the "most recent" (i.e. last) sample playing in a group of channels */
-SCM
-mix_group_newer (SCM s_tag)
+
+SCM_DEFINE (mix_group_newer, "sdl-group-newer", 0, 1, 0,
+            (SCM s_tag),
+"Finds the 'most recent' (i.e. last) sample playing in a group of channels.")
+#define FUNC_NAME s_mix_group_newer
 {
    int tag;
 
@@ -259,16 +293,23 @@ mix_group_newer (SCM s_tag)
 
    return scm_long2num (Mix_GroupNewer (tag));
 }
+#undef FUNC_NAME
 
-/* Play an audio chunk on a specific channel.
-   If the specified channel is -1, play on the first free channel.
-   If 'loops' is greater than zero, loop the sound that many times.
-   If 'loops' is -1, loop inifinitely (~65000 times).
-   Returns which channel was used to play the sound.
-*/
-SCM
-mix_play_channel (SCM s_chunk, SCM s_channel, SCM s_loops,
-                  SCM s_ticks, SCM s_fade)
+
+SCM_DEFINE (mix_play_channel, "sdl-play-channel", 1, 4, 0,
+            (SCM s_chunk,
+             SCM s_channel,
+             SCM s_loops,
+             SCM s_ticks,
+             SCM s_fade),
+"Play an audio chunk on a specific channel.
+If the channel is unspecified or is -1, play on the first free
+channel.  If 'loops' is specified and greater than zero, loop the
+sound that many times.  If 'loops' is -1, loop inifinitely (~65000
+times).  If 'ticks' is specified, stop after that number of ticks.  If
+'fade' is specified, fade in over that number of milliseconds.
+Returns which channel was used to play the sound.")
+#define FUNC_NAME s_mix_play_channel
 {
    int channel=-1;
    Mix_Chunk *chunk;
@@ -304,9 +345,16 @@ mix_play_channel (SCM s_chunk, SCM s_channel, SCM s_loops,
       return scm_long2num (Mix_FadeInChannelTimed (channel, chunk, loops, fade, ticks));
    }
 }
+#undef FUNC_NAME
 
-SCM
-mix_play_music (SCM s_music, SCM s_loops, SCM s_fade)
+
+SCM_DEFINE (mix_play_music, "sdl-play-music", 1, 2, 0,
+            (SCM s_music,
+             SCM s_loops,
+             SCM s_fade),
+"Play a music track.
+Loops and fade are as in sdl-play-channel.")
+#define FUNC_NAME s_mix_play_music
 {
    Mix_Music *music;
    int loops=0;
@@ -330,14 +378,17 @@ mix_play_music (SCM s_music, SCM s_loops, SCM s_fade)
       return scm_long2num (Mix_FadeInMusic (music, loops, fade));
    }
 }
+#undef FUNC_NAME
 
-/* Set the volume in the range of 0-128 of a specific channel or chunk.
-   If the specified channel is -1, set volume for all channels.
-   Returns the original volume.
-   If the specified volume is -1, just return the current volume.
-*/
-SCM
-mix_volume (SCM s_volume, SCM s_which)
+
+SCM_DEFINE (mix_volume, "sdl-volume", 0, 2, 0,
+            (SCM s_volume,
+             SCM s_which),
+"Set the volume in the range of 0-128 of a specific channel or chunk.
+If the channel is unspecified or is -1, set volume for all channels.
+Returns the original volume.
+If the volume is unspecified or is -1, just return the current volume.")
+#define FUNC_NAME s_mix_volume
 {
    int volume=-1;
    int channel=-1;
@@ -362,9 +413,14 @@ mix_volume (SCM s_volume, SCM s_which)
       return scm_long2num (Mix_VolumeChunk (chunk, volume));
    }
 }
+#undef FUNC_NAME
 
-SCM
-mix_volume_music (SCM s_volume)
+
+SCM_DEFINE (mix_volume_music, "sdl-music-volume", 0, 1, 0,
+            (SCM s_volume),
+"Set the volume in the range of 0-128 for the music.
+If the volume is unspecified or is -1, just return the current volume.")
+#define FUNC_NAME s_mix_volume_music
 {
    int volume=-1;
 
@@ -375,10 +431,13 @@ mix_volume_music (SCM s_volume)
 
    return scm_long2num (Mix_VolumeMusic (volume));
 }
+#undef FUNC_NAME
 
-/* Halt playing of a particular channel */
-SCM
-mix_halt_channel (SCM s_channel)
+
+SCM_DEFINE (mix_halt_channel, "sdl-halt-channel", 0, 1, 0,
+            (SCM s_channel),
+"Halt playing of a particular channel.")
+#define FUNC_NAME s_mix_halt_channel
 {
    int channel=-1;
 
@@ -389,9 +448,13 @@ mix_halt_channel (SCM s_channel)
 
    return scm_long2num (Mix_HaltChannel (channel));
 }
+#undef FUNC_NAME
 
-SCM
-mix_halt_group (SCM s_tag)
+
+SCM_DEFINE (mix_halt_group, "sdl-halt-group", 0, 1, 0,
+            (SCM s_tag),
+"Halt playing of a particular group.")
+#define FUNC_NAME s_mix_halt_group
 {
    int tag=-1;
 
@@ -402,19 +465,26 @@ mix_halt_group (SCM s_tag)
 
    return scm_long2num (Mix_HaltGroup (tag));
 }
+#undef FUNC_NAME
 
-SCM
-mix_halt_music (void)
+
+SCM_DEFINE (mix_halt_music, "sdl-halt-music", 0, 0, 0,
+            (),
+"Halt playing of the music.")
+#define FUNC_NAME s_mix_halt_music
 {
    return scm_long2num (Mix_HaltMusic ());
 }
+#undef FUNC_NAME
 
-/* Change the expiration delay for a particular channel.
-   The sample will stop playing after the 'ticks' milliseconds have elapsed,
-   or remove the expiration if 'ticks' is -1
-*/
-SCM
-mix_expire_channel (SCM s_channel, SCM s_ticks)
+
+SCM_DEFINE (mix_expire_channel, "sdl-expire-channel", 0, 2, 0,
+            (SCM s_channel,
+             SCM s_ticks),
+"Change the expiration delay for a particular channel.
+The sample will stop playing after the 'ticks' milliseconds have
+elapsed, or remove the expiration if 'ticks' is -1")
+#define FUNC_NAME s_mix_expire_channel
 {
    int channel=-1;
    int ticks=-1;
@@ -431,13 +501,16 @@ mix_expire_channel (SCM s_channel, SCM s_ticks)
 
    return scm_long2num (Mix_ExpireChannel (channel, ticks));
 }
+#undef FUNC_NAME
 
-/* Halt a channel, fading it out progressively till it's silent
-   The ms parameter indicates the number of milliseconds the fading
-   will take.
- */
-SCM
-mix_fade_out_channel (SCM s_which, SCM s_ms)
+
+SCM_DEFINE (mix_fade_out_channel, "sdl-fade-out-channel", 0, 2, 0,
+            (SCM s_which,
+             SCM s_ms),
+"Halt a channel, fading it out progressively till it's silent.
+The ms parameter indicates the number of milliseconds the fading will
+take (default 0).")
+#define FUNC_NAME s_mix_fade_out_channel
 {
    int channel=-1;
    int ms=0;
@@ -454,9 +527,16 @@ mix_fade_out_channel (SCM s_which, SCM s_ms)
 
    return scm_long2num (Mix_FadeOutChannel (channel, ms));
 }
+#undef FUNC_NAME
 
-SCM
-mix_fade_out_group (SCM s_tag, SCM s_ms)
+
+SCM_DEFINE (mix_fade_out_group, "sdl-fade-out-group", 0, 2, 0,
+            (SCM s_tag,
+             SCM s_ms),
+"Halt a group, fading it out progressively till it's silent.
+The ms parameter indicates the number of milliseconds the fading will
+take (default 0).")
+#define FUNC_NAME s_mix_fade_out_group
 {
    int tag=-1;
    int ms=0;
@@ -473,9 +553,15 @@ mix_fade_out_group (SCM s_tag, SCM s_ms)
 
    return scm_long2num (Mix_FadeOutGroup (tag, ms));
 }
+#undef FUNC_NAME
 
-SCM
-mix_fade_out_music (SCM s_ms)
+
+SCM_DEFINE (mix_fade_out_music, "sdl-fade-out-music", 0, 1, 0,
+            (SCM s_ms),
+"Halt the music, fading it out progressively till it's silent.
+The ms parameter indicates the number of milliseconds the fading will
+take (default 0).")
+#define FUNC_NAME s_mix_fade_out_music
 {
    int ms=0;
 
@@ -486,16 +572,22 @@ mix_fade_out_music (SCM s_ms)
 
    return scm_long2num (Mix_FadeOutMusic (ms));
 }
+#undef FUNC_NAME
 
-/* Query the fading status of a channel */
-SCM
-mix_fading_music (void)
+
+SCM_DEFINE (mix_fading_music, "sdl-fading-music", 0, 0, 0,
+            (),
+"Query the fading status of the music.")
+#define FUNC_NAME s_mix_fading_music
 {
    return scm_long2num (Mix_FadingMusic ());
 }
 
-SCM
-mix_fading_channel (SCM s_which)
+
+SCM_DEFINE (mix_fading_channel, "sdl-fading-channel", 0, 1, 0,
+            (SCM s_which),
+"Query the fading status of a channel.")
+#define FUNC_NAME s_mix_fading_channel
 {
    int which=-1;
 
@@ -506,10 +598,13 @@ mix_fading_channel (SCM s_which)
 
    return scm_long2num (Mix_FadingChannel (which));
 }
+#undef FUNC_NAME
 
-/* Pause/Resume a particular channel */
-SCM
-mix_pause (SCM s_channel)
+
+SCM_DEFINE (mix_pause, "sdl-pause", 0, 1, 0,
+            (SCM s_channel),
+"Pause a particular channel.")
+#define FUNC_NAME s_mix_pause
 {
    int channel=-1;
 
@@ -522,9 +617,13 @@ mix_pause (SCM s_channel)
 
    return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-mix_resume (SCM s_channel)
+
+SCM_DEFINE (mix_resume, "sdl-resume", 0, 1, 0,
+            (SCM s_channel),
+"Resume (unpause) a particular channel.")
+#define FUNC_NAME s_mix_resume
 {
    int channel=-1;
 
@@ -537,9 +636,13 @@ mix_resume (SCM s_channel)
 
    return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-mix_paused (SCM s_channel)
+
+SCM_DEFINE (mix_paused, "sdl-paused?", 0, 1, 0,
+            (SCM s_channel),
+"Query the paused status of a particular channel.")
+#define FUNC_NAME s_mix_resume
 {
    int channel=-1;
 
@@ -550,40 +653,56 @@ mix_paused (SCM s_channel)
 
    return Mix_Paused (channel) ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-/* Pause/Resume the music stream */
-SCM
-mix_pause_music (void)
+
+SCM_DEFINE (mix_pause_music, "sdl-pause-music", 0, 0, 0,
+            (),
+"Pause the music.")
+#define FUNC_NAME s_mix_pause_music
 {
    Mix_PauseMusic ();
    return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-mix_resume_music (void)
+
+SCM_DEFINE (mix_resume_music, "sdl-resume-music", 0, 0, 0,
+            (),
+"Resume (unpause) the music.")
+#define FUNC_NAME s_mix_resume_music
 {
    Mix_ResumeMusic ();
    return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-mix_rewind_music (void)
+
+SCM_DEFINE (mix_rewind_music, "sdl-rewind-music", 0, 0, 0,
+            (),
+"Rewind the music.")
+#define FUNC_NAME s_mix_rewind_music
 {
    Mix_RewindMusic ();
    return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-mix_paused_music (void)
+
+SCM_DEFINE (mix_paused_music, "sdl-paused-music?", 0, 0, 0,
+            (),
+"Query the paused status of the music.")
+#define FUNC_NAME s_mix_paused_music
 {
    return Mix_PausedMusic () ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-/* Check the status of a specific channel.
-   If the specified channel is -1, check all channels.
-*/
-SCM
-mix_playing (SCM s_channel)
+
+SCM_DEFINE (mix_playing, "sdl-playing?", 0, 1, 0,
+            (SCM s_channel),
+"Check the playing status of a specific channel.")
+#define FUNC_NAME s_mix_playing
 {
    int channel=-1;
 
@@ -594,29 +713,40 @@ mix_playing (SCM s_channel)
 
    return Mix_Playing (channel) ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-SCM
-mix_playing_music (void)
+
+SCM_DEFINE (mix_playing_music, "sdl-playing-music?", 0, 0, 0,
+            (),
+"Check the playing status of the music.")
+#define FUNC_NAME s_mix_playing_music
 {
    return Mix_PlayingMusic () ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-/* Stop music and set external music playback command */
-SCM
-mix_set_music_cmd (SCM command)
+
+SCM_DEFINE (mix_set_music_cmd, "sdl-set-music-command", 1, 0, 0,
+            (SCM command),
+"Stop music and set external music playback command.")
+#define FUNC_NAME s_mix_set_music_cmd
 {
    SCM_ASSERT ((SCM_NIMP (command) && SCM_STRINGP (command)),
                command, SCM_ARG1, "sdl-set-music-command");
    return scm_long2num (Mix_SetMusicCMD (SCM_CHARS (command)));
 }
+#undef FUNC_NAME
 
-/* Close the mixer, halting all playing audio */
-SCM
-mix_close_audio (void)
+
+SCM_DEFINE (mix_close_audio, "sdl-close-audio", 0, 0, 0,
+            (),
+"Close the mixer, halting all playing audio.")
+#define FUNC_NAME s_mix_close_audio
 {
    Mix_CloseAudio ();
    return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
 
 /* initialize the mixer subsystem */
@@ -632,46 +762,46 @@ sdl_mixer_init (void)
    /* enums */
    fading_status_enum = scm_c_define_enum (
       "sdl-fading-status",
-      "sdl-fading/none",    MIX_NO_FADING,
-      "sdl-fading/out",     MIX_FADING_OUT,
-      "sdl-fading/in",      MIX_FADING_IN,
+      "MIX_NO_FADING",      MIX_NO_FADING,
+      "MIX_FADING_OUT",     MIX_FADING_OUT,
+      "MIX_FADING_IN",      MIX_FADING_IN,
       NULL);
 
    /* functions */
-   scm_c_define_gsubr ("sdl-open-audio",               0, 4, 0, mix_open_audio);
-   scm_c_define_gsubr ("sdl-allocate-channels",        1, 0, 0, mix_allocate_channels);
-   scm_c_define_gsubr ("sdl-query-spec",               0, 0, 0, mix_query_spec);
-   scm_c_define_gsubr ("sdl-load-music",               1, 0, 0, mix_load_music);
-   scm_c_define_gsubr ("sdl-load-wave",                1, 0, 0, mix_load_wave);
-   scm_c_define_gsubr ("sdl-reserve-channels",         1, 0, 0, mix_reserve_channels);
-   scm_c_define_gsubr ("sdl-group-channel",            1, 1, 0, mix_group_channel);
-   scm_c_define_gsubr ("sdl-group-channels",           2, 1, 0, mix_group_channels);
-   scm_c_define_gsubr ("sdl-group-available",          0, 1, 0, mix_group_available);
-   scm_c_define_gsubr ("sdl-group-count",              0, 1, 0, mix_group_count);
-   scm_c_define_gsubr ("sdl-group-oldest",             0, 1, 0, mix_group_oldest);
-   scm_c_define_gsubr ("sdl-group-newer",              0, 1, 0, mix_group_newer);
-   scm_c_define_gsubr ("sdl-play-channel",             1, 4, 0, mix_play_channel);
-   scm_c_define_gsubr ("sdl-play-music",               1, 2, 0, mix_play_music);
-   scm_c_define_gsubr ("sdl-volume",                   0, 2, 0, mix_volume);
-   scm_c_define_gsubr ("sdl-volume-music",             0, 1, 0, mix_volume_music);
-   scm_c_define_gsubr ("sdl-halt-channel",             0, 1, 0, mix_halt_channel);
-   scm_c_define_gsubr ("sdl-halt-group",               0, 1, 0, mix_halt_group);
-   scm_c_define_gsubr ("sdl-halt-music",               0, 0, 0, mix_halt_music);
-   scm_c_define_gsubr ("sdl-expire-channel",           0, 2, 0, mix_expire_channel);
-   scm_c_define_gsubr ("sdl-fade-out-channel",         0, 2, 0, mix_fade_out_channel);
-   scm_c_define_gsubr ("sdl-fade-out-group",           0, 2, 0, mix_fade_out_group);
-   scm_c_define_gsubr ("sdl-fade-out-music",           0, 1, 0, mix_fade_out_music);
-   scm_c_define_gsubr ("sdl-pause",                    0, 1, 0, mix_pause);
-   scm_c_define_gsubr ("sdl-resume",                   0, 1, 0, mix_resume);
-   scm_c_define_gsubr ("sdl-paused?",                  0, 1, 0, mix_paused);
-   scm_c_define_gsubr ("sdl-pause-music",              0, 0, 0, mix_pause_music);
-   scm_c_define_gsubr ("sdl-resume-music",             0, 0, 0, mix_resume_music);
-   scm_c_define_gsubr ("sdl-rewind-music",             0, 0, 0, mix_rewind_music);
-   scm_c_define_gsubr ("sdl-paused-music?",            0, 0, 0, mix_paused_music);
-   scm_c_define_gsubr ("sdl-playing?",                 0, 1, 0, mix_playing);
-   scm_c_define_gsubr ("sdl-playing-music?",           0, 0, 0, mix_playing_music);
-   scm_c_define_gsubr ("sdl-set-music-command",        1, 0, 0, mix_set_music_cmd);
-   scm_c_define_gsubr ("sdl-close-audio",              0, 0, 0, mix_close_audio);
+/*    scm_c_define_gsubr ("sdl-open-audio",               0, 4, 0, mix_open_audio); */
+/*    scm_c_define_gsubr ("sdl-allocate-channels",        1, 0, 0, mix_allocate_channels); */
+/*    scm_c_define_gsubr ("sdl-query-spec",               0, 0, 0, mix_query_spec); */
+/*    scm_c_define_gsubr ("sdl-load-music",               1, 0, 0, mix_load_music); */
+/*    scm_c_define_gsubr ("sdl-load-wave",                1, 0, 0, mix_load_wave); */
+/*    scm_c_define_gsubr ("sdl-reserve-channels",         1, 0, 0, mix_reserve_channels); */
+/*    scm_c_define_gsubr ("sdl-group-channel",            1, 1, 0, mix_group_channel); */
+/*    scm_c_define_gsubr ("sdl-group-channels",           2, 1, 0, mix_group_channels); */
+/*    scm_c_define_gsubr ("sdl-group-available",          0, 1, 0, mix_group_available); */
+/*    scm_c_define_gsubr ("sdl-group-count",              0, 1, 0, mix_group_count); */
+/*    scm_c_define_gsubr ("sdl-group-oldest",             0, 1, 0, mix_group_oldest); */
+/*    scm_c_define_gsubr ("sdl-group-newer",              0, 1, 0, mix_group_newer); */
+/*    scm_c_define_gsubr ("sdl-play-channel",             1, 4, 0, mix_play_channel); */
+/*    scm_c_define_gsubr ("sdl-play-music",               1, 2, 0, mix_play_music); */
+/*    scm_c_define_gsubr ("sdl-volume",                   0, 2, 0, mix_volume); */
+/*    scm_c_define_gsubr ("sdl-volume-music",             0, 1, 0, mix_volume_music); */
+/*    scm_c_define_gsubr ("sdl-halt-channel",             0, 1, 0, mix_halt_channel); */
+/*    scm_c_define_gsubr ("sdl-halt-group",               0, 1, 0, mix_halt_group); */
+/*    scm_c_define_gsubr ("sdl-halt-music",               0, 0, 0, mix_halt_music); */
+/*    scm_c_define_gsubr ("sdl-expire-channel",           0, 2, 0, mix_expire_channel); */
+/*    scm_c_define_gsubr ("sdl-fade-out-channel",         0, 2, 0, mix_fade_out_channel); */
+/*    scm_c_define_gsubr ("sdl-fade-out-group",           0, 2, 0, mix_fade_out_group); */
+/*    scm_c_define_gsubr ("sdl-fade-out-music",           0, 1, 0, mix_fade_out_music); */
+/*    scm_c_define_gsubr ("sdl-pause",                    0, 1, 0, mix_pause); */
+/*    scm_c_define_gsubr ("sdl-resume",                   0, 1, 0, mix_resume); */
+/*    scm_c_define_gsubr ("sdl-paused?",                  0, 1, 0, mix_paused); */
+/*    scm_c_define_gsubr ("sdl-pause-music",              0, 0, 0, mix_pause_music); */
+/*    scm_c_define_gsubr ("sdl-resume-music",             0, 0, 0, mix_resume_music); */
+/*    scm_c_define_gsubr ("sdl-rewind-music",             0, 0, 0, mix_rewind_music); */
+/*    scm_c_define_gsubr ("sdl-paused-music?",            0, 0, 0, mix_paused_music); */
+/*    scm_c_define_gsubr ("sdl-playing?",                 0, 1, 0, mix_playing); */
+/*    scm_c_define_gsubr ("sdl-playing-music?",           0, 0, 0, mix_playing_music); */
+/*    scm_c_define_gsubr ("sdl-set-music-command",        1, 0, 0, mix_set_music_cmd); */
+/*    scm_c_define_gsubr ("sdl-close-audio",              0, 0, 0, mix_close_audio); */
 
    /* exported symbols */
    scm_c_export (
@@ -711,5 +841,10 @@ sdl_mixer_init (void)
       "sdl-set-music-command",
       "sdl-close-audio",
       NULL);
+
+#ifndef SCM_MAGIC_SNARFER
+#include "sdlmixer.x"
+#endif
+
 }
 
