@@ -1,11 +1,30 @@
-guile-sdl NEWS --- history of user-visible changes.
+Guile-SDL NEWS
 Copyright (C) 2003,2004 Thien-Thi Nguyen
 Copyright (C) 2001 Alex Shinn
 See the end for copying conditions.
 
-Please send guile-sdl bug reports to <ttn@glug.org>.
+Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
+- 0.2.5 | NOT YET RELEASED
+
+  - backward-compatability installation bugfix: libFOO.la symlinks
+
+	To support the venerable "scm_init_FOO_BAR_module" method for
+	loading binary modules in versions of Guile that look for a
+	FOO/libBAR.la, and not simply FOO/BAR.la, appropriately named
+	symlinks are now created for each installed .la file.
+
+  - bugfix: symbolic return value for `fading-music' and `fading-channel'
+
+	These procs used to return an integer.  Now they return a
+	symbol, one of: MIX_NO_FADING, MIX_FADING_OUT, MIX_FADING_IN.
+
+  - new (sdl misc-utils) proc: poll-with-push-on-timeout-proc
+
+  - new (sdl sdl) proc: enumstash-enums
+
+
 - 0.2.4 | 2004-06-28
 
   - installation change: scheme wrappers eliminated
