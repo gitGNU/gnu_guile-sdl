@@ -27,7 +27,9 @@
 #include "sdlenums.h"
 #include "sdlsmobs.h"
 
+GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
+
 SCM fading_status_enum;
 
 

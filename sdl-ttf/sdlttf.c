@@ -27,7 +27,9 @@
 #include "sdlsmobs.h"
 #include "sdlenums.h"
 
+GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
+
 static SCM sdl_ttf_flags;
 
 GH_DEFPROC (sdl_get_ttf_flags, "flagstash:ttf", 0, 0, 0, (void),

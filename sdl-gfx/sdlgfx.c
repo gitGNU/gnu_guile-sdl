@@ -27,7 +27,9 @@
 #include "argcheck.h"
 #include "sdlsmobs.h"
 
+GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
+
 GH_DEFPROC (sdl_draw_point, "sdl-draw-point", 4, 0, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_color),
             "On @var{surface}, draw a point at location\n"
