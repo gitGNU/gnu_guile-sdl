@@ -24,7 +24,8 @@
 (define-module (sdl misc-utils)
   #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
   #:export (call-with-clip-rect
-            rotate-square))
+            rotate-square
+            poll-with-push-on-timeout-proc))
 
 ;; Set default clip rect to @var{rect}, call @var{thunk}, and restore it.
 ;; @var{thunk} is a procedure that takes no arguments.
@@ -54,5 +55,38 @@
          (dst-rect (SDL:make-rect 0 0 width height)))
     (SDL:blit-surface rotated src-rect dst dst-rect)
     dst))
+
+;; Return a procedure @code{P} that checks the event queue for @var{timeout} ms,
+;; polling every @var{slice} ms.  If an event arrives during that time, return
+;; #t.  Otherwise return #f.  Optional arg @var{get-timeout-events} is either
+;; a list of events to be pushed on the queue in the case of timeout, or a
+;; thunk to be called that produces such a list.  If @var{get-timeout-events}
+;; is specified, return the result of another event queue polling.  (This may
+;; still be #f if the pushed events are masked in some way.)
+;;
+;; @code{P} is called with a single arg, a pre-constructed event object.  This
+;; interface is congruent with that of @code{wait-event} and @code{poll-event}.
+;; @xref{Events}.
+;;
+;;-sig: (timeout slice [get-timeout-events])
+;;
+(define (poll-with-push-on-timeout-proc timeout slice . get-timeout-events)
+  (let* ((fresh (and (not (null? get-timeout-events))
+                     (car get-timeout-events)))
+         (ls-ev (cond ((procedure? fresh) fresh)
+                      ((pair? fresh)      (lambda () fresh))
+                      (else               #f)))
+         (push! (if ls-ev
+                    (lambda (ev)
+                      (for-each SDL:push-event (ls-ev))
+                      (SDL:poll-event ev))
+                    (lambda (ev) #f))))
+    ;; rv
+    (lambda (ev)
+      (let loop ((still timeout))
+        (cond ((SDL:poll-event ev))
+              ((= 0 still)          (push! ev))
+              (else                 (SDL:delay slice)
+                                    (loop (max 0 (- still slice)))))))))
 
 ;;; misc-utils.scm ends here
