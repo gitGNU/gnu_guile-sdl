@@ -21,10 +21,11 @@ guile-sdl.info: $(BUILT_SOURCES)
 	  -I ../sdl-mixer/.doc-index \
 	  -o $@ $<
 
-EXTRA_DIST = ref.twerp ef-ref.twerp cov TODO-excerpt
+EXTRA_DIST = ref.twerp ef-ref.twerp cov $(BUILT_SOURCES)
 
+if MAINTAINER_MODE
 TESTS_ENVIRONMENT = srcdir=$(srcdir)
-
 TESTS = cov
+endif ## MAINTAINER_MODE
 
 ## Makefile.am ends here
