@@ -1,3 +1,8 @@
+2004-05-26  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cursor.scm: Warp the pointer to screen center,
+	and wait a bit, before setting the new shape.
+
 2004-05-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* gfx.scm: Set `*random-state*'; use current time for seed.
