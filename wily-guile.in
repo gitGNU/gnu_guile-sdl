@@ -7,7 +7,8 @@ export HAVE_TTF
 HAVE_MIXER=@HAVE_MIXER@
 export HAVE_MIXER
 
-GUILE_MERGED_MODULE_CATALOG=`pwd`/pre-inst.merged-module-catalog
+top=@top_builddir_absolute@
+GUILE_MERGED_MODULE_CATALOG=$top/pre-inst.merged-module-catalog
 export GUILE_MERGED_MODULE_CATALOG
 
 exec ${GUILE-guile} "$@"
