@@ -65,7 +65,7 @@ GH_DEFPROC (cd_num_drives, "cd-num-drives", 0, 0, 0,
             "Return the number of CD drives.")
 #define FUNC_NAME s_cd_num_drives
 {
-  return (gh_long2scm (SDL_CDNumDrives ()));
+  RETURN_INT (SDL_CDNumDrives ());
 }
 #undef FUNC_NAME
 
