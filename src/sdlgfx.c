@@ -59,7 +59,7 @@ GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
   }
 
   /* return the surface */
-  SCM_RETURN_NEWSMOB (surface_tag, dst);
+  RETURN_NEW_SURFACE (dst);
 }
 #undef FUNC_NAME
 
@@ -95,7 +95,7 @@ GH_DEFPROC (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
   }
 
   /* return the surface */
-  SCM_RETURN_NEWSMOB (surface_tag, dst);
+  RETURN_NEW_SURFACE (dst);
 }
 #undef FUNC_NAME
 
