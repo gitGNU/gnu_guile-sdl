@@ -113,16 +113,6 @@ GH_DEFPROC (vh_flip_surface, "vh-flip-surface", 1, 0, 0,
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (scale_surface, "scale-surface", 3, 0, 0,
-            (SCM surface, SCM width, SCM height),
-            "Scale @var{surface} by @var{width} and @var{height}.")
-{
-#define FUNC_NAME s_scale_surface
-  THROW_NOT_YET_IMPLEMENTED;
-  RETURN_UNSPECIFIED;
-#undef FUNC_NAME
-}
-
 
 
 void
