@@ -24,6 +24,8 @@ sdl_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module \
 
 install-data-hook:
 	rm -f $(cmoddir)/sdl-sup.*
+	cd $(cmoddir) ; for f in $(cmod_LTLIBRARIES) ; do \
+	   test -f lib$$f && rm -f lib$$f ; $(LN_S) $$f lib$$f ; done
 
 ## empty directive for $(top_srcdir)/am/fspec support
 EXTRA_DIST =
