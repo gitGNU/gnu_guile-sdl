@@ -7,7 +7,7 @@ guile_sdl_TEXINFOS = sdl.texi \
 		     sdlevent.texi sdlroto.texi \
 		     sdlsurface.texi sdlvideo.texi 
 
-SUBDIRS = src sdl sdl-mixer sdl-ttf
+SUBDIRS = src sdl sdl-mixer sdl-ttf sdl-gfx
 
 DIST_SUBDIRS = $(SUBDIRS) examples
 
@@ -27,7 +27,7 @@ SUFFIXES = .texi .snarf
 
 # test suite
 TESTS = test/rect.scm test/image.scm test/event.scm test/mixer.scm \
-        test/ttf.scm  test/cursor.scm test/roto.scm
+        test/ttf.scm  test/cursor.scm test/roto.scm test/gfx.scm
 TESTS_ENVIRONMENT = GUILE_LOAD_PATH=$(srcdir) \
-	LTDL_LIBRARY_PATH=$(srcdir)/src/.libs:$(srcdir)/sdl-mixer/.libs:$(srcdir)/sdl-ttf/.libs
+	LTDL_LIBRARY_PATH=$(srcdir)/src/.libs:$(srcdir)/sdl-mixer/.libs:$(srcdir)/sdl-ttf/.libs:$(srcdir)/sdl-gfx/.libs
 
