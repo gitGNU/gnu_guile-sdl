@@ -2,7 +2,7 @@
  *  event.c -- SDL input handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:58:16 foof>                         *
- *  Time-stamp: <2001-06-04 01:06:30 foof>                         *
+ *  Time-stamp: <2001-06-04 21:31:11 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -427,11 +427,11 @@ void sdl_event_init (void)
    scm_make_gsubr ("push-event",  1, 0, 0, push_event);
 
    /* smob getters */
-/*    scm_make_gsubr ("event:type", 1, 0, 0, event_type); */
+   scm_make_gsubr ("event:type", 1, 0, 0, event_type);
 /*    scm_make_gsubr ("event:active:gain", 1, 0, 0, event_active_gain); */
 /*    scm_make_gsubr ("event:active:state", 1, 0, 0, event_active_state); */
 /*    scm_make_gsubr ("event:key:state", 1, 0, 0, event_key_state); */
-/*    scm_make_gsubr ("event:key:keysym:sym", 1, 0, 0, event_key_keysym_sym); */
+   scm_make_gsubr ("event:key:keysym:sym", 1, 0, 0, event_key_keysym_sym);
 /*    scm_make_gsubr ("event:key:keysym:mod", 1, 0, 0, event_key_keysym_mod); */
 /*    scm_make_gsubr ("event:key:keysym:scancode", 1, 0, 0, event_key_keysym_scancode); */
 /*    scm_make_gsubr ("event:key:keysym:unicode", 1, 0, 0, event_key_keysym_unicode); */
