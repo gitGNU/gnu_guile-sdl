@@ -157,6 +157,23 @@
 	Register func `mark_joy'.
 	Remove call to `scm_c_export'.
 
+	* sdlrect.c: Update copyright.
+	No longer include <libguile.h>.
+	Include <guile/gh.h>.
+	No longer include "sdlenums.h".
+	No longer include "sdlrect.h".
+	Include "config.h", "argcheck.h" and "wholefns.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(rect_tag): Delete var.
+	(mark_rect): New static func.
+	(free_rect, print_rect): Make static.
+	(gsdl_init_rect): Rename from `sdl_init_rect'.
+	Register func `mark_rect'.
+	Remove calls to `scm_c_define_gsubr'.
+	Remove call to `scm_c_export'.
+
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"
