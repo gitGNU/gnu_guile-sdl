@@ -1,3 +1,7 @@
+2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* roto.scm: Also vary the zoom parameter.
+
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* cursor.scm: Add #:renamer clause for SDL modules.
