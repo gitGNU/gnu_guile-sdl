@@ -8,4 +8,8 @@
 #define RETURN_UNSPECIFIED \
   return SCM_UNSPECIFIED
 
+/* Integer return values.  */
+#define RETURN_INT(exp) \
+  return gh_long2scm (exp)
+
 /* retval.h ends here */
