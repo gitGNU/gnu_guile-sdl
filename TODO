@@ -1,7 +1,8 @@
 - 0.2.x "basics"
   - write configure check for guile that can load binary modules
+  + enums introspection
   + naming: remove "sdl-" prefix
-  + install under $GUILE_LIBSITE and $GUILE_SITE
+  + install under $GUILE_LIBSITE only
   + no longer install in $libdir
   + documentation
     + methodology
