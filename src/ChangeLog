@@ -1,3 +1,16 @@
+2004-07-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlvideo.c (gsdl_init_video): Use macro `GSDL_CSCS'.
+	* sdlevent.c (gsdl_init_event): Likewise.
+
+2004-07-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlenums.c (hfold): New static var.
+	(acons): Likewise.
+	(MAKE_HASH_TABLE): Init w/ `SCM_EOL'.
+	(enumstash_enums): New GH_DEFPROC.
+	(gsdl_init_enums): Init `acons' and `hfold'.
+
 2004-07-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (install-data-hook): In $(cmoddir),

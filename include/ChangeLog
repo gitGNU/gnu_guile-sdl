@@ -1,3 +1,7 @@
+2004-07-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlenums.h (GSDL_CSCS): New macro.
+
 2004-06-26  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlsmobs.h (ASSERT_SMOB): Use parens around args in expansion.
