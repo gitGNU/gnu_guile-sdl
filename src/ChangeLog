@@ -1,3 +1,9 @@
+2003-11-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlevent.c (NUM2_GETTER, NUM2_SETTER, NUM3_GETTER, NUM3_SETTER):
+	Fix over-specification bug: Remove redundant "##"
+	pre-processor operators between "." and other tokens.
+
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (sdl_sup_la_SOURCES): Add $(FLAGSTASH).
