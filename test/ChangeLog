@@ -1,5 +1,9 @@
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* gfx.scm: Add bezier, hline, vline and pie-slice drawing.
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* roto.scm: Use module (sdl gfx).
 	Use `GFX:roto-zoom-surface'.
 

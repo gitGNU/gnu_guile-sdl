@@ -1,5 +1,11 @@
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* ref.twerp (libSDL_gfx): Add @twerpdoc for
+	`draw-hline', `draw-vline', `draw-pie-slice', `draw-trigon',
+	`draw-aa-trigon', `draw-aa-polygon' and `draw-bezier'.
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* ref.twerp (libSDL_gfx): Add section "Managing Frame Rate"
 	and @twerpdoc entries for `make-fps-manager',
 	`fps-manager-set!', `fps-manager-get' and `fps-manager-delay!'.

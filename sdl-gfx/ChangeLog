@@ -1,5 +1,15 @@
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlgfx.c (draw_hline): New GH_DEFPROC.
+	(draw_vline): Likewise.
+	(draw_pie_slice): Likewise.
+	(draw_trigon): Likewise.
+	(draw_aa_trigon): Likewise.
+	(draw_aa_polygon): Likewise.
+	(draw_bezier): Likewise.
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlgfx.c: Include "SDL_framerate.h".
 	(fpsmgr_tag): New static var.
 	(ASSERT_FPSMGR): New macro.
