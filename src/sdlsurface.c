@@ -314,10 +314,12 @@ GH_DEFPROC (set_alpha, "set-alpha!", 3, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (set_clip_rect, "set-clip-rect!", 2, 0, 0,
+GH_DEFPROC (set_clip_rect, "set-clip-rect!", 1, 1, 0,
             (SCM s_surface,
              SCM s_rect),
-            "Set @var{surface} clipping rectangle to @var{rect}.")
+            "Set @var{surface} clipping rectangle to the whole surface.\n"
+            "Optional arg @var{rect} specifies a particular rectangle\n"
+            "instead of using the whole surface.")
 #define FUNC_NAME s_set_clip_rect
 {
   SDL_Rect *rect = NULL;
