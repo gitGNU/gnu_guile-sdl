@@ -73,13 +73,6 @@ extern long gsdl_smob_tags[GSTX_TOO_MUCH];
 #define RETURN_NEW_SURFACE(x)       SCM_RETURN_NEWSMOB (surface_tag, x)
 #define RETURN_NEW_PIXEL_FORMAT(x)  SCM_RETURN_NEWSMOB (pixel_format_tag, x)
 
-
-/* misc (this really belongs elsewhere) */
-
-/* lots of SDL functions return 0 for true, -1 otherwise */
-#define RETURN_TRUE_IF_0(exp) \
-  return ((exp) == 0) ? SCM_BOOL_T : SCM_BOOL_F
-
 #endif /* ! defined (GUILE_SDL_SMOBS_H) */
 
 /* sdlsmobs.h ends here */
