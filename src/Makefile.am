@@ -24,10 +24,10 @@ EXTRA_DIST = sdl.h \
              sdlgfx.h \
              sdlvideo.h \
              sdlenums.h \
-             #sdljoystick.h \
+             sdljoystick.h \
+             sdlcdrom.h \
              #sdlrect.h \
              #sdltimer.h \
-             #sdlcdrom.h \
              #sdlkeyboard.h \
              #sdlroto.h \
              #sdlimage.h \
@@ -48,7 +48,7 @@ INCLUDES = -I../include/ #-ISDL_gfxPrimitives/ -ISDL_rotozoom/
 #                       sdlgfx.c sdlroto.c \
 # 		      sdl-main.c
 
-libguileSDL_la_SOURCES = sdl.c sdlvideo.c \
+libguileSDL_la_SOURCES = sdl.c sdlvideo.c sdlcdrom.c sdljoystick.c \
                       sdlevent.c sdlenums.c sdlgfx.c
 
 libguileSDL_la_CFLAGS  = $(CFLAGS)
