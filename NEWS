@@ -6,7 +6,7 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
-- 0.2.5 | NOT YET RELEASED
+- 0.2.5 | 2004-07-23
 
   - backward-compatability installation bugfix: libFOO.la symlinks
 
