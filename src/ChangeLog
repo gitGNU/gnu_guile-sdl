@@ -1,5 +1,26 @@
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"
+	for $(srcdir) and some children.
+	(lib_LTLIBRARIES): Delete directive.
+	(libguileSDL_la_SOURCES): Likewise.
+	(libguileSDL_la_CFLAGS): Likewise.
+	(libguileSDL_la_LIBADD): Likewise.
+	(libguileSDL_la_LDFLAGS): Likewise.
+	(libguileSDL_la_DEPENDENCIES): Likewise.
+	(cmoddir): New var.
+	(cmod_LTLIBRARIES): New directive.
+	(FLAGSTASH): New var.
+	(BUILT_SOURCES): Add $(FLAGSTASH).
+	(sdl_sup_la_SOURCES): New directive.
+	(sdl_sup_la_LDFLAGS): Likewise.
+	(SUFFIXES): Add ".fspec".
+	(GUILE_SNARF): Delete var.
+	(.c.x): Use pre-inst-$(c2x) instead of $(GUILE_SNARF).
+	(.fspec.c): New pattern rule.
+
+2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* initf.fspec (#:gperf-options): Add "--includes".
 	* kmodf.fspec: Likewise.
 	* overlayf.fspec: Likewise.
