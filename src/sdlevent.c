@@ -120,7 +120,8 @@ GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
   keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym), FUNC_NAME);
 
   /* set the sym if given */
-  if (BOUNDP (sym)) {
+  UNBOUND_MEANS_FALSE (sym);
+  if (SCM_NFALSEP (sym)) {
     ASSERT_EXACT (sym, ARGH1);
     /* keysym->sym = (SDLKey) gh_scm2long (sym); */
     keysym->sym = (SDLKey) gsdl_enum2long (sym, event_keysym_enum,
