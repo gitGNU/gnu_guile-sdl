@@ -1,5 +1,10 @@
 2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdl.c (init_flags): Rename static var from `sdl_init_flags'.
+	* sdlvideo.c (gl_enums): Rename static var from `sdl_gl_enums'.
+
+2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdl.c: Rename GH_DEFPROC funcs to omit leading "sdl_".
 	Update associated "#define FUNC_NAME".
 	* sdlcdrom.c: Likewise.

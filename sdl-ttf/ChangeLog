@@ -1,5 +1,9 @@
 2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlttf.c (ttf_flags): Rename static var from `sdl_ttf_flags'.
+
+2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlttf.c: Rename GH_DEFPROC funcs to omit leading "sdl_".
 
 2003-11-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
