@@ -99,20 +99,20 @@ GH_DEFPROC (make_rect, "make-rect", 4, 0, 0,
                       rect_tag, SDL_Rect *,     \
                       f)
 
-#define NUMBER_SETTER(f)                        \
+#define NUMBER_SETTER(f,conv)                   \
   GSDL_NUMBER_SETTER ("rect:set-" #f "!",       \
                       rect_set_ ## f,           \
                       rect_tag, SDL_Rect *,     \
-                      f)
+                      f, conv)
 
-#define NUMBER_GETSET(f) \
-  NUMBER_GETTER (f)      \
-  NUMBER_SETTER (f)
+#define NUMBER_GETSET(f,c2s)                    \
+  NUMBER_GETTER (f)                             \
+  NUMBER_SETTER (f, c2s)
 
-NUMBER_GETSET(x)
-NUMBER_GETSET(y)
-NUMBER_GETSET(w)
-NUMBER_GETSET(h)
+NUMBER_GETSET (x, gh_scm2int)
+NUMBER_GETSET (y, gh_scm2int)
+NUMBER_GETSET (w, gh_scm2ulong)
+NUMBER_GETSET (h, gh_scm2ulong)
 
 
 void
