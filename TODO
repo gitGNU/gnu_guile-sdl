@@ -13,7 +13,6 @@
     + event-state
     - get-key-state
     + scale-surface (deleted)
-  - user-alloc alternatives (less consing) for event procs
   - programming practice review
     - 0-means-success return values
     - return value consistency
@@ -48,6 +47,7 @@
 
 - 0.8 "fire"
   - performance tweaking
+  - user-alloc alternatives (less consing) for event procs
 
 - 0.9 "air"
   - contrib/ and examples/
