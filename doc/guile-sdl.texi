@@ -234,27 +234,6 @@ Specifically, module names, the contents of modules, procedure names,
 procedure behavior: all these can change at any time up until the 1.0 release.
 C'est la vie.
 
-@item load order restrictions
-
-At this time, you cannot simply do @code{(use-modules (sdl ttf))} because of
-missing dependencies only fulfilled by @code{(sdl sdl)}.  You can't even do
-@code{(use-modules (sdl sdl) (sdl ttf))} reliably because @code{use-modules}
-may try to load its given modules in backwards order.  Instead, the only way
-to guarantee error-free loading is to do:
-
-@example
-(use-modules (sdl sdl))
-(use-modules (sdl ttf))
-@end example
-
-This limitation is due to the implementation decision to provide @code{(sdl
-ttf)} as a compiled module only, without Scheme code.  The rationale here is
-that exposing this bogosity will encourage (some of) the guile implementations
-to design and provide methods for module-dependency resolution from and for
-compiled modules (without Scheme code).  It's probably a good bet that the
-guile-1.4.x maintainer is scratching his head furiously at the moment over
-this issue.  We will see.
-
 @item no logo
 
 How can any self-respecting package of bindings for libsdl not have a flashy,
