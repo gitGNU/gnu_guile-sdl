@@ -1,5 +1,17 @@
 2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlsurface.c (make_surface): Remove redundant casts.
+	(create_rgb_surface): Likewise.
+	(set_color_key): Likewise.
+	(set_alpha): Likewise.
+	(convert_surface): Likewise.
+
+	* sdlvideo.c (list_modes): Likewise.
+	(video_mode_ok): Likewise.
+	(set_video_mode): Likewise.
+
+2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlcolor.c (NUMBER_SETTER):
 	Pass additional arg to `GSDL_NUMBER_SETTER'.
 
