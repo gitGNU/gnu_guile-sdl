@@ -1,0 +1,4 @@
+2003-10-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (CC, CFLAGS, LIBS): Delete vars.
+
