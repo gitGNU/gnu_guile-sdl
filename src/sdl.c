@@ -2,7 +2,7 @@
  *  sdl.c -- SDL Wrappers for Guile                                *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-25 00:24:24 foof>                         *
+ *  Time-stamp: <2001-06-25 00:56:47 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -165,6 +165,9 @@ guile_sdl_init (void)
 
    /* video initializations */
    sdl_video_init();
+
+   /* extra gfx initializations */
+   sdl_gfx_init();
 
    /* event initializations */
    sdl_event_init();
