@@ -203,7 +203,7 @@ GH_DEFPROC (ttf_glyph_metrics, "font:glyph-metrics", 2, 0, 0,
   ASSERT_CHAR (ch, ARGH2);
 
   TTF_GlyphMetrics (UNPACK_TTFONT (font),
-                    (Uint16) gh_scm2long (ch),
+                    gh_scm2ulong (ch),
                     &minx, &maxx, &miny, &maxy, &advance);
 
   RETURN_LIST5 (gh_cons (SYM (minx), gh_long2scm (minx)),
