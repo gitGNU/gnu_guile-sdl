@@ -1,5 +1,9 @@
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* retval.h (RETURN_BOOL): New macro.
+
+2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* retval.h (RETURN_INT): New macro.
 	* wholefns.h: Use `RETURN_INT'.
 
