@@ -36,6 +36,14 @@ AC_MSG_RESULT([$c2x])
 
 AC_CHECK_HEADERS([guile/modsup.h])
 
+AH_BOTTOM([
+#ifdef HAVE_GUILE_MODSUP_H
+#include <guile/modsup.h>
+#else
+#include "modsup.h"
+#endif
+])
+
 AC_MSG_CHECKING([where to install the compiled modules])
 guilelibsitedir="`guile-config re-prefix-info pkglibdir 2>/dev/null`"
 if test x"$guilelibsitedir" = x ; then
