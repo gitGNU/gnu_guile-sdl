@@ -4,7 +4,7 @@
 ;; SICP Picture Language Example
 ;; 
 ;; Created:    <2001-06-24 16:36:53 foof>
-;; Time-stamp: <2001-07-06 01:44:52 foof>
+;; Time-stamp: <2001-08-04 20:15:57 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
@@ -101,15 +101,15 @@
        (w (sdl-surface:w painter))
        (h (sdl-surface:h painter))
        (depth (sdl-surface:depth painter))
-       (e (sdl-make-event))
+       (e (sdl-make-event 'SDL_USEREVENT))
        (i 1))
   (sdl-set-video-mode w h depth)
   (sdl-blit-surface (corner-split painter i))
   (sdl-flip)
-  (while (not (and e (eq? (sdl-event:type e) 'event/key-down)
-                   (eq? (sdl-event:key:keysym:sym e) 'key/escape)))
+  (while (not (and e (eq? (sdl-event:type e) 'SDL_KEYDOWN)
+                   (eq? (sdl-event:key:keysym:sym e) 'SDLK_ESCAPE)))
     (sdl-wait-event e)
-    (if (eq? (sdl-event:type e) 'event/key-down)
+    (if (eq? (sdl-event:type e) 'SDL_KEYDOWN)
       (begin (set! i (1+ i))
              (sdl-blit-surface (corner-split painter i))
              (sdl-flip)))))
