@@ -91,11 +91,14 @@
                                     (loop (max 0 (- still slice)))))))))
 
 ;; Create a new surface and blit @var{surface} onto it.
+;; The new surface has the same pixel format as @var{surface}.
 ;; Return the new surface.
 ;;
 (define (copy-surface surface)
-  (let ((new (SDL:make-surface (SDL:surface:w surface)
-                               (SDL:surface:h surface))))
+  (let ((new (SDL:convert-surface
+              (SDL:make-surface (SDL:surface:w surface)
+                                (SDL:surface:h surface))
+              (SDL:surface-get-format surface))))
     (SDL:blit-surface surface #f new)
     new))
 
