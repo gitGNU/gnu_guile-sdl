@@ -101,6 +101,7 @@
 @twerpdoc (unlock-surface)
 @twerpdoc (load-bmp)
 @twerpdoc (load-image)
+@twerpdoc (string->image)
 @twerpdoc (save-bmp)
 @twerpdoc (set-color-key!)
 @twerpdoc (set-alpha!)
