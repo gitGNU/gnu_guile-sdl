@@ -5,7 +5,27 @@ See the end for copying conditions.
 
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
-
+
+- 0.3.0 | 2004-11-25
+
+  - "guile-tools make-module-catalog" no longer invoked unconditionally
+
+	If your Guile installation does not provide this program, that's
+	ok; Guile-SDL will still build.  However, in that case the
+	wrapper script `wily-guile' may have difficulty finding the
+	pre-installed compiled modules, which will affect "make check",
+	primarily.
+
+	For more info, see file GUILE-FIXES in the distribution directory.
+
+  - "make install" more graceful for !HAVE_MIXER and !HAVE_TTF
+
+	The "make install" for these subsystems, when disabled (either
+	due to lack of underyling support, or through command-line
+	options to ./configure), used to try to symlink files that were
+	not present (see NEWS for Guile-SDL 0.2.5).
+
+
 - 0.2.6 | 2004-09-01
 
   - docs cleanup
