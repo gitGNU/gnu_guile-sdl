@@ -2,7 +2,7 @@
  *  video.h -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-05-16 00:22:22 foof>                         *
+ *  Time-stamp: <2001-06-03 18:20:38 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -41,22 +41,35 @@ extern long pixel_format_tag;
 extern long overlay_tag;
 extern long video_info_tag;
 
-/* constants */
 
 /* constructors */
+SCM make_surface (SCM s_width, SCM s_height);
 SCM create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
                         SCM s_depth, SCM s_rmask, SCM s_gmask,
                         SCM s_bmask, SCM s_amask);
 SCM create_rgb_surface_from (SCM s_pixels, SCM s_width, SCM s_height,
                              SCM s_depth, SCM s_pitch, SCM s_rmask,
                              SCM s_gmask, SCM s_bmask, SCM s_amask);
-SCM img_load (SCM file);
 SCM create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
                    SCM s_hot_x, SCM s_hot_y);
 SCM create_yuv_overlay (SCM s_width, SCM s_height,
                         SCM s_format, SCM s_display);
 SCM make_rect (SCM s_x, SCM s_y, SCM s_w, SCM s_h);
+SCM rect_x (SCM s_rect);
+SCM rect_y (SCM s_rect);
+SCM rect_w (SCM s_rect);
+SCM rect_h (SCM s_rect);
+SCM rect_set_x (SCM s_rect, SCM s_x);
+SCM rect_set_y (SCM s_rect, SCM s_y);
+SCM rect_set_w (SCM s_rect, SCM s_w);
+SCM rect_set_h (SCM s_rect, SCM s_h);
 SCM make_color (SCM s_r, SCM s_g, SCM s_b);
+SCM color_r (SCM s_color);
+SCM color_g (SCM s_color);
+SCM color_b (SCM s_color);
+SCM color_set_r (SCM s_color, SCM s_r);
+SCM color_set_g (SCM s_color, SCM s_g);
+SCM color_set_b (SCM s_color, SCM s_b);
 SCM make_palette (SCM s_colors);
 SCM make_pixel_format (void);
 
@@ -67,7 +80,6 @@ SCM video_driver_name (void);
 SCM list_modes (SCM s_pixel_format, SCM s_flags);
 SCM video_mode_ok (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags);
 SCM update_rect (SCM s_screen, SCM s_x, SCM s_y, SCM s_w, SCM s_h);
-SCM update_rects (SCM s_screen, SCM s_rects);
 SCM flip (SCM s_screen);
 SCM set_colors (SCM s_surface, SCM s_colors);
 SCM set_palette (SCM s_surface, SCM s_flags, SCM s_colors);

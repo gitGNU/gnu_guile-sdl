@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-02 22:30:37 foof>                         *
+ *  Time-stamp: <2001-06-04 00:24:20 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -28,11 +28,10 @@
 /* sdl headers */
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+/* scm util headers */
+#include "scm.h"
 
 #define MAX_DRIVER_LEN 100
-
-/* the primary video surface */
-static SCM video_surface;
 
 /* tags for SDL smobs */
 long surface_tag;
@@ -44,9 +43,14 @@ long pixel_format_tag;
 long overlay_tag;
 long video_info_tag;
 
-/* constants */
 
 /* constructors */
+
+SCM
+make_surface (SCM s_width, SCM s_height)
+{
+   return SCM_UNSPECIFIED;
+}
 
 SCM
 create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
@@ -64,18 +68,6 @@ create_rgb_surface_from (SCM s_pixels, SCM s_width, SCM s_height,
    return SCM_UNSPECIFIED;
 }
 
-SCM  
-img_load (SCM file)  
-{  
-   SDL_Surface *image;  
-
-   SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),  
-               file, SCM_ARG1, "sdl-load-image");  
-
-   image = IMG_Load (SCM_CHARS (file));  
-   SCM_RETURN_NEWSMOB (surface_tag, image);  
-}  
-
 SCM
 create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
                SCM s_hot_x, SCM s_hot_y)
@@ -89,6 +81,8 @@ create_yuv_overlay (SCM s_width, SCM s_height, SCM s_format, SCM s_display)
    return SCM_UNSPECIFIED;
 }
 
+
+/* rectangles */
 SCM
 make_rect (SCM s_x, SCM s_y, SCM s_w, SCM s_h)
 {
@@ -108,6 +102,62 @@ make_rect (SCM s_x, SCM s_y, SCM s_w, SCM s_h)
    SCM_RETURN_NEWSMOB (rect_tag, rect);
 }
 
+/* rect getters */
+SCM_DEFINE_INUM_GETTER ("rect:x", rect_x, rect_tag, SDL_Rect*, x)
+
+SCM rect_y (SCM s_rect)
+{
+   SCM_ASSERT_SMOB (s_rect, rect_tag, SCM_ARG1, "rect:y");
+   return SCM_MAKINUM (((SDL_Rect*) SCM_CDR (s_rect))->y);
+}
+
+SCM rect_w (SCM s_rect)
+{
+   SCM_ASSERT_SMOB (s_rect, rect_tag, SCM_ARG1, "rect:w");
+   return SCM_MAKINUM (((SDL_Rect*) SCM_CDR (s_rect))->w);
+}
+
+SCM rect_h (SCM s_rect)
+{
+   SCM_ASSERT_SMOB (s_rect, rect_tag, SCM_ARG1, "rect:h");
+   return SCM_MAKINUM (((SDL_Rect*) SCM_CDR (s_rect))->h);
+}
+
+/* rect setters */
+SCM rect_set_x (SCM s_rect, SCM s_x)
+{
+   SCM_ASSERT_SMOB (s_rect, rect_tag,  SCM_ARG1, "rect:set-x!");
+   SCM_ASSERT (SCM_INUMP (s_x),  s_x,  SCM_ARG2, "rect:set-x!");
+   ((SDL_Rect*) SCM_CDR (s_rect))->x = SCM_INUM (s_x);
+   return SCM_UNSPECIFIED;
+}
+
+SCM rect_set_y (SCM s_rect, SCM s_y)
+{
+   SCM_ASSERT_SMOB (s_rect, rect_tag,  SCM_ARG1, "rect:set-y!");
+   SCM_ASSERT (SCM_INUMP (s_y),  s_y,  SCM_ARG2, "rect:set-y!");
+   ((SDL_Rect*) SCM_CDR (s_rect))->y = SCM_INUM (s_y);
+   return SCM_UNSPECIFIED;
+}
+
+SCM rect_set_w (SCM s_rect, SCM s_w)
+{
+   SCM_ASSERT_SMOB (s_rect, rect_tag,  SCM_ARG1, "rect:set-w!");
+   SCM_ASSERT (SCM_INUMP (s_w),  s_w,  SCM_ARG2, "rect:set-w!");
+   ((SDL_Rect*) SCM_CDR (s_rect))->w = SCM_INUM (s_w);
+   return SCM_UNSPECIFIED;
+}
+
+SCM rect_set_h (SCM s_rect, SCM s_h)
+{
+   SCM_ASSERT_SMOB (s_rect, rect_tag,  SCM_ARG1, "rect:set-h!");
+   SCM_ASSERT (SCM_INUMP (s_h),  s_h,  SCM_ARG2, "rect:set-h!");
+   ((SDL_Rect*) SCM_CDR (s_rect))->h = SCM_INUM (s_h);
+   return SCM_UNSPECIFIED;
+}
+
+
+/* colors */
 SCM
 make_color (SCM s_r, SCM s_g, SCM s_b)
 {
@@ -125,12 +175,60 @@ make_color (SCM s_r, SCM s_g, SCM s_b)
    SCM_RETURN_NEWSMOB (color_tag, color);
 }
 
+/* color getters */
+SCM color_r (SCM s_color)
+{
+   SCM_ASSERT_SMOB (s_color, color_tag, SCM_ARG1, "color:r");
+   return SCM_MAKINUM (((SDL_Color*) SCM_CDR (s_color))->r);
+}
+
+SCM color_g (SCM s_color)
+{
+   SCM_ASSERT_SMOB (s_color, color_tag, SCM_ARG1, "color:g");
+   return SCM_MAKINUM (((SDL_Color*) SCM_CDR (s_color))->g);
+}
+
+SCM color_b (SCM s_color)
+{
+   SCM_ASSERT_SMOB (s_color, color_tag, SCM_ARG1, "color:b");
+   return SCM_MAKINUM (((SDL_Color*) SCM_CDR (s_color))->b);
+}
+
+/* color setters */
+SCM color_set_r (SCM s_color, SCM s_r)
+{
+   SCM_ASSERT_SMOB (s_color, color_tag, SCM_ARG1, "color:set-r!");
+   SCM_ASSERT (SCM_INUMP (s_r),  s_r,   SCM_ARG2, "color:set-r!");
+   ((SDL_Color*) SCM_CDR (s_color))->r = SCM_INUM (s_r);
+   return SCM_UNSPECIFIED;
+}
+
+SCM color_set_g (SCM s_color, SCM s_g)
+{
+   SCM_ASSERT_SMOB (s_color, color_tag, SCM_ARG1, "color:set-g!");
+   SCM_ASSERT (SCM_INUMP (s_g),  s_g,   SCM_ARG2, "color:set-g!");
+   ((SDL_Color*) SCM_CDR (s_color))->g = SCM_INUM (s_g);
+   return SCM_UNSPECIFIED;
+}
+
+SCM color_set_b (SCM s_color, SCM s_b)
+{
+   SCM_ASSERT_SMOB (s_color, color_tag, SCM_ARG1, "color:set-b!");
+   SCM_ASSERT (SCM_INUMP (s_b),  s_b,   SCM_ARG2, "color:set-b!");
+   ((SDL_Color*) SCM_CDR (s_color))->b = SCM_INUM (s_b);
+   return SCM_UNSPECIFIED;
+}
+
+
+/* palettes */
 SCM
 make_palette (SCM s_colors)
 {
    return SCM_UNSPECIFIED;
 }
 
+
+/* pixel formats */
 SCM
 make_pixel_format (void)
 {
@@ -141,11 +239,7 @@ make_pixel_format (void)
 SCM
 get_video_surface (void)
 {
-   /* get the video surface */
-   SDL_Surface *surface = SDL_GetVideoSurface();
-   /* update and return the global video_surface smob */
-   SCM_SETCDR (video_surface, surface);
-   return video_surface;
+   SCM_RETURN_NEWSMOB (surface_tag, SDL_GetVideoSurface());
 }
 
 SCM
@@ -167,42 +261,47 @@ video_driver_name (void)
 SCM
 list_modes (SCM s_pixel_format, SCM s_flags)
 {
-   SDL_PixelFormat *format;
-   Uint32 flags;
+   SDL_PixelFormat *format=NULL;
+   Uint32 flags=0;
    SDL_Rect **modes;
    SCM result = SCM_EOL;
-   SCM current = result;
    SCM rect_smob;
    int i;
 
-   SCM_ASSERT ((SCM_NIMP (s_pixel_format)
-                && SCM_CAR (s_pixel_format) == pixel_format_tag),
-               s_pixel_format, SCM_ARG1, "list-modes");
-   SCM_ASSERT (SCM_INUMP (s_flags), s_flags, SCM_ARG2, "list-modes");
+   /* if a pixel format is given, verify and unpack it */
+   if (s_pixel_format != SCM_UNDEFINED) {
+      SCM_ASSERT_SMOB (s_pixel_format, pixel_format_tag, SCM_ARG1, "list-modes");
+      format = (SDL_PixelFormat *) SCM_CDR (s_pixel_format);
+   }
 
-   format = (SDL_PixelFormat *) SCM_CDR (s_pixel_format);
-   flags  = (Uint32) SCM_INUM (s_flags);
+   /* if flags are given, verify and unpack them */
+   if (s_flags != SCM_UNDEFINED) {
+      SCM_ASSERT (SCM_INUMP (s_flags), s_flags, SCM_ARG2, "list-modes");
+      flags  = (Uint32) SCM_INUM (s_flags);
+   }
 
    modes = SDL_ListModes (format, flags);
 
-   if (modes == (SDL_Rect**)0) {
-      /* return #f to signify no resolutions are available */
-      result = SCM_BOOL_F;
-   }
-   else if (modes == (SDL_Rect**)-1) {
-      /* return #t to signify all resolutions are available */
-      result = SCM_BOOL_T;
-   } else {
-      /* otherwise return a list of the available resolutions */
-      for (i=0; modes[i]; i++) {
-         /* create the rect smob */
-         SCM_NEWCELL (rect_smob);
-         SCM_SETCDR (rect_smob, modes[i]);
-         SCM_SETCAR (rect_smob, rect_tag);
-         /* cons it onto the list */
-         result = scm_cons (rect_smob, result);
-      }
-   }
+   if (modes == (SDL_Rect**)0) { 
+      /* return #f to signify no resolutions are available */ 
+      result = SCM_BOOL_F; 
+   } 
+   else if (modes == (SDL_Rect**)-1) { 
+      /* return #t to signify all resolutions are available */ 
+      result = SCM_BOOL_T; 
+   } else { 
+      /* otherwise return a list of the available resolutions */ 
+      for (i=0; modes[i]; i++) { 
+         /* create the rect smob */ 
+         SCM_NEWCELL (rect_smob); 
+         SCM_SETCDR (rect_smob, modes[i]); 
+         SCM_SETCAR (rect_smob, rect_tag); 
+         /* cons it onto the list */ 
+         result = scm_cons (rect_smob, result); 
+      } 
+   } 
+
+   return result;
 }
 
 SCM
@@ -233,7 +332,6 @@ video_mode_ok (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags)
 SCM
 set_video_mode (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags)
 {
-   SDL_Surface *surface;
    int width, height, bpp;
    Uint32 flags;
 
@@ -247,9 +345,7 @@ set_video_mode (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags)
    bpp    = SCM_INUM (s_bpp);
    flags  = (Uint32) SCM_INUM (s_flags);
 
-   surface = SDL_SetVideoMode (width, height, bpp, flags);
-   SCM_SETCDR (video_surface, surface);
-   return video_surface;
+   SCM_RETURN_NEWSMOB (surface_tag, SDL_SetVideoMode (width, height, bpp, flags));
 }
 
 SCM
@@ -258,9 +354,7 @@ update_rect (SCM s_screen, SCM s_x, SCM s_y, SCM s_w, SCM s_h)
    SDL_Surface *screen;
    Sint32 x, y, w, h;
 
-   SCM_ASSERT ((SCM_NIMP (s_screen)
-                && SCM_CAR (s_screen) == surface_tag),
-               s_screen, SCM_ARG1, "update-rect");
+   SCM_ASSERT_SMOB (s_screen, surface_tag, SCM_ARG1, "update-rect");
    SCM_ASSERT (SCM_INUMP (s_x), s_x, SCM_ARG2, "update-rect");
    SCM_ASSERT (SCM_INUMP (s_y), s_y, SCM_ARG3, "update-rect");
    SCM_ASSERT (SCM_INUMP (s_w), s_w, SCM_ARG4, "update-rect");
@@ -278,19 +372,20 @@ update_rect (SCM s_screen, SCM s_x, SCM s_y, SCM s_w, SCM s_h)
 }
 
 SCM
-update_rects (SCM s_screen, SCM s_rects)
-{
-}
-
-SCM
 flip (SCM s_screen)
 {
-   SCM_ASSERT ((SCM_NIMP (s_screen)
-                && SCM_CAR (s_screen) == surface_tag),
-               s_screen, SCM_ARG1, "flip");
+   SDL_Surface *screen;
 
-   SDL_Flip ((SDL_Surface *) SCM_CDR (s_screen));
+   if (s_screen != SCM_UNDEFINED) {
+      /* verify and unpack a surface */
+      SCM_ASSERT_SMOB (s_screen, surface_tag, SCM_ARG1, "flip");
+      screen = (SDL_Surface *) SCM_CDR (s_screen);
+   } else {
+      /* otherwise default to the current display */
+      screen = SDL_GetVideoSurface();
+   }
 
+   SDL_Flip (screen);
    return SCM_UNSPECIFIED;
 }
 
@@ -416,22 +511,14 @@ blit_surface (SCM s_src, SCM s_srcrect, SCM s_dst, SCM s_dstrect)
    SDL_Rect *srcrect;
    SDL_Rect *dstrect;
 
-   SCM_ASSERT ((SCM_NIMP (s_src)
-                && SCM_CAR (s_src) == surface_tag),
-               s_src, SCM_ARG1, "blit-surface");
-   SCM_ASSERT ((SCM_NIMP (s_srcrect)
-                && SCM_CAR (s_srcrect) == rect_tag),
-               s_srcrect, SCM_ARG2, "blit-surface");
-   SCM_ASSERT ((SCM_NIMP (s_dst)
-                && SCM_CAR (s_dst) == surface_tag),
-               s_dst, SCM_ARG3, "blit-surface");
-   SCM_ASSERT ((SCM_NIMP (s_dstrect)
-                && SCM_CAR (s_dstrect) == rect_tag),
-               s_dstrect, SCM_ARG4, "blit-surface");
+   SCM_ASSERT_SMOB (s_src, surface_tag,  SCM_ARG1, "blit-surface");
+   SCM_ASSERT_SMOB (s_srcrect, rect_tag, SCM_ARG2, "blit-surface");
+   SCM_ASSERT_SMOB (s_dst, surface_tag,  SCM_ARG3, "blit-surface");
+   SCM_ASSERT_SMOB (s_srcrect, rect_tag, SCM_ARG3, "blit-surface");
 
-   src = (SDL_Surface *) SCM_CDR (s_src);
+   src = (SDL_Surface *)  SCM_CDR (s_src);
    srcrect = (SDL_Rect *) SCM_CDR (s_srcrect);
-   dst = (SDL_Surface *) SCM_CDR (s_dst);
+   dst = (SDL_Surface *)  SCM_CDR (s_dst);
    dstrect = (SDL_Rect *) SCM_CDR (s_dstrect);
 
    return SCM_MAKINUM (SDL_BlitSurface (src, srcrect, dst, dstrect));
@@ -444,12 +531,8 @@ fill_rect (SCM s_dst, SCM s_dstrect, SCM s_color)
    SDL_Rect *dstrect;
    Uint32 color;
 
-   SCM_ASSERT ((SCM_NIMP (s_dst)
-                && SCM_CAR (s_dst) == surface_tag),
-               s_dst, SCM_ARG1, "fill-rect");
-   SCM_ASSERT ((SCM_NIMP (s_dstrect)
-                && SCM_CAR (s_dstrect) == rect_tag),
-               s_dstrect, SCM_ARG2, "fill-rect");
+   SCM_ASSERT_SMOB (s_dst, surface_tag,  SCM_ARG1, "fill-rect");
+   SCM_ASSERT_SMOB (s_dstrect, rect_tag, SCM_ARG2, "fill-rect");
    SCM_ASSERT (SCM_INUMP (s_color), s_color, SCM_ARG3, "fill-rect");
 
    dst = (SDL_Surface *) SCM_CDR (s_dst);
@@ -568,37 +651,43 @@ sdl_video_init (void)
    overlay_tag   = scm_make_smob_type ("overlay", sizeof (SDL_Overlay));
    video_info_tag = scm_make_smob_type ("video-info", sizeof (SDL_VideoInfo));
 
-   /* the default display */
-   SCM_NEWCELL (video_surface);
-   SCM_SETCAR (video_surface, surface_tag);
-   scm_c_define ("video-surface", video_surface);
-
    /* video functions */
    scm_make_gsubr ("make-rect",          4, 0, 0, make_rect);
+   scm_make_gsubr ("rect:x",             1, 0, 0, rect_x);
+   scm_make_gsubr ("rect:y",             1, 0, 0, rect_y);
+   scm_make_gsubr ("rect:w",             1, 0, 0, rect_w);
+   scm_make_gsubr ("rect:h",             1, 0, 0, rect_h);
+   scm_make_gsubr ("rect:set-x!",        2, 0, 0, rect_set_x);
+   scm_make_gsubr ("rect:set-y!",        2, 0, 0, rect_set_y);
+   scm_make_gsubr ("rect:set-w!",        2, 0, 0, rect_set_w);
+   scm_make_gsubr ("rect:set-h!",        2, 0, 0, rect_set_h);
    scm_make_gsubr ("make-color",         3, 0, 0, make_color);
+   scm_make_gsubr ("color:r",            1, 0, 0, color_r);
+   scm_make_gsubr ("color:g",            1, 0, 0, color_g);
+   scm_make_gsubr ("color:b",            1, 0, 0, color_b);
+   scm_make_gsubr ("color:set-r!",       2, 0, 0, color_set_r);
+   scm_make_gsubr ("color:set-g!",       2, 0, 0, color_set_g);
+   scm_make_gsubr ("color:set-b!",       2, 0, 0, color_set_b);
    scm_make_gsubr ("get-video-surface",  0, 0, 0, get_video_surface);
    scm_make_gsubr ("video-mode-ok",      4, 0, 0, video_mode_ok);
    scm_make_gsubr ("set-video-mode",     4, 0, 0, set_video_mode);
    scm_make_gsubr ("update-rect",        5, 0, 0, update_rect);
-   scm_make_gsubr ("flip",               1, 0, 0, flip);
+   scm_make_gsubr ("flip",               0, 1, 0, flip);
    scm_make_gsubr ("blit-surface",       4, 0, 0, blit_surface);
    scm_make_gsubr ("fill-rect",          3, 0, 0, fill_rect);
-   scm_make_gsubr ("list-modes",         2, 0, 0, list_modes);
+   scm_make_gsubr ("list-modes",         0, 2, 0, list_modes);
    scm_make_gsubr ("video-driver-name",  0, 0, 0, video_driver_name);
    scm_make_gsubr ("get-video-info",     0, 0, 0, get_video_info);
 
-   /* image functions */
-   scm_make_gsubr ("load-image",         1, 0, 0, img_load);
-
    /* exported symbols */
-   scm_c_export ("make-rect", "make-color", "get-video-surface",
+   scm_c_export ("make-rect", "rect:x", "rect:y", "rect:w", "rect:h",
+                 "rect:set-x!", "rect:set-y!", "rect:set-w!", "rect:set-h!",
+                 "make-color", "color:r", "color:g", "color:b",
+                 "color:set-r!", "color:set-g!", "color:set-b!",
+                 "get-video-surface",
                  "video-mode-ok", "set-video-mode", "update-rect",
                  "flip", "blit-surface", "fill-rect", "list-modes",
                  "video-driver-name", "get-video-info",
-                 /* the default display */
-                 "video-surface",
-                 /* image functions */
-                 "load-image",
                  NULL);
 }
 
