@@ -110,9 +110,10 @@ GH_DEFPROC (quit_subsystem, "quit-subsystem", 1, 0, 0,
 /* Information */
 GH_DEFPROC (was_init, "was-init", 1, 0, 0,
             (SCM sel),
-            "Check if the SDL subsystems represented by @var{sel}\n"
-            "have been initialized.  @var{sel} is a list of flags (symbols)\n"
-            "from the same set useful for @code{init}.")
+            "Check if the SDL subsystems represented by @var{sel} have\n"
+            "been initialized.  @var{sel} is a list of flags (symbols)\n"
+            "from the same set useful for @code{init}.  Return a list\n"
+            "likewise composed.")
 #define FUNC_NAME s_was_init
 {
   return gsdl_ulong2flags (SDL_WasInit (GSDL_FLAGS2ULONG
@@ -137,7 +138,8 @@ GH_DEFPROC (get_ticks, "get-ticks", 0, 0, 0,
 
 GH_DEFPROC (delay, "delay", 1, 0, 0,
             (SCM ms),
-            "Wait @var{ms} milliseconds.")
+            "Wait @var{ms} milliseconds.\n"
+            "The return value is unspecified.")
 #define FUNC_NAME s_delay
 {
   ASSERT_EXACT (ms, ARGH1);
