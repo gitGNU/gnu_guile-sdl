@@ -48,13 +48,13 @@ print_color (SCM color, SCM port, scm_print_state *pstate)
 {
   SDL_Color *ccolor = UNPACK_COLOR (color);
 
-  scm_puts           ("#<SDL-Color r=", port);
-  scm_display (gh_long2scm (ccolor->r), port);
-  scm_puts                      (" g=", port);
-  scm_display (gh_long2scm (ccolor->g), port);
-  scm_puts                      (" b=", port);
-  scm_display (gh_long2scm (ccolor->b), port);
-  scm_puts                        (">", port);
+  scm_puts      ("#<SDL-Color ", port);
+  scm_intprint                          (ccolor->r, 10, port);
+  scm_putc      (' ', port);
+  scm_intprint                          (ccolor->g, 10, port);
+  scm_putc      (' ', port);
+  scm_intprint                          (ccolor->b, 10, port);
+  scm_putc      ('>', port);
 
   /* Non-zero means success.  */
   return 1;

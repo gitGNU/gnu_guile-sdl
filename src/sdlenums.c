@@ -286,13 +286,13 @@ static
 int
 print_flagstash (SCM smob, SCM port, scm_print_state *ps)
 {
-  char buf[15];
   flagstash_t *stash = UNPACK_FLAGSTASH (smob);
 
-  sprintf (buf, "#<%d ", stash->total);
-  scm_puts (buf, port);
-  scm_puts (stash->name, port);
-  scm_puts (">", port);
+  scm_puts      ("#<", port);
+  scm_intprint                  (stash->total, 10, port);
+  scm_putc      (' ', port);
+  scm_puts                      (stash->name, port);
+  scm_putc      ('>', port);
   return 1;                             /* non-zero => ok */
 }
 

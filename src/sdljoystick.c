@@ -394,12 +394,12 @@ print_joy (SCM joystick, SCM port, scm_print_state *pstate)
 {
   SDL_Joystick *joy = UNPACK_JOYSTICK (joystick);
 
-  scm_puts                          ("#<SDL-Joystick ", port);
+  scm_puts      ("#<SDL-Joystick ", port);
   if (joy)
-    scm_display (gh_long2scm (SDL_JoystickIndex (joy)), port);
+    scm_intprint                        (SDL_JoystickIndex (joy), 10, port);
   else
-    scm_puts                                   ("NULL", port);
-  scm_puts                                        (">", port);
+    scm_puts                            ("NULL", port);
+  scm_putc      ('>', port);
 
   /* Non-zero means success */
   return 1;

@@ -606,14 +606,12 @@ static
 int
 print_fpsmgr (SCM fpsmgr, SCM port, scm_print_state *pstate)
 {
-  int chz;
   FPSmanager *m = UNPACK_FPSMGR (fpsmgr);
+  int chz = SDL_getFramerate (m);
 
-  chz = SDL_getFramerate (m);
-
-  scm_puts     ("#<FPS-manager ", port);
-  scm_display (gh_long2scm (chz), port);
-  scm_puts                ("Hz>", port);
+  scm_puts      ("#<FPS-manager ", port);
+  scm_intprint                                  (chz, 10, port);
+  scm_puts      ("Hz>", port);
 
   /* Non-zero means success.  */
   return 1;
