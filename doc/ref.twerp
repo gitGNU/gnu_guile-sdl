@@ -86,6 +86,7 @@
 @twerpdoc (iconify-window)
 @twerpdoc (toggle-full-screen)
 @twerpdoc (grab-input)
+@twerpdoc (get-app-state)
 
 @section Surface
 
