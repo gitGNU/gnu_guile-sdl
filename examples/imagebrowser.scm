@@ -4,7 +4,7 @@
 ;; Simple Image Browser
 ;; 
 ;; Created:    <2001-06-17 18:08:20 foof>
-;; Time-stamp: <2001-07-06 01:44:13 foof>
+;; Time-stamp: <2001-07-06 02:27:28 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
@@ -53,8 +53,7 @@
 ;; display an image given a filename
 (define (show file)
   (and-let* ((image (sdl-load-image file)))
-    (sdl-set-video-mode (sdl-surface:w image) (sdl-surface:h image)
-                        24 '(SDL_VIDEO_HWSURFACE))
+    (sdl-set-video-mode (sdl-surface:w image) (sdl-surface:h image) 24)
     (sdl-blit-surface image)
     (sdl-flip)))
 
@@ -65,13 +64,13 @@
 (let handle ((e (sdl-make-event)))
   (if (sdl-wait-event e)
     (case (sdl-event:type e)
-      ((event/key-down)
+      ((SDL_KEYDOWN)
        (case (sdl-event:key:keysym:sym e)
-         ((key/left key/backspace)
+         ((SDLK_LEFT SDLK_BACKSPACE)
           (show (prev-image)))
-         ((key/right key/space)
+         ((SDLK_RIGHT SDLK_SPACE)
           (show (next-image)))
-         ((key/escape key/q)
+         ((SDLK_ESCAPE SDLK_q)
           (sdl-quit)
           (quit))))))
   (handle e))
