@@ -249,6 +249,24 @@ GH_DEFPROC (load_image, "load-image", 1, 0, 0,
 #undef FUNC_NAME
 
 
+/* Experimental: Load an image in one of many formats from a string.  */
+GH_DEFPROC (string_to_image, "string->image", 1, 0, 0,
+            (SCM s),
+            "Return a surface made by loading an image data from string"
+            "@var{s}.  [WARNING: This procedure is experimental!]")
+#define FUNC_NAME s_string_to_image
+{
+  void *mem; int size;
+
+  ASSERT_STRING (s, ARGH1);
+  mem = SCM_CHARS (s);
+  size = SCM_ROLENGTH (s);
+
+  RETURN_NEW_SURFACE (IMG_Load_RW (SDL_RWFromMem (mem, size), 0));
+}
+#undef FUNC_NAME
+
+
 GH_DEFPROC (save_bmp, "save-bmp", 2, 0, 0,
             (SCM s_surface,
              SCM s_file),
