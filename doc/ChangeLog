@@ -1,3 +1,8 @@
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* guile-sdl.texi Throughout, disable @include directives for now.
+	(Top): Use "The guile-sdl Library" for @top.
+
 2003-10-31  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* guile-sdl.texi: Throughout, remove 2nd and subsequent comma-
