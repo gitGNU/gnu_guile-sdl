@@ -1,3 +1,7 @@
+2005-01-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlvideo.c (fill_rect): Fix bug: Use `gh_scm2ulong'.
+
 2005-01-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlevent.c (peep_events): Use structure assignment instead of `memcpy'.
