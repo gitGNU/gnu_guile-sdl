@@ -4,7 +4,7 @@
 ;; Simple Image Browser
 ;; 
 ;; Created:    <2001-06-17 18:08:20 foof>
-;; Time-stamp: <2001-06-18 01:52:21 foof>
+;; Time-stamp: <2001-07-06 01:44:13 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
@@ -14,7 +14,7 @@
              (srfi srfi-2))
 
 ;; initialize the video subsystem
-(sdl-init sdl-init/video)
+(sdl-init '(SDL_INIT_VIDEO))
 
 ;; directory to search for images in
 (define image-dir "/usr/share/pixmaps/")
@@ -54,7 +54,7 @@
 (define (show file)
   (and-let* ((image (sdl-load-image file)))
     (sdl-set-video-mode (sdl-surface:w image) (sdl-surface:h image)
-                        24 sdl-video/hwsurface)
+                        24 '(SDL_VIDEO_HWSURFACE))
     (sdl-blit-surface image)
     (sdl-flip)))
 

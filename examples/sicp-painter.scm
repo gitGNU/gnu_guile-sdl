@@ -4,7 +4,7 @@
 ;; SICP Picture Language Example
 ;; 
 ;; Created:    <2001-06-24 16:36:53 foof>
-;; Time-stamp: <2001-06-30 01:07:42 foof>
+;; Time-stamp: <2001-07-06 01:44:52 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
@@ -95,7 +95,7 @@
 ;; corner-split count.
 
 ;; initialize the video subsystem
-(sdl-init sdl-init/video)
+(sdl-init '(SDL_INIT_VIDEO))
 
 (let* ((painter (sdl-load-image "william-rogers.png"))
        (w (sdl-surface:w painter))
@@ -103,7 +103,7 @@
        (depth (sdl-surface:depth painter))
        (e (sdl-make-event))
        (i 1))
-  (sdl-set-video-mode w h depth 1)
+  (sdl-set-video-mode w h depth)
   (sdl-blit-surface (corner-split painter i))
   (sdl-flip)
   (while (not (and e (eq? (sdl-event:type e) 'event/key-down)
