@@ -1,5 +1,10 @@
 2005-04-02  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlenums.c (gsdl_flags2ulong):
+	If `flags' is #f or the empty list, return 0.
+
+2005-04-02  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* misc.c: New file.
 	* Makefile.am (WRAPPER_SOURCES): Add misc.c.
 	* sdl.c (gsdl_init_misc): New extern func decl.

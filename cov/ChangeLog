@@ -1,3 +1,8 @@
+2005-04-02  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* scan (write-coverage): Use `make-object-property'.
+	Also, unprefix `*implementation-root*' from filenames.
+
 2005-04-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* scan (*Guile-SDL-implementation*): Delete var.
