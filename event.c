@@ -2,7 +2,7 @@
  *  event.c -- SDL input handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:58:16 foof>                         *
- *  Time-stamp: <2001-06-04 21:31:11 foof>                         *
+ *  Time-stamp: <2001-06-09 21:23:13 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -30,6 +30,9 @@
 /* tags for SDL smobs */
 long event_tag;
 long keysym_tag;
+
+SCM event_type_enum;
+SCM event_keysym_enum;
 
 /* constructors */
 SCM make_event (SCM s_type)
@@ -69,8 +72,17 @@ SCM make_keysym (SCM sym, SCM mod)
 
 /* smob getters */
 
-SCM_DEFINE_INUM_GETTER ("event:type", event_type, event_tag, 
-                        SDL_Event*, type) 
+/* SCM_DEFINE_INUM_GETTER ("event:type", event_type, event_tag,  */
+/*                         SDL_Event*, type)  */
+
+SCM event_type (SCM event)
+{
+   SCM t;
+   SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "event:type");
+   t = SCM_MAKINUM (((SDL_Event*) SCM_CDR (event))->type);
+   return scm_number_to_enum (event_type_enum, t);
+}
+
 
 SCM_DEFINE_INUM_GETTER ("event:active:gain", event_active_gain, event_tag, 
                         SDL_Event*, active.gain) 
@@ -80,8 +92,19 @@ SCM_DEFINE_INUM_GETTER ("event:active:state", event_active_state, event_tag,
 SCM_DEFINE_INUM_GETTER ("event:key:state", event_key_state, event_tag, 
                         SDL_Event*, key.state) 
 
-SCM_DEFINE_INUM_GETTER ("event:key:keysym:sym", event_key_keysym_sym, 
-                        event_tag, SDL_Event*, key.keysym.sym) 
+/* SCM_DEFINE_INUM_GETTER ("event:key:keysym:sym", event_key_keysym_sym,  */
+/*                         event_tag, SDL_Event*, key.keysym.sym)  */
+SCM event_key_keysym_sym (SCM s_event)
+{
+   SCM sym;
+   SDL_Event* event;
+
+   SCM_ASSERT_SMOB (s_event, event_tag, SCM_ARG1, "event:key:keysym:sym");
+   event = (SDL_Event*) SCM_CDR (s_event);
+   sym = SCM_MAKINUM (event->key.keysym.sym);
+   return scm_number_to_enum (event_keysym_enum, sym);
+}
+
 SCM_DEFINE_INUM_GETTER ("event:key:keysym:mod", event_key_keysym_mod, 
                         event_tag, SDL_Event*, key.keysym.mod) 
 SCM_DEFINE_INUM_GETTER ("event:key:keysym:scancode", event_key_keysym_scancode, 
@@ -253,156 +276,162 @@ void sdl_event_init (void)
    keysym_tag  = scm_make_smob_type ("keysym", sizeof (SDL_keysym));
 
    /* event type constants */
-/*    SCM_DEFINE_CONST ("event/active",            SDL_ACTIVEEVENT); */
-/*    SCM_DEFINE_CONST ("event/key-down",          SDL_KEYDOWN); */
-/*    SCM_DEFINE_CONST ("event/key-up",            SDL_KEYUP); */
-/*    SCM_DEFINE_CONST ("event/mouse-motion",      SDL_MOUSEMOTION); */
-/*    SCM_DEFINE_CONST ("event/mouse-button-down", SDL_MOUSEBUTTONDOWN); */
-/*    SCM_DEFINE_CONST ("event/mouse-button-up",   SDL_MOUSEBUTTONUP); */
-/*    SCM_DEFINE_CONST ("event/joy-axis-motion",   SDL_JOYAXISMOTION); */
-/*    SCM_DEFINE_CONST ("event/joy-ball-motion",   SDL_JOYBALLMOTION); */
-/*    SCM_DEFINE_CONST ("event/joy-hat-motion",    SDL_JOYHATMOTION); */
-/*    SCM_DEFINE_CONST ("event/joy-button-down",   SDL_JOYBUTTONDOWN); */
-/*    SCM_DEFINE_CONST ("event/joy-button-up",     SDL_JOYBUTTONUP); */
-/*    SCM_DEFINE_CONST ("event/quit",              SDL_QUIT); */
-/*    SCM_DEFINE_CONST ("event/sys-wm",            SDL_SYSWMEVENT); */
-/*    SCM_DEFINE_CONST ("event/video-resize",      SDL_VIDEORESIZE); */
-/*    SCM_DEFINE_CONST ("event/user",              SDL_USEREVENT); */
+   event_type_enum = scm_c_define_enum (
+      "event-types",
+      "event/active",            SDL_ACTIVEEVENT,
+      "event/key-down",          SDL_KEYDOWN,
+      "event/key-up",            SDL_KEYUP,
+      "event/mouse-motion",      SDL_MOUSEMOTION,
+      "event/mouse-button-down", SDL_MOUSEBUTTONDOWN,
+      "event/mouse-button-up",   SDL_MOUSEBUTTONUP,
+      "event/joy-axis-motion",   SDL_JOYAXISMOTION,
+      "event/joy-ball-motion",   SDL_JOYBALLMOTION,
+      "event/joy-hat-motion",    SDL_JOYHATMOTION,
+      "event/joy-button-down",   SDL_JOYBUTTONDOWN,
+      "event/joy-button-up",     SDL_JOYBUTTONUP,
+      "event/quit",              SDL_QUIT,
+      "event/sys-wm",            SDL_SYSWMEVENT,
+      "event/video-resize",      SDL_VIDEORESIZE,
+      "event/user",              SDL_USEREVENT,
+      NULL);
 
    /* keysyms */
-/*    SCM_DEFINE_CONST ("key/backspace",  SDLK_BACKSPACE); */
-/*    SCM_DEFINE_CONST ("key/tab",  SDLK_TAB); */
-/*    SCM_DEFINE_CONST ("key/clear",  SDLK_CLEAR); */
-/*    SCM_DEFINE_CONST ("key/return",  SDLK_RETURN); */
-/*    SCM_DEFINE_CONST ("key/pause",  SDLK_PAUSE); */
-/*    SCM_DEFINE_CONST ("key/escape",  SDLK_ESCAPE); */
-/*    SCM_DEFINE_CONST ("key/space",  SDLK_SPACE); */
-/*    SCM_DEFINE_CONST ("key/exclaim",  SDLK_EXCLAIM); */
-/*    SCM_DEFINE_CONST ("key/quotedbl",  SDLK_QUOTEDBL); */
-/*    SCM_DEFINE_CONST ("key/hash",  SDLK_HASH); */
-/*    SCM_DEFINE_CONST ("key/dollar",  SDLK_DOLLAR); */
-/*    SCM_DEFINE_CONST ("key/ampersand",  SDLK_AMPERSAND); */
-/*    SCM_DEFINE_CONST ("key/quote",  SDLK_QUOTE); */
-/*    SCM_DEFINE_CONST ("key/leftparen",  SDLK_LEFTPAREN); */
-/*    SCM_DEFINE_CONST ("key/rightparen",  SDLK_RIGHTPAREN); */
-/*    SCM_DEFINE_CONST ("key/asterisk",  SDLK_ASTERISK); */
-/*    SCM_DEFINE_CONST ("key/plus",  SDLK_PLUS); */
-/*    SCM_DEFINE_CONST ("key/comma",  SDLK_COMMA); */
-/*    SCM_DEFINE_CONST ("key/minus",  SDLK_MINUS); */
-/*    SCM_DEFINE_CONST ("key/period",  SDLK_PERIOD); */
-/*    SCM_DEFINE_CONST ("key/slash",  SDLK_SLASH); */
-/*    SCM_DEFINE_CONST ("key/0",  SDLK_0); */
-/*    SCM_DEFINE_CONST ("key/1",  SDLK_1); */
-/*    SCM_DEFINE_CONST ("key/2",  SDLK_2); */
-/*    SCM_DEFINE_CONST ("key/3",  SDLK_3); */
-/*    SCM_DEFINE_CONST ("key/4",  SDLK_4); */
-/*    SCM_DEFINE_CONST ("key/5",  SDLK_5); */
-/*    SCM_DEFINE_CONST ("key/6",  SDLK_6); */
-/*    SCM_DEFINE_CONST ("key/7",  SDLK_7); */
-/*    SCM_DEFINE_CONST ("key/8",  SDLK_8); */
-/*    SCM_DEFINE_CONST ("key/9",  SDLK_9); */
-/*    SCM_DEFINE_CONST ("key/colon",  SDLK_COLON); */
-/*    SCM_DEFINE_CONST ("key/semicolon",  SDLK_SEMICOLON); */
-/*    SCM_DEFINE_CONST ("key/less",  SDLK_LESS); */
-/*    SCM_DEFINE_CONST ("key/equals",  SDLK_EQUALS); */
-/*    SCM_DEFINE_CONST ("key/greater",  SDLK_GREATER); */
-/*    SCM_DEFINE_CONST ("key/question",  SDLK_QUESTION); */
-/*    SCM_DEFINE_CONST ("key/at",  SDLK_AT); */
-/*    SCM_DEFINE_CONST ("key/leftbracket",  SDLK_LEFTBRACKET); */
-/*    SCM_DEFINE_CONST ("key/backslash",  SDLK_BACKSLASH); */
-/*    SCM_DEFINE_CONST ("key/rightbracket",  SDLK_RIGHTBRACKET); */
-/*    SCM_DEFINE_CONST ("key/caret",  SDLK_CARET); */
-/*    SCM_DEFINE_CONST ("key/underscore",  SDLK_UNDERSCORE); */
-/*    SCM_DEFINE_CONST ("key/backquote",  SDLK_BACKQUOTE); */
-/*    SCM_DEFINE_CONST ("key/a",  SDLK_a); */
-/*    SCM_DEFINE_CONST ("key/b",  SDLK_b); */
-/*    SCM_DEFINE_CONST ("key/c",  SDLK_c); */
-/*    SCM_DEFINE_CONST ("key/d",  SDLK_d); */
-/*    SCM_DEFINE_CONST ("key/e",  SDLK_e); */
-/*    SCM_DEFINE_CONST ("key/f",  SDLK_f); */
-/*    SCM_DEFINE_CONST ("key/g",  SDLK_g); */
-/*    SCM_DEFINE_CONST ("key/h",  SDLK_h); */
-/*    SCM_DEFINE_CONST ("key/i",  SDLK_i); */
-/*    SCM_DEFINE_CONST ("key/j",  SDLK_j); */
-/*    SCM_DEFINE_CONST ("key/k",  SDLK_k); */
-/*    SCM_DEFINE_CONST ("key/l",  SDLK_l); */
-/*    SCM_DEFINE_CONST ("key/m",  SDLK_m); */
-/*    SCM_DEFINE_CONST ("key/n",  SDLK_n); */
-/*    SCM_DEFINE_CONST ("key/o",  SDLK_o); */
-/*    SCM_DEFINE_CONST ("key/p",  SDLK_p); */
-/*    SCM_DEFINE_CONST ("key/q",  SDLK_q); */
-/*    SCM_DEFINE_CONST ("key/r",  SDLK_r); */
-/*    SCM_DEFINE_CONST ("key/s",  SDLK_s); */
-/*    SCM_DEFINE_CONST ("key/t",  SDLK_t); */
-/*    SCM_DEFINE_CONST ("key/u",  SDLK_u); */
-/*    SCM_DEFINE_CONST ("key/v",  SDLK_v); */
-/*    SCM_DEFINE_CONST ("key/w",  SDLK_w); */
-/*    SCM_DEFINE_CONST ("key/x",  SDLK_x); */
-/*    SCM_DEFINE_CONST ("key/y",  SDLK_y); */
-/*    SCM_DEFINE_CONST ("key/z",  SDLK_z); */
-/*    SCM_DEFINE_CONST ("key/delete",  SDLK_DELETE); */
-/*    SCM_DEFINE_CONST ("key/kp0",  SDLK_KP0); */
-/*    SCM_DEFINE_CONST ("key/kp1",  SDLK_KP1); */
-/*    SCM_DEFINE_CONST ("key/kp2",  SDLK_KP2); */
-/*    SCM_DEFINE_CONST ("key/kp3",  SDLK_KP3); */
-/*    SCM_DEFINE_CONST ("key/kp4",  SDLK_KP4); */
-/*    SCM_DEFINE_CONST ("key/kp5",  SDLK_KP5); */
-/*    SCM_DEFINE_CONST ("key/kp6",  SDLK_KP6); */
-/*    SCM_DEFINE_CONST ("key/kp7",  SDLK_KP7); */
-/*    SCM_DEFINE_CONST ("key/kp8",  SDLK_KP8); */
-/*    SCM_DEFINE_CONST ("key/kp9",  SDLK_KP9); */
-/*    SCM_DEFINE_CONST ("key/kp_period",  SDLK_KP_PERIOD); */
-/*    SCM_DEFINE_CONST ("key/kp_divide",  SDLK_KP_DIVIDE); */
-/*    SCM_DEFINE_CONST ("key/kp_multiply",  SDLK_KP_MULTIPLY); */
-/*    SCM_DEFINE_CONST ("key/kp_minus",  SDLK_KP_MINUS); */
-/*    SCM_DEFINE_CONST ("key/kp_plus",  SDLK_KP_PLUS); */
-/*    SCM_DEFINE_CONST ("key/kp_enter",  SDLK_KP_ENTER); */
-/*    SCM_DEFINE_CONST ("key/kp_equals",  SDLK_KP_EQUALS); */
-/*    SCM_DEFINE_CONST ("key/up",  SDLK_UP); */
-/*    SCM_DEFINE_CONST ("key/down",  SDLK_DOWN); */
-/*    SCM_DEFINE_CONST ("key/right",  SDLK_RIGHT); */
-/*    SCM_DEFINE_CONST ("key/left",  SDLK_LEFT); */
-/*    SCM_DEFINE_CONST ("key/insert",  SDLK_INSERT); */
-/*    SCM_DEFINE_CONST ("key/home",  SDLK_HOME); */
-/*    SCM_DEFINE_CONST ("key/end",  SDLK_END); */
-/*    SCM_DEFINE_CONST ("key/pageup",  SDLK_PAGEUP); */
-/*    SCM_DEFINE_CONST ("key/pagedown",  SDLK_PAGEDOWN); */
-/*    SCM_DEFINE_CONST ("key/f1",  SDLK_F1); */
-/*    SCM_DEFINE_CONST ("key/f2",  SDLK_F2); */
-/*    SCM_DEFINE_CONST ("key/f3",  SDLK_F3); */
-/*    SCM_DEFINE_CONST ("key/f4",  SDLK_F4); */
-/*    SCM_DEFINE_CONST ("key/f5",  SDLK_F5); */
-/*    SCM_DEFINE_CONST ("key/f6",  SDLK_F6); */
-/*    SCM_DEFINE_CONST ("key/f7",  SDLK_F7); */
-/*    SCM_DEFINE_CONST ("key/f8",  SDLK_F8); */
-/*    SCM_DEFINE_CONST ("key/f9",  SDLK_F9); */
-/*    SCM_DEFINE_CONST ("key/f10",  SDLK_F10); */
-/*    SCM_DEFINE_CONST ("key/f11",  SDLK_F11); */
-/*    SCM_DEFINE_CONST ("key/f12",  SDLK_F12); */
-/*    SCM_DEFINE_CONST ("key/f13",  SDLK_F13); */
-/*    SCM_DEFINE_CONST ("key/f14",  SDLK_F14); */
-/*    SCM_DEFINE_CONST ("key/f15",  SDLK_F15); */
-/*    SCM_DEFINE_CONST ("key/numlock",  SDLK_NUMLOCK); */
-/*    SCM_DEFINE_CONST ("key/capslock",  SDLK_CAPSLOCK); */
-/*    SCM_DEFINE_CONST ("key/scrollock",  SDLK_SCROLLOCK); */
-/*    SCM_DEFINE_CONST ("key/rshift",  SDLK_RSHIFT); */
-/*    SCM_DEFINE_CONST ("key/lshift",  SDLK_LSHIFT); */
-/*    SCM_DEFINE_CONST ("key/rctrl",  SDLK_RCTRL); */
-/*    SCM_DEFINE_CONST ("key/lctrl",  SDLK_LCTRL); */
-/*    SCM_DEFINE_CONST ("key/ralt",  SDLK_RALT); */
-/*    SCM_DEFINE_CONST ("key/lalt",  SDLK_LALT); */
-/*    SCM_DEFINE_CONST ("key/rmeta",  SDLK_RMETA); */
-/*    SCM_DEFINE_CONST ("key/lmeta",  SDLK_LMETA); */
-/*    SCM_DEFINE_CONST ("key/lsuper",  SDLK_LSUPER); */
-/*    SCM_DEFINE_CONST ("key/rsuper",  SDLK_RSUPER); */
-/*    SCM_DEFINE_CONST ("key/mode",  SDLK_MODE); */
-/*    SCM_DEFINE_CONST ("key/help",  SDLK_HELP); */
-/*    SCM_DEFINE_CONST ("key/print",  SDLK_PRINT); */
-/*    SCM_DEFINE_CONST ("key/sysreq",  SDLK_SYSREQ); */
-/*    SCM_DEFINE_CONST ("key/break",  SDLK_BREAK); */
-/*    SCM_DEFINE_CONST ("key/menu",  SDLK_MENU); */
-/*    SCM_DEFINE_CONST ("key/power",  SDLK_POWER); */
-/*    SCM_DEFINE_CONST ("key/euro",  SDLK_EURO); */
+   event_keysym_enum = scm_c_define_enum (
+      "event-keys",
+      "key/backspace",  SDLK_BACKSPACE,
+      "key/tab",  SDLK_TAB,
+      "key/clear",  SDLK_CLEAR,
+      "key/return",  SDLK_RETURN,
+      "key/pause",  SDLK_PAUSE,
+      "key/escape",  SDLK_ESCAPE,
+      "key/space",  SDLK_SPACE,
+      "key/exclaim",  SDLK_EXCLAIM,
+      "key/quotedbl",  SDLK_QUOTEDBL,
+      "key/hash",  SDLK_HASH,
+      "key/dollar",  SDLK_DOLLAR,
+      "key/ampersand",  SDLK_AMPERSAND,
+      "key/quote",  SDLK_QUOTE,
+      "key/leftparen",  SDLK_LEFTPAREN,
+      "key/rightparen",  SDLK_RIGHTPAREN,
+      "key/asterisk",  SDLK_ASTERISK,
+      "key/plus",  SDLK_PLUS,
+      "key/comma",  SDLK_COMMA,
+      "key/minus",  SDLK_MINUS,
+      "key/period",  SDLK_PERIOD,
+      "key/slash",  SDLK_SLASH,
+      "key/0",  SDLK_0,
+      "key/1",  SDLK_1,
+      "key/2",  SDLK_2,
+      "key/3",  SDLK_3,
+      "key/4",  SDLK_4,
+      "key/5",  SDLK_5,
+      "key/6",  SDLK_6,
+      "key/7",  SDLK_7,
+      "key/8",  SDLK_8,
+      "key/9",  SDLK_9,
+      "key/colon",  SDLK_COLON,
+      "key/semicolon",  SDLK_SEMICOLON,
+      "key/less",  SDLK_LESS,
+      "key/equals",  SDLK_EQUALS,
+      "key/greater",  SDLK_GREATER,
+      "key/question",  SDLK_QUESTION,
+      "key/at",  SDLK_AT,
+      "key/leftbracket",  SDLK_LEFTBRACKET,
+      "key/backslash",  SDLK_BACKSLASH,
+      "key/rightbracket",  SDLK_RIGHTBRACKET,
+      "key/caret",  SDLK_CARET,
+      "key/underscore",  SDLK_UNDERSCORE,
+      "key/backquote",  SDLK_BACKQUOTE,
+      "key/a",  SDLK_a,
+      "key/b",  SDLK_b,
+      "key/c",  SDLK_c,
+      "key/d",  SDLK_d,
+      "key/e",  SDLK_e,
+      "key/f",  SDLK_f,
+      "key/g",  SDLK_g,
+      "key/h",  SDLK_h,
+      "key/i",  SDLK_i,
+      "key/j",  SDLK_j,
+      "key/k",  SDLK_k,
+      "key/l",  SDLK_l,
+      "key/m",  SDLK_m,
+      "key/n",  SDLK_n,
+      "key/o",  SDLK_o,
+      "key/p",  SDLK_p,
+      "key/q",  SDLK_q,
+      "key/r",  SDLK_r,
+      "key/s",  SDLK_s,
+      "key/t",  SDLK_t,
+      "key/u",  SDLK_u,
+      "key/v",  SDLK_v,
+      "key/w",  SDLK_w,
+      "key/x",  SDLK_x,
+      "key/y",  SDLK_y,
+      "key/z",  SDLK_z,
+      "key/delete",  SDLK_DELETE,
+      "key/kp0",  SDLK_KP0,
+      "key/kp1",  SDLK_KP1,
+      "key/kp2",  SDLK_KP2,
+      "key/kp3",  SDLK_KP3,
+      "key/kp4",  SDLK_KP4,
+      "key/kp5",  SDLK_KP5,
+      "key/kp6",  SDLK_KP6,
+      "key/kp7",  SDLK_KP7,
+      "key/kp8",  SDLK_KP8,
+      "key/kp9",  SDLK_KP9,
+      "key/kp-period",  SDLK_KP_PERIOD,
+      "key/kp-divide",  SDLK_KP_DIVIDE,
+      "key/kp-multiply",  SDLK_KP_MULTIPLY,
+      "key/kp-minus",  SDLK_KP_MINUS,
+      "key/kp-plus",  SDLK_KP_PLUS,
+      "key/kp-enter",  SDLK_KP_ENTER,
+      "key/kp-equals",  SDLK_KP_EQUALS,
+      "key/up",  SDLK_UP,
+      "key/down",  SDLK_DOWN,
+      "key/right",  SDLK_RIGHT,
+      "key/left",  SDLK_LEFT,
+      "key/insert",  SDLK_INSERT,
+      "key/home",  SDLK_HOME,
+      "key/end",  SDLK_END,
+      "key/pageup",  SDLK_PAGEUP,
+      "key/pagedown",  SDLK_PAGEDOWN,
+      "key/f1",  SDLK_F1,
+      "key/f2",  SDLK_F2,
+      "key/f3",  SDLK_F3,
+      "key/f4",  SDLK_F4,
+      "key/f5",  SDLK_F5,
+      "key/f6",  SDLK_F6,
+      "key/f7",  SDLK_F7,
+      "key/f8",  SDLK_F8,
+      "key/f9",  SDLK_F9,
+      "key/f10",  SDLK_F10,
+      "key/f11",  SDLK_F11,
+      "key/f12",  SDLK_F12,
+      "key/f13",  SDLK_F13,
+      "key/f14",  SDLK_F14,
+      "key/f15",  SDLK_F15,
+      "key/numlock",  SDLK_NUMLOCK,
+      "key/capslock",  SDLK_CAPSLOCK,
+      "key/scrollock",  SDLK_SCROLLOCK,
+      "key/rshift",  SDLK_RSHIFT,
+      "key/lshift",  SDLK_LSHIFT,
+      "key/rctrl",  SDLK_RCTRL,
+      "key/lctrl",  SDLK_LCTRL,
+      "key/ralt",  SDLK_RALT,
+      "key/lalt",  SDLK_LALT,
+      "key/rmeta",  SDLK_RMETA,
+      "key/lmeta",  SDLK_LMETA,
+      "key/lsuper",  SDLK_LSUPER,
+      "key/rsuper",  SDLK_RSUPER,
+      "key/mode",  SDLK_MODE,
+      "key/help",  SDLK_HELP,
+      "key/print",  SDLK_PRINT,
+      "key/sysreq",  SDLK_SYSREQ,
+      "key/break",  SDLK_BREAK,
+      "key/menu",  SDLK_MENU,
+      "key/power",  SDLK_POWER,
+      "key/euro",  SDLK_EURO,
+      NULL);
 
    /* modsysms */
 /*    SCM_DEFINE_CONST ("mod/none", KMOD_NONE); */
@@ -469,89 +498,8 @@ void sdl_event_init (void)
 
    /* exported symbols */
    scm_c_export (
-      /* event constants */
-/*       "event/active",              "event/key-down", */
-/*       "event/key-up",              "event/mouse-motion", */
-/*       "event/mouse-button-down",   "event/mouse-button-up", */
-/*       "event/joy-axis-motion",     "event/joy-ball-motion", */
-/*       "event/joy-hat-motion",      "event/joy-button-down", */
-/*       "event/joy-button-up",       "event/quit", */
-/*       "event/sys-wm",              "event/video-resize", */
-/*       "event/user", */
-      /* keysyms */
-/*       "key/backspace",             "key/tab", */
-/*       "key/clear",                 "key/return", */
-/*       "key/pause",                 "key/escape", */
-/*       "key/space",                 "key/exclaim", */
-/*       "key/quotedbl",              "key/hash", */
-/*       "key/dollar",                "key/ampersand", */
-/*       "key/quote",                 "key/leftparen", */
-/*       "key/rightparen",            "key/asterisk", */
-/*       "key/plus",                  "key/comma", */
-/*       "key/minus",                 "key/period", */
-/*       "key/slash",                 "key/0", */
-/*       "key/1",                     "key/2", */
-/*       "key/3",                     "key/4", */
-/*       "key/5",                     "key/6", */
-/*       "key/7",                     "key/8", */
-/*       "key/9",                     "key/colon", */
-/*       "key/semicolon",             "key/less", */
-/*       "key/equals",                "key/greater", */
-/*       "key/question",              "key/at", */
-/*       "key/leftbracket",           "key/backslash", */
-/*       "key/rightbracket",          "key/caret", */
-/*       "key/underscore",            "key/backquote", */
-/*       "key/a",                     "key/b", */
-/*       "key/c",                     "key/d", */
-/*       "key/e",                     "key/f", */
-/*       "key/g",                     "key/h", */
-/*       "key/i",                     "key/j", */
-/*       "key/k",                     "key/l", */
-/*       "key/m",                     "key/n", */
-/*       "key/o",                     "key/p", */
-/*       "key/q",                     "key/r", */
-/*       "key/s",                     "key/t", */
-/*       "key/u",                     "key/v", */
-/*       "key/w",                     "key/x", */
-/*       "key/y",                     "key/z", */
-/*       "key/delete",                "key/kp0", */
-/*       "key/kp1",                   "key/kp2", */
-/*       "key/kp3",                   "key/kp4", */
-/*       "key/kp5",                   "key/kp6", */
-/*       "key/kp7",                   "key/kp8", */
-/*       "key/kp9",                   "key/kp_period", */
-/*       "key/kp_divide",             "key/kp_multiply", */
-/*       "key/kp_minus",              "key/kp_plus", */
-/*       "key/kp_enter",              "key/kp_equals", */
-/*       "key/up",                    "key/down", */
-/*       "key/right",                 "key/left", */
-/*       "key/insert",                "key/home", */
-/*       "key/end",                   "key/pageup", */
-/*       "key/pagedown",              "key/f1", */
-/*       "key/f2",                    "key/f3", */
-/*       "key/f4",                    "key/f5", */
-/*       "key/f6",                    "key/f7", */
-/*       "key/f8",                    "key/f9", */
-/*       "key/f10",                   "key/f11", */
-/*       "key/f12",                   "key/f13", */
-/*       "key/f14",                   "key/f15", */
-/*       "key/numlock",               "key/capslock", */
-/*       "key/scrollock",             "key/rshift", */
-/*       "key/lshift",                "key/rctrl", */
-/*       "key/lctrl",                 "key/ralt", */
-/*       "key/lalt",                  "key/rmeta", */
-/*       "key/lmeta",                 "key/lsuper", */
-/*       "key/rsuper",                "key/mode", */
-/*       "key/help",                  "key/print", */
-/*       "key/sysreq",                "key/break", */
-/*       "key/menu",                  "key/power", */
-/*       "key/euro", */
-      /* modsyms */
-/*       "mod/none",     "mod/lshift",     "mod/rshift", */
-/*       "mod/lctrl",    "mod/rctrl",      "mod/lalt", */
-/*       "mod/ralt",     "mod/lmeta",      "mod/rmeta", */
-/*       "mod/num",      "mod/caps",       "mod/mode", */
-/*       "mod/reserved", */
+      /* enums */
+      "event-types", "event-keys",
       /* smob getters */
       "event:type",                "event:active:gain", 
       "event:active:state",        "event:key:state", 
