@@ -1,3 +1,8 @@
+2003-11-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (pre-inst.merged-module-catalog): For "guile-tools
+	make-module-catalog", replace two "-X" options with one "-d".
+
 2003-11-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* wily-guile.in: No longer consult
