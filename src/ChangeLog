@@ -46,6 +46,22 @@
 	(sdl_init_cdrom): Register `mark_cd'.
 	Remove call to `scm_c_export'.
 
+	* sdlcolor.c: Update copyright.
+	No longer include <libguile.h>.
+	Include <guile/gh.h>.
+	No longer include "sdlsurface.h".
+	Include "config.h", "argcheck.h" and "wholefns.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(color_tag): Make static.
+	(mark_color): New static func.
+	(free_color, print_color): Make static.
+	(NUMBER_GETTER, NUMBER_SETTER, NUMBER_GETSET): New macros.
+	(sdl_init_color): Register `mark_color'.
+	Remove calls to `scm_c_define_gsubr'.
+	Remove call to `scm_c_export'.
+
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"
