@@ -2,7 +2,7 @@
  *  video.h -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-24 23:59:59 foof>                         *
+ *  Time-stamp: <2001-06-30 01:19:13 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -41,6 +41,9 @@ extern long palette_tag;
 extern long pixel_format_tag;
 extern long overlay_tag;
 extern long video_info_tag;
+
+#define SMOB_SURFACEP(x) (SCM_NIMP (x)\
+			 && (long) SCM_CAR (x) == surface_tag)
 
 scm_sizet free_surface (SCM surface);
 scm_sizet free_rect (SCM rect);
@@ -130,6 +133,6 @@ SCM wm_toggle_full_screen (SCM surface);
 SCM wm_grab_input (SCM mode);
 
 /* called to initialize functions and smobs */
-void sdl_video_init (void);
+void sdl_init_video (void);
 
 #endif /* ! _GUILE_SDL_VIDEO_H */

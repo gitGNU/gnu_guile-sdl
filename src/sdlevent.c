@@ -2,7 +2,7 @@
  *  event.c -- SDL input handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:58:16 foof>                         *
- *  Time-stamp: <2001-06-25 00:25:57 foof>                         *
+ *  Time-stamp: <2001-06-30 01:19:05 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -385,7 +385,7 @@ sdl_button_p (SCM mask)
 }
 
 /* Initialize glue */
-void sdl_event_init (void)
+void sdl_init_event (void)
 {
    /* tags */
    event_tag   = scm_make_smob_type ("event",  sizeof (SDL_Event));

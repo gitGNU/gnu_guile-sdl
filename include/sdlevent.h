@@ -2,7 +2,7 @@
  *  event.h -- SDL event handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:43:48 foof>                         *
- *  Time-stamp: <2001-06-10 22:59:11 foof>                         *
+ *  Time-stamp: <2001-06-30 01:19:21 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -117,7 +117,7 @@ SCM event_state (SCM type, SCM state);
 
 
 /* Initialize glue */
-void sdl_event_init (void);
+void sdl_init_event (void);
 
 #endif /* ! _GUILE_SDL_EVENT_H */
 

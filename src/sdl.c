@@ -2,7 +2,7 @@
  *  sdl.c -- SDL Wrappers for Guile                                *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-25 01:23:41 foof>                         *
+ *  Time-stamp: <2001-06-30 01:18:33 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -32,13 +32,10 @@
 #include "sdlenums.h"
 #include "sdlsmobs.h"
 #include "sdlvideo.h"
-/* #include "sdlimage.h" */
-#include "sdlgfx.h"
 #include "sdlevent.h"
 #include "sdlcdrom.h"
 #include "sdljoystick.h"
-/* #include "mixer.h" */
-/* #include "ttf.h" */
+#include "sdlroto.h"
 
 
 /* Initialization */
@@ -166,9 +163,9 @@ guile_sdl_init (void)
       NULL);
 
    /* initialize subsystems */
-   sdl_video_init();
-   sdl_gfx_init();
-   sdl_event_init();
+   sdl_init_video();
+   sdl_init_rotozoom();
+   sdl_init_event();
    sdl_init_joystick();
    sdl_init_cdrom();
 }
