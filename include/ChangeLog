@@ -1,0 +1,75 @@
+2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* argcheck.h, gperfsup.h, wholefns.h: New files.
+
+	* sdl.h: Delete file.
+	* sdlcdrom.h: Likewise.
+	* sdlcolor.h: Likewise.
+	* sdlevent.h: Likewise.
+	* sdljoystick.h: Likewise.
+	* sdlrect.h: Likewise.
+	* sdlroto.h: Likewise.
+	* sdlsurface.h: Likewise.
+
+	* sdlenums.h (enum_tag): Make static, remove var decl.
+	(enum_struct): Likewise for struct decl.
+	(free_enum): Likewise for func decl.
+	(sdl_init_enums): Delete func decl.
+	(gsdl_define_enum): Rename from `scm_c_define_enum'.
+	(gsdl_enum2long): Rename from `scm_enum2long'.
+	(gsdl_long2enum): Rename from `scm_long2enum'.
+	(scm_enum_to_number): Delete func decl.
+	(scm_number_to_enum): Likewise.
+	(scm_c_define_flag): Likewise.
+	(gsdl_ulong2flags): Rename from `scm_ulong2flags'.
+	(gsdl_flags2ulong): Rename from `scm_flags2ulong'.
+	(GSDL_FLAGS2ULONG): New macro.
+	(scm_flags_to_number): Delete func decl.
+	(scm_number_to_flags): Likewise.
+	(val_and_name_t, flagstash_t): New struct typedefs.
+	(in_word_set_t): New function typedef.
+	(gsdl_make_flagstash): New func decl.
+
+	* sdlsmobs.h: No longer include <libguile.h>.
+	(ASSERT_SMOB): Rename from SCM_ASSERT_SMOB.
+	No longer take 4th arg; instead, hardcode `FUNC_NAME'.
+	(GSDL_NUMBER_GETTER): Rename from SCM_DEFINE_NUMBER_GETTER,
+	rewrite to use MDEFLOCEXP, and move into new file wholefns.h.
+	(GSDL_NUMBER_SETTER): Likewise, from SCM_DEFINE_NUMBER_SETTER.
+	(GSDL_ENUM_GETTER): Likewise, from SCM_DEFINE_ENUM_GETTER.
+	(GSDL_ENUM_SETTER): Likewise, from SCM_DEFINE_ENUM_SETTER.
+	(GSDL_FLAG_GETTER): Likewise, from SCM_DEFINE_FLAG_GETTER.
+	(GSDL_FLAG_SETTER): Likewise, from SCM_DEFINE_FLAG_SETTER.
+	(SMOBGET, SMOBSET, SMOBFIELD): New macros.
+	(GSTX_COLOR, GSTX_RECT, GSTX_SURFACE, GSTX_PIXEL_FORMAT,
+	GSTX_RESERVED4, GSTX_RESERVED5, GSTX_RESERVED6, GSTX_RESERVED7,
+	GSTX_TOO_MUCH): New numeric (index) macros.
+	(gsdl_smob_tags): New var decl.
+	(color_tag, rect_tag, surface_tag, pixel_format_tag):
+	New tag abstaction macros.
+	(ASSERT_COLOR, ASSERT_RECT, ASSERT_SURFACE,
+	ASSERT_PIXEL_FORMAT): New ASSERT_SMOB abstraction macros.
+
+	* sdlvideo.h: No longer include any headers.
+	(cursor_tag): Make static, remove var decl.
+	(pixel_format_tag): Make a macro, move into sdlsmobs.h.
+	(overlay_tag): Likewise.
+	(gsdl_video_flags): Rename from `sdl_video_flags'.
+	(gsdl_palette_flags): Rename from `sdl_palette_flags'.
+	(gsdl_alpha_enums): Rename from `sdl_alpha_enums'.
+	(sdl_gl_enums): Make static, remove var decl.
+	(free_cursor): Make static, remove func decl.
+	(free_yuv_overlay, free_pixel_format): Likewise.
+	(create_cursor, create_yuv_overlay, get_video_surface,
+	get_video_info, video_driver_name, list_modes, video_mode_ok,
+	update_rect, update_rects, sdl_flip, set_colors, set_palette,
+	set_gamma, get_gamma_ramp, set_gamma_ramp, map_rgb, map_rgba,
+	get_rgb, get_rgba, display_format, display_format_alpha,
+	warp_mouse, get_cursor, set_cursor, show_cursor, gl_load_library,
+	gl_get_attribute, gl_set_attribute, gl_swap_buffers,
+	lock_yuv_overlay, display_yuv_overlay, wm_get_caption,
+	wm_set_caption, wm_set_icon, wm_iconify_window,
+	wm_toggle_full_screen, wm_grab_input): Likewise.
+	(gsdl_init_video): Rename from `sdl_init_video',
+	make "extern" in .c file, remove func decl.
+
