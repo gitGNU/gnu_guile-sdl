@@ -108,7 +108,7 @@ GH_DEFPROC (make_surface, "make-surface", 2, 1, 0,
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
-    (SDL_CreateRGBSurface (SDL_HWSURFACE,
+    (SDL_CreateRGBSurface (cflags,
                            gh_scm2long (width), gh_scm2long (height),
                            /* Defaults from current video info.  */
                            (Uint8)  fmt->BitsPerPixel,
@@ -147,7 +147,7 @@ GH_DEFPROC (create_rgb_surface, "create-rgb-surface", 8, 0, 0,
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
-    (SDL_CreateRGBSurface (SDL_HWSURFACE,
+    (SDL_CreateRGBSurface (cflags,
                            gh_scm2long (width), gh_scm2long (height),
                            (Uint8)  gh_scm2long (depth),
                            (Uint32) gh_scm2long (rmask),
