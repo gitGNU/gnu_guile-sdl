@@ -1,0 +1,17 @@
+Anonymous CVS is available for the "guile-sdl" module.
+Here are the commands to use:
+
+  cvs -d :pserver:anonymous@cvs.glug.org:/home/ttn/cvsroot login
+	 # just type RET at the prompt
+
+  cvs co guile-sdl
+
+Look at autogen.sh to get started.
+
+Here are some cvs tags and their meanings:
+
+  ok-1   -- passes "make && make check"
+
+
+
+Happy hacking!
