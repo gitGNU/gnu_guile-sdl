@@ -1,78 +1,93 @@
-/*******************************************************************
- *  sdl.c -- SDL Wrappers for Guile                                *
- *                                                                 *
- *  Copyright (C) 2001 Alex Shinn                                  *
- *                                                                 *
- *  This program is free software; you can redistribute it and/or  *
- * modify it under the terms of the GNU General Public License as  *
- * published by the Free Software Foundation; either version 2 of  *
- * the License, or (at your option) any later version.             *
- *                                                                 *
- * This program is distributed in the hope that it will be useful, *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of  *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the   *
- * GNU General Public License for more details.                    *
- *                                                                 *
- * You should have received a copy of the GNU General Public       *
- * License along with this program; if not, write to the Free      *
- * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,  *
- * MA 02111-1307 USA                                               *
- ******************************************************************/
+/* sdl.c --- SDL Wrappers for Guile
+ *
+ * 	Copyright (C) 2003 Thien-Thi Nguyen
+ * 	Copyright (C) 2001 Alex Shinn
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+ * MA 02111-1307 USA
+ */
 
-/* guile headers */
-#include <libguile.h>
-/* sdl headers */
+#include <guile/gh.h>
 #include <SDL/SDL.h>
-/* wrapper headers */
-#include "sdl.h"
+
+#include "config.h"
+#include "argcheck.h"
 #include "sdlenums.h"
 #include "sdlsmobs.h"
-#include "sdlrect.h"
-#include "sdlcolor.h"
-#include "sdlsurface.h"
-#include "sdlvideo.h"
-#include "sdlevent.h"
-#include "sdlcdrom.h"
-#include "sdljoystick.h"
-#include "sdlroto.h"
 
-SCM sdl_init_flags;
+
+/* Forward declarations on this page.  */
+
+extern void gsdl_init_enums (void);
+extern void gsdl_init_rect (void);
+extern void gsdl_init_color (void);
+extern void gsdl_init_video (void);
+extern void gsdl_init_surface (void);
+extern void gsdl_init_rotozoom (void);
+extern void gsdl_init_event (void);
+extern void gsdl_init_joystick (void);
+extern void gsdl_init_cdrom (void);
+
+
+/* See ../include/sdlsmobs.h for discussion.  */
+
+long gsdl_smob_tags[GSTX_TOO_MUCH];
+
+
+static SCM sdl_init_flags;
+
+MDEFLOCEXP (sdl_get_init_flags, "flagstash:init", 0, 0, 0, (),
+            "Return the flagstash object for @code{sdl-init} flags.")
+{
+  return sdl_init_flags;
+}
+
 
 /* Initialization */
-SCM_DEFINE( sdl_init, "sdl-init", 1, 0, 0,
-            (SCM s_subsystems),
-"Initializes SDL.")
+MDEFLOCEXP (sdl_init, "sdl-init", 1, 0, 0,
+            (SCM sel),
+            "Initialize SDL based on configuration flags @var{sel}.\n"
+            "@var{sel} is a list of symbols whose names all begin\n"
+            "with @code{SCM_INIT_}.")
 #define FUNC_NAME s_sdl_init
 {
-  unsigned long subsystems;
-
-  subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
-                                SCM_ARG1, "sdl-init");
-
-  return scm_long2num (SDL_Init (subsystems));
+  return gh_long2scm (SDL_Init
+                      (GSDL_FLAGS2ULONG
+                       (sel, sdl_init_flags, SCM_ARG1)));
 }
 #undef FUNC_NAME
 
 
-SCM_DEFINE( sdl_init_subsystem, "sdl-init-subsystem", 1, 0, 0,
-            (SCM s_subsystems),
-"Initializes the given SDL subsystems.")
+MDEFLOCEXP (sdl_init_subsystem, "sdl-init-subsystem", 1, 0, 0,
+            (SCM sel),
+            "Initialize the SDL subsystems represented by @var{sel}.\n"
+            "@var{sel} is a list of flags (symbols)\n"
+            "from the same set useful for @code{sdl-init}.")
 #define FUNC_NAME s_sdl_init_subsystem
 {
-  unsigned long subsystems;
-
-  subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
-                                SCM_ARG1, "sdl-init-subsystems");
-
-  return scm_long2num (SDL_InitSubSystem (subsystems));
+  return gh_long2scm (SDL_InitSubSystem
+                      (GSDL_FLAGS2ULONG
+                       (sel, sdl_init_flags, SCM_ARG1)));
 }
 #undef FUNC_NAME
 
 
 /* Termination */
-SCM_DEFINE( sdl_quit, "sdl-quit", 0, 0, 0,
+MDEFLOCEXP (sdl_quit, "sdl-quit", 0, 0, 0,
             (void),
-"Shuts down all SDL subsystems.")
+            "Shut down all SDL subsystems.")
 #define FUNC_NAME s_sdl_quit
 {
   SDL_Quit();
@@ -81,57 +96,54 @@ SCM_DEFINE( sdl_quit, "sdl-quit", 0, 0, 0,
 #undef FUNC_NAME
 
 
-SCM_DEFINE( sdl_quit_subsystem, "sdl-quit-subsystem", 1, 0, 0,
-            (SCM s_subsystems),
-"Shuts down the given SDL subsystems.")
+MDEFLOCEXP (sdl_quit_subsystem, "sdl-quit-subsystem", 1, 0, 0,
+            (SCM sel),
+            "Shut down the SDL subsystems represented by @var{sel}.\n"
+            "@var{sel} is a list of flags (symbols)\n"
+            "from the same set useful for @code{sdl-init}.")
 #define FUNC_NAME s_sdl_quit_subsystem
 {
-  unsigned long subsystems;
-
-  subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
-                                SCM_ARG1, "scm_num2long");
-
-  SDL_QuitSubSystem (subsystems);
+  SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, sdl_init_flags, SCM_ARG1));
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
 
 /* Information */
-SCM_DEFINE( sdl_was_init, "sdl-was-init", 1, 0, 0,
-            (SCM s_subsystems),
-"Check which SDL subsystems have been initialized.")
+MDEFLOCEXP (sdl_was_init, "sdl-was-init", 1, 0, 0,
+            (SCM sel),
+            "Check if the SDL subsystems represented by @var{sel}\n"
+            "have been initialized.  @var{sel} is a list of flags (symbols)\n"
+            "from the same set useful for @code{sdl-init}.")
 #define FUNC_NAME s_sdl_was_init
 {
-  unsigned long subsystems;
-
-  subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
-                                SCM_ARG1, "scm_num2long");
-
-  return scm_ulong2flags (SDL_WasInit (subsystems), sdl_init_flags);
+  return gsdl_ulong2flags (SDL_WasInit (GSDL_FLAGS2ULONG
+                                        (sel, sdl_init_flags, SCM_ARG1)),
+                           sdl_init_flags);
 }
 #undef FUNC_NAME
 
 
 /* time functions */
 
-SCM_DEFINE( sdl_get_ticks, "sdl-get-ticks", 0, 0, 0,
+MDEFLOCEXP (sdl_get_ticks, "sdl-get-ticks", 0, 0, 0,
             (void),
-"Get the number of milliseconds since the SDL library initialization.")
+            "Return the number of milliseconds since\n"
+            "the SDL library initialization.")
 #define FUNC_NAME s_sdl_get_ticks
 {
-  return scm_long2num (SDL_GetTicks ());
+  return gh_long2scm (SDL_GetTicks ());
 }
 #undef FUNC_NAME
 
 
-SCM_DEFINE( sdl_delay, "sdl-delay", 1, 0, 0,
+MDEFLOCEXP (sdl_delay, "sdl-delay", 1, 0, 0,
             (SCM ms),
-"Wait a specified number of milliseconds before returning.")
+            "Wait @var{ms} milliseconds.")
 #define FUNC_NAME s_sdl_delay
 {
-  SCM_ASSERT (scm_exact_p (ms),  ms,  SCM_ARG1, "sdl-delay");
-  SDL_Delay (scm_num2long (ms, SCM_ARG1, "scm_num2long"));
+  ASSERT_EXACT (ms, SCM_ARG1);
+  SDL_Delay (gh_scm2ulong (ms));
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
@@ -139,70 +151,42 @@ SCM_DEFINE( sdl_delay, "sdl-delay", 1, 0, 0,
 
 /* error handling */
 
-SCM_DEFINE( sdl_get_error, "sdl-get-error", 0, 0, 0,
+MDEFLOCEXP (sdl_get_error, "sdl-get-error", 0, 0, 0,
             (void),
-"Return the current SDL error string.")
+            "Return the current SDL error string.")
 #define FUNC_NAME s_sdl_get_error
 {
   char *error = SDL_GetError();
-  return scm_makfrom0str (error);
+  return gh_str02scm (error);
 }
 #undef FUNC_NAME
 
+
+extern flagstash_t gsdl_init_flagstash;
 
+static
 void
-guile_sdl_init (void)
+init_module (void)
 {
-  /* initialize enums first, so we can use them */
-  sdl_init_enums();
+  /* Initialize enums first, so we can use them.  */
+  gsdl_init_enums ();
 
-  /* general initializations */
-/*   scm_c_define_gsubr ("sdl-init",           1, 0, 0, sdl_init); */
-/*   scm_c_define_gsubr ("sdl-init-subsystem", 1, 0, 0, sdl_init_subsystem); */
-/*   scm_c_define_gsubr ("sdl-quit",           0, 0, 0, sdl_quit); */
-/*   scm_c_define_gsubr ("sdl-quit-subsystem", 1, 0, 0, sdl_quit_subsystem); */
-/*   scm_c_define_gsubr ("sdl-was-init",       1, 0, 0, sdl_was_init); */
-/*   scm_c_define_gsubr ("sdl-get-ticks",      0, 0, 0, sdl_get_ticks); */
-/*   scm_c_define_gsubr ("sdl-delay",          1, 0, 0, sdl_delay); */
-/*   scm_c_define_gsubr ("sdl-get-error",      0, 0, 0, sdl_get_error); */
+  /* Init flags.  */
+  sdl_init_flags = gsdl_make_flagstash (&gsdl_init_flagstash);
 
-  /* init flags */
-  sdl_init_flags = scm_c_define_flag (
-    "sdl-init-flags",
-    "SDL_INIT_TIMER",        SDL_INIT_TIMER,
-    "SDL_INIT_AUDIO",        SDL_INIT_AUDIO,
-    "SDL_INIT_VIDEO",        SDL_INIT_VIDEO,
-    "SDL_INIT_CDROM",        SDL_INIT_CDROM,
-    "SDL_INIT_JOYSTICK",     SDL_INIT_JOYSTICK,
-    "SDL_INIT_EVERYTHING",   SDL_INIT_EVERYTHING,
-    "SDL_INIT_NOPARACHUTE",  SDL_INIT_NOPARACHUTE,
-    "SDL_INIT_EVENTTHREAD",  SDL_INIT_EVENTTHREAD,
-    NULL);
-
-  /* exported symbols */
-  scm_c_export (
-    /* time */
-    "sdl-get-ticks", "sdl-delay",
-    /* errors */
-    "sdl-get-error",
-    /* sdl initializations */
-    "sdl-subsystems", "sdl-init", "sdl-quit", "sdl-init-subsystem",
-    "sdl-quit-subsystem", "sdl-was-init",
-    "sdl-init-flags",
-    NULL);
-
-#ifndef SCM_MAGIC_SNARFER
 #include "sdl.x"
-#endif
 
-  /* initialize subsystems */
-  sdl_init_rect();
-  sdl_init_color();
-  sdl_init_video();
-  sdl_init_surface();
-  sdl_init_rotozoom();
-  sdl_init_event();
-  sdl_init_joystick();
-  sdl_init_cdrom();
+  /* Initialize subsystems.  */
+  gsdl_init_rect ();
+  gsdl_init_color ();
+  gsdl_init_video ();
+  gsdl_init_surface ();
+  gsdl_init_rotozoom ();
+  gsdl_init_event ();
+  gsdl_init_joystick ();
+  gsdl_init_cdrom ();
 }
 
+MDEFLINKFUNC ("sdl sdl-sup", sdl_sdl_sup, init_module)
+
+/* sdl.c ends here */
