@@ -35,14 +35,23 @@
 SCM event_type_enum;
 SCM event_state_enum;
 SCM event_keysym_enum;
+SCM event_action_enum;
 
 static SCM event_mod_flags;
+static SCM event_mask_flags;
 
 GH_DEFPROC (get_event_mod_flags, "flagstash:event-mod", 0, 0, 0,
             (void),
             "Return the flagstash object for event mod flags.")
 {
   return event_mod_flags;
+}
+
+GH_DEFPROC (get_event_mask_flags, "flagstash:event-mask", 0, 0, 0,
+            (void),
+            "Return the flagstash object for event mask flags.")
+{
+  return event_mask_flags;
 }
 
 
@@ -312,13 +321,87 @@ GH_DEFPROC (pump_events, "pump-events", 0, 0, 0,
 
 GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
             (SCM events, SCM numevents, SCM action, SCM mask),
-            "[not yet implemented]")
+            "Check the event queue for messages and perhaps return some.\n"
+            "If @var{action} is @code{SDL_ADDEVENT} (a symbol), add up to\n"
+            "@var{numevents} (an integer) events from @code{events} (a list)\n"
+            "to the back of the event queue.\n"
+            "If it is @code{SDL_PEEKEVENT}, return a count (number less than\n"
+            "or equal to @var{numevents}) of events at the front of the event\n"
+            "queue that match @var{mask}, without changing the queue.\n"
+            "If it is @code{SDL_GETEVENT}, act like for @code{SDL_PEEKEVENT}\n"
+            "except return a list of matching events instead of a count,\n"
+            "removing them from the queue.\n"
+            "[incomplete: missing validation and error handling; also,\n"
+            "this should not be released until it uses uniform vectors]")
 {
 #define FUNC_NAME s_peep_events
-  THROW_NOT_YET_IMPLEMENTED;
-  /*  int SDL_PeepEvents (SDL_Event *events, int numevents, */
-  /*                      SDL_eventaction action, Uint32 mask); */
-  RETURN_UNSPECIFIED;
+  SDL_Event *cevents = NULL;
+  int cnumevents, caction, i, ret = -1;
+  Uint32 cmask;
+  SCM ls = SCM_BOOL_F;
+
+  cnumevents = gh_scm2long (numevents);
+  caction = gsdl_enum2long (action, event_action_enum, ARGH3, FUNC_NAME);
+
+  switch (caction)
+    {
+    case SDL_ADDEVENT: case SDL_PEEKEVENT: case SDL_GETEVENT: break;
+    default: SCM_ASSERT (0, action, ARGH3, FUNC_NAME);
+    }
+
+  switch (caction)
+    {
+    case SDL_ADDEVENT:
+      /* Do two passes: first to make sure we have as much as we say we do,
+         second to allocate the array and copy the events (ugh).  This will
+         most certainly be re-implemented w/ user-visible uniform vectors.  */
+      for (i = cnumevents, ls = events;
+           i && !gh_null_p (ls);
+           i--, ls = gh_cdr (ls));
+      SCM_ASSERT (!i, numevents, ARGH2, FUNC_NAME);
+      cevents = alloca (cnumevents * sizeof (SDL_Event));
+      for (i = 0, ls = events;
+           i < cnumevents;
+           i++, ls = gh_cdr (ls))
+        memcpy (&cevents[i], UNPACK_EVENT (gh_car (ls)), sizeof (SDL_Event));
+      ret = SDL_PeepEvents (cevents, cnumevents, caction, 0);
+      break;
+
+    case SDL_GETEVENT:
+      cevents = alloca (cnumevents * sizeof (SDL_Event));
+      /* fallthrough */
+
+    case SDL_PEEKEVENT:
+      cmask = gsdl_flags2ulong (mask, event_mask_flags, ARGH4, FUNC_NAME);
+      ret = SDL_PeepEvents (cevents, cnumevents, caction, cmask);
+      if (0 > ret)
+        scm_misc_error (FUNC_NAME, "badness", SCM_EOL);
+      if (cevents)
+        {
+          SDL_Event *cev; SCM ev;
+
+          ls = SCM_EOL;
+          for (i = ret - 1; -1 < i; i--)
+            {
+              cev = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME);
+              memcpy (cev, &cevents[i], sizeof (SDL_Event));
+              SCM_NEWSMOB (ev, event_tag, cev);
+              ls = gh_cons (ev, ls);
+            }
+        }
+      break;
+    }
+
+  switch (caction)
+    {
+    case SDL_ADDEVENT:
+    case SDL_PEEKEVENT:
+      RETURN_INT (ret);
+    case SDL_GETEVENT:
+      return ls;
+    default:
+      RETURN_UNSPECIFIED;
+    }
 #undef FUNC_NAME
 }
 
@@ -556,6 +639,7 @@ GH_DEFPROC (button_p, "button?", 1, 0, 0,
 
 
 extern flagstash_t gsdl_kmod_flagstash;
+extern flagstash_t gsdl_evmask_flagstash;
 
 /* Initialize glue.  */
 void
@@ -727,7 +811,15 @@ gsdl_init_event (void)
      GSDL_CSCS (SDLK_EURO),
      NULL);
 
+  event_action_enum = gsdl_define_enum
+    ("event-actions",
+     GSDL_CSCS (SDL_ADDEVENT),
+     GSDL_CSCS (SDL_PEEKEVENT),
+     GSDL_CSCS (SDL_GETEVENT),
+     NULL);
+
   event_mod_flags = gsdl_make_flagstash (&gsdl_kmod_flagstash);
+  event_mask_flags = gsdl_make_flagstash (&gsdl_evmask_flagstash);
 
   /* event states */
   event_state_enum = gsdl_define_enum
