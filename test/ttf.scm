@@ -1,11 +1,14 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+test x"$HAVE_TTF" = x && { echo "'INFO: $0: TTF DISABLED" ; exit 77 ; }
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
+(define debug? (getenv "DEBUG"))
+(and debug? (debug-enable 'debug 'backtrace))
 
 ;; simple true type font test
 
-(use-modules (sdl sdl)
-             (sdl ttf)
-             (ice-9 format))
+(use-modules (sdl sdl))                 ; fixme: these must be separate due
+(use-modules (sdl ttf))                 ;        to compiled modules weirdness
 
 ;; initialize SDL video
 (sdl-init '(SDL_INIT_VIDEO))
@@ -63,3 +66,4 @@
 (sdl-ttf-quit)
 (sdl-quit)
 
+;;; ttf.scm ends here
