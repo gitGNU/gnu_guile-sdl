@@ -27,6 +27,7 @@
 #include "sdlenums.h"
 #include "sdlsmobs.h"
 #include "retval.h"
+#include "bool.h"
 
 
 static long enum_tag;
@@ -44,7 +45,7 @@ mark_enum (SCM s_enum)
 
   scm_gc_mark (enum_smob->vec);         /* was scm_must_mark --ttn */
   scm_gc_mark (enum_smob->table);       /* was scm_must_mark --ttn */
-  return SCM_BOOL_F;
+  RETURN_FALSE;
 }
 
 static
@@ -69,7 +70,7 @@ free_enum (SCM s_enum)
                 : 431))))))
 
 #define MAKE_HASH_TABLE(size) \
-  (scm_make_vector (REASONABLE_BUCKET_COUNT (size), SCM_BOOL_F))
+  (scm_make_vector (REASONABLE_BUCKET_COUNT (size), BOOL_FALSE))
 
 
 /* register a C enum*/
@@ -112,7 +113,7 @@ gsdl_define_enum (const char *name, ...)
   /* create the enum table */
   vec = scm_dimensions_to_uniform_array (SCM_MAKINUM (max - min + 1),
                                          SCM_EOL,
-                                         SCM_BOOL_F);
+                                         BOOL_FALSE);
   new_enum->vec = vec;
 
   /* create the enum hash */
@@ -154,8 +155,8 @@ gsdl_enum2long (SCM s_enum, SCM s_enum_type, int pos, const char *FUNC_NAME)
   enum_type = SMOBGET (s_enum_type, enum_struct *);
 
   if (SCM_SYMBOLP (s_enum)) {
-    index = scm_hashq_ref (enum_type->table, s_enum, SCM_BOOL_F);
-    if (index != SCM_BOOL_F) {
+    index = scm_hashq_ref (enum_type->table, s_enum, BOOL_FALSE);
+    if (NOT_FALSEP (index)) {
       result = gh_scm2long (index);
     }
   } else {
@@ -193,7 +194,7 @@ GH_DEFPROC (enum_to_number, "enum->number", 2, 0, 0,
   ASSERT_SYMBOL (symbol, ARGH2);
 
   /* lookup and return the number in the pair */
-  return scm_hashq_ref (table, symbol, SCM_BOOL_F);
+  return scm_hashq_ref (table, symbol, BOOL_FALSE);
 }
 #undef FUNC_NAME
 
@@ -355,7 +356,7 @@ gsdl_ulong2flags (unsigned long value, SCM stash)
      which is not really an exceptional situation, but nonetheless one
      we should not gloss over (by returning `rv', for example).  We can
      always add "gsdl_ulong2flags_plus_remainder" later if needed.  */
-  return SCM_BOOL_F;
+  RETURN_FALSE;
 }
 
 
