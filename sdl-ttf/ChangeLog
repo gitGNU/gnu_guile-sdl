@@ -1,5 +1,10 @@
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlttf.c: Include "bool.h".
+	Use `EXACTLY_TRUEP' and `EXACTLY_FALSEP'.
+
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlttf.c: Include "sym.h".
 	Use `DECLARE_SIMPLE_SYM' and `SYM'.
 

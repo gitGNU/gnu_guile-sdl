@@ -1,3 +1,8 @@
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlgfx.c: Include "bool.h".
+	Use `EXACTLY_FALSEP'.
+
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlgfx.c: Include "retval.h".

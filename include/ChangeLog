@@ -2,6 +2,13 @@
 
 	* bool.h: New file.
 
+	* argcheck.h: Include "bool.h".
+	Use `NOT_FALSEP' and `SET_FALSE'.
+
+	* retval.h: Include "bool.h".
+	Use `BOOL_FALSE' and `BOOL_TRUE'.
+	Surround w/ #ifndef.
+
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sym.h: New file.

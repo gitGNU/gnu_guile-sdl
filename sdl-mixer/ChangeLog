@@ -1,5 +1,10 @@
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlmixer.c: Include "bool.h".
+	Use `NOT_FALSEP', `EXACTLY_FALSEP' and `RETURN_FALSE'.
+
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlmixer.c: Include "sym.h".
 	Use `DECLARE_SIMPLE_SYM' and `SYM'.
 
