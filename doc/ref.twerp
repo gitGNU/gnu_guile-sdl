@@ -371,5 +371,6 @@ These are available in module @code{(sdl misc-utils)}.
 
 @twerpdoc (call-with-clip-rect)
 @twerpdoc (rotate-square)
+@twerpdoc (poll-with-push-on-timeout-proc)
 
 @c ref.twerp ends here
