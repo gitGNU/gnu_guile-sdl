@@ -1,5 +1,11 @@
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlgfx.c (gsdl_init_gfx): Rename from `gsdl_gfx_init'.
+	* sdl.c (gsdl_init_gfx): Add forward decl.
+	(init_module): Also call `gsdl_init_gfx'.
+
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlcolor.c (make_color): Use abstraction `RETURN_NEW_COLOR'.
 
 	* sdlgfx.c (vertical_flip_surface, horizontal_flip_surface):
