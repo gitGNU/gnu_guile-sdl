@@ -16,4 +16,8 @@
 #define RETURN_BOOL(exp) \
   return gh_bool2scm (exp)
 
+/* Return a converted 0-terminated string.  */
+#define RETURN_0STR(exp) \
+  return gh_str02scm (exp)
+
 /* retval.h ends here */
