@@ -1,6 +1,4 @@
-The Guile-SDL distribution:                   -*- text -*-
-
-Thanks to:
+Guile-SDL owes its existence and improvement to:
 
   Mike Vess, for help testing Guile-SDL.
 
@@ -11,3 +9,6 @@ Thanks to:
   in the first place, and for passing it on to maintainers w/ more time.
 
   Paolo Bonzini, for libtool help.
+
+  Paul Osmialowski, for making available ports of some Guile 1.4.x
+  `guile-tools' programs to Guile 1.6.x.
