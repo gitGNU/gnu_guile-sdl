@@ -2,11 +2,14 @@
 
 AUTOMAKE_OPTIONS = gnu
 
-BUILT_SOURCES = ref.texi
+BUILT_SOURCES = ref.texi TODO-excerpt
 
 info_TEXINFOS = guile-sdl.texi
 
 SUFFIXES = .texi .twerp
+
+TODO-excerpt: $(top_srcdir)/TODO
+	sed '1,/^_/!d;s/__*//' $< > $@
 
 guile-sdl.info: ref.texi
 
