@@ -1,5 +1,19 @@
 2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlvideo.c (video_mode_ok): Make fourth arg optional.
+	(flip): Doc fix; nfc.
+	(wm_set_caption): Make second arg optional.
+
+2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlsurface.c (set_clip_rect): Make second arg optional.
+
+2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlroto.c (roto_zoom_surface): Fix bug: Set `zoom' correctly.
+
+2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlcdrom.c (cd_play_tracks): Handle #f same as unbound, for
 	`s_start_track', `s_start_frame', `s_n_tracks' and `s_n_frames'.
 	(cd_msf_to_frames): Likewise, for `s_s' and `s_f'.
