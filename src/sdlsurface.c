@@ -370,6 +370,7 @@ GH_DEFPROC (get_clip_rect, "get-clip-rect", 1, 0, 0,
 
   ASSERT_SURFACE (surface, ARGH1);
 
+  rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME);
   SDL_GetClipRect (UNPACK_SURFACE (surface), rect);
   RETURN_NEW_RECT (rect);
 #undef FUNC_NAME
