@@ -1,3 +1,7 @@
+2001-07-09  Alex Shinn  <foof@debian.org>
+
+	* guile-sdl 0.1.5: restructuring, bugfixes, initial snarfer defs
+
 2001-07-06  Alex Shinn  <foof@debian.org>
 
 	* guile-sdl 0.1.4: flag/enum organization
