@@ -1,0 +1,153 @@
+#!/bin/sh
+exec ${GUILE-guile} -e "(cov scan)" -s $0 "$@" # -*-scheme-*-
+!#
+;;; scan --- Scan /usr/include/SDL/*.h and ../*/*.c for interface elements
+
+;;	Copyright (C) 2005 Thien-Thi Nguyen
+;;
+;; This is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 2, or (at your option)
+;; any later version.
+;;
+;; This software is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this package; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+;; MA 02111-1307, USA.
+
+;;; Commentary:
+
+;; Usage: scan [-o OUTFILE] [--coverage API-FILE | --api HEADER ...]
+;;
+;; Write to OUTFILE text db tables of either the SDL API (if given
+;; args `--api HEADER...') or the Guile-SDL coverage of the SDL API
+;; (if given args `--coverage API-FILE').  Use stdout if `-o OUTFILE'
+;; is omitted.
+;;
+;; The HEADER scanning selects symbols following the "DECLSPEC.*SDLCALL"
+;; regular expression.  The API-FILE scanning selects files from a hardcoded
+;; list that mention each interface element.
+;;
+;; TODO:
+;; - Improve scan methods from "proof-of-concept" grade to "useful".
+;; - Either pass in, or dynamically determine, list of implementation files.
+
+;;; Code:
+
+(define-module (cov scan)
+  #:use-module (scripts PROGRAM)
+  #:autoload (ice-9 editing-buffer) (editing-buffer)
+  #:autoload (ice-9 pretty-print) (pretty-print)
+  #:autoload (ttn read-text-db-table) (read-text-db-table))
+
+(define (write-api headers)
+  (let ((interface '()))
+    (define (add! x)
+      (set! interface (cons x interface)))
+    (define (scan-header header)
+      (editing-buffer (open-input-file header)
+        (toggle-read-only)
+        (goto-char (point-min))
+        (let loop ()
+          (cond ((re-search-forward "DECLSPEC.*SDLCALL \([A-Za-z0-9_]+\)"
+                                    (point-max) #t)
+                 (add! (list (string->symbol (match-string 1))
+                             header))
+                 (loop))))))
+    (for-each scan-header headers)
+    ;; output
+    (display ";;; ")
+    (display (port-filename (current-output-port)))
+    (write-line " -*-scheme-*-")
+    (pretty-print '(text-db-table-config
+                    '(delim . "\n")
+                    '(fields (#:name sexp)
+                             (#:source sexp)))
+                  #:escape-strings? #t)
+    (for-each (lambda (x)
+                (apply simple-format #t "~S ~S\n" x))
+              interface)))
+
+(define *Guile-SDL-implementation*
+  (map (lambda (rel)
+         (in-vicinity ".." rel))
+       '("sdl-gfx/sdlgfx.c"
+         "sdl-gfx/SDL_gfxPrimitives/SDL_gfxPrimitives.c"
+         "sdl-mixer/sdlmixer.c"
+         "sdl-ttf/sdlttf.c"
+         "src/sdl.c"
+         "src/sdlcdrom.c"
+         "src/sdlcolor.c"
+         "src/sdlenums.c"
+         "src/sdlevent.c"
+         "src/sdlgfx.c"
+         "src/sdljoystick.c"
+         "src/sdlrect.c"
+         "src/sdlroto.c"
+         "src/sdlsurface.c"
+         "src/sdlvideo.c"
+         "src/SDL_rotozoom/SDL_rotozoom.c")))
+
+(define (write-coverage api-filename)
+  (let ((api (read-text-db-table (open-input-file api-filename)))
+        (bufs (map (lambda (filename)
+                     (editing-buffer (open-input-file filename)
+                       (toggle-read-only)
+                       (let ((cur (current-buffer)))
+                         (set-object-property! cur 'filename filename)
+                         cur)))
+                   *Guile-SDL-implementation*)))
+    (define (search s)
+      (let ((files '()))
+        (define (add! x)
+          (set! files (cons x files)))
+        (for-each (lambda (buf)
+                    (editing-buffer buf
+                      (goto-char (point-min))
+                      (and (search-forward s (point-max) #t)
+                           (add! (object-property buf 'filename)))))
+                  bufs)
+        files))
+    ;; output
+    (display ";;; ")
+    (display (port-filename (current-output-port)))
+    (write-line " -*-scheme-*-")
+    (pretty-print '(text-db-table-config
+                    '(delim . "\n")
+                    '(fields (#:name sexp)
+                             (#:files sexp)))
+                  #:escape-strings? #t)
+    (for-each (lambda (ent)
+                (let ((name (assq-ref ent #:name)))
+                  (write name)
+                  (display " ")
+                  (write (search (symbol->string name)))
+                  (newline)))
+              api)))
+
+(define (scan/qop qop)
+  (or (qop 'api) (qop 'coverage)
+      (error "must specify one of: --api --coverage (try --help)"))
+  (with-output-to-port (or (qop 'output open-output-file)
+                           (current-output-port))
+    (lambda ()
+      (cond ((qop 'api) (write-api (qop '())))
+            ((qop 'coverage write-coverage)))))
+  #t)
+
+(define (main args)
+  (HVQC-MAIN args scan/qop
+             '(usage . commentary)
+             '(package . "Guile-SDL")
+             '(version . "0.1")
+             `(option-spec
+               (api)
+               (coverage (value #t) (predicate ,file-exists?))
+               (output (value #t) (single-char #\o)))))
+
+;;; scan ends here
