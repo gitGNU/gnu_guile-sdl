@@ -395,6 +395,15 @@ init_module (void)
 #include "sdlgfx.x"
 }
 
-GH_MODULE_LINK_FUNC ("sdl gfx", sdl_gfx, init_module)
+static char modname[]
+/* If we inline this string in the `GH_MODULE_LINK_FUNC' form, GCC 3.3.5
+   (or one of the programs it calls) places it in the string pool in a
+   strange way; the immediately preceding char is not ^@, but a question
+   mark.  The result is that "guile-tools scan-md-module" cannot
+   recognize the module name.  Bug report filed against "guile-tools
+   scan-md-module".  */
+= "sdl gfx";
+
+GH_MODULE_LINK_FUNC (modname, sdl_gfx, init_module)
 
 /* sdlgfx.c ends here */
