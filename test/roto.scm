@@ -19,10 +19,10 @@
        (gnu-rect (SDL:make-rect 0 0 w h)))
   ;; set the video mode to the dimensions of our image
   (SDL:set-video-mode w h 16 '(SDL_HWSURFACE))
-  ;; rotate the image 27 degrees at a time
-  (do ((theta 0 (+ 27 theta)))
+  ;; rotate the image 27 degrees at a time, reducing its magnitude by 10%
+  (do ((theta 0 (+ 27 theta)) (mag 1.0 (* mag 0.9)))
       ((>= theta (* 3 360)))            ; a few times around
-    (let ((image (SDL:roto-zoom-surface gnu-head theta 1.0 #t)))
+    (let ((image (SDL:roto-zoom-surface gnu-head theta mag #t)))
       (SDL:fill-rect (SDL:get-video-surface) gnu-rect #xffff)
       (SDL:blit-surface image)
       (SDL:flip)
