@@ -111,7 +111,7 @@ NUMBER_GETSET(b)
 void
 gsdl_init_color (void)
 {
-  color_tag = scm_make_smob_type ("SDL-Color", sizeof(SDL_Color));
+  color_tag = scm_make_smob_type ("SDL-Color", sizeof (SDL_Color));
   scm_set_smob_mark  (color_tag, mark_color);
   scm_set_smob_free  (color_tag, free_color);
   scm_set_smob_print (color_tag, print_color);
