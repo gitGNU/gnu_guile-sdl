@@ -6,6 +6,50 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
+- 0.3.3 | 2005-04-03
+
+  - bugfix: get-clip-rect no longer causes error
+
+	The implementation no longer tries arrange for SDL to write
+	through a NULL pointer; this used to result in the SDL parachute
+	being deployed if present, or a segfault otherwise.
+
+  - bug exposure change: procs more strict on unsigned types
+
+	The following procs now take care to do unsigned integer
+	conversion directly, instead of signed conversion followed by
+	cast to unsigned.
+
+	create-rgb-surface
+	map-rgba
+	map-rgb
+	get-rgb
+	warp-mouse
+
+	This is part of an ongoing effort to remove/reduce "manual"
+	casting (which may mask bugs) in the codebase.
+
+  - new (sdl sdl) proc: get-app-state
+
+  - change to (sdl misc-utils) proc: copy-surface
+
+	This now uses `convert-surface' to do one-step copy/conversion,
+	instead of the two-step process used previously.  The SRCALPHA
+	(per-surface flag) handling added in Guile-SDL 0.3.2 has been
+	removed.
+
+  - procs which take lists of symbols now handle #f and empty list
+
+	Using these args is now equivalent to specifying 0 (zero) to the
+	underlying SDL function.
+
+  - `set-alpha!' third arg now optional
+
+	If omitted it is taken as #f.
+
+  - new chapter in manual: "Excuses (Undone Wrapping)"
+
+
 - 0.3.2 | 2005-01-23
 
   - bugfix: (sdl sdl) proc `fill-rect' handles alpha/red values > 127
