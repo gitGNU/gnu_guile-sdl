@@ -36,6 +36,9 @@
 
 /* smob functions */
 
+#define SURFACE_P(x) \
+  (SCM_SMOB_PREDICATE (surface_tag, x))
+
 static
 SCM
 mark_surface (SCM surface)
@@ -58,23 +61,23 @@ print_surface (SCM surface_smob, SCM port, scm_print_state *pstate)
 {
   SDL_Surface *surface = UNPACK_SURFACE (surface_smob);
 
-  scm_puts                                 ("#<SDL-Surface ", port);
+  scm_puts                                   ("#<SDL-Surface ", port);
 
-  if (surface) {
-    scm_display                    (gh_long2scm (surface->w), port);
-    scm_puts                                            ("x", port);
-    scm_display                    (gh_long2scm (surface->h), port);
-    scm_puts                                            (" ", port);
-    scm_display (gh_long2scm (surface->format->BitsPerPixel), port);
-    scm_puts                                         (" bpp", port);
-  }
-  else {
-    scm_puts                                         ("NULL", port);
-  }
-  scm_puts                                              (">", port);
+  if (surface)
+    {
+      scm_display                    (gh_long2scm (surface->w), port);
+      scm_puts                                            ("x", port);
+      scm_display                    (gh_long2scm (surface->h), port);
+      scm_puts                                            (" ", port);
+      scm_display (gh_long2scm (surface->format->BitsPerPixel), port);
+      scm_puts                                         (" bpp", port);
+    }
+  else
+    scm_puts                                           ("NULL", port);
 
+  scm_puts                                                (">", port);
 
-  /* non-zero means success */
+  /* Non-zero means success.  */
   return 1;
 }
 
@@ -103,11 +106,11 @@ GH_DEFPROC (make_surface, "make-surface", 2, 1, 0,
 
   fmt = SDL_GetVideoInfo ()->vfmt;
 
-  /* return a newly allocated surface smob */
+  /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
     (SDL_CreateRGBSurface (SDL_HWSURFACE,
                            gh_scm2long (s_width), gh_scm2long (s_height),
-                           /* defaults from current video info */
+                           /* Defaults from current video info.  */
                            (Uint8)  fmt->BitsPerPixel,
                            (Uint32) fmt->Rmask,
                            (Uint32) fmt->Gmask,
@@ -142,7 +145,7 @@ GH_DEFPROC (create_rgb_surface, "create-rgb-surface", 8, 0, 0,
 
   flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH1);
 
-  /* return a newly allocated surface smob */
+  /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
     (SDL_CreateRGBSurface (SDL_HWSURFACE,
                            gh_scm2long (s_width), gh_scm2long (s_height),
@@ -191,7 +194,7 @@ GH_DEFPROC (surface_p, "surface?", 1, 0, 0,
 #define FUNC_NAME s_surface_p
 {
   RETURN_BOOL
-    (SCM_SMOB_PREDICATE (surface_tag, obj));
+    (SURFACE_P (obj));
 }
 #undef FUNC_NAME
 
@@ -236,7 +239,7 @@ GH_DEFPROC (load_bmp, "load-bmp", 1, 0, 0,
 #undef FUNC_NAME
 
 
-/* Load an image in one of many formats */
+/* Load an image in one of many formats.  */
 GH_DEFPROC (load_image, "load-image", 1, 0, 0,
             (SCM s_file),
             "Return a surface made by loading the image @var{file}.")
@@ -346,11 +349,12 @@ GH_DEFPROC (set_clip_rect, "set-clip-rect!", 1, 1, 0,
 
   ASSERT_SURFACE (s_surface, ARGH1);
 
-  if (BOUNDP (s_rect)) {
-    /* rect defaults to NULL (the whole surface) */
-    ASSERT_RECT (s_rect, ARGH2);
-    rect = UNPACK_RECT (s_rect);
-  }
+  if (BOUNDP (s_rect))
+    {
+      /* Rect defaults to NULL (the whole surface).  */
+      ASSERT_RECT (s_rect, ARGH2);
+      rect = UNPACK_RECT (s_rect);
+    }
 
   SDL_SetClipRect (UNPACK_SURFACE (s_surface), rect);
   RETURN_UNSPECIFIED;
@@ -387,9 +391,8 @@ GH_DEFPROC (convert_surface, "convert-surface", 2, 1, 0,
   ASSERT_SURFACE (s_src, ARGH1);
   ASSERT_PIXEL_FORMAT (s_fmt, ARGH2);
 
-  if (BOUNDP (s_flags)) {
+  if (BOUNDP (s_flags))
     flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH3);
-  }
 
   RETURN_NEW_SURFACE
     (SDL_ConvertSurface (UNPACK_SURFACE (s_src),
@@ -419,40 +422,45 @@ GH_DEFPROC (blit_surface, "blit-surface", 1, 3, 0,
   SDL_Rect *dstrect;
   SDL_Rect default_rect;
 
-  /* 1st arg, source surface */
+  /* 1st arg, source surface.  */
   ASSERT_SURFACE (s_src, ARGH1);
   src = UNPACK_SURFACE (s_src);
 
-  /* 2nd arg, source rect, default (0,0) by source dimensions */
+  /* 2nd arg, source rect, default (0,0) by source dimensions.  */
   UNBOUND_MEANS_FALSE (s_srcrect);
-  if (NOT_FALSEP (s_srcrect)) {
-    ASSERT_RECT (s_srcrect, ARGH2);
-    srcrect = UNPACK_RECT (s_srcrect);
-  } else {
-    default_rect.x = 0;
-    default_rect.y = 0;
-    default_rect.w = src->w;
-    default_rect.h = src->h;
-    srcrect = &default_rect;
-  }
+  if (NOT_FALSEP (s_srcrect))
+    {
+      ASSERT_RECT (s_srcrect, ARGH2);
+      srcrect = UNPACK_RECT (s_srcrect);
+    }
+  else
+    {
+      default_rect.x = 0;
+      default_rect.y = 0;
+      default_rect.w = src->w;
+      default_rect.h = src->h;
+      srcrect = &default_rect;
+    }
 
-  /* 3rd arg, dest surface, default video surface */
+  /* 3rd arg, dest surface, default video surface.  */
   UNBOUND_MEANS_FALSE (s_dst);
-  if (NOT_FALSEP (s_dst)) {
-    ASSERT_SURFACE (s_dst, ARGH3);
-    dst = UNPACK_SURFACE (s_dst);
-  } else {
+  if (NOT_FALSEP (s_dst))
+    {
+      ASSERT_SURFACE (s_dst, ARGH3);
+      dst = UNPACK_SURFACE (s_dst);
+    }
+  else
     dst = SDL_GetVideoSurface ();
-  }
 
-  /* 4th arg, dest rect, default src rect */
+  /* 4th arg, dest rect, default src rect.  */
   UNBOUND_MEANS_FALSE (s_dstrect);
-  if (NOT_FALSEP (s_dstrect)) {
-    ASSERT_RECT (s_dstrect, ARGH4);
-    dstrect = UNPACK_RECT (s_dstrect);
-  } else {
+  if (NOT_FALSEP (s_dstrect))
+    {
+      ASSERT_RECT (s_dstrect, ARGH4);
+      dstrect = UNPACK_RECT (s_dstrect);
+    }
+  else
     dstrect = srcrect;
-  }
 
   RETURN_INT (SDL_BlitSurface (src, srcrect, dst, dstrect));
 }
