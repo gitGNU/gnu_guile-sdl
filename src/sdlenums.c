@@ -1,84 +1,83 @@
-/*******************************************************************
- *  sdlenums.c -- Enum helper functions                            *
- *                                                                 *
- *  Created:    <2001-06-09 19:22:27 foof>                         *
- *  Time-stamp: <02/06/26 13:47:11 mikiso>                         *
- *  Author:     Alex Shinn <foof@debian.org>                       *
- *                                                                 *
- *  Copyright (C) 2001 Alex Shinn                                  *
- *                                                                 *
- *  This program is free software; you can redistribute it and/or  *
- * modify it under the terms of the GNU General Public License as  *
- * published by the Free Software Foundation; either version 2 of  *
- * the License, or (at your option) any later version.             *
- *                                                                 *
- * This program is distributed in the hope that it will be useful, *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of  *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the   *
- * GNU General Public License for more details.                    *
- *                                                                 *
- * You should have received a copy of the GNU General Public       *
- * License along with this program; if not, write to the Free      *
- * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,  *
- * MA 02111-1307 USA                                               *
- ******************************************************************/
+/* sdlenums.c -- Enum helper functions
+ *
+ * 	Copyright (C) 2003 Thien-Thi Nguyen
+ * 	Copyright (C) 2001 Alex Shinn
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+ * MA 02111-1307 USA
+ */
 
-#include <libguile.h>
+#include <guile/gh.h>
 #include <stdarg.h>
+
+#include "config.h"
+#include "argcheck.h"
 #include "sdlenums.h"
 #include "sdlsmobs.h"
 
-#define MAX_FLAGS (8*sizeof(long))
 
-long enum_tag;
+static long enum_tag;
 
+typedef struct {
+  SCM vec, table;
+  long min, max;
+} enum_struct;
+
+static
+SCM
+mark_enum (SCM s_enum)
+{
+  enum_struct *enum_smob = SMOBGET (s_enum, enum_struct *);
+
+  scm_gc_mark (enum_smob->vec);         /* was scm_must_mark --ttn */
+  scm_gc_mark (enum_smob->table);       /* was scm_must_mark --ttn */
+  return SCM_BOOL_F;
+}
+
+static
 size_t
 free_enum (SCM s_enum)
 {
-  enum_struct *enum_smob = (enum_struct*) SCM_SMOB_DATA (s_enum);
-  free(enum_smob);
+  enum_struct *enum_smob = SMOBGET (s_enum, enum_struct *);
+
+  free (enum_smob);
   /* return sizeof (enum_struct*); */
   return 0;
 }
 
-SCM
-mark_enum (SCM s_enum)
-{
-  enum_struct *enum_smob = (enum_struct*) SCM_SMOB_DATA (s_enum);
-  scm_must_mark(enum_smob->vec);
-  scm_must_mark(enum_smob->table);
-  return SCM_BOOL_F;
-}
 
-void
-sdl_init_enums (void)
-{
-   /* smobs */
-   enum_tag   = scm_make_smob_type ("SDL-enum", sizeof (enum_struct));
-   scm_set_smob_free (enum_tag, free_enum);
-   scm_set_smob_mark (enum_tag, mark_enum);
+#define REASONABLE_BUCKET_COUNT(count) \
+  (SCM_MAKINUM                         \
+   (((count) <= 11) ? 11               \
+    : (((count) <= 23) ? 23            \
+       : (((count) <= 57) ? 57         \
+          : (((count) <= 113) ? 113    \
+             : (((count) <= 211) ? 211 \
+                : 431))))))
 
-   /* functions */
-   scm_c_define_gsubr ("enum->number",   2, 0, 0, scm_enum_to_number);
-   scm_c_define_gsubr ("number->enum",   2, 0, 0, scm_number_to_enum);
-   scm_c_define_gsubr ("flags->number",  2, 0, 0, scm_flags_to_number);
-   scm_c_define_gsubr ("number->flags",  2, 0, 0, scm_number_to_flags);
-
-   /* exported symbols */
-   scm_c_export (
-      "enum->number",  "number->enum",
-      "flags->number", "number->flags",
-      NULL);
-}
+#define MAKE_HASH_TABLE(size) \
+  (scm_make_vector (REASONABLE_BUCKET_COUNT (size), SCM_BOOL_F))
 
 
 /* register a C enum*/
 SCM
-scm_c_define_enum (const char *name, ...)
+gsdl_define_enum (const char *name, ...)
 {
   va_list ap;
   char *symname;
-  long value, max=0, min=0xffff, i=0;
+  long value, max=0, min=0, count=0;    /* min was 0xffff --ttn */
   SCM s_enum, vec, table, sym;
   enum_struct *new_enum;
 
@@ -88,7 +87,7 @@ scm_c_define_enum (const char *name, ...)
   /* first pass: count the args, find the max and min */
   symname = va_arg (ap, char*);
   while (symname) {
-    i++;
+    count++;
     value = va_arg (ap, long);
     if (value > max) {
       max = value;
@@ -104,32 +103,32 @@ scm_c_define_enum (const char *name, ...)
   max++;
 
   /* create an enum struct to hold our values */
-  new_enum = (enum_struct*) malloc (sizeof (enum_struct));
+  new_enum = (enum_struct *) malloc (sizeof (enum_struct));
 
   new_enum->min = min;
   new_enum->max = max;
 
   /* create the enum table */
-  vec = scm_c_make_vector (max - min + 1, SCM_BOOL_F);
-  /* vec = scm_make_uve (max, scm_str2symbol (name)); */
+  vec = scm_dimensions_to_uniform_array (SCM_MAKINUM (max - min + 1),
+                                         SCM_EOL,
+                                         SCM_BOOL_F);
   new_enum->vec = vec;
 
   /* create the enum hash */
-  table = scm_c_make_hash_table (i);
-  /* SCM_SETCDR (s_enum, table); */
+  table = MAKE_HASH_TABLE (count);
   new_enum->table = table;
 
   /* reset the argument list (is this safe?) */
   va_start (ap, name);
 
   /* second pass: fill the table and hash */
-  for (i--; i>=0; i--) {
+  while (count > 0) {
     symname = va_arg (ap, char*);
     value = va_arg (ap, long);
-    sym = scm_str2symbol (symname);
-    /* scm_vector_set_x (vec, scm_ulong2num (value-min), sym); */
-    scm_vector_set_x (vec, scm_long2num (value-min), sym);
-    scm_hashq_set_x (table, sym, scm_long2num (value));
+    sym = gh_symbol2scm (symname);
+    gh_vector_set_x (vec, gh_long2scm (value - min), sym);
+    scm_hashq_set_x (table, sym, gh_long2scm (value));
+    count--;
   }
 
   /* clean up */
@@ -137,7 +136,7 @@ scm_c_define_enum (const char *name, ...)
 
   /* build and define the enum smob instance */
   SCM_NEWSMOB (s_enum, enum_tag, new_enum);
-  scm_c_define (name, s_enum);
+  gh_define (name, s_enum);
   return s_enum;
 }
 
@@ -145,224 +144,280 @@ scm_c_define_enum (const char *name, ...)
 /* C level conversions */
 
 long
-scm_enum2long (SCM s_enum, SCM s_enum_type, int pos, const char *func)
+gsdl_enum2long (SCM s_enum, SCM s_enum_type, int pos, const char *FUNC_NAME)
 {
   enum_struct *enum_type;
   SCM index;
   long result=0;
 
-  enum_type = (enum_struct*) SCM_SMOB_DATA (s_enum_type);
+  enum_type = SMOBGET (s_enum_type, enum_struct *);
 
   if (SCM_SYMBOLP (s_enum)) {
     index = scm_hashq_ref (enum_type->table, s_enum, SCM_BOOL_F);
     if (index != SCM_BOOL_F) {
-      result = scm_num2long (index, pos, func);
+      result = gh_scm2long (index);
     }
   } else {
-    SCM_ASSERT (scm_exact_p (s_enum), s_enum, pos, func);
-    result = scm_num2long (s_enum, pos, func);
+    ASSERT_EXACT (s_enum, pos);
+    result = gh_scm2long (s_enum);
   }
 
   return result;
 }
 
 SCM
-scm_long2enum (long value, SCM s_enum_type)
+gsdl_long2enum (long value, SCM s_enum_type)
 {
-  enum_struct *enum_type = (enum_struct*) SCM_SMOB_DATA (s_enum_type);
-  return scm_vector_ref (enum_type->vec, scm_long2num (value - enum_type->min));
+  enum_struct *enum_type = SMOBGET (s_enum_type, enum_struct *);
+  return gh_vector_ref (enum_type->vec, gh_long2scm (value - enum_type->min));
 }
 
 
 /* scheme level conversions */
 
-SCM_DEFINE( scm_enum_to_number, "enum->number", 2, 0, 0,
+MDEFLOCEXP (enum_to_number, "enum->number", 2, 0, 0,
             (SCM s_enum_type,
              SCM symbol),
-"Converts an enum number or symbol to a number.")
-#define FUNC_NAME s_scm_enum_to_number
+            "Convert an enum number or symbol to a number.")
+#define FUNC_NAME s_enum_to_number
 {
   SCM table;
   enum_struct *enum_type;
 
-  SCM_ASSERT_SMOB (s_enum_type, enum_tag, SCM_ARG1, "enum->number");
+  ASSERT_SMOB (s_enum_type, enum_tag, SCM_ARG1);
 
-  enum_type = (enum_struct*) SCM_SMOB_DATA (s_enum_type);
+  enum_type = SMOBGET (s_enum_type, enum_struct *);
   table = enum_type->table;
 
-  SCM_ASSERT (SCM_SYMBOLP (symbol), symbol, SCM_ARG2, "enum->number");
+  ASSERT_SYMBOL (symbol, SCM_ARG2);
 
   /* lookup and return the number in the pair */
   return scm_hashq_ref (table, symbol, SCM_BOOL_F);
 }
 #undef FUNC_NAME
 
-
-SCM
-scm_number_to_enum (SCM s_enum_type, SCM number)
+MDEFLOCEXP (number_to_enum, "number->enum", 2, 0, 0,
+            (SCM s_enum_type, SCM number),
+            "Convert a number to an enum.")
+#define FUNC_NAME s_number_to_enum
 {
   SCM vec;
   long index;
   enum_struct *enum_type;
 
-  SCM_ASSERT_SMOB (s_enum_type, enum_tag, SCM_ARG1, "number->enum");
+  ASSERT_SMOB (s_enum_type, enum_tag, SCM_ARG1);
 
-  enum_type = (enum_struct*) SCM_SMOB_DATA (s_enum_type);
+  enum_type = SMOBGET (s_enum_type, enum_struct *);
   vec = enum_type->vec;
 
-  SCM_ASSERT (scm_exact_p (number), number, SCM_ARG2, "number->enum");
-  index = scm_num2long (number, SCM_ARG2, "number->enum") - enum_type->min;
+  ASSERT_EXACT (number, SCM_ARG2);
+  index = gh_scm2long (number) - enum_type->min;
 
   /* return the numbered index into the vector */
-  return scm_vector_ref (vec, scm_long2num (index));
+  return gh_vector_ref (vec, gh_long2scm (index));
 }
+#undef FUNC_NAME
 
+
+/* flagstash smob */
 
-/* flags */
+static unsigned long int flagstash_tag;
 
-/* register a C flag group (stored as a vector/hash pair) */
+#define ASSERT_FLAGSTASH(obj,which) \
+  ASSERT_SMOB (obj, flagstash_tag, which)
+
+static
 SCM
-scm_c_define_flag (const char *name, ...)
+mark_flagstash (SCM smob)
 {
-  va_list ap;
-  char *symname;
-  unsigned long value, bit, max=0;
-  int i=0, j;
-  SCM s_flag, vec, table, sym;
-
-  /* initialize the argument list */
-  va_start (ap, name);
-
-  /* first pass: count the args */
-  symname = va_arg (ap, char*);
-  while (symname) {
-    i++;
-    value = va_arg (ap, unsigned long);
-    if (value > max) {
-      max = value;
-    }
-    /* next name */
-    symname = va_arg (ap, char*);
-  }
-
-  /* create a pair to hold the table and hash */
-  s_flag = scm_cons (SCM_BOOL_F, SCM_BOOL_F);
-  scm_c_define (name, s_flag);
-
-  /* create the flag table */
-  vec = scm_c_make_vector (MAX_FLAGS, SCM_BOOL_F);
-  /* vec = scm_make_uve (max, scm_str2symbol (name)); */
-  SCM_SETCAR (s_flag, vec);
-
-  /* create the flag hash */
-  table = scm_c_make_hash_table (i);
-  SCM_SETCDR (s_flag, table);
-
-  /* reset the argument list (is this safe?) */
-  va_start (ap, name);
-
-  /* second pass: fill the table and hash */
-  for (i--; i>=0; i--) {
-    symname = va_arg (ap, char*);
-    value = va_arg (ap, unsigned long);
-    sym = scm_str2symbol (symname);
-    /* scm_vector_set_x (vec, scm_ulong2num (value), sym); */
-    scm_hashq_set_x (table, sym, scm_ulong2num (value));
-    /* only add single-bit values to the vector */
-    bit = 0;
-    for (j=MAX_FLAGS; j; j--) {
-      if (value == (1<<(j-1))) {
-        bit = j;
-      }
-    }
-    if (bit) {
-      scm_vector_set_x (vec, scm_ulong2num (bit-1), sym);
-    }
-  }
-
-  /* clean up */
-  va_end (ap);
-
-  return s_flag;
+  return smob;
 }
 
+static
+size_t
+free_flagstash (SCM smob)
+{
+  flagstash_t *stash = SMOBGET (smob, flagstash_t *);
+  int count = stash->total;
+  scm_must_free (stash->linear);
+
+  return (count * sizeof (val_and_name_t *));
+}
+
+static
+int
+print_flagstash (SCM smob, SCM port, scm_print_state *ps)
+{
+  char buf[15];
+  flagstash_t *stash = SMOBGET (smob, flagstash_t *);
+
+  sprintf (buf, "<%d ", stash->total);
+  scm_puts (buf, port);
+  scm_puts (stash->name, port);
+  scm_puts (">", port);
+  return 1;                             /* non-zero => ok */
+}
+
+SCM
+gsdl_make_flagstash (flagstash_t *stash)
+{
+  SCM smob;
+
+  SCM_NEWSMOB (smob, flagstash_tag, stash);
+  smob = scm_permanent_object (smob);
+  {
+    val_and_name_t *cur = stash->sparse;
+    int count = stash->total;
+
+    stash->linear =
+      (val_and_name_t **) scm_must_malloc (count * sizeof (val_and_name_t *),
+                                           "linear flag pointers");
+
+    while (count) {
+      if (cur->name && *(cur->name)) {
+        cur->sval = scm_permanent_object (gh_ulong2scm (cur->val));
+        cur->sname = scm_permanent_object (gh_str02scm (cur->name));
+        count--;
+        stash->linear[count] = cur;
+      }
+      cur++;
+    }
+#if 0
+    fprintf (stderr, "%s: %d (%d bytes) / %d (%d bytes)\n",
+             stash->name,
+             stash->total,
+             stash->total * sizeof (val_and_name_t),
+             cur - stash->sparse,
+             (cur - stash->sparse) * sizeof (val_and_name_t));
+#endif
+  }
+  stash->reverse_lookup_cache =
+    scm_permanent_object (MAKE_HASH_TABLE (stash->total));
+
+  return smob;
+}
+
+
+/* converting from flags to ulong and back */
 
 unsigned long
-scm_flags2ulong (SCM s_flags, SCM flag_type, int pos, const char *func)
+gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
 {
-  SCM index, table;
-  unsigned long result=0, elt;
+  flagstash_t *s = SMOBGET (stash, flagstash_t *);
+  val_and_name_t *hit;
+  unsigned long result = 0;
 
-  if (scm_pair_p (s_flags)) {
+  if (gh_pair_p (flags)) {
+    SCM head;
     /* a list of symbols representing flags */
-    table = SCM_CDR (flag_type);
-    while (s_flags != SCM_EOL) {
-      index = scm_hashq_ref (table, SCM_CAR (s_flags), SCM_BOOL_F);
-      if (index != SCM_BOOL_F) {
-        elt = scm_num2ulong (index, pos, func);
-        result = result | elt;
-      }
-      s_flags = SCM_CDR (s_flags);
+    while (! gh_null_p (flags)) {
+      ASSERT_SYMBOL (gh_car (flags), pos);
+      head = gh_car (flags);
+      hit = s->lookup (SCM_CHARS (head), SCM_LENGTH (head));
+      if (hit)
+        result |= hit->val;
+      flags = gh_cdr (flags);
     }
   } else {
-    /* the numeric flag value */
-    SCM_ASSERT (scm_exact_p (s_flags), s_flags, pos, func);
-    result = scm_num2ulong (s_flags, pos, func);
+    if (pos)                            /* !pos => already checked */
+      ASSERT_SYMBOL (flags, pos);
+    hit = s->lookup (SCM_CHARS (flags), SCM_LENGTH (flags));
+    if (hit)
+      result = hit->val;
   }
 
   return result;
 }
 
-
 SCM
-scm_ulong2flags (unsigned long value, SCM flag_type)
+gsdl_ulong2flags (unsigned long value, SCM stash)
 {
-  SCM vec = SCM_CAR (flag_type);
-  SCM result = SCM_EOL;
-  unsigned long i;
+  flagstash_t *s = SMOBGET (stash, flagstash_t *);
+  int i;
+  SCM rv = SCM_EOL;
 
-  for (i=MAX_FLAGS; i>0; i--) {
-    if (value & (1<<(i-1))) {
-      result = scm_cons (scm_vector_ref (vec, scm_ulong2num (i-1)),
-                         result);
+  for (i = 0; i < s->total; i++) {
+    val_and_name_t *cur = s->linear[i];
+    if (cur->val == value)
+      return gh_cons (cur->sname, rv);
+    if (cur->val & value) {
+      rv = gh_cons (cur->sname, rv);
+      value &= ~(cur->val);
+      if (! value)
+        /* If we were to cache the translation, it would be done here.
+           Probably `flagstash_t' needs to include info on disjointness
+           and cache preference/tuning hints first.  */
+        return rv;
     }
   }
-
-  return result;
+  /* If we get here, that means `value' was not covered by the stash,
+     which is not really an exceptional situation, but nonetheless one
+     we should not gloss over (by returning `rv', for example).  We can
+     always add "gsdl_ulong2flags_plus_remainder" later if needed.  */
+  return SCM_BOOL_F;
 }
 
-
+
 /* scheme level conversions */
 
-SCM
-scm_flags_to_number (SCM flag_type, SCM symbol)
+MDEFLOCEXP (flagstash_flags, "flagstash-flags", 1, 0, 0,
+            (SCM s_stash),
+            "Return a list of all the flags (symbols) in @var{stash},\n"
+            "a flagstash object, in unspecified order.")
+#define FUNC_NAME s_flagstash_flags
 {
-  SCM table;
+  int i;
+  flagstash_t *stash;
+  SCM rv = SCM_EOL;
 
-  /* loose check: make sure we have a pair and the cdr is a vector */
-  SCM_ASSERT (scm_pair_p (flag_type), flag_type, SCM_ARG1, "flags->number");
-  table = SCM_CDR (flag_type);
-  SCM_ASSERT (scm_vector_p (table), flag_type, SCM_ARG1, "flags->number");
+  ASSERT_FLAGSTASH (s_stash, SCM_ARG1);
+  stash = SMOBGET (s_stash, flagstash_t *);
 
-  /* lookup and return the number in the pair */
-  return scm_ulong2num (scm_flags2ulong (symbol, flag_type, SCM_ARG2,
-                                         "flags->number"));
+  for (i = 0; i < stash->total; i++)
+    rv = gh_cons (gh_symbol2scm (stash->linear[i]->name), rv);
+  return rv;
+}
+#undef FUNC_NAME
+
+MDEFLOCEXP (flags_to_number, "flags->number", 2, 0, 0,
+            (SCM stash, SCM flags),
+            "Use @var{stash} to convert @var{flags} to a number.\n"
+            "@var{flags} is a list of symbols.")
+#define FUNC_NAME s_flags_to_number
+{
+  ASSERT_SMOB (stash, flagstash_tag, SCM_ARG1);
+
+  return gh_ulong2scm (GSDL_FLAGS2ULONG (flags, stash, SCM_ARG2));
+}
+#undef FUNC_NAME
+
+MDEFLOCEXP (number_to_flags, "number->flags", 2, 0, 0,
+            (SCM stash, SCM number),
+            "Use @var{stash} to convert @var{number} to a list\n"
+            "of symbols.")
+#define FUNC_NAME s_number_to_flags
+{
+  ASSERT_SMOB (stash, flagstash_tag, SCM_ARG1);
+  ASSERT_EXACT (number, SCM_ARG2);
+
+  return gsdl_ulong2flags (gh_scm2ulong (number), stash);
+}
+#undef FUNC_NAME
+
+
+void
+gsdl_init_enums (void)
+{
+  enum_tag = scm_make_smob_type ("SDL-enum", sizeof (enum_struct));
+  scm_set_smob_mark (enum_tag, mark_enum);
+  scm_set_smob_free (enum_tag, free_enum);
+
+  flagstash_tag = scm_make_smob_type ("flagstash", sizeof (flagstash_t *));
+  scm_set_smob_mark  (flagstash_tag, mark_flagstash);
+  scm_set_smob_free  (flagstash_tag, free_flagstash);
+  scm_set_smob_print (flagstash_tag, print_flagstash);
+
+#include "sdlenums.x"
 }
 
-SCM
-scm_number_to_flags (SCM flag_type, SCM number)
-{
-  SCM vec;
-
-  /* loose check: make sure we have a pair and the car is a vector */
-  SCM_ASSERT (scm_pair_p (flag_type), flag_type, SCM_ARG1, "number->flags");
-  vec = SCM_CAR (flag_type);
-  SCM_ASSERT (scm_vector_p (vec), flag_type, SCM_ARG1, "number->flags");
-
-  SCM_ASSERT (scm_exact_p (number), number, SCM_ARG2, "number->flags");
-
-  /* return the numbered index into the vector */
-  return scm_ulong2flags (scm_num2ulong (number, SCM_ARG2, "number->flags"),
-                          flag_type);
-}
-
+/* sdlenums.c ends here */
