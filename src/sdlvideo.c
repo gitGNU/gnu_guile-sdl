@@ -647,9 +647,9 @@ GH_DEFPROC (map_rgb, "map-rgb", 2, 2, 0,
       ASSERT_EXACT (r, ARGH2);
       ASSERT_EXACT (g, ARGH3);
       ASSERT_EXACT (b, ARGH4);
-      cr = (Uint8) gh_scm2long (r);
-      cg = (Uint8) gh_scm2long (g);
-      cb = (Uint8) gh_scm2long (b);
+      cr = gh_scm2ulong (r);
+      cg = gh_scm2ulong (g);
+      cb = gh_scm2ulong (b);
     }
 
   RETURN_INT (SDL_MapRGB (UNPACK_PIXEL_FORMAT (format),
@@ -678,7 +678,7 @@ GH_DEFPROC (map_rgba, "map-rgba", 3, 2, 0,
       cg = color->g;
       cb = color->b;
       ASSERT_EXACT (g, ARGH3);
-      ca = (Uint8) gh_scm2long (g);
+      ca = gh_scm2ulong (g);
     }
   else
     {
@@ -686,10 +686,10 @@ GH_DEFPROC (map_rgba, "map-rgba", 3, 2, 0,
       ASSERT_EXACT (g, ARGH3);
       ASSERT_EXACT (b, ARGH4);
       ASSERT_EXACT (a, ARGH5);
-      cr = (Uint8) gh_scm2long (r);
-      cg = (Uint8) gh_scm2long (g);
-      cb = (Uint8) gh_scm2long (b);
-      ca = (Uint8) gh_scm2long (a);
+      cr = gh_scm2ulong (r);
+      cg = gh_scm2ulong (g);
+      cb = gh_scm2ulong (b);
+      ca = gh_scm2ulong (a);
     }
 
   RETURN_INT (SDL_MapRGBA (UNPACK_PIXEL_FORMAT (format),
@@ -717,13 +717,13 @@ GH_DEFPROC (get_rgb, "get-rgb", 2, 0, 0,
   ASSERT_EXACT (pixel, ARGH1);
   ASSERT_PIXEL_FORMAT (format, ARGH2);
 
-  SDL_GetRGB ((Uint32) gh_scm2long (pixel),
+  SDL_GetRGB (gh_scm2ulong (pixel),
               UNPACK_PIXEL_FORMAT (format),
               &r, &g, &b);
 
-  RETURN_LIST3 (gh_cons (SYM (r), gh_long2scm (r)),
-                gh_cons (SYM (g), gh_long2scm (g)),
-                gh_cons (SYM (b), gh_long2scm (b)));
+  RETURN_LIST3 (gh_cons (SYM (r), gh_ulong2scm (r)),
+                gh_cons (SYM (g), gh_ulong2scm (g)),
+                gh_cons (SYM (b), gh_ulong2scm (b)));
 #undef FUNC_NAME
 }
 
@@ -741,14 +741,14 @@ GH_DEFPROC (get_rgba, "get-rgba", 2, 0, 0,
   ASSERT_EXACT (pixel, ARGH1);
   ASSERT_PIXEL_FORMAT (format, ARGH2);
 
-  SDL_GetRGBA ((Uint32) gh_scm2long (pixel),
+  SDL_GetRGBA (gh_scm2ulong (pixel),
                UNPACK_PIXEL_FORMAT (format),
                &r, &g, &b, &a);
 
-  RETURN_LIST4 (gh_cons (SYM (r), gh_long2scm (r)),
-                gh_cons (SYM (g), gh_long2scm (g)),
-                gh_cons (SYM (b), gh_long2scm (b)),
-                gh_cons (SYM (a), gh_long2scm (a)));
+  RETURN_LIST4 (gh_cons (SYM (r), gh_ulong2scm (r)),
+                gh_cons (SYM (g), gh_ulong2scm (g)),
+                gh_cons (SYM (b), gh_ulong2scm (b)),
+                gh_cons (SYM (a), gh_ulong2scm (a)));
 #undef FUNC_NAME
 }
 
@@ -821,7 +821,7 @@ GH_DEFPROC (warp_mouse, "warp-mouse", 2, 0, 0,
   ASSERT_EXACT (x, ARGH1);
   ASSERT_EXACT (y, ARGH2);
 
-  SDL_WarpMouse ((Uint16) gh_scm2long (x), (Uint16) gh_scm2long (y));
+  SDL_WarpMouse (gh_scm2ulong (x), gh_scm2ulong (y));
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
