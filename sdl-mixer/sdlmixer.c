@@ -213,9 +213,8 @@ MDEFLOCEXP (mix_group_channel, "sdl-group-channel", 1, 1, 0,
     tag = gh_scm2long (s_tag);
   }
 
-  return (Mix_GroupChannel (gh_scm2long (s_which), tag)
-          ? SCM_BOOL_T
-          : SCM_BOOL_F);
+  return gh_bool2scm
+    (Mix_GroupChannel (gh_scm2long (s_which), tag));
 }
 #undef FUNC_NAME
 
@@ -237,11 +236,10 @@ MDEFLOCEXP (mix_group_channels, "sdl-group-channels", 2, 1, 0,
     tag = gh_scm2long (s_tag);
   }
 
-  return (Mix_GroupChannels (gh_scm2long (s_from),
-                             gh_scm2long (s_to),
-                             tag)
-          ? SCM_BOOL_T
-          : SCM_BOOL_F);
+  return gh_bool2scm
+    (Mix_GroupChannels (gh_scm2long (s_from),
+                        gh_scm2long (s_to),
+                        tag));
 }
 #undef FUNC_NAME
 
@@ -688,7 +686,8 @@ MDEFLOCEXP (mix_paused, "sdl-paused?", 0, 1, 0,
     channel = gh_scm2long (s_channel);
   }
 
-  return Mix_Paused (channel) ? SCM_BOOL_T : SCM_BOOL_F;
+  return gh_bool2scm
+    (Mix_Paused (channel));
 }
 #undef FUNC_NAME
 
@@ -731,7 +730,8 @@ MDEFLOCEXP (mix_paused_music, "sdl-paused-music?", 0, 0, 0,
             "Return #t if the music is currently paused.")
 #define FUNC_NAME s_mix_paused_music
 {
-  return Mix_PausedMusic () ? SCM_BOOL_T : SCM_BOOL_F;
+  return gh_bool2scm
+    (Mix_PausedMusic ());
 }
 #undef FUNC_NAME
 
@@ -749,7 +749,8 @@ MDEFLOCEXP (mix_playing, "sdl-playing?", 0, 1, 0,
     channel = gh_scm2long (s_channel);
   }
 
-  return Mix_Playing (channel) ? SCM_BOOL_T : SCM_BOOL_F;
+  return gh_bool2scm
+    (Mix_Playing (channel));
 }
 #undef FUNC_NAME
 
@@ -759,7 +760,8 @@ MDEFLOCEXP (mix_playing_music, "sdl-playing-music?", 0, 0, 0,
             "Return #t iff the music is currently playing.")
 #define FUNC_NAME s_mix_playing_music
 {
-  return Mix_PlayingMusic () ? SCM_BOOL_T : SCM_BOOL_F;
+  return gh_bool2scm
+    (Mix_PlayingMusic ());
 }
 #undef FUNC_NAME
 

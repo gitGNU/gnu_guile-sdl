@@ -314,7 +314,8 @@ MDEFLOCEXP (poll_event, "poll-event", 0, 1, 0,
     result = SDL_PollEvent (SMOBGET (event, SDL_Event *));
   }
 
-  return result ? SCM_BOOL_T : SCM_BOOL_F;
+  return gh_bool2scm
+    (result);
 }
 #undef FUNC_NAME
 
@@ -334,7 +335,8 @@ MDEFLOCEXP (wait_event, "wait-event", 0, 1, 0,
     result = SDL_WaitEvent (SMOBGET (event, SDL_Event *));
   }
 
-  return result ? SCM_BOOL_T : SCM_BOOL_F;
+  return gh_bool2scm
+    (result);
 }
 #undef FUNC_NAME
 
@@ -495,9 +497,8 @@ MDEFLOCEXP (sdl_button_p, "sdl-button?", 1, 0, 0,
 #define FUNC_NAME s_sdl_button_p
 {
   ASSERT_EXACT (mask, ARGH1);
-  return (SDL_BUTTON (gh_scm2long (mask))
-          ? SCM_BOOL_T
-          : SCM_BOOL_F);
+  return gh_bool2scm
+    (SDL_BUTTON (gh_scm2long (mask)));
 }
 #undef FUNC_NAME
 

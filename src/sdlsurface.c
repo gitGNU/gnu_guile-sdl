@@ -188,9 +188,8 @@ MDEFLOCEXP (sdl_surface_p, "sdl-surface?", 1, 0, 0,
             "Return true iff @var{obj} is a surface.")
 #define FUNC_NAME s_sdl_surface_p
 {
-  return (SCM_SMOB_PREDICATE (surface_tag, obj)
-          ? SCM_BOOL_T
-          : SCM_BOOL_F);
+  return gh_bool2scm
+    (SCM_SMOB_PREDICATE (surface_tag, obj));
 }
 #undef FUNC_NAME
 

@@ -38,9 +38,8 @@ MDEFLOCEXP (sdl_joystick_p, "sdl-joystick?", 1, 0, 0,
             "Return #t iff @var{obj} is a joystick smob.")
 #define FUNC_NAME s_sdl_joystick_p
 {
-  return (SCM_SMOB_PREDICATE (joystick_tag, obj)
-          ? SCM_BOOL_T
-          : SCM_BOOL_F);
+  return gh_bool2scm
+    (SCM_SMOB_PREDICATE (joystick_tag, obj));
 }
 #undef FUNC_NAME
 
@@ -50,13 +49,10 @@ MDEFLOCEXP (sdl_joystick_null_p, "sdl-joystick-null?", 1, 0, 0,
             "Return #t iff @var{joystick} is a NULL joystick.")
 #define FUNC_NAME s_sdl_joystick_null_p
 {
-  SDL_Joystick *joy;
-
   ASSERT_JOYSTICK (joy_smob, ARGH1);
 
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
-
-  return (joy == NULL ? SCM_BOOL_T : SCM_BOOL_F);
+  return gh_bool2scm
+    (NULL == SMOBGET (joy_smob, SDL_Joystick *));
 }
 #undef FUNC_NAME
 
@@ -120,9 +116,8 @@ MDEFLOCEXP (sdl_joystick_opened_p, "sdl-joystick-opened?", 0, 1, 0,
     index = gh_scm2long (s_index);
   }
 
-  return (SDL_JoystickOpened (index)
-          ? SCM_BOOL_T
-          : SCM_BOOL_F);
+  return gh_bool2scm
+    (SDL_JoystickOpened (index));
 }
 #undef FUNC_NAME
 

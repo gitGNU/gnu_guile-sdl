@@ -488,7 +488,8 @@ MDEFLOCEXP (set_colors, "sdl-set-colors!", 2, 0, 0,
                           colors, 0, length);
   scm_must_free (colors);
 
-  return result ? SCM_BOOL_T : SCM_BOOL_F;
+  return gh_bool2scm
+    (result);
 }
 #undef FUNC_NAME
 
@@ -520,7 +521,8 @@ MDEFLOCEXP (set_palette, "sdl-set-palette", 3, 0, 0,
                            flags, colors, 0, length);
   scm_must_free (colors);
 
-  return result ? SCM_BOOL_T : SCM_BOOL_F;
+  return gh_bool2scm
+    (result);
 }
 #undef FUNC_NAME
 
@@ -988,7 +990,8 @@ MDEFLOCEXP (wm_iconify_window, "sdl-iconify-window", 0, 0, 0,
             "Return #t if successful.")
 #define FUNC_NAME s_wm_iconify_window
 {
-  return SDL_WM_IconifyWindow () ? SCM_BOOL_T : SCM_BOOL_F;
+  return gh_bool2scm
+    (SDL_WM_IconifyWindow ());
 }
 #undef FUNC_NAME
 
@@ -1010,7 +1013,8 @@ MDEFLOCEXP (wm_toggle_full_screen, "sdl-toggle-full-screen", 0, 1, 0,
     surface = UNPACK_SURFACE (s_surface);
   }
 
-  return SDL_WM_ToggleFullScreen (surface) ? SCM_BOOL_T : SCM_BOOL_F;
+  return gh_bool2scm
+    (SDL_WM_ToggleFullScreen (surface));
 }
 #undef FUNC_NAME
 

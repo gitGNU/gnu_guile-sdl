@@ -40,9 +40,8 @@ MDEFLOCEXP (sdl_cd_p, "sdl-cd?", 1, 0, 0,
             "Return #t iff @var{obj} is a cd smob.")
 #define FUNC_NAME s_sdl_cd_p
 {
-  return (SCM_SMOB_PREDICATE (cdrom_tag, obj)
-          ? SCM_BOOL_T
-          : SCM_BOOL_F);
+  return gh_bool2scm
+    (SCM_SMOB_PREDICATE (cdrom_tag, obj));
 }
 #undef FUNC_NAME
 
@@ -52,16 +51,10 @@ MDEFLOCEXP (sdl_cd_null_p, "sdl-cd-null?", 1, 0, 0,
             "Return #t iff @var{cd} is a null pointer.")
 #define FUNC_NAME s_sdl_cd_null_p
 {
-  SDL_CD *cd;
-
   ASSERT_CDROM (cd_smob, ARGH1);
 
-  cd = SMOBGET (cd_smob, SDL_CD *);
-
-  if (cd == NULL)
-    return SCM_BOOL_T;
-  else
-    return SCM_BOOL_F;
+  return gh_bool2scm
+    (NULL == SMOBGET (cd_smob, SDL_CD *));
 }
 #undef FUNC_NAME
 
@@ -152,15 +145,9 @@ MDEFLOCEXP (sdl_cd_in_drive_p, "sdl-cd-in-drive?", 1, 0, 0,
   ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
-  if (cd != NULL) {
-    if (CD_INDRIVE (SDL_CDStatus (cd)))
-      return SCM_BOOL_T;
-    else
-      return SCM_BOOL_F;
-  }
-  else {
-    return SCM_BOOL_F;
-  }
+  return (NULL == cd
+          ? SCM_BOOL_F
+          : gh_bool2scm (CD_INDRIVE (SDL_CDStatus (cd))));
 }
 #undef FUNC_NAME
 

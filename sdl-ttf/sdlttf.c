@@ -72,7 +72,8 @@ MDEFLOCEXP (ttf_init, "sdl-ttf-init", 0, 0, 0,
             "Initialize the SDL_ttf subsystem.")
 #define FUNC_NAME s_ttf_init
 {
-  return (TTF_Init () ? SCM_BOOL_T : SCM_BOOL_F);
+  return gh_bool2scm
+    (TTF_Init ());
 }
 #undef FUNC_NAME
 
