@@ -1,3 +1,9 @@
+2005-01-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* misc-utils.scm (copy-surface): If the source surface has
+	SDL_SRCALPHA flag set, clear and restore it before and after,
+	respectively, the blit.
+
 2005-01-13  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (install-data-hook): Fix ordering bug:
