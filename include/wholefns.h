@@ -49,8 +49,7 @@ GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),              \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, tag, ARGH1);                                        \
-  SMOBFIELD (c_type, c_field)                                           \
-    = gsdl_enum2long (value, etype, ARGH1, FUNC_NAME);                  \
+  SMOBFIELD (c_type, c_field) = GSDL_ENUM2LONG (value, etype, ARGH1);   \
   RETURN_UNSPECIFIED;                                                   \
 }
 
