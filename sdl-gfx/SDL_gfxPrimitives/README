@@ -1,25 +1,25 @@
 
-
 SDL_gfxPrimitives - SDL graphics primitives, a collection of drawing routines
 ======================================================================================
 
 A. Schiffler, aschiffler@home.com to contact the author.
-Licenced under the LGPL (or GPL, your choice), see the file COPYING for details. 
+Licenced under the LGPL, see the file LICENSE for details.
 
 INTRO
 -----
 
-The SDL_gfxPrimitives library provides basic drawing routines such as lines, circles or 
-polygons for SDL Surfaces. 
+The SDL_gfxPrimitives library provides basic drawing routines such as lines, circles or
+polygons for SDL Surfaces.
 
-Care has been taken so that all routines are fully alpha-aware and can blend any 
-primitive onto the target surface if ALPHA<255. Surface depth supported are 1,2,3 and 
-4 bytes per pixel. Surface locking is implemented in each routine and the library 
-should work well with hardware accelerated surfaces. 
+Care has been taken so that all routines are fully alpha-aware and can blend any
+primitive onto the target surface if ALPHA<255. Surface depth supported are 1,2,3 and
+4 bytes per pixel. Surface locking is implemented in each routine and the library
+should work well with hardware accelerated surfaces.
 
 Currently, The following Anti-Aliased primitives are available:
 * AA-line
-
+* AA-circle
+* AA-ellipse
 
 INTERFACE
 ---------
@@ -29,6 +29,16 @@ See SDL_gfxPrimitives.h for a list of functions provided.
 
 CHANGES/VERSION
 ---------------
+
+Ver 1.5 - Mon Jul  2 11:27:40 EDT 2001
+
+* New alpha blending code for factor 4 speedups if a<255 on all functions.
+* Modified include file for W32 DLL support.
+* Added VC6 project files for DLL and static library building.
+* Added simple AA-circle/-ellipse routine - quality needs improvement.
+* Removed 32bit shift on 64bit number from aaline for better portability
+  across platforms.
+* Removed a couple more compiler warnings (i.e. purely cosmetic fix).
 
 Ver 1.4 - Sun Jun  3 11:52:07 EDT 2001
 
@@ -51,7 +61,7 @@ Ver 1.2 again - Thu Apr  5 07:50:57 EDT 2001
 
 Ver 1.2 - Wed Apr  4 08:32:42 EDT 2001
 
-* Changed to a dual, you-have-the-choice(TM) licencing system 
+* Changed to a dual, you-have-the-choice(TM) licencing system
   to accomodate GPL developments using SDL_gfxPrimitives.
 * Some minor fixes (thanks Karl).
 * All routines return proper result code now.
@@ -85,17 +95,20 @@ Run
 
 for a demo and simple benchmark.
 
+Unzip the file VisualC.zip for VC6 project files.
+
 
 COMMENTS
 --------
 
 If you have any ideas on how to make this better looking, faster running, less
 resource hungry, add MMX-optimized inline assembly, more state-of-the-art
-algorithmes ... well, send me the changes for inclusion in the next release 
+algorithmes ... well, send me the changes for inclusion in the next release
 so that we all benefit. :-)
 
 Code that would be nice to have in particular, are routines for:
-- anti-aliased circles and ellipses, unfilled and filled
+- faster, higher euality anti-aliased circles and ellipses
+- anti-aliased circles and ellipses filled
 - anti-aliased filled polygons
 - B-splines or other types of curves of that sort
 
@@ -103,8 +116,14 @@ Code that would be nice to have in particular, are routines for:
 CONTRIBUTORS
 ------------
 
-* Non-alpha line drawing code adapted from routine 
+* Non-alpha line drawing code adapted from routine
   by Pete Shinners, pete@shinners.org - thanks Pete.
 * More fixes by Karl Bartel, karlb@gmx.net - thanks Karl.
 * Much testing and suggestions for fixes from Danny van Bruggen,
   danny@froukepc.dhs.org - thanks Danny.
+* VC6 DLL and static library project files from Michael Chen,
+  machenmusik@home.com - thanks Michael.
+* AA-circle/-ellipse code idea from Stephane Magnenat,
+  nct@wg0.ysagoon.com - thanks Stephane.
+* Faster blending routines contributed by Anders Lindström,
+  cal@swipnet.se - thanks Anders.
