@@ -306,7 +306,7 @@ GH_DEFPROC (list_modes, "list-modes", 0, 2, 0,
   if (NOT_FALSEP (flags))
     {
       ASSERT_EXACT (flags, ARGH2);
-      cflags = (Uint32) GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH2);
+      cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH2);
     }
 
   modes = SDL_ListModes (cformat, cflags);
@@ -354,7 +354,7 @@ GH_DEFPROC (video_mode_ok, "video-mode-ok", 3, 1, 0,
   ASSERT_EXACT (bpp,    ARGH3);
 
   if (BOUNDP (flags))
-    cflags = (Uint32) GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH4);
+    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH4);
 
   result = SDL_VideoModeOK (gh_scm2long (width),
                             gh_scm2long (height),
@@ -380,7 +380,7 @@ GH_DEFPROC (set_video_mode, "set-video-mode", 3, 1, 0,
   ASSERT_EXACT (bpp,    ARGH3);
 
   if (BOUNDP (flags))
-    cflags = (Uint32) GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH4);
+    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH4);
 
   RETURN_NEW_SURFACE
     (SDL_SetVideoMode (gh_scm2long (width),
