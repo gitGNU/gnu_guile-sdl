@@ -12,6 +12,10 @@
 
 	* cov: New file.
 
+	* ref.twerp (make-rect, make-color, color:r, color:g, color:b,
+	color:set-r!, color:set-g!, color:set-b!, vh-flip-surface,
+	scale-surface, get-mouse-relative-state): New @twerpdoc entries.
+
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* ref.twerp: Throughout, remove defunct "sdl-" prefix.
