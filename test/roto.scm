@@ -1,6 +1,7 @@
 ;;; roto.scm --- simple rotozoom test
 
-(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
+(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
+             ((sdl gfx) #:renamer (symbol-prefix-proc 'GFX:)))
 
 ;; the directory to find the image in
 (define (datafile name)
@@ -24,7 +25,7 @@
   ;; rotate the image 27 degrees at a time, reducing its magnitude by 10%
   (do ((theta 0 (+ 27 theta)) (mag 1.0 (* mag 0.9)))
       ((>= theta (* 3 360)))            ; a few times around
-    (let* ((image (SDL:roto-zoom-surface gnu-head theta mag #t))
+    (let* ((image (GFX:roto-zoom-surface gnu-head theta mag #t))
            (iw    (SDL:surface:w image))
            (ih    (SDL:surface:h image))
            (drect (SDL:make-rect (quotient (- w iw) 2)

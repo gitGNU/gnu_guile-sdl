@@ -110,30 +110,11 @@
 @twerpdoc (convert-surface)
 @twerpdoc (blit-surface)
 
-@section Rotation / Zooming
-
-@twerpdoc (roto-zoom-surface)
-@twerpdoc (zoom-surface)
-
 @section Misc Surface Operations
 
 @twerpdoc (vertical-flip-surface)
 @twerpdoc (horizontal-flip-surface)
 @twerpdoc (vh-flip-surface)
-
-@section Graphics Primitives
-
-@twerpdoc (draw-point)
-@twerpdoc (draw-line)
-@twerpdoc (draw-aa-line)
-@twerpdoc (draw-rectangle)
-@twerpdoc (draw-circle)
-@twerpdoc (draw-aa-circle)
-@twerpdoc (draw-ellipse)
-@twerpdoc (draw-aa-ellipse)
-@twerpdoc (draw-polygon)
-@twerpdoc (draw-character)
-@twerpdoc (draw-string)
 
 @node Events
 @chapter Events
@@ -368,6 +349,28 @@
 @twerpdoc (playing-music?)
 @twerpdoc (set-music-command)
 @twerpdoc (close-audio)
+
+@node libSDL_gfx
+@chapter libSDL_gfx by Andreas Schiffler
+
+@section Graphics Primitives
+
+@twerpdoc (draw-point)
+@twerpdoc (draw-line)
+@twerpdoc (draw-aa-line)
+@twerpdoc (draw-rectangle)
+@twerpdoc (draw-circle)
+@twerpdoc (draw-aa-circle)
+@twerpdoc (draw-ellipse)
+@twerpdoc (draw-aa-ellipse)
+@twerpdoc (draw-polygon)
+@twerpdoc (draw-character)
+@twerpdoc (draw-string)
+
+@section Rotation / Zooming
+
+@twerpdoc (roto-zoom-surface)
+@twerpdoc (zoom-surface)
 
 @node Miscellaneous Utilities
 @chapter Miscellaneous Utilities
