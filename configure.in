@@ -56,4 +56,6 @@ AC_OUTPUT([
 Makefile
 src/Makefile
 sdl/Makefile
+sdl-mixer/Makefile
+sdl-ttf/Makefile
 ])

@@ -38,7 +38,7 @@ EXTRA_DIST = sdl.h \
 
 lib_LTLIBRARIES = libguileSDL.la
 
-#INCLUDES = -ISDL_gfxPrimitives/ -ISDL_rotozoom/
+INCLUDES = -I../include/ #-ISDL_gfxPrimitives/ -ISDL_rotozoom/
 
 # libguileSDL_la_SOURCES = sdl.c sdlrect.c sdlpalette.c sdlsurface.c \
 # 		      sdlvideo.c \
