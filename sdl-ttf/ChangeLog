@@ -1,5 +1,10 @@
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (.fspec.c): Use guile-tools
+	instead of pre-inst-guile-tools.
+
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlttf.h: Delete file.
 
 	* sdlttf.c: Update copyright.
