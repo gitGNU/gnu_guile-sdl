@@ -30,6 +30,12 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 	Previously the interface was available but calling these procs
 	resulted in a "not yet implemented" error.
 
+  - new (sdl misc-utils) proc: copy-surface
+  - new (sdl misc-utils) proc: ignore-all-event-types-except
+
+  - new module: (sdl simple)
+
+
 
 - 0.3.0 | 2004-11-25
 
