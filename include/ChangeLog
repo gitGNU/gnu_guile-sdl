@@ -1,5 +1,9 @@
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* bool.h: New file.
+
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sym.h: New file.
 
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
