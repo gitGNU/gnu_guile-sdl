@@ -132,6 +132,44 @@ free_pixel_format (SCM pixel_format)
   return 0;
 }
 
+static
+int
+print_pixel_format (SCM pixel_format, SCM port, scm_print_state *pstate)
+{
+#define PUTC(c)    scm_putc (c, port)
+#define PUTS(s)    scm_puts (s, port)
+#define PUT10I(n)  scm_intprint (n, 10, port)
+#define PUT16I(n)  scm_intprint (n, 16, port)
+
+  SDL_PixelFormat *f = UNPACK_PIXEL_FORMAT (pixel_format);
+
+  PUTS                  ("#<SDL-Pixel-Format ");
+  if (f->palette)
+    PUT10I                              (f->palette->ncolors);
+  else
+    PUTS                                ("NULL");
+  PUTC                  (' ');
+  PUT10I                                (f->BitsPerPixel);
+  PUTC                  (' ');
+  PUT16I                                (f->colorkey);
+  PUTC                  (' ');
+  PUT10I                                (f->alpha);
+  PUTC                  (' ');
+  if (f->Rmask) PUTC                    ('R');
+  if (f->Gmask) PUTC                    ('G');
+  if (f->Bmask) PUTC                    ('B');
+  if (f->Amask) PUTC                    ('A');
+  PUTC                  ('>');
+
+  /* Non-zero means success.  */
+  return 1;
+
+#undef PUT16I
+#undef PUT10I
+#undef PUTS
+#undef PUTC
+}
+
 
 /* scheme callable functions */
 
@@ -1086,6 +1124,7 @@ gsdl_init_video (void)
                                          sizeof (SDL_PixelFormat));
   scm_set_smob_mark (pixel_format_tag, mark_pixel_format);
   scm_set_smob_free (pixel_format_tag, free_pixel_format);
+  scm_set_smob_print (pixel_format_tag, print_pixel_format);
 
   overlay_tag = scm_make_smob_type ("SDL-Overlay", sizeof (SDL_Overlay));
   scm_set_smob_mark (overlay_tag, mark_yuv_overlay);
