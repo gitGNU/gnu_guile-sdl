@@ -9,6 +9,7 @@
 	* sdlvideo.c (list_modes): Likewise.
 	(video_mode_ok): Likewise.
 	(set_video_mode): Likewise.
+	(update_rect): Likewise.
 
 2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
