@@ -1,5 +1,27 @@
 2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlevent.c (event_action_enum): New var, global.
+	(event_mask_flags): New var, static.
+	(get_event_mask_flags): New GH_DEFPROC.
+	(peep_events): Write implementation.
+	(gsdl_evmask_flagstash): New extern var decl.
+	(gsdl_init_event): Init `event_action_enum' and `event_mask_flags'.
+
+2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* initf.fspec (#:struct): Arrange to quote the key.
+	* kmodf.fspec: Likewise.
+	* overlayf.fspec: Likewise.
+	* palettef.fspec: Likewise.
+	* videof.fspec: Likewise.
+
+2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* evmaskf.fspec: New file.
+	* Makefile.am (FLAGSTASH): Add evmaskf.c.
+
+2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlevent.c (event_state): Write implementation.
 
 2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
