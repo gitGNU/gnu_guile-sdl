@@ -387,7 +387,7 @@ GH_DEFPROC (flags_to_number, "flags->number", 2, 0, 0,
 {
   ASSERT_SMOB (stash, flagstash_tag, ARGH1);
 
-  return gh_ulong2scm (GSDL_FLAGS2ULONG (flags, stash, ARGH2));
+  RETURN_UINT (GSDL_FLAGS2ULONG (flags, stash, ARGH2));
 }
 #undef FUNC_NAME
 
