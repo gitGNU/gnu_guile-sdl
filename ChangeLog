@@ -1,3 +1,7 @@
+2005-01-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (as_is_dirs): Add cov.
+
 2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (TESTS): Add test/fading.scm.
