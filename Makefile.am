@@ -58,7 +58,7 @@ pre-inst.merged-module-catalog:
 
 install-data-hook:
 	if guile-tools | grep -q make-module-catalog ; then	\
-	  cd $(DESTDIR)$(guilelibsitedir) ;			\
+	  cd $(DESTDIR)$(GUILE_LIBSITE) ;			\
 	  guile-tools make-module-catalog `pwd` ;		\
 	  cd $(DESTDIR)$(GUILE_SITE) ;				\
 	  guile-tools make-module-catalog `pwd` ;		\
