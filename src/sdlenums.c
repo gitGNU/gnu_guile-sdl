@@ -2,7 +2,7 @@
  *  sdlenums.c -- Enum helper functions                            *
  *                                                                 *
  *  Created:    <2001-06-09 19:22:27 foof>                         *
- *  Time-stamp: <02/06/26 13:03:54 mikiso>                         *
+ *  Time-stamp: <02/06/26 13:47:11 mikiso>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -45,8 +45,8 @@ SCM
 mark_enum (SCM s_enum)
 {
   enum_struct *enum_smob = (enum_struct*) SCM_SMOB_DATA (s_enum);
-  scm_gc_mark(enum_smob->vec);
-  scm_gc_mark(enum_smob->table);
+  scm_must_mark(enum_smob->vec);
+  scm_must_mark(enum_smob->table);
   return SCM_BOOL_F;
 }
 

@@ -101,14 +101,14 @@ SCM_DEFINE( create_cursor, "sdl-create-cursor", 6, 0, 0,
   /* build the arrays */
   data_len = scm_num2long (scm_vector_length (s_data), SCM_ARG1,
                            "sdl-create-cursor");
-  data = scm_gc_malloc (data_len, "sdl-create-cursor data array");
+  data = scm_must_malloc (data_len, "sdl-create-cursor data array");
   for (i=0; i<data_len; i++) {
     data[i] = (Uint8) scm_num2long (scm_vector_ref (s_data, scm_long2num (i)),
                                     SCM_ARG1, "sdl-create-cursor");
   }
   mask_len = scm_num2long (scm_vector_length (s_mask), SCM_ARG2,
                            "sdl-create-cursor");
-  mask = scm_gc_malloc (mask_len, "sdl-create-cursor mask array");
+  mask = scm_must_malloc (mask_len, "sdl-create-cursor mask array");
   for (i=0; i<mask_len; i++) {
     mask[i] = (Uint8) scm_num2long (scm_vector_ref (s_mask, scm_long2num (i)),
                                     SCM_ARG2, "sdl-create-cursor");
@@ -459,7 +459,7 @@ SCM_DEFINE( set_colors, "sdl-set-colors!", 2, 0, 0,
 
   surface = (SDL_Surface*) SCM_SMOB_DATA (s_surface);
   length = SCM_VECTOR_LENGTH (s_colors);
-  colors = (SDL_Color*) scm_gc_malloc (length, "sdl-set-colors!");
+  colors = (SDL_Color*) scm_must_malloc (length, "sdl-set-colors!");
 
   for (i=0; i<length; i++) {
     color = (SDL_Color*) SCM_SMOB_DATA
@@ -494,7 +494,7 @@ SCM_DEFINE( set_palette, "sdl-set-palette", 3, 0, 0,
   flags   = scm_flags2ulong (s_flags, sdl_palette_flags,
                              SCM_ARG2, "sdl-set-palette!");
   length  = SCM_VECTOR_LENGTH (s_colors);
-  colors  = (SDL_Color*) scm_gc_malloc (length, "sdl-set-palette!");
+  colors  = (SDL_Color*) scm_must_malloc (length, "sdl-set-palette!");
 
   for (i=0; i<length; i++) {
     color = (SDL_Color*) SCM_SMOB_DATA
