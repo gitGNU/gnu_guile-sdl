@@ -47,7 +47,8 @@ GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
   ASSERT_NUMBER (s_angle, ARGH2);
   angle = gh_scm2double (s_angle);
 
-  if (BOUNDP (s_zoom)) {
+  UNBOUND_MEANS_FALSE (s_zoom);
+  if (SCM_NFALSEP (s_zoom)) {
     ASSERT_NUMBER (s_zoom, ARGH3);
     angle = gh_scm2double (s_angle);
   }
@@ -81,7 +82,8 @@ GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
   ASSERT_NUMBER (s_zoomx, ARGH2);
   zoomx = gh_scm2double (s_zoomx);
 
-  if (BOUNDP (s_zoomy)) {
+  UNBOUND_MEANS_FALSE (s_zoomy);
+  if (SCM_NFALSEP (s_zoomy)) {
     ASSERT_NUMBER (s_zoomy, ARGH3);
     zoomy = gh_scm2double (s_zoomy);
   } else {
