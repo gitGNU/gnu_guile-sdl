@@ -65,9 +65,7 @@ GH_DEFPROC (init, "init", 1, 0, 0,
             "with @code{SCM_INIT_}.")
 #define FUNC_NAME s_init
 {
-  return gh_long2scm (SDL_Init
-                      (GSDL_FLAGS2ULONG
-                       (sel, init_flags, ARGH1)));
+  RETURN_INT (SDL_Init (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1)));
 }
 #undef FUNC_NAME
 
@@ -79,9 +77,7 @@ GH_DEFPROC (init_subsystem, "init-subsystem", 1, 0, 0,
             "from the same set useful for @code{init}.")
 #define FUNC_NAME s_init_subsystem
 {
-  return gh_long2scm (SDL_InitSubSystem
-                      (GSDL_FLAGS2ULONG
-                       (sel, init_flags, ARGH1)));
+  RETURN_INT (SDL_InitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1)));
 }
 #undef FUNC_NAME
 
@@ -134,7 +130,7 @@ GH_DEFPROC (get_ticks, "get-ticks", 0, 0, 0,
             "the SDL library initialization.")
 #define FUNC_NAME s_get_ticks
 {
-  return gh_long2scm (SDL_GetTicks ());
+  RETURN_INT (SDL_GetTicks ());
 }
 #undef FUNC_NAME
 

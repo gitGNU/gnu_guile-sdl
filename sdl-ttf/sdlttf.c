@@ -138,7 +138,7 @@ GH_DEFPROC (ttf_font_height, "font:height", 1, 0, 0,
 {
   ASSERT_TTFONT (s_font, ARGH1);
 
-  return gh_long2scm (TTF_FontHeight (UNPACK_TTFONT (s_font)));
+  RETURN_INT (TTF_FontHeight (UNPACK_TTFONT (s_font)));
 }
 #undef FUNC_NAME
 
@@ -151,7 +151,7 @@ GH_DEFPROC (ttf_font_ascent, "font:ascent", 1, 0, 0,
 {
   ASSERT_TTFONT (s_font, ARGH1);
 
-  return gh_long2scm (TTF_FontAscent (UNPACK_TTFONT (s_font)));
+  RETURN_INT (TTF_FontAscent (UNPACK_TTFONT (s_font)));
 }
 #undef FUNC_NAME
 
@@ -164,7 +164,7 @@ GH_DEFPROC (ttf_font_descent, "font:descent", 1, 0, 0,
 {
   ASSERT_TTFONT (s_font, ARGH1);
 
-  return gh_long2scm (TTF_FontDescent (UNPACK_TTFONT (s_font)));
+  RETURN_INT (TTF_FontDescent (UNPACK_TTFONT (s_font)));
 }
 #undef FUNC_NAME
 
@@ -177,7 +177,7 @@ GH_DEFPROC (ttf_font_line_skip, "font:line-skip", 1, 0, 0,
 {
   ASSERT_TTFONT (s_font, ARGH1);
 
-  return gh_long2scm (TTF_FontLineSkip (UNPACK_TTFONT (s_font)));
+  RETURN_INT (TTF_FontLineSkip (UNPACK_TTFONT (s_font)));
 }
 #undef FUNC_NAME
 

@@ -127,7 +127,7 @@ GH_DEFPROC (mix_allocate_channels, "allocated-channels", 1, 0, 0,
 {
   ASSERT_EXACT (s_numchans, ARGH1);
 
-  return gh_long2scm (Mix_AllocateChannels (gh_scm2long (s_numchans)));
+  RETURN_INT (Mix_AllocateChannels (gh_scm2long (s_numchans)));
 }
 #undef FUNC_NAME
 
@@ -195,7 +195,7 @@ GH_DEFPROC (mix_reserve_channels, "reserve-channels", 1, 0, 0,
 {
   ASSERT_EXACT (num, ARGH1);
 
-  return gh_long2scm (Mix_ReserveChannels (gh_scm2long (num)));
+  RETURN_INT (Mix_ReserveChannels (gh_scm2long (num)));
 }
 #undef FUNC_NAME
 
@@ -264,7 +264,7 @@ GH_DEFPROC (mix_group_available, "group-available", 0, 1, 0,
     tag = gh_scm2long (s_tag);
   }
 
-  return gh_long2scm (Mix_GroupAvailable (tag));
+  RETURN_INT (Mix_GroupAvailable (tag));
 }
 #undef FUNC_NAME
 
@@ -282,7 +282,7 @@ GH_DEFPROC (mix_group_count, "group-count", 0, 1, 0,
     tag = gh_scm2long (s_tag);
   }
 
-  return gh_long2scm (Mix_GroupCount (tag));
+  RETURN_INT (Mix_GroupCount (tag));
 }
 #undef FUNC_NAME
 
@@ -301,7 +301,7 @@ GH_DEFPROC (mix_group_oldest, "group-oldest", 0, 1, 0,
     tag = gh_scm2long (s_tag);
   }
 
-  return gh_long2scm (Mix_GroupOldest (tag));
+  RETURN_INT (Mix_GroupOldest (tag));
 }
 #undef FUNC_NAME
 
@@ -320,7 +320,7 @@ GH_DEFPROC (mix_group_newer, "group-newer", 0, 1, 0,
     tag = gh_scm2long (s_tag);
   }
 
-  return gh_long2scm (Mix_GroupNewer (tag));
+  RETURN_INT (Mix_GroupNewer (tag));
 }
 #undef FUNC_NAME
 
@@ -375,7 +375,7 @@ GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
                                  gh_scm2long (s_fade),
                                  ticks);
   }
-  return gh_long2scm (rv);
+  RETURN_INT (rv);
 }
 #undef FUNC_NAME
 
@@ -408,7 +408,7 @@ GH_DEFPROC (mix_play_music, "play-music", 1, 2, 0,
     ASSERT_EXACT (s_fade, ARGH3);
     rv = Mix_FadeInMusic (music, loops, gh_scm2long (s_fade));
   }
-  return gh_long2scm (rv);
+  RETURN_INT (rv);
 }
 #undef FUNC_NAME
 
@@ -449,7 +449,7 @@ GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
     ASSERT_AUDIO (s_which, ARGH2);
     rv = Mix_VolumeChunk (UNPACK_AUDIO (s_which), volume);
   }
-  return gh_long2scm (rv);
+  RETURN_INT (rv);
 }
 #undef FUNC_NAME
 
@@ -468,7 +468,7 @@ GH_DEFPROC (mix_volume_music, "music-volume", 0, 1, 0,
     volume = gh_scm2long (s_volume);
   }
 
-  return gh_long2scm (Mix_VolumeMusic (volume));
+  RETURN_INT (Mix_VolumeMusic (volume));
 }
 #undef FUNC_NAME
 
@@ -486,7 +486,7 @@ GH_DEFPROC (mix_halt_channel, "halt-channel", 0, 1, 0,
     channel = gh_scm2long (s_channel);
   }
 
-  return gh_long2scm (Mix_HaltChannel (channel));
+  RETURN_INT (Mix_HaltChannel (channel));
 }
 #undef FUNC_NAME
 
@@ -504,7 +504,7 @@ GH_DEFPROC (mix_halt_group, "halt-group", 0, 1, 0,
     tag = gh_scm2long (s_tag);
   }
 
-  return gh_long2scm (Mix_HaltGroup (tag));
+  RETURN_INT (Mix_HaltGroup (tag));
 }
 #undef FUNC_NAME
 
@@ -514,7 +514,7 @@ GH_DEFPROC (mix_halt_music, "halt-music", 0, 0, 0,
             "Halt playing of the music.")
 #define FUNC_NAME s_mix_halt_music
 {
-  return gh_long2scm (Mix_HaltMusic ());
+  RETURN_INT (Mix_HaltMusic ());
 }
 #undef FUNC_NAME
 
@@ -541,7 +541,7 @@ GH_DEFPROC (mix_expire_channel, "expire-channel", 0, 2, 0,
     ticks = gh_scm2long (s_ticks);
   }
 
-  return gh_long2scm (Mix_ExpireChannel (channel, ticks));
+  RETURN_INT (Mix_ExpireChannel (channel, ticks));
 }
 #undef FUNC_NAME
 
@@ -568,7 +568,7 @@ GH_DEFPROC (mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
     ms = gh_scm2long (s_ms);
   }
 
-  return gh_long2scm (Mix_FadeOutChannel (channel, ms));
+  RETURN_INT (Mix_FadeOutChannel (channel, ms));
 }
 #undef FUNC_NAME
 
@@ -595,7 +595,7 @@ GH_DEFPROC (mix_fade_out_group, "fade-out-group", 0, 2, 0,
     ms = gh_scm2long (s_ms);
   }
 
-  return gh_long2scm (Mix_FadeOutGroup (tag, ms));
+  RETURN_INT (Mix_FadeOutGroup (tag, ms));
 }
 #undef FUNC_NAME
 
@@ -614,7 +614,7 @@ GH_DEFPROC (mix_fade_out_music, "fade-out-music", 0, 1, 0,
     ms = gh_scm2long (s_ms);
   }
 
-  return gh_long2scm (Mix_FadeOutMusic (ms));
+  RETURN_INT (Mix_FadeOutMusic (ms));
 }
 #undef FUNC_NAME
 
@@ -624,7 +624,7 @@ GH_DEFPROC (mix_fading_music, "fading-music", 0, 0, 0,
             "Return the fading status of the music.")
 #define FUNC_NAME s_mix_fading_music
 {
-  return gh_long2scm (Mix_FadingMusic ());
+  RETURN_INT (Mix_FadingMusic ());
 }
 #undef FUNC_NAME
 
@@ -642,7 +642,7 @@ GH_DEFPROC (mix_fading_channel, "fading-channel", 0, 1, 0,
     which = gh_scm2long (s_which);
   }
 
-  return gh_long2scm (Mix_FadingChannel (which));
+  RETURN_INT (Mix_FadingChannel (which));
 }
 #undef FUNC_NAME
 
@@ -787,7 +787,7 @@ GH_DEFPROC (mix_set_music_cmd, "set-music-command", 1, 0, 0,
 #define FUNC_NAME s_mix_set_music_cmd
 {
   ASSERT_STRING (command, ARGH1);
-  return gh_long2scm (Mix_SetMusicCMD (SCM_CHARS (command)));
+  RETURN_INT (Mix_SetMusicCMD (SCM_CHARS (command)));
 }
 #undef FUNC_NAME
 

@@ -127,10 +127,10 @@ GH_DEFPROC (cd_status, "cd-status", 1, 0, 0,
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
-    return gh_long2scm (SDL_CDStatus (cd));
+    RETURN_INT (SDL_CDStatus (cd));
   }
   else {
-    return gh_long2scm (CD_ERROR);
+    RETURN_INT (CD_ERROR);
   }
 }
 #undef FUNC_NAME
@@ -306,7 +306,7 @@ GH_DEFPROC (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
     ret = -1;
   }
 
-  return gh_long2scm (ret);
+  RETURN_INT (ret);
 }
 #undef FUNC_NAME
 
@@ -337,7 +337,7 @@ GH_DEFPROC (cd_play, "cd-play", 3, 0, 0,
     ret = -1;
   }
 
-  return gh_long2scm (ret);
+  RETURN_INT (ret);
 }
 #undef FUNC_NAME
 
@@ -353,10 +353,10 @@ GH_DEFPROC (cd_pause, "cd-pause", 1, 0, 0,
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
-    return gh_long2scm (SDL_CDPause (cd));
+    RETURN_INT (SDL_CDPause (cd));
   }
   else {
-    return gh_long2scm (-1);
+    RETURN_INT (-1);
   }
 }
 #undef FUNC_NAME
@@ -373,10 +373,10 @@ GH_DEFPROC (cd_resume, "cd-resume", 1, 0, 0,
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
-    return gh_long2scm (SDL_CDResume (cd));
+    RETURN_INT (SDL_CDResume (cd));
   }
   else {
-    return gh_long2scm (-1);
+    RETURN_INT (-1);
   }
 }
 #undef FUNC_NAME
@@ -393,10 +393,10 @@ GH_DEFPROC (cd_stop, "cd-stop", 1, 0, 0,
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
-    return gh_long2scm (SDL_CDStop (cd));
+    RETURN_INT (SDL_CDStop (cd));
   }
   else {
-    return gh_long2scm (-1);
+    RETURN_INT (-1);
   }
 }
 #undef FUNC_NAME
@@ -413,10 +413,10 @@ GH_DEFPROC (cd_eject, "cd-eject", 1, 0, 0,
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
-    return gh_long2scm (SDL_CDEject (cd));
+    RETURN_INT (SDL_CDEject (cd));
   }
   else {
-    return gh_long2scm (-1);
+    RETURN_INT (-1);
   }
 }
 #undef FUNC_NAME
@@ -469,7 +469,7 @@ GH_DEFPROC (cd_msf_to_frames, "cd-msf->frames", 1, 2, 0,
   }
 
   frames = MSF_TO_FRAMES (m, s, f);
-  return gh_long2scm (frames);
+  RETURN_INT (frames);
 }
 #undef FUNC_NAME
 
