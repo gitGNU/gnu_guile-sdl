@@ -3,14 +3,15 @@
 (use-modules
  ((sdl misc-utils) #:select (copy-surface))
  ((sdl simple) #:select (simple-canvas))
- ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
+ ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
+ ((sdl gfx) #:renamer (symbol-prefix-proc 'GFX:)))
 
 (define (as-four surface)
   (let* ((w (SDL:surface:w surface))
          (h (SDL:surface:h surface))
          (w/2 (quotient w 2))
          (h/2 (quotient h 2))
-         (hoh (SDL:zoom-surface surface 1/2 1/2 #t)) ; half-of-half
+         (hoh (GFX:zoom-surface surface 1/2 1/2 #t)) ; half-of-half
          (result (SDL:display-format (SDL:make-surface w h)))
          (drect (SDL:make-rect 0 0 w/2 h/2)))
     (define (move/blit! munge value)
