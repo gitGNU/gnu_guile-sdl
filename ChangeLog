@@ -1,3 +1,7 @@
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* alive.test: New file.
+
 2003-11-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* configure.in (AH_BOTTOM): Add block to include <guile/modsup.h>

@@ -1,5 +1,29 @@
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlmixer.h: Delete file.
+
+	* sdlmixer.c: Update copyright.
+	Include <guile/gh.h>.
+	Include <SDL/SDL_mixer.h>.
+	No longer include "sdlmixer.h".
+	Include "config.h" and "argcheck.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(mix_music_tag, mix_audio_tag): Make static.
+	(mark_music, mark_audio): New static funcs.
+	(free_music, free_audio): Make static.
+	(ASSERT_MUSIC, ASSERT_AUDIO, UNPACK_MUSIC, UNPACK_AUDIO,
+	RETURN_NEW_MUSIC, RETURN_NEW_AUDIO): New macros.
+	(gsdl_sym_freq, gsdl_sym_format, gsdl_sym_channels): New static vars.
+	(init_module): Rename from `sdl_mixer_init'. Make static.
+	Register `mark_music' and `mark_audio'.
+	Remove call to `scm_c_export'.
+	(scm_init_sdl_mixer_module): New function,
+	declared and defined by macro MDEFLINKFUNC.
+
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* Makefile.am (AM_CPPFLAGS): Add $(srcdir) variants.
 	(cmoddir): New var.
 	(FLAGSTASH): New var.
