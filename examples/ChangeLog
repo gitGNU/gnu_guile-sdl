@@ -1,3 +1,8 @@
+2004-06-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* imagebrowser.scm (image-ring): Also accept bmp, pnm,
+	xcf, pcx, tif, lbm, pgm, pbm, ppm and gif extensions.
+
 2004-06-03  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* imagebrowser.scm (image-ring): Handle files w/ jpg extension.
