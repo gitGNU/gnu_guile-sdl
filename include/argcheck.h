@@ -19,4 +19,7 @@
 #define ASSERT_CHAR(obj,n) \
   SCM_ASSERT (SCM_CHARP ((obj)), (obj), n, FUNC_NAME)
 
+#define ASSERT_PAIR(obj,n) \
+  SCM_ASSERT (gh_pair_p ((obj)), (obj), n, FUNC_NAME)
+
 #endif /* GUILE_SDL_ARGCHECK_H */
