@@ -10,14 +10,16 @@ Look at autogen.sh to get started.
 
 Here are some cvs tags and their meanings:
 
-  ok-1   -- passes "make && make check"
-  ok-2   -- like ok-1, plus doc snarfing (doc/guile-sdl.info available)
-  ok-3   -- like ok-2, plus "make install" (w/ module catalog update)
-  ok-4   -- like ok-3, using GH_ macros instead of MDEF*
-  ok-5   -- like ok-4, without "sdl-" prefix (examples all use #:renamer)
-  ok-6   -- like ok-5, using GUILE_LIBSITE_DIR configure.in macro
-  ok-7   -- like ok-6, with doc coverage verified using doc/cov
-  ok-8   -- like ok-7, plus "make dist"
+  ok-1 -- passes "make && make check"
+  ok-2 -- like ok-1, plus doc snarfing (doc/guile-sdl.info available)
+  ok-3 -- like ok-2, plus "make install" (w/ module catalog update)
+  ok-4 -- like ok-3, using GH_ macros instead of MDEF*
+  ok-5 -- like ok-4, without "sdl-" prefix (examples all use #:renamer)
+  ok-6 -- like ok-5, using GUILE_LIBSITE_DIR configure.in macro
+  ok-7 -- like ok-6, with doc coverage verified using doc/cov
+  ok-8 -- like ok-7, plus "make dist"
+
+  v-0-2-0 -- release 0.2.0
 
 
 Happy hacking!
