@@ -1,3 +1,8 @@
+2005-01-04  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlsurface.c (make_surface): Fix bug: Use `cflags'.
+	(create_rgb_surface): Likewise.
+
 2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdl.c: Move "#define FUNC_NAME" inside func scope; nfc.
