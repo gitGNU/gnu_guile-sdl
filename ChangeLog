@@ -1,5 +1,10 @@
 2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* autogen.sh: Check for sdl/misc-utils.scm
+	instead of now defunct sdl/sdl.scm.
+
+2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* alive.test: No longer check `rotate-square'
 	or `call-with-clip-rect'.
 
