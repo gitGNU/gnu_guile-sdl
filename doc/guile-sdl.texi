@@ -31,8 +31,6 @@
 @vskip 0pt plus 1filll
 Copyright @copyright{} 2003,2004,2005 Thien-Thi Nguyen
 
-Copyright @copyright{} 2001 Alex Shinn
-
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
 are preserved on all copies.

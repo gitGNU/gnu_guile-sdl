@@ -1,6 +1,6 @@
 Guile-SDL NEWS
 Copyright (C) 2003,2004,2005 Thien-Thi Nguyen
-Copyright (C) 2001 Alex Shinn
+
 See the end for copying conditions.
 
 Please send Guile-SDL bug reports to <ttn@glug.org>.
@@ -261,9 +261,6 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
 Copyright information:
-
-Copyright (C) 2003,2004 Thien-Thi Nguyen
-Copyright (C) 2001 Alex Shinn
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the
