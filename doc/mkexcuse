@@ -1,0 +1,81 @@
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
+!#
+;;; usage: mkexcuse NOTES-TDT
+
+(use-modules ((ttn read-text-db-table) #:select (read-text-db-table))
+             ((ice-9 common-list) #:select (uniq)))
+
+(define *notes* (read-text-db-table (open-input-file (cadr (command-line)))))
+
+(define (fso s . args)
+  (apply simple-format #t s args))
+
+(define (fln s . args)
+  (apply fso s args)
+  (newline))
+
+(define (table title blurb get present)
+  (fln "@section ~A" title)
+  (newline)
+  (and blurb (fln "~A\n" blurb))
+  (fln "@table @code")
+  (for-each present (if get (get) *notes*))
+  (fln "@end table"))
+
+(fln "@node Excuses")
+(fln "@chapter Excuses")
+
+(fln "
+Here are some notes on interface elements from
+@file{/usr/include/SDL/*.h} that are not yet
+wrapped by Guile-SDL.  As things progress elements
+will be removed until an irreducible set remains.
+
+Interface elements have zero or more @dfn{attributes},
+some of which indicate irreducibility (such as @code{probably-never}).
+Following the attribute groupings are specific notes on those
+elements that are particular in some way.  The presentation order
+is not significant.
+")
+
+(table "Categories"
+       "For brevity, we omit the @code{SDL_} prefix in the groupings."
+       (lambda ()
+         (uniq (apply append (map (lambda (note)
+                                    (assq-ref note #:attributes))
+                                  *notes*))))
+       (lambda (attr)
+         (newline)
+         (fln "@item ~A" attr)
+         (fln "@verbatim")
+         (let ((col 0))
+           (for-each (lambda (note)
+                       (and (memq attr (assq-ref note #:attributes))
+                            (let* ((n (assq-ref note #:name))
+                                   (s (symbol->string n))
+                                   (len (1+ (string-length s))))
+                              (fso "  ~A" (substring s 4))
+                              (set! col (if (> 30 col)
+                                            (+ col len)
+                                            (begin
+                                              (newline)
+                                              0))))))
+                     *notes*)
+           (or (= 0 col) (newline)))
+         (fln "@end verbatim")))
+
+(newline)
+
+(table "Specific Notes" #f #f
+       (lambda (note)
+         (let ((s (assq-ref note #:notes)))
+           (or (string=? "" s)
+               (begin
+                 (newline)
+                 (fln "@item ~A" (assq-ref note #:name))
+                 (fln "@verbatim")
+                 (fln "~A" s)
+                 (fln "@end verbatim"))))))
+
+;;; mkexcuse ends here
