@@ -6,6 +6,59 @@ See the end for copying conditions.
 Please send guile-sdl bug reports to <ttn@glug.org>.
 
 
+- 0.2.2 | 2004-02-08
+
+  - bug fix: module (sdl sdl) no longer loads (ice-9 syncase)
+
+  - bug fix: roto-zoom-surface arg zoom no longer ignored
+
+  - bug fix: all-but-last optional args now handle #f as "unspecified"
+
+	If a procedure takes optional only one optional arg, that
+	procedure has not changed.
+
+	If a procedure takes more than one optional arg, all but the
+	last of such args now handle #f the same as being "unspecified".
+	To have the last optional arg be interpreted as "unspecified",
+	simply omit it!
+
+	This change was motivated to allow specification of the last
+	optional arg while "not really specifying" the others.  Here is
+	a list of procedures (and the optional args involved) that were
+	changed, grouped by module:
+
+    - (sdl mixer)
+
+	open-audio -- freq format chunksize
+	play-channel -- channel loops ticks
+	play-music -- loops
+	volume -- volume
+	expire-channel -- channel
+	fade-out-channel -- which
+	fade-out-group -- tag
+
+    - (sdl sdl)
+
+	cd-play-tracks -- start-track start-frame n-tracks n-frames
+	cd-msf->frames -- s f
+	make-keysym -- sym
+	roto-zoom-surface -- zoom
+	zoom-surface -- zoomy
+	blit-surface -- srcrect dst dstrect
+	list-modes -- pixel-format flags
+
+  - arity relaxation
+
+	The last arg for some procedures has been made optional.  Code
+	specifying these args still works (backwards-compatible change).
+	Here is a list of procs -- all in module (sdl sdl) -- and their
+	affected args:
+
+	set-clip-rect -- rect
+	set-caption -- icon
+	video-mode-ok -- flags
+
+
 - 0.2.1 | 2004-01-19
 
 	This is a maintenance release (no user-visible changes).
