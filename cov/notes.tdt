@@ -1,0 +1,203 @@
+(text-db-table-config
+  '(delim . "\f")
+  '(fields (#:name sexp) (#:attributes sexp) (#:notes rest-lines-trim)))
+
+ SDL_SoftStretch (internal probably-never)
+
+SDL_video.h sez:
+/* Not in public API at the moment - do not use! */
+
+ SDL_LowerBlit (internal)
+
+ SDL_UpperBlit (internal)
+
+ SDL_SaveBMP_RW (doze probably-never)
+
+ SDL_LoadBMP_RW (doze probably-never)
+
+ SDL_CreateRGBSurfaceFrom ()
+
+not sure what this is useful for
+
+ SDL_GL_UpdateRects ()
+
+arglist: (int numrects, SDL_Rect* rects)
+
+we can either try to map uniform vectors (of smobs),
+or introduce a `RectVector' smob.
+
+ SDL_VideoInit (internal probably-never)
+
+actually, SDL_video.h sez:
+/* These functions are used internally, and should not be used unless you
+ * have a specific need to specify the video driver you want to use.
+ * You should normally use SDL_Init() or SDL_InitSubSystem().
+ * ...
+ */
+
+ SDL_VideoQuit (internal probably-never)
+
+see note for `SDL_VideoInit'
+
+ SDL_Linked_Version ()
+
+SDL_version.h sez:
+/* This function gets the version of the dynamically linked SDL library.
+   it should NOT be used to fill a version structure, instead you should
+   use the SDL_Version() macro.
+ */
+
+ SDL_RemoveTimer (threading-implications)
+
+ SDL_AddTimer (threading-implications)
+
+ SDL_SetTimer (threading-implications)
+
+ SDL_KillThread (todo threading-implications)
+
+ SDL_WaitThread (todo threading-implications)
+
+ SDL_GetThreadID (todo threading-implications)
+
+ SDL_ThreadID (todo threading-implications)
+
+ SDL_CreateThread (todo threading-implications)
+
+ SDL_GetWMInfo ()
+
+looks pretty hairy
+
+ SDL_FreeRW (rwops)
+
+ SDL_AllocRW (rwops)
+
+ SDL_RWFromFP (rwops)
+
+ SDL_RWFromFile (rwops)
+
+ SDL_CondWaitTimeout (todo threading-implications)
+
+ SDL_CondWait (todo threading-implications)
+
+ SDL_CondBroadcast (todo threading-implications)
+
+ SDL_CondSignal (todo threading-implications)
+
+ SDL_DestroyCond (todo threading-implications)
+
+ SDL_CreateCond (todo threading-implications)
+
+ SDL_SemValue (todo threading-implications)
+
+ SDL_SemPost (todo threading-implications)
+
+ SDL_SemWaitTimeout (todo threading-implications)
+
+ SDL_SemTryWait (todo threading-implications)
+
+ SDL_SemWait (todo threading-implications)
+
+ SDL_DestroySemaphore (todo threading-implications)
+
+ SDL_CreateSemaphore (todo threading-implications)
+
+ SDL_DestroyMutex (todo threading-implications)
+
+ SDL_mutexV (todo threading-implications)
+
+ SDL_mutexP (todo threading-implications)
+
+ SDL_CreateMutex (todo threading-implications)
+
+ SDL_InitQuickDraw (macos probably-never)
+
+ SDL_RegisterApp (doze probably-never)
+
+ SDL_SetModuleHandle (doze probably-never)
+
+ SDL_GetKeyName ()
+
+why do we want to know the name of a key?
+
+ SDL_GetKeyState ()
+
+arglist: (int *numkeys)
+
+SDL_keyboard.h sez:
+/*
+ * Get a snapshot of the current state of the keyboard.
+ * Returns an array of keystates, indexed by the SDLK_* syms.
+ * Used:
+ * 	Uint8 *keystate = SDL_GetKeyState(NULL);
+ *	if ( keystate[SDLK_RETURN] ) ... <RETURN> is pressed.
+ */
+
+ SDL_getenv (probably-never)
+
+ SDL_putenv (probably-never)
+
+ SDL_ClearError (probably-never)
+
+ SDL_SetError (probably-never)
+
+ SDL_WriteBE64 (endian probably-never)
+
+ SDL_WriteLE64 (endian probably-never)
+
+ SDL_WriteBE32 (endian probably-never)
+
+ SDL_WriteLE32 (endian probably-never)
+
+ SDL_WriteBE16 (endian probably-never)
+
+ SDL_WriteLE16 (endian probably-never)
+
+ SDL_ReadBE64 (endian probably-never)
+
+ SDL_ReadLE64 (endian probably-never)
+
+ SDL_ReadBE32 (endian probably-never)
+
+ SDL_ReadLE32 (endian probably-never)
+
+ SDL_ReadBE16 (endian probably-never)
+
+ SDL_ReadLE16 (endian probably-never)
+
+ SDL_CloseAudio (todo)
+
+ SDL_UnlockAudio (todo)
+
+ SDL_LockAudio (todo)
+
+ SDL_MixAudio (todo)
+
+ SDL_ConvertAudio (todo)
+
+ SDL_BuildAudioCVT (todo)
+
+ SDL_FreeWAV (todo)
+
+ SDL_LoadWAV_RW (todo)
+
+ SDL_PauseAudio (todo)
+
+ SDL_GetAudioStatus (todo)
+
+ SDL_OpenAudio (todo)
+
+ SDL_AudioDriverName (todo)
+
+ SDL_AudioQuit (internal probably-never)
+
+SDL_audio.h sez:
+/* These functions are used internally, and should not be used unless you
+ * have a specific need to specify the audio driver you want to use.
+ * You should normally use SDL_Init() or SDL_InitSubSystem().
+ */
+
+ SDL_AudioInit (internal probably-never)
+
+see note for `SDL_AudioQuit'
+
+
