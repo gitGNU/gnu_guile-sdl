@@ -1,3 +1,9 @@
+2003-11-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* aclocal-suffix: New file.
+	* Makefile.am (EXTRA_DIST): Add aclocal-suffix.
+	* autogen.sh: Append file aclocal-suffix to aclocal.m4.
+
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* autogen.sh: Add commands to create .last-release file,
