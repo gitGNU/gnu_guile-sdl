@@ -1,0 +1,14 @@
+The guile-sdl distribution:                   -*- text -*-
+
+Thanks to:
+
+  Martin Grabmueller, for the guile-extension template from which this
+  package is structured.
+
+  Neil Jarram, from whom I snarfed the outline of the files README,
+  AUTHORS, THANKS, etc.  The following statement slipped in
+  transitively via Neil's guile-xlib THANKS file:
+
+  Mikael Djurfeldt, for the style of the `Getting Started' section of
+  the README file, which I have copied from his GOOPS distribution
+  [now merged into Guile core].

@@ -1,0 +1,50 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:569: checking for a BSD compatible install
+configure:622: checking whether build environment is sane
+configure:679: checking whether make sets ${MAKE}
+configure:725: checking for working aclocal
+configure:738: checking for working autoconf
+configure:751: checking for working automake
+configure:764: checking for working autoheader
+configure:777: checking for working makeinfo
+configure:791: checking whether to enable maintainer-specific portions of Makefiles
+configure:822: checking for Guile
+configure:840: checking for gcc
+configure:953: checking whether the C compiler (gcc -Wall -pedantic -ansi ) works
+configure:969: gcc -o conftest -Wall -pedantic -ansi   conftest.c  1>&5
+configure:966: warning: return-type defaults to `int'
+configure:995: checking whether the C compiler (gcc -Wall -pedantic -ansi ) is a cross-compiler
+configure:1000: checking whether we are using GNU C
+configure:1028: checking whether gcc accepts -g
+configure:1060: checking how to run the C preprocessor
+configure:1151: checking for a BSD compatible install
+configure:1204: checking whether ln -s works
+configure:1225: checking whether make sets ${MAKE}
+configure:1254: checking for ranlib
+configure:1357: checking host system type
+configure:1378: checking build system type
+configure:1407: checking for ld used by GCC
+configure:1470: checking if the linker (/usr/bin/ld) is GNU ld
+configure:1486: checking for BSD-compatible nm
+ltconfig:603: checking for object suffix
+ltconfig:604: gcc -c -Wall -pedantic -ansi  conftest.c 1>&5
+ltconfig:776: checking if gcc PIC flag -fPIC works
+ltconfig:777: gcc -c -Wall -pedantic -ansi -fPIC -DPIC  conftest.c 1>&5
+ltconfig:829: checking if gcc supports -c -o file.o
+ltconfig:830: gcc -c -Wall -pedantic -ansi -o out/conftest2.o  conftest.c 1>&5
+ltconfig:862: checking if gcc supports -c -o file.lo
+ltconfig:863: gcc -c -Wall -pedantic -ansi -c -o conftest.lo  conftest.c 1>&5
+ltconfig:914: checking if gcc supports -fno-rtti -fno-exceptions
+ltconfig:915: gcc -c -Wall -pedantic -ansi -fno-rtti -fno-exceptions -c conftest.c  conftest.c 1>&5
+ltconfig:958: checking if gcc static flag -static works
+ltconfig:959: gcc -o conftest -Wall -pedantic -ansi   -static conftest.c  1>&5
+conftest.c:1: warning: return-type defaults to `int'
+GNU ld version 2.10.91 (with BFD 2.10.1.0.2)
+ltconfig:1592: checking if global_symbol_pipe works
+ltconfig:1593: gcc -c -Wall -pedantic -ansi  conftest.c 1>&5
+conftest.c:9: warning: return-type defaults to `int'
+ltconfig:1596: eval "/usr/bin/nm -B conftest.o | sed -n -e 's/^.*[ 	]\([ABCDGISTW]\)[ 	][ 	]*\(\)\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2\3 \3/p' > conftest.nm"
+ltconfig:1648: gcc -o conftest -Wall -pedantic -ansi -fno-builtin -fno-rtti -fno-exceptions   conftest.c conftstm.o 1>&5
+conftest.c:6: warning: `main' is usually a function

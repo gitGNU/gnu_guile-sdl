@@ -1,0 +1,43 @@
+This is guile-sdl.info, produced by makeinfo version 4.0 from
+guile-sdl.texi.
+
+INFO-DIR-SECTION Guile
+START-INFO-DIR-ENTRY
+* guile-sdl: (guile-sdl).     SDL for Guile
+END-INFO-DIR-ENTRY
+
+
+File: guile-sdl.info,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
+
+   This file documents the guile-sdl library, which is a generic sdl
+for Guile.
+
+* Menu:
+
+* Introduction::                What is this all about?
+* Index::                       Procedure index.
+
+
+File: guile-sdl.info,  Node: Introduction,  Next: Index,  Prev: Top,  Up: Top
+
+Introduction
+************
+
+   The guile-sdl library is a shared library which is a starting point
+for developing Guile with the SDL (Simple Direct Media Layer) library.
+
+
+File: guile-sdl.info,  Node: Index,  Prev: Introduction,  Up: Top
+
+Index
+*****
+
+* Menu:
+
+
+Tag Table:
+Node: Top187
+Node: Introduction466
+Node: Index717
+
+End Tag Table

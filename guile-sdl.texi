@@ -1,0 +1,71 @@
+\input texinfo
+@c -*-texinfo-*-
+@c %**start of header
+@setfilename guile-sdl.info
+@settitle guile-sdl
+@iftex
+@afourpaper
+@end iftex
+@c %**end of header
+
+@set UPDATED 5 May 2001
+@set EDITION 0.1.0
+@set VERSION 0.1.0
+
+@dircategory Guile
+@direntry
+* guile-sdl: (guile-sdl).     SDL for Guile
+@end direntry
+
+
+@c --- title page starts here ---
+
+@titlepage
+@title guile-sdl
+@subtitle SDL for Guile
+@subtitle Version @value{VERSION}
+@author Alex Shinn
+
+@c  The following two commands
+@c  start the copyright page.
+@page
+@vskip 0pt plus 1filll
+Copyright @copyright{} 2001 Alex Shinn
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+@end titlepage
+
+@c --- title page ends here ---
+
+@syncodeindex vr cp
+@syncodeindex fn cp
+
+@node Top, Introduction, (dir), (dir)
+
+@ifinfo
+This file documents the guile-sdl library, which is a generic
+sdl for Guile.
+@end ifinfo
+
+@menu
+* Introduction::                What is this all about?
+* Index::                       Procedure index.
+@end menu
+
+@node Introduction, Index, Top, Top
+@chapter Introduction
+
+The guile-sdl library is a shared library which is a starting point
+for developing Guile with the SDL (Simple Direct Media Layer) library.
+
+@node Index,  , Introduction, Top
+@comment    node-name,         next,       previous, up
+@unnumbered Index
+     
+@printindex cp
+
+@contents
+
+@bye

@@ -1,0 +1,173 @@
+-->8==================================================================
+
+The guile-sdl package is a meta-package.  It contains all files
+and machinery to create a Guile sdl module, with inital support
+for C code shared object modules, Scheme modules, a complete
+distribution layout and a manual skeleton.
+
+How to get started:
+-------------------
+
+In this example, we suppose that you wish to create a package called
+`guile-foo', providing the module (foo foo).
+
+Unpack the tarballs, copy the contents of this directory somewhere
+else, and rename it.
+
+  mgrabmue@tortoise (~/cvs/x): tar xzf guile-sdl-0.0.1.tar.gz 
+  mgrabmue@tortoise (~/cvs/x): mv guile-sdl-0.0.1 guile-foo
+  mgrabmue@tortoise (~/cvs/x/guile-foo): 
+
+Now change into that directory and start the `convert.sh' script,
+which will rename several files and substitute your package name in
+various places.
+
+  mgrabmue@tortoise (~/cvs/x): cd guile-foo/
+  mgrabmue@tortoise (~/cvs/x/guile-foo): ./convert.sh foo
+  Renaming to foo...
+  mgrabmue@tortoise (~/cvs/x/guile-foo): 
+
+Now the package has been renamed and is ready for trying to build it.
+Do not forget to run `autogen.sh' before configuring.
+
+  mgrabmue@tortoise (~/cvs/x/guile-foo): ./autogen.sh 
+  mgrabmue@tortoise (~/cvs/x/guile-foo): ./configure
+  creating cache ./config.cache
+  checking for a BSD compatible install... /usr/bin/install -c
+  ...
+  mgrabmue@tortoise (~/cvs/x/guile-foo): make
+  guile-snarf -DPACKAGE=\"guile-foo\" -DVERSION=\"0.0.1\"  -I. -I.    -Wall -pedantic -ansi foo.c > foo.x \
+  || { rm foo.x; false; }
+  ...
+
+You now have the compiled module in the .libs subdirectory and we can
+try if everything worked fine.  Trying out is a bit complicated,
+because we have not yet installed the package, but with a bit
+symlinking and environment fiddling, we can do it.
+
+Go to the directory above and make a symlink from your module name to
+the package directory.  This step is required to make Guile search in
+the right place for our Scheme module.
+
+  mgrabmue@tortoise (~/cvs/x/guile-foo): cd ..
+  mgrabmue@tortoise (~/cvs/x): ln -s guile-foo/ foo
+  mgrabmue@tortoise (~/cvs/x): 
+
+Now we have to set up the environment to tell Guile where to find the
+compiled portion of the module.
+
+  mgrabmue@tortoise (~/cvs/x): export LTDL_LIBRARY_PATH=/home/mgrabmue/cvs/x/guile-foo/.libs/
+  mgrabmue@tortoise (~/cvs/x): 
+
+Let's go for it.
+
+  mgrabmue@tortoise (~/cvs/x): guile
+  guile> (use-modules (foo foo))
+  guile> (foo-version)
+  "0.0.1"
+  guile> (quit)
+
+Congratulations!  Your new package works.  The `foo-version' procedure
+is implemented in the C file foo.c for demonstration purposes.
+
+-->8==================================================================
+
+
+This is release 0.0.1 of guile-sdl.              -*- text -*-
+
+guile-sdl is a compiled Guile module that ...
+
+Please send bug reports to <mgrabmue@cs.tu-berlin.de>.
+
+
+Getting Started ======================================================
+
+1. Make sure that you have a recent (January 2001 or later) CVS
+   version of Guile installed on your system.  (You can type
+
+     guile -c '(write-line (version))'
+
+   in your terminal window to check which version of Guile you have:
+   the output should be `1.4.1'.)  If not, see under "Obtaining
+   guile-sdl and Guile" how to get it.
+
+2. Make sure that you stand in the `guile-sdl' directory and type
+
+     ./configure
+
+   This will configure guile-sdl for your system.
+
+3. Type
+
+     make install
+
+   to build and install guile-sdl.
+
+   If everything went well we're ready to enter the interpreter...
+
+4. Type
+
+     guile
+
+   You should now be at the Guile prompt ("guile> ").
+
+5. Type
+
+     (use-modules (sdl sdl))
+
+   so that the guile-sdl module gets loaded.
+
+6. We're now ready to try some basic guile-sdl functionality.
+
+FIXME: Fill in.
+
+
+What Is Included =====================================================
+
+FIXME: Fill in.
+
+
+What Is Not Included =================================================
+
+FIXME: Fill in.
+
+
+About This Distribution ==============================================
+
+   Building and installing this distribution gives you:
+
+   - a compiled library, libguile-sdl-sdl.so, which is installed in
+     <prefix>/lib .
+
+   - a Scheme file, sdl.scm, which is installed at
+     <prefix>/share/guile/sdl/sdl.scm .
+
+   - the info manual, guile-sdl.info, which gets installed in
+     <prefix>/info .
+
+   Other interesting files include:
+
+   - INSTALL, which contains (generic) instructions on building and
+     installing guile-sdl.
+
+   - NEWS, which describes user-visible changes since the last release
+     of guile-sdl.
+
+   - COPYING, which describes the terms under which you may
+     redistribute guile-sdl, and explains that there is no warranty.
+
+
+Obtaining guile-sdl and Guile =======================================
+
+   The latest guile-sdl release is always available from my Guile
+   page at http://www.pintus.de/mgrabmue/guile.  This release is at
+   http://www.pintus.de/mgrabmue/guile/guile-sdl-0.0.1.tar.gz.
+
+   If you don't already have a recent (January 2001 or later) CVS
+   Guile installed on your system, you also need to download and
+   install this by following the instructions at
+   http://www.gnu.org/software/guile.
+
+   The mailing list `guile-user@gnu.org' carries discussions,
+   questions, and often answers, about Guile.  To subscribe, send mail
+   to guile-user-request@gnu.org.
