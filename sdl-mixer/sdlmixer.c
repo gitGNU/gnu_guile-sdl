@@ -28,6 +28,7 @@
 #include "sdlsmobs.h"
 #include "retval.h"
 #include "sym.h"
+#include "bool.h"
 
 GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
@@ -92,21 +93,21 @@ GH_DEFPROC (mix_open_audio, "open-audio", 0, 4, 0,
   int chunksize = 1024;
 
   UNBOUND_MEANS_FALSE (s_freq);
-  if (SCM_NFALSEP (s_freq)) {
+  if (NOT_FALSEP (s_freq)) {
     ASSERT_EXACT (s_freq, ARGH1);
     freq = gh_scm2long (s_freq);
   }
 
   UNBOUND_MEANS_FALSE (s_format);
-  if (SCM_NFALSEP (s_format)) {
+  if (NOT_FALSEP (s_format)) {
     ASSERT_EXACT (s_format, ARGH2);
     format = gh_scm2long (s_format);
   }
 
-  channels -= UNBOUNDP (s_stereo) ? 0 : SCM_FALSEP (s_stereo);
+  channels -= UNBOUNDP (s_stereo) ? 0 : EXACTLY_FALSEP (s_stereo);
 
   UNBOUND_MEANS_FALSE (s_chunksize);
-  if (SCM_NFALSEP (s_chunksize)) {
+  if (NOT_FALSEP (s_chunksize)) {
     ASSERT_EXACT (s_chunksize, ARGH4);
     chunksize = gh_scm2long (s_chunksize);
   }
@@ -148,7 +149,7 @@ GH_DEFPROC (mix_query_spec, "query-spec", 0, 0, 0,
   Uint16 format;
 
   if (! Mix_QuerySpec (&freq, &format, &channels)) {
-    return SCM_BOOL_F;
+    RETURN_FALSE;
   }
 
   return SCM_LIST3 (gh_cons (SYM (freq), gh_long2scm (freq)),
@@ -348,19 +349,19 @@ GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
   chunk = UNPACK_AUDIO (s_chunk);
 
   UNBOUND_MEANS_FALSE (s_channel);
-  if (SCM_NFALSEP (s_channel)) {
+  if (NOT_FALSEP (s_channel)) {
     ASSERT_EXACT (s_channel, ARGH2);
     channel = gh_scm2long (s_channel);
   }
 
   UNBOUND_MEANS_FALSE (s_loops);
-  if (SCM_NFALSEP (s_loops)) {
+  if (NOT_FALSEP (s_loops)) {
     ASSERT_EXACT (s_loops, ARGH3);
     loops = gh_scm2long (s_loops);
   }
 
   UNBOUND_MEANS_FALSE (s_ticks);
-  if (SCM_NFALSEP (s_ticks)) {
+  if (NOT_FALSEP (s_ticks)) {
     ASSERT_EXACT (s_ticks, ARGH4);
     ticks = gh_scm2long (s_ticks);
   }
@@ -395,7 +396,7 @@ GH_DEFPROC (mix_play_music, "play-music", 1, 2, 0,
   music = UNPACK_MUSIC (s_music);
 
   UNBOUND_MEANS_FALSE (s_loops);
-  if (SCM_NFALSEP (s_loops)) {
+  if (NOT_FALSEP (s_loops)) {
     ASSERT_EXACT (s_loops, ARGH2);
     loops = gh_scm2long (s_loops);
   }
@@ -433,7 +434,7 @@ GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
   long rv;
 
   UNBOUND_MEANS_FALSE (s_volume);
-  if (SCM_NFALSEP (s_volume)) {
+  if (NOT_FALSEP (s_volume)) {
     ASSERT_EXACT (s_volume, ARGH1);
     volume = gh_scm2long (s_volume);
   }
@@ -531,7 +532,7 @@ GH_DEFPROC (mix_expire_channel, "expire-channel", 0, 2, 0,
   int ticks = -1;
 
   UNBOUND_MEANS_FALSE (s_channel);
-  if (SCM_NFALSEP (s_channel)) {
+  if (NOT_FALSEP (s_channel)) {
     ASSERT_EXACT (s_channel, ARGH1);
     channel = gh_scm2long (s_channel);
   }
@@ -558,7 +559,7 @@ GH_DEFPROC (mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
   int ms = 0;
 
   UNBOUND_MEANS_FALSE (s_which);
-  if (SCM_NFALSEP (s_which)) {
+  if (NOT_FALSEP (s_which)) {
     ASSERT_EXACT (s_which, ARGH1);
     channel = gh_scm2long (s_which);
   }
@@ -585,7 +586,7 @@ GH_DEFPROC (mix_fade_out_group, "fade-out-group", 0, 2, 0,
   int ms = 0;
 
   UNBOUND_MEANS_FALSE (s_tag);
-  if (SCM_NFALSEP (s_tag)) {
+  if (NOT_FALSEP (s_tag)) {
     ASSERT_EXACT (s_tag, ARGH1);
     tag = gh_scm2long (s_tag);
   }
