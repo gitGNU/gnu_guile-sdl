@@ -2,7 +2,7 @@
  *  sdl.c -- SDL Wrappers for Guile                                *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-30 01:18:33 foof>                         *
+ *  Time-stamp: <2001-07-04 10:33:30 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -111,20 +111,16 @@ sdl_delay (SCM ms)
 
 /* error functions */
 
-/* SCM */
-/* sdl_get_error (void) */
-/* { */
-/*    char *error = SDL_GetError(); */
-/*    return scm_makfrom0str (error); */
-/* } */
+SCM
+sdl_get_error (void)
+{
+  char *error = SDL_GetError();
+  return scm_makfrom0str (error);
+}
 
 void
 guile_sdl_init (void)
 {
-   /* scm util definition */
-   scm_c_define_gsubr ("enum->number",   2, 0, 0, scm_enum_to_number);
-   scm_c_define_gsubr ("number->enum",   2, 0, 0, scm_number_to_enum);
-
    /* general initializations */
    scm_c_define_gsubr ("sdl-init",           1, 0, 0, sdl_init);
    scm_c_define_gsubr ("sdl-init-subsystem", 1, 0, 0, sdl_init_subsystem);
@@ -133,7 +129,7 @@ guile_sdl_init (void)
    scm_c_define_gsubr ("sdl-was-init",       1, 0, 0, sdl_was_init);
    scm_c_define_gsubr ("sdl-get-ticks",      0, 0, 0, sdl_get_ticks);
    scm_c_define_gsubr ("sdl-delay",          1, 0, 0, sdl_delay);
-/*    scm_c_define_gsubr ("sdl-get-error",      0, 0, 0, sdl_get_error); */
+   scm_c_define_gsubr ("sdl-get-error",      0, 0, 0, sdl_get_error);
 
    /* constants */
    scm_c_define ("sdl-init/timer",       scm_long2num (SDL_INIT_TIMER));
@@ -147,12 +143,10 @@ guile_sdl_init (void)
 
    /* exported symbols */
    scm_c_export (
-      /* utils */
-      "enum->number", "number->enum",
       /* time */
       "sdl-get-ticks", "sdl-delay",
       /* errors */
-      /* "sdl-get-error", */
+      "sdl-get-error",
       /* sdl initializations */
       "sdl-subsystems", "sdl-init", "sdl-quit", "sdl-init-subsystem",
       "sdl-quit-subsystem", "sdl-was-init",
@@ -163,6 +157,7 @@ guile_sdl_init (void)
       NULL);
 
    /* initialize subsystems */
+   sdl_init_enums();
    sdl_init_video();
    sdl_init_rotozoom();
    sdl_init_event();
