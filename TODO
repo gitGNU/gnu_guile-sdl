@@ -13,7 +13,7 @@
     - get-event-filter
     - event-state
     - get-key-state
-    - scale-surface
+    + scale-surface (deleted)
   - user-alloc alternatives (less consing) for event procs
   - programming practice review
     - 0-means-success return values
