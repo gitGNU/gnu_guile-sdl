@@ -1,3 +1,18 @@
+2003-11-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (BUILT_SOURCES): New directive.
+	(SUFFIXES): Remove .doc, add .twerp.
+	(guile-sdl.info : ref.texi): New explicit dependency.
+	(.twerp.texi): New pattern rule.
+	(GUILE_SNARF_DOCS, GUILE_SNARF_DOCS_TEXI,
+	%.doc:%.c, .doc.texi): Delete.
+
+	* guile-sdl.texi (General SDL, Video, Events, Joystick, CDROM,
+	OpenGL, TrueType, Audio): Move these nodes to ref.twerp.
+	Replace them with "@include ref.texi".
+
+	* ref.twerp: New file.
+
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* guile-sdl.texi (Top): Mention methodology work-in-progress.
