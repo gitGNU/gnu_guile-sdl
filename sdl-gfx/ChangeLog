@@ -1,5 +1,20 @@
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlgfx.c: Include "SDL_framerate.h".
+	(fpsmgr_tag): New static var.
+	(ASSERT_FPSMGR): New macro.
+	(UNPACK_FPSMGR): Likewise.
+	(mark_fpsmgr): New static func.
+	(free_fpsmgr): Likewise.
+	(print_fpsmgr): Likewise.
+	(make_fps_manager): New GH_DEFPROC.
+	(fps_manager_set_x): Likewise.
+	(fps_manager_get): Likewise.
+	(fps_manager_delay_x): Likewise.
+	(init_module): Initialize `fpsmgr_tag' and related smob funcs.
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlgfx.c (modname): New static var.
 	Use it in `GH_MODULE_LINK_FUNC' form.
 

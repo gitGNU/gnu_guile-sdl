@@ -1,5 +1,11 @@
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* ref.twerp (libSDL_gfx): Add section "Managing Frame Rate"
+	and @twerpdoc entries for `make-fps-manager',
+	`fps-manager-set!', `fps-manager-get' and `fps-manager-delay!'.
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* ref.twerp (Video): Move sections "Rotation / Zooming"
 	and "Graphics Primitives" to new chapter.
 	(libSDL_gfx): New node/chapter.
