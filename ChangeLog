@@ -1,5 +1,14 @@
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* configure.in (GUILE_LIBSITE_DIR): New macro call.
+	Remove "manual" search for $GUILE_LIBSITE.
+	No longer set nor AC_SUBST `guilelibsitedir'.
+
+	* Makefile.am (install-data-hook): Use $(GUILE_LIBSITE)
+	instead of $(guilelibsitedir).
+
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* alive.test: Add #:renamer clause to `use-modules' form.
 	Use prefix "SDL:" instead of "sdl-".
 	No longer check for `sdl-version' or `sdl-with-clip-rect'.
