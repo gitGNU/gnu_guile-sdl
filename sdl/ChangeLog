@@ -1,3 +1,7 @@
+2005-02-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* misc-utils.scm (copy-surface): Rewrite.
+
 2005-01-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* misc-utils.scm (copy-surface): If the source surface has
