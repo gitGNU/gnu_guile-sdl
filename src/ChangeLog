@@ -1,5 +1,14 @@
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlcolor.c (make_color): Use abstraction `RETURN_NEW_COLOR'.
+
+	* sdlgfx.c (vertical_flip_surface, horizontal_flip_surface):
+	Use abstraction `RETURN_NEW_SURFACE'.
+
+	* sdlrect.c (make_rect): Use abstraction `RETURN_NEW_RECT'.
+
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlroto.c (vertical_flip_surface, horizontal_flip_surface,
 	vh_flip_surface): Delete redundant funcs.
 
