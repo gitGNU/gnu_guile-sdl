@@ -189,6 +189,6 @@ init_module (void)
   gsdl_init_gfx ();
 }
 
-GH_MODULE_LINK_FUNC ("sdl sdl-sup", sdl_sdl_sup, init_module)
+GH_MODULE_LINK_FUNC ("sdl sdl", sdl_sdl, init_module)
 
 /* sdl.c ends here */
