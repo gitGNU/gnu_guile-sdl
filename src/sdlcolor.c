@@ -38,7 +38,7 @@ static
 size_t
 free_color (SCM s_color)
 {
-  free (SMOBGET (s_color, SDL_Color *));
+  free (UNPACK_COLOR (s_color));
   /* return sizeof (SDL_Color); */
   return 0;
 }
@@ -47,7 +47,7 @@ static
 int
 print_color (SCM s_color, SCM port, scm_print_state *pstate)
 {
-  SDL_Color *color = SMOBGET (s_color, SDL_Color *);
+  SDL_Color *color = UNPACK_COLOR (s_color);
 
   scm_puts          ("#<SDL-Color r=", port);
   scm_display (gh_long2scm (color->r), port);
@@ -57,12 +57,12 @@ print_color (SCM s_color, SCM port, scm_print_state *pstate)
   scm_display (gh_long2scm (color->b), port);
   scm_puts                       (">", port);
 
-  /* non-zero means success */
+  /* Non-zero means success.  */
   return 1;
 }
 
 
-/* functions */
+/* Functions */
 
 GH_DEFPROC (make_color, "make-color", 3, 0, 0,
             (SCM s_r, SCM s_g, SCM s_b),
@@ -85,7 +85,7 @@ GH_DEFPROC (make_color, "make-color", 3, 0, 0,
 #undef FUNC_NAME
 
 
-/* color getters and setters */
+/* Color getters and setters */
 
 #define NUMBER_GETTER(f)                        \
   GSDL_NUMBER_GETTER ("color:" #f,              \
