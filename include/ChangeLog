@@ -1,5 +1,9 @@
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* retval.h (RETURN_INT): New macro.
+
+2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* retval.h: New file.
 	* sdlsmobs.h (RETURN_TRUE_IF_0): Move to retval.h.
 	* wholefns.h: Include "retval.h".

@@ -1,5 +1,9 @@
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlttf.c: Use `RETURN_INT'.
+
+2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlttf.c: Include "retval.h".
 	Use `RETURN_UNSPECIFIED'.
 
