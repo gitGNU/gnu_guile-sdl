@@ -189,7 +189,7 @@ GH_DEFPROC (surface_p, "surface?", 1, 0, 0,
             "Return true iff @var{obj} is a surface.")
 #define FUNC_NAME s_surface_p
 {
-  return gh_bool2scm
+  RETURN_BOOL
     (SCM_SMOB_PREDICATE (surface_tag, obj));
 }
 #undef FUNC_NAME

@@ -492,7 +492,7 @@ GH_DEFPROC (set_colors, "set-colors!", 2, 0, 0,
                           colors, 0, length);
   scm_must_free (colors);
 
-  return gh_bool2scm
+  RETURN_BOOL
     (result);
 }
 #undef FUNC_NAME
@@ -525,7 +525,7 @@ GH_DEFPROC (set_palette, "set-palette", 3, 0, 0,
                            flags, colors, 0, length);
   scm_must_free (colors);
 
-  return gh_bool2scm
+  RETURN_BOOL
     (result);
 }
 #undef FUNC_NAME
@@ -835,7 +835,7 @@ GH_DEFPROC (show_cursor, "show-cursor", 0, 1, 0,
 #define FUNC_NAME s_show_cursor
 {
   UNBOUND_MEANS_FALSE (query);
-  return gh_bool2scm (SDL_ShowCursor (SCM_FALSEP (query) - 1));
+  RETURN_BOOL (SDL_ShowCursor (SCM_FALSEP (query) - 1));
 }
 #undef FUNC_NAME
 
@@ -995,7 +995,7 @@ GH_DEFPROC (wm_iconify_window, "iconify-window", 0, 0, 0,
             "Return #t if successful.")
 #define FUNC_NAME s_wm_iconify_window
 {
-  return gh_bool2scm
+  RETURN_BOOL
     (SDL_WM_IconifyWindow ());
 }
 #undef FUNC_NAME
@@ -1018,7 +1018,7 @@ GH_DEFPROC (wm_toggle_full_screen, "toggle-full-screen", 0, 1, 0,
     surface = UNPACK_SURFACE (s_surface);
   }
 
-  return gh_bool2scm
+  RETURN_BOOL
     (SDL_WM_ToggleFullScreen (surface));
 }
 #undef FUNC_NAME

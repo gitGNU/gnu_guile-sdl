@@ -41,7 +41,7 @@ GH_DEFPROC (cd_p, "cd?", 1, 0, 0,
             "Return #t iff @var{obj} is a cd smob.")
 #define FUNC_NAME s_cd_p
 {
-  return gh_bool2scm
+  RETURN_BOOL
     (SCM_SMOB_PREDICATE (cdrom_tag, obj));
 }
 #undef FUNC_NAME
@@ -54,7 +54,7 @@ GH_DEFPROC (cd_null_p, "cd-null?", 1, 0, 0,
 {
   ASSERT_CDROM (cd_smob, ARGH1);
 
-  return gh_bool2scm
+  RETURN_BOOL
     (NULL == SMOBGET (cd_smob, SDL_CD *));
 }
 #undef FUNC_NAME

@@ -323,7 +323,7 @@ GH_DEFPROC (poll_event, "poll-event", 0, 1, 0,
     result = SDL_PollEvent (SMOBGET (event, SDL_Event *));
   }
 
-  return gh_bool2scm
+  RETURN_BOOL
     (result);
 }
 #undef FUNC_NAME
@@ -347,7 +347,7 @@ GH_DEFPROC (wait_event, "wait-event", 0, 1, 0,
     result = SDL_WaitEvent (SMOBGET (event, SDL_Event *));
   }
 
-  return gh_bool2scm
+  RETURN_BOOL
     (result);
 }
 #undef FUNC_NAME
@@ -523,7 +523,7 @@ GH_DEFPROC (button_p, "button?", 1, 0, 0,
 #define FUNC_NAME s_button_p
 {
   ASSERT_EXACT (mask, ARGH1);
-  return gh_bool2scm
+  RETURN_BOOL
     (SDL_BUTTON (gh_scm2long (mask)));
 }
 #undef FUNC_NAME

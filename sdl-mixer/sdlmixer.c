@@ -219,7 +219,7 @@ GH_DEFPROC (mix_group_channel, "group-channel", 1, 1, 0,
     tag = gh_scm2long (s_tag);
   }
 
-  return gh_bool2scm
+  RETURN_BOOL
     (Mix_GroupChannel (gh_scm2long (s_which), tag));
 }
 #undef FUNC_NAME
@@ -242,7 +242,7 @@ GH_DEFPROC (mix_group_channels, "group-channels", 2, 1, 0,
     tag = gh_scm2long (s_tag);
   }
 
-  return gh_bool2scm
+  RETURN_BOOL
     (Mix_GroupChannels (gh_scm2long (s_from),
                         gh_scm2long (s_to),
                         tag));
@@ -700,7 +700,7 @@ GH_DEFPROC (mix_paused, "paused?", 0, 1, 0,
     channel = gh_scm2long (s_channel);
   }
 
-  return gh_bool2scm
+  RETURN_BOOL
     (Mix_Paused (channel));
 }
 #undef FUNC_NAME
@@ -744,7 +744,7 @@ GH_DEFPROC (mix_paused_music, "paused-music?", 0, 0, 0,
             "Return #t if the music is currently paused.")
 #define FUNC_NAME s_mix_paused_music
 {
-  return gh_bool2scm
+  RETURN_BOOL
     (Mix_PausedMusic ());
 }
 #undef FUNC_NAME
@@ -763,7 +763,7 @@ GH_DEFPROC (mix_playing, "playing?", 0, 1, 0,
     channel = gh_scm2long (s_channel);
   }
 
-  return gh_bool2scm
+  RETURN_BOOL
     (Mix_Playing (channel));
 }
 #undef FUNC_NAME
@@ -774,7 +774,7 @@ GH_DEFPROC (mix_playing_music, "playing-music?", 0, 0, 0,
             "Return #t iff the music is currently playing.")
 #define FUNC_NAME s_mix_playing_music
 {
-  return gh_bool2scm
+  RETURN_BOOL
     (Mix_PlayingMusic ());
 }
 #undef FUNC_NAME
