@@ -1,5 +1,21 @@
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlcdrom.c: Include "bool.h".
+	Use `RETURN_FALSE' and `NOT_FALSEP'.
+
+	* sdlenums.c: Include "bool.h".
+	Use `RETURN_FALSE', `BOOL_FALSE' and `NOT_FALSEP'.
+
+	* sdlevent.c: Include "bool.h". Use `NOT_FALSEP'.
+	* sdlroto.c: Likewise.
+	* sdlsurface.c: Likewise.
+
+	* sdlvideo.c: Include "bool.h".
+	Use `NOT_FALSEP', `SET_FALSE', `SET_TRUE',
+	`BOOL_FALSE', `RETURN_FALSE' and `EXACTLY_FALSEP'.
+
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlcdrom.c: Include "sym.h".
 	Use `DECLARE_SIMPLE_SYM' and `SYM'.
 	* sdlevent.c: Likewise.
