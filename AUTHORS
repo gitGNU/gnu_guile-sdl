@@ -4,3 +4,18 @@ and Joel Smith <joels@mobyfoo.org>
 
 all developed a set of bindings independently and made their first
 public release around the weekend of June 15, 2001.
+
+
+Andreas Schiffler <aschiffler@appwares.com>
+in directory sdl-gfx/SDL_gfx/, wrote:
+  README
+  SDL_framerate.c
+  SDL_framerate.h
+  SDL_gfxPrimitives.c
+  SDL_gfxPrimitives.h
+  SDL_gfxPrimitives_font.h
+  SDL_imageFilter.c
+  SDL_imageFilter.h
+  SDL_rotozoom.c
+  SDL_rotozoom.h
+  nodebug.sh
