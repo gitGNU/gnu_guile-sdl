@@ -23,7 +23,8 @@
 
 (if (and (dynamic-object? (dynamic-link "libpthread"))
          (dynamic-object? (dynamic-link "libSDL"))
-         (dynamic-object? (dynamic-link "libSDL_image")))
+         (dynamic-object? (dynamic-link "libSDL_image"))
+         (dynamic-object? (dynamic-link "libSDL_mixer")))
     (let ((lib (dynamic-link "libguileSDL")))
       (if (dynamic-object? lib)
           (dynamic-call "guile_sdl_init" lib)
