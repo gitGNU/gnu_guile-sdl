@@ -2,7 +2,7 @@
  *  sdlenums.c -- Enum helper functions                            *
  *                                                                 *
  *  Created:    <2001-06-09 19:22:27 foof>                         *
- *  Time-stamp: <2001-07-04 10:34:21 foof>                         *
+ *  Time-stamp: <2001-07-05 17:10:58 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -220,7 +220,8 @@ scm_c_define_flag (const char *name, ...)
 {
   va_list ap;
   char *symname;
-  unsigned long value, bit, max=0, i=0, j;
+  unsigned long value, bit, max=0;
+  int i=0, j;
   SCM s_flag, vec, table, sym;
 
   /* initialize the argument list */
@@ -284,15 +285,16 @@ unsigned long
 scm_flags2ulong (SCM s_flags, SCM flag_type, int pos, const char *func)
 {
   SCM index, table;
-  unsigned long result=0;
+  unsigned long result=0, elt;
 
   if (scm_pair_p (s_flags)) {
     /* a list of symbols representing flags */
     table = SCM_CDR (flag_type);
     while (s_flags != SCM_EOL) {
-      index = scm_hashq_ref (table, s_flags, SCM_BOOL_F);
+      index = scm_hashq_ref (table, SCM_CAR (s_flags), SCM_BOOL_F);
       if (index != SCM_BOOL_F) {
-        result = result | scm_num2ulong (index, pos, func);
+        elt = scm_num2ulong (index, pos, func);
+        result = result | elt;
       }
       s_flags = SCM_CDR (s_flags);
     }
@@ -313,9 +315,9 @@ scm_ulong2flags (unsigned long value, SCM flag_type)
   SCM result = SCM_EOL;
   unsigned long i;
 
-  for (i=MAX_FLAGS-1; i>=0; i--) {
-    if (value & (1<<i)) {
-      result = scm_cons (scm_vector_ref (vec, scm_ulong2num (i)),
+  for (i=MAX_FLAGS; i>0; i--) {
+    if (value & (1<<(i-1))) {
+      result = scm_cons (scm_vector_ref (vec, scm_ulong2num (i-1)),
                          result);
     }
   }

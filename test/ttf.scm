@@ -4,7 +4,7 @@
 ;; simple true type font test
 ;; 
 ;; Created:    <2001-06-10 19:14:30 foof>
-;; Time-stamp: <2001-06-25 01:03:07 foof>
+;; Time-stamp: <2001-07-05 14:54:48 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl)
@@ -12,7 +12,7 @@
              (ice-9 format))
 
 ;; initialize SDL video
-(sdl-init sdl-init/video)
+(sdl-init '(SDL_INIT_VIDEO))
 
 ;; initialize the font lib
 (sdl-ttf-init)
@@ -30,7 +30,7 @@
 
 ;; initialize the video mode
 (define test-rect (sdl-make-rect 0 0 640 480))
-(sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 16 1)
+(sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 16)
 
 ;; clear the rect and write the text
 (let ((screen (sdl-get-video-surface))

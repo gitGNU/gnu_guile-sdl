@@ -1,4 +1,4 @@
-				guile-sdl 0.1.3
+				guile-sdl 0.1.4
 				---------------
 
   guile-sdl is a set of Guile bindings for SDL (Simple DirectMedia
@@ -19,8 +19,8 @@ library. YUV overlay functions are not included.
 that OpenGL can be used through guileGL after getting a OpenGL surface
 from SDL.
 
-  Also included are SDL_gfxPrimitives-1.4 and SDL_rotozoom-1.4 (by
-A. Schiffler <aschiffler@home.com>) and the bindings for them.
+  Also included is SDL_rotozoom-1.4 (by A. Schiffler
+<aschiffler@home.com>) and the bindings for them.
 
 
 Requirements

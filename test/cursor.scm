@@ -4,13 +4,13 @@
 ;; simple cursor test
 ;; 
 ;; Created:    <2001-06-13 00:38:13 foof>
-;; Time-stamp: <2001-06-18 01:00:12 foof>
+;; Time-stamp: <2001-07-05 15:01:18 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl))
 
 ;; initialize the SDL video module
-(sdl-init sdl-init/video)
+(sdl-init '(SDL_INIT_VIDEO))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect
@@ -25,7 +25,8 @@
            (car modes)))))
 
 ;; set the video mode to the dimensions of our rect
-(sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 16 1)
+(sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 16
+                    '(SDL_HWSURFACE))
 (sdl-fill-rect (sdl-get-video-surface) test-rect #xffffff)
 (sdl-flip)
 

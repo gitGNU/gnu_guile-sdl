@@ -4,13 +4,13 @@
 ;; simple rectangle test
 ;; 
 ;; Created:    <2001-06-02 21:47:41 foof>
-;; Time-stamp: <2001-06-18 20:15:12 foof>
+;; Time-stamp: <2001-07-05 17:16:50 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl))
 
 ;; initialize the SDL video module
-(sdl-init sdl-init/video)
+(sdl-init '(SDL_INIT_VIDEO))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect
@@ -34,7 +34,8 @@
                    (random (1+ (- (sdl-rect:h limit) y))) )))
 
 ;; set the video mode to the dimensions of our rect
-(sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 16 1)
+(sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 16
+                    '(SDL_HWSURFACE))
 
 ;; draw some rectangles filled with random colors
 (let ((src-rect (sdl-make-surface (sdl-rect:w test-rect)

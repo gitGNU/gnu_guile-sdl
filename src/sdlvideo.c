@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-07-04 02:09:37 foof>                         *
+ *  Time-stamp: <2001-07-05 17:15:06 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -45,6 +45,8 @@ long pixel_format_tag;
 long overlay_tag;
 long video_info_tag;
 
+SCM sdl_video_flags;
+SCM sdl_gl_enums;
 
 /* surfaces */
 
@@ -383,8 +385,9 @@ list_modes (SCM s_pixel_format, SCM s_flags)
 
    /* if flags are given, verify and unpack them */
    if (s_flags != SCM_UNDEFINED) {
-      SCM_ASSERT (scm_exact_p (s_flags), s_flags, SCM_ARG2, "sdl-list-modes");
-      flags  = (Uint32) scm_num2long (s_flags, SCM_ARG1, "scm_num2long");
+      /* SCM_ASSERT (scm_exact_p (s_flags), s_flags, SCM_ARG2, "sdl-list-modes"); */
+      flags  = (Uint32) scm_flags2ulong (s_flags, sdl_video_flags,
+                                         SCM_ARG2, "sdl-list-modes");
    }
 
    modes = SDL_ListModes (format, flags);
@@ -440,17 +443,20 @@ SCM
 set_video_mode (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags)
 {
    int width, height, bpp;
-   Uint32 flags;
+   Uint32 flags=0;
 
    SCM_ASSERT (scm_exact_p (s_width),  s_width,  SCM_ARG1, "sdl-set-video-mode");
    SCM_ASSERT (scm_exact_p (s_height), s_height, SCM_ARG2, "sdl-set-video-mode");
    SCM_ASSERT (scm_exact_p (s_bpp),    s_bpp,    SCM_ARG3, "sdl-set-video-mode");
-   SCM_ASSERT (scm_exact_p (s_flags),  s_flags,  SCM_ARG4, "sdl-set-video-mode");
 
    width  = scm_num2long (s_width, SCM_ARG1, "scm_num2long");
    height = scm_num2long (s_height, SCM_ARG1, "scm_num2long");
    bpp    = scm_num2long (s_bpp, SCM_ARG1, "scm_num2long");
-   flags  = (Uint32) scm_num2long (s_flags, SCM_ARG1, "scm_num2long");
+
+   if (s_flags != SCM_UNDEFINED) {
+     flags = (Uint32) scm_flags2ulong (s_flags, sdl_video_flags,
+                                       SCM_ARG4, "sdl-set-video-mode");
+   }
 
    SCM_RETURN_NEWSMOB (surface_tag, SDL_SetVideoMode (width, height, bpp, flags));
 }
@@ -1176,27 +1182,30 @@ sdl_init_video (void)
    SCM_DEFINE_CONST ("sdl-alpha/transparent", SDL_ALPHA_TRANSPARENT);
 
    /* video constants */
-   SCM_DEFINE_CONST ("sdl-video/swsurface",   SDL_SWSURFACE); /* Surface is in system memory */
-   SCM_DEFINE_CONST ("sdl-video/hwsurface",   SDL_HWSURFACE); /* Surface is in video memory */
-   SCM_DEFINE_CONST ("sdl-video/asyncblit",   SDL_ASYNCBLIT); /* Use asynchronous blits if possible */
-   /* Available for SDL_SetVideoMode() */
-   SCM_DEFINE_CONST ("sdl-video/anyformat",   SDL_ANYFORMAT); /* Allow any video depth/pixel-format */
-   SCM_DEFINE_CONST ("sdl-video/hwpalette",   SDL_HWPALETTE); /* Surface has exclusive palette */
-   SCM_DEFINE_CONST ("sdl-video/doublebuf",   SDL_DOUBLEBUF); /* Set up double-buffered video mode */
-   SCM_DEFINE_CONST ("sdl-video/fullscreen",  SDL_FULLSCREEN); /* Surface is a full screen display */
-   SCM_DEFINE_CONST ("sdl-video/opengl",      SDL_OPENGL); /* Create an OpenGL rendering context */
-   SCM_DEFINE_CONST ("sdl-video/openglblit",  SDL_OPENGLBLIT); /* Create an OpenGL rendering context and use it for blitting */
-   SCM_DEFINE_CONST ("sdl-video/resizable",   SDL_RESIZABLE); /* This video mode may be resized */
-   SCM_DEFINE_CONST ("sdl-video/noframe",     SDL_NOFRAME); /* No window caption or edge frame */
-   /* Used internally (read-only) */
-   SCM_DEFINE_CONST ("sdl-video/hwaccel",     SDL_HWACCEL); /* Blit uses hardware acceleration */
-   SCM_DEFINE_CONST ("sdl-video/srccolorkey", SDL_SRCCOLORKEY); /* Blit uses a source color key */
-   SCM_DEFINE_CONST ("sdl-video/rleaccelok",  SDL_RLEACCELOK); /* Private flag */
-   SCM_DEFINE_CONST ("sdl-video/rleaccel",    SDL_RLEACCEL); /* Surface is RLE encoded */
-   SCM_DEFINE_CONST ("sdl-video/srcalpha",    SDL_SRCALPHA); /* Blit uses source alpha blending */
-   SCM_DEFINE_CONST ("sdl-video/prealloc",    SDL_PREALLOC); /* Surface uses preallocated memory */
+   sdl_video_flags = scm_c_define_flag (
+    "sdl-video-flags",
+    "SDL_SWSURFACE",   SDL_SWSURFACE,   /* Surface is in system memory */
+    "SDL_HWSURFACE",   SDL_HWSURFACE,   /* Surface is in video memory */
+    "SDL_ASYNCBLIT",   SDL_ASYNCBLIT,   /* Use asynchronous blits if possible */
+    /* Available for SDL_SetVideoMode() */
+    "SDL_ANYFORMAT",   SDL_ANYFORMAT,   /* Allow any video depth/pixel-format */
+    "SDL_HWPALETTE",   SDL_HWPALETTE,   /* Surface has exclusive palette */
+    "SDL_DOUBLEBUF",   SDL_DOUBLEBUF,   /* Set up double-buffered video mode */
+    "SDL_FULLSCREEN",  SDL_FULLSCREEN,  /* Surface is a full screen display */
+    "SDL_OPENGL",      SDL_OPENGL,      /* Create an OpenGL rendering context */
+    "SDL_OPENGLBLIT",  SDL_OPENGLBLIT,  /* Create an OpenGL rendering context and use it for blitting */
+    "SDL_RESIZABLE",   SDL_RESIZABLE,   /* This video mode may be resized */
+    "SDL_NOFRAME",     SDL_NOFRAME,     /* No window caption or edge frame */
+    /* Used internally (read-only) */
+    "SDL_HWACCEL",     SDL_HWACCEL,     /* Blit uses hardware acceleration */
+    "SDL_SRCCOLORKEY", SDL_SRCCOLORKEY, /* Blit uses a source color key */
+    "SDL_RLEACCELOK",  SDL_RLEACCELOK,  /* Private flag */
+    "SDL_RLEACCEL",    SDL_RLEACCEL,    /* Surface is RLE encoded */
+    "SDL_SRCALPHA",    SDL_SRCALPHA,    /* Blit uses source alpha blending */
+    "SDL_PREALLOC",    SDL_PREALLOC,    /* Surface uses preallocated memory */
+    NULL);
 
-   /* yuv overlay formats */
+   /* yuv overlay formats (values too large to be made enums) */
    SCM_DEFINE_CONST ("sdl-yv12-overlay", SDL_YV12_OVERLAY);  /* Planar mode: Y + V + U  (3 planes) */
    SCM_DEFINE_CONST ("sdl-iyuv-overlay", SDL_IYUV_OVERLAY);  /* Planar mode: Y + U + V  (3 planes) */
    SCM_DEFINE_CONST ("sdl-yuy2-overlay", SDL_YUY2_OVERLAY);  /* Packed mode: Y0+U0+Y1+V0 (1 plane) */
@@ -1204,18 +1213,21 @@ sdl_init_video (void)
    SCM_DEFINE_CONST ("sdl-yvyu-overlay", SDL_YVYU_OVERLAY);  /* Packed mode: Y0+V0+Y1+U0 (1 plane) */
 
    /* GL constants */
-   SCM_DEFINE_CONST ("sdl-gl/red-size",         SDL_GL_RED_SIZE);
-   SCM_DEFINE_CONST ("sdl-gl/green-size",       SDL_GL_GREEN_SIZE);
-   SCM_DEFINE_CONST ("sdl-gl/blue-size",        SDL_GL_BLUE_SIZE);
-   SCM_DEFINE_CONST ("sdl-gl/alpha-size",       SDL_GL_ALPHA_SIZE);
-   SCM_DEFINE_CONST ("sdl-gl/buffer-size",      SDL_GL_BUFFER_SIZE);
-   SCM_DEFINE_CONST ("sdl-gl/doublebuffer",     SDL_GL_DOUBLEBUFFER);
-   SCM_DEFINE_CONST ("sdl-gl/depth-size",       SDL_GL_DEPTH_SIZE);
-   SCM_DEFINE_CONST ("sdl-gl/stencil-size",     SDL_GL_STENCIL_SIZE);
-   SCM_DEFINE_CONST ("sdl-gl/accum-red-size",   SDL_GL_ACCUM_RED_SIZE);
-   SCM_DEFINE_CONST ("sdl-gl/accum-green-size", SDL_GL_ACCUM_GREEN_SIZE);
-   SCM_DEFINE_CONST ("sdl-gl/accum-blue-size",  SDL_GL_ACCUM_BLUE_SIZE);
-   SCM_DEFINE_CONST ("sdl-gl/accum-alpha-size", SDL_GL_ACCUM_ALPHA_SIZE);
+   sdl_gl_enums = scm_c_define_enum (
+    "sdl-gl-enums",
+    "SDL_GL_RED_SIZE",         SDL_GL_RED_SIZE,
+    "SDL_GL_GREEN_SIZE",       SDL_GL_GREEN_SIZE,
+    "SDL_GL_BLUE_SIZE",        SDL_GL_BLUE_SIZE,
+    "SDL_GL_ALPHA_SIZE",       SDL_GL_ALPHA_SIZE,
+    "SDL_GL_BUFFER_SIZE",      SDL_GL_BUFFER_SIZE,
+    "SDL_GL_DOUBLEBUFFER",     SDL_GL_DOUBLEBUFFER,
+    "SDL_GL_DEPTH_SIZE",       SDL_GL_DEPTH_SIZE,
+    "SDL_GL_STENCIL_SIZE",     SDL_GL_STENCIL_SIZE,
+    "SDL_GL_ACCUM_RED_SIZE",   SDL_GL_ACCUM_RED_SIZE,
+    "SDL_GL_ACCUM_GREEN_SIZE", SDL_GL_ACCUM_GREEN_SIZE,
+    "SDL_GL_ACCUM_BLUE_SIZE",  SDL_GL_ACCUM_BLUE_SIZE,
+    "SDL_GL_ACCUM_ALPHA_SIZE", SDL_GL_ACCUM_ALPHA_SIZE,
+     NULL);
 
    /* rect functions */
    scm_c_define_gsubr ("sdl-make-rect",          4, 0, 0, make_rect);
@@ -1269,7 +1281,7 @@ sdl_init_video (void)
    scm_c_define_gsubr ("sdl-unlock-yuv-overlay", 1, 0, 0, unlock_yuv_overlay);
    scm_c_define_gsubr ("sdl-display-yuv-overlay", 2, 0, 0, display_yuv_overlay);
    /* video */
-   scm_c_define_gsubr ("sdl-set-video-mode",     4, 0, 0, set_video_mode);
+   scm_c_define_gsubr ("sdl-set-video-mode",     3, 1, 0, set_video_mode);
    scm_c_define_gsubr ("sdl-update-rect",        5, 0, 0, update_rect);
    scm_c_define_gsubr ("sdl-flip",               0, 1, 0, flip);
    scm_c_define_gsubr ("sdl-blit-surface",       1, 3, 0, blit_surface);
@@ -1295,22 +1307,12 @@ sdl_init_video (void)
       /* alpha constants */
       "sdl-alpha/opaque",       "sdl-alpha/transparent",
       /* video constants */
-      "sdl-video/swsurface",    "sdl-video/hwsurface",    "sdl-video/asyncblit",
-      "sdl-video/anyformat",    "sdl-video/hwpalette",    "sdl-video/doublebuf",
-      "sdl-video/fullscreen",   "sdl-video/opengl",       "sdl-video/openglblit",
-      "sdl-video/resizable",    "sdl-video/noframe",      "sdl-video/hwaccel",
-      "sdl-video/srccolorkey",  "sdl-video/rleaccelok",   "sdl-video/rleaccel",
-      "sdl-video/srcalpha",     "sdl-video/prealloc",
+      "sdl-video-flags",
       /* yuv constants */
       "sdl-yv12-overlay",       "sdl-iyuv-overlay",       "sdl-yuy2-overlay",
       "sdl-uyvy-overlay",       "sdl-yvyu-overlay",
       /* GL constants */
-      "sdl-gl/red-size",            "sdl-gl/green-size",
-      "sdl-gl/blue-size",           "sdl-gl/alpha-size",
-      "sdl-gl/buffer-size",         "sdl-gl/doublebuffer",
-      "sdl-gl/depth-size",          "sdl-gl/stencil-size",
-      "sdl-gl/accum-red-size",      "sdl-gl/accum-green-size",
-      "sdl-gl/accum-blue-size",     "sdl-gl/accum-alpha-size",
+      "sdl-gl-enums",
       /* rect functions */
       "sdl-make-rect",   "sdl-rect:x",      "sdl-rect:y",    "sdl-rect:w",
       "sdl-rect:h",      "sdl-rect:set-x!", "sdl-rect:set-y!",

@@ -2,7 +2,7 @@
  *  sdl.c -- SDL Wrappers for Guile                                *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-07-04 10:33:30 foof>                         *
+ *  Time-stamp: <2001-07-05 03:03:53 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -37,60 +37,65 @@
 #include "sdljoystick.h"
 #include "sdlroto.h"
 
+SCM sdl_init_flags;
 
 /* Initialization */
 SCM
 sdl_init (SCM s_subsystems)
 {
-   int subsystems;
+  unsigned long subsystems;
 
-   SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init");
-   subsystems = scm_num2long (s_subsystems, SCM_ARG1, "scm_num2long");
+  /* SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init"); */
+  subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
+                                SCM_ARG1, "sdl-init");
 
-   return scm_long2num (SDL_Init (subsystems));
+  return scm_long2num (SDL_Init (subsystems));
 }
 
 SCM
 sdl_init_subsystem (SCM s_subsystems)
 {
-   int subsystems;
+  unsigned long subsystems;
 
-   SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init-subsystem");
-   subsystems = scm_num2long (s_subsystems, SCM_ARG1, "scm_num2long");
+  /* SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init-subsystem"); */
+  subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
+                                SCM_ARG1, "sdl-init-subsystems");
 
-   return scm_long2num (SDL_InitSubSystem (subsystems));
+  return scm_long2num (SDL_InitSubSystem (subsystems));
 }
 
 /* Termination */
 SCM
 sdl_quit (void)
 {
-   SDL_Quit();
-   return SCM_UNSPECIFIED;
+  SDL_Quit();
+  return SCM_UNSPECIFIED;
 }
 
 SCM
 sdl_quit_subsystem (SCM s_subsystems)
 {
-   int subsystems;
+  unsigned long subsystems;
 
-   SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-quit-subsystem");
-   subsystems = scm_num2long (s_subsystems, SCM_ARG1, "scm_num2long");
+  /* SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-quit-subsystem"); */
+  subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
+                                SCM_ARG1, "scm_num2long");
 
-   SDL_QuitSubSystem (subsystems);
-   return SCM_UNSPECIFIED;
+  SDL_QuitSubSystem (subsystems);
+  return SCM_UNSPECIFIED;
 }
 
 /* Information */
 SCM
 sdl_was_init (SCM s_subsystems)
 {
-   int subsystems;
+  unsigned long subsystems;
 
-   SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-was-init");
-   subsystems = scm_num2long (s_subsystems, SCM_ARG1, "scm_num2long");
+  /* SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-was-init"); */
+  subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
+                                SCM_ARG1, "scm_num2long");
 
-   return scm_long2num (SDL_WasInit (subsystems));
+  return scm_long2num (SDL_WasInit (subsystems));
 }
 
 /* time functions */
@@ -98,15 +103,15 @@ sdl_was_init (SCM s_subsystems)
 SCM
 sdl_get_ticks (void)
 {
-   return scm_long2num (SDL_GetTicks ());
+  return scm_long2num (SDL_GetTicks ());
 }
 
 SCM
 sdl_delay (SCM ms)
 {
-   SCM_ASSERT (scm_exact_p (ms),  ms,  SCM_ARG1, "sdl-delay");
-   SDL_Delay (scm_num2long (ms, SCM_ARG1, "scm_num2long"));
-   return SCM_UNSPECIFIED;
+  SCM_ASSERT (scm_exact_p (ms),  ms,  SCM_ARG1, "sdl-delay");
+  SDL_Delay (scm_num2long (ms, SCM_ARG1, "scm_num2long"));
+  return SCM_UNSPECIFIED;
 }
 
 /* error functions */
@@ -121,47 +126,48 @@ sdl_get_error (void)
 void
 guile_sdl_init (void)
 {
-   /* general initializations */
-   scm_c_define_gsubr ("sdl-init",           1, 0, 0, sdl_init);
-   scm_c_define_gsubr ("sdl-init-subsystem", 1, 0, 0, sdl_init_subsystem);
-   scm_c_define_gsubr ("sdl-quit",           0, 0, 0, sdl_quit);
-   scm_c_define_gsubr ("sdl-quit-subsystem", 1, 0, 0, sdl_quit_subsystem);
-   scm_c_define_gsubr ("sdl-was-init",       1, 0, 0, sdl_was_init);
-   scm_c_define_gsubr ("sdl-get-ticks",      0, 0, 0, sdl_get_ticks);
-   scm_c_define_gsubr ("sdl-delay",          1, 0, 0, sdl_delay);
-   scm_c_define_gsubr ("sdl-get-error",      0, 0, 0, sdl_get_error);
+  sdl_init_enums();
 
-   /* constants */
-   scm_c_define ("sdl-init/timer",       scm_long2num (SDL_INIT_TIMER));
-   scm_c_define ("sdl-init/audio",       scm_long2num (SDL_INIT_AUDIO));
-   scm_c_define ("sdl-init/video",       scm_long2num (SDL_INIT_VIDEO));
-   scm_c_define ("sdl-init/cdrom",       scm_long2num (SDL_INIT_CDROM));
-   scm_c_define ("sdl-init/joystick",    scm_long2num (SDL_INIT_JOYSTICK));
-   scm_c_define ("sdl-init/everything",  scm_long2num (SDL_INIT_EVERYTHING));
-   scm_c_define ("sdl-init/noparachute", scm_long2num (SDL_INIT_NOPARACHUTE));
-   scm_c_define ("sdl-init/eventthread", scm_long2num (SDL_INIT_EVENTTHREAD));
+  /* general initializations */
+  scm_c_define_gsubr ("sdl-init",           1, 0, 0, sdl_init);
+  scm_c_define_gsubr ("sdl-init-subsystem", 1, 0, 0, sdl_init_subsystem);
+  scm_c_define_gsubr ("sdl-quit",           0, 0, 0, sdl_quit);
+  scm_c_define_gsubr ("sdl-quit-subsystem", 1, 0, 0, sdl_quit_subsystem);
+  scm_c_define_gsubr ("sdl-was-init",       1, 0, 0, sdl_was_init);
+  scm_c_define_gsubr ("sdl-get-ticks",      0, 0, 0, sdl_get_ticks);
+  scm_c_define_gsubr ("sdl-delay",          1, 0, 0, sdl_delay);
+  scm_c_define_gsubr ("sdl-get-error",      0, 0, 0, sdl_get_error);
 
-   /* exported symbols */
-   scm_c_export (
-      /* time */
-      "sdl-get-ticks", "sdl-delay",
-      /* errors */
-      "sdl-get-error",
-      /* sdl initializations */
-      "sdl-subsystems", "sdl-init", "sdl-quit", "sdl-init-subsystem",
-      "sdl-quit-subsystem", "sdl-was-init",
-      /* constants */
-      "sdl-init/timer", "sdl-init/audio", "sdl-init/video",
-      "sdl-init/cdrom", "sdl-init/joystick", "sdl-init/everything",
-      "sdl-init/noparachute", "sdl-init/eventthread",
-      NULL);
+  /* init flags */
+  sdl_init_flags = scm_c_define_flag (
+    "sdl-init-flags",
+    "SDL_INIT_TIMER",        SDL_INIT_TIMER,
+    "SDL_INIT_AUDIO",        SDL_INIT_AUDIO,
+    "SDL_INIT_VIDEO",        SDL_INIT_VIDEO,
+    "SDL_INIT_CDROM",        SDL_INIT_CDROM,
+    "SDL_INIT_JOYSTICK",     SDL_INIT_JOYSTICK,
+    "SDL_INIT_EVERYTHING",   SDL_INIT_EVERYTHING,
+    "SDL_INIT_NOPARACHUTE",  SDL_INIT_NOPARACHUTE,
+    "SDL_INIT_EVENTTHREAD",  SDL_INIT_EVENTTHREAD,
+    NULL);
 
-   /* initialize subsystems */
-   sdl_init_enums();
-   sdl_init_video();
-   sdl_init_rotozoom();
-   sdl_init_event();
-   sdl_init_joystick();
-   sdl_init_cdrom();
+  /* exported symbols */
+  scm_c_export (
+    /* time */
+    "sdl-get-ticks", "sdl-delay",
+    /* errors */
+    "sdl-get-error",
+    /* sdl initializations */
+    "sdl-subsystems", "sdl-init", "sdl-quit", "sdl-init-subsystem",
+    "sdl-quit-subsystem", "sdl-was-init",
+    "sdl-init-flags",
+    NULL);
+
+  /* initialize subsystems */
+  sdl_init_video();
+  sdl_init_rotozoom();
+  sdl_init_event();
+  sdl_init_joystick();
+  sdl_init_cdrom();
 }
 

@@ -4,14 +4,14 @@
 ;; simple opengl test
 ;; 
 ;; Created:    <2001-06-16 17:02:54 foof>
-;; Time-stamp: <2001-06-18 01:01:14 foof>
+;; Time-stamp: <2001-07-05 14:39:02 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl)
              (opengl opengl))
 
 ;; initialize the SDL video module
-(sdl-init sdl-init/video)
+(sdl-init '(SDL_INIT_VIDEO))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect
@@ -27,7 +27,7 @@
 
 ;; set the video mode with opengl
 (sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 16
-                    (logior sdl-video/hwsurface sdl-video/opengl))
+                    '(SDL_VIDEO_HWSURFACE SDL_VIDEO_OPENGL))
 
 ;; draw some lines
 (gl-begin)
