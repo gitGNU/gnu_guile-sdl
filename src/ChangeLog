@@ -1,6 +1,7 @@
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
-	* sdlenums.c: Use `RETURN_UINT'.
+	* sdlenums.c: Include "retval.h".
+	Use `RETURN_UINT'.
 
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
