@@ -1,11 +1,12 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+test x"$HAVE_MIXER" = x && { echo "INFO: $0: MIXER DISABLED" ; exit 77 ; }
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
 
 ;; simple mixer test
 
-(use-modules (sdl sdl)
-             (sdl mixer)
-             (ice-9 format))
+(use-modules (sdl sdl))                 ; fixme: these must be separate due
+(use-modules (sdl mixer))               ;        to compiled modules weirdness
 
 ;; the directory to find the image in
 (define datadir (if (getenv "srcdir")
@@ -28,6 +29,8 @@
                             "stereo" "mono"))))
         (else
          (sdl-quit)
+         (format #t "INFO: ~A: NO MIXER SPECS AVAILABLE\n"
+                 (car (command-line)))
          (exit 77))))
 
 
@@ -48,3 +51,4 @@
 (sdl-close-audio)
 (sdl-quit)
 
+;;; mixer.scm ends here
