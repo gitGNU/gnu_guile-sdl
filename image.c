@@ -2,7 +2,7 @@
  *  image.c -- SDL Image functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-05-01 23:39:14 foof>                         *
- *  Time-stamp: <2001-05-16 00:19:48 foof>                         *
+ *  Time-stamp: <2001-06-02 22:45:56 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -39,7 +39,7 @@ img_load (SCM file)
    SDL_Surface *image;
 
    SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
-               file, SCM_ARG1, "sdl-load-image");
+               file, SCM_ARG1, "load-image");
 
    image = IMG_Load (SCM_CHARS (file));
    SCM_RETURN_NEWSMOB (surface_tag, image);
@@ -172,7 +172,8 @@ void
 sdl_image_init (void)
 {
 /*    scm_make_gsubr ("sdl-load-image-typed-rw",  3, 0, 0, img_load_typed_rw); */
-   scm_make_gsubr ("sdl-load-image",           1, 0, 0, img_load);
+   scm_make_gsubr ("load-image",           1, 0, 0, img_load);
+   scm_c_export ("load-image", NULL);
 /*    scm_make_gsubr ("sdl-load-rw-image",        2, 0, 0, img_load_rw); */
 
 /*    scm_make_gsubr ("sdl-image/bmp?",         1, 0, 0, img_bmp_p); */

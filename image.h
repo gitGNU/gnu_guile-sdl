@@ -24,6 +24,7 @@
  ******************************************************************/
 
 #ifndef _GUILE_SDL_IMAGE_H
+#define _GUILE_SDL_IMAGE_H
 
 /* guile headers */
 #include <libguile.h>
