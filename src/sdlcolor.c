@@ -19,8 +19,6 @@
  * MA 02111-1307 USA
  */
 
-/* guile headers */
-
 #include <guile/gh.h>
 #include <SDL/SDL.h>
 
