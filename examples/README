@@ -1,8 +1,7 @@
 These are some basic examples of how to use guile-sdl.  You can either
 run them after installing guile-sdl, or after building guile-sdl by
-setting GUILE_LOAD_PATH to point to the top level sdl/ directory of
-this distribution, and LTDL_LIBRARY_PATH to the src/ directories.
+setting the env var GUILE to be the absolute path to the ../wily-guile
+shell script, something like:
 
-GUILE_LOAD_PATH=..
-LTDL_LIBRARY_PATH=../src/.libs:../sdl-mixer/.libs:../sdl-ttf/.libs
-
+	GUILE=`cd .. ; pwd`/wily-guile
+	export GUILE
