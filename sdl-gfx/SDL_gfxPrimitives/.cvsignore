@@ -1,0 +1,6 @@
+.deps
+.libs
+Makefile
+Makefile.in
+SDL_gfxPrimitives.lo
+libSDL_gfxPrimitives.la
