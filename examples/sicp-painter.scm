@@ -1,10 +1,11 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
 
 ;; SICP Picture Language Example
-;; 
+;;
 ;; Created:    <2001-06-24 16:36:53 foof>
-;; Time-stamp: <2001-08-04 20:15:57 foof>
+;; Time-stamp: <2003-11-12 21:03:48 ttn>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
@@ -108,12 +109,13 @@
   (sdl-flip)
   (while (not (and e (eq? (sdl-event:type e) 'SDL_KEYDOWN)
                    (eq? (sdl-event:key:keysym:sym e) 'SDLK_ESCAPE)))
-    (sdl-wait-event e)
-    (if (eq? (sdl-event:type e) 'SDL_KEYDOWN)
-      (begin (set! i (1+ i))
-             (sdl-blit-surface (corner-split painter i))
-             (sdl-flip)))))
+         (sdl-wait-event e)
+         (if (eq? (sdl-event:type e) 'SDL_KEYDOWN)
+             (begin (set! i (1+ i))
+                    (sdl-blit-surface (corner-split painter i))
+                    (sdl-flip)))))
 
 ;; clean up
 (sdl-quit)
 
+;;; sicp-painter.scm ends here

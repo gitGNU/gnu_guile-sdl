@@ -1,10 +1,11 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
 
 ;; Simple Image Browser
-;; 
+;;
 ;; Created:    <2001-06-17 18:08:20 foof>
-;; Time-stamp: <2001-07-06 02:27:28 foof>
+;; Time-stamp: <2003-11-12 21:03:07 ttn>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
@@ -45,7 +46,7 @@
 (define (prev-image)
   (let ((orig image-ring))
     (while (not (eq? (cddr image-ring) orig))
-      (set! image-ring (cdr image-ring)))
+           (set! image-ring (cdr image-ring)))
     (let ((image (car image-ring)))
       (set! image-ring (cdr image-ring))
       image)))
@@ -63,14 +64,16 @@
 ;; event handler
 (let handle ((e (sdl-make-event)))
   (if (sdl-wait-event e)
-    (case (sdl-event:type e)
-      ((SDL_KEYDOWN)
-       (case (sdl-event:key:keysym:sym e)
-         ((SDLK_LEFT SDLK_BACKSPACE)
-          (show (prev-image)))
-         ((SDLK_RIGHT SDLK_SPACE)
-          (show (next-image)))
-         ((SDLK_ESCAPE SDLK_q)
-          (sdl-quit)
-          (quit))))))
+      (case (sdl-event:type e)
+        ((SDL_KEYDOWN)
+         (case (sdl-event:key:keysym:sym e)
+           ((SDLK_LEFT SDLK_BACKSPACE)
+            (show (prev-image)))
+           ((SDLK_RIGHT SDLK_SPACE)
+            (show (next-image)))
+           ((SDLK_ESCAPE SDLK_q)
+            (sdl-quit)
+            (quit))))))
   (handle e))
+
+;;; imagebrowser.scm ends here

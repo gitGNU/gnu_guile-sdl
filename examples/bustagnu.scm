@@ -1,4 +1,5 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
 
 ;; Bust-A-Move Clone
@@ -31,8 +32,8 @@
 
 ;; the directory to find the images in
 (define datadir (if (getenv "srcdir")
-                  (string-append (getenv "srcdir") "/examples/")
-                  "./"))
+                    (string-append (getenv "srcdir") "/examples/")
+                    "./"))
 
 ;; a sprite in a grid
 (define-class <sprite> ()
@@ -93,7 +94,7 @@
 (define-generic collide)
 
 (define-method (collide sprite obj)
-  ;(display "default collision\n")
+  ;;(display "default collision\n")
   #f)
 
 (define-method (collide (sprite <ghost>) obj)
@@ -101,7 +102,7 @@
 
 (define-method (collide sprite (obj <bounce-edge>))
   (let ((new-angle (- pi (sprite:angle sprite))))
-    ;(display "bounce collision\n")
+    ;;(display "bounce collision\n")
     (set! (sprite:angle sprite) new-angle)
     (set! (sprite:move-proc sprite) (make-angle-mover sprite new-angle))))
 
@@ -109,29 +110,29 @@
   (let ((angle (sprite:angle sprite)))
     ;; only bounce if we're moving towards the left
     (if (>= angle (/ pi 2))
-      ;; set x to 0, and adjust y to keep it on the same line
-      (let* ((sprite-rect (sprite:location sprite))
-             (x (sdl-rect:x sprite-rect))
-             (y (sdl-rect:y sprite-rect))
-             (off-x (* default-velocity (cos angle)))
-             (off-y (* default-velocity (sin angle)))
-             (old-x (+ x off-x))
-             (old-y (- y off-y))
-             (slope (/ (- y old-y) (- x old-x)))
-             (y-intercept (inexact->exact (- y (* slope x)))))
-        ;(display "left collision\n")
-        (sdl-rect:set-x! sprite-rect 0)
-        (sdl-rect:set-y! sprite-rect y-intercept)
-        (next-method)))))
+        ;; set x to 0, and adjust y to keep it on the same line
+        (let* ((sprite-rect (sprite:location sprite))
+               (x (sdl-rect:x sprite-rect))
+               (y (sdl-rect:y sprite-rect))
+               (off-x (* default-velocity (cos angle)))
+               (off-y (* default-velocity (sin angle)))
+               (old-x (+ x off-x))
+               (old-y (- y off-y))
+               (slope (/ (- y old-y) (- x old-x)))
+               (y-intercept (inexact->exact (- y (* slope x)))))
+                                        ;(display "left collision\n")
+          (sdl-rect:set-x! sprite-rect 0)
+          (sdl-rect:set-y! sprite-rect y-intercept)
+          (next-method)))))
 
 (define-method (collide sprite (obj <right-edge>))
   (let ((angle (sprite:angle sprite)))
     ;; only bounce if we're moving towards the right
     (if (<= angle (/ pi 2))
-      (let* ((sprite-rect (sprite:location sprite))
-             )
-        (sdl-rect:set-x! sprite-rect (- screen-width ball-size))
-        (next-method)))))
+        (let* ((sprite-rect (sprite:location sprite))
+               )
+          (sdl-rect:set-x! sprite-rect (- screen-width ball-size))
+          (next-method)))))
 
 (define-method (collide sprite (obj <anchor-edge>))
   (remove-sprite sprite)
@@ -158,12 +159,12 @@
     (cond ((or (not frame-list) (null? frame-list))
            #f)
           ((pair? frame-list)
-           ;(display (format #f "(pre-blit ~A)\n" (sprite:location sprite)))
+           ;;(display (format #f "(pre-blit ~A)\n" (sprite:location sprite)))
            (sdl-blit-surface (car frame-list) (sprite:dimensions sprite)
                              surface (sdl-copy-rect (sprite:location sprite)))
-           ;(display (format #f "(post-blit ~A)\n" (sprite:location sprite)))
+           ;;(display (format #f "(post-blit ~A)\n" (sprite:location sprite)))
            (set! (sprite:frames sprite) (cdr frame-list))
-           ;(display (format #f "(post-set! ~A)\n" (sprite:location sprite)))
+           ;;(display (format #f "(post-set! ~A)\n" (sprite:location sprite)))
            ))))
 
 (define (remove-sprite sprite)
@@ -186,36 +187,36 @@
     (for-each
      (lambda (sprite)
        (and-let* ((move-proc (sprite:move-proc sprite)))
-         ;(display (format #f "(move-proc ~A)\n" (sprite:location sprite)))
+                                        ;(display (format #f "(move-proc ~A)\n" (sprite:location sprite)))
          (move-proc sprite)
          (let* ((loc (sprite:location sprite))
                 (x (sdl-rect:x loc))
                 (y (sdl-rect:y loc))
                 (grid-coords (xy->grid x y)))
-           ;(display (format #f "hit: (~A ~A) => ~A\n" x y grid-coords))
+                                        ;(display (format #f "hit: (~A ~A) => ~A\n" x y grid-coords))
            (cond ((or (not (= (car grid-coords) (sprite:row sprite)))
                       (not (= (cadr grid-coords) (sprite:col sprite))))
                   (set! (sprite:row sprite) (car grid-coords))
                   (set! (sprite:col sprite) (cadr grid-coords))
                   (and-let* ((obj (apply grid-ref grid-coords)))
                     ;; we've hit something!!
-                    ;(display "we've hit something!!\n")
+                                        ;(display "we've hit something!!\n")
                     (collide sprite obj))))
            (if (< (sdl-rect:x loc) 0)
-             (sdl-rect:set-x! loc 0)
-             (if (> (sdl-rect:x loc) (- screen-width ball-size))
-               (sdl-rect:set-x! loc (- screen-width ball-size))))
+               (sdl-rect:set-x! loc 0)
+               (if (> (sdl-rect:x loc) (- screen-width ball-size))
+                   (sdl-rect:set-x! loc (- screen-width ball-size))))
            (if (< (sdl-rect:y loc) 0)
-             (sdl-rect:set-y! loc 0))
+               (sdl-rect:set-y! loc 0))
            ))
-       ;(display (format #f "(show-next-frame! ~A)\n" (sprite:location sprite)))
+                                        ;(display (format #f "(show-next-frame! ~A)\n" (sprite:location sprite)))
        (show-next-frame! sprite screen))
      active-sprites))
   ;; update the screen
   (let ((screen (sdl-get-video-surface)))
     (for-each
      (lambda (sprite)
-       ;(display (format #f "(update-rect ~A)\n" (sprite:location sprite)))
+                                        ;(display (format #f "(update-rect ~A)\n" (sprite:location sprite)))
        (sdl-update-rect screen (sprite:location sprite)))
      active-sprites)
     (for-each
@@ -304,30 +305,30 @@
              (unit-y (- y (* grid-row/2 ball-size/2))))
         (cond ((and (even? grid-row/2) (even? grid-col/2))
                ;; y = -2x + 0.5
-               ;(display (format #f "unit-x = ~A,  ball/4 = ~A\n" unit-x ball-size/4))
-               ;(display (format #f "-2x+1/2 = ~A,  unit-y = ~A\n" (+ (* -2 unit-x) 0.5) unit-y))
+               ;;(display (format #f "unit-x = ~A,  ball/4 = ~A\n" unit-x ball-size/4))
+               ;;(display (format #f "-2x+1/2 = ~A,  unit-y = ~A\n" (+ (* -2 unit-x) 0.5) unit-y))
                (if (or (>= unit-x ball-size/4)
                        (<= (+ (* -2 unit-x) ball-size/2) unit-y))
-                 (list grid-row (1+ grid-col))
-                 (list grid-row grid-col)))
+                   (list grid-row (1+ grid-col))
+                   (list grid-row grid-col)))
               ((and (even? grid-row/2) (odd? grid-col/2))
                ;; y = 2x + 0.5
                (if (or (>= unit-x ball-size/4)
                        (>= (+ (* 2 unit-x) ball-size/2) unit-y))
-                 (list grid-row grid-col)
-                 (list grid-row (1+ grid-col))))
+                   (list grid-row grid-col)
+                   (list grid-row (1+ grid-col))))
               ((and (odd? grid-row/2) (even? grid-col/2))
                ;; y = 2x - 1.5
                (if (or (<= unit-x ball-size/4)
                        (<= (- (* 2 unit-x) (+ ball-size ball-size/2)) unit-y))
-                 (list (- grid-row 1) (1+ grid-col))
-                 (list grid-row grid-col)))
+                   (list (- grid-row 1) (1+ grid-col))
+                   (list grid-row grid-col)))
               ((and (odd? grid-row/2) (odd? grid-col/2))
                ;; y = -2x + 2.5
                (if (or (<= unit-x ball-size/4)
                        (>= (+ (* -2 unit-x) (* 2.5 ball-size)) unit-y))
-                 (list (- grid-row 1) grid-col)
-                 (list grid-row (1+ grid-col))))
+                   (list (- grid-row 1) grid-col)
+                   (list grid-row (1+ grid-col))))
               )))))
 
 (define colors `((red     . ,(sdl-make-color #xff #x00 #x00))
@@ -426,10 +427,10 @@
 (define (pivot-launcher offset)
   (let ((new-angle (+ launcher-angle offset)))
     (if (and (>= new-angle 0) (<= new-angle 180))
-      (begin (set! launcher-angle new-angle)
-             (set! launcher-moved #t)
-             (set! launcher-rotated
-                   (sdl-rotate-square launcher new-angle))))))
+        (begin (set! launcher-angle new-angle)
+               (set! launcher-moved #t)
+               (set! launcher-rotated
+                     (sdl-rotate-square launcher new-angle))))))
 
 
 (define (make-angle-mover sprite angle . args)
@@ -458,12 +459,12 @@
 ;;   sin/cos, unlike sdl-roto-zoom-surface which uses degrees.
 (define (launch)
   (if (< balls-in-motion max-balls)
-    (let ((ball (rand-ball-sprite))
-          (ball-angle (degrees->radians launcher-angle)))
-      (set! (sprite:angle ball) ball-angle)
-      (set! (sprite:move-proc ball) (make-angle-mover ball ball-angle))
-      (set! balls-in-motion (1+ balls-in-motion))
-      (set! active-sprites (cons ball active-sprites)))))
+      (let ((ball (rand-ball-sprite))
+            (ball-angle (degrees->radians launcher-angle)))
+        (set! (sprite:angle ball) ball-angle)
+        (set! (sprite:move-proc ball) (make-angle-mover ball ball-angle))
+        (set! balls-in-motion (1+ balls-in-motion))
+        (set! active-sprites (cons ball active-sprites)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -500,14 +501,14 @@
            (let ((mods (sdl-event:key:keysym:mod e)))
              (if (or (memq 'KMOD_LCTRL mods)
                      (memq 'KMOD_RCTRL mods))
-               +1 +4))))
+                 +1 +4))))
          ((SDLK_RIGHT)
           ;; pivot right (by 4 degrees, or 1 degree if control is held)
           (pivot-launcher
            (let ((mods (sdl-event:key:keysym:mod e)))
              (if (or (memq 'KMOD_LCTRL mods)
                      (memq 'KMOD_RCTRL mods))
-               -1 -4))))
+                 -1 -4))))
          ((SDLK_SPACE)
           ;; space to shoot
           ;; (wait until they release the key)
@@ -527,3 +528,4 @@
     ;; repeat
     (handle e)))
 
+;;; bustagnu.scm ends here
