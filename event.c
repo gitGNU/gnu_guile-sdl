@@ -2,7 +2,7 @@
  *  event.c -- SDL input handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:58:16 foof>                         *
- *  Time-stamp: <2001-06-10 19:12:20 foof>                         *
+ *  Time-stamp: <2001-06-10 22:55:45 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -33,6 +33,13 @@ long keysym_tag;
 
 SCM event_type_enum;
 SCM event_keysym_enum;
+
+scm_sizet
+free_event (SCM event)
+{
+   free ((SDL_Event*) SCM_SMOB_DATA (event));
+   return sizeof (SDL_Event);
+}
 
 /* constructors */
 SCM make_event (SCM s_type)
@@ -174,14 +181,14 @@ SCM_DEFINE_INUM_GETTER ("event:user:code", event_user_code, event_tag,
 /* SCM_DEFINE_INUM_GETTER ("event:user:data2", event_user_data2, event_tag,  */
 /*                         SDL_Event*, user.data2)  */
 
-SCM_DEFINE_INUM_GETTER ("keysym:scancode", keysym_scancode, keysym_tag, 
-                        SDL_keysym*, scancode) 
-SCM_DEFINE_INUM_GETTER ("keysym:sym", keysym_sym, keysym_tag, 
-                        SDL_keysym*, sym) 
-SCM_DEFINE_INUM_GETTER ("keysym:mod", keysym_mod, keysym_tag, 
-                        SDL_keysym*, mod) 
-SCM_DEFINE_INUM_GETTER ("keysym:unicode", keysym_unicode, keysym_tag, 
-                        SDL_keysym*, unicode) 
+/* SCM_DEFINE_INUM_GETTER ("keysym:scancode", keysym_scancode, keysym_tag,  */
+/*                         SDL_keysym*, scancode)  */
+/* SCM_DEFINE_INUM_GETTER ("keysym:sym", keysym_sym, keysym_tag,  */
+/*                         SDL_keysym*, sym)  */
+/* SCM_DEFINE_INUM_GETTER ("keysym:mod", keysym_mod, keysym_tag,  */
+/*                         SDL_keysym*, mod)  */
+/* SCM_DEFINE_INUM_GETTER ("keysym:unicode", keysym_unicode, keysym_tag,  */
+/*                         SDL_keysym*, unicode)  */
 
 /* SCM event_key_keysym (SCM s_event) */
 /* { */
@@ -273,7 +280,9 @@ void sdl_event_init (void)
 {
    /* tags */
    event_tag   = scm_make_smob_type ("event",  sizeof (SDL_Event));
-   keysym_tag  = scm_make_smob_type ("keysym", sizeof (SDL_keysym));
+   /* keysym_tag  = scm_make_smob_type ("keysym", sizeof (SDL_keysym)); */
+
+   scm_set_smob_free (event_tag, free_event);
 
    /* event type constants */
    event_type_enum = scm_c_define_enum (
@@ -457,9 +466,9 @@ void sdl_event_init (void)
 
    /* smob getters */
    scm_c_define_gsubr ("event:type", 1, 0, 0, event_type);
-/*    scm_c_define_gsubr ("event:active:gain", 1, 0, 0, event_active_gain); */
-/*    scm_c_define_gsubr ("event:active:state", 1, 0, 0, event_active_state); */
-/*    scm_c_define_gsubr ("event:key:state", 1, 0, 0, event_key_state); */
+   scm_c_define_gsubr ("event:active:gain", 1, 0, 0, event_active_gain);
+   scm_c_define_gsubr ("event:active:state", 1, 0, 0, event_active_state);
+   scm_c_define_gsubr ("event:key:state", 1, 0, 0, event_key_state);
    scm_c_define_gsubr ("event:key:keysym:sym", 1, 0, 0, event_key_keysym_sym);
 /*    scm_c_define_gsubr ("event:key:keysym:mod", 1, 0, 0, event_key_keysym_mod); */
 /*    scm_c_define_gsubr ("event:key:keysym:scancode", 1, 0, 0, event_key_keysym_scancode); */

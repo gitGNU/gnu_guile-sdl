@@ -2,7 +2,7 @@
  *  event.h -- SDL event handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:43:48 foof>                         *
- *  Time-stamp: <2001-06-03 23:43:43 foof>                         *
+ *  Time-stamp: <2001-06-10 22:59:11 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -39,7 +39,8 @@ extern long keysym_tag;
 
 /* constructors */
 SCM make_event (SCM s_event_type);
-SCM make_keysym (SCM s_sym, SCM s_mod);
+/* SCM make_keysym (SCM s_sym, SCM s_mod); */
+scm_sizet free_event (SCM event);
 
 /* event getters */
 SCM event_type (SCM s_event);
@@ -77,15 +78,15 @@ SCM event_resize_w (SCM s_event);
 SCM event_resize_h (SCM s_event);
 /* SCM event_quit (SCM s_event); */
 SCM event_user_code (SCM s_event);
-SCM event_user_data1 (SCM s_event);
-SCM event_user_data2 (SCM s_event);
+/* SCM event_user_data1 (SCM s_event); */
+/* SCM event_user_data2 (SCM s_event); */
 /* SCM event_syswm (SCM s_event); */
 
 /* keysym getters */
-SCM keysym_scancode (SCM s_key);
-SCM keysym_sym (SCM s_key);
-SCM keysym_mod (SCM s_key);
-SCM keysym_unicode (SCM s_key);
+/* SCM keysym_scancode (SCM s_key); */
+/* SCM keysym_sym (SCM s_key); */
+/* SCM keysym_mod (SCM s_key); */
+/* SCM keysym_unicode (SCM s_key); */
 
 /* SDL event functions */
 

@@ -2,7 +2,7 @@
  *  video.h -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-03 18:20:38 foof>                         *
+ *  Time-stamp: <2001-06-10 22:56:24 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -41,6 +41,9 @@ extern long pixel_format_tag;
 extern long overlay_tag;
 extern long video_info_tag;
 
+scm_sizet free_surface (SCM surface);
+scm_sizet free_rect (SCM rect);
+scm_sizet free_color (SCM color);
 
 /* constructors */
 SCM make_surface (SCM s_width, SCM s_height);
@@ -90,7 +93,6 @@ SCM map_rgb (SCM s_pixel_fmt, SCM s_r, SCM s_g, SCM s_b);
 SCM map_rgba (SCM s_pixel_fmt, SCM s_r, SCM s_g, SCM s_b, SCM s_a);
 SCM get_rgb (SCM s_pixel, SCM s_pixel_fmt);
 SCM get_rgba (SCM s_pixel, SCM s_pixel_fmt);
-SCM free_surface (SCM s_surface);
 SCM lock_surface (SCM s_surface);
 SCM unlock_surface (SCM s_surface);
 SCM load_bmp (SCM s_file);

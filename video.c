@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-10 19:12:11 foof>                         *
+ *  Time-stamp: <2001-06-10 22:52:24 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -44,7 +44,14 @@ long overlay_tag;
 long video_info_tag;
 
 
-/* constructors */
+/* surfaces */
+
+scm_sizet
+free_surface (SCM surface)
+{
+   SDL_FreeSurface ((SDL_Surface*) SCM_SMOB_DATA (surface));
+   return sizeof (SDL_Surface);
+}
 
 SCM
 make_surface (SCM s_width, SCM s_height, SCM s_flags)
@@ -154,6 +161,14 @@ create_yuv_overlay (SCM s_width, SCM s_height, SCM s_format, SCM s_display)
 
 
 /* rectangles */
+
+scm_sizet
+free_rect (SCM rect)
+{
+   free ((SDL_Rect*) SCM_SMOB_DATA (rect));
+   return sizeof (SDL_Rect);
+}
+
 SCM
 make_rect (SCM s_x, SCM s_y, SCM s_w, SCM s_h)
 {
@@ -187,6 +202,13 @@ SCM_DEFINE_INUM_SETTER ("rect:set-h!", rect_set_h, rect_tag, SDL_Rect*, h)
 
 
 /* colors */
+scm_sizet
+free_color (SCM color)
+{
+   free ((SDL_Color*) SCM_SMOB_DATA (color));
+   return sizeof (SDL_Color);
+}
+
 SCM
 make_color (SCM s_r, SCM s_g, SCM s_b)
 {
@@ -721,6 +743,10 @@ sdl_video_init (void)
    pixel_format_tag = scm_make_smob_type ("pixel-format", sizeof (SDL_PixelFormat));
    overlay_tag   = scm_make_smob_type ("overlay", sizeof (SDL_Overlay));
    video_info_tag = scm_make_smob_type ("video-info", sizeof (SDL_VideoInfo));
+
+   scm_set_smob_free (surface_tag, free_surface);
+   scm_set_smob_free (rect_tag, free_rect);
+   scm_set_smob_free (color_tag, free_color);
 
    /* rect functions */
    scm_c_define_gsubr ("make-rect",          4, 0, 0, make_rect);
