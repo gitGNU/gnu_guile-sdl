@@ -54,7 +54,7 @@ esac
 ##----------------------------------------------------------------------------
 ##: MATHLIB
 
-dnl Figure out which math library to use - taken from SDL_gfxPrimitives
+dnl Figure out which math library to use - taken from SDL_gfx
 case "$target" in
     *-*-cygwin* | *-*-mingw32*)
         MATHLIB=""
@@ -66,15 +66,15 @@ case "$target" in
         MATHLIB=""
         ;;
     *-*-aix*)
-	if test x$ac_cv_prog_gcc = xyes; then
-     	    CFLAGS="-mthreads"
+	MATHLIB="-lm"
+        if test x$ac_cv_prog_gcc = xyes; then
+            CFLAGS="-mthreads"
 	fi
         ;;
-    alpha*-*-linux*)
-    	CFLAGS="$CFLAGS -mcpu=ev4 -Wa,-mall"
-	;;
     *)
         MATHLIB="-lm"
+        AC_PATH_X
+        AC_PATH_XTRA
         ;;
 esac
 AC_SUBST(MATHLIB)
@@ -150,7 +150,7 @@ AC_CONFIG_FILES([
   sdl-mixer/Makefile
   sdl-ttf/Makefile
   sdl-gfx/Makefile
-  sdl-gfx/SDL_gfxPrimitives/Makefile
+  sdl-gfx/SDL_gfx/Makefile
   doc/Makefile
 ])
 
