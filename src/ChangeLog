@@ -5,7 +5,7 @@
 	Include $(top_srcdir)/am/snarfing.
 	(AM_CPPFLAGS): Change "=" to "+=".  Remove
 	elements found in AM_CPPFLAGS set in $(top_srcdir)/am/common.
-	(cmoddir, BUILT_DOCS, SUFFIXES, .c.x, fspec, .fspec.c,
+	(cmoddir, BUILT_DOCS, SUFFIXES, .c.x, fspec2c, .fspec.c,
 	DISTCLEANFILES, GUILE_SNARF_DOCS, GUILE_SNARF_DOCS_TEXI,
 	%.doc:%.c, .doc.texi): Delete.
 
