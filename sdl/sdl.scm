@@ -32,8 +32,6 @@
  (current-module)
  (module-public-interface (resolve-module '(sdl sdl-sup))))
 
-(define sdl-version "0.1.8")
-
 ;;; some utility functions, need to organize these into modules
 
 ;; perform a thunk with a clipping rect temporarily in place
@@ -63,8 +61,7 @@
 
 (export-syntax sdl-with-clip-rect)
 
-(export sdl-version
-        sdl-rotate-square)
+(export sdl-rotate-square)
 
 (define-public sdl-wait-event wait-event)
 
