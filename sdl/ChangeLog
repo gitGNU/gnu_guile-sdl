@@ -1,3 +1,9 @@
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdl.scm (sdl-with-clip-rect): Delete macro.
+	(call-with-clip-rect): New proc, exported.
+	(rotate-square): Rename from `sdl-rotate-square'.
+
 2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdl.scm (sdl-version): Delete var.

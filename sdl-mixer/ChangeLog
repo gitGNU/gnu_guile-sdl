@@ -1,3 +1,7 @@
+2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlmixer.c: Rename Scheme-visible objects to omit "sdl-" prefix.
+
 2003-11-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlmixer.c: Add GH_USE_MODULE for `(sdl sdl-sup)'.

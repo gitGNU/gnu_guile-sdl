@@ -1,5 +1,19 @@
 2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdl.c: Rename Scheme-visible objects to omit "sdl-" prefix.
+	* sdlcolor.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlroto.c: Likewise.
+	* sdlvideo.c: Likewise.
+	* sdlcdrom.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlsurface.c: Likewise.
+
+2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdl.c (init_flags): Rename static var from `sdl_init_flags'.
 	* sdlvideo.c (gl_enums): Rename static var from `sdl_gl_enums'.
 

@@ -1,5 +1,9 @@
 2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlgfx.c: Rename Scheme-visible objects to omit "sdl-" prefix.
+
+2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlgfx.c: Rename GH_DEFPROC funcs to omit leading "sdl_".
 	Update associated "#define FUNC_NAME".
 
