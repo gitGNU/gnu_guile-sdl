@@ -17,7 +17,9 @@ dotdocfiles	= $(WRAPPER_SOURCES:.c=.doc)
 ## vars significant to automake
 SUFFIXES	+= .x .doc
 DISTCLEANFILES	+= *.x
+if MAINTAINER_MODE
 noinst_DATA	+= .doc-index
+endif ## MAINTAINER_MODE
 
 ## Local variables:
 ## mode: makefile
