@@ -1,4 +1,4 @@
-;; mixer.scm -- SDL_mixer for Guile                -*- Guile-Scheme -*-
+;; ttf.scm -- SDL_ttf for Guile                -*- Guile-Scheme -*-
 ;;
 ;; Copyright (C) 2001 Alex Shinn <foof@debian.org>
 ;;
