@@ -11,6 +11,9 @@
     - 0-means-success return values
     - gc-safety of intermediate values
     - smob handling
+  - compiled modules methodology
+    + gcc 2.95.4 / binutils 2.12 / libc6 2.2.5
+    - gcc 3.3.3 / binutils 2.14 or later / libc6 2.3.3
 
 - 0.3 "coverage"
   - improve documentation content
