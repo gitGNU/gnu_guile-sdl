@@ -1,3 +1,15 @@
+2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdl.c (scm_init_sdl_sdl_module): Rename
+	from `sdl_init_sdl_sdl_sup_module'.
+
+	* Makefile.am (cmod_LTLIBRARIES): Remove sdl-sup.la, add sdl.la.
+	(sdl_sup_la_SOURCES): Delete.
+	(sdl_sup_la_LDFLAGS): Likewise.
+	(sdl_la_SOURCES): New automake var/directive.
+	(sdl_la_LDFLAGS): Likewise.
+	(install-data-hook): New target.
+
 2004-05-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdl.c (gsdl_smob_tags): Init w/ dummy value.

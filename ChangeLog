@@ -1,3 +1,8 @@
+2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* alive.test: No longer check `rotate-square'
+	or `call-with-clip-rect'.
+
 2004-05-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* acinclude.m4 (AM_PATH_SDL): Quote as first arg in AC_DEFUN.

@@ -1,3 +1,8 @@
+2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ref.twerp (Miscellaneous Utilities): New node/chapter.
+	* guile-sdl.texi (Top): Add "Miscellaneous Utilities" to menu.
+
 2004-05-26  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (minusIttfdocindex) [HAVE_TTF]: New var.

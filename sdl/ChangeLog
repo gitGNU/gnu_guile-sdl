@@ -1,5 +1,20 @@
 2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* misc-utils.scm: New file.
+
+	* Makefile.am: Include $(top_srcdir)/am/common.
+	(schememod_DATA): Remove sdl.scm, add misc-utils.scm.
+	(scm2doc): New var.
+	(mkdocindex): Likewise.
+	(dotdocfiles): Likewise.
+	(.scm.doc): New pattern rule.
+	(.doc-index): New target.
+	(SUFFIXES): New automake var/directive.
+	(DISTCLEANFILES): Likewise.
+	(noinst_DATA): Likewise.
+
+2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdl.scm: Delete file.
 
 2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
