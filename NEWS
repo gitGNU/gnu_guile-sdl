@@ -14,6 +14,11 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 	also redundant w/ `zoom-surface', which furthermore has the
 	benefit of a more flexible interface.
 
+  - print representation for flagstash objects now begins with "#"
+
+	This is to follow the Scheme convention for printing objects
+	that cannot be `read' back in.
+
 
 - 0.3.0 | 2004-11-25
 
