@@ -1,9 +1,5 @@
-CC=@CC@
-CFLAGS  = @CFLAGS@ -Wall
-LIBS = @LIBS@ @MATHLIB@
-
 EXTRA_DIST = SDL_gfxPrimitives.h \
-	     SDL_gfxPrimitives_font.h 
+	     SDL_gfxPrimitives_font.h
 
 noinst_LTLIBRARIES = libSDL_gfxPrimitives.la
 

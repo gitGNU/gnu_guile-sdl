@@ -1,7 +1,3 @@
-CC=@CC@
-CFLAGS  = @CFLAGS@ -Wall
-LIBS = @LIBS@ @MATHLIB@
-
 EXTRA_DIST = SDL_rotozoom.h
 
 noinst_LTLIBRARIES = librotozoom.la
