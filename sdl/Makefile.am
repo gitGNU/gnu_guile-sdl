@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS = gnu
 
 include $(top_srcdir)/am/common
 
-schememoddir = $(GUILE_SITE)/sdl
+schememoddir = $(GUILE_LIBSITE)/sdl
 schememod_DATA = misc-utils.scm
 
 EXTRA_DIST = $(schememod_DATA)
@@ -27,3 +27,11 @@ if MAINTAINER_MODE
 noinst_DATA	+= .doc-index
 endif ## MAINTAINER_MODE
 # end doc snarfing for scheme code
+
+retired = $(GUILE_SITE)/sdl
+
+install-data-hook:
+	if [ -f $(retired)/sdl.scm ] ; then \
+	  rm -f $(retired)/sdl.scm ; fi
+	if [ -d $(retired) -a "`ls $(retired)`" = "" ] ; then \
+	  rmdir $(retired) ; fi
