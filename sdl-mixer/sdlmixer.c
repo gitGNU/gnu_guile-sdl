@@ -2,7 +2,7 @@
  *  sdlmixer.c -- SDL_mixer for Guile                              *
  *                                                                 *
  *  Created:    <2001-06-10 16:45:57 foof>                         *
- *  Time-stamp: <01/11/25 12:51:01 foof>                         *
+ *  Time-stamp: <01/11/25 22:06:38 foof>                         *
  *                                                                 *
  *  This program is free software; you can redistribute it and/or  *
  * modify it under the terms of the GNU General Public License as  *
@@ -141,7 +141,7 @@ SCM_DEFINE (mix_load_music, "sdl-load-music", 1, 0, 0,
   SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
               file, SCM_ARG1, "sdl-load-music");
 
-  music = Mix_LoadMUS (SCM_CHARS (file));
+  music = Mix_LoadMUS (SCM_STRING_CHARS (file));
   SCM_RETURN_NEWSMOB (mix_music_tag, music);
 }
 #undef FUNC_NAME
@@ -157,7 +157,7 @@ SCM_DEFINE (mix_load_wave, "sdl-load-wave", 1, 0, 0,
    SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
                file, SCM_ARG1, "sdl-load-wave");
 
-   chunk = Mix_LoadWAV (SCM_CHARS (file));
+   chunk = Mix_LoadWAV (SCM_STRING_CHARS (file));
    SCM_RETURN_NEWSMOB (mix_audio_tag, chunk);
 }
 #undef FUNC_NAME
@@ -733,7 +733,7 @@ SCM_DEFINE (mix_set_music_cmd, "sdl-set-music-command", 1, 0, 0,
 {
    SCM_ASSERT ((SCM_NIMP (command) && SCM_STRINGP (command)),
                command, SCM_ARG1, "sdl-set-music-command");
-   return scm_long2num (Mix_SetMusicCMD (SCM_CHARS (command)));
+   return scm_long2num (Mix_SetMusicCMD (SCM_STRING_CHARS (command)));
 }
 #undef FUNC_NAME
 

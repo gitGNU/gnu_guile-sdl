@@ -2,7 +2,7 @@
  *  sdlttf.c -- SDL_ttf for Guile                                  *
  *                                                                 *
  *  Created:    <2001-06-11 18:03:28 foof>                         *
- *  Time-stamp: <01/11/25 12:51:12 foof>                         *
+ *  Time-stamp: <01/11/25 22:07:01 foof>                         *
  *                                                                 *
  *  This program is free software; you can redistribute it and/or  *
  * modify it under the terms of the GNU General Public License as  *
@@ -49,7 +49,7 @@ SCM_DEFINE( ttf_load_font, "sdl-load-font", 2, 0, 0,
               file, SCM_ARG1, "sdl-load-font");
   SCM_ASSERT (scm_exact_p (ptsize), ptsize, SCM_ARG2, "sdl-load-font");
 
-  font = TTF_OpenFont (SCM_CHARS (file), scm_num2long (ptsize, SCM_ARG1, "scm_num2long"));
+  font = TTF_OpenFont (SCM_STRING_CHARS (file), scm_num2long (ptsize, SCM_ARG1, "scm_num2long"));
   SCM_RETURN_NEWSMOB (ttf_font_tag, font);
 }
 #undef FUNC_NAME
@@ -200,7 +200,7 @@ SCM_DEFINE( ttf_size_text, "sdl-font:size-text", 2, 0, 0,
               s_text, SCM_ARG2, "sdl-font:size-text");
 
   font = (TTF_Font*) SCM_SMOB_DATA (s_font);
-  text = SCM_CHARS (s_text);
+  text = SCM_STRING_CHARS (s_text);
 
   TTF_SizeText (font, text, &w, &h);
   return SCM_LIST2 (scm_cons (scm_str2symbol ("w"), scm_long2num (w)),
@@ -224,7 +224,7 @@ SCM_DEFINE( ttf_size_utf8, "sdl-font:size-utf8", 2, 0, 0,
               s_text, SCM_ARG2, "sdl-font:size-utf8");
 
   font = (TTF_Font*) SCM_SMOB_DATA (s_font);
-  text = SCM_CHARS (s_text);
+  text = SCM_STRING_CHARS (s_text);
 
   TTF_SizeUTF8 (font, text, &w, &h);
   return SCM_LIST2 (scm_long2num (w), scm_long2num (h));
@@ -258,7 +258,7 @@ is the background color, or #t if the text is to be blended.")
   SCM_ASSERT_SMOB (s_fg, color_tag, SCM_ARG3, "sdl-render-text");
 
   font = (TTF_Font*) SCM_SMOB_DATA (s_font);
-  text = SCM_CHARS (s_text);
+  text = SCM_STRING_CHARS (s_text);
   fg = (SDL_Color*) SCM_SMOB_DATA (s_fg);
 
   if ((s_bg == SCM_UNDEFINED) || SCM_FALSEP (s_bg)) {
@@ -300,7 +300,7 @@ is the background color, or #t if the text is to be blended.")
   SCM_ASSERT_SMOB (s_fg, color_tag, SCM_ARG3, "sdl-render-utf8");
 
   font = (TTF_Font*) SCM_SMOB_DATA (s_font);
-  text = SCM_CHARS (s_text);
+  text = SCM_STRING_CHARS (s_text);
   fg = (SDL_Color*) SCM_SMOB_DATA (s_fg);
 
   if ((s_bg == SCM_UNDEFINED) || SCM_FALSEP (s_bg)) {

@@ -960,14 +960,14 @@ SCM_DEFINE( wm_set_caption, "sdl-set-caption", 2, 0, 0,
   SCM_ASSERT ((SCM_NIMP (s_title) && SCM_STRINGP (s_title)),
               s_title, SCM_ARG1, "sdl-set-caption");
 
-  title = SCM_CHARS (s_title);
+  title = SCM_STRING_CHARS (s_title);
 
   if (s_icon == SCM_UNDEFINED) {
     icon = title;
   } else {
     SCM_ASSERT ((SCM_NIMP (s_icon) && SCM_STRINGP (s_icon)),
                 s_icon, SCM_ARG2, "sdl-set-caption");
-    icon = SCM_CHARS (s_icon);
+    icon = SCM_STRING_CHARS (s_icon);
   }
 
   SDL_WM_SetCaption (title, icon);

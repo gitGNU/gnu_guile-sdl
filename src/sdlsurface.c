@@ -285,7 +285,7 @@ SCM_DEFINE( sdl_load_image, "sdl-load-image", 1, 0, 0,
   SCM_ASSERT ((SCM_NIMP (s_file) && SCM_STRINGP (s_file)),
               s_file, SCM_ARG1, "sdl-load-image");
 
-  image = IMG_Load (SCM_CHARS (s_file));
+  image = IMG_Load (SCM_STRING_CHARS (s_file));
   SCM_RETURN_NEWSMOB (surface_tag, image);
 }
 #undef FUNC_NAME
