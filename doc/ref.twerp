@@ -375,6 +375,7 @@ These are available in module @code{(sdl misc-utils)}.
 @twerpdoc (call-with-clip-rect)
 @twerpdoc (rotate-square)
 @twerpdoc (poll-with-push-on-timeout-proc)
+@twerpdoc (copy-surface)
 
 @node Simple Closures
 @chapter Simple Closures
