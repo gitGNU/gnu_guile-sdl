@@ -7,11 +7,13 @@ exec ${GUILE-guile} -s $0 "$@"
 
 ;;; Commentary:
 
-;; Usage: read-vpacked.scm
+;; Usage: read-vpacked.scm [width [height]]
 ;;
 ;; Read blueball.png and redball.png, and display their unpacked elements.
 ;; "Packing" means vertically-abutted images of dimensions NxN through Nx1.
 ;; SPC pauses, q or ESC quits.
+;;
+;; Optional args specify the window geometry (default: 800 x 600).
 
 ;;; Code:
 
@@ -53,9 +55,16 @@ exec ${GUILE-guile} -s $0 "$@"
 (define *red-rvect* (unpack *red-image*))
 
 ;; a place to show things
-(define *screen* (or (SDL:set-video-mode 800 600
-                      0 '(SDL_HWSURFACE SDL_DOUBLEBUF))
-                     (error "could not set *screen*")))
+(define *screen* (let ((args (cdr (command-line))))
+                   (or (SDL:set-video-mode
+                        (max 100 (or (and (< 0 (length args))
+                                          (string->number (car args)))
+                                     800))
+                        (max 100 (or (and (< 1 (length args))
+                                          (string->number (cadr args)))
+                                     600))
+                        0 '(SDL_HWSURFACE SDL_DOUBLEBUF))
+                       (error "could not set *screen*"))))
 
 ;; handler
 (let ((pause #f))
