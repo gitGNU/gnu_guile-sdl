@@ -96,11 +96,18 @@
 ;; Return the new surface.
 ;;
 (define (copy-surface surface)
-  (let ((new (SDL:convert-surface
-              (SDL:make-surface (SDL:surface:w surface)
-                                (SDL:surface:h surface))
-              (SDL:surface-get-format surface))))
+  (let* ((src-flags (map string->symbol (SDL:surface:flags surface)))
+         (dnup (and (memq 'SDL_SRCALPHA src-flags)
+                    (lambda (a b)
+                      (SDL:set-alpha! surface a b))))
+         (new (SDL:convert-surface
+               (SDL:make-surface (SDL:surface:w surface)
+                                 (SDL:surface:h surface)
+                                 src-flags)
+               (SDL:surface-get-format surface))))
+    (and dnup (dnup 'no 0))
     (SDL:blit-surface surface #f new)
+    (and dnup (dnup 'SDL_SRCALPHA 255))
     new))
 
 ;; Arrange to ignore all event types except those in @var{ls} (zero or
