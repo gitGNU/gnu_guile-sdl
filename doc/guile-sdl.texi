@@ -11,7 +11,7 @@
 
 @include version.texi
 
-@dircategory Guile
+@dircategory Guile modules
 @direntry
 * Guile-SDL: (guile-sdl).     SDL for Guile
 @end direntry
