@@ -267,7 +267,7 @@ GH_DEFPROC (video_driver_name, "video-driver-name", 0, 0, 0,
 {
   char name[MAX_DRIVER_LEN];
   SDL_VideoDriverName (name, MAX_DRIVER_LEN);
-  return gh_str02scm (name);
+  RETURN_0STR (name);
 }
 #undef FUNC_NAME
 

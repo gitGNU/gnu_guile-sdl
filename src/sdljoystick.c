@@ -81,7 +81,7 @@ GH_DEFPROC (joystick_name, "joystick-name", 0, 1, 0,
     index = gh_scm2long (s_index);
   }
 
-  return gh_str02scm (SDL_JoystickName (index));
+  RETURN_0STR (SDL_JoystickName (index));
 }
 #undef FUNC_NAME
 

@@ -155,7 +155,7 @@ GH_DEFPROC (get_error, "get-error", 0, 0, 0,
 #define FUNC_NAME s_get_error
 {
   char *error = SDL_GetError ();
-  return gh_str02scm (error);
+  RETURN_0STR (error);
 }
 #undef FUNC_NAME
 

@@ -86,7 +86,7 @@ GH_DEFPROC (cd_name, "cd-name", 0, 1, 0,
   }
 
   name = SDL_CDName (drive);
-  return gh_str02scm (name);
+  RETURN_0STR (name);
 }
 #undef FUNC_NAME
 
