@@ -285,12 +285,14 @@ GH_DEFPROC (list_modes, "list-modes", 0, 2, 0,
   SDL_Rect **modes;
   SCM result;
 
-  if (BOUNDP (SCM_UNDEFINED)) {
+  UNBOUND_MEANS_FALSE (s_pixel_format);
+  if (SCM_NFALSEP (s_pixel_format)) {
     ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
     format = UNPACK_PIXEL_FORMAT (s_pixel_format);
   }
 
-  if (BOUNDP (s_flags)) {
+  UNBOUND_MEANS_FALSE (s_flags);
+  if (SCM_NFALSEP (s_flags)) {
     ASSERT_EXACT (s_flags, ARGH2);
     flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH2);
   }
