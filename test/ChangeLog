@@ -1,3 +1,8 @@
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* roto.scm: Use module (sdl gfx).
+	Use `GFX:roto-zoom-surface'.
+
 2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* roto.scm: Keep the rotozoomed image centered.

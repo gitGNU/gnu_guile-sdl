@@ -1,3 +1,11 @@
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ref.twerp (Video): Move sections "Rotation / Zooming"
+	and "Graphics Primitives" to new chapter.
+	(libSDL_gfx): New node/chapter.
+
+	* guile-sdl.texi (Top): Add "libSDL_gfx" to menu.
+
 2005-01-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* ref.twerp (Video): Add @twerpdoc for

@@ -1,5 +1,9 @@
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* configure.in (AC_CONFIG_FILES): Remove src/SDL_rotozoom/Makefile.
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* configure.in: Update MATHLIB resolution fragment from SDL_gfx.
 	(AC_CONFIG_FILES): Add sdl-gfx/SDL_gfx/Makefile.
 	Remove sdl-gfx/SDL_gfxPrimitives/Makefile.
