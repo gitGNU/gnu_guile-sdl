@@ -245,7 +245,7 @@ GH_DEFPROC (get_video_info, "get-video-info", 0, 0, 0,
 
   SCM_NEWSMOB (format, pixel_format_tag, info->vfmt);
 
-  return gh_list
+  RETURN_LIST11
     (gh_cons (SYM (hw_available), gh_bool2scm (info->hw_available)),
      gh_cons (SYM (ww_available), gh_bool2scm (info->wm_available)),
      gh_cons (SYM (blit_hw),      gh_bool2scm (info->blit_hw)),
@@ -256,8 +256,7 @@ GH_DEFPROC (get_video_info, "get-video-info", 0, 0, 0,
      gh_cons (SYM (blit_sw_A),    gh_bool2scm (info->blit_sw_A)),
      gh_cons (SYM (blit_fill),    gh_ulong2scm (info->blit_fill)),
      gh_cons (SYM (video_mem),    gh_ulong2scm (info->video_mem)),
-     gh_cons (SYM (vfmt),         format),
-     SCM_UNDEFINED);
+     gh_cons (SYM (vfmt),         format));
 }
 #undef FUNC_NAME
 
@@ -571,9 +570,9 @@ GH_DEFPROC (get_gamma_ramp, "get-gamma-ramp", 0, 0, 0,
   if (SDL_GetGammaRamp (rt, gt, bt) == -1)
     RETURN_FALSE;
 
-  return SCM_LIST3 (gh_cons (SYM (redtable),   GAMMAVEC (rt)),
-                    gh_cons (SYM (greentable), GAMMAVEC (gt)),
-                    gh_cons (SYM (bluetable),  GAMMAVEC (bt)));
+  RETURN_LIST3 (gh_cons (SYM (redtable),   GAMMAVEC (rt)),
+                gh_cons (SYM (greentable), GAMMAVEC (gt)),
+                gh_cons (SYM (bluetable),  GAMMAVEC (bt)));
 }
 #undef FUNC_NAME
 
@@ -699,9 +698,9 @@ GH_DEFPROC (get_rgb, "get-rgb", 2, 0, 0,
               UNPACK_PIXEL_FORMAT (s_pixel_format),
               &r, &g, &b);
 
-  return SCM_LIST3 (gh_cons (SYM (r), gh_long2scm (r)),
-                    gh_cons (SYM (g), gh_long2scm (g)),
-                    gh_cons (SYM (b), gh_long2scm (b)));
+  RETURN_LIST3 (gh_cons (SYM (r), gh_long2scm (r)),
+                gh_cons (SYM (g), gh_long2scm (g)),
+                gh_cons (SYM (b), gh_long2scm (b)));
 }
 #undef FUNC_NAME
 
@@ -723,10 +722,10 @@ GH_DEFPROC (get_rgba, "get-rgba", 2, 0, 0,
                UNPACK_PIXEL_FORMAT (s_pixel_format),
                &r, &g, &b, &a);
 
-  return SCM_LIST4 (gh_cons (SYM (r), gh_long2scm (r)),
-                    gh_cons (SYM (g), gh_long2scm (g)),
-                    gh_cons (SYM (b), gh_long2scm (b)),
-                    gh_cons (SYM (a), gh_long2scm (a)));
+  RETURN_LIST4 (gh_cons (SYM (r), gh_long2scm (r)),
+                gh_cons (SYM (g), gh_long2scm (g)),
+                gh_cons (SYM (b), gh_long2scm (b)),
+                gh_cons (SYM (a), gh_long2scm (a)));
 }
 #undef FUNC_NAME
 
@@ -971,8 +970,8 @@ GH_DEFPROC (wm_get_caption, "get-caption", 0, 0, 0,
   char *title, *icon;
 
   SDL_WM_GetCaption (&title, &icon);
-  return SCM_LIST2 (gh_cons (SYM (title), gh_str02scm (title)),
-                    gh_cons (SYM (icon),  gh_str02scm (icon)));
+  RETURN_LIST2 (gh_cons (SYM (title), gh_str02scm (title)),
+                gh_cons (SYM (icon),  gh_str02scm (icon)));
 }
 #undef FUNC_NAME
 
