@@ -72,6 +72,8 @@ procedures are provided in the modules @code{(sdl misc-utils)} and
 * Miscellaneous Utilities::     Everything Else
 * Simple Closures::             Experimental Abstractions
 
+* Excuses::                     Undone Wrapping
+
 * Index::
 @end menu
 
@@ -308,6 +310,11 @@ incompatible with SDL 1.2?
 @c ---------------------------------------------------------------------------
 
 @include ref.texi
+
+@c ---------------------------------------------------------------------------
+@c ---------------------------------------------------------------------------
+
+@include excuse.texi
 
 @c ---------------------------------------------------------------------------
 @c ---------------------------------------------------------------------------
