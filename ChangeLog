@@ -1,3 +1,11 @@
+2003-12-03  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* aclocal-suffix (_LT_AC_TAGCONFIG): Delete macro def.
+	(AC_LIBTOOL_TAGS): New macro def, backport from libtool 1.6.
+	Thanks to Paolo Bonzini.
+
+	* configure.in (AC_LIBTOOL_TAGS): Add macro call w/ empty arg.
+
 2003-11-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* aclocal-suffix: New file.
