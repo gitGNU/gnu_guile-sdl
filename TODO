@@ -1,22 +1,29 @@
-* guile-sdl TODO List    -*- Outline -*-
-* ======================================
+- 0.2
+  - no longer install in $libdir
+  - install under $guilesitelibdir
+  - documentation
+    - methodology
+    - describe limits/restrictions
+    - include TODO
 
-* General
+- 0.3
+  - improve documentation content
+  - naming
+    - review
+    - fix
+  - library coverage
+    - methodology
+    - report
 
-** Port to Windows/Mac OSX/BeOS
-** Look into a unified guile-gtk enum/flag method
-** Switch to an automated wrapper generater
-** Create debian package
+- eventually
+  - port to Mac OSX/BeOS
+  - switch to an automated wrapper generater
+  - create debian package
+  - provide more interesting examples
 
-* Wrappers
-
-** Make all names/behaviour consistent
-** Provide better defaults
-** Consider low-level audio wrappers
-** Consider timer wrappers
-
-* Docs
-
-** Add snarfer docs for all functions
-** Clean up and extend manual
-** Provide more interesting examples
+__________________________________________________
+	Local Variables:
+	mode: outline
+	outline-regexp: "\\([ ][ ]\\)*- "
+	fill-column: 72
+	End:
