@@ -1,5 +1,10 @@
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlgfx.c (modname): New static var.
+	Use it in `GH_MODULE_LINK_FUNC' form.
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlgfx.c: Include "SDL_rotozoom.h".
 	(roto_zoom_surface): New GH_DEFPROC.
 	(zoom_surface): Likewise.
