@@ -1,5 +1,19 @@
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdl.c: Use ARGH* instead of SCM_ARG*.
+	* sdlcdrom.c: Likewise.
+	* sdlcolor.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlroto.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* Makefile.am (.c.x, .cspec.c): Use guile-tools
 	instead of pre-inst-guile-tools.
 
