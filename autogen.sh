@@ -32,6 +32,7 @@ fi
 # Invoke the auto* tools.
 
 aclocal -I `guile-config info datadir`/aclocal
+( echo ; cat aclocal-suffix ) >> aclocal.m4
 autoheader
 autoconf
 automake --add-missing
