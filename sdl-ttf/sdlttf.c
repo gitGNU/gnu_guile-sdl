@@ -32,7 +32,7 @@ GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
 static SCM sdl_ttf_flags;
 
-GH_DEFPROC (sdl_get_ttf_flags, "flagstash:ttf", 0, 0, 0, (void),
+GH_DEFPROC (get_ttf_flags, "flagstash:ttf", 0, 0, 0, (void),
             "Return the flagstash object for ttf flags.\n"
             "You can pass this object to proc @code{flagstash-flags}\n"
             "to get a list of its flags.")
