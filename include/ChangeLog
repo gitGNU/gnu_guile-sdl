@@ -1,3 +1,7 @@
+2004-03-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* retval.h (THROW_NOT_YET_IMPLEMENTED): New macro.
+
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* retval.h (RETURN_LIST0, _rv_PUSH, RETURN_LIST2, RETURN_LIST3,
