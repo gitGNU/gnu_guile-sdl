@@ -17,6 +17,7 @@ Here are some cvs tags and their meanings:
   ok-5   -- like ok-4, without "sdl-" prefix (examples all use #:renamer)
   ok-6   -- like ok-5, using GUILE_LIBSITE_DIR configure.in macro
   ok-7   -- like ok-6, with doc coverage verified using doc/cov
+  ok-8   -- like ok-7, plus "make dist"
 
 
 Happy hacking!
