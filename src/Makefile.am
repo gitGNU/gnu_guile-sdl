@@ -12,23 +12,6 @@ LIBS    = @LIBS@
 
 SUBDIRS = SDL_rotozoom #SDL_gfxPrimitives 
 
-EXTRA_DIST = sdl.h \
-             sdlevent.h \
-             sdlvideo.h \
-             sdlenums.h \
-             sdljoystick.h \
-             sdlcdrom.h \
-             sdlroto.h \
-             #sdlgfx.h \
-             #sdlrect.h \
-             #sdltimer.h \
-             #sdlkeyboard.h \
-             #sdlimage.h \
-             #sdlmouse.h \
-	     #sdlpalette.h \
-             #sdlsurface.h
-
-
 lib_LTLIBRARIES = libguileSDL.la
 
 INCLUDES = -I../include/ -ISDL_gfxPrimitives/ -ISDL_rotozoom/
