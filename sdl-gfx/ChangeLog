@@ -1,3 +1,7 @@
+2005-02-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlgfx.c (print_fpsmgr): Use `scm_intprint'.
+
 2005-01-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlgfx.c (draw_aa_trigon): Use `gh_scm2ulong' for color.
