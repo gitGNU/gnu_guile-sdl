@@ -421,10 +421,10 @@ GH_DEFPROC (update_rect, "update-rect", 2, 3, 0,
       ASSERT_EXACT (y, ARGH3);
       ASSERT_EXACT (w, ARGH4);
       ASSERT_EXACT (h, ARGH5);
-      cx = (Sint32) gh_scm2long (x);
-      cy = (Sint32) gh_scm2long (y);
-      cw = (Sint32) gh_scm2long (w);
-      ch = (Sint32) gh_scm2long (h);
+      cx = gh_scm2long (x);
+      cy = gh_scm2long (y);
+      cw = gh_scm2long (w);
+      ch = gh_scm2long (h);
     }
 
   SDL_UpdateRect (UNPACK_SURFACE (surface), cx, cy, cw, ch);
