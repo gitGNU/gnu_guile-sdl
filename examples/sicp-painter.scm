@@ -5,7 +5,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 ;; SICP Picture Language Example
 ;;
 ;; Created:    <2001-06-24 16:36:53 foof>
-;; Time-stamp: <2003-11-20 00:21:38 ttn>
+;; Time-stamp: <2005-01-05 14:50:50 ttn>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
@@ -48,7 +48,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
     result))
 
 (define flip-vert SDL:vertical-flip-surface)
-(define flip-horiz SDL:vertical-flip-surface)
+(define flip-horiz SDL:horizontal-flip-surface)
 
 
 ;; Higher order functions
