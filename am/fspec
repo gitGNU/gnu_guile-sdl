@@ -1,4 +1,15 @@
+## am/fspec --- mining flags out of headers to generate glue
+
 fspec2c = guile-tools fspec2c
 
 .fspec.c:
 	$(fspec2c) -o $@ $<
+
+## var significant to automake
+SUFFIXES += .fspec
+
+## Local variables:
+## mode: makefile
+## End:
+
+## am/fspec ends here
