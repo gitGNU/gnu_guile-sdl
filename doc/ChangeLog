@@ -1,5 +1,12 @@
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* cov: Add check for env var `srcdir'.
+	Refer to files relative to ${srcdir}.
+
+	* Makefile.am (TESTS_ENVIRONMENT): New directive.
+
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* Makefile.am (TESTS): New directive.
 
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
