@@ -36,7 +36,6 @@ extern void gsdl_init_rect (void);
 extern void gsdl_init_color (void);
 extern void gsdl_init_video (void);
 extern void gsdl_init_surface (void);
-extern void gsdl_init_rotozoom (void);
 extern void gsdl_init_event (void);
 extern void gsdl_init_joystick (void);
 extern void gsdl_init_cdrom (void);
@@ -182,7 +181,6 @@ init_module (void)
   gsdl_init_color ();
   gsdl_init_video ();
   gsdl_init_surface ();
-  gsdl_init_rotozoom ();
   gsdl_init_event ();
   gsdl_init_joystick ();
   gsdl_init_cdrom ();
