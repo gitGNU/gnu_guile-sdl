@@ -9,7 +9,7 @@ extern long sdl_cdrom_tag;
 void sdl_init_cdrom ();
 
 /*---------------------SMOB functions--------------------------*/ 
-scm_sizet free_cd (SCM cd_smob);
+size_t free_cd (SCM cd_smob);
 int print_cd (SCM cd_smob, SCM port, scm_print_state *pstate);
 
 /*--------------------Scheme functions-------------------------*/ 

@@ -30,7 +30,7 @@
 /* tags for SDL smobs */
 extern long rect_tag;
 
-scm_sizet free_rect (SCM rect);
+size_t free_rect (SCM rect);
 int print_rect (SCM rect_smob, SCM port, scm_print_state *pstate);
 
 /* functions */

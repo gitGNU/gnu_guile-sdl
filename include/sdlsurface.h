@@ -34,7 +34,7 @@ extern long surface_tag;
 #define SMOB_SURFACEP(x) (SCM_NIMP (x)\
 			 && (long) SCM_CAR (x) == surface_tag)
 
-scm_sizet free_surface (SCM surface);
+size_t free_surface (SCM surface);
 int print_surface (SCM surface_smob, SCM port, scm_print_state *pstate);
 
 /* constructors */

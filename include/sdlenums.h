@@ -2,7 +2,7 @@
  *  sdlenums.h -- Enum helper functions                            *
  *                                                                 *
  *  Created:    <2001-06-03 20:07:15 foof>                         *
- *  Time-stamp: <2001-07-04 02:08:56 foof>                         *
+ *  Time-stamp: <01/11/25 12:49:23 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -42,7 +42,7 @@ typedef struct {
   long min, max;
 } enum_struct;
 
-scm_sizet free_enum (SCM s_enum);
+size_t free_enum (SCM s_enum);
 
 /* initialize enum smob and scheme functions */
 void sdl_init_enums (void);

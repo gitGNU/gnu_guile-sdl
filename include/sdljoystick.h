@@ -4,7 +4,7 @@
 extern long sdl_joystick_tag;
 
 /*---------------------SMOB functions--------------------------*/ 
-scm_sizet free_joy (SCM joy_smob);
+size_t free_joy (SCM joy_smob);
 int print_joy (SCM joy_smob, SCM port, scm_print_state *pstate);
 
 /*--------------------Scheme functions-------------------------*/ 

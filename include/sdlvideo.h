@@ -41,9 +41,9 @@ extern SCM sdl_palette_flags;
 extern SCM sdl_alpha_enums;
 extern SCM sdl_gl_enums;
 
-scm_sizet free_cursor (SCM s_cursor);
-scm_sizet free_yuv_overlay (SCM s_overlay);
-scm_sizet free_pixel_format (SCM s_pixel_format);
+size_t free_cursor (SCM s_cursor);
+size_t free_yuv_overlay (SCM s_overlay);
+size_t free_pixel_format (SCM s_pixel_format);
 
 /* constructors */
 SCM create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,

@@ -32,7 +32,7 @@ extern long color_tag;
 
 /* smob functions */
 
-scm_sizet free_color (SCM s_color);
+size_t free_color (SCM s_color);
 int print_color (SCM s_color, SCM port, scm_print_state *pstate);
 
 /* functions */

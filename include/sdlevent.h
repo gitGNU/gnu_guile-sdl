@@ -2,7 +2,7 @@
  *  event.h -- SDL event handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:43:48 foof>                         *
- *  Time-stamp: <2001-06-30 01:19:21 foof>                         *
+ *  Time-stamp: <01/11/25 12:50:47 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -40,7 +40,7 @@ extern long keysym_tag;
 /* constructors */
 SCM make_event (SCM s_event_type);
 /* SCM make_keysym (SCM s_sym, SCM s_mod); */
-scm_sizet free_event (SCM event);
+size_t free_event (SCM event);
 
 /* event getters */
 SCM event_type (SCM s_event);
