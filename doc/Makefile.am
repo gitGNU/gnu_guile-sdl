@@ -21,6 +21,9 @@ if HAVE_MIXER
 minusImixerdocindex = -I ../sdl-mixer/.doc-index
 endif
 
+ref.texi: $(top_srcdir)/*/*.c
+ef-ref.texi: $(top_srcdir)/*/*.c
+
 .twerp.texi:
 	guile-tools twerp2texi \
 	  -I ../sdl/.doc-index \
