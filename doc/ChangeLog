@@ -1,5 +1,9 @@
 2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (.twerp.texi): Also consult doc index for scheme code.
+
+2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* ref.twerp (Miscellaneous Utilities): New node/chapter.
 	* guile-sdl.texi (Top): Add "Miscellaneous Utilities" to menu.
 
