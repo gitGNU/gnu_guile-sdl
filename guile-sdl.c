@@ -2,7 +2,7 @@
  *  guile-sdl.c -- SDL Video Wrappers for Guile                    *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-01 21:38:41 foof>                         *
+ *  Time-stamp: <2001-06-04 00:09:35 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -28,10 +28,15 @@
 /* sdl headers */
 #include <SDL/SDL.h>
 /* wrapper headers */
+#include "scm.h"
+#include "guile-sdl.h"
 #include "video.h"
+#include "image.h"
+#include "gfx.h"
+#include "event.h"
 
 /* Initialization */
-static SCM
+SCM
 sdl_init (SCM s_subsystems)
 {
    int subsystems;
@@ -42,7 +47,7 @@ sdl_init (SCM s_subsystems)
    return SCM_MAKINUM (SDL_Init (subsystems));
 }
 
-static SCM
+SCM
 sdl_init_subsystem (SCM s_subsystems)
 {
    int subsystems;
@@ -54,14 +59,14 @@ sdl_init_subsystem (SCM s_subsystems)
 }
 
 /* Termination */
-static SCM
+SCM
 sdl_quit (void)
 {
    SDL_Quit();
    return SCM_UNSPECIFIED;
 }
 
-static SCM
+SCM
 sdl_quit_subsystem (SCM s_subsystems)
 {
    int subsystems;
@@ -74,7 +79,7 @@ sdl_quit_subsystem (SCM s_subsystems)
 }
 
 /* Information */
-static SCM
+SCM
 sdl_was_init (SCM s_subsystems)
 {
    int subsystems;
@@ -91,32 +96,39 @@ guile_sdl_init (void)
    /* general initializations */
    scm_make_gsubr ("init",           1, 0, 0, sdl_init);
    scm_make_gsubr ("init-subsystem", 1, 0, 0, sdl_init_subsystem);
-   scm_make_gsubr ("quit-sdl",       0, 0, 0, sdl_quit);
+   scm_make_gsubr ("quit-all",       0, 0, 0, sdl_quit);
    scm_make_gsubr ("quit-subsystem", 1, 0, 0, sdl_quit_subsystem);
    scm_make_gsubr ("was-init",       1, 0, 0, sdl_was_init);
 
    /* constants */
-   scm_c_define ("init-timer",       SCM_MAKINUM (SDL_INIT_TIMER));
-   scm_c_define ("init-audio",       SCM_MAKINUM (SDL_INIT_AUDIO));
-   scm_c_define ("init-video",       SCM_MAKINUM (SDL_INIT_VIDEO));
-   scm_c_define ("init-cdrom",       SCM_MAKINUM (SDL_INIT_CDROM));
-   scm_c_define ("init-joystick",    SCM_MAKINUM (SDL_INIT_JOYSTICK));
-   scm_c_define ("init-everything",  SCM_MAKINUM (SDL_INIT_EVERYTHING));
-   scm_c_define ("init-noparachute", SCM_MAKINUM (SDL_INIT_NOPARACHUTE));
-   scm_c_define ("init-eventthread", SCM_MAKINUM (SDL_INIT_EVENTTHREAD));
+   scm_c_define ("init/timer",       SCM_MAKINUM (SDL_INIT_TIMER));
+   scm_c_define ("init/audio",       SCM_MAKINUM (SDL_INIT_AUDIO));
+   scm_c_define ("init/video",       SCM_MAKINUM (SDL_INIT_VIDEO));
+   scm_c_define ("init/cdrom",       SCM_MAKINUM (SDL_INIT_CDROM));
+   scm_c_define ("init/joystick",    SCM_MAKINUM (SDL_INIT_JOYSTICK));
+   scm_c_define ("init/everything",  SCM_MAKINUM (SDL_INIT_EVERYTHING));
+   scm_c_define ("init/noparachute", SCM_MAKINUM (SDL_INIT_NOPARACHUTE));
+   scm_c_define ("init/eventthread", SCM_MAKINUM (SDL_INIT_EVENTTHREAD));
 
    /* exported symbols */
-   scm_c_export ("init", "quit-sdl", "init-subsystem",
+   scm_c_export ("init", "quit-all", "init-subsystem",
                  "quit-subsystem", "was-init",
                  /* constants */
-                 "init-timer", "init-audio", "init-video",
-                 "init-cdrom", "init-joystick", "init-everything",
-                 "init-noparachute", "init-eventthread",
+                 "init/timer", "init/audio", "init/video",
+                 "init/cdrom", "init/joystick", "init/everything",
+                 "init/noparachute", "init/eventthread",
                  NULL);
 
    /* video initializations */
    sdl_video_init();
 
-   /* input initializations */
+   /* image initializations */
+   sdl_image_init();
+
+   /* extra gfx initializations */
+   sdl_gfx_init();
+
+   /* event initializations */
+   sdl_event_init();
 }
 
