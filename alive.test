@@ -1,0 +1,80 @@
+#!/bin/sh
+
+if test x"$DEBUG" = x ; then set -e ; else set -ex ; fi
+
+dirs_n_libs="
+src sdl-sup
+"
+set $dirs_n_libs
+
+while [ -n "$1" ] ; do
+    dir=$1 ; lib=$2 ; shift ; shift
+    test -f $dir/$lib.la
+    test -d $dir/.libs
+    test -f $dir/.libs/$lib.la
+    test -f $dir/.libs/$lib.so
+done
+
+test -n "$GUILE_MERGED_MODULE_CATALOG"
+test -f "$GUILE_MERGED_MODULE_CATALOG"
+
+if [ x"$DEBUG" = x ] ; then debugopt= ; else debugopt='--debug' ; fi
+
+exec guile $debugopt -s $0
+!#
+;;; scheme code starts here
+
+(define debug? (getenv "DEBUG"))
+(define (d>> s . args)
+  (and debug? (apply format (current-error-port) (string-append s "\n") args)))
+
+(d>> "loading (sdl sdl)")
+(use-modules (sdl sdl))
+
+(d>> "are some scheme stuff defined?")
+(and sdl-version (d>> "sdl-version => ~A" sdl-version))
+(and sdl-with-clip-rect (d>> "sdl-with-clip-rect => ~A" sdl-with-clip-rect))
+(and sdl-rotate-square (d>> "sdl-rotate-square => ~A" sdl-rotate-square))
+
+(d>> "is flags->number (C function exposed to Scheme) defined?")
+flags->number
+
+(d>> "all the flag stashes")
+(let ((all (list
+            (flagstash:init)
+            (flagstash:overlay)
+            (flagstash:video)
+            (flagstash:palette)
+            (flagstash:event-mod))))
+  (d>> "all: ~S" all)
+  (or (= 5 (length all))
+      (error "unexpected number of flag stashes"))
+  (for-each (lambda (stash)
+              (d>> "~A: ~S" stash (flagstash-flags stash)))
+            all))
+
+(d>> "find the keyboard mod flags")
+(define *kmod* (flagstash:event-mod))
+(or *kmod* (error "could not find sdl-mod-flags"))
+
+(d>> "try flags->number")
+(let ((n (flags->number *kmod* '(KMOD_LMETA KMOD_LSHIFT))))
+  (d>> "~A\n" n)
+  (or (number? n) (error "flags->number did not yield a number!"))
+  (or (string=? "2001" (number->string n 8))
+      (error "flags->number gave a number but it was wrong!")))
+
+(let ((count 5))
+  (d>> "doing ~A gc" count)
+  (let loop ((count count))
+    (or (> 0 count)
+        (begin
+          (d>> "#~A (gc) => ~A\n" count (gc))
+          (loop (1- count))))))
+
+(d>> "loading (sdl ttf)")
+(use-modules (sdl ttf))
+
+exit 0
+
+;;; alive.test ends here
