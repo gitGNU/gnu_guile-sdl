@@ -2,7 +2,7 @@
  *  guile-sdl.c -- SDL Video Wrappers for Guile                    *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-10 22:27:38 foof>                         *
+ *  Time-stamp: <2001-06-11 19:17:20 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -35,6 +35,7 @@
 #include "gfx.h"
 #include "event.h"
 #include "mixer.h"
+#include "ttf.h"
 #include "wm.h"
 
 /* Initialization */
@@ -166,5 +167,8 @@ guile_sdl_init (void)
 
    /* mixer initializations */
    sdl_mixer_init();
+
+   /* ttf initializations */
+   sdl_ttf_init();
 }
 
