@@ -7,6 +7,9 @@
     + include TODO
 
 - 0.3
+  - error handling cleanup
+    - document policy
+    - cases: NULL, -1, ...
   - improve documentation content
   - naming
     - review
