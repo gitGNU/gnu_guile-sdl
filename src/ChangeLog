@@ -1,6 +1,10 @@
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlroto.c: Delete file.
+
+	* sdl.c (gsdl_init_rotozoom): Delete extern func decl.
+	(init_module): No longer call `gsdl_init_rotozoom'.
+
 	* Makefile.am (AM_CPPFLAGS): Delete var.
 	(SUBDIRS): Likewise.
 	(WRAPPER_SOURCES): Remove sdlroto.c.
