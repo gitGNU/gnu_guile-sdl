@@ -77,8 +77,14 @@ print_surface (SCM surface_smob, SCM port, scm_print_state *pstate)
 
 /* constructors */
 
-SCM
-sdl_make_surface (SCM s_width, SCM s_height, SCM s_flags)
+SCM_DEFINE( sdl_make_surface, "sdl-make-surface", 2, 1, 0,
+            (SCM s_width,
+             SCM s_height,
+             SCM s_flags),
+"Create an empty sdl-surface with the same color depth and masks "
+"as the current screen.  Takes 2 arguments, width and height, plus "
+"an optional third argument of video flags.")
+#define FUNC_NAME s_sdl_make_surface
 {
   /* surface to make */
   SDL_Surface *surface;
@@ -121,11 +127,21 @@ sdl_make_surface (SCM s_width, SCM s_height, SCM s_flags)
   /* return a newly allocated smob */
   SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
+#undef FUNC_NAME
 
-SCM
-sdl_create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
-                        SCM s_depth, SCM s_rmask, SCM s_gmask,
-                        SCM s_bmask, SCM s_amask)
+
+SCM_DEFINE( sdl_create_rgb_surface, "sdl-create-rgb-surface", 8, 0, 0,
+            (SCM s_flags,
+             SCM s_width,
+             SCM s_height,
+             SCM s_depth,
+             SCM s_rmask,
+             SCM s_gmask,
+             SCM s_bmask,
+             SCM s_amask),
+"Create an empty sdl-surface.  Takes 8 arguments, directly analagous "
+"to SDL_CreateRGBSurface.")
+#define FUNC_NAME s_sdl_create_rgb_surface
 {
   /* surface to make */
   SDL_Surface *surface;
@@ -161,6 +177,8 @@ sdl_create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
   /* return a newly allocated smob */
   SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
+#undef FUNC_NAME
+
 
 /* SCM */
 /* create_rgb_surface_from (SCM s_pixels, SCM s_width, SCM s_height, */
@@ -195,13 +213,20 @@ surface_get_format (SCM s_surface)
 
 /* utilities */
 
-SCM sdl_surface_p (SCM s_surface)
+SCM_DEFINE( sdl_surface_p, "sdl-surface?", 1, 0, 0,
+            (SCM s_surface),
+"Returns true iff argument is a surface.")
+#define FUNC_NAME s_sdl_surface_p
 {
   return SMOB_SURFACEP (s_surface) ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-SCM
-sdl_lock_surface (SCM s_surface)
+
+SCM_DEFINE( sdl_lock_surface, "sdl-lock-surface", 1, 0, 0,
+            (SCM s_surface),
+"Lock a surface for direct access.")
+#define FUNC_NAME s_sdl_lock_surface
 {
   SDL_Surface *surface;
 
@@ -210,9 +235,13 @@ sdl_lock_surface (SCM s_surface)
 
   SCM_RETURN_TRUE_IF_0 (SDL_LockSurface (surface));
 }
+#undef FUNC_NAME
 
-SCM
-sdl_unlock_surface (SCM s_surface)
+
+SCM_DEFINE( sdl_unlock_surface, "sdl-unlock-surface", 1, 0, 0,
+            (SCM s_surface),
+"Unlocks a previously locked surface.")
+#define FUNC_NAME s_sdl_unlock_surface
 {
   SDL_Surface *surface;
 
@@ -223,9 +252,13 @@ sdl_unlock_surface (SCM s_surface)
 
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-sdl_load_bmp (SCM s_file)
+
+SCM_DEFINE( sdl_load_bmp, "sdl-load-bmp", 1, 0, 0,
+            (SCM s_file),
+"Loads a simple bitmap from a file.")
+#define FUNC_NAME s_sdl_load_bmp
 {
   SDL_Surface *surface;
   const char *file;
@@ -237,9 +270,31 @@ sdl_load_bmp (SCM s_file)
 
   SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
+#undef FUNC_NAME
 
-SCM
-sdl_save_bmp (SCM s_surface, SCM s_file)
+
+/* Load an image in one of many formats */
+SCM_DEFINE( sdl_load_image, "sdl-load-image", 1, 0, 0,
+            (SCM s_file),
+"Loads an image from a file.")
+#define FUNC_NAME s_sdl_load_bmp
+{
+  SDL_Surface *image;
+
+  SCM_ASSERT ((SCM_NIMP (s_file) && SCM_STRINGP (s_file)),
+              s_file, SCM_ARG1, "sdl-load-image");
+
+  image = IMG_Load (SCM_CHARS (s_file));
+  SCM_RETURN_NEWSMOB (surface_tag, image);
+}
+#undef FUNC_NAME
+
+
+SCM_DEFINE( sdl_save_bmp, "sdl-save-bmp", 2, 0, 0,
+            (SCM s_surface,
+             SCM s_file),
+"Save an SDL_Surface as a Windows BMP file.")
+#define FUNC_NAME s_sdl_save_bmp
 {
   SDL_Surface *surface;
   const char *file;
@@ -252,9 +307,15 @@ sdl_save_bmp (SCM s_surface, SCM s_file)
 
   SCM_RETURN_TRUE_IF_0 (SDL_SaveBMP (surface, file));
 }
+#undef FUNC_NAME
 
-SCM
-sdl_set_color_key (SCM s_surface, SCM s_flag, SCM s_key)
+
+SCM_DEFINE( sdl_set_color_key, "sdl-set-color-key!", 3, 0, 0,
+            (SCM s_surface,
+             SCM s_flag,
+             SCM s_key),
+"Sets the color key in a blittable surface and RLE acceleration.")
+#define FUNC_NAME s_sdl_set_color_key
 {
   SDL_Surface *surface;
   Uint32 flag, key;
@@ -269,9 +330,14 @@ sdl_set_color_key (SCM s_surface, SCM s_flag, SCM s_key)
 
   SCM_RETURN_TRUE_IF_0 (SDL_SetColorKey (surface, flag, key));
 }
+#undef FUNC_NAME
 
-SCM
-sdl_set_alpha (SCM s_surface, SCM s_flag, SCM s_alpha)
+
+SCM_DEFINE( sdl_set_alpha, "sdl-set-alpha!", 3, 0, 0,
+            (SCM s_surface,
+             SCM s_flag,
+             SCM s_alpha),
+"Adjust the alpha properties of a surface.")
 {
   SDL_Surface *surface;
   Uint32 flag;
@@ -289,9 +355,14 @@ sdl_set_alpha (SCM s_surface, SCM s_flag, SCM s_alpha)
 
   SCM_RETURN_TRUE_IF_0 (SDL_SetAlpha (surface, flag, alpha));
 }
+#undef FUNC_NAME
 
-SCM
-sdl_set_clip_rect (SCM s_surface, SCM s_rect)
+
+SCM_DEFINE( sdl_set_clip_rect, "sdl-set-clip-rect!", 2, 0, 0,
+            (SCM s_surface,
+             SCM s_rect),
+"Sets the clipping rectangle for a surface.")
+#define FUNC_NAME s_sdl_set_clip_rect
 {
   SDL_Surface *surface;
   SDL_Rect *rect=NULL;
@@ -310,9 +381,13 @@ sdl_set_clip_rect (SCM s_surface, SCM s_rect)
 
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-sdl_get_clip_rect (SCM s_surface)
+
+SCM_DEFINE( sdl_get_clip_rect, "sdl-get-clip-rect", 1, 0, 0,
+            (SCM s_surface),
+"Gets the clipping rectangle for a surface.")
+#define FUNC_NAME s_sdl_get_clip_rect
 {
   SDL_Surface *surface;
   SDL_Rect *rect;
@@ -325,9 +400,15 @@ sdl_get_clip_rect (SCM s_surface)
 
   SCM_RETURN_NEWSMOB (rect_tag, rect);
 }
+#undef FUNC_NAME
 
-SCM
-sdl_convert_surface (SCM s_src, SCM s_fmt, SCM s_flags)
+
+SCM_DEFINE( sdl_convert_surface, "sdl-convert-surface", 3, 0, 0,
+            (SCM s_src,
+             SCM s_fmt,
+             SCM s_flags),
+"Converts a surface to the same format as another surface.")
+#define FUNC_NAME s_sdl_convert_surface
 {
   SDL_Surface *src, *result;
   SDL_PixelFormat *fmt;
@@ -348,9 +429,16 @@ sdl_convert_surface (SCM s_src, SCM s_fmt, SCM s_flags)
 
   SCM_RETURN_NEWSMOB (surface_tag, result);
 }
+#undef FUNC_NAME
 
-SCM
-sdl_blit_surface (SCM s_src, SCM s_srcrect, SCM s_dst, SCM s_dstrect)
+
+SCM_DEFINE( sdl_blit_surface, "sdl-blit-surface", 1, 3, 0,
+	    (SCM s_src,
+             SCM s_srcrect,
+	     SCM s_dst,
+             SCM s_dstrect),
+"Performs a fast blit from the source surface to the destination surface.")
+#define FUNC_NAME s_sdl_blit_surface
 {
   SDL_Surface *src;
   SDL_Surface *dst;
@@ -392,19 +480,7 @@ sdl_blit_surface (SCM s_src, SCM s_srcrect, SCM s_dst, SCM s_dstrect)
 
   return scm_long2num (SDL_BlitSurface (src, srcrect, dst, dstrect));
 }
-
-/* Load an image in one of many formats */
-SCM
-sdl_load_image (SCM s_file)
-{
-  SDL_Surface *image;
-
-  SCM_ASSERT ((SCM_NIMP (s_file) && SCM_STRINGP (s_file)),
-              s_file, SCM_ARG1, "sdl-load-image");
-
-  image = IMG_Load (SCM_CHARS (s_file));
-  SCM_RETURN_NEWSMOB (surface_tag, image);
-}
+#undef FUNC_NAME
 
 
 void

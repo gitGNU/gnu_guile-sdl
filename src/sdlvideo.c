@@ -135,30 +135,47 @@ make_palette (SCM s_colors)
 
 
 /* function prototypes */
-SCM
-get_video_surface (void)
+
+SCM_DEFINE( get_video_surface, "sdl-get-video-surface", 0, 0, 0,
+            (void),
+"Returns the current display surface.")
+#define FUNC_NAME s_get_video_surface
 {
   SCM_RETURN_NEWSMOB (surface_tag, SDL_GetVideoSurface());
 }
+#undef FUNC_NAME
 
-SCM
-get_video_info (void)
+
+SCM_DEFINE( get_video_info, "sdl-get-video-info", 0, 0, 0,
+            (void),
+"Returns information about the video hardware.")
+#define FUNC_NAME s_get_video_info
 {
   const SDL_VideoInfo *info = SDL_GetVideoInfo();
   SCM_RETURN_NEWSMOB (video_info_tag, info);
 }
+#undef FUNC_NAME
 
-SCM
-video_driver_name (void)
+
+SCM_DEFINE( video_driver_name, "sdl-video-driver-name", 0, 0, 0,
+            (void),
+"Returns the name of the video driver.")
+#define FUNC_NAME s_video_driver_name
 {
   char name[MAX_DRIVER_LEN];
   SDL_VideoDriverName (name, MAX_DRIVER_LEN);
   return scm_makfrom0str (name);
 }
+#undef FUNC_NAME
 
 
-SCM
-list_modes (SCM s_pixel_format, SCM s_flags)
+SCM_DEFINE( list_modes, "sdl-list-modes", 0, 2, 0,
+            (SCM s_pixel_format,
+             SCM s_flags),
+"Return a list of available screen dimensions for the given format and "
+"and flags.  Format defaults to that for the current screen.  Flags "
+"default to none.")
+#define FUNC_NAME s_list_modes
 {
   SDL_PixelFormat *format=NULL;
   Uint32 flags=0;
@@ -203,9 +220,16 @@ list_modes (SCM s_pixel_format, SCM s_flags)
 
   return result;
 }
+#undef FUNC_NAME
 
-SCM
-video_mode_ok (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags)
+
+SCM_DEFINE( video_mode_ok, "sdl-video-mode-ok", 4, 0, 0,
+            (SCM s_width,
+             SCM s_height,
+             SCM s_bpp,
+             SCM s_flags),
+"Check to see if a particular video mode is supported.")
+#define FUNC_NAME s_video_mode_ok
 {
   int width, height, bpp;
   Uint32 flags=0;
@@ -231,9 +255,16 @@ video_mode_ok (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags)
     return SCM_BOOL_F;
   }
 }
+#undef FUNC_NAME
 
-SCM
-set_video_mode (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags)
+
+SCM_DEFINE( set_video_mode, "sdl-set-video-mode", 4, 0, 0,
+            (SCM s_width,
+             SCM s_height,
+             SCM s_bpp,
+             SCM s_flags),
+"Sets the SDL video mode.")
+#define FUNC_NAME s_set_video_mode
 {
   int width, height, bpp;
   Uint32 flags=0;
@@ -253,17 +284,27 @@ set_video_mode (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags)
 
   SCM_RETURN_NEWSMOB (surface_tag, SDL_SetVideoMode (width, height, bpp, flags));
 }
+#undef FUNC_NAME
 
-SCM
-update_rect (SCM s_screen, SCM s_x, SCM s_y, SCM s_w, SCM s_h)
+
+SCM_DEFINE( update_rect, "sdl-update-rect", 2, 3, 0,
+            (SCM s_surface,
+             SCM s_x,
+             SCM s_y,
+             SCM s_w,
+             SCM s_h),
+"Makes sure a given area on a surface is updated.  Arguments are "
+"the surface to be updated, followed by either an SDL-Rect or the "
+"four coordinates x, y, w, and h.")
+#define FUNC_NAME s_update_rect
 {
-  SDL_Surface *screen;
+  SDL_Surface *surface;
   SDL_Rect *rect;
   Sint32 x, y, w, h;
 
   /* first arg is a surface */
-  SCM_ASSERT_SMOB (s_screen, surface_tag, SCM_ARG1, "sdl-update-rect");
-  screen = (SDL_Surface *) SCM_SMOB_DATA (s_screen);
+  SCM_ASSERT_SMOB (s_surface, surface_tag, SCM_ARG1, "sdl-update-rect");
+  surface = (SDL_Surface *) SCM_SMOB_DATA (s_surface);
 
   /* remaining args are a single rect, or 4 coords */
   if (SCM_NIMP (s_x) && (long) SCM_CAR (s_x) == rect_tag) {
@@ -283,31 +324,73 @@ update_rect (SCM s_screen, SCM s_x, SCM s_y, SCM s_w, SCM s_h)
     h = (Sint32) scm_num2long (s_h, SCM_ARG4, "sdl-update-rect");
   }
 
-  SDL_UpdateRect (screen, x, y, w, h);
+  SDL_UpdateRect (surface, x, y, w, h);
 
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-flip (SCM s_screen)
+
+SCM_DEFINE( update_rects, "sdl-update-rects", 2, 0, 0,
+            (SCM surface_smob,
+             SCM rect_list),
+"Makes sure the given list of rectangles is updated on the given "
+"surface.")
+#define FUNC_NAME s_update_rects
 {
-  SDL_Surface *screen;
+  SCM rect_smob;
+  SDL_Surface *surface;
+  SDL_Rect *rect;
 
-  if (s_screen != SCM_UNDEFINED) {
-    /* verify and unpack a surface */
-    SCM_ASSERT_SMOB (s_screen, surface_tag, SCM_ARG1, "sdl-flip");
-    screen = (SDL_Surface *) SCM_SMOB_DATA (s_screen);
-  } else {
-    /* otherwise default to the current display */
-    screen = SDL_GetVideoSurface();
+  SCM_ASSERT( SCM_NIMP (surface_smob) &&
+              (long) SCM_CAR (surface_smob) == surface_tag,
+              surface_smob, SCM_ARG1, FUNC_NAME );
+
+  surface = (SDL_Surface*) SCM_SMOB_DATA (surface_smob);
+
+  for( ; ! SCM_NULLP (rect_list); rect_list = SCM_CDR (rect_list) ) {
+    rect_smob = SCM_CAR (rect_list);
+    SCM_ASSERT( SCM_NIMP (rect_smob) &&
+                (long) SCM_CAR (rect_smob) == rect_tag,
+                rect_smob, SCM_ARG2, FUNC_NAME );
+
+    rect = (SDL_Rect*) SCM_SMOB_DATA (rect_smob);
+
+    SDL_UpdateRect( surface, rect->x, rect->y, rect->w, rect->h );
   }
 
-  SDL_Flip (screen);
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-set_colors (SCM s_surface, SCM s_colors)
+
+SCM_DEFINE( sdl_flip, "sdl-flip", 1, 0, 0,
+            (SCM s_surface),
+"Swaps surface double buffers.")
+#define FUNC_NAME s_sdl_flip
+{
+  SDL_Surface *surface;
+
+  if (s_surface != SCM_UNDEFINED) {
+    /* verify and unpack a surface */
+    SCM_ASSERT_SMOB (s_surface, surface_tag, SCM_ARG1, "sdl-flip");
+    surface = (SDL_Surface *) SCM_SMOB_DATA (s_surface);
+  } else {
+    /* otherwise default to the current display */
+    surface = SDL_GetVideoSurface();
+  }
+
+  SDL_Flip (surface);
+  return SCM_UNSPECIFIED;
+}
+#undef FUNC_NAME
+
+
+SCM_DEFINE( set_colors, "sdl-set-colors!", 2, 0, 0,
+            (SCM s_surface,
+             SCM s_colors),
+"Sets a portion of the colormap for the given 8-bit surface.")
+#define FUNC_NAME s_set_colors
 {
   SDL_Surface *surface;
   SDL_Color *colors;
@@ -332,9 +415,15 @@ set_colors (SCM s_surface, SCM s_colors)
 
   return result ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-SCM
-set_palette (SCM s_surface, SCM s_flags, SCM s_colors)
+
+SCM_DEFINE( set_palette, "sdl-set-palette", 3, 0, 0,
+            (SCM s_surface,
+             SCM s_flags,
+             SCM s_colors),
+"Sets the colors in the palette of an 8-bit surface.")
+#define FUNC_NAME s_set_palette
 {
   SDL_Surface *surface;
   SDL_Color *colors;
@@ -361,9 +450,15 @@ set_palette (SCM s_surface, SCM s_flags, SCM s_colors)
 
   return result ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-SCM
-set_gamma (SCM s_redgamma, SCM s_greengamma, SCM s_bluegamma)
+
+SCM_DEFINE( set_gamma, "sdl-set-gamma", 3, 0, 0,
+            (SCM s_redgamma,
+             SCM s_greengamma,
+             SCM s_bluegamma),
+            "Sets the color gamma function for the display.")
+#define FUNC_NAME s_set_gamma
 {
   float redgamma, greengamma, bluegamma;
 
@@ -377,6 +472,8 @@ set_gamma (SCM s_redgamma, SCM s_greengamma, SCM s_bluegamma)
 
   SCM_RETURN_TRUE_IF_0 (SDL_SetGamma (redgamma, greengamma, bluegamma));
 }
+#undef FUNC_NAME
+
 
 SCM
 get_gamma_ramp (void)
@@ -433,57 +530,98 @@ set_gamma_ramp (SCM s_redtable, SCM s_greentable, SCM s_bluetable)
   SCM_RETURN_TRUE_IF_0 (SDL_SetGammaRamp (rt, gt, bt));
 }
 
-SCM
-map_rgb (SCM s_pixel_fmt, SCM s_r, SCM s_g, SCM s_b)
+
+SCM_DEFINE( map_rgb, "sdl-map-rgb", 2, 2, 0,
+            (SCM s_pixel_format,
+             SCM s_r,
+             SCM s_g,
+             SCM s_b),
+"Map a RGB color value to a pixel format.  Takes a pixel format "
+"followed by either an SDL-Color or the three r, g, b values.")
+#define FUNC_NAME s_map_rgb
 {
   SDL_PixelFormat *fmt;
+  SDL_Color *color;
   Uint8 r, g, b;
 
-  SCM_ASSERT_SMOB (s_pixel_fmt, pixel_format_tag, SCM_ARG1, "sdl-map-rbg");
-  SCM_ASSERT (scm_exact_p (s_r), s_r, SCM_ARG2, "sdl-map-rgb");
-  SCM_ASSERT (scm_exact_p (s_g), s_g, SCM_ARG3, "sdl-map-rgb");
-  SCM_ASSERT (scm_exact_p (s_b), s_b, SCM_ARG4, "sdl-map-rgb");
+  SCM_ASSERT_SMOB (s_pixel_format, pixel_format_tag, SCM_ARG1, "sdl-map-rbg");
+  fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_format);
 
-  fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_fmt);
-  r = (Uint8) scm_num2long (s_r, SCM_ARG1, "sdl-map-rgb");
-  g = (Uint8) scm_num2long (s_g, SCM_ARG2, "sdl-map-rgb");
-  b = (Uint8) scm_num2long (s_b, SCM_ARG3, "sdl-map-rgb");
+  if (SCM_NIMP (s_r) && (long) SCM_CAR (s_r) == color_tag) {
+    color = (SDL_Color*) SCM_SMOB_DATA (s_r);
+    r = color->r;
+    g = color->g;
+    b = color->b;
+  } else {
+    SCM_ASSERT (scm_exact_p (s_r), s_r, SCM_ARG2, "sdl-map-rgb");
+    SCM_ASSERT (scm_exact_p (s_g), s_g, SCM_ARG3, "sdl-map-rgb");
+    SCM_ASSERT (scm_exact_p (s_b), s_b, SCM_ARG4, "sdl-map-rgb");
+    r = (Uint8) scm_num2long (s_r, SCM_ARG1, "sdl-map-rgb");
+    g = (Uint8) scm_num2long (s_g, SCM_ARG2, "sdl-map-rgb");
+    b = (Uint8) scm_num2long (s_b, SCM_ARG3, "sdl-map-rgb");
+  }
 
   return scm_long2num (SDL_MapRGB (fmt, r, g, b));
 }
+#undef FUNC_NAME
 
-SCM
-map_rgba (SCM s_pixel_fmt, SCM s_r, SCM s_g, SCM s_b, SCM s_a)
+
+SCM_DEFINE( map_rgba, "sdl-map-rgba", 3, 2, 0,
+            (SCM s_pixel_format,
+             SCM s_r,
+             SCM s_g,
+             SCM s_b,
+             SCM s_a),
+"Map a RGB color value to a pixel format.  Takes a pixel format "
+"followed by either an SDL-Color or the three r, g, b values, "
+"followed by the alpha value.")
+#define FUNC_NAME s_map_rgba
 {
   SDL_PixelFormat *fmt;
+  SDL_Color *color;
   Uint8 r, g, b, a;
 
-  SCM_ASSERT_SMOB (s_pixel_fmt, pixel_format_tag, SCM_ARG1, "sdl-map-rbga");
-  SCM_ASSERT (scm_exact_p (s_r), s_r, SCM_ARG2, "sdl-map-rgba");
-  SCM_ASSERT (scm_exact_p (s_g), s_g, SCM_ARG3, "sdl-map-rgba");
-  SCM_ASSERT (scm_exact_p (s_b), s_b, SCM_ARG4, "sdl-map-rgba");
-  SCM_ASSERT (scm_exact_p (s_a), s_a, SCM_ARG5, "sdl-map-rgba");
+  SCM_ASSERT_SMOB (s_pixel_format, pixel_format_tag, SCM_ARG1, "sdl-map-rbga");
+  fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_format);
 
-  fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_fmt);
-  r = (Uint8) scm_num2long (s_r, SCM_ARG2, "sdl-map-rgba");
-  g = (Uint8) scm_num2long (s_g, SCM_ARG3, "sdl-map-rgba");
-  b = (Uint8) scm_num2long (s_b, SCM_ARG4, "sdl-map-rgba");
-  a = (Uint8) scm_num2long (s_a, SCM_ARG5, "sdl-map-rgba");
+  if (SCM_NIMP (s_r) && (long) SCM_CAR (s_r) == color_tag) {
+    color = (SDL_Color*) SCM_SMOB_DATA (s_r);
+    r = color->r;
+    g = color->g;
+    b = color->b;
+    SCM_ASSERT (scm_exact_p (s_g), s_a, SCM_ARG3, "sdl-map-rgba");
+    a = (Uint8) scm_num2long (s_g, SCM_ARG5, "sdl-map-rgba");
+  } else {
+    SCM_ASSERT (scm_exact_p (s_r), s_r, SCM_ARG2, "sdl-map-rgba");
+    SCM_ASSERT (scm_exact_p (s_g), s_g, SCM_ARG3, "sdl-map-rgba");
+    SCM_ASSERT (scm_exact_p (s_b), s_b, SCM_ARG4, "sdl-map-rgba");
+    SCM_ASSERT (scm_exact_p (s_a), s_a, SCM_ARG5, "sdl-map-rgba");
+    r = (Uint8) scm_num2long (s_r, SCM_ARG2, "sdl-map-rgba");
+    g = (Uint8) scm_num2long (s_g, SCM_ARG3, "sdl-map-rgba");
+    b = (Uint8) scm_num2long (s_b, SCM_ARG4, "sdl-map-rgba");
+    a = (Uint8) scm_num2long (s_a, SCM_ARG5, "sdl-map-rgba");
+  }
 
   return scm_long2num (SDL_MapRGBA (fmt, r, g, b, a));
 }
+#undef FUNC_NAME
 
-SCM
-get_rgb (SCM s_pixel, SCM s_pixel_fmt)
+
+SCM_DEFINE( get_rgb, "sdl-get-rgb", 2, 0, 0,
+            (SCM s_pixel,
+             SCM s_pixel_format),
+"Get RGB values from a pixel in the specified pixel format. "
+"Returns an alist with r, g and b entries.")
+#define FUNC_NAME s_get_rgb
 {
   SDL_PixelFormat *fmt;
   Uint32 pixel;
   Uint8 r, g, b;
 
   SCM_ASSERT (scm_exact_p (s_pixel), s_pixel, SCM_ARG1, "sdl-get-rgb");
-  SCM_ASSERT_SMOB (s_pixel_fmt, pixel_format_tag, SCM_ARG2, "sdl-get-rbg");
+  SCM_ASSERT_SMOB (s_pixel_format, pixel_format_tag, SCM_ARG2, "sdl-get-rbg");
 
-  fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_fmt);
+  fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_format);
   pixel = (Uint32) scm_num2long (s_pixel, SCM_ARG1, "sdl-get-rgb");
 
   SDL_GetRGB (pixel, fmt, &r, &g, &b);
@@ -492,18 +630,24 @@ get_rgb (SCM s_pixel, SCM s_pixel_fmt)
                     scm_cons (scm_str2symbol ("g"), scm_long2num (g)),
                     scm_cons (scm_str2symbol ("b"), scm_long2num (b)));
 }
+#undef FUNC_NAME
 
-SCM
-get_rgba (SCM s_pixel, SCM s_pixel_fmt)
+
+SCM_DEFINE( get_rgba, "sdl-get-rgba", 2, 0, 0,
+            (SCM s_pixel,
+             SCM s_pixel_format),
+"Get RGBA values from a pixel in the specified pixel format."
+"Returns an alist with r, g, b and a entries.")
+#define FUNC_NAME s_get_rgba
 {
   SDL_PixelFormat *fmt;
   Uint32 pixel;
   Uint8 r, g, b, a;
 
   SCM_ASSERT (scm_exact_p (s_pixel), s_pixel, SCM_ARG1, "sdl-get-rgba");
-  SCM_ASSERT_SMOB (s_pixel_fmt, pixel_format_tag, SCM_ARG2, "sdl-get-rbga");
+  SCM_ASSERT_SMOB (s_pixel_format, pixel_format_tag, SCM_ARG2, "sdl-get-rbga");
 
-  fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_fmt);
+  fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_format);
   pixel = (Uint32) scm_num2long (s_pixel, SCM_ARG1, "sdl-get-rgba");
 
   SDL_GetRGBA (pixel, fmt, &r, &g, &b, &a);
@@ -513,9 +657,15 @@ get_rgba (SCM s_pixel, SCM s_pixel_fmt)
                     scm_cons (scm_str2symbol ("b"), scm_long2num (b)),
                     scm_cons (scm_str2symbol ("a"), scm_long2num (a)));
 }
+#undef FUNC_NAME
 
-SCM
-fill_rect (SCM s_dst, SCM s_dstrect, SCM s_color)
+
+SCM_DEFINE( fill_rect, "sdl-fill-rect", 3, 0, 0,
+            (SCM s_dst,
+             SCM s_dstrect,
+             SCM s_color),
+"Fill a given rectangle with a color.")
+#define FUNC_NAME s_fill_rect
 {
   SDL_Surface *dst;
   SDL_Rect *dstrect;
@@ -531,9 +681,13 @@ fill_rect (SCM s_dst, SCM s_dstrect, SCM s_color)
 
   return scm_long2num (SDL_FillRect (dst, dstrect, color));
 }
+#undef FUNC_NAME
 
-SCM
-display_format (SCM s_surface)
+
+SCM_DEFINE( display_format, "sdl-display-format", 1, 0, 0,
+            (SCM s_surface),
+"Convert a surface to the display format.")
+#define FUNC_NAME s_display_format
 {
   SDL_Surface *surface;
 
@@ -547,9 +701,13 @@ display_format (SCM s_surface)
 
   SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
+#undef FUNC_NAME
 
-SCM
-display_format_alpha (SCM s_surface)
+
+SCM_DEFINE( display_format_alpha, "sdl-display-format-alpha", 1, 0, 0,
+            (SCM s_surface),
+"Convert a surface to the display format, with an alpha channel.")
+#define FUNC_NAME s_display_format_alpha
 {
   SDL_Surface *surface;
 
@@ -563,9 +721,14 @@ display_format_alpha (SCM s_surface)
 
   SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
+#undef FUNC_NAME
 
-SCM
-warp_mouse (SCM s_x, SCM s_y)
+
+SCM_DEFINE( warp_mouse, "sdl-warp-mouse", 2, 0, 0,
+            (SCM s_x,
+             SCM s_y),
+"Set the position of the mouse cursor.")
+#define FUNC_NAME s_warp_mouse
 {
   Uint16 x, y;
 
@@ -579,6 +742,8 @@ warp_mouse (SCM s_x, SCM s_y)
 
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
+
 
 scm_sizet
 free_cursor (SCM s_cursor)
@@ -621,8 +786,10 @@ show_cursor (SCM s_toggle)
 /*    return SCM_UNSPECIFIED; */
 /* } */
 
-SCM
-gl_get_attribute (SCM s_attr)
+SCM_DEFINE( gl_get_attribute, "sdl-gl-get-attribute", 1, 0, 0,
+            (SCM s_attr),
+"Get the value of a special SDL/OpenGL attribute.")
+#define FUNC_NAME s_gl_get_attribute
 {
   SDL_GLattr attr;
   int value;
@@ -634,9 +801,14 @@ gl_get_attribute (SCM s_attr)
 
   return scm_long2num (value);
 }
+#undef FUNC_NAME
 
-SCM
-gl_set_attribute (SCM s_attr, SCM s_value)
+
+SCM_DEFINE( gl_set_attribute, "sdl-gl-set-attribute", 2, 0, 0,
+            (SCM s_attr,
+             SCM s_value),
+"Set the value of a special SDL/OpenGL attribute.")
+#define FUNC_NAME s_gl_set_attribute
 {
   SDL_GLattr attr;
   int value;
@@ -651,13 +823,19 @@ gl_set_attribute (SCM s_attr, SCM s_value)
 
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-gl_swap_buffers (void)
+
+SCM_DEFINE( gl_swap_buffers, "sdl-gl-swap-buffers", 0, 0, 0,
+            (void),
+"Swap OpenGL framebuffers/Update Display.")
+#define FUNC_NAME s_gl_swap_buffers
 {
   SDL_GL_SwapBuffers ();
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
+
 
 SCM
 lock_yuv_overlay (SCM s_overlay)
@@ -896,7 +1074,8 @@ sdl_init_video (void)
   /* video */
   scm_c_define_gsubr ("sdl-set-video-mode",     3, 1, 0, set_video_mode);
   scm_c_define_gsubr ("sdl-update-rect",        2, 3, 0, update_rect);
-  scm_c_define_gsubr ("sdl-flip",               0, 1, 0, flip);
+  scm_c_define_gsubr ("sdl-update-rects",       2, 0, 0, update_rects);
+  scm_c_define_gsubr ("sdl-flip",               0, 1, 0, sdl_flip);
   scm_c_define_gsubr ("sdl-fill-rect",          3, 0, 0, fill_rect);
   /* opengl */
   scm_c_define_gsubr ("sdl-gl-swap-buffers",    0, 0, 0, gl_swap_buffers);
@@ -935,6 +1114,7 @@ sdl_init_video (void)
     "sdl-unlock-yuv-overlay",   "sdl-display-yuv-overlay",
     /* video */
     "sdl-set-video-mode",     "sdl-update-rect",
+    "sdl-update-rects",
     "sdl-flip",               "sdl-fill-rect",
     "sdl-get-video-surface",  "sdl-set-colors!",
     "sdl-set-palette!",       "sdl-set-gamma",
