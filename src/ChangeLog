@@ -1,3 +1,7 @@
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlgfx.c (horizontal_flip_surface): Fix typo in scheme name.
+
 2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdl.c: Rename Scheme-visible objects to omit "sdl-" prefix.
