@@ -25,7 +25,8 @@
   #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
   #:export (call-with-clip-rect
             rotate-square
-            poll-with-push-on-timeout-proc))
+            poll-with-push-on-timeout-proc
+            copy-surface))
 
 ;; Set default clip rect to @var{rect}, call @var{thunk}, and restore it.
 ;; @var{thunk} is a procedure that takes no arguments.
@@ -88,5 +89,14 @@
               ((= 0 still)          (push! ev))
               (else                 (SDL:delay slice)
                                     (loop (max 0 (- still slice)))))))))
+
+;; Create a new surface and blit @var{surface} onto it.
+;; Return the new surface.
+;;
+(define (copy-surface surface)
+  (let ((new (SDL:make-surface (SDL:surface:w surface)
+                               (SDL:surface:h surface))))
+    (SDL:blit-surface surface #f new)
+    new))
 
 ;;; misc-utils.scm ends here
