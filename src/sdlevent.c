@@ -27,6 +27,7 @@
 #include "sdlsmobs.h"
 #include "sdlenums.h"
 #include "wholefns.h"
+#include "retval.h"
 
 /* enum/flag types */
 SCM event_type_enum;
@@ -287,7 +288,7 @@ GH_DEFPROC (pump_events, "pump-events", 0, 0, 0,
 #define FUNC_NAME s_pump_events
 {
   SDL_PumpEvents ();
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -299,7 +300,7 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
   /*  int SDL_PeepEvents (SDL_Event *events, int numevents, */
   /*                      SDL_eventaction action, Uint32 mask); */
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -373,7 +374,7 @@ GH_DEFPROC (set_event_filter, "set-event-filter", 1, 0, 0,
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
   /* extern DECLSPEC void SDL_SetEventFilter (SDL_EventFilter filter); */
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -384,7 +385,7 @@ GH_DEFPROC (get_event_filter, "get-event-filter", 1, 0, 0,
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
   /* extern DECLSPEC SDL_EventFilter SDL_GetEventFilter (void); */
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -395,7 +396,7 @@ GH_DEFPROC (event_state, "event-state", 2, 0, 0,
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
   /* extern DECLSPEC Uint8 SDL_EventState (Uint8 type, int state); */
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -457,7 +458,7 @@ GH_DEFPROC (get_key_state, "get-key-state", 1, 0, 0,
 #define FUNC_NAME s_get_key_state
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -479,7 +480,7 @@ GH_DEFPROC (set_mod_state, "set-mod-state", 1, 0, 0,
 {
   ASSERT_EXACT (modstate, ARGH1);
   SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, ARGH1));
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 

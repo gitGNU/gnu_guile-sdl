@@ -5,6 +5,7 @@
 
 #include "argcheck.h"
 #include "sdlsmobs.h"
+#include "retval.h"
 
 
 /* number getter and setter */
@@ -27,7 +28,7 @@ GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
   ASSERT_SMOB (smob, tag, ARGH1);                                       \
   ASSERT_EXACT (value, ARGH2);                                          \
   SMOBFIELD (c_type, c_field) = gh_scm2long (value);                    \
-  return SCM_UNSPECIFIED;                                               \
+  RETURN_UNSPECIFIED;                                                   \
 }
 
 
@@ -50,7 +51,7 @@ GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
   ASSERT_SMOB (smob, tag, ARGH1);                                       \
   SMOBFIELD (c_type, c_field)                                           \
     = gsdl_enum2long (value, etype, ARGH1, FUNC_NAME);                  \
-  return SCM_UNSPECIFIED;                                               \
+  RETURN_UNSPECIFIED;                                                   \
 }
 
 
@@ -73,7 +74,7 @@ GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
   ASSERT_SMOB (smob, c_tag, ARGH1);                                     \
   SMOBFIELD (c_type, c_field)                                           \
     = GSDL_FLAGS2ULONG (value, stash, ARGH2);                           \
-  return SCM_UNSPECIFIED;                                               \
+  RETURN_UNSPECIFIED;                                                   \
 }
 
 #endif /* ! GUILE_SDL_WHOLEFNS_H */

@@ -26,6 +26,7 @@
 #include "argcheck.h"
 #include "sdlsmobs.h"
 #include "sdlenums.h"
+#include "retval.h"
 
 GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
@@ -124,7 +125,7 @@ GH_DEFPROC (ttf_set_font_style, "font:set-style!", 2, 0, 0,
   style = GSDL_FLAGS2ULONG (s_style, ttf_flags, ARGH2);
 
   TTF_SetFontStyle (UNPACK_TTFONT (s_font), style);
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -376,7 +377,7 @@ GH_DEFPROC (ttf_quit, "ttf-quit", 0, 0, 0,
 #define FUNC_NAME s_ttf_quit
 {
   TTF_Quit ();
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 

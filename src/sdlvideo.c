@@ -27,6 +27,7 @@
 #include "argcheck.h"
 #include "sdlenums.h"
 #include "sdlsmobs.h"
+#include "retval.h"
 
 
 #define MAX_DRIVER_LEN    100
@@ -414,7 +415,7 @@ GH_DEFPROC (update_rect, "update-rect", 2, 3, 0,
   }
 
   SDL_UpdateRect (UNPACK_SURFACE (s_surface), x, y, w, h);
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -439,7 +440,7 @@ GH_DEFPROC (update_rects, "update-rects", 2, 0, 0,
     rect = UNPACK_RECT (gh_car (p));
     SDL_UpdateRect (surface, rect->x, rect->y, rect->w, rect->h);
   }
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -461,7 +462,7 @@ GH_DEFPROC (flip, "flip", 0, 1, 0,
   }
 
   SDL_Flip (surface);
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -797,7 +798,7 @@ GH_DEFPROC (warp_mouse, "warp-mouse", 2, 0, 0,
   ASSERT_EXACT (s_y, ARGH2);
 
   SDL_WarpMouse ((Uint16) gh_scm2long (s_x), (Uint16) gh_scm2long (s_y));
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -810,7 +811,7 @@ GH_DEFPROC (set_cursor, "set-cursor", 1, 0, 0,
 {
   ASSERT_CURSOR (s_cursor, ARGH1);
   SDL_SetCursor (UNPACK_CURSOR (s_cursor));
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -866,7 +867,7 @@ GH_DEFPROC (gl_set_attribute, "gl-set-attribute", 2, 0, 0,
 
   SDL_GL_SetAttribute ((SDL_GLattr) gh_scm2long (s_attr),
                        (int) gh_scm2long (s_value));
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -878,7 +879,7 @@ GH_DEFPROC (gl_swap_buffers, "gl-swap-buffers", 0, 0, 0,
 #define FUNC_NAME s_gl_swap_buffers
 {
   SDL_GL_SwapBuffers ();
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -906,7 +907,7 @@ GH_DEFPROC (unlock_yuv_overlay, "unlock-yuv-overlay", 1, 0, 0,
   ASSERT_OVERLAY (s_overlay, ARGH1);
 
   SDL_UnlockYUVOverlay (UNPACK_OVERLAY (s_overlay));
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -951,7 +952,7 @@ GH_DEFPROC (wm_set_caption, "set-caption", 1, 1, 0,
 
   SDL_WM_SetCaption (title, icon);
 
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -983,7 +984,7 @@ GH_DEFPROC (wm_set_icon, "set-icon", 1, 0, 0,
 
   /* set w/ a NULL mask for now */
   SDL_WM_SetIcon (UNPACK_SURFACE (icon), NULL);
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 

@@ -26,6 +26,7 @@
 #include "argcheck.h"
 #include "sdlenums.h"
 #include "sdlsmobs.h"
+#include "retval.h"
 
 
 /* Forward declarations on this page.  */
@@ -92,7 +93,7 @@ GH_DEFPROC (quit, "quit", 0, 0, 0,
 #define FUNC_NAME s_quit
 {
   SDL_Quit ();
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -105,7 +106,7 @@ GH_DEFPROC (quit_subsystem, "quit-subsystem", 1, 0, 0,
 #define FUNC_NAME s_quit_subsystem
 {
   SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1));
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -145,7 +146,7 @@ GH_DEFPROC (delay, "delay", 1, 0, 0,
 {
   ASSERT_EXACT (ms, ARGH1);
   SDL_Delay (gh_scm2ulong (ms));
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 

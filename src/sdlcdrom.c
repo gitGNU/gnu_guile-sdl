@@ -27,6 +27,7 @@
 #include "config.h"
 #include "argcheck.h"
 #include "sdlsmobs.h"
+#include "retval.h"
 
 
 static long cdrom_tag;
@@ -436,7 +437,7 @@ GH_DEFPROC (cd_close, "cd-close", 1, 0, 0,
     SMOBSET (cd_smob, NULL);
   }
 
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 

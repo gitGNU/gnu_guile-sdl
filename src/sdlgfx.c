@@ -25,6 +25,7 @@
 #include "config.h"
 #include "argcheck.h"
 #include "sdlsmobs.h"
+#include "retval.h"
 
 
 GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
@@ -116,7 +117,7 @@ GH_DEFPROC (scale_surface, "scale-surface", 3, 0, 0,
 #define FUNC_NAME s_scale_surface
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 

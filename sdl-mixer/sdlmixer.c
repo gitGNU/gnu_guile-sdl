@@ -26,6 +26,7 @@
 #include "argcheck.h"
 #include "sdlenums.h"
 #include "sdlsmobs.h"
+#include "retval.h"
 
 GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
@@ -661,7 +662,7 @@ GH_DEFPROC (mix_pause, "pause", 0, 1, 0,
   }
 
   Mix_Pause (channel);
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -681,7 +682,7 @@ GH_DEFPROC (mix_resume, "resume", 0, 1, 0,
   }
 
   Mix_Resume (channel);
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -711,7 +712,7 @@ GH_DEFPROC (mix_pause_music, "pause-music", 0, 0, 0,
 #define FUNC_NAME s_mix_pause_music
 {
   Mix_PauseMusic ();
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -722,7 +723,7 @@ GH_DEFPROC (mix_resume_music, "resume-music", 0, 0, 0,
 #define FUNC_NAME s_mix_resume_music
 {
   Mix_ResumeMusic ();
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -733,7 +734,7 @@ GH_DEFPROC (mix_rewind_music, "rewind-music", 0, 0, 0,
 #define FUNC_NAME s_mix_rewind_music
 {
   Mix_RewindMusic ();
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -797,7 +798,7 @@ GH_DEFPROC (mix_close_audio, "close-audio", 0, 0, 0,
 #define FUNC_NAME s_mix_close_audio
 {
   Mix_CloseAudio ();
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 

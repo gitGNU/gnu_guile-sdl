@@ -30,6 +30,7 @@
 #include "sdlenums.h"
 #include "sdlsmobs.h"
 #include "sdlvideo.h"
+#include "retval.h"
 
 
 /* smob functions */
@@ -217,7 +218,7 @@ GH_DEFPROC (unlock_surface, "unlock-surface", 1, 0, 0,
   ASSERT_SURFACE (s_surface, ARGH1);
 
   SDL_UnlockSurface (UNPACK_SURFACE (s_surface));
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -333,7 +334,7 @@ GH_DEFPROC (set_clip_rect, "set-clip-rect!", 1, 1, 0,
   }
 
   SDL_SetClipRect (UNPACK_SURFACE (s_surface), rect);
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 

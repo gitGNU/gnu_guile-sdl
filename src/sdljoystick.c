@@ -25,6 +25,7 @@
 #include "config.h"
 #include "argcheck.h"
 #include "sdlsmobs.h"
+#include "retval.h"
 
 
 static long joystick_tag;
@@ -218,7 +219,7 @@ GH_DEFPROC (joystick_update, "joystick-update", 0, 0, 0,
 #define FUNC_NAME s_joystick_update
 {
   SDL_JoystickUpdate ();
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
@@ -346,7 +347,7 @@ GH_DEFPROC (joystick_close, "joystick-close", 1, 0, 0,
     SMOBSET (joy_smob, NULL);
   }
 
-  return SCM_UNSPECIFIED;
+  RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
