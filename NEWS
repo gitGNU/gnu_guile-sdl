@@ -20,8 +20,9 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 	that cannot be `read' back in.
 
   - implementation for (sdl sdl) proc: event-state
+  - implementation for (sdl sdl) proc: peep-events
 
-	Previously the interface was available but calling the proc
+	Previously the interface was available but calling these procs
 	resulted in a "not yet implemented" error.
 
 
