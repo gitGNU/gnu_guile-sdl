@@ -27,7 +27,7 @@
 #include "sdlsmobs.h"
 
 
-GH_DEFPROC (vertical_flip_surface, "sdl-vertical-flip-surface", 1, 0, 0,
+GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
             (SCM s_surface),
             "Return a new surface created by flipping @var{surface} vertically.")
 #define FUNC_NAME s_vertical_flip_surface
@@ -63,7 +63,7 @@ GH_DEFPROC (vertical_flip_surface, "sdl-vertical-flip-surface", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (horizontal_flip_surface, "sdl-horiztonal-flip-surface", 1, 0, 0,
+GH_DEFPROC (horizontal_flip_surface, "horiztonal-flip-surface", 1, 0, 0,
             (SCM s_surface),
             "Return a new surface created by flipping @var{surface} horizontally.")
 #define FUNC_NAME s_horizontal_flip_surface
@@ -99,7 +99,7 @@ GH_DEFPROC (horizontal_flip_surface, "sdl-horiztonal-flip-surface", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (vh_flip_surface, "sdl-vh-flip-surface", 1, 0, 0,
+GH_DEFPROC (vh_flip_surface, "vh-flip-surface", 1, 0, 0,
             (SCM s_surface),
             "Return a new surface created by flipping @var{surface}\n"
             "both vertically and horizontally.")
@@ -110,7 +110,7 @@ GH_DEFPROC (vh_flip_surface, "sdl-vh-flip-surface", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (scale_surface, "sdl-scale-surface", 3, 0, 0,
+GH_DEFPROC (scale_surface, "scale-surface", 3, 0, 0,
             (SCM surface, SCM width, SCM height),
             "Scale @var{surface} by @var{width} and @var{height}.")
 #define FUNC_NAME s_scale_surface

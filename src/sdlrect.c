@@ -68,7 +68,7 @@ print_rect (SCM smob, SCM port, scm_print_state *pstate)
 }
 
 
-GH_DEFPROC (make_rect, "sdl-make-rect", 4, 0, 0,
+GH_DEFPROC (make_rect, "make-rect", 4, 0, 0,
             (SCM s_x, SCM s_y, SCM s_w, SCM s_h),
             "Return a rect smob with location @var{x},@var{y}\n"
             "and dimensions @var{width} by @var{height}.")
@@ -95,13 +95,13 @@ GH_DEFPROC (make_rect, "sdl-make-rect", 4, 0, 0,
 /* rect getters and setters */
 
 #define NUMBER_GETTER(f)                        \
-  GSDL_NUMBER_GETTER ("sdl-rect:" #f,           \
+  GSDL_NUMBER_GETTER ("rect:" #f,               \
                       rect_ ## f,               \
                       rect_tag, SDL_Rect *,     \
                       f)
 
 #define NUMBER_SETTER(f)                        \
-  GSDL_NUMBER_SETTER ("sdl-rect:set-" #f "!",   \
+  GSDL_NUMBER_SETTER ("rect:set-" #f "!",       \
                       rect_set_ ## f,           \
                       rect_tag, SDL_Rect *,     \
                       f)

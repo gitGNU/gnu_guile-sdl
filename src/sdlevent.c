@@ -88,7 +88,7 @@ free_keysym (SCM keysym)
 
 /* constructors */
 
-GH_DEFPROC (make_event, "sdl-make-event", 0, 1, 0,
+GH_DEFPROC (make_event, "make-event", 0, 1, 0,
             (SCM s_type),
             "Create a new SDL event.")
 #define FUNC_NAME s_make_event
@@ -107,7 +107,7 @@ GH_DEFPROC (make_event, "sdl-make-event", 0, 1, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (make_keysym, "sdl-make-keysym", 0, 2, 0,
+GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
             (SCM sym, SCM mod),
             "")
 #define FUNC_NAME s_make_keysym
@@ -141,13 +141,13 @@ GH_DEFPROC (make_keysym, "sdl-make-keysym", 0, 2, 0,
 
 
 #define ENUM_GETTER(s_frag, c_frag, c_field, etypefrag) \
-  GSDL_ENUM_GETTER ("sdl-event:" s_frag,                \
+  GSDL_ENUM_GETTER ("event:" s_frag,                    \
                     event_ ## c_frag,                   \
                     event_tag, SDL_Event *, c_field,    \
                     etypefrag ## _enum)
 
 #define ENUM_SETTER(s_frag, c_frag, c_field, etypefrag) \
-  GSDL_ENUM_SETTER ("sdl-event:" s_frag,                \
+  GSDL_ENUM_SETTER ("event:" s_frag,                    \
                     event_ ## c_frag,                   \
                     event_tag, SDL_Event *,             \
                     c_field, etypefrag ## _enum)
@@ -158,12 +158,12 @@ GH_DEFPROC (make_keysym, "sdl-make-keysym", 0, 2, 0,
 
 
 #define NUMBER_GETTER(s_frag, c_frag, c_field)          \
-  GSDL_NUMBER_GETTER ("sdl-event:" s_frag,              \
+  GSDL_NUMBER_GETTER ("event:" s_frag,                  \
                       event_ ## c_frag,                 \
                       event_tag, SDL_Event *, c_field)
 
 #define NUMBER_SETTER(s_frag, c_frag, c_field)  \
-  GSDL_NUMBER_SETTER ("sdl-event:" s_frag,      \
+  GSDL_NUMBER_SETTER ("event:" s_frag,          \
                       event_ ## c_frag,         \
                       event_tag, SDL_Event *,   \
                       c_field)
@@ -199,13 +199,13 @@ GH_DEFPROC (make_keysym, "sdl-make-keysym", 0, 2, 0,
 
 
 #define FLAG_GETTER(s_frag, c_frag, c_field, stash)     \
-  GSDL_FLAG_GETTER ("sdl-event:" s_frag,                \
+  GSDL_FLAG_GETTER ("event:" s_frag,                    \
                     event_ ## c_frag,                   \
                     event_tag, SDL_Event *,             \
                     c_field, stash)
 
 #define FLAG_SETTER(s_frag, c_frag, c_field, stash)     \
-  GSDL_FLAG_SETTER ("sdl-event:" s_frag,                \
+  GSDL_FLAG_SETTER ("event:" s_frag,                    \
                     event_ ## c_frag,                   \
                     event_tag, SDL_Event *,             \
                     c_field, stash)
@@ -388,7 +388,7 @@ GH_DEFPROC (event_state, "event-state", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (enable_unicode, "sdl-enable-unicode", 0, 1, 0,
+GH_DEFPROC (enable_unicode, "enable-unicode", 0, 1, 0,
             (SCM enable_p),
             "")
 #define FUNC_NAME s_enable_unicode
@@ -411,7 +411,7 @@ GH_DEFPROC (enable_unicode, "sdl-enable-unicode", 0, 1, 0,
  * If 'delay' is set to 0, keyboard repeat is disabled.
  */
 
-GH_DEFPROC (enable_key_repeat, "sdl-enable-key-repeat", 2, 0, 0,
+GH_DEFPROC (enable_key_repeat, "enable-key-repeat", 2, 0, 0,
             (SCM s_delay, SCM s_interval),
             "")
 #define FUNC_NAME s_enable_key_repeat
@@ -428,7 +428,7 @@ GH_DEFPROC (enable_key_repeat, "sdl-enable-key-repeat", 2, 0, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (get_key_state, "sdl-get-key-state", 1, 0, 0,
+GH_DEFPROC (get_key_state, "get-key-state", 1, 0, 0,
             (SCM numkeys),
             "Get a snapshot of the current state of the keyboard.\n"
             "Return an array of keystates, indexed by the SDLK_* syms.")
@@ -439,7 +439,7 @@ GH_DEFPROC (get_key_state, "sdl-get-key-state", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (get_mod_state, "sdl-get-mod-state", 0, 0, 0,
+GH_DEFPROC (get_mod_state, "get-mod-state", 0, 0, 0,
             (),
             "Get the current key modifier state.")
 #define FUNC_NAME s_get_mod_state
@@ -448,7 +448,7 @@ GH_DEFPROC (get_mod_state, "sdl-get-mod-state", 0, 0, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (set_mod_state, "sdl-set-mod-state", 1, 0, 0,
+GH_DEFPROC (set_mod_state, "set-mod-state", 1, 0, 0,
             (SCM modstate),
             "Set the current key modifier state.\n"
             "This does not change the keyboard state,\n"
@@ -465,7 +465,7 @@ SCM_SYMBOL (gsdl_sym_state, "state");
 SCM_SYMBOL (gsdl_sym_x, "x");
 SCM_SYMBOL (gsdl_sym_y, "y");
 
-GH_DEFPROC (get_mouse_state, "sdl-get-mouse-state", 0, 0, 0,
+GH_DEFPROC (get_mouse_state, "get-mouse-state", 0, 0, 0,
             (void),
             "Retrieve the current state of the mouse.")
 #define FUNC_NAME s_get_mouse_state
@@ -478,7 +478,7 @@ GH_DEFPROC (get_mouse_state, "sdl-get-mouse-state", 0, 0, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (get_relative_mouse_state, "sdl-get-mouse-relative-state",
+GH_DEFPROC (get_relative_mouse_state, "get-mouse-relative-state",
             0, 0, 0, (),
             "Retrieve the current state of the mouse.")
 #define FUNC_NAME s_get_relative_mouse_state
@@ -491,7 +491,7 @@ GH_DEFPROC (get_relative_mouse_state, "sdl-get-mouse-relative-state",
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (button_p, "sdl-button?", 1, 0, 0,
+GH_DEFPROC (button_p, "button?", 1, 0, 0,
             (SCM mask),
             "")
 #define FUNC_NAME s_button_p
@@ -519,7 +519,7 @@ gsdl_init_event (void)
 
   /* event type constants */
   event_type_enum = gsdl_define_enum (
-    "sdl-event-types",
+    "event-types",
     "SDL_ACTIVEEVENT",      SDL_ACTIVEEVENT,
     "SDL_KEYDOWN",          SDL_KEYDOWN,
     "SDL_KEYUP",            SDL_KEYUP,
@@ -539,7 +539,7 @@ gsdl_init_event (void)
 
   /* keysyms */
   event_keysym_enum = gsdl_define_enum (
-    "sdl-event-keys",
+    "event-keys",
     "SDLK_BACKSPACE",  SDLK_BACKSPACE,
     "SDLK_TAB",  SDLK_TAB,
     "SDLK_CLEAR",  SDLK_CLEAR,
@@ -679,7 +679,7 @@ gsdl_init_event (void)
 
   /* event states */
   event_state_enum = gsdl_define_enum (
-    "sdl-event-states",
+    "event-states",
     "SDL_QUERY",  SDL_QUERY,
     "SDL_IGNORE",  SDL_IGNORE,
     "SDL_DISABLE",  SDL_DISABLE,

@@ -69,7 +69,7 @@ free_font (SCM s_font)
 }
 
 
-GH_DEFPROC (ttf_init, "sdl-ttf-init", 0, 0, 0,
+GH_DEFPROC (ttf_init, "ttf-init", 0, 0, 0,
             (void),
             "Initialize the SDL_ttf subsystem.")
 #define FUNC_NAME s_ttf_init
@@ -80,7 +80,7 @@ GH_DEFPROC (ttf_init, "sdl-ttf-init", 0, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_load_font, "sdl-load-font", 2, 0, 0,
+GH_DEFPROC (ttf_load_font, "load-font", 2, 0, 0,
             (SCM file, SCM ptsize),
             "Load a font from @var{file} with point size @var{ptsize}.\n"
             "Return a handle.")
@@ -96,7 +96,7 @@ GH_DEFPROC (ttf_load_font, "sdl-load-font", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_get_font_style, "sdl-font:style", 1, 0, 0,
+GH_DEFPROC (ttf_get_font_style, "font:style", 1, 0, 0,
             (SCM s_font),
             "Return the style of @var{font} (see @code{flagstash:ttf}).\n"
             "This font style is implemented by modifying the font glyphs, and\n"
@@ -111,7 +111,7 @@ GH_DEFPROC (ttf_get_font_style, "sdl-font:style", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_set_font_style, "sdl-font:set-style!", 2, 0, 0,
+GH_DEFPROC (ttf_set_font_style, "font:set-style!", 2, 0, 0,
             (SCM s_font, SCM s_style),
             "Set @var{font} style to @var{style} (see @code{flagstash:ttf}).\n"
             "This font style is implemented by modifying the font glyphs, and\n"
@@ -130,7 +130,7 @@ GH_DEFPROC (ttf_set_font_style, "sdl-font:set-style!", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_font_height, "sdl-font:height", 1, 0, 0,
+GH_DEFPROC (ttf_font_height, "font:height", 1, 0, 0,
             (SCM s_font),
             "Return the total height of @var{font},\n"
             "usually equal to point size.")
@@ -143,7 +143,7 @@ GH_DEFPROC (ttf_font_height, "sdl-font:height", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_font_ascent, "sdl-font:ascent", 1, 0, 0,
+GH_DEFPROC (ttf_font_ascent, "font:ascent", 1, 0, 0,
             (SCM s_font),
             "Return the offset from the baseline to the top of\n"
             "@var{font}.  This is a positive number.")
@@ -156,7 +156,7 @@ GH_DEFPROC (ttf_font_ascent, "sdl-font:ascent", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_font_descent, "sdl-font:descent", 1, 0, 0,
+GH_DEFPROC (ttf_font_descent, "font:descent", 1, 0, 0,
             (SCM s_font),
             "Return the offset from the baseline to the bottom of\n"
             "@var{font}.  This is a negative number.")
@@ -169,7 +169,7 @@ GH_DEFPROC (ttf_font_descent, "sdl-font:descent", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_font_line_skip, "sdl-font:line-skip", 1, 0, 0,
+GH_DEFPROC (ttf_font_line_skip, "font:line-skip", 1, 0, 0,
             (SCM s_font),
             "Return the recommended spacing between lines of\n"
             "text for @var{font}.")
@@ -188,7 +188,7 @@ SCM_SYMBOL (gsdl_sym_miny, "miny");
 SCM_SYMBOL (gsdl_sym_maxy, "maxy");
 SCM_SYMBOL (gsdl_sym_advance, "advance");
 
-GH_DEFPROC (ttf_glyph_metrics, "sdl-font:glyph-metrics", 2, 0, 0,
+GH_DEFPROC (ttf_glyph_metrics, "font:glyph-metrics", 2, 0, 0,
             (SCM s_font, SCM s_ch),
             "Return the metrics (dimensions) of a glyph as an alist.\n"
             "The glyph is a @var{font}-specific rendering of char @var{ch}.\n"
@@ -217,7 +217,7 @@ GH_DEFPROC (ttf_glyph_metrics, "sdl-font:glyph-metrics", 2, 0, 0,
 SCM_SYMBOL (gsdl_sym_w, "w");
 SCM_SYMBOL (gsdl_sym_h, "h");
 
-GH_DEFPROC (ttf_size_text, "sdl-font:size-text", 2, 0, 0,
+GH_DEFPROC (ttf_size_text, "font:size-text", 2, 0, 0,
             (SCM s_font, SCM s_text),
             "Return an alist with keys @code{w} and @code{h} and\n"
             "corresponding values (numbers) representing the width\n"
@@ -237,7 +237,7 @@ GH_DEFPROC (ttf_size_text, "sdl-font:size-text", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_size_utf8, "sdl-font:size-utf8", 2, 0, 0,
+GH_DEFPROC (ttf_size_utf8, "font:size-utf8", 2, 0, 0,
             (SCM s_font, SCM s_text),
             "Return an alist with keys @code{w} and @code{h} and\n"
             "corresponding values (numbers) representing the width\n"
@@ -257,7 +257,7 @@ GH_DEFPROC (ttf_size_utf8, "sdl-font:size-utf8", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_render_text, "sdl-render-text", 3, 1, 0,
+GH_DEFPROC (ttf_render_text, "render-text", 3, 1, 0,
             (SCM s_font, SCM s_text, SCM s_fg, SCM s_bg),
             "Return a new surface containing the @var{font}-specific\n"
             "rendering of the @var{text} string.\n"
@@ -295,7 +295,7 @@ GH_DEFPROC (ttf_render_text, "sdl-render-text", 3, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_render_utf8, "sdl-render-utf8", 3, 1, 0,
+GH_DEFPROC (ttf_render_utf8, "render-utf8", 3, 1, 0,
             (SCM s_font, SCM s_text, SCM s_fg, SCM s_bg),
             "Return a new surface containing a @var{font}-specific\n"
             "rendering of the utf8 string @var{text}.\n"
@@ -333,7 +333,7 @@ GH_DEFPROC (ttf_render_utf8, "sdl-render-utf8", 3, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_render_glyph, "sdl-render-glyph", 3, 1, 0,
+GH_DEFPROC (ttf_render_glyph, "render-glyph", 3, 1, 0,
             (SCM s_font, SCM s_ch, SCM s_fg, SCM s_bg),
             "Return a new surface containing a @var{font}-specific\n"
             "rendering of the character @var{ch}.\n"
@@ -371,7 +371,7 @@ GH_DEFPROC (ttf_render_glyph, "sdl-render-glyph", 3, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (ttf_quit, "sdl-ttf-quit", 0, 0, 0,
+GH_DEFPROC (ttf_quit, "ttf-quit", 0, 0, 0,
             (void),
             "Quit the SDL_ttf subsystem.")
 #define FUNC_NAME s_ttf_quit

@@ -64,7 +64,7 @@ print_color (SCM s_color, SCM port, scm_print_state *pstate)
 
 /* functions */
 
-GH_DEFPROC (make_color, "sdl-make-color", 3, 0, 0,
+GH_DEFPROC (make_color, "make-color", 3, 0, 0,
             (SCM s_r, SCM s_g, SCM s_b),
             "Return a color with @var{r}, @var{g}, and @var{b} components.")
 #define FUNC_NAME s_make_color
@@ -88,13 +88,13 @@ GH_DEFPROC (make_color, "sdl-make-color", 3, 0, 0,
 /* color getters and setters */
 
 #define NUMBER_GETTER(f)                        \
-  GSDL_NUMBER_GETTER ("sdl-color:" #f,          \
+  GSDL_NUMBER_GETTER ("color:" #f,              \
                       color_ ## f,              \
                       color_tag, SDL_Color *,   \
                       f)
 
 #define NUMBER_SETTER(f)                        \
-  GSDL_NUMBER_SETTER ("sdl-color:set-" #f "!",  \
+  GSDL_NUMBER_SETTER ("color:set-" #f "!",      \
                       color_set_ ## f,          \
                       color_tag, SDL_Color *,   \
                       f)

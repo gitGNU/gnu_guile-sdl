@@ -79,7 +79,7 @@ print_surface (SCM surface_smob, SCM port, scm_print_state *pstate)
 
 /* constructors */
 
-GH_DEFPROC (make_surface, "sdl-make-surface", 2, 1, 0,
+GH_DEFPROC (make_surface, "make-surface", 2, 1, 0,
             (SCM s_width,
              SCM s_height,
              SCM s_flags),
@@ -115,7 +115,7 @@ GH_DEFPROC (make_surface, "sdl-make-surface", 2, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (create_rgb_surface, "sdl-create-rgb-surface", 8, 0, 0,
+GH_DEFPROC (create_rgb_surface, "create-rgb-surface", 8, 0, 0,
             (SCM s_flags,
              SCM s_width, SCM s_height, SCM s_depth,
              SCM s_rmask, SCM s_gmask, SCM s_bmask, SCM s_amask),
@@ -155,7 +155,7 @@ GH_DEFPROC (create_rgb_surface, "sdl-create-rgb-surface", 8, 0, 0,
 /* accessors */
 
 #define NUMBER_GETTER(f,backend)                        \
-  GSDL_NUMBER_GETTER ("sdl-surface:" #f,                \
+  GSDL_NUMBER_GETTER ("surface:" #f,                    \
                       surface_get_ ## f,                \
                       surface_tag, SDL_Surface *,       \
                       backend)
@@ -164,7 +164,7 @@ NUMBER_GETTER (w, w)
 NUMBER_GETTER (h, h)
 NUMBER_GETTER (depth, format->BitsPerPixel)
 
-GSDL_FLAG_GETTER ("sdl-surface:flags", surface_get_flags,
+GSDL_FLAG_GETTER ("surface:flags", surface_get_flags,
                   surface_tag, SDL_Surface *,
                   flags, gsdl_video_flags)
 
@@ -183,7 +183,7 @@ GH_DEFPROC (surface_get_format, "surface-get-format", 1, 0, 0,
 
 /* utilities */
 
-GH_DEFPROC (surface_p, "sdl-surface?", 1, 0, 0,
+GH_DEFPROC (surface_p, "surface?", 1, 0, 0,
             (SCM obj),
             "Return true iff @var{obj} is a surface.")
 #define FUNC_NAME s_surface_p
@@ -194,7 +194,7 @@ GH_DEFPROC (surface_p, "sdl-surface?", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (lock_surface, "sdl-lock-surface", 1, 0, 0,
+GH_DEFPROC (lock_surface, "lock-surface", 1, 0, 0,
             (SCM s_surface),
             "Lock a @var{surface} for direct access.\n"
             "Return #t if successful.")
@@ -208,7 +208,7 @@ GH_DEFPROC (lock_surface, "sdl-lock-surface", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (unlock_surface, "sdl-unlock-surface", 1, 0, 0,
+GH_DEFPROC (unlock_surface, "unlock-surface", 1, 0, 0,
             (SCM s_surface),
             "Unlock a previously locked @var{surface}.\n"
             "The return value is unspecified.")
@@ -222,7 +222,7 @@ GH_DEFPROC (unlock_surface, "sdl-unlock-surface", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (load_bmp, "sdl-load-bmp", 1, 0, 0,
+GH_DEFPROC (load_bmp, "load-bmp", 1, 0, 0,
             (SCM s_file),
             "Return a surface made by loading the bitmap @var{file}.")
 #define FUNC_NAME s_load_bmp
@@ -235,7 +235,7 @@ GH_DEFPROC (load_bmp, "sdl-load-bmp", 1, 0, 0,
 
 
 /* Load an image in one of many formats */
-GH_DEFPROC (load_image, "sdl-load-image", 1, 0, 0,
+GH_DEFPROC (load_image, "load-image", 1, 0, 0,
             (SCM s_file),
             "Return a surface made by loading the image @var{file}.")
 #define FUNC_NAME s_load_bmp
@@ -247,7 +247,7 @@ GH_DEFPROC (load_image, "sdl-load-image", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (save_bmp, "sdl-save-bmp", 2, 0, 0,
+GH_DEFPROC (save_bmp, "save-bmp", 2, 0, 0,
             (SCM s_surface,
              SCM s_file),
             "Save @var{surface} to @var{file} in Windows BMP format.\n"
@@ -264,7 +264,7 @@ GH_DEFPROC (save_bmp, "sdl-save-bmp", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (set_color_key, "sdl-set-color-key!", 3, 0, 0,
+GH_DEFPROC (set_color_key, "set-color-key!", 3, 0, 0,
             (SCM s_surface,
              SCM s_flag,
              SCM s_key),
@@ -287,7 +287,7 @@ GH_DEFPROC (set_color_key, "sdl-set-color-key!", 3, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (set_alpha, "sdl-set-alpha!", 3, 0, 0,
+GH_DEFPROC (set_alpha, "set-alpha!", 3, 0, 0,
             (SCM s_surface,
              SCM s_flag,
              SCM s_alpha),
@@ -314,7 +314,7 @@ GH_DEFPROC (set_alpha, "sdl-set-alpha!", 3, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (set_clip_rect, "sdl-set-clip-rect!", 2, 0, 0,
+GH_DEFPROC (set_clip_rect, "set-clip-rect!", 2, 0, 0,
             (SCM s_surface,
              SCM s_rect),
             "Set @var{surface} clipping rectangle to @var{rect}.")
@@ -336,7 +336,7 @@ GH_DEFPROC (set_clip_rect, "sdl-set-clip-rect!", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (get_clip_rect, "sdl-get-clip-rect", 1, 0, 0,
+GH_DEFPROC (get_clip_rect, "get-clip-rect", 1, 0, 0,
             (SCM s_surface),
             "Return the clipping rectangle for @var{surface}.")
 #define FUNC_NAME s_get_clip_rect
@@ -351,7 +351,7 @@ GH_DEFPROC (get_clip_rect, "sdl-get-clip-rect", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (convert_surface, "sdl-convert-surface", 2, 1, 0,
+GH_DEFPROC (convert_surface, "convert-surface", 2, 1, 0,
             (SCM s_src,
              SCM s_fmt,
              SCM s_flags),
@@ -377,7 +377,7 @@ GH_DEFPROC (convert_surface, "sdl-convert-surface", 2, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (blit_surface, "sdl-blit-surface", 1, 3, 0,
+GH_DEFPROC (blit_surface, "blit-surface", 1, 3, 0,
             (SCM s_src,
              SCM s_srcrect,
              SCM s_dst,

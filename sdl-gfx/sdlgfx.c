@@ -30,7 +30,7 @@
 GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
 
-GH_DEFPROC (draw_point, "sdl-draw-point", 4, 0, 0,
+GH_DEFPROC (draw_point, "draw-point", 4, 0, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_color),
             "On @var{surface}, draw a point at location\n"
             "@var{x},@var{y} with color @var{color}.")
@@ -49,7 +49,7 @@ GH_DEFPROC (draw_point, "sdl-draw-point", 4, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (draw_line, "sdl-draw-line", 6, 0, 0,
+GH_DEFPROC (draw_line, "draw-line", 6, 0, 0,
             (SCM s_surface, SCM s_x1, SCM s_y1,
              SCM s_x2, SCM s_y2, SCM s_color),
             "On @var{surface}, draw a line segment from\n"
@@ -73,7 +73,7 @@ GH_DEFPROC (draw_line, "sdl-draw-line", 6, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (draw_aa_line, "sdl-draw-aa-line", 6, 0, 0,
+GH_DEFPROC (draw_aa_line, "draw-aa-line", 6, 0, 0,
             (SCM s_surface, SCM s_x1, SCM s_y1,
              SCM s_x2, SCM s_y2, SCM s_color),
             "On @var{surface}, draw an anti-aliased line segment from\n"
@@ -97,7 +97,7 @@ GH_DEFPROC (draw_aa_line, "sdl-draw-aa-line", 6, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (draw_rectangle, "sdl-draw-rectangle", 6, 1, 0,
+GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
             (SCM s_surface, SCM s_x1, SCM s_y1, SCM s_x2, SCM s_y2,
              SCM s_color, SCM s_fill),
             "On @var{surface}, draw rectangle with opposite points\n"
@@ -125,7 +125,7 @@ GH_DEFPROC (draw_rectangle, "sdl-draw-rectangle", 6, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (draw_circle, "sdl-draw-circle", 5, 1, 0,
+GH_DEFPROC (draw_circle, "draw-circle", 5, 1, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_r,
              SCM s_color, SCM s_fill),
             "On @var{surface}, draw circle with center @var{x},@var{y}\n"
@@ -151,7 +151,7 @@ GH_DEFPROC (draw_circle, "sdl-draw-circle", 5, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (draw_ellipse, "sdl-draw-ellipse", 6, 1, 0,
+GH_DEFPROC (draw_ellipse, "draw-ellipse", 6, 1, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_rx, SCM s_ry,
              SCM s_color, SCM s_fill),
             "On @var{surface}, draw ellipse with center @var{x},@var{y}\n"
@@ -178,7 +178,7 @@ GH_DEFPROC (draw_ellipse, "sdl-draw-ellipse", 6, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (draw_polygon, "sdl-draw-polygon", 4, 1, 0,
+GH_DEFPROC (draw_polygon, "draw-polygon", 4, 1, 0,
             (SCM s_surface, SCM s_vx, SCM s_vy, SCM s_color, SCM s_fill),
             "On @var{surface}, draw a polygon whose points are specified\n"
             "by corresponding pairs from the uniform vectors\n"
@@ -211,7 +211,7 @@ GH_DEFPROC (draw_polygon, "sdl-draw-polygon", 4, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (draw_character, "sdl-draw-character", 5, 0, 0,
+GH_DEFPROC (draw_character, "draw-character", 5, 0, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_char, SCM s_color),
             "On @var{surface} at position @var{x},@var{y},\n"
             "draw char @var{c} with @var{color} (a number).")
@@ -231,7 +231,7 @@ GH_DEFPROC (draw_character, "sdl-draw-character", 5, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (draw_string, "sdl-draw-string", 5, 0, 0,
+GH_DEFPROC (draw_string, "draw-string", 5, 0, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_string, SCM s_color),
             "On @var{surface} at position @var{x},@var{y},\n"
             "draw string @var{text} with @var{color} (a number).")
