@@ -1,3 +1,15 @@
+2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlmixer.c (mix_open_audio): Handle #f same as
+	unbound, for `s_freq', `s_format' and `s_chunksize'.
+	(mix_play_channel): Likewise,
+	for `s_channel', `s_loops' and `s_ticks'.
+	(mix_play_music): Likewise, for `s_loops'.
+	(mix_volume): Likewise, for `s_volume'.
+	(mix_expire_channel): Likewise, for `s_channel'.
+	(mix_fade_out_channel): Likewise for `s_which'.
+	(mix_fade_out_group): Likewise for `s_tag'.
+
 2004-01-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am: Move everything except "include $(top_srcdir)/am/common"
