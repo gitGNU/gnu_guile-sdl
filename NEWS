@@ -41,6 +41,12 @@ Please send guile-sdl bug reports to <ttn@glug.org>.
 	to add this back, or possibly choose another prefix.  In this
 	distribution, the tests, examples and documentation use "SDL:".
 
+  - "make check" now respects INTERACTIVE env var
+
+	Normally "make check" skips tests that require human
+	interaction.  You can do "make check INTERACTIVE=1" to
+	enable running those tests as well.
+
 
 - maintainership transfer: ttn
 
