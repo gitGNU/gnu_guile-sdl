@@ -12,6 +12,10 @@
 #define RETURN_INT(exp) \
   return gh_long2scm (exp)
 
+/* Return a converted unsigned integer.  */
+#define RETURN_UINT(exp) \
+  return gh_ulong2scm (exp)
+
 /* Return a converted boolean.  */
 #define RETURN_BOOL(exp) \
   return gh_bool2scm (exp)
