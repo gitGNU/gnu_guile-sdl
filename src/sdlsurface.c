@@ -252,7 +252,7 @@ GH_DEFPROC (load_image, "load-image", 1, 0, 0,
 /* Experimental: Load an image in one of many formats from a string.  */
 GH_DEFPROC (string_to_image, "string->image", 1, 0, 0,
             (SCM s),
-            "Return a surface made by loading an image data from string"
+            "Return a surface made by loading image data from string\n"
             "@var{s}.  [WARNING: This procedure is experimental!]")
 #define FUNC_NAME s_string_to_image
 {
