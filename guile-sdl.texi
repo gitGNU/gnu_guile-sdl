@@ -70,8 +70,9 @@ concepts where useful, such as default arguments and functional-style
 application of graphics routines.  Several SDL add-on libraries have
 been wrapped and included with guile-sdl, including SDL_image (for
 loading multiple image formats), SDL_ttf (for rendering true type
-fonts), and SDL_mixer (for playing/mixing different audio formats).
-In addition, some low-level 2D graphics primitives have been provided.
+fonts), SDL_mixer (for playing/mixing different audio formats), and
+SDL_rotozoom (for rotating and scaling images).  In addition, some
+low-level 2D graphics primitives have been provided.
 
 @menu
 * Quick Start::                A simple example
@@ -95,7 +96,7 @@ backwards, and escape or q to quit.
              (srfi srfi-2))
 
 ;; initialize the video subsystem
-(sdl-init sdl-init/video)
+(sdl-init '(SDL_INIT_VIDEO))
 
 ;; directory to search for images in
 (define image-dir "/usr/share/pixmaps/")
@@ -134,8 +135,7 @@ backwards, and escape or q to quit.
 ;; display an image given a filename
 (define (show file)
   (and-let* ((image (sdl-load-image file)))
-    (sdl-set-video-mode (sdl-surface:w image) (sdl-surface:h image)
-                        24 sdl-video/hwsurface)
+    (sdl-set-video-mode (sdl-surface:w image) (sdl-surface:h image) 24)
     (sdl-blit-surface image)
     (sdl-flip)))
 
@@ -146,13 +146,13 @@ backwards, and escape or q to quit.
 (let handle ((e (sdl-make-event)))
   (if (sdl-wait-event e)
     (case (sdl-event:type e)
-      ((event/key-down)
+      ((SDL_KEYDOWN)
        (case (sdl-event:key:keysym:sym e)
-         ((key/left key/backspace)
+         ((SDLK_LEFT SDLK_BACKSPACE)
           (show (prev-image)))
-         ((key/right key/space)
+         ((SDLK_RIGHT SDLK_SPACE)
           (show (next-image)))
-         ((key/escape key/q)
+         ((SDLK_ESCAPE SDLK_q)
           (sdl-quit)
           (quit))))))
   (handle e))
@@ -185,16 +185,17 @@ value have a question mark (@code{?}) appended.
 @node Enums and Constants, Create and Make, Renaming C Functions, Naming Conventions
 @subsection Enums and Constants
 
-SDL flags and numeric constants are denoted with a @code{sdl-type/}
-prefix.  So for instance, the @code{SDL_INIT_FOO} constants are
-renamed @code{sdl-init/foo}.  In a few instances a type prefix has
-been introduced where one did not previously exist, to more clearly
-indicate the symbol as a constant and document its intent.
+SDL enumerated types and constants are passed and returned as symbols,
+thus enforcing their "constant" nature and for ease of use in
+@code{case} statements.  Flags, such as the SDL initialization flags
+and video surface flags, are treated as lists of symbols, each
+constant in the flag group that you would @code{or} together in C code
+becoming a symbol in the list.  All such constant symbols retain their
+exact C names.
 
-The enumerated types for event types and key symbols are translated as
-symbols, for ease of use in @code{case} statements.  This is not done
-for other constants, which are typically flags that need to be joined
-with @code{logior}.
+You may also pass numbers, and can convert between the symbol and
+numeric value with @code{enum->number}, @code{number->enum},
+@code{flags->number}, @code{number->flags}.
 
 @node Create and Make, , Enums and Constants, Naming Conventions
 @subsection Create and Make
