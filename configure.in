@@ -150,6 +150,7 @@ AC_CONFIG_FILES([
   sdl-gfx/Makefile
   sdl-gfx/SDL_gfxPrimitives/Makefile
   doc/Makefile
+  wily-guile
 ])
 
 AC_CONFIG_COMMANDS([module-catalog-prep],[
@@ -157,6 +158,10 @@ AC_CONFIG_COMMANDS([module-catalog-prep],[
   prereq=.deps/pre-inst.Pmerged-module-catalog
   test -f $prereq || echo '# dummy' > $prereq
   grep -q "include $prereq" Makefile || echo include $prereq >> Makefile
+])
+
+AC_CONFIG_COMMANDS([chmod-plus-x],[
+  chmod +x ./wily-guile
 ])
 
 AC_OUTPUT
