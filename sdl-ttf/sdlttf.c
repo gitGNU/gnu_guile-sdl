@@ -1,11 +1,8 @@
 /*******************************************************************
- *  ttf.c -- SDL_ttf for Guile                                     *
+ *  sdlttf.c -- SDL_ttf for Guile                                  *
  *                                                                 *
  *  Created:    <2001-06-11 18:03:28 foof>                         *
- *  Time-stamp: <2001-07-29 00:11:55 foof>                         *
- *  Author:     Alex Shinn <foof@debian.org>                       *
- *                                                                 *
- *  Copyright (C) 2001 Alex Shinn                                  *
+ *  Time-stamp: <2001-08-05 15:26:51 foof>                         *
  *                                                                 *
  *  This program is free software; you can redistribute it and/or  *
  * modify it under the terms of the GNU General Public License as  *
@@ -30,14 +27,21 @@
 long ttf_font_tag;
 SCM sdl_ttf_flags;
 
-SCM
-ttf_init (void)
+SCM_DEFINE( ttf_init, "sdl-ttf-init", 0, 0, 0,
+            (),
+"Initialize the SDL_ttf subsystem.")
+#define FUNC_NAME s_ttf_init
 {
   return (TTF_Init () ? SCM_BOOL_T : SCM_BOOL_F);
 }
+#undef FUNC_NAME
 
-SCM
-ttf_load_font (SCM file, SCM ptsize)
+
+SCM_DEFINE( ttf_load_font, "sdl-load-font", 2, 0, 0,
+            (SCM file,
+             SCM ptsize),
+"Load a font from a file given a point size.")
+#define FUNC_NAME s_ttf_load_font
 {
   TTF_Font *font;
 
@@ -48,13 +52,15 @@ ttf_load_font (SCM file, SCM ptsize)
   font = TTF_OpenFont (SCM_CHARS (file), scm_num2long (ptsize, SCM_ARG1, "scm_num2long"));
   SCM_RETURN_NEWSMOB (ttf_font_tag, font);
 }
+#undef FUNC_NAME
 
-/* Set and retrieve the font style
-   This font style is implemented by modifying the font glyphs, and
-   doesn't reflect any inherent properties of the truetype font file.
-*/
-SCM 
-ttf_get_font_style (SCM s_font) 
+
+SCM_DEFINE( ttf_get_font_style, "sdl-font:style", 1, 0, 0,
+            (SCM s_font),
+"Retrieve the font's style.
+This font style is implemented by modifying the font glyphs, and
+doesn't reflect any inherent properties of the truetype font file.")
+#define FUNC_NAME s_ttf_get_font_style
 { 
   TTF_Font *font; 
 
@@ -63,12 +69,16 @@ ttf_get_font_style (SCM s_font)
 
   return scm_ulong2flags (TTF_GetFontStyle (font), sdl_ttf_flags); 
 } 
+#undef FUNC_NAME
 
-/* SCM_DEFINE_FLAG_GETTER ("sdl-font:style", ttf_get_font_style, ttf_font_tag, */
-/*                         TTF_Font*, , sdl_ttf_flags) */
 
-SCM
-ttf_set_font_style (SCM s_font, SCM s_style)
+SCM_DEFINE( ttf_set_font_style, "sdl-font:set-style!", 2, 0, 0,
+            (SCM s_font,
+             SCM s_style),
+"Set the font's style.
+This font style is implemented by modifying the font glyphs, and
+doesn't reflect any inherent properties of the truetype font file.")
+#define FUNC_NAME s_ttf_set_font_style
 {
   TTF_Font *font;
   int style;
@@ -82,10 +92,13 @@ ttf_set_font_style (SCM s_font, SCM s_style)
   TTF_SetFontStyle (font, style);
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-/* Get the total height of the font - usually equal to point size */
-SCM
-ttf_font_height (SCM s_font)
+
+SCM_DEFINE( ttf_font_height, "sdl-font:height", 1, 0, 0,
+            (SCM s_font),
+"Get the total height of the font - usually equal to point size.")
+#define FUNC_NAME s_ttf_font_height
 {
   TTF_Font *font;
 
@@ -94,12 +107,14 @@ ttf_font_height (SCM s_font)
 
   return scm_long2num (TTF_FontHeight (font));
 }
+#undef FUNC_NAME
 
-/* Get the offset from the baseline to the top of the font
-   This is a positive value, relative to the baseline.
- */
-SCM
-ttf_font_ascent (SCM s_font)
+
+SCM_DEFINE( ttf_font_ascent, "sdl-font:ascent", 1, 0, 0,
+            (SCM s_font),
+"Get the offset from the baseline to the top of the font.
+This is a positive value, relative to the baseline.")
+#define FUNC_NAME s_ttf_font_ascent
 {
   TTF_Font *font;
 
@@ -108,12 +123,14 @@ ttf_font_ascent (SCM s_font)
 
   return scm_long2num (TTF_FontAscent (font));
 }
+#undef FUNC_NAME
 
-/* Get the offset from the baseline to the bottom of the font
-   This is a negative value, relative to the baseline.
- */
-SCM
-ttf_font_descent (SCM s_font)
+
+SCM_DEFINE( ttf_font_descent, "sdl-font:descent", 1, 0, 0,
+            (SCM s_font),
+"Get the offset from the baseline to the bottom of the font.
+This is a negative value, relative to the baseline.")
+#define FUNC_NAME s_ttf_font_descent
 {
   TTF_Font *font;
 
@@ -122,10 +139,13 @@ ttf_font_descent (SCM s_font)
 
   return scm_long2num (TTF_FontDescent (font));
 }
+#undef FUNC_NAME
 
-/* Get the recommended spacing between lines of text for this font */
-SCM
-ttf_font_line_skip (SCM s_font)
+
+SCM_DEFINE( ttf_font_line_skip, "sdl-font:line-skip", 1, 0, 0,
+            (SCM s_font),
+"Get the recommended spacing between lines of text for this font.")
+#define FUNC_NAME s_ttf_font_line_skip
 {
   TTF_Font *font;
 
@@ -134,10 +154,14 @@ ttf_font_line_skip (SCM s_font)
 
   return scm_long2num (TTF_FontLineSkip (font));
 }
+#undef FUNC_NAME
 
-/* Get the metrics (dimensions) of a glyph */
-SCM
-ttf_glyph_metrics (SCM s_font, SCM s_ch)
+
+SCM_DEFINE( ttf_glyph_metrics, "sdl-font:glyph-metrics", 2, 0, 0,
+            (SCM s_font,
+             SCM s_ch),
+"Get the metrics (dimensions) of a glyph as an alist.")
+#define FUNC_NAME s_ttf_glyph_metrics
 {
   TTF_Font *font;
   Uint16 ch;
@@ -151,14 +175,21 @@ ttf_glyph_metrics (SCM s_font, SCM s_ch)
 
   TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance);
 
-  return SCM_LIST5 (scm_long2num (minx),   scm_long2num (maxx),
-                    scm_long2num (miny),   scm_long2num (maxy),
-                    scm_long2num (advance));
+  return SCM_LIST5 (scm_cons (scm_str2symbol ("minx"), scm_long2num (minx)),
+                    scm_cons (scm_str2symbol ("maxx"), scm_long2num (maxx)),
+                    scm_cons (scm_str2symbol ("miny"), scm_long2num (miny)),
+                    scm_cons (scm_str2symbol ("maxy"), scm_long2num (maxy)),
+                    scm_cons (scm_str2symbol ("advance"),
+                              scm_long2num (advance)));
 }
+#undef FUNC_NAME
 
-/* Get the dimensions of a rendered string of text */
-SCM
-ttf_size_text (SCM s_font, SCM s_text)
+
+SCM_DEFINE( ttf_size_text, "sdl-font:size-text", 2, 0, 0,
+            (SCM s_font,
+             SCM s_text),
+"Get the dimensions of a rendered string of text as an alist.")
+#define FUNC_NAME s_ttf_size_text
 {
   TTF_Font *font;
   char *text;
@@ -172,11 +203,17 @@ ttf_size_text (SCM s_font, SCM s_text)
   text = SCM_CHARS (s_text);
 
   TTF_SizeText (font, text, &w, &h);
-  return SCM_LIST2 (scm_int2num (w), scm_int2num (h));
+  return SCM_LIST2 (scm_cons (scm_str2symbol ("w"), scm_long2num (w)),
+                    scm_cons (scm_str2symbol ("h"), scm_long2num (h)));
 }
+#undef FUNC_NAME
 
-SCM
-ttf_size_utf8 (SCM s_font, SCM s_text)
+
+SCM_DEFINE( ttf_size_utf8, "sdl-font:size-utf8", 2, 0, 0,
+            (SCM s_font,
+             SCM s_text),
+"Get the dimensions of a rendered utf8 string of text as an alist.")
+#define FUNC_NAME s_ttf_size_utf8
 {
   TTF_Font *font;
   char *text;
@@ -192,14 +229,23 @@ ttf_size_utf8 (SCM s_font, SCM s_text)
   TTF_SizeUTF8 (font, text, &w, &h);
   return SCM_LIST2 (scm_long2num (w), scm_long2num (h));
 }
+#undef FUNC_NAME
 
 /* SCM */
 /* ttf_size_unicode (SCM font, SCM text) */
 /* { */
 /* } */
 
-SCM
-ttf_render_text (SCM s_font, SCM s_text, SCM s_fg, SCM s_bg)
+
+SCM_DEFINE( ttf_render_text, "sdl-render-text", 3, 1, 0,
+            (SCM s_font,
+             SCM s_text,
+             SCM s_fg,
+             SCM s_bg),
+"Return a new surface containing text rendered in a font.
+Third argument is the foreground color; optional fourth argument
+is the background color, or #t if the text is to be blended.")
+#define FUNC_NAME s_ttf_render_text
 {
   TTF_Font *font;
   SDL_Color *fg, *bg;
@@ -230,9 +276,18 @@ ttf_render_text (SCM s_font, SCM s_text, SCM s_fg, SCM s_bg)
 
   SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
+#undef FUNC_NAME
 
-SCM
-ttf_render_utf8 (SCM s_font, SCM s_text, SCM s_fg, SCM s_bg)
+
+SCM_DEFINE( ttf_render_utf8, "sdl-render-utf8", 3, 1, 0,
+            (SCM s_font,
+             SCM s_text,
+             SCM s_fg,
+             SCM s_bg),
+"Return a new surface containing a utf8 string rendered in a font.
+Third argument is the foreground color; optional fourth argument
+is the background color, or #t if the text is to be blended.")
+#define FUNC_NAME s_ttf_render_utf8
 {
   TTF_Font *font;
   SDL_Color *fg, *bg;
@@ -260,21 +315,23 @@ ttf_render_utf8 (SCM s_font, SCM s_text, SCM s_fg, SCM s_bg)
 
   SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
+#undef FUNC_NAME
 
 /* SCM */
 /* ttf_render_unicode_solid (SCM font, SCM text, SCM fg) */
 /* { */
 /* } */
 
-/* Create an 8-bit palettized surface and render the given glyph at
-   fast quality with the given font and color.  The 0 pixel is the
-   colorkey, giving a transparent background, and the 1 pixel is set
-   to the text color.  The glyph is rendered without any padding or
-   centering in the X direction, and aligned normally in the Y direction.
-   This function returns the new surface, or NULL if there was an error.
-*/
-SCM
-ttf_render_glyph (SCM s_font, SCM s_ch, SCM s_fg, SCM s_bg)
+
+SCM_DEFINE( ttf_render_glyph, "sdl-render-glyph", 3, 1, 0,
+            (SCM s_font,
+             SCM s_ch,
+             SCM s_fg,
+             SCM s_bg),
+"Return a new surface containing a char rendered in a font.
+Third argument is the foreground color; optional fourth argument
+is the background color, or #t if the text is to be blended.")
+#define FUNC_NAME s_ttf_render_glyph
 {
   TTF_Font *font;
   SDL_Color *fg, *bg;
@@ -301,6 +358,7 @@ ttf_render_glyph (SCM s_font, SCM s_ch, SCM s_fg, SCM s_bg)
 
   SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
+#undef FUNC_NAME
 
 
 /* Close an opened font file */
@@ -312,16 +370,19 @@ free_font (SCM s_font)
   return sizeof (struct TTF_Font*);
 }
 
-/* De-initialize the TTF engine */
-SCM
-ttf_quit (void)
+
+SCM_DEFINE( ttf_quit, "sdl-ttf-quit", 0, 0, 0,
+            (),
+"Quit the SDL_ttf subsystem.")
+#define FUNC_NAME s_ttf_quit
 {
   TTF_Quit ();
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
 
-/* initialize the mixer subsystem */
+/* initialize the ttf subsystem */
 void
 sdl_ttf_init (void)
 {
@@ -338,23 +399,6 @@ sdl_ttf_init (void)
     "TTF_STYLE_UNDERLINE",   TTF_STYLE_UNDERLINE,
     NULL);
 
-  /* functions */
-  scm_c_define_gsubr ("sdl-ttf-init",            0, 0, 0, ttf_init);
-  scm_c_define_gsubr ("sdl-ttf-quit",            0, 0, 0, ttf_quit);
-  scm_c_define_gsubr ("sdl-load-font",           2, 0, 0, ttf_load_font);
-  scm_c_define_gsubr ("sdl-font:style",          1, 0, 0, ttf_get_font_style);
-  scm_c_define_gsubr ("sdl-font:set-style!",     2, 0, 0, ttf_set_font_style);
-  scm_c_define_gsubr ("sdl-font:height",         1, 0, 0, ttf_font_height);
-  scm_c_define_gsubr ("sdl-font:ascent",         1, 0, 0, ttf_font_ascent);
-  scm_c_define_gsubr ("sdl-font:descent",        1, 0, 0, ttf_font_descent);
-  scm_c_define_gsubr ("sdl-font:line-skip",      1, 0, 0, ttf_font_line_skip);
-  scm_c_define_gsubr ("sdl-font:glyph-metrics",  2, 0, 0, ttf_glyph_metrics);
-  scm_c_define_gsubr ("sdl-font:size-text",      2, 0, 0, ttf_size_text);
-  scm_c_define_gsubr ("sdl-font:size-utf8",      2, 0, 0, ttf_size_utf8);
-  scm_c_define_gsubr ("sdl-render-text",         3, 1, 0, ttf_render_text);
-  scm_c_define_gsubr ("sdl-render-utf8",         3, 1, 0, ttf_render_utf8);
-  scm_c_define_gsubr ("sdl-render-glyph",        3, 1, 0, ttf_render_glyph);
-
   /* exported symbols */
   scm_c_export (
     "sdl-ttf-flags",
@@ -364,5 +408,10 @@ sdl_ttf_init (void)
     "sdl-font:glyph-metrics",   "sdl-font:size-text",     "sdl-font:size-utf8",
     "sdl-render-text",          "sdl-render-utf8",        "sdl-render-glyph",
     NULL);
+
+#ifndef SCM_MAGIC_SNARFER
+#include "sdlttf.x"
+#endif
+
 }
 

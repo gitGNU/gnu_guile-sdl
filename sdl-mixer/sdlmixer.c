@@ -2,7 +2,7 @@
  *  sdlmixer.c -- SDL_mixer for Guile                              *
  *                                                                 *
  *  Created:    <2001-06-10 16:45:57 foof>                         *
- *  Time-stamp: <2001-08-05 14:19:02 foof>                         *
+ *  Time-stamp: <2001-08-05 15:27:12 foof>                         *
  *                                                                 *
  *  This program is free software; you can redistribute it and/or  *
  * modify it under the terms of the GNU General Public License as  *
@@ -766,42 +766,6 @@ sdl_mixer_init (void)
       "MIX_FADING_OUT",     MIX_FADING_OUT,
       "MIX_FADING_IN",      MIX_FADING_IN,
       NULL);
-
-   /* functions */
-/*    scm_c_define_gsubr ("sdl-open-audio",               0, 4, 0, mix_open_audio); */
-/*    scm_c_define_gsubr ("sdl-allocate-channels",        1, 0, 0, mix_allocate_channels); */
-/*    scm_c_define_gsubr ("sdl-query-spec",               0, 0, 0, mix_query_spec); */
-/*    scm_c_define_gsubr ("sdl-load-music",               1, 0, 0, mix_load_music); */
-/*    scm_c_define_gsubr ("sdl-load-wave",                1, 0, 0, mix_load_wave); */
-/*    scm_c_define_gsubr ("sdl-reserve-channels",         1, 0, 0, mix_reserve_channels); */
-/*    scm_c_define_gsubr ("sdl-group-channel",            1, 1, 0, mix_group_channel); */
-/*    scm_c_define_gsubr ("sdl-group-channels",           2, 1, 0, mix_group_channels); */
-/*    scm_c_define_gsubr ("sdl-group-available",          0, 1, 0, mix_group_available); */
-/*    scm_c_define_gsubr ("sdl-group-count",              0, 1, 0, mix_group_count); */
-/*    scm_c_define_gsubr ("sdl-group-oldest",             0, 1, 0, mix_group_oldest); */
-/*    scm_c_define_gsubr ("sdl-group-newer",              0, 1, 0, mix_group_newer); */
-/*    scm_c_define_gsubr ("sdl-play-channel",             1, 4, 0, mix_play_channel); */
-/*    scm_c_define_gsubr ("sdl-play-music",               1, 2, 0, mix_play_music); */
-/*    scm_c_define_gsubr ("sdl-volume",                   0, 2, 0, mix_volume); */
-/*    scm_c_define_gsubr ("sdl-volume-music",             0, 1, 0, mix_volume_music); */
-/*    scm_c_define_gsubr ("sdl-halt-channel",             0, 1, 0, mix_halt_channel); */
-/*    scm_c_define_gsubr ("sdl-halt-group",               0, 1, 0, mix_halt_group); */
-/*    scm_c_define_gsubr ("sdl-halt-music",               0, 0, 0, mix_halt_music); */
-/*    scm_c_define_gsubr ("sdl-expire-channel",           0, 2, 0, mix_expire_channel); */
-/*    scm_c_define_gsubr ("sdl-fade-out-channel",         0, 2, 0, mix_fade_out_channel); */
-/*    scm_c_define_gsubr ("sdl-fade-out-group",           0, 2, 0, mix_fade_out_group); */
-/*    scm_c_define_gsubr ("sdl-fade-out-music",           0, 1, 0, mix_fade_out_music); */
-/*    scm_c_define_gsubr ("sdl-pause",                    0, 1, 0, mix_pause); */
-/*    scm_c_define_gsubr ("sdl-resume",                   0, 1, 0, mix_resume); */
-/*    scm_c_define_gsubr ("sdl-paused?",                  0, 1, 0, mix_paused); */
-/*    scm_c_define_gsubr ("sdl-pause-music",              0, 0, 0, mix_pause_music); */
-/*    scm_c_define_gsubr ("sdl-resume-music",             0, 0, 0, mix_resume_music); */
-/*    scm_c_define_gsubr ("sdl-rewind-music",             0, 0, 0, mix_rewind_music); */
-/*    scm_c_define_gsubr ("sdl-paused-music?",            0, 0, 0, mix_paused_music); */
-/*    scm_c_define_gsubr ("sdl-playing?",                 0, 1, 0, mix_playing); */
-/*    scm_c_define_gsubr ("sdl-playing-music?",           0, 0, 0, mix_playing_music); */
-/*    scm_c_define_gsubr ("sdl-set-music-command",        1, 0, 0, mix_set_music_cmd); */
-/*    scm_c_define_gsubr ("sdl-close-audio",              0, 0, 0, mix_close_audio); */
 
    /* exported symbols */
    scm_c_export (
