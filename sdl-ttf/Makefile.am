@@ -2,36 +2,34 @@
 
 AUTOMAKE_OPTIONS = gnu
 
-AM_CPPFLAGS = -I../include/
+AM_CPPFLAGS = -I.. -I. -I$(srcdir) -I$(top_srcdir)/include
 
 EXTRA_DIST = sdlttf.h
 
+cmoddir = $(guilelibsitedir)/sdl
+
 WRAPPER_SOURCES = sdlttf.c
-BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x)
-BUILT_DOCS   = $(WRAPPER_SOURCES:.c=.texi)
+FLAGSTASH       = ttff.c
+BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH)
+BUILT_DOCS	= $(WRAPPER_SOURCES:.c=.texi)
 
 if HAVE_TTF
-lib_LTLIBRARIES = libguileSDL_ttf.la
-libguileSDL_ttf_la_SOURCES = $(BUILT_SOURCES) $(WRAPPER_SOURCES)
-libguileSDL_ttf_la_CFLAGS  = $(CFLAGS)
+cmod_LTLIBRARIES = ttf.la
+ttf_la_SOURCES = $(BUILT_SOURCES) $(WRAPPER_SOURCES)
+ttf_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module -lSDL_ttf
 else
-lib_LTLIBRARIES =
-libguileSDL_ttf_la_SOURCES =
-libguileSDL_ttf_la_CFLAGS  =
+cmod_LTLIBRARIES =
+ttf_la_SOURCES =
+ttf_la_LDFLAGS =
 endif
 
-libguileSDL_ttf_la_LDFLAGS =             \
-        -release $(LT_RELEASE)  \
-        -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
-libguileSDL_ttf_la_DEPENDENCIES = $(BUILT_DOCS)
-
 # snarfing
-GUILE_SNARF = guile-snarf
+SUFFIXES = .x .texi .doc .fspec
+.c.x:
+	$(c2x) -o $@ $< $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS)
 
-SUFFIXES = .x .texi .doc
-%.x: %.c
-	$(GUILE_SNARF) $< $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS) > $@ \
-	|| { rm $@; false; }
+.fspec.c:
+	pre-inst-guile-tools fspec2c -o $@ $<
 
 DISTCLEANFILES = *.x
 
@@ -48,3 +46,5 @@ GUILE_SNARF_DOCS_TEXI = guile-snarf-docs-texi
 	touch $@
 #	$(GUILE_SNARF_DOCS_TEXI) $< > $@ \
 #	|| { rm $@; false; }
+
+# Makefile.am ends here
