@@ -8,7 +8,7 @@ lib_LTLIBRARIES = libguileSDL.la
 
 BUILT_SOURCES = sdl.x
 libguileSDL_la_SOURCES = guile-sdl.c guile-sdl.h video.c video.h image.c \
-			 image.h gfx.c gfx.h event.c event.h
+			 image.h gfx.c gfx.h event.c event.h scm.c scm.h
 libguileSDL_la_LDFLAGS = -lSDL -lSDL_image -lpthread -version-info 0:0 -export-dynamic
 
 sdldir = $(datadir)/guile
