@@ -1,3 +1,14 @@
+2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdl.c: Rename GH_DEFPROC funcs to omit leading "sdl_".
+	Update associated "#define FUNC_NAME".
+	* sdlcdrom.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlroto.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlvideo.c: Likewise.
+
 2003-11-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlcdrom.c: Use GH_DEFPROC instead of MDEFLOCEXP.

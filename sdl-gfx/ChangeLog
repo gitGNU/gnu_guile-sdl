@@ -1,3 +1,8 @@
+2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlgfx.c: Rename GH_DEFPROC funcs to omit leading "sdl_".
+	Update associated "#define FUNC_NAME".
+
 2003-11-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlgfx.c: Add GH_USE_MODULE for `(sdl sdl-sup)'.
