@@ -1,5 +1,10 @@
 2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* configure.in (AC_DISABLE_STATIC):
+	New macro call, before `AM_PROG_LIBTOOL'.
+
+2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* am/snarfing (snarfcppopts): Add "-I." and "-I..".
 
 2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
