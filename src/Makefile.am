@@ -18,11 +18,13 @@ WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
 FLAGSTASH       = initf.c kmodf.c videof.c palettef.c overlayf.c
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH)
 
-sdl_sup_la_SOURCES = $(BUILT_SOURCES) $(WRAPPER_SOURCES)
+sdl_sup_la_SOURCES = $(FLAGSTASH) $(WRAPPER_SOURCES)
 sdl_sup_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module \
 	-LSDL_rotozoom -lrotozoom
 
+## empty directive for $(top_srcdir)/am/fspec support
+EXTRA_DIST =
 include $(top_srcdir)/am/fspec
 include $(top_srcdir)/am/snarfing
 
-# Makefile.am ends here
+## Makefile.am ends here
