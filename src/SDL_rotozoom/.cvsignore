@@ -1,6 +1,0 @@
-.deps
-.libs
-Makefile
-Makefile.in
-SDL_rotozoom.lo
-librotozoom.la
