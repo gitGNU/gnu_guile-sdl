@@ -1,5 +1,9 @@
 2004-09-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* guile-sdl.texi (Create and Make): Use "object" instead of "smob".
+
+2004-09-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* Makefile.am (ref.texi): Make depend on all the *.c files.
 	(ef-ref.texi): Likewise.
 
