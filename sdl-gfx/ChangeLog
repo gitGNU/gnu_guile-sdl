@@ -1,3 +1,24 @@
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* SDL_gfx/Makefile.am: New file.
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* SDL_gfx: New directory.
+	* SDL_gfx/LICENSE: Initial revision from SDL_gfx 2.0.13.
+	* SDL_gfx/Makefile.in: Likewise.
+	* SDL_gfx/README: Likewise.
+	* SDL_gfx/SDL_framerate.c: Likewise.
+	* SDL_gfx/SDL_framerate.h: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives.c: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives.h: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives_font.h: Likewise.
+	* SDL_gfx/SDL_imageFilter.c: Likewise.
+	* SDL_gfx/SDL_imageFilter.h: Likewise.
+	* SDL_gfx/SDL_rotozoom.c: Likewise.
+	* SDL_gfx/SDL_rotozoom.h: Likewise.
+	* SDL_gfx/nodebug.sh: Likewise.
+
 2005-01-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlgfx.c (draw_aa_circle): New GH_DEFPROC.
