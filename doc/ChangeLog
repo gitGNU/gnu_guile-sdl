@@ -1,3 +1,9 @@
+2004-05-26  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (minusIttfdocindex) [HAVE_TTF]: New var.
+	(minusImixerdocindex) [HAVE_MIXER]: New var.
+	(.twerp.texi): Use new vars.
+
 2004-03-04  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* ref.twerp (Video): Add @twerpdoc for `string->image'.
