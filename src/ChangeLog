@@ -1,3 +1,21 @@
+2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlcdrom.c (cd_play_tracks): Handle #f same as unbound, for
+	`s_start_track', `s_start_frame', `s_n_tracks' and `s_n_frames'.
+	(cd_msf_to_frames): Likewise, for `s_s' and `s_f'.
+
+	* sdlevent.c (make_keysym): Handle #f same as unbound for `sym'.
+
+	* sdlroto.c (roto_zoom_surface): Handle #f same as unbound for `s_zoom'.
+	(zoom_surface): Likewise, for `s_zoomy'.
+
+	* sdlsurface.c (blit_surface): Handle #f same as
+	unbound, for `s_srcrect', `s_dst' and `s_dstrect'.
+
+	* sdlvideo.c (list_modes): Handle #f same as
+	unbound, for `s_pixel_format' and `s_flags'.
+	Also, fix bug: check `s_pixel_format', not SCM_UNDEFINED!
+
 2004-01-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdl.c, sdlcdrom.c, sdlcolor.c, sdlenums.c, sdlevent.c,
