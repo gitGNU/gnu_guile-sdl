@@ -372,6 +372,13 @@
 @twerpdoc (roto-zoom-surface)
 @twerpdoc (zoom-surface)
 
+@section Managing Frame Rate
+
+@twerpdoc (make-fps-manager)
+@twerpdoc (fps-manager-set!)
+@twerpdoc (fps-manager-get)
+@twerpdoc (fps-manager-delay!)
+
 @node Miscellaneous Utilities
 @chapter Miscellaneous Utilities
 
