@@ -7,8 +7,10 @@
     + describe limits/restrictions
     + include TODO
   + handle #f given as optional arg
-  - review for 0-means-success return values
-  - review for gc-safety of intermediate values
+  - programming practice review
+    - 0-means-success return values
+    - gc-safety of intermediate values
+    - smob handling
 
 - 0.3 "coverage"
   - improve documentation content
@@ -20,7 +22,7 @@
   - signals
   - interop w/ other event loops?
 
-- 0.4 "glitches"
+- 0.5 "glitches"
   - error handling cleanup
     - document policy
     - cases: NULL, -1, ...
