@@ -34,6 +34,7 @@ GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
 
 
 SCM fading_status_enum;
+#define RETURN_FADINGSTATUS(x)  return gsdl_long2enum ((x), fading_status_enum)
 
 
 static long mix_music_tag;
@@ -651,7 +652,7 @@ GH_DEFPROC (mix_fading_music, "fading-music", 0, 0, 0,
             "Return the fading status of the music.")
 #define FUNC_NAME s_mix_fading_music
 {
-  RETURN_INT (Mix_FadingMusic ());
+  RETURN_FADINGSTATUS (Mix_FadingMusic ());
 }
 #undef FUNC_NAME
 
@@ -670,7 +671,7 @@ GH_DEFPROC (mix_fading_channel, "fading-channel", 0, 1, 0,
       which = gh_scm2long (s_which);
     }
 
-  RETURN_INT (Mix_FadingChannel (which));
+  RETURN_FADINGSTATUS (Mix_FadingChannel (which));
 }
 #undef FUNC_NAME
 
