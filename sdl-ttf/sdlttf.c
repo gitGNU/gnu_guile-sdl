@@ -28,6 +28,7 @@
 #include "sdlenums.h"
 #include "retval.h"
 #include "sym.h"
+#include "bool.h"
 
 GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
@@ -282,9 +283,9 @@ GH_DEFPROC (ttf_render_text, "render-text", 3, 1, 0,
 
   UNBOUND_MEANS_FALSE (s_bg);
 
-  if (SCM_FALSEP (s_bg)) {
+  if (EXACTLY_FALSEP (s_bg)) {
     surface = TTF_RenderText_Solid (font, text, *fg);
-  } else if (gh_eq_p (s_bg, SCM_BOOL_T)) {
+  } else if (EXACTLY_TRUEP (s_bg)) {
     surface = TTF_RenderText_Blended (font, text, *fg);
   } else {
     ASSERT_COLOR (s_bg, ARGH4);
@@ -320,9 +321,9 @@ GH_DEFPROC (ttf_render_utf8, "render-utf8", 3, 1, 0,
 
   UNBOUND_MEANS_FALSE (s_bg);
 
-  if (SCM_FALSEP (s_bg)) {
+  if (EXACTLY_FALSEP (s_bg)) {
     surface = TTF_RenderUTF8_Solid (font, text, *fg);
-  } else if (gh_eq_p (s_bg, SCM_BOOL_T)) {
+  } else if (EXACTLY_TRUEP (s_bg)) {
     surface = TTF_RenderUTF8_Blended (font, text, *fg);
   } else {
     ASSERT_COLOR (s_bg, ARGH4);
@@ -358,9 +359,9 @@ GH_DEFPROC (ttf_render_glyph, "render-glyph", 3, 1, 0,
 
   UNBOUND_MEANS_FALSE (s_bg);
 
-  if (SCM_FALSEP (s_bg)) {
+  if (EXACTLY_FALSEP (s_bg)) {
     surface = TTF_RenderGlyph_Solid (font, ch, *fg);
-  } else if (gh_eq_p (s_bg, SCM_BOOL_T)) {
+  } else if (EXACTLY_TRUEP (s_bg)) {
     surface = TTF_RenderGlyph_Blended (font, ch, *fg);
   } else {
     ASSERT_COLOR (s_bg, ARGH4);
