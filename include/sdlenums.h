@@ -23,6 +23,9 @@
 #define GUILE_SDL_ENUMS_H
 
 /* enums */
+
+
+#define GSDL_CSCS(x)  #x, x  /* "C String Comma Symbol" */
 SCM gsdl_define_enum (const char *name, ...);
 long gsdl_enum2long (SCM s_enum, SCM enum_type, int pos, const char *func);
 SCM gsdl_long2enum (long value, SCM enum_type);
