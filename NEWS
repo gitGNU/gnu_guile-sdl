@@ -6,6 +6,12 @@ See the end for copying conditions.
 Please send guile-sdl bug reports to <ttn@glug.org>.
 
 
+- guile-sdl 0.2.1 (released 2004-01-18)
+
+	This is a maintenance release (no user-visible changes).
+	Basically, some sub-optimal C macrology was reworked.
+
+
 - guile-sdl 0.2.0 (released 2003-11-21)
 
   - installation change: scheme wrappers for most modules eliminated
@@ -69,7 +75,7 @@ Please send guile-sdl bug reports to <ttn@glug.org>.
 
 Copyright information:
 
-Copyright (C) 2003 Thien-Thi Nguyen
+Copyright (C) 2003,2004 Thien-Thi Nguyen
 Copyright (C) 2001 Alex Shinn
 
    Permission is granted to anyone to make or distribute verbatim copies
