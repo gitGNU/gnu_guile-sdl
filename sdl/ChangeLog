@@ -1,6 +1,10 @@
 2003-11-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
-	* ttf.scm, gfx.scm: Delete.
+	* ttf.scm, gfx.scm, mixer.scm: Delete.
+
+	* Makefile.m (sdlmoduledir, sdlmodule_DATA): Delete.
+	(schememoddir, schememod_DATA): New.
+	(EXTRA_DIST): Use $(schememod_DATA).
 
 2003-10-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
