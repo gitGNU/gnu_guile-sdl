@@ -290,7 +290,7 @@ print_flagstash (SCM smob, SCM port, scm_print_state *ps)
   char buf[15];
   flagstash_t *stash = UNPACK_FLAGSTASH (smob);
 
-  sprintf (buf, "<%d ", stash->total);
+  sprintf (buf, "#<%d ", stash->total);
   scm_puts (buf, port);
   scm_puts (stash->name, port);
   scm_puts (">", port);
