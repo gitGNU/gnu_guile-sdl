@@ -1,3 +1,7 @@
+2003-10-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* autogen.sh: Rewrite.
+
 2001-08-07  Alex Shinn  <foof@synthcode.com>
 
 	* guile-sdl 0.1.7: return of SDL_gfxPrimitives, all files use the
@@ -32,4 +36,4 @@
 2001-06-13  Vikram Subramanian  <vikrams@www.chennailug.org>
 
 	* Projector-0.1.0 : Initial Release
-	
+
