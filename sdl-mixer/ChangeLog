@@ -1,5 +1,10 @@
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (FLAGSTASH): Delete empty var.
+	(mixer_la_SOURCES): Remove $(BUILT_SOURCES).
+
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* Makefile.am (EXTRA_DIST): Delete directive.
 
 2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>

@@ -1,3 +1,8 @@
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (schememoddir): Use $(GUILE_SITE)
+	instead of $(datadir)/guile/site.
+
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdl.scm (sdl-with-clip-rect): Delete macro.
