@@ -5,7 +5,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 ;; SICP Picture Language Example
 ;;
 ;; Created:    <2001-06-24 16:36:53 foof>
-;; Time-stamp: <2005-01-05 14:56:19 ttn>
+;; Time-stamp: <2005-01-06 02:22:52 ttn>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
@@ -24,7 +24,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
          (height (SDL:surface:h right))
          (width/2 (quotient width 2))
          (src-rect (SDL:make-rect 0 0 width/2 height))
-         (result (SDL:make-surface width height))
+         (result (SDL:display-format (SDL:make-surface width height)))
          (new-left (SDL:zoom-surface left 1/2 1 #t))
          (new-right (SDL:zoom-surface right 1/2 1 #t)))
     (SDL:blit-surface new-left src-rect result
@@ -38,7 +38,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
          (height (SDL:surface:h top))
          (height/2 (quotient height 2))
          (src-rect (SDL:make-rect 0 0 width height/2))
-         (result (SDL:make-surface width height))
+         (result (SDL:display-format (SDL:make-surface width height)))
          (new-top (SDL:zoom-surface top 1 1/2 #t))
          (new-bottom (SDL:zoom-surface bottom 1 1/2 #t)))
     (SDL:blit-surface new-top src-rect result
