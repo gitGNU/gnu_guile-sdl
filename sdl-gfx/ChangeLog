@@ -1,5 +1,28 @@
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* SDL_gfx/gfxPrimitives.c (doPieColor):
+	Use `Sint16' in malloc for `vx', `vy'.
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* SDL_gfx/SDL_rotozoom.c
+	(transformSurfaceRGBA): Remove unused local `spb'.
+	(rotozoomSurfaceXY): Remove unused locals
+	`x', `y', `cx', `cy', `sx' and `sy'.
+
+	* SDL_gfx/SDL_gfxPrimitives.c
+	(filledPolygonColor): Remove unused local `x'.
+	(characterColor): Remove unused local `bitpos'.
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* SDL_gfx/SDL_framerate.h: Include <SDL/SDL.h> instead of "SDL.h".
+	* SDL_gfx/SDL_gfxPrimitives.h: Likewise.
+	* SDL_gfx/SDL_rotozoom.h: Likewise.
+	* Makefile.am (AM_CPPFLAGS): Remove $(SDL_CFLAGS).
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* Makefile.am (AM_CPPFLAGS): No longer
 	use "-I$(srcdir)/SDL_gfxPrimitives".
 	Instead, use "-I$(srcdir)/SDL_gfx".
@@ -16,7 +39,6 @@
 
 	* SDL_gfx: New directory.
 	* SDL_gfx/LICENSE: Initial revision from SDL_gfx 2.0.13.
-	* SDL_gfx/Makefile.in: Likewise.
 	* SDL_gfx/README: Likewise.
 	* SDL_gfx/SDL_framerate.c: Likewise.
 	* SDL_gfx/SDL_framerate.h: Likewise.
