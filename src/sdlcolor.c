@@ -32,7 +32,7 @@
 long color_tag;
 
 /* smob function */
-scm_sizet
+size_t
 free_color (SCM s_color)
 {
   /* printf ("free_color(%p)\n", color); */

@@ -2,7 +2,7 @@
  *  sdlttf.c -- SDL_ttf for Guile                                  *
  *                                                                 *
  *  Created:    <2001-06-11 18:03:28 foof>                         *
- *  Time-stamp: <2001-08-05 15:26:51 foof>                         *
+ *  Time-stamp: <01/11/25 12:51:12 foof>                         *
  *                                                                 *
  *  This program is free software; you can redistribute it and/or  *
  * modify it under the terms of the GNU General Public License as  *
@@ -362,7 +362,7 @@ is the background color, or #t if the text is to be blended.")
 
 
 /* Close an opened font file */
-scm_sizet
+size_t
 free_font (SCM s_font)
 {
   TTF_Font *font = (TTF_Font*) SCM_SMOB_DATA (s_font);

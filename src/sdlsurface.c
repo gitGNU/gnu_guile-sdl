@@ -36,7 +36,7 @@ long surface_tag;
 
 /* smob functions */
 
-scm_sizet
+size_t
 free_surface (SCM surface)
 {
   /* printf ("free_surface(%p)\n", (SDL_Surface*) SCM_SMOB_DATA (surface)); */

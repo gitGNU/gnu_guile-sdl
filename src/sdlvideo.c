@@ -46,7 +46,7 @@ SCM sdl_gl_enums;
 
 /* smob functions */
 
-scm_sizet
+size_t
 free_cursor (SCM s_cursor)
 {
   /* printf ("free_cursor(%p)\n", s_cursor); */
@@ -54,7 +54,7 @@ free_cursor (SCM s_cursor)
   return sizeof (SDL_Cursor);
 }
 
-scm_sizet
+size_t
 free_yuv_overlay (SCM s_overlay)
 {
   /* printf ("free_yuv_overlay(%p)\n", s_overlay); */
@@ -62,7 +62,7 @@ free_yuv_overlay (SCM s_overlay)
   return sizeof (SDL_Overlay);
 }
 
-scm_sizet
+size_t
 free_pixel_format (SCM s_pixel_format)
 {
   /* printf ("free_pixel_format(%p)\n", s_pixel_format); */
@@ -553,9 +553,9 @@ Each table is an vector of 256 integer values.")
       scm_vector_set_x (bluetable,  scm_long2num (i), scm_long2num (bt[i]));
     }
     /* return a list of red, green and blue tables */
-    return SCM_LIST3 (scm_cons (scm_str2symbol ("redtable"), redtable),
-                      scm_cons (scm_str2symbol ("greentable"), greentable),
-                      scm_cons (scm_str2symbol ("bluetable"), bluetable));
+    return scm_list_3 (scm_cons (scm_str2symbol ("redtable"), redtable),
+                       scm_cons (scm_str2symbol ("greentable"), greentable),
+                       scm_cons (scm_str2symbol ("bluetable"), bluetable));
   } else {
     /* error, return false */
     return SCM_BOOL_F;
@@ -693,9 +693,9 @@ Returns an alist with r, g and b entries.")
 
   SDL_GetRGB (pixel, fmt, &r, &g, &b);
 
-  return SCM_LIST3 (scm_cons (scm_str2symbol ("r"), scm_long2num (r)),
-                    scm_cons (scm_str2symbol ("g"), scm_long2num (g)),
-                    scm_cons (scm_str2symbol ("b"), scm_long2num (b)));
+  return scm_list_3 (scm_cons (scm_str2symbol ("r"), scm_long2num (r)),
+                     scm_cons (scm_str2symbol ("g"), scm_long2num (g)),
+                     scm_cons (scm_str2symbol ("b"), scm_long2num (b)));
 }
 #undef FUNC_NAME
 
@@ -719,10 +719,10 @@ Returns an alist with r, g, b and a entries.")
 
   SDL_GetRGBA (pixel, fmt, &r, &g, &b, &a);
 
-  return SCM_LIST4 (scm_cons (scm_str2symbol ("r"), scm_long2num (r)),
-                    scm_cons (scm_str2symbol ("g"), scm_long2num (g)),
-                    scm_cons (scm_str2symbol ("b"), scm_long2num (b)),
-                    scm_cons (scm_str2symbol ("a"), scm_long2num (a)));
+  return scm_list_4 (scm_cons (scm_str2symbol ("r"), scm_long2num (r)),
+                     scm_cons (scm_str2symbol ("g"), scm_long2num (g)),
+                     scm_cons (scm_str2symbol ("b"), scm_long2num (b)),
+                     scm_cons (scm_str2symbol ("a"), scm_long2num (a)));
 }
 #undef FUNC_NAME
 
@@ -987,8 +987,8 @@ SCM_DEFINE( wm_get_caption, "sdl-get-caption", 0, 0, 0,
 
   SDL_WM_GetCaption (&title, &icon);
 
-  return SCM_LIST2 (scm_cons (scm_str2symbol ("title"), scm_makfrom0str (title)),
-                    scm_cons (scm_str2symbol ("icon"), scm_makfrom0str (icon)));
+  return scm_list_2 (scm_cons (scm_str2symbol ("title"), scm_makfrom0str (title)),
+                     scm_cons (scm_str2symbol ("icon"), scm_makfrom0str (icon)));
 }
 #undef FUNC_NAME
 

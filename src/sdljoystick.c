@@ -296,7 +296,7 @@ SCM_DEFINE( sdl_joystick_get_ball, "sdl-joystick-get-ball", 2, 0, 0,
 
   joy = (SDL_Joystick *) SCM_CDR (joy_smob);
   
-  s_ret = SCM_LIST0;
+  s_ret = scm_list_n (NULL);
   if (joy != NULL) {
     int ret;
     
@@ -391,7 +391,7 @@ SCM_DEFINE( sdl_joystick_close, "sdl-joystick-close", 1, 0, 0,
 /*-------------------------------------------------------------*/
 
 
-scm_sizet 
+size_t 
 free_joy (SCM joy_smob) 
 {
   SDL_Joystick *joy = (SDL_Joystick *) SCM_SMOB_DATA (joy_smob);

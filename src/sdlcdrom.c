@@ -210,7 +210,7 @@ SCM_DEFINE( sdl_cd_get_nth_track, "sdl-cd-get-nth-track", 1, 1, 0,
   if ((cd != NULL) && (n < cd->numtracks)) {
 
     /* Form an assoc list */
-    s_track = SCM_LIST0;
+    s_track = scm_list_n (NULL);
     s_track = scm_acons (scm_str2symbol ("offset"), 
 			 scm_ulong2num (cd->track[n].offset), s_track);
 
@@ -226,7 +226,7 @@ SCM_DEFINE( sdl_cd_get_nth_track, "sdl-cd-get-nth-track", 1, 1, 0,
     return s_track;
   }
   else {
-    return (SCM_LIST0);
+    return (scm_list_n (NULL));
   }
 }
 #undef FUNC_NAME
@@ -466,7 +466,7 @@ SCM_DEFINE( sdl_cd_frames_to_msf, "sdl-cd-frames->msf", 1, 0, 0,
   frames = scm_num2ulong (s_frames, SCM_ARG1, "sdl-cd-frames->msf");
 
   FRAMES_TO_MSF (frames, &m , &s, &f);
-  s_msf = SCM_LIST0;
+  s_msf = scm_list_n (NULL);
   
   s_msf = scm_acons (scm_str2symbol ("f"), scm_ulong2num (f) , s_msf);
   s_msf = scm_acons (scm_str2symbol ("s"), scm_ulong2num (s) , s_msf);
@@ -479,11 +479,11 @@ SCM_DEFINE( sdl_cd_frames_to_msf, "sdl-cd-frames->msf", 1, 0, 0,
 /*-------------------------------------------------------------*/
 
 
-scm_sizet 
+size_t 
 free_cd (SCM cd_smob) 
 {
   SDL_CD *cd = (SDL_CD *) SCM_SMOB_DATA (cd_smob);
-  scm_sizet size = sizeof(SDL_CD);
+  size_t size = sizeof(SDL_CD);
 
   if (cd != NULL)
     SDL_CDClose(cd);

@@ -2,7 +2,7 @@
  *  ttf.h -- SDL_ttf for Guile                                     *
  *                                                                 *
  *  Created:    <2001-06-11 18:03:28 foof>                         *
- *  Time-stamp: <2001-08-04 21:55:11 foof>                         *
+ *  Time-stamp: <01/11/25 12:51:08 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -95,7 +95,7 @@ SCM ttf_render_utf8 (SCM font, SCM text, SCM fg, SCM bg);
 SCM ttf_render_glyph (SCM font, SCM ch, SCM fg, SCM bg);
 
 /* Close an opened font file */
-scm_sizet free_font (SCM font);
+size_t free_font (SCM font);
 
 /* De-initialize the TTF engine */
 SCM ttf_quit (void);

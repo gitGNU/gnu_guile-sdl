@@ -34,7 +34,7 @@ SCM event_state_enum;
 SCM event_keysym_enum;
 SCM event_mod_flags;
 
-scm_sizet
+size_t
 free_event (SCM event)
 {
   free ((SDL_Event*) SCM_SMOB_DATA (event));
@@ -419,12 +419,12 @@ sdl_get_mouse_state (void)
 {
   int buttons, x, y;
   buttons = SDL_GetMouseState (&x, &y);
-  return SCM_LIST3 (scm_cons (scm_str2symbol ("state"),
-                              scm_long2num (buttons)),
-                    scm_cons (scm_str2symbol ("x"),
-                              scm_long2num (x)),
-                    scm_cons (scm_str2symbol ("y"),
-                              scm_long2num (y)));
+  return scm_list_3 (scm_cons (scm_str2symbol ("state"),
+                               scm_long2num (buttons)),
+                     scm_cons (scm_str2symbol ("x"),
+                               scm_long2num (x)),
+                     scm_cons (scm_str2symbol ("y"),
+                               scm_long2num (y)));
 }
 
 /*
@@ -435,12 +435,12 @@ sdl_get_relative_mouse_state ()
 {
   int buttons, x, y;
   buttons = SDL_GetRelativeMouseState (&x, &y);
-  return SCM_LIST3 (scm_cons (scm_str2symbol ("state"),
-                              scm_long2num (buttons)),
-                    scm_cons (scm_str2symbol ("x"),
-                              scm_long2num (x)),
-                    scm_cons (scm_str2symbol ("y"),
-                              scm_long2num (y)));
+  return scm_list_3 (scm_cons (scm_str2symbol ("state"),
+                               scm_long2num (buttons)),
+                     scm_cons (scm_str2symbol ("x"),
+                               scm_long2num (x)),
+                     scm_cons (scm_str2symbol ("y"),
+                               scm_long2num (y)));
 }
 
 SCM

@@ -34,7 +34,7 @@ long rect_tag;
 
 /* smob functions */
 
-scm_sizet
+size_t
 free_rect (SCM rect)
 {
   /* printf ("free_rect(%p)\n", rect); */

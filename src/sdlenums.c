@@ -2,7 +2,7 @@
  *  sdlenums.c -- Enum helper functions                            *
  *                                                                 *
  *  Created:    <2001-06-09 19:22:27 foof>                         *
- *  Time-stamp: <2001-07-09 21:39:37 foof>                         *
+ *  Time-stamp: <01/11/25 12:51:17 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -32,7 +32,7 @@
 
 long enum_tag;
 
-scm_sizet
+size_t
 free_enum (SCM s_enum)
 {
   enum_struct *enum_smob = (enum_struct*) SCM_SMOB_DATA (s_enum);

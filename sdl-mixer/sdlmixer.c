@@ -2,7 +2,7 @@
  *  sdlmixer.c -- SDL_mixer for Guile                              *
  *                                                                 *
  *  Created:    <2001-06-10 16:45:57 foof>                         *
- *  Time-stamp: <2001-08-05 15:27:12 foof>                         *
+ *  Time-stamp: <01/11/25 12:51:01 foof>                         *
  *                                                                 *
  *  This program is free software; you can redistribute it and/or  *
  * modify it under the terms of the GNU General Public License as  *
@@ -29,7 +29,7 @@ long mix_music_tag;
 long mix_audio_tag;
 SCM fading_status_enum;
 
-scm_sizet
+size_t
 free_music (SCM s_music)
 {
    Mix_Music *music = (Mix_Music*) SCM_SMOB_DATA (s_music);
@@ -37,7 +37,7 @@ free_music (SCM s_music)
    return sizeof (struct Mix_Music*);
 }
 
-scm_sizet
+size_t
 free_audio (SCM s_chunk)
 {
    Mix_Chunk *chunk = (Mix_Chunk*) SCM_SMOB_DATA (s_chunk);
