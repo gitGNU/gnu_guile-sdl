@@ -22,9 +22,16 @@ install-data-hook:
 	fi
 
 # test suite
-TESTS = alive.test \
-	test/rect.scm test/image.scm test/event.scm test/mixer.scm \
-        test/ttf.scm  test/cursor.scm test/roto.scm test/gfx.scm
+TESTS = alive.test				\
+	test/rect.scm				\
+	test/image.scm				\
+	test/event.scm				\
+	test/mixer.scm				\
+	test/ttf.scm				\
+	test/cursor.scm				\
+	test/roto.scm				\
+	test/gfx.scm				\
+	test/fading.scm
 
 TESTS_ENVIRONMENT = ./wily-guile -l $(srcdir)/test/common -s
 
