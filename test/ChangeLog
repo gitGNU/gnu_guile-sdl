@@ -1,5 +1,11 @@
 2004-05-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* gfx.scm: Set `*random-state*'; use current time for seed.
+	* rect.scm: Likewise.
+	* ttf.scm: Likewise.
+
+2004-05-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* rect.scm: Rewrite to not use `call-with-clip-rect'.
 	(rand-rect): Rewrite.
 	(screen): New var. Use it for demo loop.
