@@ -4,8 +4,8 @@
 
 ;; simple mixer test
 
-(use-modules (sdl sdl))                 ; fixme: these must be separate due
-(use-modules (sdl mixer))               ;        to compiled modules weirdness
+(use-modules (sdl sdl)
+             (sdl mixer))
 
 ;; the directory to find the image in
 (define datadir (if (getenv "srcdir")
