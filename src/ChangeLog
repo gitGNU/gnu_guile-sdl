@@ -1,3 +1,11 @@
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlcdrom.c: Include "sym.h".
+	Use `DECLARE_SIMPLE_SYM' and `SYM'.
+	* sdlevent.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlvideo.c: Likewise.	Also, use `DECLARE_SYM'.
+
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlenums.c: Include "retval.h".

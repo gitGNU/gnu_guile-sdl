@@ -1,3 +1,7 @@
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sym.h: New file.
+
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* retval.h (RETURN_UINT): New macro.
