@@ -1,5 +1,9 @@
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (TESTS): New directive.
+
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* ef-ref.twerp: New file.
 
 	* guile-sdl.texi (Enums and Constants): Mention `flagstash-flags'.
