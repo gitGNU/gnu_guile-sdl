@@ -1,0 +1,40 @@
+;;; videof.fspec --- viedo flags
+
+(
+ #:infile
+ "SDL/SDL_video.h"
+
+ #:region
+ ("currently supported flags for the SDL_surface" . "define SDL_MUSTLOCK")
+
+ #:regexp
+ "^#define *\(SDL_[A-Z]+\)[ \t]+\(0x[0-9A-Fa-f]+\)"
+
+ #:key-match-num
+ 1
+
+ #:struct
+ ((1 char * name)               ; see "(gperf)User-supplied Struct"
+  (2 unsigned long val)
+  ("SCM_BOOL_F" SCM sname)
+  ("SCM_BOOL_F" SCM sval))
+
+ #:struct-name
+ "val_and_name"
+
+ #:gperf-options
+ "--language ANSI-C --global-table --omit-struct-type"
+
+ #:pre-boilerplate
+ #{#include "gperfsup.h"
+   GPERFSUP_PRE_BOILERPLATE}#
+
+ #:post-boilerplate
+ #{GPERFSUP_POST_BOILERPLATE (video_flagstash, "sdl-video-flags")}#
+)
+
+;; Local variables:
+;; mode: scheme
+;; End:
+
+;;; videof.fspec ends here
