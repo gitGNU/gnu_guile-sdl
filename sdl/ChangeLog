@@ -1,5 +1,10 @@
 2003-11-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdl.scm: Update copyright.
+	No longer use `dynamic-link'.
+	Instead use module (sdl sdl-sup) directly, and replace
+	current module's public interface w/ that of (sdl sdl-sup).
+
 	* ttf.scm, gfx.scm, mixer.scm: Delete.
 
 	* Makefile.m (sdlmoduledir, sdlmodule_DATA): Delete.
