@@ -1,18 +1,18 @@
 Introduction
 ------------
 
-This directory contains guile-sdl, a set of modules that provide bindings for
-SDL (Simple DirectMedia Layer) to enable Guile programmers to do all the nice
-things you can do with SDL.
+This directory contains guile-sdl, a set of modules that provide bindings
+for SDL (Simple DirectMedia Layer) to enable Guile programmers to do all
+the nice things you can do with SDL.
 
 Most of the SDL functions have been wrapped with the exception of a few
 functions that were too C-centric.  The SDL Threads and the Audio funcions
-haven't been included because of the problems with Guile code being run from
-more than one thread.  However audio programming can be done with the module
-`(sdl mixer)' that requires the SDL_mixer library.
+haven't been included because of the problems with Guile code being run
+from more than one thread.  However audio programming can be done with the
+module `(sdl mixer)' that requires the SDL_mixer library.
 
-Also included are SDL_gfxPrimitives-1.4 and SDL_rotozoom-1.4
-(by A. Schiffler  <aschiffler@home.com>) and bindings for them.
+Also included are SDL_gfxPrimitives-1.4 and SDL_rotozoom-1.4 (by
+A. Schiffler <aschiffler@home.com>) and bindings for them.
 
 
 Requirements
@@ -25,14 +25,14 @@ Requirements
 * SDL_ttf (optional, required if truetype font support is needed)
 
 
-Installation
-------------
+Installation Process
+--------------------
 
 See file INSTALL for generic installation instructions.  Briefly:
 
   ./configure [--disable-mixer] [--disable-ttf]
   make
-  make check [INTERACTIVE=1]
+  make check [INTERACTIVE=1] [DEBUG=1]
   make install
 
 By default, configuration tries to find the libSDL_mixer and libSDL_ttf
@@ -41,4 +41,54 @@ If they are not found, these modules will not be installed.
 
 By default, "make check" runs only tests which do not require user
 interaction.  You can specify `INTERACTIVE=1' to enable running these
-particular tests.
+particular tests.  If there are problems, add `DEBUG=1' and send the
+output to the maintainer along w/ a precise description of observations
+and expectations (i.e., file a bug report).
+
+
+Installation Result
+-------------------
+
+Doing "make install" copies four compiled modules (machine-dependent
+shared object libraries), one scheme module (human readable text), and an
+info file to various directories under ${prefix} and ${exec_prefix}.  See
+the file INSTALL if you wish to choose different values for the ${} vars.
+
+      ${prefix}/info                 -- guile-sdl.info
+      ${prefix}/share/guile/site/sdl -- (sdl sdl)
+   ${exec_prefix}/lib/guile/site/sdl -- (sdl sdl-sup)
+                                        (sdl mixer)
+                                        (sdl ttf)
+                                        (sdl gfx)
+
+The module `(sdl sdl-sup)' is internal (i.e., undocumented) but reference
+and background information about the other modules are in the info file.
+
+Additionally, if your system supports "guile-tools make-module-catalog",
+that program is run in both "site" directories to create and/or update the
+module catalogs there.
+
+
+Upgrading Tips
+--------------
+
+Starting with guile-sdl 0.2.x, the shared object libraries that implement
+the compiled modules are no longer installed in ${libdir}.  This means if
+you have installed previous versions of guile-sdl, there are undesirable
+leftover files in ${libdir}.  There are three ways to remove them:
+
+   (1) If you have the build tree from the previous version of
+       guile-sdl, you can do "make uninstall" there.
+
+   (2) You can do "rm -f ${libdir}/libguileSDL*" manually.  (You
+       will also need to determine the value of ${libdir} manually.)
+
+   (3) You can make use of an upgrade facility provided with this and
+       later versions of guile-sdl and do "make check-000-libdir" to
+       list the leftover files, and "make clean-000-libdir" to delete
+       them (using the exact same command as in (2)).  This method is
+       recommended over the others.
+
+Note that the "000" are all zeroes; it signifies the libtool version
+number and has nothing to do with either the guile-sdl package version or
+the library "release" version.
