@@ -134,13 +134,6 @@ make_palette (SCM s_colors)
 }
 
 
-/* pixel formats */
-SCM
-make_pixel_format (void)
-{
-  return SCM_UNSPECIFIED;
-}
-
 /* function prototypes */
 SCM
 get_video_surface (void)
@@ -265,19 +258,30 @@ SCM
 update_rect (SCM s_screen, SCM s_x, SCM s_y, SCM s_w, SCM s_h)
 {
   SDL_Surface *screen;
+  SDL_Rect *rect;
   Sint32 x, y, w, h;
 
+  /* first arg is a surface */
   SCM_ASSERT_SMOB (s_screen, surface_tag, SCM_ARG1, "sdl-update-rect");
-  SCM_ASSERT (scm_exact_p (s_x), s_x, SCM_ARG2, "sdl-update-rect");
-  SCM_ASSERT (scm_exact_p (s_y), s_y, SCM_ARG3, "sdl-update-rect");
-  SCM_ASSERT (scm_exact_p (s_w), s_w, SCM_ARG4, "sdl-update-rect");
-  SCM_ASSERT (scm_exact_p (s_h), s_h, SCM_ARG5, "sdl-update-rect");
-
   screen = (SDL_Surface *) SCM_SMOB_DATA (s_screen);
-  x = (Sint32) scm_num2long (s_x, SCM_ARG1, "sdl-update-rect");
-  y = (Sint32) scm_num2long (s_y, SCM_ARG2, "sdl-update-rect");
-  w = (Sint32) scm_num2long (s_w, SCM_ARG3, "sdl-update-rect");
-  h = (Sint32) scm_num2long (s_h, SCM_ARG4, "sdl-update-rect");
+
+  /* remaining args are a single rect, or 4 coords */
+  if (SCM_NIMP (s_x) && (long) SCM_CAR (s_x) == rect_tag) {
+    rect = (SDL_Rect*) SCM_SMOB_DATA (s_x);
+    x = rect->x;
+    y = rect->y;
+    w = rect->w;
+    h = rect->h;
+  } else {
+    SCM_ASSERT (scm_exact_p (s_x), s_x, SCM_ARG2, "sdl-update-rect");
+    SCM_ASSERT (scm_exact_p (s_y), s_y, SCM_ARG3, "sdl-update-rect");
+    SCM_ASSERT (scm_exact_p (s_w), s_w, SCM_ARG4, "sdl-update-rect");
+    SCM_ASSERT (scm_exact_p (s_h), s_h, SCM_ARG5, "sdl-update-rect");
+    x = (Sint32) scm_num2long (s_x, SCM_ARG1, "sdl-update-rect");
+    y = (Sint32) scm_num2long (s_y, SCM_ARG2, "sdl-update-rect");
+    w = (Sint32) scm_num2long (s_w, SCM_ARG3, "sdl-update-rect");
+    h = (Sint32) scm_num2long (s_h, SCM_ARG4, "sdl-update-rect");
+  }
 
   SDL_UpdateRect (screen, x, y, w, h);
 
@@ -786,6 +790,14 @@ wm_grab_input (SCM s_mode)
   return scm_long2num (SDL_WM_GrabInput (mode));
 }
 
+scm_sizet
+free_pixel_format (SCM s_pixel_format)
+{
+  /* printf ("free_pixel_format(%p)\n", s_pixel_format); */
+  /* always part of a surface, no need to free */
+  return 0;
+}
+
 void
 sdl_init_video (void)
 {
@@ -798,6 +810,7 @@ sdl_init_video (void)
 
   scm_set_smob_free (cursor_tag, free_cursor);
   scm_set_smob_free (overlay_tag, free_yuv_overlay);
+  scm_set_smob_free (pixel_format_tag, free_pixel_format);
 
   /* alpha constants */
   sdl_alpha_enums = scm_c_define_enum (
@@ -882,7 +895,7 @@ sdl_init_video (void)
   scm_c_define_gsubr ("sdl-display-yuv-overlay", 2, 0, 0, display_yuv_overlay);
   /* video */
   scm_c_define_gsubr ("sdl-set-video-mode",     3, 1, 0, set_video_mode);
-  scm_c_define_gsubr ("sdl-update-rect",        5, 0, 0, update_rect);
+  scm_c_define_gsubr ("sdl-update-rect",        2, 3, 0, update_rect);
   scm_c_define_gsubr ("sdl-flip",               0, 1, 0, flip);
   scm_c_define_gsubr ("sdl-fill-rect",          3, 0, 0, fill_rect);
   /* opengl */
