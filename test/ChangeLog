@@ -1,5 +1,9 @@
 2004-05-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* gfx.scm: Add section to draw polygons.
+
+2004-05-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* gfx.scm: Expand line-drawing.
 	Add section to draw ellipses.
 	Add section to draw circles.
