@@ -14,6 +14,6 @@ Here are some cvs tags and their meanings:
   ok-2   -- like ok-1, plus doc snarfing (doc/guile-sdl.info available)
   ok-3   -- like ok-2, plus "make install" (w/ module catalog update)
   ok-4   -- like ok-3, using GH_ macros instead of MDEF*
-
+  ok-5   -- like ok-4, without "sdl-" prefix (examples all use #:renamer)
 
 Happy hacking!
