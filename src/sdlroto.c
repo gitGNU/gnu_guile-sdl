@@ -184,15 +184,6 @@ SCM_DEFINE( vh_flip_surface, "sdl-vh-flip-surface", 1, 0, 0,
 void 
 sdl_init_rotozoom ()
 {  
-  /* Register Scheme functions */
-/*   scm_c_define_gsubr ("sdl-roto-zoom-surface", 4, 0, 0, sdl_roto_zoom_surface); */
-/*   scm_c_define_gsubr ("sdl-zoom-surface", 4, 0, 0, sdl_zoom_surface); */
-
-  /* Transpositions */
-/*   scm_c_define_gsubr ("sdl-vertical-flip-surface",    1, 0, 0, vertical_flip_surface); */
-/*   scm_c_define_gsubr ("sdl-horizontal-flip-surface",  1, 0, 0, horiztonal_flip_surface); */
-/*   scm_c_define_gsubr ("sdl-vh-flip-surface",          1, 0, 0, vh_flip_surface); */
-
   /* exported symbols */
   scm_c_export (
      "sdl-roto-zoom-surface", "sdl-zoom-surface",
