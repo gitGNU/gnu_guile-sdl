@@ -1,0 +1,36 @@
+#!/bin/sh
+# usage: cov
+
+set -e
+
+sed -e '/GH_DEFPROC/!d' \
+    -e 's/^[^"]*"//g' \
+    -e 's/".*//g' \
+    ../*/*.c \
+    | sort \
+    | uniq \
+    > TMP1
+
+sed -e '/twerpdoc/!d' \
+    -e 's/.*(//g;s/).*//g' \
+    -e '/^event:/d' \
+    -e '/^surface:/d' \
+    -e '/^color:/d' \
+    *.twerp \
+    | sort \
+    | uniq \
+    > TMP2
+
+diff -u TMP1 TMP2 > TMP
+
+if [ -s TMP ] ; then
+    echo 'ERROR: bad doc coverage!'
+    echo '       here is a list:'
+    cat TMP
+    rm -f TMP1 TMP 2TMP
+    exit 1
+fi
+
+rm TMP1 TMP2 TMP
+
+# cov ends here

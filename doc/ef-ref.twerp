@@ -1,0 +1,11 @@
+@c ef-ref.twerp --- enums/flags procs
+
+@c Copyright @copyright{} 2003 Thien-Thi Nguyen
+
+@twerpdoc (flagstash-flags)
+@twerpdoc (enum->number)
+@twerpdoc (number->enum)
+@twerpdoc (flags->number)
+@twerpdoc (number->flags)
+
+@c ef-ref.twerp ends here
