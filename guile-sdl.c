@@ -2,7 +2,7 @@
  *  guile-sdl.c -- SDL Video Wrappers for Guile                    *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-04 00:09:35 foof>                         *
+ *  Time-stamp: <2001-06-09 21:01:56 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -93,6 +93,10 @@ sdl_was_init (SCM s_subsystems)
 void
 guile_sdl_init (void)
 {
+   /* scm util definition */
+   scm_make_gsubr ("enum->number",   2, 0, 0, scm_enum_to_number);
+   scm_make_gsubr ("number->enum",   2, 0, 0, scm_number_to_enum);
+
    /* general initializations */
    scm_make_gsubr ("init",           1, 0, 0, sdl_init);
    scm_make_gsubr ("init-subsystem", 1, 0, 0, sdl_init_subsystem);
@@ -105,19 +109,23 @@ guile_sdl_init (void)
    scm_c_define ("init/audio",       SCM_MAKINUM (SDL_INIT_AUDIO));
    scm_c_define ("init/video",       SCM_MAKINUM (SDL_INIT_VIDEO));
    scm_c_define ("init/cdrom",       SCM_MAKINUM (SDL_INIT_CDROM));
-   scm_c_define ("init/joystick",    SCM_MAKINUM (SDL_INIT_JOYSTICK));
-   scm_c_define ("init/everything",  SCM_MAKINUM (SDL_INIT_EVERYTHING));
-   scm_c_define ("init/noparachute", SCM_MAKINUM (SDL_INIT_NOPARACHUTE));
-   scm_c_define ("init/eventthread", SCM_MAKINUM (SDL_INIT_EVENTTHREAD));
+   scm_c_define ("init/joystick",    SCM_MAKINUM (SDL_INIT_JOYSTICK)); 
+   scm_c_define ("init/everything",  SCM_MAKINUM (SDL_INIT_EVERYTHING)); 
+   scm_c_define ("init/noparachute", SCM_MAKINUM (SDL_INIT_NOPARACHUTE)); 
+   scm_c_define ("init/eventthread", SCM_MAKINUM (SDL_INIT_EVENTTHREAD)); 
 
    /* exported symbols */
-   scm_c_export ("init", "quit-all", "init-subsystem",
-                 "quit-subsystem", "was-init",
-                 /* constants */
-                 "init/timer", "init/audio", "init/video",
-                 "init/cdrom", "init/joystick", "init/everything",
-                 "init/noparachute", "init/eventthread",
-                 NULL);
+   scm_c_export (
+      /* utils */
+      "enum->number", "number->enum",
+      /* sdl initializations */
+      "subsystems", "init", "quit-all", "init-subsystem",
+      "quit-subsystem", "was-init",
+      /* constants */
+      "init/timer", "init/audio", "init/video",
+      "init/cdrom", "init/joystick", "init/everything",
+      "init/noparachute", "init/eventthread",
+      NULL);
 
    /* video initializations */
    sdl_video_init();
