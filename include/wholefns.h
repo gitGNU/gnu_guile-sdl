@@ -19,7 +19,7 @@ GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM obj),                         \
   RETURN_INT (SMOBFIELD (c_type, c_field));                             \
 }
 
-#define GSDL_NUMBER_SETTER(s_func, c_func, tag, c_type, c_field)        \
+#define GSDL_NUMBER_SETTER(s_func, c_func, tag, c_type, c_field, conv)  \
 GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),              \
             "Set @code{" #c_field "} in @code{" #c_type "} object\n"    \
             "to @var{value}.")                                          \
@@ -27,7 +27,7 @@ GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),              \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, tag, ARGH1);                                        \
   ASSERT_EXACT (value, ARGH2);                                          \
-  SMOBFIELD (c_type, c_field) = gh_scm2long (value);                    \
+  SMOBFIELD (c_type, c_field) = conv (value);                           \
   RETURN_UNSPECIFIED;                                                   \
 }
 
