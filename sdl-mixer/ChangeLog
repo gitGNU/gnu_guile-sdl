@@ -1,5 +1,9 @@
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlmixer.c: Use BOUNDP, UNBOUNDP, and UNBOUND_MEANS_FALSE macros.
+
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlmixer.c: Use ARGH* instead of SCM_ARG*.
 
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
