@@ -26,6 +26,7 @@
 #include "argcheck.h"
 #include "sdlenums.h"
 #include "sdlsmobs.h"
+#include "retval.h"
 
 
 static long enum_tag;
