@@ -284,7 +284,8 @@ sdl_set_alpha (SCM s_surface, SCM s_flag, SCM s_alpha)
   surface = (SDL_Surface*) SCM_SMOB_DATA (s_surface);
   flag  = (Uint32) scm_flags2ulong (s_flag, sdl_video_flags,
                                     SCM_ARG2, "sdl-set-alpha!");
-  alpha = (Uint8)  scm_num2long (s_alpha, SCM_ARG3, "sdl-set-alpha!");
+  alpha = (Uint8) scm_enum2long (s_alpha, sdl_alpha_enums,
+                                 SCM_ARG3, "sdl-set-alpha!");
 
   SCM_RETURN_TRUE_IF_0 (SDL_SetAlpha (surface, flag, alpha));
 }
