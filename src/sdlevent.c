@@ -1,6 +1,6 @@
 /* sdlevent.c --- SDL input handling for Guile
  *
- * 	Copyright (C) 2003,2004 Thien-Thi Nguyen
+ * 	Copyright (C) 2003,2004,2005 Thien-Thi Nguyen
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -123,7 +123,7 @@ GH_DEFPROC (make_event, "make-event", 0, 1, 0,
   int ctype = SDL_NOEVENT;
 
   if (BOUNDP (type))
-    ctype = gsdl_enum2long (type, event_type_enum, ARGH1, FUNC_NAME);
+    ctype = GSDL_ENUM2LONG (type, event_type_enum, ARGH1);
 
   event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME);
   event->type = ctype;
@@ -149,8 +149,7 @@ GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
     {
       ASSERT_EXACT (sym, ARGH1);
       /* keysym->sym = (SDLKey) gh_scm2long (sym); */
-      keysym->sym = (SDLKey) gsdl_enum2long (sym, event_keysym_enum,
-                                             ARGH1, FUNC_NAME);
+      keysym->sym = (SDLKey) GSDL_ENUM2LONG (sym, event_keysym_enum, ARGH1);
     }
 
   /* Set the mod if given.  */
@@ -339,7 +338,7 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
   SCM ls = SCM_BOOL_F;
 
   cnumevents = gh_scm2long (numevents);
-  caction = gsdl_enum2long (action, event_action_enum, ARGH3, FUNC_NAME);
+  caction = GSDL_ENUM2LONG (action, event_action_enum, ARGH3);
 
   switch (caction)
     {
@@ -501,8 +500,8 @@ GH_DEFPROC (event_state, "event-state", 2, 0, 0,
 #define FUNC_NAME s_event_state
   int ctype, cstate, ret;
 
-  ctype = gsdl_enum2long (type, event_type_enum, ARGH1, FUNC_NAME);
-  cstate = gsdl_enum2long (state, event_state_enum, ARGH2, FUNC_NAME);
+  ctype = GSDL_ENUM2LONG (type, event_type_enum, ARGH1);
+  cstate = GSDL_ENUM2LONG (state, event_state_enum, ARGH2);
 
   ret = SDL_EventState (ctype, cstate);
   if (SDL_QUERY == cstate)

@@ -1,6 +1,6 @@
 /* sdlsurface.c --- SDL Surface functions
  *
- * 	Copyright (C) 2003,2004 Thien-Thi Nguyen
+ * 	Copyright (C) 2003,2004,2005 Thien-Thi Nguyen
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -326,7 +326,7 @@ GH_DEFPROC (set_alpha, "set-alpha!", 3, 0, 0,
   ASSERT_EXACT (alpha, ARGH3);
 
   cflag  = (Uint32) GSDL_FLAGS2ULONG (flag, gsdl_video_flags, ARGH2);
-  calpha = (Uint8) gsdl_enum2long (alpha, gsdl_alpha_enums, ARGH3, FUNC_NAME);
+  calpha = (Uint8) GSDL_ENUM2LONG (alpha, gsdl_alpha_enums, ARGH3);
 
   RETURN_TRUE_IF_0
     (SDL_SetAlpha (UNPACK_SURFACE (surface),
