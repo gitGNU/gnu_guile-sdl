@@ -1,5 +1,10 @@
 2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* event.scm: Display event states before starting the main input loop.
+	(display-centered): Take format string and args. Update callers.
+
+2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* rect.scm, mixer.scm, event.scm: Use `simple-format'.
 
 2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
