@@ -63,7 +63,7 @@ GH_DEFPROC (num_joysticks, "num-joysticks", 0, 0, 0,
             "Return the number of joysticks.")
 #define FUNC_NAME s_num_joysticks
 {
-  return gh_long2scm (SDL_NumJoysticks ());
+  RETURN_INT (SDL_NumJoysticks ());
 }
 #undef FUNC_NAME
 
@@ -134,9 +134,9 @@ GH_DEFPROC (joystick_index, "joystick-index", 1, 0, 0,
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
-  return gh_long2scm (joy != NULL
-                      ? SDL_JoystickIndex (joy)
-                      : -1);
+  RETURN_INT (joy != NULL
+              ? SDL_JoystickIndex (joy)
+              : -1);
 }
 #undef FUNC_NAME
 
@@ -152,9 +152,9 @@ GH_DEFPROC (joystick_num_axes, "joystick-num-axes", 1, 0, 0,
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
-  return gh_long2scm (joy != NULL
-                      ? SDL_JoystickNumAxes (joy)
-                      : -1);
+  RETURN_INT (joy != NULL
+              ? SDL_JoystickNumAxes (joy)
+              : -1);
 }
 #undef FUNC_NAME
 
@@ -170,9 +170,9 @@ GH_DEFPROC (joystick_num_balls, "joystick-num-balls", 1, 0, 0,
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
-  return gh_long2scm (joy != NULL
-                      ? SDL_JoystickNumBalls (joy)
-                      : -1);
+  RETURN_INT (joy != NULL
+              ? SDL_JoystickNumBalls (joy)
+              : -1);
 }
 #undef FUNC_NAME
 
@@ -188,9 +188,9 @@ GH_DEFPROC (joystick_num_hats, "joystick-num-hats", 1, 0, 0,
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
-  return gh_long2scm (joy != NULL
-                      ? SDL_JoystickNumHats (joy)
-                      : -1);
+  RETURN_INT (joy != NULL
+              ? SDL_JoystickNumHats (joy)
+              : -1);
 }
 #undef FUNC_NAME
 
@@ -206,9 +206,9 @@ GH_DEFPROC (joystick_num_buttons, "joystick-num-buttons", 1, 0, 0,
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
-  return gh_long2scm (joy != NULL
-                      ? SDL_JoystickNumButtons (joy)
-                      : -1);
+  RETURN_INT (joy != NULL
+              ? SDL_JoystickNumButtons (joy)
+              : -1);
 }
 #undef FUNC_NAME
 
@@ -231,7 +231,7 @@ GH_DEFPROC (joystick_event_state, "joystick-event-state", 1, 0, 0,
 {
   ASSERT_EXACT (s_state, ARGH1);
 
-  return gh_long2scm (SDL_JoystickEventState (gh_scm2long (s_state)));
+  RETURN_INT (SDL_JoystickEventState (gh_scm2long (s_state)));
 }
 #undef FUNC_NAME
 
@@ -249,9 +249,9 @@ GH_DEFPROC (joystick_get_axis, "joystick-get-axis", 2, 0, 0,
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
-  return gh_long2scm (joy != NULL
-                      ? SDL_JoystickGetAxis (joy, gh_scm2long (s_index))
-                      : -1);
+  RETURN_INT (joy != NULL
+              ? SDL_JoystickGetAxis (joy, gh_scm2long (s_index))
+              : -1);
 }
 #undef FUNC_NAME
 
@@ -305,9 +305,9 @@ GH_DEFPROC (joystick_get_hat, "joystick-get-hat", 2, 0, 0,
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
-  return gh_long2scm (joy != NULL
-                      ? SDL_JoystickGetHat (joy, gh_scm2long (s_index))
-                      : -1);
+  RETURN_INT (joy != NULL
+              ? SDL_JoystickGetHat (joy, gh_scm2long (s_index))
+              : -1);
 }
 #undef FUNC_NAME
 
@@ -325,9 +325,9 @@ GH_DEFPROC (joystick_get_button, "joystick-get-button", 2, 0, 0,
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
-  return gh_long2scm (joy != NULL
-                      ? SDL_JoystickGetButton (joy, gh_scm2long (s_index))
-                      : -1);
+  RETURN_INT (joy != NULL
+              ? SDL_JoystickGetButton (joy, gh_scm2long (s_index))
+              : -1);
 }
 #undef FUNC_NAME
 

@@ -631,8 +631,8 @@ GH_DEFPROC (map_rgb, "map-rgb", 2, 2, 0,
     b = (Uint8) gh_scm2long (s_b);
   }
 
-  return gh_long2scm (SDL_MapRGB (UNPACK_PIXEL_FORMAT (s_pixel_format),
-                                  r, g, b));
+  RETURN_INT (SDL_MapRGB (UNPACK_PIXEL_FORMAT (s_pixel_format),
+                          r, g, b));
 }
 #undef FUNC_NAME
 
@@ -668,8 +668,8 @@ GH_DEFPROC (map_rgba, "map-rgba", 3, 2, 0,
     a = (Uint8) gh_scm2long (s_a);
   }
 
-  return gh_long2scm (SDL_MapRGBA (UNPACK_PIXEL_FORMAT (s_pixel_format),
-                                   r, g, b, a));
+  RETURN_INT (SDL_MapRGBA (UNPACK_PIXEL_FORMAT (s_pixel_format),
+                           r, g, b, a));
 }
 #undef FUNC_NAME
 
@@ -850,7 +850,7 @@ GH_DEFPROC (gl_get_attribute, "gl-get-attribute", 1, 0, 0,
   ASSERT_EXACT (s_attr, ARGH1);
 
   SDL_GL_GetAttribute ((SDL_GLattr) gh_scm2long (s_attr), &value);
-  return gh_long2scm (value);
+  RETURN_INT (value);
 }
 #undef FUNC_NAME
 
@@ -1038,7 +1038,7 @@ GH_DEFPROC (wm_grab_input, "grab-input", 0, 1, 0,
     mode = gh_scm2long (s_mode);
   }
 
-  return gh_long2scm (SDL_WM_GrabInput (mode));
+  RETURN_INT (SDL_WM_GrabInput (mode));
 }
 #undef FUNC_NAME
 

@@ -435,7 +435,7 @@ GH_DEFPROC (blit_surface, "blit-surface", 1, 3, 0,
     dstrect = srcrect;
   }
 
-  return gh_long2scm (SDL_BlitSurface (src, srcrect, dst, dstrect));
+  RETURN_INT (SDL_BlitSurface (src, srcrect, dst, dstrect));
 }
 #undef FUNC_NAME
 

@@ -16,7 +16,7 @@ GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM smob),                        \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (smob, tag, ARGH1);                                       \
-  return gh_long2scm (SMOBFIELD (c_type, c_field));                     \
+  RETURN_INT (SMOBFIELD (c_type, c_field));                             \
 }
 
 #define GSDL_NUMBER_SETTER(s_func, c_func, tag, c_type, c_field)        \

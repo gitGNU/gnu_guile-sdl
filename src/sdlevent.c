@@ -363,7 +363,7 @@ GH_DEFPROC (push_event, "push-event", 1, 0, 0,
   ASSERT_SMOB (event, event_tag, ARGH1);
 
   result = SDL_PushEvent (SMOBGET (event, SDL_Event *));
-  return gh_long2scm (result);
+  RETURN_INT (result);
 }
 #undef FUNC_NAME
 
@@ -418,7 +418,7 @@ GH_DEFPROC (enable_unicode, "enable-unicode", 0, 1, 0,
     result = SDL_EnableUNICODE (1);
   }
 
-  return gh_long2scm (result);
+  RETURN_INT (result);
 }
 #undef FUNC_NAME
 
