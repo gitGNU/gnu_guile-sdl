@@ -1,3 +1,10 @@
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ref.twerp: Add some section headers.
+	Add many (formerly) missing @twerpdoc entries.
+
+	* cov: Rewrite.
+
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* cov: Add check for env var `srcdir'.
