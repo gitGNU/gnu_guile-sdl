@@ -93,6 +93,12 @@
     return _rv;                                 \
   } while (0)
 
+
+/* Throws.  */
+
+#define THROW_NOT_YET_IMPLEMENTED \
+  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL)
+
 #endif /* ! defined (GUILE_SDL_RETVAL_H) */
 
 /* retval.h ends here */
