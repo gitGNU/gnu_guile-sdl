@@ -28,6 +28,6 @@ SUFFIXES = .x
 DISTCLEANFILES = *.x
 
 # test suite
-TESTS = test/rect.scm test/image.scm test/event.scm test/mixer.scm
+TESTS = test/rect.scm test/image.scm test/event.scm test/mixer.scm test/ttf.scm
 TESTS_ENVIRONMENT = LTDL_LIBRARY_PATH=$(srcdir)/.libs \
 		    GUILE_LOAD_PATH=$(srcdir)
