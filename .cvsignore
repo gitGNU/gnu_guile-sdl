@@ -12,3 +12,5 @@ configure
 guile-sdl
 libtool
 sdl*.texi
+guile-sdl-*.tar.gz
+guile-sdl-*.tar.bz2
