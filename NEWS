@@ -37,9 +37,9 @@ Please send guile-sdl bug reports to <ttn@glug.org>.
   - "sdl-" prefix dropped
 
 	Procedure names no longer begin with "sdl-".  You can use the
-	module system's `#:renamer' clause (for `use-modules' and
-	`define-module' forms) to add this back, or possibly choose
-	another prefix.  The distributed tests and examples use "SDL:".
+	#:renamer clause (in `use-modules' and `define-module' forms)
+	to add this back, or possibly choose another prefix.  In this
+	distribution, the tests, examples and documentation use "SDL:".
 
 
 - maintainership transfer: ttn
