@@ -2,21 +2,20 @@
 
 AUTOMAKE_OPTIONS = gnu
 
+BUILT_SOURCES = ref.texi
+
 info_TEXINFOS = guile-sdl.texi
 
-# doc snarfing
-GUILE_SNARF_DOCS = guile-snarf-docs
-GUILE_SNARF_DOCS_TEXI = guile-snarf-docs-texi
+SUFFIXES = .texi .twerp
 
-SUFFIXES = .texi .doc
+guile-sdl.info: ref.texi
 
-%.doc: %.c
-	$(GUILE_SNARF_DOCS) $(DEFS) $(INCLUDES) -I../include \
-	-I../src/SDL_rotozoom/ -I../sdl-gfx/SDL_gfxPrimitives/ \
-	$(CPPFLAGS) $(CFLAGS) $< > $@ \
-	|| { rm $@; false; }
+.twerp.texi:
+	guile-tools twerp2texi \
+	  -I ../src/.doc-index \
+	  -I ../sdl-ttf/.doc-index \
+	  -I ../sdl-gfx/.doc-index \
+	  -I ../sdl-mixer/.doc-index \
+	  -o $@ $<
 
-.doc.texi:
-	$(GUILE_SNARF_DOCS_TEXI) $< > $@ \
-	|| { rm $@; false; }
-
+## Makefile.am ends here
