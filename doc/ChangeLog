@@ -1,5 +1,9 @@
 2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* ref.twerp (Events): Add @twerpdoc for `flagstash:event-mask'.
+
+2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* ref.twerp (Video): Remove @twerpdoc for `scale-surface'.
 
 2005-01-05  Thien-Thi Nguyen  <ttn@surf.glug.org>
