@@ -1,3 +1,7 @@
+2004-03-04  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ref.twerp (Video): Add @twerpdoc for `string->image'.
+
 2004-01-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* ef-ref.twerp, guile-sdl.texi: Update copyright.
