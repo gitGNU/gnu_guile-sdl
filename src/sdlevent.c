@@ -721,7 +721,10 @@ gsdl_init_event (void)
     "event-states",
     GSDL_CSCS (SDL_QUERY),
     GSDL_CSCS (SDL_IGNORE),
-    GSDL_CSCS (SDL_DISABLE),
+    /* SDL_DISABLE is not mentioned in the associated comment in SDL_events.h
+       (SDL 1.2), and moreover, its value is the same as SDL_IGNORE, so we
+       tickle the irony bone a bit and don't include it in Guile-SDL.  */
+    /* GSDL_CSCS (SDL_DISABLE), */
     GSDL_CSCS (SDL_ENABLE),
     NULL);
 
