@@ -29,6 +29,7 @@
 #include "sdlsmobs.h"
 #include "retval.h"
 #include "sym.h"
+#include "bool.h"
 
 
 static long cdrom_tag;
@@ -110,7 +111,7 @@ GH_DEFPROC (cd_open, "cd-open", 0, 1, 0,
 
   cd = SDL_CDOpen (cdrive);
   if (! cd)
-    return SCM_BOOL_F;
+    RETURN_FALSE;
   else
     SCM_RETURN_NEWSMOB (cdrom_tag, cd);
 }
@@ -147,9 +148,10 @@ GH_DEFPROC (cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
   ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
-  return (NULL == cd
-          ? SCM_BOOL_F
-          : gh_bool2scm (CD_INDRIVE (SDL_CDStatus (cd))));
+  if (NULL == cd)
+    RETURN_FALSE;
+  else
+    return gh_bool2scm (CD_INDRIVE (SDL_CDStatus (cd)));
 }
 #undef FUNC_NAME
 
@@ -272,25 +274,25 @@ GH_DEFPROC (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
   ASSERT_CDROM (cd_smob, ARGH1);
 
   UNBOUND_MEANS_FALSE (s_start_track);
-  if (SCM_NFALSEP (s_start_track)) {
+  if (NOT_FALSEP (s_start_track)) {
     ASSERT_EXACT (s_start_track, ARGH2);
     start_track = gh_scm2ulong (s_start_track);
   }
 
   UNBOUND_MEANS_FALSE (s_start_frame);
-  if (SCM_NFALSEP (s_start_frame)) {
+  if (NOT_FALSEP (s_start_frame)) {
     ASSERT_EXACT (s_start_frame, ARGH3);
     start_frame = gh_scm2ulong (s_start_frame);
   }
 
   UNBOUND_MEANS_FALSE (s_n_tracks);
-  if (SCM_NFALSEP (s_n_tracks)) {
+  if (NOT_FALSEP (s_n_tracks)) {
     ASSERT_EXACT (s_n_tracks, ARGH4);
     n_tracks = gh_scm2ulong (s_n_tracks);;
   }
 
   UNBOUND_MEANS_FALSE (s_n_frames);
-  if (SCM_NFALSEP (s_n_frames)) {
+  if (NOT_FALSEP (s_n_frames)) {
     ASSERT_EXACT (s_n_frames, ARGH5);
     n_frames = gh_scm2ulong (s_n_frames);
   } else {
@@ -458,13 +460,13 @@ GH_DEFPROC (cd_msf_to_frames, "cd-msf->frames", 1, 2, 0,
   m = gh_scm2ulong (s_m);
 
   UNBOUND_MEANS_FALSE (s_s);
-  if (SCM_NFALSEP (s_s)) {
+  if (NOT_FALSEP (s_s)) {
     ASSERT_EXACT (s_s, ARGH2);
     s = gh_scm2ulong (s_s);
   }
 
   UNBOUND_MEANS_FALSE (s_f);
-  if (SCM_NFALSEP (s_f)) {
+  if (NOT_FALSEP (s_f)) {
     ASSERT_EXACT (s_f, ARGH3);
     f = gh_scm2ulong (s_f);
   }
