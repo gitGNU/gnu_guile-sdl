@@ -59,22 +59,23 @@ int
 print_surface (SCM surface_smob, SCM port, scm_print_state *pstate)
 {
   SDL_Surface *surface = UNPACK_SURFACE (surface_smob);
+  int bpp = surface->format->BitsPerPixel;
 
-  scm_puts                                   ("#<SDL-Surface ", port);
+  scm_puts              ("#<SDL-Surface ", port);
 
   if (surface)
     {
-      scm_display                    (gh_long2scm (surface->w), port);
-      scm_puts                                            ("x", port);
-      scm_display                    (gh_long2scm (surface->h), port);
-      scm_puts                                            (" ", port);
-      scm_display (gh_long2scm (surface->format->BitsPerPixel), port);
-      scm_puts                                         (" bpp", port);
+      scm_intprint                              (surface->w, 10, port);
+      scm_putc          ('x', port);
+      scm_intprint                              (surface->h, 10, port);
+      scm_putc          (' ', port);
+      scm_intprint                              (bpp, 10, port);
+      scm_puts          (" bpp", port);
     }
   else
-    scm_puts                                           ("NULL", port);
+    scm_puts                                    ("NULL", port);
 
-  scm_puts                                                (">", port);
+  scm_putc              ('>', port);
 
   /* Non-zero means success.  */
   return 1;
