@@ -1,4 +1,5 @@
 - 0.2.x "basics"
+  - write configure check for guile that can load binary modules
   + naming: remove "sdl-" prefix
   + install under $GUILE_LIBSITE and $GUILE_SITE
   + no longer install in $libdir
