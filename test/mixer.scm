@@ -20,10 +20,15 @@
 
 ;; display audio device info
 (let ((specs (sdl-query-spec)))
-  (display (format #f "Opened audio at ~A Hz ~A bit ~A\n"
-                   (cdr (assq 'freq specs))
-                   (logand (cdr (assq 'format specs)) #xFF)
-                   (if (> (cdr (assq 'channels specs)) 1) "stereo" "mono"))))
+  (cond (specs
+         (display (format #f "Opened audio at ~A Hz ~A bit ~A\n"
+                          (cdr (assq 'freq specs))
+                          (logand (cdr (assq 'format specs)) #xFF)
+                          (if (> (cdr (assq 'channels specs)) 1)
+                            "stereo" "mono"))))
+        (else
+         (sdl-quit)
+         (exit 77))))
 
 
 ;; load a wav file
