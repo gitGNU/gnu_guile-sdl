@@ -1,6 +1,7 @@
-;; sdl.scm -- SDL for Guile                       -*- Guile-Scheme -*-
-;;
-;; Copyright (C) 2001 Alex Shinn <foof@debian.org>
+;;; sdl.scm --- SDL for Guile
+
+;; 	Copyright (C) 2003 Thien-Thi Nguyen
+;; 	Copyright (C) 2001 Alex Shinn <foof@debian.org>
 ;;
 ;; This is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -17,18 +18,21 @@
 ;; Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 ;; MA 02111-1307, USA.  */
 
-(define-module (sdl sdl))
+;;; Commentary:
 
-(use-modules (ice-9 syncase))
+;;; Code:
 
-(export-syntax sdl-with-clip-rect)
+(define-module (sdl sdl)
+  #:use-module (sdl sdl-sup)
+  #:use-module (ice-9 syncase))
+
+;; first things first: jump in the air a little and forget to hit the ground
+
+(set-module-public-interface!
+ (current-module)
+ (module-public-interface (resolve-module '(sdl sdl-sup))))
 
 (define sdl-version "0.1.8")
-
-(let ((lib (dynamic-link "libguileSDL.la")))
-  (if (dynamic-object? lib)
-    (dynamic-call "guile_sdl_init" lib)
-    (error "could not find libguileSDL") ))
 
 ;;; some utility functions, need to organize these into modules
 
@@ -57,3 +61,11 @@
     (sdl-blit-surface rotated src-rect dst dst-rect)
     dst))
 
+(export-syntax sdl-with-clip-rect)
+
+(export sdl-version
+        sdl-rotate-square)
+
+(define-public sdl-wait-event wait-event)
+
+;;; sdl.scm ends here
