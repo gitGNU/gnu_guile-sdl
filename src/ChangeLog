@@ -1,3 +1,13 @@
+2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlevent.c (gsdl_init_event):
+	Remove `SDL_DISABLE' from `event-states' enumstash.
+
+2004-07-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlvideo.c (gsdl_init_video): Use macro `GSDL_CSCS'.
+	* sdlevent.c (gsdl_init_event): Likewise.
+
 2004-07-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlenums.c (hfold): New static var.
