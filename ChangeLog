@@ -1,5 +1,9 @@
 2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (check-000-libdir, clean-000-libdir): New targets.
+
+2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* configure.in (GUILE_SITE_DIR): New macro call.
 
 	* Makefile.am (install-data-hook): New target.
