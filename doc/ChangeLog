@@ -1,3 +1,7 @@
+2004-08-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* guile-sdl.texi: Set @dircategory to "Guile modules".
+
 2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* ref.twerp (Miscellaneous Utilities):
