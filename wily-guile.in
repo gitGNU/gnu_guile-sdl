@@ -1,5 +1,5 @@
 #!/bin/sh
-# wily-guile --- drop in replacement for guile that knows a few tricks
+# wily-guile --- drop in replacement for "guile" that knows a few tricks
 
 HAVE_TTF=@HAVE_TTF@
 export HAVE_TTF
@@ -11,6 +11,6 @@ top=@top_builddir_absolute@
 GUILE_MERGED_MODULE_CATALOG=$top/pre-inst.merged-module-catalog
 export GUILE_MERGED_MODULE_CATALOG
 
-exec ${GUILE-guile} "$@"
+exec guile "$@"
 
 # wily-guile ends here
