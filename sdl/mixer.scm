@@ -21,13 +21,7 @@
 
 (use-modules (sdl sdl))
 
-(if (and (dynamic-object? (dynamic-link "libpthread"))
-         (dynamic-object? (dynamic-link "libSDL"))
-         (dynamic-object? (dynamic-link "libSDL_mixer"))
-         (dynamic-object? (dynamic-link "libguileSDL")))
-    (let ((lib (dynamic-link "libguileSDL_mixer")))
-      (if (dynamic-object? lib)
-          (dynamic-call "sdl_mixer_init" lib)
-          (error "could not find libguileSDL_mixer") ))
-    (error "could not init libSDL, libguileSDL_mixer or libpthread") )
-
+(let ((lib (dynamic-link "libguileSDL_mixer")))
+  (if (dynamic-object? lib)
+    (dynamic-call "sdl_mixer_init" lib)
+    (error "could not find libguileSDL_mixer") ))

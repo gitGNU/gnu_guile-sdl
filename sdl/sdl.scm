@@ -23,19 +23,12 @@
 
 (export-syntax sdl-with-clip-rect)
 
-(define sdl-version "0.1.7")
+(define sdl-version "0.1.8")
 
-(if (and (dynamic-object? (dynamic-link "libpthread"))
-         (dynamic-object? (dynamic-link "libSDL"))
-         (dynamic-object? (dynamic-link "libSDL_image")))
-         ;(dynamic-object? (dynamic-link "libSDL_ttf"))
-         ;(dynamic-object? (dynamic-link "libSDL_mixer")))
-    (let ((lib (dynamic-link "libguileSDL")))
-      (if (dynamic-object? lib)
-          (dynamic-call "guile_sdl_init" lib)
-          (error "could not find libguileSDL") ))
-    (error "could not init libSDL or libpthread") )
-
+(let ((lib (dynamic-link "libguileSDL.la")))
+  (if (dynamic-object? lib)
+    (dynamic-call "guile_sdl_init" lib)
+    (error "could not find libguileSDL") ))
 
 ;;; some utility functions, need to organize these into modules
 

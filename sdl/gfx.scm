@@ -21,12 +21,7 @@
 
 (use-modules (sdl sdl))
 
-(if (and (dynamic-object? (dynamic-link "libpthread"))
-         (dynamic-object? (dynamic-link "libSDL"))
-         (dynamic-object? (dynamic-link "libguileSDL")))
-    (let ((lib (dynamic-link "libguileSDL_gfx")))
-      (if (dynamic-object? lib)
-          (dynamic-call "sdl_gfx_init" lib)
-          (error "could not find libguileSDL_gfx") ))
-    (error "could not init libSDL, libguileSDL or libpthread") )
-
+(let ((lib (dynamic-link "libguileSDL_gfx.la")))
+  (if (dynamic-object? lib)
+    (dynamic-call "sdl_gfx_init" lib)
+    (error "could not find libguileSDL_gfx") ))
