@@ -36,7 +36,7 @@ TESTS = alive.test				\
 TESTS_ENVIRONMENT = ./wily-guile -l $(srcdir)/test/common -s
 
 # distribution
-as_is_dirs = examples test include
+as_is_dirs = examples test include cov
 
 EXTRA_DIST = aclocal-suffix alive.test $(as_is_dirs)
 
