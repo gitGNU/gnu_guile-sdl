@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-07-05 17:15:06 foof>                         *
+ *  Time-stamp: <2001-07-06 02:03:55 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -46,6 +46,8 @@ long overlay_tag;
 long video_info_tag;
 
 SCM sdl_video_flags;
+SCM sdl_palette_flags;
+SCM sdl_alpha_enums;
 SCM sdl_gl_enums;
 
 /* surfaces */
@@ -90,15 +92,15 @@ make_surface (SCM s_width, SCM s_height, SCM s_flags)
    SCM_ASSERT (scm_exact_p (s_width),  s_width,  SCM_ARG1, "sdl-make-surface");
    SCM_ASSERT (scm_exact_p (s_height), s_height, SCM_ARG2, "sdl-make-surface");
 
-   width  = scm_num2long (s_width, SCM_ARG1, "scm_num2long");
-   height = scm_num2long (s_height, SCM_ARG1, "scm_num2long");
+   width  = scm_num2long (s_width, SCM_ARG1, "sdl-make-surface");
+   height = scm_num2long (s_height, SCM_ARG2, "sdl-make-surface");
 
    /* flags are optional, defaulting to current screen flags */
    if (s_flags == SCM_UNDEFINED) {
       flags = SDL_GetVideoSurface()->flags;
    } else {
-      SCM_ASSERT (scm_exact_p (s_flags),  s_flags,  SCM_ARG3, "sdl-make-surface");
-      flags = (Uint32) scm_num2long (s_flags, SCM_ARG1, "scm_num2long");
+      flags = (Uint32) scm_flags2ulong (s_flags, sdl_video_flags,
+                                        SCM_ARG3, "sdl-make-surface");
    }
 
    /* get defaults from the current video info */
@@ -130,7 +132,6 @@ create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
    Uint32 rmask, gmask, bmask, amask;
 
    /* validate params */
-   SCM_ASSERT (scm_exact_p (s_flags),  s_flags,  SCM_ARG1, "sdl-create-rgb-surface");
    SCM_ASSERT (scm_exact_p (s_width),  s_width,  SCM_ARG2, "sdl-create-rgb-surface");
    SCM_ASSERT (scm_exact_p (s_height), s_height, SCM_ARG3, "sdl-create-rgb-surface");
    SCM_ASSERT (scm_exact_p (s_depth),  s_depth,  SCM_ARG4, "sdl-create-rgb-surface");
@@ -139,14 +140,15 @@ create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
    SCM_ASSERT (scm_exact_p (s_bmask),  s_bmask,  SCM_ARG7, "sdl-create-rgb-surface");
    SCM_ASSERT (scm_exact_p (s_amask),  s_amask,  SCM_ARGn, "sdl-create-rgb-surface");
 
-   flags  = (Uint32) scm_num2long (s_flags, SCM_ARG1, "scm_num2long");
-   width  = scm_num2long (s_width, SCM_ARG1, "scm_num2long");
-   height = scm_num2long (s_height, SCM_ARG1, "scm_num2long");
-   depth  = (Uint8)  scm_num2long (s_depth, SCM_ARG1, "scm_num2long");
-   rmask  = (Uint32) scm_num2long (s_rmask, SCM_ARG1, "scm_num2long");
-   gmask  = (Uint32) scm_num2long (s_gmask, SCM_ARG1, "scm_num2long");
-   bmask  = (Uint32) scm_num2long (s_bmask, SCM_ARG1, "scm_num2long");
-   amask  = (Uint32) scm_num2long (s_amask, SCM_ARG1, "scm_num2long");
+   flags  = (Uint32) scm_flags2ulong (s_flags, sdl_video_flags,
+                                      SCM_ARG1, "sdl-create-rgb-surface");
+   width  = scm_num2long (s_width, SCM_ARG2, "sdl-create-rgb-surface");
+   height = scm_num2long (s_height, SCM_ARG3, "sdl-create-rgb-surface");
+   depth  = (Uint8)  scm_num2long (s_depth, SCM_ARG4, "sdl-create-rgb-surface");
+   rmask  = (Uint32) scm_num2long (s_rmask, SCM_ARG5, "sdl-create-rgb-surface");
+   gmask  = (Uint32) scm_num2long (s_gmask, SCM_ARG6, "sdl-create-rgb-surface");
+   bmask  = (Uint32) scm_num2long (s_bmask, SCM_ARG7, "sdl-create-rgb-surface");
+   amask  = (Uint32) scm_num2long (s_amask, SCM_ARGn, "sdl-create-rgb-surface");
 
    /* create the surface */
    surface = SDL_CreateRGBSurface (SDL_HWSURFACE, width, height, depth,
@@ -167,8 +169,8 @@ create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
 /* surface getters */
 SCM_DEFINE_NUMBER_GETTER ("sdl-surface:w", surface_w, surface_tag, SDL_Surface*, w)
 SCM_DEFINE_NUMBER_GETTER ("sdl-surface:h", surface_h, surface_tag, SDL_Surface*, h)
-SCM_DEFINE_NUMBER_GETTER ("sdl-surface:flags", surface_flags, surface_tag,
-                        SDL_Surface*, flags)
+SCM_DEFINE_FLAG_GETTER ("sdl-surface:flags", surface_flags, surface_tag,
+                        SDL_Surface*, flags, sdl_video_flags)
 SCM_DEFINE_NUMBER_GETTER ("sdl-surface:depth", surface_depth, surface_tag,
                         SDL_Surface*, format->BitsPerPixel)
 
@@ -418,18 +420,21 @@ SCM
 video_mode_ok (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags)
 {
    int width, height, bpp;
-   Uint32 flags;
+   Uint32 flags=0;
    int result;
 
    SCM_ASSERT (scm_exact_p (s_width),  s_width,  SCM_ARG1, "sdl-video-mode-ok");
    SCM_ASSERT (scm_exact_p (s_height), s_height, SCM_ARG2, "sdl-video-mode-ok");
    SCM_ASSERT (scm_exact_p (s_bpp),    s_bpp,    SCM_ARG3, "sdl-video-mode-ok");
-   SCM_ASSERT (scm_exact_p (s_flags),  s_flags,  SCM_ARG4, "sdl-video-mode-ok");
 
    width  = scm_num2long (s_width, SCM_ARG1, "scm_num2long");
    height = scm_num2long (s_height, SCM_ARG1, "scm_num2long");
    bpp    = scm_num2long (s_bpp, SCM_ARG1, "scm_num2long");
-   flags  = (Uint32) scm_num2long (s_flags, SCM_ARG1, "scm_num2long");
+
+   if (s_flags != SCM_UNDEFINED) {
+     flags  = (Uint32) scm_flags2ulong (s_flags, sdl_video_flags,
+                                        SCM_ARG1, "sdl-video-mode-ok");
+   }
 
    result = SDL_VideoModeOK (width, height, bpp, flags);
    if (result) {
@@ -538,11 +543,11 @@ set_palette (SCM s_surface, SCM s_flags, SCM s_colors)
    int flags, i, length, result;
 
    SCM_ASSERT_SMOB (s_surface, surface_tag, SCM_ARG1, "sdl-set-palette!");
-   SCM_ASSERT (scm_exact_p (s_flags), s_flags, SCM_ARG2, "sdl-set-palette!");
    SCM_ASSERT (SCM_VECTORP (s_colors), s_colors, SCM_ARG3, "sdl-set-palette!");
 
    surface = (SDL_Surface*) SCM_SMOB_DATA (s_surface);
-   flags   = scm_num2long (s_flags, SCM_ARG1, "scm_num2long");
+   flags   = scm_flags2ulong (s_flags, sdl_palette_flags,
+                              SCM_ARG2, "sdl-set-palette!");
    length  = SCM_VECTOR_LENGTH (s_colors);
    colors  = (SDL_Color*) scm_must_malloc (length, "sdl-set-palette!");
 
@@ -764,12 +769,12 @@ set_color_key (SCM s_surface, SCM s_flag, SCM s_key)
    Uint32 flag, key;
 
    SCM_ASSERT_SMOB (s_surface, surface_tag, SCM_ARG1, "sdl-set-color-key!");
-   SCM_ASSERT (scm_exact_p (s_flag), s_flag,  SCM_ARG2, "sdl-set-color-key!");
    SCM_ASSERT (scm_exact_p (s_key),  s_key,   SCM_ARG3, "sdl-set-color-key!");
 
    surface = (SDL_Surface*) SCM_SMOB_DATA (s_surface);
-   flag = (Uint32) scm_num2long (s_flag, SCM_ARG1, "scm_num2long");
-   key  = (Uint32) scm_num2long (s_key, SCM_ARG1, "scm_num2long");
+   flag = (Uint32) scm_flags2ulong (s_flag, sdl_video_flags,
+                                    SCM_ARG2, "sdl-set-color-key!");
+   key  = (Uint32) scm_num2long (s_key, SCM_ARG3, "sdl-set-color-key!");
 
    SCM_RETURN_TRUE_IF_0 (SDL_SetColorKey (surface, flag, key));
 }
@@ -786,8 +791,9 @@ set_alpha (SCM s_surface, SCM s_flag, SCM s_alpha)
    SCM_ASSERT (scm_exact_p (s_alpha), s_alpha, SCM_ARG3, "sdl-set-alpha!");
 
    surface = (SDL_Surface*) SCM_SMOB_DATA (s_surface);
-   flag  = (Uint32) scm_num2long (s_flag, SCM_ARG1, "scm_num2long");
-   alpha = (Uint8)  scm_num2long (s_alpha, SCM_ARG1, "scm_num2long");
+   flag  = (Uint32) scm_flags2ulong (s_flag, sdl_video_flags,
+                                     SCM_ARG2, "sdl-set-alpha!");
+   alpha = (Uint8)  scm_num2long (s_alpha, SCM_ARG3, "sdl-set-alpha!");
 
    SCM_RETURN_TRUE_IF_0 (SDL_SetAlpha (surface, flag, alpha));
 }
@@ -833,15 +839,18 @@ convert_surface (SCM s_src, SCM s_fmt, SCM s_flags)
 {
    SDL_Surface *src, *result;
    SDL_PixelFormat *fmt;
-   Uint32 flags;
+   Uint32 flags=0;
 
    SCM_ASSERT_SMOB (s_src, surface_tag,  SCM_ARG1, "sdl-convert-surface");
    SCM_ASSERT_SMOB (s_fmt, pixel_format_tag, SCM_ARG2, "sdl-convert-surface");
-   SCM_ASSERT (scm_exact_p (s_flags), s_flags, SCM_ARG3, "sdl-convert-surface");
 
    src = (SDL_Surface*) SCM_SMOB_DATA (s_src);
    fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_fmt);
-   flags = (Uint32) scm_num2long (s_flags, SCM_ARG1, "scm_num2long");
+
+   if (s_flags != SCM_UNDEFINED) {
+     flags = (Uint32) scm_flags2ulong (s_flags, sdl_video_flags,
+                                       SCM_ARG3, "sdl-convert-surface");
+   }
 
    result = SDL_ConvertSurface (src, fmt, flags);
 
@@ -1178,32 +1187,42 @@ sdl_init_video (void)
    scm_set_smob_free (overlay_tag, free_yuv_overlay);
 
    /* alpha constants */
-   SCM_DEFINE_CONST ("sdl-alpha/opaque",      SDL_ALPHA_OPAQUE);
-   SCM_DEFINE_CONST ("sdl-alpha/transparent", SDL_ALPHA_TRANSPARENT);
+   sdl_alpha_enums = scm_c_define_enum (
+     "sdl-alpha-enums",
+     "SDL_ALPHA_OPAQUE",      SDL_ALPHA_OPAQUE,
+     "SDL_ALPHA_TRANSPARENT", SDL_ALPHA_TRANSPARENT,
+     NULL);
 
-   /* video constants */
+   /* video flags */
    sdl_video_flags = scm_c_define_flag (
-    "sdl-video-flags",
-    "SDL_SWSURFACE",   SDL_SWSURFACE,   /* Surface is in system memory */
-    "SDL_HWSURFACE",   SDL_HWSURFACE,   /* Surface is in video memory */
-    "SDL_ASYNCBLIT",   SDL_ASYNCBLIT,   /* Use asynchronous blits if possible */
-    /* Available for SDL_SetVideoMode() */
-    "SDL_ANYFORMAT",   SDL_ANYFORMAT,   /* Allow any video depth/pixel-format */
-    "SDL_HWPALETTE",   SDL_HWPALETTE,   /* Surface has exclusive palette */
-    "SDL_DOUBLEBUF",   SDL_DOUBLEBUF,   /* Set up double-buffered video mode */
-    "SDL_FULLSCREEN",  SDL_FULLSCREEN,  /* Surface is a full screen display */
-    "SDL_OPENGL",      SDL_OPENGL,      /* Create an OpenGL rendering context */
-    "SDL_OPENGLBLIT",  SDL_OPENGLBLIT,  /* Create an OpenGL rendering context and use it for blitting */
-    "SDL_RESIZABLE",   SDL_RESIZABLE,   /* This video mode may be resized */
-    "SDL_NOFRAME",     SDL_NOFRAME,     /* No window caption or edge frame */
-    /* Used internally (read-only) */
-    "SDL_HWACCEL",     SDL_HWACCEL,     /* Blit uses hardware acceleration */
-    "SDL_SRCCOLORKEY", SDL_SRCCOLORKEY, /* Blit uses a source color key */
-    "SDL_RLEACCELOK",  SDL_RLEACCELOK,  /* Private flag */
-    "SDL_RLEACCEL",    SDL_RLEACCEL,    /* Surface is RLE encoded */
-    "SDL_SRCALPHA",    SDL_SRCALPHA,    /* Blit uses source alpha blending */
-    "SDL_PREALLOC",    SDL_PREALLOC,    /* Surface uses preallocated memory */
-    NULL);
+     "sdl-video-flags",
+     "SDL_SWSURFACE",   SDL_SWSURFACE,   /* Surface is in system memory */
+     "SDL_HWSURFACE",   SDL_HWSURFACE,   /* Surface is in video memory */
+     "SDL_ASYNCBLIT",   SDL_ASYNCBLIT,   /* Use asynchronous blits if possible */
+     /* Available for SDL_SetVideoMode() */
+     "SDL_ANYFORMAT",   SDL_ANYFORMAT,   /* Allow any video depth/pixel-format */
+     "SDL_HWPALETTE",   SDL_HWPALETTE,   /* Surface has exclusive palette */
+     "SDL_DOUBLEBUF",   SDL_DOUBLEBUF,   /* Set up double-buffered video mode */
+     "SDL_FULLSCREEN",  SDL_FULLSCREEN,  /* Surface is a full screen display */
+     "SDL_OPENGL",      SDL_OPENGL,      /* Create an OpenGL rendering context */
+     "SDL_OPENGLBLIT",  SDL_OPENGLBLIT,  /* Create an OpenGL rendering context and use it for blitting */
+     "SDL_RESIZABLE",   SDL_RESIZABLE,   /* This video mode may be resized */
+     "SDL_NOFRAME",     SDL_NOFRAME,     /* No window caption or edge frame */
+     /* Used internally (read-only) */
+     "SDL_HWACCEL",     SDL_HWACCEL,     /* Blit uses hardware acceleration */
+     "SDL_SRCCOLORKEY", SDL_SRCCOLORKEY, /* Blit uses a source color key */
+     "SDL_RLEACCELOK",  SDL_RLEACCELOK,  /* Private flag */
+     "SDL_RLEACCEL",    SDL_RLEACCEL,    /* Surface is RLE encoded */
+     "SDL_SRCALPHA",    SDL_SRCALPHA,    /* Blit uses source alpha blending */
+     "SDL_PREALLOC",    SDL_PREALLOC,    /* Surface uses preallocated memory */
+     NULL);
+
+   /* palette flags */
+   sdl_palette_flags = scm_c_define_flag (
+     "sdl-palette-flags",
+     "SDL_LOGPAL",  SDL_LOGPAL,
+     "SDL_PHYSPAL", SDL_PHYSPAL,
+     NULL);
 
    /* yuv overlay formats (values too large to be made enums) */
    SCM_DEFINE_CONST ("sdl-yv12-overlay", SDL_YV12_OVERLAY);  /* Planar mode: Y + V + U  (3 planes) */
@@ -1274,7 +1293,7 @@ sdl_init_video (void)
    scm_c_define_gsubr ("sdl-get-gamma-ramp",     0, 0, 0, get_gamma_ramp);
    scm_c_define_gsubr ("sdl-display-format",     1, 0, 0, display_format);
    scm_c_define_gsubr ("sdl-display-format-alpha", 1, 0, 0, display_format_alpha);
-   scm_c_define_gsubr ("sdl-convert-surface",    3, 0, 0, convert_surface);
+   scm_c_define_gsubr ("sdl-convert-surface",    2, 1, 0, convert_surface);
    /* overlays */
    scm_c_define_gsubr ("sdl-create-yuv-overlay", 3, 1, 0, create_yuv_overlay);
    scm_c_define_gsubr ("sdl-lock-yuv-overlay",   1, 0, 0, lock_yuv_overlay);
@@ -1298,21 +1317,18 @@ sdl_init_video (void)
    scm_c_define_gsubr ("sdl-warp-mouse",         2, 0, 0, warp_mouse);
    /* info */
    scm_c_define_gsubr ("sdl-list-modes",         0, 2, 0, list_modes);
-   scm_c_define_gsubr ("sdl-video-mode-ok",      4, 0, 0, video_mode_ok);
+   scm_c_define_gsubr ("sdl-video-mode-ok",      3, 1, 0, video_mode_ok);
    scm_c_define_gsubr ("sdl-video-driver-name",  0, 0, 0, video_driver_name);
    scm_c_define_gsubr ("sdl-get-video-info",     0, 0, 0, get_video_info);
 
    /* exported symbols */
    scm_c_export (
-      /* alpha constants */
-      "sdl-alpha/opaque",       "sdl-alpha/transparent",
-      /* video constants */
-      "sdl-video-flags",
+      /* flags & enums */
+      "sdl-video-flags",        "sdl-alpha-enums",
+      "sdl-gl-enums",           "sdl-palette-flags",
       /* yuv constants */
       "sdl-yv12-overlay",       "sdl-iyuv-overlay",       "sdl-yuy2-overlay",
       "sdl-uyvy-overlay",       "sdl-yvyu-overlay",
-      /* GL constants */
-      "sdl-gl-enums",
       /* rect functions */
       "sdl-make-rect",   "sdl-rect:x",      "sdl-rect:y",    "sdl-rect:w",
       "sdl-rect:h",      "sdl-rect:set-x!", "sdl-rect:set-y!",
