@@ -50,7 +50,7 @@ GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
   UNBOUND_MEANS_FALSE (s_zoom);
   if (SCM_NFALSEP (s_zoom)) {
     ASSERT_NUMBER (s_zoom, ARGH3);
-    angle = gh_scm2double (s_angle);
+    zoom = gh_scm2double (s_zoom);
   }
 
   UNBOUND_MEANS_FALSE (s_smooth);
