@@ -101,6 +101,38 @@
 	Register smob type "flagstash" and its mark, free, print funcs.
 	Remove call to `scm_c_export'.
 
+	* sdlevent.c: Update copyright.
+	Include <guile/gh.h>.
+	No longer include "sdlevent.h".
+	Include "config.h", "argcheck.h" and "wholefns.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(event_tag, keysym_tag, event_mod_flags): Make static.
+	(ASSERT_EVENT, ASSERT_KEYSYM): New macros.
+	(mark_event, mark_keysym, free_keysym): New static funcs.
+	(free_event): Make static.
+	(make_keysym): Make MDEFLOCEXP.
+	(ENUM_GETTER, ENUM_SETTER, ENUM_GETSET, NUMBER_GETTER,
+	NUMBER_SETTER, NUM2_GETTER, NUM2_SETTER, NUM2_GETSET,
+	NUM3_GETTER, NUM3_SETTER, NUM3_GETSET, FLAG_GETTER,
+	FLAG_SETTER, FLAG_GETSET): New macros.
+	(pump_events, peep_events, poll_event, wait_event, push_event,
+	set_event_filter, get_event_filter, event_state, sdl_enable_unicode,
+	sdl_enable_key_repeat, sdl_get_key_state, sdl_get_mod_state,
+	sdl_set_mod_state, sdl_get_mouse_state, sdl_get_relative_mouse_state,
+	sdl_button_p): Make MDEFLOCEXP.
+	(gsdl_sym_state, gsdl_sym_x, gsdl_sym_y): New static vars.
+	(sdl_get_event_mod_flags): New MDEFLOCEXP.
+	(gsdl_kmod_flagstash): New extern var decl.
+	(gsdl_init_event): Rename from `sdl_init_event'.
+	Register `mark_event'.
+	Register smob type "SDL-Keysym" and its mark and free funcs.
+	Initialize `event_mod_flags' using `gsdl_make_flagstash'
+	instead of `scm_c_define_flag'.
+	Remove calls to `scm_c_define_gsubr'.
+	Remove call to `scm_c_export'.
+
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"
