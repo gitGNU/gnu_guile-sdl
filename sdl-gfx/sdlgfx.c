@@ -56,6 +56,34 @@ GH_DEFPROC (draw_point, "draw-point", 4, 0, 0,
 }
 
 
+GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
+            (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
+             SCM color, SCM fill),
+            "On @var{surface}, draw a rectangle with opposite points\n"
+            "@var{x1},@var{y1} and @var{x2},@var{y2},\n"
+            "with color @var{color}.\n"
+            "Optional arg @var{fill} means to fill the rectangle as well.")
+{
+#define FUNC_NAME s_draw_rectangle
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_EXACT (x1, ARGH2);
+  ASSERT_EXACT (y1, ARGH3);
+  ASSERT_EXACT (x2, ARGH4);
+  ASSERT_EXACT (y2, ARGH5);
+  ASSERT_EXACT (color, ARGH6);
+  UNBOUND_MEANS_FALSE (fill);
+
+  RETURN_INT
+    ((EXACTLY_FALSEP (fill)
+      ? rectangleColor
+      : boxColor) (UNPACK_SURFACE (surface),
+                   gh_scm2long (x1), gh_scm2long (y1),
+                   gh_scm2long (x2), gh_scm2long (y2),
+                   gh_scm2ulong (color)));
+#undef FUNC_NAME
+}
+
+
 GH_DEFPROC (draw_line, "draw-line", 6, 0, 0,
             (SCM surface, SCM x1, SCM y1,
              SCM x2, SCM y2, SCM color),
@@ -100,34 +128,6 @@ GH_DEFPROC (draw_aa_line, "draw-aa-line", 6, 0, 0,
                   gh_scm2long (x1), gh_scm2long (y1),
                   gh_scm2long (x2), gh_scm2long (y2),
                   gh_scm2ulong (color)));
-#undef FUNC_NAME
-}
-
-
-GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
-            (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
-             SCM color, SCM fill),
-            "On @var{surface}, draw a rectangle with opposite points\n"
-            "@var{x1},@var{y1} and @var{x2},@var{y2},\n"
-            "with color @var{color}.\n"
-            "Optional arg @var{fill} means to fill the rectangle as well.")
-{
-#define FUNC_NAME s_draw_rectangle
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x1, ARGH2);
-  ASSERT_EXACT (y1, ARGH3);
-  ASSERT_EXACT (x2, ARGH4);
-  ASSERT_EXACT (y2, ARGH5);
-  ASSERT_EXACT (color, ARGH6);
-  UNBOUND_MEANS_FALSE (fill);
-
-  RETURN_INT
-    ((EXACTLY_FALSEP (fill)
-      ? rectangleColor
-      : boxColor) (UNPACK_SURFACE (surface),
-                   gh_scm2long (x1), gh_scm2long (y1),
-                   gh_scm2long (x2), gh_scm2long (y2),
-                   gh_scm2ulong (color)));
 #undef FUNC_NAME
 }
 
