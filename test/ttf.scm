@@ -31,7 +31,7 @@
 (define test-rect (SDL:make-rect 0 0 640 480))
 (SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 16)
 
-(seed->random-state (SDL:get-ticks))
+(set! *random-state* (seed->random-state (current-time)))
 
 (define rand-rect
   (let* ((dimensions (SDL:font:size-text font sentence))

@@ -26,7 +26,7 @@
            (car modes)))))
 (and debug? (format #t "test-rect => ~A\n" test-rect))
 
-(seed->random-state (SDL:get-ticks))
+(set! *random-state* (seed->random-state (current-time)))
 
 (define (rand-rect limit)
   (let* ((limit-w (SDL:rect:w limit))
