@@ -34,6 +34,7 @@
 #define ARGH5 SCM_ARG5
 #define ARGH6 SCM_ARG6
 #define ARGH7 SCM_ARG7
+#define ARGH8 8
 #define ARGHn SCM_ARGn
 
 
