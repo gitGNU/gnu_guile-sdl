@@ -1,5 +1,9 @@
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* cov: New file.
+
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* ref.twerp: Throughout, remove defunct "sdl-" prefix.
 
 	* guile-sdl.texi (Quick Start): In example code, replace defunct
