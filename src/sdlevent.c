@@ -411,12 +411,23 @@ GH_DEFPROC (get_event_filter, "get-event-filter", 1, 0, 0,
 
 GH_DEFPROC (event_state, "event-state", 2, 0, 0,
             (SCM type, SCM state),
-            "[not yet implemented]")
+            "Query or set event @var{type} to @var{state}.\n"
+            "@var{type} should be one elements from @code{event-types},\n"
+            "and likewise @var{state} from @code{event-states}.\n"
+            "If @var{state} is @code{SDL_QUERY}, return the current\n"
+            "processing state of the specified event.")
 {
 #define FUNC_NAME s_event_state
-  THROW_NOT_YET_IMPLEMENTED;
-  /* extern DECLSPEC Uint8 SDL_EventState (Uint8 type, int state); */
-  RETURN_UNSPECIFIED;
+  int ctype, cstate, ret;
+
+  ctype = gsdl_enum2long (type, event_type_enum, ARGH1, FUNC_NAME);
+  cstate = gsdl_enum2long (state, event_state_enum, ARGH2, FUNC_NAME);
+
+  ret = SDL_EventState (ctype, cstate);
+  if (SDL_QUERY == cstate)
+    return gsdl_long2enum (ret, event_state_enum);
+  else
+    RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
 
