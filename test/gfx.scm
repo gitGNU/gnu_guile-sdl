@@ -3,28 +3,28 @@
 (define debug? (getenv "DEBUG"))
 (and debug? (debug-enable 'debug 'backtrace))
 
-(use-modules (sdl sdl)
-             (sdl gfx))
+(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
+             ((sdl gfx) #:renamer (symbol-prefix-proc 'SDL:)))
 
 ;; initialize SDL video
-(sdl-init '(SDL_INIT_VIDEO))
+(SDL:init '(SDL_INIT_VIDEO))
 
 ;; initialize the video mode
-(define test-rect (sdl-make-rect 0 0 640 480))
-(sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 16)
+(define test-rect (SDL:make-rect 0 0 640 480))
+(SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 16)
 
-(seed->random-state (sdl-get-ticks))
+(seed->random-state (SDL:get-ticks))
 
 ;; clear the screen
-(sdl-fill-rect (sdl-get-video-surface) test-rect #xffffff)
-(sdl-flip)
+(SDL:fill-rect (SDL:get-video-surface) test-rect #xffffff)
+(SDL:flip)
 
 ;; draw a line
-(sdl-draw-line (sdl-get-video-surface) 10 10 630 870 (random #xffff))
-(sdl-flip)
+(SDL:draw-line (SDL:get-video-surface) 10 10 630 870 (random #xffff))
+(SDL:flip)
 
 ;; clean up
-(sdl-delay 1000)
-(sdl-quit)
+(SDL:delay 1000)
+(SDL:quit)
 
 ;;; gfx.scm ends here

@@ -5,12 +5,12 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 ;; SICP Picture Language Example
 ;;
 ;; Created:    <2001-06-24 16:36:53 foof>
-;; Time-stamp: <2003-11-12 21:03:48 ttn>
+;; Time-stamp: <2003-11-20 00:21:38 ttn>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 
 ;; load the SDL module
-(use-modules (sdl sdl))
+(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
 
 ;; Primitive functions
 
@@ -20,35 +20,35 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 ;; parallellograms) are left as an exercise for the reader :-)
 
 (define (beside left right)
-  (let* ((width (sdl-surface:w left))
-         (height (sdl-surface:h right))
+  (let* ((width (SDL:surface:w left))
+         (height (SDL:surface:h right))
          (width/2 (quotient width 2))
-         (src-rect (sdl-make-rect 0 0 width/2 height))
-         (result (sdl-make-surface width height))
-         (new-left (sdl-zoom-surface left 1/1 1 #t))
-         (new-right (sdl-zoom-surface right 1/2 1 #t)))
-    (sdl-blit-surface new-left src-rect result
-                      (sdl-make-rect 0 0 width/2 height))
-    (sdl-blit-surface new-right src-rect result
-                      (sdl-make-rect width/2 0 width height))
+         (src-rect (SDL:make-rect 0 0 width/2 height))
+         (result (SDL:make-surface width height))
+         (new-left (SDL:zoom-surface left 1/1 1 #t))
+         (new-right (SDL:zoom-surface right 1/2 1 #t)))
+    (SDL:blit-surface new-left src-rect result
+                      (SDL:make-rect 0 0 width/2 height))
+    (SDL:blit-surface new-right src-rect result
+                      (SDL:make-rect width/2 0 width height))
     result))
 
 (define (below top bottom)
-  (let* ((width (sdl-surface:w top))
-         (height (sdl-surface:h top))
+  (let* ((width (SDL:surface:w top))
+         (height (SDL:surface:h top))
          (height/2 (quotient height 2))
-         (src-rect (sdl-make-rect 0 0 width height/2))
-         (result (sdl-make-surface width height))
-         (new-top (sdl-zoom-surface top 1 1/2 #t))
-         (new-bottom (sdl-zoom-surface bottom 1 1/2 #t)))
-    (sdl-blit-surface new-top src-rect result
-                      (sdl-make-rect 0 0 width height/2))
-    (sdl-blit-surface new-bottom src-rect result
-                      (sdl-make-rect 0 height/2 width height))
+         (src-rect (SDL:make-rect 0 0 width height/2))
+         (result (SDL:make-surface width height))
+         (new-top (SDL:zoom-surface top 1 1/2 #t))
+         (new-bottom (SDL:zoom-surface bottom 1 1/2 #t)))
+    (SDL:blit-surface new-top src-rect result
+                      (SDL:make-rect 0 0 width height/2))
+    (SDL:blit-surface new-bottom src-rect result
+                      (SDL:make-rect 0 height/2 width height))
     result))
 
-(define flip-vert sdl-vertical-flip-surface)
-(define flip-horiz sdl-vertical-flip-surface)
+(define flip-vert SDL:vertical-flip-surface)
+(define flip-horiz SDL:vertical-flip-surface)
 
 
 ;; Higher order functions
@@ -96,26 +96,26 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 ;; corner-split count.
 
 ;; initialize the video subsystem
-(sdl-init '(SDL_INIT_VIDEO))
+(SDL:init '(SDL_INIT_VIDEO))
 
-(let* ((painter (sdl-load-image "william-rogers.png"))
-       (w (sdl-surface:w painter))
-       (h (sdl-surface:h painter))
-       (depth (sdl-surface:depth painter))
-       (e (sdl-make-event 'SDL_USEREVENT))
+(let* ((painter (SDL:load-image "william-rogers.png"))
+       (w (SDL:surface:w painter))
+       (h (SDL:surface:h painter))
+       (depth (SDL:surface:depth painter))
+       (e (SDL:make-event 'SDL_USEREVENT))
        (i 1))
-  (sdl-set-video-mode w h depth)
-  (sdl-blit-surface (corner-split painter i))
-  (sdl-flip)
-  (while (not (and e (eq? (sdl-event:type e) 'SDL_KEYDOWN)
-                   (eq? (sdl-event:key:keysym:sym e) 'SDLK_ESCAPE)))
-         (sdl-wait-event e)
-         (if (eq? (sdl-event:type e) 'SDL_KEYDOWN)
+  (SDL:set-video-mode w h depth)
+  (SDL:blit-surface (corner-split painter i))
+  (SDL:flip)
+  (while (not (and e (eq? (SDL:event:type e) 'SDL_KEYDOWN)
+                   (eq? (SDL:event:key:keysym:sym e) 'SDLK_ESCAPE)))
+         (SDL:wait-event e)
+         (if (eq? (SDL:event:type e) 'SDL_KEYDOWN)
              (begin (set! i (1+ i))
-                    (sdl-blit-surface (corner-split painter i))
-                    (sdl-flip)))))
+                    (SDL:blit-surface (corner-split painter i))
+                    (SDL:flip)))))
 
 ;; clean up
-(sdl-quit)
+(SDL:quit)
 
 ;;; sicp-painter.scm ends here

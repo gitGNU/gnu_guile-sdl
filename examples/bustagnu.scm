@@ -7,17 +7,17 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 (read-set! keywords 'prefix)
 
 ;; load the SDL module and some useful srfi's
-(use-modules (sdl sdl)
+(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
              (srfi srfi-1)
              (srfi srfi-2)
              (ice-9 format)
              (oop goops))
 
 ;; seed the RNG
-(seed->random-state (sdl-get-ticks))
+(seed->random-state (SDL:get-ticks))
 
 ;; initialize the video subsystem
-(sdl-init '(SDL_INIT_VIDEO))
+(SDL:init '(SDL_INIT_VIDEO))
 
 ;; global settings
 (define launcher-angle 90)
@@ -62,12 +62,12 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
   (and-let* ((frame-args (memq :frames initargs)))
     (set! (sprite:frames sprite) (cadr frame-args))
     (let* ((surface (caadr frame-args))
-           (width (sdl-surface:w surface))
-           (height (sdl-surface:h surface))
-           (rect (sdl-make-rect 0 0 width height)))
+           (width (SDL:surface:w surface))
+           (height (SDL:surface:h surface))
+           (rect (SDL:make-rect 0 0 width height)))
       (set! (sprite:dimensions sprite) rect)
       (if (not (memq :location initargs))
-        (set! (sprite:location sprite) (sdl-copy-rect rect)))))
+        (set! (sprite:location sprite) (SDL:copy-rect rect)))))
   (next-method))
 
 ;; the background space
@@ -112,8 +112,8 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
     (if (>= angle (/ pi 2))
         ;; set x to 0, and adjust y to keep it on the same line
         (let* ((sprite-rect (sprite:location sprite))
-               (x (sdl-rect:x sprite-rect))
-               (y (sdl-rect:y sprite-rect))
+               (x (SDL:rect:x sprite-rect))
+               (y (SDL:rect:y sprite-rect))
                (off-x (* default-velocity (cos angle)))
                (off-y (* default-velocity (sin angle)))
                (old-x (+ x off-x))
@@ -121,8 +121,8 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
                (slope (/ (- y old-y) (- x old-x)))
                (y-intercept (inexact->exact (- y (* slope x)))))
                                         ;(display "left collision\n")
-          (sdl-rect:set-x! sprite-rect 0)
-          (sdl-rect:set-y! sprite-rect y-intercept)
+          (SDL:rect:set-x! sprite-rect 0)
+          (SDL:rect:set-y! sprite-rect y-intercept)
           (next-method)))))
 
 (define-method (collide sprite (obj <right-edge>))
@@ -131,7 +131,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
     (if (<= angle (/ pi 2))
         (let* ((sprite-rect (sprite:location sprite))
                )
-          (sdl-rect:set-x! sprite-rect (- screen-width ball-size))
+          (SDL:rect:set-x! sprite-rect (- screen-width ball-size))
           (next-method)))))
 
 (define-method (collide sprite (obj <anchor-edge>))
@@ -140,18 +140,18 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 
 (define-method (collide sprite (obj <top-edge>))
   (let* ((sprite-rect (sprite:location sprite)))
-    (sdl-rect:set-y! sprite-rect 0))
+    (SDL:rect:set-y! sprite-rect 0))
   (next-method))
 
 (define-method (collide sprite (obj <bottom-edge>))
   (let* ((sprite-rect (sprite:location sprite)))
-    (sdl-rect:set-y! sprite-rect screen-height))
+    (SDL:rect:set-y! sprite-rect screen-height))
   (next-method))
 
 
-(define (sdl-copy-rect rect)
-  (sdl-make-rect (sdl-rect:x rect) (sdl-rect:y rect)
-                 (sdl-rect:w rect) (sdl-rect:h rect)))
+(define (SDL:copy-rect rect)
+  (SDL:make-rect (SDL:rect:x rect) (SDL:rect:y rect)
+                 (SDL:rect:w rect) (SDL:rect:h rect)))
 
 ;; cycle through the frames in a sprite list
 (define (show-next-frame! sprite surface)
@@ -160,8 +160,8 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
            #f)
           ((pair? frame-list)
            ;;(display (format #f "(pre-blit ~A)\n" (sprite:location sprite)))
-           (sdl-blit-surface (car frame-list) (sprite:dimensions sprite)
-                             surface (sdl-copy-rect (sprite:location sprite)))
+           (SDL:blit-surface (car frame-list) (sprite:dimensions sprite)
+                             surface (SDL:copy-rect (sprite:location sprite)))
            ;;(display (format #f "(post-blit ~A)\n" (sprite:location sprite)))
            (set! (sprite:frames sprite) (cdr frame-list))
            ;;(display (format #f "(post-set! ~A)\n" (sprite:location sprite)))
@@ -176,22 +176,22 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
   (for-each
    (lambda (sprite)
      (let ((rect (sprite:location sprite)))
-       (sdl-blit-surface bgsurface (sprite:location sprite))
-       (set! update-rects (cons (sdl-copy-rect (sprite:location sprite))
+       (SDL:blit-surface bgsurface (sprite:location sprite))
+       (set! update-rects (cons (SDL:copy-rect (sprite:location sprite))
                                 update-rects))))
    active-sprites)
   ;; then redisplay the launcher
   (redisplay-launcher)
   ;; then handle movement & redisplay
-  (let ((screen (sdl-get-video-surface)))
+  (let ((screen (SDL:get-video-surface)))
     (for-each
      (lambda (sprite)
        (and-let* ((move-proc (sprite:move-proc sprite)))
                                         ;(display (format #f "(move-proc ~A)\n" (sprite:location sprite)))
          (move-proc sprite)
          (let* ((loc (sprite:location sprite))
-                (x (sdl-rect:x loc))
-                (y (sdl-rect:y loc))
+                (x (SDL:rect:x loc))
+                (y (SDL:rect:y loc))
                 (grid-coords (xy->grid x y)))
                                         ;(display (format #f "hit: (~A ~A) => ~A\n" x y grid-coords))
            (cond ((or (not (= (car grid-coords) (sprite:row sprite)))
@@ -202,26 +202,26 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
                     ;; we've hit something!!
                                         ;(display "we've hit something!!\n")
                     (collide sprite obj))))
-           (if (< (sdl-rect:x loc) 0)
-               (sdl-rect:set-x! loc 0)
-               (if (> (sdl-rect:x loc) (- screen-width ball-size))
-                   (sdl-rect:set-x! loc (- screen-width ball-size))))
-           (if (< (sdl-rect:y loc) 0)
-               (sdl-rect:set-y! loc 0))
+           (if (< (SDL:rect:x loc) 0)
+               (SDL:rect:set-x! loc 0)
+               (if (> (SDL:rect:x loc) (- screen-width ball-size))
+                   (SDL:rect:set-x! loc (- screen-width ball-size))))
+           (if (< (SDL:rect:y loc) 0)
+               (SDL:rect:set-y! loc 0))
            ))
                                         ;(display (format #f "(show-next-frame! ~A)\n" (sprite:location sprite)))
        (show-next-frame! sprite screen))
      active-sprites))
   ;; update the screen
-  (let ((screen (sdl-get-video-surface)))
+  (let ((screen (SDL:get-video-surface)))
     (for-each
      (lambda (sprite)
                                         ;(display (format #f "(update-rect ~A)\n" (sprite:location sprite)))
-       (sdl-update-rect screen (sprite:location sprite)))
+       (SDL:update-rect screen (sprite:location sprite)))
      active-sprites)
     (for-each
      (lambda (rect)
-       (sdl-update-rect screen rect))
+       (SDL:update-rect screen rect))
      update-rects))
   ;; remove any dead sprites
   (set! active-sprites
@@ -231,24 +231,24 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 
 
 ;; initialize the images
-(define launcher (sdl-load-image (string-append datadir "launcher.png")))
+(define launcher (SDL:load-image (string-append datadir "launcher.png")))
 (define launcher-moved #t)
 (define launcher-rotated launcher)
-(define ball (sdl-load-image (string-append datadir "circle.png")))
-(define gnu-head (sdl-load-image (string-append datadir "gnu-head.png")))
+(define ball (SDL:load-image (string-append datadir "circle.png")))
+(define gnu-head (SDL:load-image (string-append datadir "gnu-head.png")))
 
 ;; setup the video mode
 (define rows 10)
 (define columns 12)
-(define ball-size (sdl-surface:w ball))
-(define launcher-offset (quotient (sdl-surface:w launcher) 2))
+(define ball-size (SDL:surface:w ball))
+(define launcher-offset (quotient (SDL:surface:w launcher) 2))
 (define screen-width (* rows ball-size))
 (define screen-height (+ (* columns ball-size) launcher-offset))
 (define screen-top-border 0)
 (define screen-bottom-border (+ screen-height ball-size))
 (define screen-left-border 0)
 (define screen-right-border (- screen-width ball-size))
-(sdl-set-video-mode screen-width screen-height 24)
+(SDL:set-video-mode screen-width screen-height 24)
 
 ;; the grid
 (define the-grid
@@ -265,7 +265,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
     (cond ((odd? row)
            (set! y (- y ball-size/4))
            (set! x (- x ball-size/4))))
-    (sdl-make-rect x y ball-size ball-size)))
+    (SDL:make-rect x y ball-size ball-size)))
 
 (define (grid-ref x y)
   (vector-ref (vector-ref the-grid x) y))
@@ -331,41 +331,41 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
                    (list grid-row (1+ grid-col))))
               )))))
 
-(define colors `((red     . ,(sdl-make-color #xff #x00 #x00))
-                 (green   . ,(sdl-make-color #x00 #xff #x00))
-                 (blue    . ,(sdl-make-color #x00 #x00 #xff))
-                 (cyan    . ,(sdl-make-color #x00 #xff #xff))
-                 (yellow  . ,(sdl-make-color #xff #xff #x00))
-                 (magenta . ,(sdl-make-color #xff #x00 #xff))
-                 (orange  . ,(sdl-make-color #xff #xbb #x00))
-                 (grey    . ,(sdl-make-color #x88 #x88 #x88))
+(define colors `((red     . ,(SDL:make-color #xff #x00 #x00))
+                 (green   . ,(SDL:make-color #x00 #xff #x00))
+                 (blue    . ,(SDL:make-color #x00 #x00 #xff))
+                 (cyan    . ,(SDL:make-color #x00 #xff #xff))
+                 (yellow  . ,(SDL:make-color #xff #xff #x00))
+                 (magenta . ,(SDL:make-color #xff #x00 #xff))
+                 (orange  . ,(SDL:make-color #xff #xbb #x00))
+                 (grey    . ,(SDL:make-color #x88 #x88 #x88))
                  ))
 
 (define color-balls
-  (let ((overlay (sdl-make-surface 32 32))
-        (rect (sdl-make-rect 0 0 32 32)))
+  (let ((overlay (SDL:make-surface 32 32))
+        (rect (SDL:make-rect 0 0 32 32)))
     (map
      (lambda (color-pair)
        (let* ((name (car color-pair))
               (color (cdr color-pair))
-              (result (sdl-make-surface 32 32))
-              (color-value (sdl-map-rgb (sdl-surface:format overlay)
-                                        (sdl-color:r color)
-                                        (sdl-color:g color)
-                                        (sdl-color:b color))))
+              (result (SDL:make-surface 32 32))
+              (color-value (SDL:map-rgb (SDL:surface:format overlay)
+                                        (SDL:color:r color)
+                                        (SDL:color:g color)
+                                        (SDL:color:b color))))
          ;; copy the gnu head
-         (sdl-blit-surface gnu-head rect result rect)
+         (SDL:blit-surface gnu-head rect result rect)
          ;; fill the overlay with the color-value
-         (sdl-fill-rect overlay rect color-value)
+         (SDL:fill-rect overlay rect color-value)
          ;; blit the bgcolor border onto the overlay
-         (sdl-blit-surface ball rect overlay rect)
+         (SDL:blit-surface ball rect overlay rect)
          ;; make the circle translucent
-         (sdl-set-color-key! overlay '(SDL_SRCCOLORKEY SDL_RLEACCEL) 0)
-         (sdl-set-alpha! overlay '(SDL_SRCALPHA SDL_RLEACCEL) 128)
+         (SDL:set-color-key! overlay '(SDL_SRCCOLORKEY SDL_RLEACCEL) 0)
+         (SDL:set-alpha! overlay '(SDL_SRCALPHA SDL_RLEACCEL) 128)
          ;; blit it over the gnu-head
-         (sdl-blit-surface overlay rect result rect)
+         (SDL:blit-surface overlay rect result rect)
          ;; now make that border transparent, leaving just the circle
-         (sdl-set-color-key! result '(SDL_SRCCOLORKEY SDL_RLEACCEL) 0)
+         (SDL:set-color-key! result '(SDL_SRCCOLORKEY SDL_RLEACCEL) 0)
          ;; and return this in a named pair
          (cons name result)))
      colors)))
@@ -378,50 +378,50 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 (define rand-ball-sprite
   (let* ((x (quotient (- screen-width ball-size) 2))
          (y (- screen-height ball-size))
-         (rect (sdl-make-rect x y (sdl-surface:w ball) (sdl-surface:h ball)))
+         (rect (SDL:make-rect x y (SDL:surface:w ball) (SDL:surface:h ball)))
          (coords (xy->grid x y))
          (row (car coords))
          (col (cadr coords)))
     (lambda ()
       (make <ball>
         :frames (circular-list (rand-ball))
-        :location (sdl-copy-rect rect)
+        :location (SDL:copy-rect rect)
         :row row
         :col col))))
 
 ;; colors
-(define bgcolor (sdl-map-rgb (sdl-surface:format (sdl-get-video-surface))
+(define bgcolor (SDL:map-rgb (SDL:surface:format (SDL:get-video-surface))
                              #x00 #x00 #x00))
 
 ;; rotate a square retaining its original size
-(define (sdl-rotate-square src angle)
-  (let* ((width (sdl-surface:w src))
-         (height (sdl-surface:h src))
-         (rotated (sdl-roto-zoom-surface src (- angle 90) 1.0 #t))
-         (new-width (sdl-surface:w rotated))
-         (new-height (sdl-surface:h rotated))
+(define (SDL:rotate-square src angle)
+  (let* ((width (SDL:surface:w src))
+         (height (SDL:surface:h src))
+         (rotated (SDL:roto-zoom-surface src (- angle 90) 1.0 #t))
+         (new-width (SDL:surface:w rotated))
+         (new-height (SDL:surface:h rotated))
          (width-offset (quotient (- new-width width) 2))
          (height-offset (quotient (- new-height height) 2))
-         (src-rect (sdl-make-rect width-offset height-offset width height))
-         (dst (sdl-make-surface width height))
-         (dst-rect (sdl-make-rect 0 0 width height)))
-    (sdl-blit-surface rotated src-rect dst dst-rect)
+         (src-rect (SDL:make-rect width-offset height-offset width height))
+         (dst (SDL:make-surface width height))
+         (dst-rect (SDL:make-rect 0 0 width height)))
+    (SDL:blit-surface rotated src-rect dst dst-rect)
     dst))
 
 ;; redisplay the launcher
 (define redisplay-launcher
-  (let* ((launcher-width (sdl-surface:w launcher))
+  (let* ((launcher-width (SDL:surface:w launcher))
          (dst-rect
-          (sdl-make-rect (- (quotient screen-width 2) launcher-offset)
+          (SDL:make-rect (- (quotient screen-width 2) launcher-offset)
                          (- screen-height launcher-offset)
                          launcher-width launcher-offset))
-         (src-rect (sdl-make-rect 0 0 launcher-width launcher-offset)))
+         (src-rect (SDL:make-rect 0 0 launcher-width launcher-offset)))
     (lambda ()
       (cond (launcher-moved
              (set! launcher-moved #f)
-             (sdl-blit-surface launcher-rotated src-rect bgsurface dst-rect)
-             (sdl-blit-surface bgsurface dst-rect)
-             (sdl-update-rect (sdl-get-video-surface) dst-rect))))))
+             (SDL:blit-surface launcher-rotated src-rect bgsurface dst-rect)
+             (SDL:blit-surface bgsurface dst-rect)
+             (SDL:update-rect (SDL:get-video-surface) dst-rect))))))
 
 ;; pivot the launcher by an offset
 (define (pivot-launcher offset)
@@ -430,7 +430,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
         (begin (set! launcher-angle new-angle)
                (set! launcher-moved #t)
                (set! launcher-rotated
-                     (sdl-rotate-square launcher new-angle))))))
+                     (SDL:rotate-square launcher new-angle))))))
 
 
 (define (make-angle-mover sprite angle . args)
@@ -439,24 +439,24 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
          (velocity (if (null? args) default-velocity (car args)))
          (off-x (* velocity (cos angle)))
          (off-y (* velocity (sin angle)))
-         (width (sdl-surface:w ball))
-         (height (sdl-surface:h ball)))
+         (width (SDL:surface:w ball))
+         (height (SDL:surface:h ball)))
     (lambda (sprite)
       (let* ((dst-rect (sprite:location sprite))
-             (x (sdl-rect:x dst-rect))
-             (y (sdl-rect:y dst-rect))
+             (x (SDL:rect:x dst-rect))
+             (y (SDL:rect:y dst-rect))
              (new-x (+ x off-x))
              (new-y (- y off-y)))
         ;;(display (format #f "(angle-mover ~A) ~A => " angle dst-rect))
-        (sdl-rect:set-x! dst-rect (inexact->exact new-x))
-        (sdl-rect:set-y! dst-rect (inexact->exact new-y))))))
+        (SDL:rect:set-x! dst-rect (inexact->exact new-x))
+        (SDL:rect:set-y! dst-rect (inexact->exact new-y))))))
 
 (define (degrees->radians deg)
   (* deg (/ pi 180)))
 
 ;; Launch the ball from the current angle
 ;;   angle is translated to radians, which is what guile uses for
-;;   sin/cos, unlike sdl-roto-zoom-surface which uses degrees.
+;;   sin/cos, unlike SDL:roto-zoom-surface which uses degrees.
 (define (launch)
   (if (< balls-in-motion max-balls)
       (let ((ball (rand-ball-sprite))
@@ -470,58 +470,58 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; initialize screen
-(sdl-set-caption "Bust-A-GNU" "Bust-A-GNU")
-(define bgsurface (sdl-make-surface screen-width screen-height))
-(sdl-fill-rect bgsurface
-               (sdl-make-rect 0 0 screen-width screen-height)
+(SDL:set-caption "Bust-A-GNU" "Bust-A-GNU")
+(define bgsurface (SDL:make-surface screen-width screen-height))
+(SDL:fill-rect bgsurface
+               (SDL:make-rect 0 0 screen-width screen-height)
                bgcolor)
 (redisplay-launcher)
-(sdl-blit-surface bgsurface)
-(sdl-flip)
+(SDL:blit-surface bgsurface)
+(SDL:flip)
 
 ;; event handler
-(let ((next-update-ticks (+ 10 (sdl-get-ticks))))
-  (let handle ((e (sdl-make-event)))
+(let ((next-update-ticks (+ 10 (SDL:get-ticks))))
+  (let handle ((e (SDL:make-event)))
     ;; poll for the next event
-    (sdl-poll-event e)
-    (case (sdl-event:type e)
+    (SDL:poll-event e)
+    (case (SDL:event:type e)
       ((SDL_MOUSEBUTTONUP)
-       (set! e (sdl-make-event 'SDL_USEREVENT))
-       (let* ((xy-coords (sdl-get-mouse-state))
+       (set! e (SDL:make-event 'SDL_USEREVENT))
+       (let* ((xy-coords (SDL:get-mouse-state))
               (x (cdr (assq 'x xy-coords)))
               (y (cdr (assq 'y xy-coords)))
               (grid-coords (xy->grid x y)))
          (display (format #f "(xy->grid ~A ~A) => (~A ~A)\n" x y
                           (car grid-coords) (cadr grid-coords)))))
       ((SDL_KEYDOWN)
-       (case (sdl-event:key:keysym:sym e)
+       (case (SDL:event:key:keysym:sym e)
          ((SDLK_LEFT)
           ;; pivot left (by 4 degrees, or 1 degree if control is held)
           (pivot-launcher
-           (let ((mods (sdl-event:key:keysym:mod e)))
+           (let ((mods (SDL:event:key:keysym:mod e)))
              (if (or (memq 'KMOD_LCTRL mods)
                      (memq 'KMOD_RCTRL mods))
                  +1 +4))))
          ((SDLK_RIGHT)
           ;; pivot right (by 4 degrees, or 1 degree if control is held)
           (pivot-launcher
-           (let ((mods (sdl-event:key:keysym:mod e)))
+           (let ((mods (SDL:event:key:keysym:mod e)))
              (if (or (memq 'KMOD_LCTRL mods)
                      (memq 'KMOD_RCTRL mods))
                  -1 -4))))
          ((SDLK_SPACE)
           ;; space to shoot
           ;; (wait until they release the key)
-          (while (not (eq? (sdl-event:type e) 'SDL_KEYUP))
-                 (sdl-poll-event e))
+          (while (not (eq? (SDL:event:type e) 'SDL_KEYUP))
+                 (SDL:poll-event e))
           ;; then launch
           (launch))
          ((SDLK_ESCAPE)
           ;; escape to quit (XXXX add confirmation)
-          (sdl-quit)
+          (SDL:quit)
           (quit)))))
     ;; update the sprites
-    (let ((ticks (sdl-get-ticks)))
+    (let ((ticks (SDL:get-ticks)))
       (cond ((> ticks next-update-ticks)
              (set! next-update-ticks (+ 50 ticks))
              (update-sprites))))

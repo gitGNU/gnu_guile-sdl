@@ -4,8 +4,8 @@
 
 ;; simple mixer test
 
-(use-modules (sdl sdl)
-             (sdl mixer))
+(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
+             ((sdl mixer) #:renamer (symbol-prefix-proc 'SDL:)))
 
 ;; the directory to find the image in
 (define datadir (if (getenv "srcdir")
@@ -13,13 +13,13 @@
                   "./"))
 
 ;; initialize the SDL mixer module
-(sdl-init '(SDL_INIT_AUDIO))
+(SDL:init '(SDL_INIT_AUDIO))
 
 ;; initialize the audio device
-(sdl-open-audio)
+(SDL:open-audio)
 
 ;; display audio device info
-(let ((specs (sdl-query-spec)))
+(let ((specs (SDL:query-spec)))
   (cond (specs
          (display (format #f "Opened audio at ~A Hz ~A bit ~A\n"
                           (cdr (assq 'freq specs))
@@ -27,25 +27,25 @@
                           (if (> (cdr (assq 'channels specs)) 1)
                             "stereo" "mono"))))
         (else
-         (sdl-quit)
+         (SDL:quit)
          (exit-77 "no mixer specs available"))))
 
 
 ;; load a wav file
-(define background (sdl-load-music (string-append datadir "test.wav")))
-(define fx (sdl-load-wave (string-append datadir "noise.wav")))
+(define background (SDL:load-music (string-append datadir "test.wav")))
+(define fx (SDL:load-wave (string-append datadir "noise.wav")))
 
 ;; play the wav
-(sdl-volume 128)
-(sdl-play-music background)
+(SDL:volume 128)
+(SDL:play-music background)
 
 ;; loop until it's done, playing a sound effect every 500ms
-(while (sdl-playing-music?)
-       (sdl-play-channel fx)
-       (sdl-delay 500))
+(while (SDL:playing-music?)
+       (SDL:play-channel fx)
+       (SDL:delay 500))
 
 ;; close the audio and quit SDL
-(sdl-close-audio)
-(sdl-quit)
+(SDL:close-audio)
+(SDL:quit)
 
 ;;; mixer.scm ends here
