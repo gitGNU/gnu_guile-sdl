@@ -1,0 +1,11 @@
+## aclocal-suffix
+
+## The defs here override various things in aclocal.m4 (see autogen.sh).
+## Placing them in acinclude.m4 has no effect.
+
+## Although libtool 1.5 has "--with-tags" support, we don't need any of that.
+## Ideally, we would configure libtool to omit this using some other method.
+##
+AC_DEFUN([_LT_AC_TAGCONFIG],[])
+
+## aclocal-suffix ends here
