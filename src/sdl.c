@@ -62,7 +62,7 @@ GH_DEFPROC (init, "init", 1, 0, 0,
             (SCM sel),
             "Initialize SDL based on configuration flags @var{sel}.\n"
             "@var{sel} is a list of symbols whose names all begin\n"
-            "with @code{SCM_INIT_}.")
+            "with @code{SDL_INIT_}.")
 #define FUNC_NAME s_init
 {
   RETURN_INT (SDL_Init (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1)));
