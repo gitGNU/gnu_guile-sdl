@@ -28,6 +28,9 @@ SCM gsdl_define_enum (const char *name, ...);
 long gsdl_enum2long (SCM s_enum, SCM enum_type, int pos, const char *func);
 SCM gsdl_long2enum (long value, SCM enum_type);
 
+#define GSDL_ENUM2LONG(enums,table,pos) \
+  gsdl_enum2long ((enums), (table), (pos), FUNC_NAME)
+
 /* flags (constants typically used as a logical or'ed group) */
 
 unsigned long gsdl_flags2ulong (SCM flags, SCM table,
