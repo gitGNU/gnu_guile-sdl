@@ -4,10 +4,11 @@
 ;; simple true type font test
 ;; 
 ;; Created:    <2001-06-10 19:14:30 foof>
-;; Time-stamp: <2001-06-18 01:00:03 foof>
+;; Time-stamp: <2001-06-25 01:03:07 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl)
+             (sdl ttf)
              (ice-9 format))
 
 ;; initialize SDL video
