@@ -1,3 +1,8 @@
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* am/fspec: Surround everything in "if MAINTAINER_MODE" block.
+	* am/snarfing (noinst_DATA): Surround w/ "if MAINTAINER_MODE" block.
+
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* configure.in (VERSION): Bump to "0.2.0" for release.

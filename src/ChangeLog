@@ -1,5 +1,11 @@
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (sdl_sup_la_SOURCES): Add $(FLAGSTASH).
+	Remove $(BUILT_SOURCES).
+	(EXTRA_DIST): Add empty var to support $(top_srcdir)/am/fspec.
+
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlgfx.c (gsdl_init_gfx): Rename from `gsdl_gfx_init'.
 	* sdl.c (gsdl_init_gfx): Add forward decl.
 	(init_module): Also call `gsdl_init_gfx'.

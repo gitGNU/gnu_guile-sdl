@@ -1,3 +1,8 @@
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (EXTRA_DIST): Delete var.
+	(librotozoom_a_SOURCES): Add SDL_rotozoom.h.
+
 2003-11-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* SDL_rotozoom.h: Rewrite pre-decl comments to

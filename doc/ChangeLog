@@ -1,5 +1,10 @@
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (EXTRA_DIST): Remove TODO-excerpt. Add $(BUILT_SOURCES).
+	(TESTS_ENVIRONMENT, TESTS): Surround w/ "if MAINTAINER_MODE" block.
+
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* Makefile.am (EXTRA_DIST): Add TODO-excerpt.
 
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
