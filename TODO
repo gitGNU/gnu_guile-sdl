@@ -8,7 +8,7 @@
     + make-surface
     + create-rgb-surface
   - interface present but "not yet implemented"
-    - peep-event
+    + peep-event
     - set-event-filter
     - get-event-filter
     + event-state
