@@ -11,7 +11,7 @@
  1
 
  #:struct
- ((1 char * name)               ; see "(gperf)User-supplied Struct"
+ ((-1 char * name)
   (2 unsigned long val)
   ("SCM_BOOL_F" SCM sname)
   ("SCM_BOOL_F" SCM sval))
