@@ -1,8 +1,8 @@
 /*******************************************************************
- *  gfx.h -- Additional Graphics functions for Guile SDL           *
+ *  sdlenums.h -- Enum helper functions                            *
  *                                                                 *
- *  Created:    <2001-06-03 02:00:32 foof>                         *
- *  Time-stamp: <2001-06-03 13:50:02 foof>                         *
+ *  Created:    <2001-06-03 20:07:15 foof>                         *
+ *  Time-stamp: <2001-06-25 00:28:39 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -23,20 +23,19 @@
  * MA 02111-1307 USA                                               *
  ******************************************************************/
 
-#ifndef _GUILE_SDL_GFX_H
-#define _GUILE_SDL_GFX_H
+#ifndef _GUILE_SDL_ENUMS_H
+#define _GUILE_SDL_ENUMS_H
 
-/* guile headers */
 #include <libguile.h>
-/* sdl headers */
-#include <SDL/SDL.h>
-#include "video.h"
 
-SCM vertical_flip_surface (SCM surface);
-SCM horiztonal_flip_surface (SCM surface);
-SCM vh_flip_surface (SCM surface);
-SCM scale_surface (SCM surface, SCM width, SCM height);
+/* define a numeric constant */
+#define SCM_DEFINE_CONST(name, value) \
+   scm_c_define (name, scm_long2num (value))
 
-void sdl_gfx_init (void);
+/* register a C enum */
+SCM scm_c_define_enum (const char *name, ...);
+SCM scm_enum_to_number (SCM enum_pair, SCM symbol);
+SCM scm_number_to_enum (SCM enum_pair, SCM number);
 
-#endif /* ! _GUILE_SDL_GFX_H */
+#endif /* ! _GUILE_SDL_ENUMS_H */
+

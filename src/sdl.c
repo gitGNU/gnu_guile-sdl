@@ -1,8 +1,8 @@
 /*******************************************************************
- *  guile-sdl.c -- SDL Video Wrappers for Guile                    *
+ *  sdl.c -- SDL Wrappers for Guile                                *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-18 01:24:32 foof>                         *
+ *  Time-stamp: <2001-06-25 00:24:24 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -28,15 +28,16 @@
 /* sdl headers */
 #include <SDL/SDL.h>
 /* wrapper headers */
-#include "scm.h"
-#include "guile-sdl.h"
-#include "video.h"
-#include "image.h"
-#include "gfx.h"
-#include "event.h"
-#include "mixer.h"
-#include "ttf.h"
-#include "wm.h"
+#include "sdl.h"
+#include "sdlenums.h"
+#include "sdlsmobs.h"
+#include "sdlvideo.h"
+/* #include "sdlimage.h" */
+#include "sdlgfx.h"
+#include "sdlevent.h"
+/* #include "mixer.h" */
+/* #include "ttf.h" */
+
 
 /* Initialization */
 SCM
@@ -162,25 +163,10 @@ guile_sdl_init (void)
       "sdl-init/noparachute", "sdl-init/eventthread",
       NULL);
 
-   /* wm initializations */
-   sdl_wm_init();
-
    /* video initializations */
    sdl_video_init();
 
-   /* image initializations */
-   sdl_image_init();
-
-   /* extra gfx initializations */
-   sdl_gfx_init();
-
    /* event initializations */
    sdl_event_init();
-
-   /* mixer initializations */
-   sdl_mixer_init();
-
-   /* ttf initializations */
-   sdl_ttf_init();
 }
 

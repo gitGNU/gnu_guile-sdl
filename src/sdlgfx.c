@@ -2,7 +2,7 @@
  *  gfx.c -- Additional Graphics functions for Guile SDL           *
  *                                                                 *
  *  Created:    <2001-06-03 02:00:32 foof>                         *
- *  Time-stamp: <2001-06-18 01:06:58 foof>                         *
+ *  Time-stamp: <2001-06-25 00:23:48 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -23,7 +23,7 @@
  * MA 02111-1307 USA                                               *
  ******************************************************************/
 
-#include "gfx.h"
+#include "sdlgfx.h"
 
 SCM
 vertical_flip_surface (SCM s_surface)

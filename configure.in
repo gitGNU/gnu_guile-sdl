@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce configure.
 
-AC_INIT(guile-sdl.c)
+AC_INIT(src/sdl.c)
 AM_INIT_AUTOMAKE("guile-sdl", "0.1.0")
 AM_MAINTAINER_MODE
 
@@ -26,6 +26,24 @@ if test "`guile -c '(display (string>=? (version) "1.4.1"))'`" != "#t"; then
   AC_MSG_ERROR([Your Guile is too old.  You need CVS Guile January 2001 or later.])
 fi
 
+dnl Check for SDL
+dnl SDL_VERSION=1.2.0
+
+dnl AM_PATH_SDL($SDL_VERSION,,
+dnl   AC_MSG_ERROR([
+dnl *** SDL $SDL_VERSION or better is required.]),
+dnl     )
+
+dnl CFLAGS="$CFLAGS $SDL_CFLAGS"
+dnl LIBS="$LIBS $SDL_LIBS"
+
+dnl Checks for libraries.
+dnl MUST have SDL_image
+dnl AC_CHECK_LIB(SDL_image, IMG_Load,
+dnl 	     LIBS="$LIBS -lSDL_image",
+dnl 	     AC_MSG_ERROR([*** SDL_image library not found!])	
+dnl 	    )
+
 AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_INSTALL
@@ -34,4 +52,8 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 AM_PROG_LIBTOOL
 
-AC_OUTPUT(Makefile)
+AC_OUTPUT([
+Makefile
+src/Makefile
+sdl/Makefile
+])

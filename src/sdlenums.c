@@ -1,8 +1,8 @@
 /*******************************************************************
- *  scm.c -- Guile helper functions                                *
+ *  sdlenums.c -- Enum helper functions                            *
  *                                                                 *
  *  Created:    <2001-06-09 19:22:27 foof>                         *
- *  Time-stamp: <2001-06-09 21:47:34 foof>                         *
+ *  Time-stamp: <2001-06-25 00:20:38 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *

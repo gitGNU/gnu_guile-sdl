@@ -1,8 +1,8 @@
 /*******************************************************************
- *  image.h -- SDL Image functions for Guile                       *
+ *  gfx.h -- Additional Graphics functions for Guile SDL           *
  *                                                                 *
- *  Created:    <2001-05-01 23:39:14 foof>                         *
- *  Time-stamp: <2001-06-18 01:07:29 foof>                         *
+ *  Created:    <2001-06-03 02:00:32 foof>                         *
+ *  Time-stamp: <2001-06-25 00:23:27 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -23,22 +23,20 @@
  * MA 02111-1307 USA                                               *
  ******************************************************************/
 
-#ifndef _GUILE_SDL_IMAGE_H
-#define _GUILE_SDL_IMAGE_H
+#ifndef _GUILE_SDL_GFX_H
+#define _GUILE_SDL_GFX_H
 
 /* guile headers */
 #include <libguile.h>
 /* sdl headers */
 #include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-/* guile-sdl headers */
-#include "video.h"
+#include "sdlvideo.h"
 
-/* Convenience functions */
-SCM img_load (SCM file);
+SCM vertical_flip_surface (SCM surface);
+SCM horiztonal_flip_surface (SCM surface);
+SCM vh_flip_surface (SCM surface);
+SCM scale_surface (SCM surface, SCM width, SCM height);
 
-/* Initialize glue */
-void sdl_image_init (void);
+void sdl_gfx_init (void);
 
-#endif /* ! _GUILE_SDL_IMAGE_H */
-
+#endif /* ! _GUILE_SDL_GFX_H */

@@ -2,7 +2,7 @@
  *  video.h -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-13 00:07:02 foof>                         *
+ *  Time-stamp: <2001-06-24 23:59:59 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -30,6 +30,7 @@
 #include <libguile.h>
 /* sdl headers */
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 /* tags for SDL smobs */
 extern long surface_tag;
@@ -48,6 +49,7 @@ scm_sizet free_cursor (SCM s_cursor);
 scm_sizet free_yuv_overlay (SCM s_overlay);
 
 /* constructors */
+SCM img_load (SCM file);
 SCM make_surface (SCM s_width, SCM s_height);
 SCM create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
                         SCM s_depth, SCM s_rmask, SCM s_gmask,
@@ -119,6 +121,13 @@ SCM gl_swap_buffers (void);
 SCM lock_yuv_overlay (SCM s_overlay);
 SCM unlock_yuv_overlay (SCM s_overlay);
 SCM display_yuv_overlay (SCM s_overlay, SCM s_dstrect);
+
+SCM wm_set_caption (SCM title, SCM icon);
+SCM wm_get_caption (void);
+SCM wm_set_icon (SCM icon);
+SCM wm_iconify_window (void);
+SCM wm_toggle_full_screen (SCM surface);
+SCM wm_grab_input (SCM mode);
 
 /* called to initialize functions and smobs */
 void sdl_video_init (void);

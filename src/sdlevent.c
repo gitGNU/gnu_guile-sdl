@@ -2,7 +2,7 @@
  *  event.c -- SDL input handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:58:16 foof>                         *
- *  Time-stamp: <2001-06-18 01:28:11 foof>                         *
+ *  Time-stamp: <2001-06-25 00:25:57 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -24,8 +24,9 @@
  ******************************************************************/
 
 /* event headers */
-#include "scm.h"
-#include "event.h"
+#include "sdlsmobs.h"
+#include "sdlenums.h"
+#include "sdlevent.h"
 
 /* tags for SDL smobs */
 long event_tag;

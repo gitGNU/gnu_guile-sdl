@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-24 23:49:01 foof>                         *
+ *  Time-stamp: <2001-06-25 00:28:56 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -29,7 +29,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 /* scm util headers */
-#include "scm.h"
+#include "sdlenums.h"
+#include "sdlsmobs.h"
 
 #define MAX_DRIVER_LEN    100
 #define GAMMA_TABLE_SIZE  256
@@ -53,6 +54,19 @@ free_surface (SCM surface)
    /* printf ("free_surface(%p)\n", (SDL_Surface*) SCM_SMOB_DATA (surface)); */
    SDL_FreeSurface ((SDL_Surface*) SCM_SMOB_DATA (surface));
    return sizeof (SDL_Surface);
+}
+
+/* Load an image in one of many formats */
+SCM
+img_load (SCM file)
+{
+   SDL_Surface *image;
+
+   SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
+               file, SCM_ARG1, "sdl-load-image");
+
+   image = IMG_Load (SCM_CHARS (file));
+   SCM_RETURN_NEWSMOB (surface_tag, image);
 }
 
 SCM
@@ -1063,6 +1077,81 @@ free_yuv_overlay (SCM s_overlay)
    return sizeof (SDL_Overlay);
 }
 
+/* window manager functions */
+
+SCM
+wm_set_caption (SCM title, SCM icon)
+{
+   SCM_ASSERT ((SCM_NIMP (title) && SCM_STRINGP (title)),
+               title, SCM_ARG1, "sdl-set-caption");
+
+   SCM_ASSERT ((SCM_NIMP (icon) && SCM_STRINGP (icon)),
+               icon, SCM_ARG1, "sdl-set-caption");
+
+   SDL_WM_SetCaption (SCM_CHARS (title), SCM_CHARS (icon));
+
+   return SCM_UNSPECIFIED;
+}
+
+SCM
+wm_get_caption (void)
+{
+   char *title;
+   char *icon;
+
+   SDL_WM_GetCaption (&title, &icon);
+
+   return SCM_LIST2 (scm_makfrom0str (title), scm_makfrom0str (icon));
+}
+
+SCM
+wm_set_icon (SCM icon)
+{
+   SDL_Surface *surface;
+
+   SCM_ASSERT_SMOB (icon, surface_tag, SCM_ARG1, "sdl-set-icon");
+   surface = (SDL_Surface*) SCM_SMOB_DATA (icon);
+
+   /* set w/ a NULL mask for now */
+   SDL_WM_SetIcon (surface, NULL);
+
+   return SCM_UNSPECIFIED;
+}
+
+SCM
+wm_iconify_window (void)
+{
+   return SDL_WM_IconifyWindow () ? SCM_BOOL_T : SCM_BOOL_F;
+}
+
+SCM
+wm_toggle_full_screen (SCM s_surface)
+{
+   SDL_Surface *surface;
+
+   if (s_surface == SCM_UNDEFINED) {
+      surface = SDL_GetVideoSurface ();
+   } else {
+      SCM_ASSERT_SMOB (s_surface, surface_tag, SCM_ARG1, "sdl-toggle-full-screen");
+      surface = (SDL_Surface*) SCM_SMOB_DATA (s_surface);
+   }
+
+   return SDL_WM_ToggleFullScreen (surface) ? SCM_BOOL_T : SCM_BOOL_F;
+}
+
+SCM
+wm_grab_input (SCM s_mode)
+{
+   int mode = SDL_GRAB_QUERY;
+
+   if (s_mode != SCM_UNDEFINED) {
+      SCM_ASSERT (scm_exact_p (s_mode), s_mode, SCM_ARG1, "sdl-grab-input");
+      mode = scm_num2long (s_mode, SCM_ARG1, "scm_num2long");
+   }
+
+   return scm_long2num (SDL_WM_GrabInput (mode));
+}
+
 void
 sdl_video_init (void)
 {
@@ -1137,6 +1226,7 @@ sdl_video_init (void)
    scm_c_define_gsubr ("sdl-surface:depth",      1, 0, 0, surface_depth);
    scm_c_define_gsubr ("sdl-surface:flags",      1, 0, 0, surface_flags);
    scm_c_define_gsubr ("sdl-get-video-surface",  0, 0, 0, get_video_surface);
+   scm_c_define_gsubr ("sdl-load-image",         1, 0, 0, img_load);
    scm_c_define_gsubr ("sdl-make-surface",       2, 1, 0, make_surface);
    scm_c_define_gsubr ("sdl-create-rgb-surface", 8, 0, 0, create_rgb_surface);
    scm_c_define_gsubr ("sdl-lock-surface",       1, 0, 0, lock_surface);
@@ -1221,7 +1311,7 @@ sdl_video_init (void)
       "sdl-set-alpha!",         "sdl-set-gamma",
       "sdl-get-gamma-ramp",     "sdl-set-gamma-ramp",
       "sdl-display-format",     "sdl-display-format-alpha",
-      "sdl-convert-surface",
+      "sdl-convert-surface",    "sdl-load-image",
       /* overlays */
       "sdl-create-yuv-overlay",   "sdl-lock-yuv-overlay",
       "sdl-unlock-yuv-overlay",   "sdl-display-yuv-overlay",
@@ -1235,6 +1325,10 @@ sdl_video_init (void)
       /* cursors */
       "sdl-create-cursor",      "sdl-set-cursor",   "sdl-get-cursor",
       "sdl-show-cursor",        "sdl-warp-mouse",
+      /* wm functions */
+      "sdl-set-caption",        "sdl-get-caption",
+      "sdl-set-icon",           "sdl-iconify-window",
+      "sdl-toggle-full-screen", "sdl-grab-input",
       /* info */
       "sdl-list-modes",         "sdl-video-mode-ok",
       "sdl-video-driver-name",  "get-video-info",

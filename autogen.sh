@@ -1,6 +1,6 @@
 #!/bin/sh
 
-[ -f sdl.scm ] || {
+[ -f sdl/sdl.scm ] || {
   echo "autogen.sh: run this command only in the guile-sdl directory."
   exit 1
 }
