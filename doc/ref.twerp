@@ -350,8 +350,8 @@
 @twerpdoc (set-music-command)
 @twerpdoc (close-audio)
 
-@node libSDL_gfx
-@chapter libSDL_gfx by Andreas Schiffler
+@node SDL_gfx
+@chapter SDL_gfx by Andreas Schiffler
 
 @section Graphics Primitives
 
