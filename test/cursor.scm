@@ -1,8 +1,4 @@
-#!/bin/sh
-exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
-!#
-
-;; simple cursor test
+;;; cursor.scm --- simple cursor test
 
 (use-modules (sdl sdl))
 

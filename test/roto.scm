@@ -1,8 +1,4 @@
-#!/bin/sh
-exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
-!#
-
-;; simple rotozoom test
+;;; roto.scm --- simple rotozoom test
 
 (use-modules (sdl sdl))
 

@@ -1,10 +1,7 @@
-#!/bin/sh
-exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
-!#
+;;; gfx.scm --- simple graphics primitives test
+
 (define debug? (getenv "DEBUG"))
 (and debug? (debug-enable 'debug 'backtrace))
-
-;; simple graphics primitives test
 
 (use-modules (sdl sdl))                 ; fixme: these must be separate due
 (use-modules (sdl gfx))                 ;        to compiled modules weirdness

@@ -1,8 +1,4 @@
-#!/bin/sh
-exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
-!#
-
-;; simple image test
+;;; image.scm --- simple image test
 
 (use-modules (sdl sdl))
 

@@ -1,10 +1,7 @@
-#!/bin/sh
-exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
-!#
+;;; rect.scm --- simple rectangle test
+
 (define debug? (getenv "DEBUG"))
 (and debug? (debug-enable 'debug 'backtrace))
-
-;; simple rectangle test
 
 (use-modules (sdl sdl))
 

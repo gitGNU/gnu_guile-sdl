@@ -1,7 +1,6 @@
-#!/bin/sh
-test x"$HAVE_MIXER" = x && { echo "INFO: $0: MIXER DISABLED" ; exit 77 ; }
-exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
-!#
+;;; mixer.scm
+
+(or *have-mixer* (exit-77 "mixer disabled"))
 
 ;; simple mixer test
 
@@ -29,9 +28,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
                             "stereo" "mono"))))
         (else
          (sdl-quit)
-         (format #t "INFO: ~A: NO MIXER SPECS AVAILABLE\n"
-                 (car (command-line)))
-         (exit 77))))
+         (exit-77 "no mixer specs available"))))
 
 
 ;; load a wav file

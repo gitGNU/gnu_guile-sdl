@@ -1,11 +1,9 @@
-#!/bin/sh
-test x"$HAVE_TTF" = x && { echo "'INFO: $0: TTF DISABLED" ; exit 77 ; }
-exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
-!#
+;;; ttf.scm --- simple true type font test
+
+(or *have-ttf* (exit-77 "ttf disabled"))
+
 (define debug? (getenv "DEBUG"))
 (and debug? (debug-enable 'debug 'backtrace))
-
-;; simple true type font test
 
 (use-modules (sdl sdl))                 ; fixme: these must be separate due
 (use-modules (sdl ttf))                 ;        to compiled modules weirdness

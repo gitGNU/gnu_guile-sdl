@@ -1,8 +1,4 @@
-#!/bin/sh
-exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
-!#
-
-;; simple opengl test
+;;; opengl.scm --- simple opengl test
 
 (use-modules (sdl sdl)
              (opengl opengl))
