@@ -1,3 +1,28 @@
+2003-11-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* autogen.sh: Add call to autoheader.
+	Move modsup.h from top-level dir to "include" subdir.
+
+	* configure.in: Move compiler checks first.
+	Conditionize CFLAGS setting: only for gcc.
+	Remove check of guile version.
+	(config.h): Add this AC_CONFIG_HEADERS directive.
+	(GUILE_FLAGS): Remove this AC_DEFUN; it is now
+	defined in aclocal.m4.
+	(c2x): Add check for which method to use.
+	(guile/modsup.h): Add check for this header.
+	(guilelibsitedir): Add check for this dir and AC_SUBST var.
+	(mixer, ttf): Rewrite these AC_ARG_ENABLE tests to not set $LIB.
+	(AC_CONFIG_FILES): Renamed from AC_OUTPUT.
+	(AC_CONFIG_COMMANDS): New directive.
+	(AC_OUTPUT): Add no-arg invocation.
+
+	* Makefile.am (TESTS): Add alive.test.
+	(TESTS_ENVIRONMENT): Remove GUILE_LOAD_PATH and LTDL_LIBRARY_PATH.
+	Add HAVE_TTF, HAVE_MIXER and GUILE_MERGED_MODULE_CATALOG.
+	(noinst_DATA): New directive.
+	(pre-inst.merged-module-catalog): New target.
+
 2003-10-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* configure.in: Replace old-fashioned AC_INIT + AM_INIT_AUTOMAKE
