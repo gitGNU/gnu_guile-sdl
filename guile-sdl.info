@@ -37,11 +37,7 @@ application of graphics routines.  Several SDL add-on libraries have
 been wrapped and included with guile-sdl, including SDL_image (for
 loading multiple image formats), SDL_ttf (for rendering true type
 fonts), and SDL_mixer (for playing/mixing different audio formats).  In
-addition, some low-level 2D graphics primitives for scaling and
-rotations have been provided.
-
-   OpenGL is supported, but requires the guile-opengl library, which is
-currently in a very early alpha state.
+addition, some low-level 2D graphics primitives have been provided.
 
 * Menu:
 
@@ -165,11 +161,11 @@ File: guile-sdl.info,  Node: Enums and Constants,  Next: Create and Make,  Prev:
 Enums and Constants
 -------------------
 
-   SDL flags and numeric constants are denoted with a `type/' prefix.
-So for instance, the `SDL_INIT_FOO' constants are renamed `init/foo'.
-In a few instances a type prefix has been introduced where one did not
-previously exist, to more clearly indicate the symbol as a constant and
-document its intent.
+   SDL flags and numeric constants are denoted with a `sdl-type/'
+prefix.  So for instance, the `SDL_INIT_FOO' constants are renamed
+`sdl-init/foo'.  In a few instances a type prefix has been introduced
+where one did not previously exist, to more clearly indicate the symbol
+as a constant and document its intent.
 
    The enumerated types for event types and key symbols are translated
 as symbols, for ease of use in `case' statements.  This is not done for
@@ -239,17 +235,17 @@ Index
 Tag Table:
 Node: Top187
 Node: Introduction788
-Node: Quick Start1767
-Node: Naming Conventions4515
-Node: Renaming C Functions5120
-Node: Enums and Constants5584
-Node: Create and Make6285
-Node: General SDL6924
-Node: Video7038
-Node: Events7134
-Node: OpenGL7227
-Node: TrueType7323
-Node: Audio7422
-Node: Index7514
+Node: Quick Start1629
+Node: Naming Conventions4377
+Node: Renaming C Functions4982
+Node: Enums and Constants5446
+Node: Create and Make6157
+Node: General SDL6796
+Node: Video6910
+Node: Events7006
+Node: OpenGL7099
+Node: TrueType7195
+Node: Audio7294
+Node: Index7386
 
 End Tag Table
