@@ -4,8 +4,6 @@ AUTOMAKE_OPTIONS = gnu
 
 include $(top_srcdir)/am/common
 
-EXTRA_DIST = sdlmixer.h
-
 WRAPPER_SOURCES = sdlmixer.c
 FLAGSTASH	=
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH)

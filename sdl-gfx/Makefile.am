@@ -8,8 +8,6 @@ AM_CPPFLAGS += -I$(srcdir)/SDL_gfxPrimitives
 
 SUBDIRS = SDL_gfxPrimitives
 
-EXTRA_DIST = sdlgfx.h
-
 WRAPPER_SOURCES = sdlgfx.c
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x)
 

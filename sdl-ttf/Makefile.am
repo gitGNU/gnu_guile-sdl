@@ -4,8 +4,6 @@ AUTOMAKE_OPTIONS = gnu
 
 include $(top_srcdir)/am/common
 
-EXTRA_DIST = sdlttf.h
-
 WRAPPER_SOURCES = sdlttf.c
 FLAGSTASH       = ttff.c
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH)
