@@ -56,6 +56,48 @@ GH_DEFPROC (draw_point, "draw-point", 4, 0, 0,
 }
 
 
+GH_DEFPROC (draw_hline, "draw-hline", 5, 0, 0,
+            (SCM surface, SCM x1, SCM x2, SCM y, SCM color),
+            "On @var{surface}, draw a horizontal line segment\n"
+            "from @var{x1},@var{y} to @var{x2},@var{y},\n"
+            "with color @var{color}.")
+{
+#define FUNC_NAME s_draw_hline
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_EXACT (x1, ARGH2);
+  ASSERT_EXACT (x2, ARGH3);
+  ASSERT_EXACT (y, ARGH4);
+  ASSERT_EXACT (color, ARGH5);
+
+  RETURN_INT
+    (hlineColor (UNPACK_SURFACE (surface),
+                 gh_scm2long (x1), gh_scm2long (x2), gh_scm2long (y),
+                 gh_scm2ulong (color)));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC (draw_vline, "draw-vline", 5, 0, 0,
+            (SCM surface, SCM x, SCM y1, SCM y2, SCM color),
+            "On @var{surface}, draw a vertical line segment\n"
+            "from @var{x},@var{y1} to @var{x},@var{y2},\n"
+            "with color @var{color}.")
+{
+#define FUNC_NAME s_draw_vline
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_EXACT (x, ARGH2);
+  ASSERT_EXACT (y1, ARGH3);
+  ASSERT_EXACT (y2, ARGH4);
+  ASSERT_EXACT (color, ARGH5);
+
+  RETURN_INT
+    (vlineColor (UNPACK_SURFACE (surface),
+                 gh_scm2long (x), gh_scm2long (y1), gh_scm2long (y2),
+                 gh_scm2ulong (color)));
+#undef FUNC_NAME
+}
+
+
 GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
             (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
              SCM color, SCM fill),
@@ -229,6 +271,95 @@ GH_DEFPROC (draw_aa_ellipse, "draw-aa-ellipse", 6, 0, 0,
 }
 
 
+GH_DEFPROC (draw_pie_slice, "draw-pie-slice", 7, 1, 0,
+            (SCM surface, SCM x, SCM y, SCM rad,
+             SCM start, SCM end, SCM color, SCM fill),
+            "On @var{surface}, draw a pie slice with center\n"
+            "@var{x},@var{y} and radius @var{rad}, going from\n"
+            "@var{start} to @var{end} (degrees), with color @var{color}.\n"
+            "Optional arg @var{fill} means to fill the slice as well.")
+{
+#define FUNC_NAME s_draw_pie_slice
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_EXACT (x, ARGH2);
+  ASSERT_EXACT (y, ARGH3);
+  ASSERT_EXACT (rad, ARGH4);
+  ASSERT_EXACT (start, ARGH5);
+  ASSERT_EXACT (end, ARGH6);
+  ASSERT_EXACT (color, ARGH7);
+
+  UNBOUND_MEANS_FALSE (fill);
+
+  RETURN_INT
+    ((EXACTLY_FALSEP (fill)
+      ? pieColor
+      : filledPieColor) (UNPACK_SURFACE (surface),
+                         gh_scm2long (x), gh_scm2long (y), gh_scm2long (rad),
+                         gh_scm2long (start), gh_scm2long (end),
+                         gh_scm2ulong (color)));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC (draw_trigon, "draw-trigon", 8, 1, 0,
+            (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
+             SCM x3, SCM y3, SCM color, SCM fill),
+            "On @var{surface}, draw a triangle with vertices at\n"
+            "@var{x1},@var{y1}, @var{x2},@var{y2} and @var{x3},@var{y3},\n"
+            "with color @var{color}.  Optional arg @var{fill} means to\n"
+            "fill the triangle as well.")
+{
+#define FUNC_NAME s_draw_trigon
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_EXACT (x1, ARGH2);
+  ASSERT_EXACT (y1, ARGH3);
+  ASSERT_EXACT (x2, ARGH4);
+  ASSERT_EXACT (y2, ARGH5);
+  ASSERT_EXACT (x3, ARGH6);
+  ASSERT_EXACT (y3, ARGH7);
+  ASSERT_EXACT (color, ARGH8);
+
+  UNBOUND_MEANS_FALSE (fill);
+
+  RETURN_INT
+    ((EXACTLY_FALSEP (fill)
+      ? trigonColor
+      : filledTrigonColor) (UNPACK_SURFACE (surface),
+                            gh_scm2long (x1), gh_scm2long (y1),
+                            gh_scm2long (x2), gh_scm2long (y2),
+                            gh_scm2long (x3), gh_scm2long (y3),
+                            gh_scm2ulong (color)));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC (draw_aa_trigon, "draw-aa-trigon", 8, 0, 0,
+            (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
+             SCM x3, SCM y3, SCM color),
+            "On @var{surface}, draw an anti-aliased triangle with vertices at\n"
+            "@var{x1},@var{y1}, @var{x2},@var{y2} and @var{x3},@var{y3},\n"
+            "with color @var{color}.")
+{
+#define FUNC_NAME s_draw_aa_trigon
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_EXACT (x1, ARGH2);
+  ASSERT_EXACT (y1, ARGH3);
+  ASSERT_EXACT (x2, ARGH4);
+  ASSERT_EXACT (y2, ARGH5);
+  ASSERT_EXACT (x3, ARGH6);
+  ASSERT_EXACT (y3, ARGH7);
+  ASSERT_EXACT (color, ARGH8);
+
+  RETURN_INT
+    (aatrigonColor (UNPACK_SURFACE (surface),
+                    gh_scm2long (x1), gh_scm2long (y1),
+                    gh_scm2long (x2), gh_scm2long (y2),
+                    gh_scm2long (x3), gh_scm2long (y3),
+                    gh_scm2long (color)));
+#undef FUNC_NAME
+}
+
+
 GH_DEFPROC (draw_polygon, "draw-polygon", 4, 1, 0,
             (SCM surface, SCM vx, SCM vy, SCM color, SCM fill),
             "On @var{surface}, draw a polygon whose points are specified\n"
@@ -255,6 +386,66 @@ GH_DEFPROC (draw_polygon, "draw-polygon", 4, 1, 0,
                                 cvx, cvy,
                                 gh_uniform_vector_length (vx),
                                 gh_scm2ulong (color));
+  free (cvx);
+  free (cvy);
+  RETURN_INT (ret);
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC (draw_aa_polygon, "draw-aa-polygon", 4, 0, 0,
+            (SCM surface, SCM vx, SCM vy, SCM color),
+            "On @var{surface}, draw an anti-aliased polygon whose points\n"
+            "are specified by corresponding pairs from the uniform vectors\n"
+            "@var{vx} and @var{vy}, in color @var{color}.")
+{
+#define FUNC_NAME s_draw_aa_polygon
+  int ret;
+  Sint16 *cvx, *cvy;
+
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_VECTOR (vx, ARGH2);
+  ASSERT_VECTOR (vy, ARGH3);
+  ASSERT_EXACT (color, ARGH4);
+
+  cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
+  cvy = (Sint16 *) gh_scm2shorts (vy, NULL);
+
+  ret = aapolygonColor (UNPACK_SURFACE (surface),
+                        cvx, cvy,
+                        gh_uniform_vector_length (vx),
+                        gh_scm2ulong (color));
+  free (cvx);
+  free (cvy);
+  RETURN_INT (ret);
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC (draw_bezier, "draw-bezier", 5, 0, 0,
+            (SCM surface, SCM vx, SCM vy, SCM s, SCM color),
+            "On @var{surface}, draw a bezier curve whose points are\n"
+            "specified by corresponding pairs from the uniform vectors\n"
+            "@var{vx} and @var{vy}, with @var{s} steps in color @var{color}.")
+{
+#define FUNC_NAME s_draw_bezier
+  int ret;
+  Sint16 *cvx, *cvy;
+
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_VECTOR (vx, ARGH2);
+  ASSERT_VECTOR (vy, ARGH3);
+  ASSERT_EXACT (s, ARGH4);
+  ASSERT_EXACT (color, ARGH5);
+
+  cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
+  cvy = (Sint16 *) gh_scm2shorts (vy, NULL);
+
+  ret = bezierColor (UNPACK_SURFACE (surface),
+                     cvx, cvy,
+                     gh_uniform_vector_length (vx),
+                     gh_scm2long (s),
+                     gh_scm2ulong (color));
   free (cvx);
   free (cvy);
   RETURN_INT (ret);
