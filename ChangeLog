@@ -2,6 +2,7 @@
 
 	* Makefile.am (pre-inst.merged-module-catalog): Check
 	for "guile-tools mkpimmc" and use it if available.
+	(install-data-hook): Trim $(DESTDIR) in module catalogs.
 
 2004-09-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
