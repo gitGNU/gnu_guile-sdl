@@ -1264,8 +1264,8 @@ int circleColor(SDL_Surface *dst, Sint16 x, Sint16 y, Sint16 r, Uint32 color)
  Sint16 x1,y1,x2,y2;
  Sint16 cx = 0;
  Sint16 cy = r;
- Sint16 ocx = 0xffff;
- Sint16 ocy = 0xffff;
+ Sint16 ocx = (Sint16) 0xffff;          /* added cast --ttn */
+ Sint16 ocy = (Sint16) 0xffff;          /* added cast --ttn */
  Sint16 df = 1 - r;
  Sint16 d_e = 3;
  Sint16 d_se = -2 * r + 5;
@@ -1431,8 +1431,8 @@ int filledCircleColor(SDL_Surface *dst, Sint16 x, Sint16 y, Sint16 r, Uint32 col
  Sint16 x1,y1,x2,y2;
  Sint16 cx = 0;
  Sint16 cy = r;
- Sint16 ocx = 0xffff;
- Sint16 ocy = 0xffff;
+ Sint16 ocx = (Sint16) 0xffff;          /* added cast --ttn */
+ Sint16 ocy = (Sint16) 0xffff;          /* added cast --ttn */
  Sint16 df = 1 - r;
  Sint16 d_e = 3;
  Sint16 d_se = -2 * r + 5;
@@ -1952,7 +1952,7 @@ int gfxPrimitivesCompareInt(const void *a, const void *b);
 static int *gfxPrimitivesPolyInts=NULL;
 static int gfxPrimitivesPolyAllocated=0;
 
-int filledPolygonColor (SDL_Surface *dst, Sint16 *vx, Sint16 *vy, int n, int color)
+int filledPolygonColor (SDL_Surface *dst, Sint16 *vx, Sint16 *vy, int n, Uint32 color)
 {
 	int result;
 	int i;
