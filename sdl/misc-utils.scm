@@ -26,7 +26,8 @@
   #:export (call-with-clip-rect
             rotate-square
             poll-with-push-on-timeout-proc
-            copy-surface))
+            copy-surface
+            ignore-all-event-types-except))
 
 ;; Set default clip rect to @var{rect}, call @var{thunk}, and restore it.
 ;; @var{thunk} is a procedure that takes no arguments.
@@ -101,5 +102,18 @@
               (SDL:surface-get-format surface))))
     (SDL:blit-surface surface #f new)
     new))
+
+;; Arrange to ignore all event types except those in @var{ls} (zero or
+;; more symbols from @code{event-types}).  As a special case, if @var{ls}
+;; is #f, arrange to not ignore any event types (all are enabled).
+;;
+(define (ignore-all-event-types-except . ls)
+  (let ((proc (if (and (not (null? ls)) (not (car ls)))
+                  (lambda (type)
+                    (SDL:event-state type 'SDL_ENABLE))
+                  (lambda (type)
+                    (or (memq type ls)
+                        (SDL:event-state type 'SDL_IGNORE))))))
+    (for-each proc (SDL:enumstash-enums SDL:event-types))))
 
 ;;; misc-utils.scm ends here
