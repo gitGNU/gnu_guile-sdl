@@ -24,9 +24,14 @@
   ;; rotate the image 27 degrees at a time, reducing its magnitude by 10%
   (do ((theta 0 (+ 27 theta)) (mag 1.0 (* mag 0.9)))
       ((>= theta (* 3 360)))            ; a few times around
-    (let ((image (SDL:roto-zoom-surface gnu-head theta mag #t)))
+    (let* ((image (SDL:roto-zoom-surface gnu-head theta mag #t))
+           (iw    (SDL:surface:w image))
+           (ih    (SDL:surface:h image))
+           (drect (SDL:make-rect (quotient (- w iw) 2)
+                                 (quotient (- h ih) 2)
+                                 iw ih)))
       (SDL:fill-rect (SDL:get-video-surface) gnu-rect #xffff)
-      (SDL:blit-surface image)
+      (SDL:blit-surface image #f #f drect)
       (SDL:flip)
       (SDL:delay 100))))
 
