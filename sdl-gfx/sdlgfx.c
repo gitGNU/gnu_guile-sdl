@@ -21,8 +21,6 @@
 
 #include <guile/gh.h>
 
-#include "SDL_gfxPrimitives.h"
-
 #include "config.h"
 #include "argcheck.h"
 #include "sdlsmobs.h"
@@ -32,6 +30,13 @@
 GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
 
 
+/*
+ * gfxPrimitives
+ */
+
+#include "SDL_gfxPrimitives.h"
+
+
 GH_DEFPROC (draw_point, "draw-point", 4, 0, 0,
             (SCM surface, SCM x, SCM y, SCM color),
             "On @var{surface}, draw a point at location\n"
@@ -294,6 +299,88 @@ GH_DEFPROC (draw_string, "draw-string", 5, 0, 0,
                   gh_scm2long (x), gh_scm2long (y),
                   SCM_CHARS (text),
                   gh_scm2ulong (color)));
+#undef FUNC_NAME
+}
+
+
+
+/*
+ * rotozoom
+ */
+
+#include "SDL_rotozoom.h"
+
+
+GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
+            (SCM surface,
+             SCM angle,
+             SCM zoom,
+             SCM smooth),
+            "Return a new surface made from rotating @var{surface}\n"
+            "by @var{angle} degrees.  Optional third arg @var{zoom}\n"
+            "(default value 1.0) changes the size as well.  Optional\n"
+            "fourth arg @var{smooth} turns on anti-aliasing.")
+{
+#define FUNC_NAME s_roto_zoom_surface
+  SDL_Surface *csurface, *new_surface;
+  double cangle = 0.0, czoom = 1.0;
+
+  ASSERT_SURFACE (surface, ARGH1);
+  csurface = SMOBGET (surface, SDL_Surface *);
+
+  ASSERT_NUMBER (angle, ARGH2);
+  cangle = gh_scm2double (angle);
+
+  UNBOUND_MEANS_FALSE (zoom);
+  if (NOT_FALSEP (zoom))
+    {
+      ASSERT_NUMBER (zoom, ARGH3);
+      czoom = gh_scm2double (zoom);
+    }
+
+  UNBOUND_MEANS_FALSE (smooth);
+
+  new_surface = rotozoomSurface (csurface, cangle, czoom, NOT_FALSEP (smooth));
+
+  RETURN_NEW_SURFACE (new_surface);
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
+            (SCM surface,
+             SCM zoomx,
+             SCM zoomy,
+             SCM smooth),
+            "Return a new scaled copy of @var{surface}.\n"
+            "@var{zoomx} and @var{zoomy} specify the scaling factor.\n"
+            "If omitted, @var{zoomy} defaults to @var{zoomx}.\n"
+            "Optional fourth arg @var{smooth} turns on anti-aliasing.")
+{
+#define FUNC_NAME s_zoom_surface
+  SDL_Surface *csurface, *new_surface;
+  double czoomx = 1.0, czoomy = 1.0;
+
+  ASSERT_SURFACE (surface, ARGH1);
+  csurface = SMOBGET (surface, SDL_Surface *);
+
+  ASSERT_NUMBER (zoomx, ARGH2);
+  czoomx = gh_scm2double (zoomx);
+
+  UNBOUND_MEANS_FALSE (zoomy);
+  if (NOT_FALSEP (zoomy))
+    {
+      ASSERT_NUMBER (zoomy, ARGH3);
+      czoomy = gh_scm2double (zoomy);
+    }
+  else
+    czoomy = czoomx;
+
+  UNBOUND_MEANS_FALSE (smooth);
+
+  new_surface = zoomSurface (csurface, czoomx, czoomy, NOT_FALSEP (smooth));
+
+  RETURN_NEW_SURFACE (new_surface);
 #undef FUNC_NAME
 }
 
