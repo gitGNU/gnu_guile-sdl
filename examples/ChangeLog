@@ -1,3 +1,8 @@
+2004-03-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* read-vpacked.scm: Take args WIDTH and HEIGHT.
+	Use them for window geometry.
+
 2004-02-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* read-vpacked.scm: New file.
