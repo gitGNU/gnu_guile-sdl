@@ -6,7 +6,7 @@ See the end for copying conditions.
 Please send guile-sdl bug reports to <ttn@glug.org>.
 
 
-- 0.2.3 | NOT YET RELEASED
+- 0.2.3 | 2004-03-06
 
   - return value changes
     - cd-status: symbolic (was integer)
