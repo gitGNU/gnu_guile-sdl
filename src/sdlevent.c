@@ -35,7 +35,8 @@ SCM event_keysym_enum;
 
 static SCM event_mod_flags;
 
-GH_DEFPROC (get_event_mod_flags, "flagstash:event-mod", 0, 0, 0, (),
+GH_DEFPROC (get_event_mod_flags, "flagstash:event-mod", 0, 0, 0,
+            (void),
             "Return the flagstash object for event mod flags.")
 {
   return event_mod_flags;
@@ -109,7 +110,8 @@ GH_DEFPROC (make_event, "make-event", 0, 1, 0,
 
 GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
             (SCM sym, SCM mod),
-            "")
+            "Return a new keysym.  Option args @var{sym} and @var{mod}\n"
+            "specify a particular symbol and modifier, respectively.")
 #define FUNC_NAME s_make_keysym
 {
   SDL_keysym *keysym;
@@ -278,7 +280,9 @@ NUM2_GETSET (user, data2)
 
 /* SDL event functions */
 
-GH_DEFPROC (pump_events, "pump-events", 0, 0, 0, (), "")
+GH_DEFPROC (pump_events, "pump-events", 0, 0, 0,
+            (void),
+            "Gather events from input devices and update the event queue.")
 #define FUNC_NAME s_pump_events
 {
   SDL_PumpEvents ();
@@ -288,7 +292,7 @@ GH_DEFPROC (pump_events, "pump-events", 0, 0, 0, (), "")
 
 GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
             (SCM events, SCM numevents, SCM action, SCM mask),
-            "")
+            "[not yet implemented]")
 #define FUNC_NAME s_peep_events
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
@@ -300,7 +304,10 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
 
 GH_DEFPROC (poll_event, "poll-event", 0, 1, 0,
             (SCM event),
-            "")
+            "Poll for events and return #t if there are any pending.\n"
+            "Optional arg @var{event} specifies an event object (from\n"
+            "@code{make-event} to be filled in with the next event from\n"
+            "the queue (if available).")
 #define FUNC_NAME s_poll_event
 {
   int result;
@@ -321,7 +328,10 @@ GH_DEFPROC (poll_event, "poll-event", 0, 1, 0,
 
 GH_DEFPROC (wait_event, "wait-event", 0, 1, 0,
             (SCM event),
-            "")
+            "Wait indefinitely for and return #f only if there were errors.\n"
+            "Optional arg @var{event} specifies an event object (from\n"
+            "@code{make-event} to be filled in with the next event from\n"
+            "the queue.")
 #define FUNC_NAME s_wait_event
 {
   int result;
@@ -342,7 +352,8 @@ GH_DEFPROC (wait_event, "wait-event", 0, 1, 0,
 
 GH_DEFPROC (push_event, "push-event", 1, 0, 0,
             (SCM event),
-            "")
+            "Push @var{event} onto the queue.  Return 1 for success,\n"
+            "0 if the queue was full, -1 for other errors.")
 #define FUNC_NAME s_push_event
 {
   int result;
@@ -356,7 +367,7 @@ GH_DEFPROC (push_event, "push-event", 1, 0, 0,
 
 GH_DEFPROC (set_event_filter, "set-event-filter", 1, 0, 0,
             (SCM filter),
-            "")
+            "[not yet implemented]")
 #define FUNC_NAME s_set_event_filter
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
@@ -367,7 +378,7 @@ GH_DEFPROC (set_event_filter, "set-event-filter", 1, 0, 0,
 
 GH_DEFPROC (get_event_filter, "get-event-filter", 1, 0, 0,
             (SCM filter),
-            "")
+            "[not yet implemented]")
 #define FUNC_NAME s_get_event_filter
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
@@ -378,7 +389,7 @@ GH_DEFPROC (get_event_filter, "get-event-filter", 1, 0, 0,
 
 GH_DEFPROC (event_state, "event-state", 2, 0, 0,
             (SCM type, SCM state),
-            "")
+            "[not yet implemented]")
 #define FUNC_NAME s_event_state
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
@@ -390,7 +401,9 @@ GH_DEFPROC (event_state, "event-state", 2, 0, 0,
 
 GH_DEFPROC (enable_unicode, "enable-unicode", 0, 1, 0,
             (SCM enable_p),
-            "")
+            "Return #t iff UNICODE keyboard translation is enabled.\n"
+            "Optional arg @var{enable?} if non-#f, enables UNICODE\n"
+            "keyboard translation, or disables it if #f.")
 #define FUNC_NAME s_enable_unicode
 {
   int result;
@@ -413,7 +426,12 @@ GH_DEFPROC (enable_unicode, "enable-unicode", 0, 1, 0,
 
 GH_DEFPROC (enable_key_repeat, "enable-key-repeat", 2, 0, 0,
             (SCM s_delay, SCM s_interval),
-            "")
+            "Enable or disable keyboard repeat.\n"
+            "@var{delay} is the initial delay in ms between the time\n"
+            "when a key is pressed, and keyboard repeat begins.\n"
+            "@var{interval} is the time in ms between keyboard repeat\n"
+            "events.  If @var{delay} is 0, keyboard repeat is disabled.\n"
+            "Return #t on success.")
 #define FUNC_NAME s_enable_key_repeat
 {
   int interval, delay;
@@ -430,8 +448,11 @@ GH_DEFPROC (enable_key_repeat, "enable-key-repeat", 2, 0, 0,
 
 GH_DEFPROC (get_key_state, "get-key-state", 1, 0, 0,
             (SCM numkeys),
+#if 0
             "Get a snapshot of the current state of the keyboard.\n"
-            "Return an array of keystates, indexed by the SDLK_* syms.")
+            "Return an array of keystates, indexed by the SDLK_* syms."
+#endif
+            "[not yet implemented]")
 #define FUNC_NAME s_get_key_state
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
@@ -440,7 +461,7 @@ GH_DEFPROC (get_key_state, "get-key-state", 1, 0, 0,
 #undef FUNC_NAME
 
 GH_DEFPROC (get_mod_state, "get-mod-state", 0, 0, 0,
-            (),
+            (void),
             "Get the current key modifier state.")
 #define FUNC_NAME s_get_mod_state
 {
@@ -478,8 +499,8 @@ GH_DEFPROC (get_mouse_state, "get-mouse-state", 0, 0, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (get_relative_mouse_state, "get-mouse-relative-state",
-            0, 0, 0, (),
+GH_DEFPROC (get_relative_mouse_state, "get-mouse-relative-state", 0, 0, 0,
+            (void),
             "Retrieve the current state of the mouse.")
 #define FUNC_NAME s_get_relative_mouse_state
 {
@@ -493,7 +514,10 @@ GH_DEFPROC (get_relative_mouse_state, "get-mouse-relative-state",
 
 GH_DEFPROC (button_p, "button?", 1, 0, 0,
             (SCM mask),
-            "")
+            "Return #t if buttons specified in @var{mask} (an integer)\n"
+            "are pressed.  Use 1 for left, 2 for middle and 4 for right,\n"
+            "combined with @code{logior}, to form @var{mask}.  For example,\n"
+            "a value of 5 specifies both left and right buttons.")
 #define FUNC_NAME s_button_p
 {
   ASSERT_EXACT (mask, ARGH1);
@@ -509,7 +533,7 @@ extern flagstash_t gsdl_kmod_flagstash;
 void
 gsdl_init_event (void)
 {
-  event_tag = scm_make_smob_type ("SDL-Event",  sizeof (SDL_Event));
+  event_tag = scm_make_smob_type ("SDL-Event", sizeof (SDL_Event));
   scm_set_smob_mark (event_tag, mark_event);
   scm_set_smob_free (event_tag, free_event);
 
