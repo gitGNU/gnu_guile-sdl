@@ -1,23 +1,25 @@
 guile-sdl NEWS --- history of user-visible changes.
+Copyright (C) 2003 Thien-Thi Nguyen
 Copyright (C) 2001 Alex Shinn
 See the end for copying conditions.
 
-Please send guile-sdl bug reports to <foof@synthcode.com>.
+Please send guile-sdl bug reports to <ttn@glug.org>.
 
 
-* guile-sdl 0.1.7
+- guile-sdl 0.1.7
 
-Most of the merge complete.  Looking to make some minor clean-up and
-bugfixes before a 0.2.0 release.
+	Most of the merge complete.  Looking to make some minor clean-up
+	and bugfixes before a 0.2.0 release.
 
-
-* guile-sdl 0.1.0
 
-This is the very first version of guile-sdl.
+- guile-sdl 0.1.0
+
+	This is the very first version of guile-sdl.
 
 
 Copyright information:
 
+Copyright (C) 2003 Thien-Thi Nguyen
 Copyright (C) 2001 Alex Shinn
 
    Permission is granted to anyone to make or distribute verbatim copies
@@ -30,9 +32,10 @@ Copyright (C) 2001 Alex Shinn
    under the above conditions, provided also that they
    carry prominent notices stating who last changed them.
 
-
-Local variables:
-mode: outline
-paragraph-separate: "[ 	]*$"
-end:
-
+______________________________________________
+	Local Variables:
+	mode: outline
+	outline-regexp: "\\([ ][ ]\\)*- "
+	fill-column: 72
+	fill-prefix: "\t"
+	End:
