@@ -40,19 +40,19 @@ SCM gsdl_video_flags;
 SCM gsdl_palette_flags;
 static SCM gsdl_overlay_formats;
 
-GH_DEFPROC (sdl_get_video_flags, "flagstash:video", 0, 0, 0, (),
+GH_DEFPROC (get_video_flags, "flagstash:video", 0, 0, 0, (),
             "Return the flagstash object for video flags.")
 {
   return gsdl_video_flags;
 }
 
-GH_DEFPROC (sdl_get_palette_flags, "flagstash:palette", 0, 0, 0, (),
+GH_DEFPROC (get_palette_flags, "flagstash:palette", 0, 0, 0, (),
             "Return the flagstash object for palette flags.")
 {
   return gsdl_palette_flags;
 }
 
-GH_DEFPROC (sdl_get_overlay_formats, "flagstash:overlay", 0, 0, 0, (),
+GH_DEFPROC (get_overlay_formats, "flagstash:overlay", 0, 0, 0, (),
             "Return the flagstash object for overlay flags.\n"
             "(Actually, these are \"common overlay formats\", not flags.)")
 {
@@ -442,11 +442,11 @@ GH_DEFPROC (update_rects, "sdl-update-rects", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_flip, "sdl-flip", 0, 1, 0,
+GH_DEFPROC (flip, "sdl-flip", 0, 1, 0,
             (SCM s_surface),
             "Swap @var{surface} double buffers.\n"
             "The return value is unspecified.")
-#define FUNC_NAME s_sdl_flip
+#define FUNC_NAME s_flip
 {
   SDL_Surface *surface;
 
@@ -817,7 +817,7 @@ GH_DEFPROC (get_cursor, "sdl-get-cursor", 0, 0, 0,
             "Get the current mouse cursor.")
 #define FUNC_NAME s_get_cursor
 {
-  RETURN_NEW_CURSOR (SDL_GetCursor());
+  RETURN_NEW_CURSOR (SDL_GetCursor ());
 }
 #undef FUNC_NAME
 

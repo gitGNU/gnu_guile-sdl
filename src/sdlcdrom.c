@@ -35,10 +35,10 @@ static long cdrom_tag;
   ASSERT_SMOB (obj, cdrom_tag, which)
 
 
-GH_DEFPROC (sdl_cd_p, "sdl-cd?", 1, 0, 0,
+GH_DEFPROC (cd_p, "sdl-cd?", 1, 0, 0,
             (SCM obj),
             "Return #t iff @var{obj} is a cd smob.")
-#define FUNC_NAME s_sdl_cd_p
+#define FUNC_NAME s_cd_p
 {
   return gh_bool2scm
     (SCM_SMOB_PREDICATE (cdrom_tag, obj));
@@ -46,10 +46,10 @@ GH_DEFPROC (sdl_cd_p, "sdl-cd?", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_null_p, "sdl-cd-null?", 1, 0, 0,
+GH_DEFPROC (cd_null_p, "sdl-cd-null?", 1, 0, 0,
             (SCM cd_smob),
             "Return #t iff @var{cd} is a null pointer.")
-#define FUNC_NAME s_sdl_cd_null_p
+#define FUNC_NAME s_cd_null_p
 {
   ASSERT_CDROM (cd_smob, ARGH1);
 
@@ -59,22 +59,22 @@ GH_DEFPROC (sdl_cd_null_p, "sdl-cd-null?", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_num_drives, "sdl-cd-num-drives", 0, 0, 0,
+GH_DEFPROC (cd_num_drives, "sdl-cd-num-drives", 0, 0, 0,
             (),
             "Return the number of CD drives.")
-#define FUNC_NAME s_sdl_cd_num_drives
+#define FUNC_NAME s_cd_num_drives
 {
   return (gh_long2scm (SDL_CDNumDrives ()));
 }
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_name, "sdl-cd-name", 0, 1, 0,
+GH_DEFPROC (cd_name, "sdl-cd-name", 0, 1, 0,
             (SCM s_drive),
             "Return a human-readable, system-dependent\n"
             "identifier for the CD-ROM.\n"
             "Optional arg @var{drive} is a number specifying which drive.")
-#define FUNC_NAME s_sdl_cd_name
+#define FUNC_NAME s_cd_name
 {
   const char *name;
   int drive=0;
@@ -90,12 +90,12 @@ GH_DEFPROC (sdl_cd_name, "sdl-cd-name", 0, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_open, "sdl-cd-open", 0, 1, 0,
+GH_DEFPROC (cd_open, "sdl-cd-open", 0, 1, 0,
             (SCM drive),
             "Open a CD-ROM drive for access and return its handle.\n"
             "If the drive is unavailable, return #f.\n"
             "Optional arg @var{drive} is a number specifying which drive.")
-#define FUNC_NAME s_sdl_cd_open
+#define FUNC_NAME s_cd_open
 
 {
   SDL_CD *cd;
@@ -115,10 +115,10 @@ GH_DEFPROC (sdl_cd_open, "sdl-cd-open", 0, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_status, "sdl-cd-status", 1, 0, 0,
+GH_DEFPROC (cd_status, "sdl-cd-status", 1, 0, 0,
             (SCM cd_smob),
             "Return the current status of the drive @var{cd}.")
-#define FUNC_NAME s_sdl_cd_status
+#define FUNC_NAME s_cd_status
 {
   SDL_CD *cd;
 
@@ -135,10 +135,10 @@ GH_DEFPROC (sdl_cd_status, "sdl-cd-status", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_in_drive_p, "sdl-cd-in-drive?", 1, 0, 0,
+GH_DEFPROC (cd_in_drive_p, "sdl-cd-in-drive?", 1, 0, 0,
             (SCM cd_smob),
             "Return #t iff there is a CD in drive @var{cd}.")
-#define FUNC_NAME s_sdl_cd_in_drive_p
+#define FUNC_NAME s_cd_in_drive_p
 {
   SDL_CD *cd;
 
@@ -152,10 +152,10 @@ GH_DEFPROC (sdl_cd_in_drive_p, "sdl-cd-in-drive?", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_get_num_tracks, "sdl-cd-get-num-tracks", 1, 0, 0,
+GH_DEFPROC (cd_get_num_tracks, "sdl-cd-get-num-tracks", 1, 0, 0,
             (SCM cd_smob),
             "Return the number of tracks on the @var{cd}.")
-#define FUNC_NAME s_sdl_cd_get_num_tracks
+#define FUNC_NAME s_cd_get_num_tracks
 {
   SDL_CD *cd;
 
@@ -172,10 +172,10 @@ GH_DEFPROC (sdl_cd_get_num_tracks, "sdl-cd-get-num-tracks", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_get_cur_track, "sdl-cd-get-cur-track", 1, 0, 0,
+GH_DEFPROC (cd_get_cur_track, "sdl-cd-get-cur-track", 1, 0, 0,
             (SCM cd_smob),
             "Return the current track on the @var{cd}.")
-#define FUNC_NAME s_sdl_cd_get_cur_track
+#define FUNC_NAME s_cd_get_cur_track
 {
   SDL_CD *cd;
 
@@ -192,10 +192,10 @@ GH_DEFPROC (sdl_cd_get_cur_track, "sdl-cd-get-cur-track", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_get_cur_frame, "sdl-cd-get-cur-frame", 1, 0, 0,
+GH_DEFPROC (cd_get_cur_frame, "sdl-cd-get-cur-frame", 1, 0, 0,
             (SCM cd_smob),
             "Return the current frame of the @var{cd}.")
-#define FUNC_NAME s_sdl_cd_get_cur_frame
+#define FUNC_NAME s_cd_get_cur_frame
 {
   SDL_CD *cd;
 
@@ -216,11 +216,11 @@ SCM_SYMBOL (gsdl_sym_length, "length");
 SCM_SYMBOL (gsdl_sym_type, "type");
 SCM_SYMBOL (gsdl_sym_id, "id");
 
-GH_DEFPROC (sdl_cd_get_nth_track, "sdl-cd-get-nth-track", 1, 1, 0,
+GH_DEFPROC (cd_get_nth_track, "sdl-cd-get-nth-track", 1, 1, 0,
             (SCM cd_smob,
              SCM s_n),
             "Return info for @var{cd} track @var{n} as an alist.")
-#define FUNC_NAME s_sdl_cd_get_nth_track
+#define FUNC_NAME s_cd_get_nth_track
 {
   SDL_CD *cd;
   int n=0;
@@ -248,7 +248,7 @@ GH_DEFPROC (sdl_cd_get_nth_track, "sdl-cd-get-nth-track", 1, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_play_tracks, "sdl-cd-play-tracks", 1, 4, 0,
+GH_DEFPROC (cd_play_tracks, "sdl-cd-play-tracks", 1, 4, 0,
             (SCM cd_smob,
              SCM s_start_track,
              SCM s_start_frame,
@@ -261,7 +261,7 @@ GH_DEFPROC (sdl_cd_play_tracks, "sdl-cd-play-tracks", 1, 4, 0,
             "until the end of the CD.  This procedure will skip data\n"
             "tracks, and should only be called after calling\n"
             "@code{sdl-cd-status} to get track information about the CD.")
-#define FUNC_NAME s_sdl_cd_play_tracks
+#define FUNC_NAME s_cd_play_tracks
 {
   SDL_CD *cd;
   int start_track=0, start_frame=0, n_tracks=1, n_frames=1;
@@ -306,13 +306,13 @@ GH_DEFPROC (sdl_cd_play_tracks, "sdl-cd-play-tracks", 1, 4, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_play, "sdl-cd-play", 3, 0, 0,
+GH_DEFPROC (cd_play, "sdl-cd-play", 3, 0, 0,
             (SCM cd_smob,
              SCM s_start,
              SCM s_length),
             "Play a @var{cd} from @var{start} frame for\n"
             "@var{length} frames.")
-#define FUNC_NAME s_sdl_cd_play
+#define FUNC_NAME s_cd_play
 {
   SDL_CD *cd;
   int ret;
@@ -337,10 +337,10 @@ GH_DEFPROC (sdl_cd_play, "sdl-cd-play", 3, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_pause, "sdl-cd-pause", 1, 0, 0,
+GH_DEFPROC (cd_pause, "sdl-cd-pause", 1, 0, 0,
             (SCM cd_smob),
             "Pause a @var{cd}.")
-#define FUNC_NAME s_sdl_cd_pause
+#define FUNC_NAME s_cd_pause
 {
   SDL_CD *cd;
 
@@ -357,10 +357,10 @@ GH_DEFPROC (sdl_cd_pause, "sdl-cd-pause", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_resume, "sdl-cd-resume", 1, 0, 0,
+GH_DEFPROC (cd_resume, "sdl-cd-resume", 1, 0, 0,
             (SCM cd_smob),
             "Resume (unpause) a @var{cd}.")
-#define FUNC_NAME s_sdl_cd_resume
+#define FUNC_NAME s_cd_resume
 {
   SDL_CD *cd;
 
@@ -377,10 +377,10 @@ GH_DEFPROC (sdl_cd_resume, "sdl-cd-resume", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_stop, "sdl-cd-stop", 1, 0, 0,
+GH_DEFPROC (cd_stop, "sdl-cd-stop", 1, 0, 0,
             (SCM cd_smob),
             "Stop a @var{cd}.")
-#define FUNC_NAME s_sdl_cd_stop
+#define FUNC_NAME s_cd_stop
 {
   SDL_CD *cd;
 
@@ -397,10 +397,10 @@ GH_DEFPROC (sdl_cd_stop, "sdl-cd-stop", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_eject, "sdl-cd-eject", 1, 0, 0,
+GH_DEFPROC (cd_eject, "sdl-cd-eject", 1, 0, 0,
             (SCM cd_smob),
             "Eject a @var{cd}.")
-#define FUNC_NAME s_sdl_cd_eject
+#define FUNC_NAME s_cd_eject
 {
   SDL_CD *cd;
 
@@ -417,10 +417,10 @@ GH_DEFPROC (sdl_cd_eject, "sdl-cd-eject", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_close, "sdl-cd-close", 1, 0, 0,
+GH_DEFPROC (cd_close, "sdl-cd-close", 1, 0, 0,
             (SCM cd_smob),
             "Close a @var{cd}.")
-#define FUNC_NAME s_sdl_cd_close
+#define FUNC_NAME s_cd_close
 {
   SDL_CD *cd;
 
@@ -437,13 +437,13 @@ GH_DEFPROC (sdl_cd_close, "sdl-cd-close", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_cd_msf_to_frames, "sdl-cd-msf->frames", 1, 2, 0,
+GH_DEFPROC (cd_msf_to_frames, "sdl-cd-msf->frames", 1, 2, 0,
             (SCM s_m,
              SCM s_s,
              SCM s_f),
             "Convert minute @var{m}, second @var{s}, frame @var{f}\n"
             "to frames.  @var{s} and @var{f} are optional.")
-#define FUNC_NAME s_sdl_cd_msf_to_frames
+#define FUNC_NAME s_cd_msf_to_frames
 {
   int frames;
   int m, s=0, f=0;
@@ -471,11 +471,11 @@ SCM_SYMBOL (gsdl_sym_f, "f");
 SCM_SYMBOL (gsdl_sym_s, "s");
 SCM_SYMBOL (gsdl_sym_m, "m");
 
-GH_DEFPROC (sdl_cd_frames_to_msf, "sdl-cd-frames->msf", 1, 0, 0,
+GH_DEFPROC (cd_frames_to_msf, "sdl-cd-frames->msf", 1, 0, 0,
             (SCM s_frames),
             "Return a minute/second/frames alist made from\n"
             "converting @var{frames} (a number).")
-#define FUNC_NAME s_sdl_cd_frames_to_msf
+#define FUNC_NAME s_cd_frames_to_msf
 {
   int frames, m, s, f;
 

@@ -33,10 +33,10 @@ static long joystick_tag;
   ASSERT_SMOB (obj, joystick_tag, which)
 
 
-GH_DEFPROC (sdl_joystick_p, "sdl-joystick?", 1, 0, 0,
+GH_DEFPROC (joystick_p, "sdl-joystick?", 1, 0, 0,
             (SCM obj),
             "Return #t iff @var{obj} is a joystick smob.")
-#define FUNC_NAME s_sdl_joystick_p
+#define FUNC_NAME s_joystick_p
 {
   return gh_bool2scm
     (SCM_SMOB_PREDICATE (joystick_tag, obj));
@@ -44,10 +44,10 @@ GH_DEFPROC (sdl_joystick_p, "sdl-joystick?", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_null_p, "sdl-joystick-null?", 1, 0, 0,
+GH_DEFPROC (joystick_null_p, "sdl-joystick-null?", 1, 0, 0,
             (SCM joy_smob),
             "Return #t iff @var{joystick} is a NULL joystick.")
-#define FUNC_NAME s_sdl_joystick_null_p
+#define FUNC_NAME s_joystick_null_p
 {
   ASSERT_JOYSTICK (joy_smob, ARGH1);
 
@@ -57,21 +57,21 @@ GH_DEFPROC (sdl_joystick_null_p, "sdl-joystick-null?", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_num_joysticks, "sdl-num-joysticks", 0, 0, 0,
+GH_DEFPROC (num_joysticks, "sdl-num-joysticks", 0, 0, 0,
             (void),
             "Return the number of joysticks.")
-#define FUNC_NAME s_sdl_num_joysticks
+#define FUNC_NAME s_num_joysticks
 {
   return gh_long2scm (SDL_NumJoysticks ());
 }
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_name, "sdl-joystick-name", 0, 1, 0,
+GH_DEFPROC (joystick_name, "sdl-joystick-name", 0, 1, 0,
             (SCM s_index),
             "Return the name of the default joystick.\n"
             "Optional arg @var{n} specifies which joystick to check.")
-#define FUNC_NAME s_sdl_joystick_name
+#define FUNC_NAME s_joystick_name
 {
   int index = 0;
 
@@ -85,11 +85,11 @@ GH_DEFPROC (sdl_joystick_name, "sdl-joystick-name", 0, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_open, "sdl-joystick-open", 0, 1, 0,
+GH_DEFPROC (joystick_open, "sdl-joystick-open", 0, 1, 0,
             (SCM s_index),
             "Return a handle to the default joystick opened for use.\n"
             "Optional arg @var{n} specifies which joystick to open.")
-#define FUNC_NAME s_sdl_joystick_open
+#define FUNC_NAME s_joystick_open
 {
   int index = 0;
 
@@ -103,11 +103,11 @@ GH_DEFPROC (sdl_joystick_open, "sdl-joystick-open", 0, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_opened_p, "sdl-joystick-opened?", 0, 1, 0,
+GH_DEFPROC (joystick_opened_p, "sdl-joystick-opened?", 0, 1, 0,
             (SCM s_index),
             "Return #t iff the default joystick is opened.\n"
             "Optional arg @var{n} specifies which joystick to check.")
-#define FUNC_NAME s_sdl_joystick_opened_p
+#define FUNC_NAME s_joystick_opened_p
 {
   int index = 0;
 
@@ -122,10 +122,10 @@ GH_DEFPROC (sdl_joystick_opened_p, "sdl-joystick-opened?", 0, 1, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_index, "sdl-joystick-index", 1, 0, 0,
+GH_DEFPROC (joystick_index, "sdl-joystick-index", 1, 0, 0,
             (SCM joy_smob),
             "Return the index of @var{joystick}.")
-#define FUNC_NAME s_sdl_joystick_index
+#define FUNC_NAME s_joystick_index
 {
   SDL_Joystick *joy;
 
@@ -140,10 +140,10 @@ GH_DEFPROC (sdl_joystick_index, "sdl-joystick-index", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_num_axes, "sdl-joystick-num-axes", 1, 0, 0,
+GH_DEFPROC (joystick_num_axes, "sdl-joystick-num-axes", 1, 0, 0,
             (SCM joy_smob),
             "Return the number of axes for @var{joystick}.")
-#define FUNC_NAME s_sdl_joystick_num_axes
+#define FUNC_NAME s_joystick_num_axes
 {
   SDL_Joystick *joy;
 
@@ -158,10 +158,10 @@ GH_DEFPROC (sdl_joystick_num_axes, "sdl-joystick-num-axes", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_num_balls, "sdl-joystick-num-balls", 1, 0, 0,
+GH_DEFPROC (joystick_num_balls, "sdl-joystick-num-balls", 1, 0, 0,
             (SCM joy_smob),
             "Return the number trackballs for @var{joystick}.")
-#define FUNC_NAME s_sdl_joystick_num_balls
+#define FUNC_NAME s_joystick_num_balls
 {
   SDL_Joystick *joy;
 
@@ -176,10 +176,10 @@ GH_DEFPROC (sdl_joystick_num_balls, "sdl-joystick-num-balls", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_num_hats, "sdl-joystick-num-hats", 1, 0, 0,
+GH_DEFPROC (joystick_num_hats, "sdl-joystick-num-hats", 1, 0, 0,
             (SCM joy_smob),
             "Return the number of hats for @var{joystick}.")
-#define FUNC_NAME s_sdl_joystick_num_hats
+#define FUNC_NAME s_joystick_num_hats
 {
   SDL_Joystick *joy;
 
@@ -194,10 +194,10 @@ GH_DEFPROC (sdl_joystick_num_hats, "sdl-joystick-num-hats", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_num_buttons, "sdl-joystick-num-buttons", 1, 0, 0,
+GH_DEFPROC (joystick_num_buttons, "sdl-joystick-num-buttons", 1, 0, 0,
             (SCM joy_smob),
             "Return number of buttons for @var{joystick}.")
-#define FUNC_NAME s_sdl_joystick_num_buttons
+#define FUNC_NAME s_joystick_num_buttons
 {
   SDL_Joystick *joy;
 
@@ -212,10 +212,10 @@ GH_DEFPROC (sdl_joystick_num_buttons, "sdl-joystick-num-buttons", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_update, "sdl-joystick-update", 0, 0, 0,
+GH_DEFPROC (joystick_update, "sdl-joystick-update", 0, 0, 0,
             (void),
             "Update the state of all Joysticks.")
-#define FUNC_NAME s_sdl_joystick_update
+#define FUNC_NAME s_joystick_update
 {
   SDL_JoystickUpdate ();
   return SCM_UNSPECIFIED;
@@ -223,10 +223,10 @@ GH_DEFPROC (sdl_joystick_update, "sdl-joystick-update", 0, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_event_state, "sdl-joystick-event-state", 1, 0, 0,
+GH_DEFPROC (joystick_event_state, "sdl-joystick-event-state", 1, 0, 0,
             (SCM s_state),
             "Set the Joystick event processing model to @var{state}.")
-#define FUNC_NAME s_sdl_joystick_event_state
+#define FUNC_NAME s_joystick_event_state
 {
   ASSERT_EXACT (s_state, ARGH1);
 
@@ -235,11 +235,11 @@ GH_DEFPROC (sdl_joystick_event_state, "sdl-joystick-event-state", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_get_axis, "sdl-joystick-get-axis", 2, 0, 0,
+GH_DEFPROC (joystick_get_axis, "sdl-joystick-get-axis", 2, 0, 0,
             (SCM joy_smob,
              SCM s_index),
             "For @var{joystick}, return state of @var{axis}.")
-#define FUNC_NAME s_sdl_joystick_get_axis
+#define FUNC_NAME s_joystick_get_axis
 {
   SDL_Joystick *joy;
 
@@ -258,12 +258,12 @@ GH_DEFPROC (sdl_joystick_get_axis, "sdl-joystick-get-axis", 2, 0, 0,
 SCM_SYMBOL (gsdl_sym_dx, "dx");
 SCM_SYMBOL (gsdl_sym_dy, "dy");
 
-GH_DEFPROC (sdl_joystick_get_ball, "sdl-joystick-get-ball", 2, 0, 0,
+GH_DEFPROC (joystick_get_ball, "sdl-joystick-get-ball", 2, 0, 0,
             (SCM joy_smob,
              SCM s_index),
             "For @var{joystick}, return relative motion of trackball\n"
             "@var{n}, as an alist with keys @code{dx} and @code{dy}.")
-#define FUNC_NAME s_sdl_joystick_get_ball
+#define FUNC_NAME s_joystick_get_ball
 {
   SDL_Joystick *joy;
   SCM s_ret;
@@ -291,11 +291,11 @@ GH_DEFPROC (sdl_joystick_get_ball, "sdl-joystick-get-ball", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_get_hat, "sdl-joystick-get-hat", 2, 0, 0,
+GH_DEFPROC (joystick_get_hat, "sdl-joystick-get-hat", 2, 0, 0,
             (SCM joy_smob,
              SCM s_index),
             "For @var{joystick}, return state of hat @var{n}.")
-#define FUNC_NAME s_sdl_joystick_get_hat
+#define FUNC_NAME s_joystick_get_hat
 {
   SDL_Joystick *joy;
 
@@ -311,11 +311,11 @@ GH_DEFPROC (sdl_joystick_get_hat, "sdl-joystick-get-hat", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_get_button, "sdl-joystick-get-button", 2, 0, 0,
+GH_DEFPROC (joystick_get_button, "sdl-joystick-get-button", 2, 0, 0,
             (SCM joy_smob,
              SCM s_index),
             "For @var{joystick}, return state of button @var{n}.")
-#define FUNC_NAME s_sdl_joystick_get_button
+#define FUNC_NAME s_joystick_get_button
 {
   SDL_Joystick *joy;
 
@@ -331,10 +331,10 @@ GH_DEFPROC (sdl_joystick_get_button, "sdl-joystick-get-button", 2, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_joystick_close, "sdl-joystick-close", 1, 0, 0,
+GH_DEFPROC (joystick_close, "sdl-joystick-close", 1, 0, 0,
             (SCM joy_smob),
             "Close a previously opened @var{joystick}.")
-#define FUNC_NAME s_sdl_joystick_close
+#define FUNC_NAME s_joystick_close
 {
   SDL_Joystick *joy;
 

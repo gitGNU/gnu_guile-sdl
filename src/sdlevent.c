@@ -35,7 +35,7 @@ SCM event_keysym_enum;
 
 static SCM event_mod_flags;
 
-GH_DEFPROC (sdl_get_event_mod_flags, "flagstash:event-mod", 0, 0, 0, (),
+GH_DEFPROC (get_event_mod_flags, "flagstash:event-mod", 0, 0, 0, (),
             "Return the flagstash object for event mod flags.")
 {
   return event_mod_flags;
@@ -292,8 +292,8 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
 #define FUNC_NAME s_peep_events
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
-  /*  int SDL_PeepEvents(SDL_Event *events, int numevents, */
-  /*                     SDL_eventaction action, Uint32 mask); */
+  /*  int SDL_PeepEvents (SDL_Event *events, int numevents, */
+  /*                      SDL_eventaction action, Uint32 mask); */
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
@@ -360,7 +360,7 @@ GH_DEFPROC (set_event_filter, "set-event-filter", 1, 0, 0,
 #define FUNC_NAME s_set_event_filter
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
-  /* extern DECLSPEC void SDL_SetEventFilter(SDL_EventFilter filter); */
+  /* extern DECLSPEC void SDL_SetEventFilter (SDL_EventFilter filter); */
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
@@ -371,7 +371,7 @@ GH_DEFPROC (get_event_filter, "get-event-filter", 1, 0, 0,
 #define FUNC_NAME s_get_event_filter
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
-  /* extern DECLSPEC SDL_EventFilter SDL_GetEventFilter(void); */
+  /* extern DECLSPEC SDL_EventFilter SDL_GetEventFilter (void); */
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
@@ -382,16 +382,16 @@ GH_DEFPROC (event_state, "event-state", 2, 0, 0,
 #define FUNC_NAME s_event_state
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
-  /* extern DECLSPEC Uint8 SDL_EventState(Uint8 type, int state); */
+  /* extern DECLSPEC Uint8 SDL_EventState (Uint8 type, int state); */
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
 
-GH_DEFPROC (sdl_enable_unicode, "sdl-enable-unicode", 0, 1, 0,
+GH_DEFPROC (enable_unicode, "sdl-enable-unicode", 0, 1, 0,
             (SCM enable_p),
             "")
-#define FUNC_NAME s_sdl_enable_unicode
+#define FUNC_NAME s_enable_unicode
 {
   int result;
 
@@ -411,10 +411,10 @@ GH_DEFPROC (sdl_enable_unicode, "sdl-enable-unicode", 0, 1, 0,
  * If 'delay' is set to 0, keyboard repeat is disabled.
  */
 
-GH_DEFPROC (sdl_enable_key_repeat, "sdl-enable-key-repeat", 2, 0, 0,
+GH_DEFPROC (enable_key_repeat, "sdl-enable-key-repeat", 2, 0, 0,
             (SCM s_delay, SCM s_interval),
             "")
-#define FUNC_NAME s_sdl_enable_key_repeat
+#define FUNC_NAME s_enable_key_repeat
 {
   int interval, delay;
 
@@ -428,32 +428,32 @@ GH_DEFPROC (sdl_enable_key_repeat, "sdl-enable-key-repeat", 2, 0, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (sdl_get_key_state, "sdl-get-key-state", 1, 0, 0,
+GH_DEFPROC (get_key_state, "sdl-get-key-state", 1, 0, 0,
             (SCM numkeys),
             "Get a snapshot of the current state of the keyboard.\n"
             "Return an array of keystates, indexed by the SDLK_* syms.")
-#define FUNC_NAME s_sdl_get_key_state
+#define FUNC_NAME s_get_key_state
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (sdl_get_mod_state, "sdl-get-mod-state", 0, 0, 0,
+GH_DEFPROC (get_mod_state, "sdl-get-mod-state", 0, 0, 0,
             (),
             "Get the current key modifier state.")
-#define FUNC_NAME s_sdl_get_mod_state
+#define FUNC_NAME s_get_mod_state
 {
   return gsdl_ulong2flags (SDL_GetModState (), event_mod_flags);
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (sdl_set_mod_state, "sdl-set-mod-state", 1, 0, 0,
+GH_DEFPROC (set_mod_state, "sdl-set-mod-state", 1, 0, 0,
             (SCM modstate),
             "Set the current key modifier state.\n"
             "This does not change the keyboard state,\n"
             "only the key modifier flags.")
-#define FUNC_NAME s_sdl_set_mod_state
+#define FUNC_NAME s_set_mod_state
 {
   ASSERT_EXACT (modstate, ARGH1);
   SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, ARGH1));
@@ -465,10 +465,10 @@ SCM_SYMBOL (gsdl_sym_state, "state");
 SCM_SYMBOL (gsdl_sym_x, "x");
 SCM_SYMBOL (gsdl_sym_y, "y");
 
-GH_DEFPROC (sdl_get_mouse_state, "sdl-get-mouse-state", 0, 0, 0,
+GH_DEFPROC (get_mouse_state, "sdl-get-mouse-state", 0, 0, 0,
             (void),
             "Retrieve the current state of the mouse.")
-#define FUNC_NAME s_sdl_get_mouse_state
+#define FUNC_NAME s_get_mouse_state
 {
   int buttons, x, y;
   buttons = SDL_GetMouseState (&x, &y);
@@ -478,10 +478,10 @@ GH_DEFPROC (sdl_get_mouse_state, "sdl-get-mouse-state", 0, 0, 0,
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (sdl_get_relative_mouse_state, "sdl-get-mouse-relative-state",
+GH_DEFPROC (get_relative_mouse_state, "sdl-get-mouse-relative-state",
             0, 0, 0, (),
             "Retrieve the current state of the mouse.")
-#define FUNC_NAME s_sdl_get_relative_mouse_state
+#define FUNC_NAME s_get_relative_mouse_state
 {
   int buttons, x, y;
   buttons = SDL_GetRelativeMouseState (&x, &y);
@@ -491,10 +491,10 @@ GH_DEFPROC (sdl_get_relative_mouse_state, "sdl-get-mouse-relative-state",
 }
 #undef FUNC_NAME
 
-GH_DEFPROC (sdl_button_p, "sdl-button?", 1, 0, 0,
+GH_DEFPROC (button_p, "sdl-button?", 1, 0, 0,
             (SCM mask),
             "")
-#define FUNC_NAME s_sdl_button_p
+#define FUNC_NAME s_button_p
 {
   ASSERT_EXACT (mask, ARGH1);
   return gh_bool2scm
