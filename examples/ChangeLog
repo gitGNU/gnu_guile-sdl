@@ -4,12 +4,12 @@
 
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
-	* bustagnu.scm, imagebrowser.scm, scip-painter.scm:
+	* bustagnu.scm, imagebrowser.scm, sicp-painter.scm:
 	Add #:renamer clause for SDL modules.  Throughout,
 	update names to use "SDL:" prefix instead of "sdl-".
 
 2003-11-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
-	* bustagnu.scm, imagebrowser.scm, scip-painter.scm:
+	* bustagnu.scm, imagebrowser.scm, sicp-painter.scm:
 	Rewrite header in modern-sh-wrapper style.
 
