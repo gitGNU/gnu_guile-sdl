@@ -11,11 +11,11 @@
 
 ;; initialize the SDL video (and event) module
 (let ((res (SDL:init '(SDL_INIT_VIDEO))))
-  (and debug? (format #t "SDL:init: ~S\n" res)))
+  (and debug? (simple-format #t "SDL:init: ~S\n" res)))
 
 ;; initialize the font lib
 (let ((res (SDL:ttf-init)))
-  (and debug? (format #t "SDL:ttf-init: ~S\n" res)))
+  (and debug? (simple-format #t "SDL:ttf-init: ~S\n" res)))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect (SDL:make-rect 0 0 600 200))
@@ -64,21 +64,21 @@
         ((SDL_KEYDOWN SDL_KEYUP)
          (let ((sym (SDL:event:key:keysym:sym e))
                (mods (SDL:event:key:keysym:mod e)))
-           (display-centered (format #f "~A: ~A ~A" event-type sym mods))
+           (display-centered (simple-format #f "~A: ~A ~A" event-type sym mods))
            (if (eq? sym 'SDLK_ESCAPE)
              #f
              (input-loop e))))
         ((SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP)
          (let ((button (SDL:event:button:button e)))
-           (display-centered (format #f "~A: ~A" event-type button)))
+           (display-centered (simple-format #f "~A: ~A" event-type button)))
          (input-loop e))
         ((SDL_MOUSEMOTION)
          (let ((x (SDL:event:motion:x e))
                (y (SDL:event:motion:y e)))
-           (display-centered (format #f "~A: ~Ax~A" event-type x y)))
+           (display-centered (simple-format #f "~A: ~Ax~A" event-type x y)))
          (input-loop e))
         (else
-         (display-centered (format #f "~A" event-type))
+         (display-centered (simple-format #f "~A" event-type))
          (input-loop e))))))
 
 ;; display an explanatory message
