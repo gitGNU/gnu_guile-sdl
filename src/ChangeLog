@@ -1,3 +1,7 @@
+2005-02-05  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlsurface.c (get_clip_rect): Fix omission bug: Allocate rect.
+
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlroto.c: Delete file.
