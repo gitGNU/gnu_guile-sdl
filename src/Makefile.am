@@ -25,10 +25,12 @@ sdl_sup_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module \
 # snarfing
 SUFFIXES = .x .texi .doc .fspec
 .c.x:
-	pre-inst-$(c2x) -o $@ $< $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS)
+	$(c2x) -o $@ $< $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS)
+
+fspec2c = guile-tools fspec2c
 
 .fspec.c:
-	pre-inst-guile-tools fspec2c -o $@ $<
+	$(fspec2c) -o $@ $<
 
 DISTCLEANFILES = *.x
 
