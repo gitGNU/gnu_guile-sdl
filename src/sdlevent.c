@@ -189,6 +189,82 @@ SCM_DEFINE_NUMBER_GETTER ("sdl-event:resize:h", event_resize_h, event_tag,
 /* { */
 /* } */
 
+SCM_DEFINE_ENUM_SETTER ("sdl-event:set-type!", event_set_type, event_tag,
+                        SDL_Event*, type, event_type_enum)
+
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:active:set-gain!", event_active_set_gain, event_tag,
+                        SDL_Event*, active.gain)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:active:set-state!", event_active_set_state, event_tag,
+                        SDL_Event*, active.state)
+
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:key:set-state!", event_key_set_state, event_tag,
+                        SDL_Event*, key.state)
+
+SCM_DEFINE_ENUM_SETTER ("sdl-event:key:keysym:set-sym!", event_key_keysym_set_sym,
+                        event_tag, SDL_Event*, key.keysym.sym, event_keysym_enum)
+
+SCM_DEFINE_FLAG_SETTER ("sdl-event:key:keysym:set-mod!", event_key_keysym_set_mod,
+                        event_tag, SDL_Event*, key.keysym.mod, event_mod_flags)
+
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:key:keysym:set-scancode!", event_key_keysym_set_scancode,
+                        event_tag, SDL_Event*, key.keysym.scancode)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:key:keysym:set-unicode!", event_key_keysym_set_unicode,
+                        event_tag, SDL_Event*, key.keysym.unicode)
+
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:motion:set-state!", event_motion_set_state, event_tag,
+                        SDL_Event*, motion.state)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:motion:set-x!", event_motion_set_x, event_tag,
+                        SDL_Event*, motion.x)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:motion:set-y!", event_motion_set_y, event_tag,
+                        SDL_Event*, motion.y)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:motion:set-xrel!", event_motion_set_xrel, event_tag,
+                        SDL_Event*, motion.xrel)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:motion:set-yrel!", event_motion_set_yrel, event_tag,
+                        SDL_Event*, motion.yrel)
+
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:button:set-button!", event_button_set_button, event_tag,
+                        SDL_Event*, button.button)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:button:set-state!", event_button_set_state, event_tag,
+                        SDL_Event*, button.state)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:button:set-x!", event_button_set_x, event_tag,
+                        SDL_Event*, button.x)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:button:set-y!", event_button_set_y, event_tag,
+                        SDL_Event*, button.y)
+
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jaxis:set-which!", event_jaxis_set_which, event_tag,
+                        SDL_Event*, jaxis.which)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jaxis:set-axis!", event_jaxis_set_axis, event_tag,
+                        SDL_Event*, jaxis.axis)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jaxis:set-value!", event_jaxis_set_value, event_tag,
+                        SDL_Event*, jaxis.value)
+
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jbutton:set-which!", event_jbutton_set_which, event_tag,
+                        SDL_Event*, jbutton.which)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jbutton:set-button!", event_jbutton_set_button, event_tag,
+                        SDL_Event*, jbutton.button)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jbutton:set-state!", event_jbutton_set_state, event_tag,
+                        SDL_Event*, jbutton.state)
+
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jball:set-which!", event_jball_set_which, event_tag,
+                        SDL_Event*, jball.which)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jball:set-ball!", event_jball_set_ball, event_tag,
+                        SDL_Event*, jball.ball)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jball:set-xrel!", event_jball_set_xrel, event_tag,
+                        SDL_Event*, jball.xrel)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jball:set-yrel!", event_jball_set_yrel, event_tag,
+                        SDL_Event*, jball.yrel)
+
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jhat:set-which!", event_jhat_set_which, event_tag,
+                        SDL_Event*, jhat.which)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jhat:set-hat!", event_jhat_set_hat, event_tag,
+                        SDL_Event*, jhat.hat)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:jhat:set-value!", event_jhat_set_state, event_tag,
+                        SDL_Event*, jhat.value)
+
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:resize:set-w!", event_resize_set_w, event_tag,
+                        SDL_Event*, resize.w)
+SCM_DEFINE_NUMBER_SETTER ("sdl-event:resize:set-h!", event_resize_set_h, event_tag,
+                        SDL_Event*, resize.h)
 
 /* SDL event functions */
 
@@ -606,6 +682,23 @@ void sdl_init_event (void)
   scm_c_define_gsubr ("sdl-event:button:state", 1, 0, 0, event_button_state);
   scm_c_define_gsubr ("sdl-event:button:x", 1, 0, 0, event_button_x);
   scm_c_define_gsubr ("sdl-event:button:y", 1, 0, 0, event_button_y);
+  scm_c_define_gsubr ("sdl-event:set-type!", 2, 0, 0, event_set_type);
+  scm_c_define_gsubr ("sdl-event:active:set-gain!", 2, 0, 0, event_active_set_gain);
+  scm_c_define_gsubr ("sdl-event:active:set-state!", 2, 0, 0, event_active_set_state);
+  scm_c_define_gsubr ("sdl-event:key:set-state!", 2, 0, 0, event_key_state);
+  scm_c_define_gsubr ("sdl-event:key:keysym:set-sym!", 2, 0, 0, event_key_keysym_set_sym);
+  scm_c_define_gsubr ("sdl-event:key:keysym:set-mod!", 2, 0, 0, event_key_keysym_set_mod);
+  scm_c_define_gsubr ("sdl-event:key:keysym:set-scancode!", 2, 0, 0, event_key_keysym_set_scancode);
+  scm_c_define_gsubr ("sdl-event:key:keysym:set-unicode!", 2, 0, 0, event_key_keysym_set_unicode);
+  scm_c_define_gsubr ("sdl-event:motion:set-state!", 2, 0, 0, event_motion_set_state);
+  scm_c_define_gsubr ("sdl-event:motion:set-x!", 2, 0, 0, event_motion_set_x);
+  scm_c_define_gsubr ("sdl-event:motion:set-y!", 2, 0, 0, event_motion_set_y);
+  scm_c_define_gsubr ("sdl-event:motion:set-xrel!", 2, 0, 0, event_motion_set_xrel);
+  scm_c_define_gsubr ("sdl-event:motion:set-yrel!", 2, 0, 0, event_motion_set_yrel);
+  scm_c_define_gsubr ("sdl-event:button:set-button!", 2, 0, 0, event_button_set_button);
+  scm_c_define_gsubr ("sdl-event:button:set-state!", 2, 0, 0, event_button_set_state);
+  scm_c_define_gsubr ("sdl-event:button:set-x!", 2, 0, 0, event_button_set_x);
+  scm_c_define_gsubr ("sdl-event:button:set-y!", 2, 0, 0, event_button_set_y);
 /*   scm_c_define_gsubr ("sdl-event:jaxis:which", 1, 0, 0, event_jaxis_which); */
 /*   scm_c_define_gsubr ("sdl-event:jaxis:axis", 1, 0, 0, event_jaxis_axis); */
 /*   scm_c_define_gsubr ("sdl-event:jaxis:value", 1, 0, 0, event_jaxis_value); */
@@ -651,6 +744,22 @@ void sdl_init_event (void)
     "sdl-event:jball:yrel",          "sdl-event:jhat:which",
     "sdl-event:jhat:hat",            "sdl-event:jhat:value",
     "sdl-event:resize:w",            "sdl-event:resize:h",
+    "sdl-event:set-type!",                "sdl-event:active:set-gain!",
+    "sdl-event:active:set-state!",        "sdl-event:key:set-state!",
+    "sdl-event:key:keysym:set-sym!",      "sdl-event:key:keysym:set-mod!",
+    "sdl-event:key:keysym:set-scancode!", "sdl-event:key:keysym:set-unicode!",
+    "sdl-event:motion:set-state!",        "sdl-event:motion:set-x!",
+    "sdl-event:motion:set-y!",            "sdl-event:motion:set-xrel!",
+    "sdl-event:motion:set-yrel!",         "sdl-event:button:set-button!",
+    "sdl-event:button:set-state!",        "sdl-event:button:set-x!",
+    "sdl-event:button:set-y!",            "sdl-event:jaxis:set-which!",
+    "sdl-event:jaxis:set-axis!",          "sdl-event:jaxis:set-value!",
+    "sdl-event:jbutton:set-which!",       "sdl-event:jbutton:set-button!",
+    "sdl-event:jbutton:set-state!",       "sdl-event:jball:set-which!",
+    "sdl-event:jball:set-ball!",          "sdl-event:jball:set-xrel!",
+    "sdl-event:jball:set-yrel!",          "sdl-event:jhat:set-which!",
+    "sdl-event:jhat:set-hat!",            "sdl-event:jhat:set-value!",
+    "sdl-event:resize:set-w!",            "sdl-event:resize:set-h!",
 /*       "sdl-event:user:code",           "sdl-event:user:data1", */
 /*       "sdl-event:user:data2",          "sdl-keysym:scancode", */
 /*       "sdl-keysym:sym",                "sdl-keysym:mod", */
