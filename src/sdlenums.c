@@ -184,12 +184,12 @@ MDEFLOCEXP (enum_to_number, "enum->number", 2, 0, 0,
   SCM table;
   enum_struct *enum_type;
 
-  ASSERT_SMOB (s_enum_type, enum_tag, SCM_ARG1);
+  ASSERT_SMOB (s_enum_type, enum_tag, ARGH1);
 
   enum_type = SMOBGET (s_enum_type, enum_struct *);
   table = enum_type->table;
 
-  ASSERT_SYMBOL (symbol, SCM_ARG2);
+  ASSERT_SYMBOL (symbol, ARGH2);
 
   /* lookup and return the number in the pair */
   return scm_hashq_ref (table, symbol, SCM_BOOL_F);
@@ -205,12 +205,12 @@ MDEFLOCEXP (number_to_enum, "number->enum", 2, 0, 0,
   long index;
   enum_struct *enum_type;
 
-  ASSERT_SMOB (s_enum_type, enum_tag, SCM_ARG1);
+  ASSERT_SMOB (s_enum_type, enum_tag, ARGH1);
 
   enum_type = SMOBGET (s_enum_type, enum_struct *);
   vec = enum_type->vec;
 
-  ASSERT_EXACT (number, SCM_ARG2);
+  ASSERT_EXACT (number, ARGH2);
   index = gh_scm2long (number) - enum_type->min;
 
   /* return the numbered index into the vector */
@@ -370,7 +370,7 @@ MDEFLOCEXP (flagstash_flags, "flagstash-flags", 1, 0, 0,
   flagstash_t *stash;
   SCM rv = SCM_EOL;
 
-  ASSERT_FLAGSTASH (s_stash, SCM_ARG1);
+  ASSERT_FLAGSTASH (s_stash, ARGH1);
   stash = SMOBGET (s_stash, flagstash_t *);
 
   for (i = 0; i < stash->total; i++)
@@ -385,9 +385,9 @@ MDEFLOCEXP (flags_to_number, "flags->number", 2, 0, 0,
             "@var{flags} is a list of symbols.")
 #define FUNC_NAME s_flags_to_number
 {
-  ASSERT_SMOB (stash, flagstash_tag, SCM_ARG1);
+  ASSERT_SMOB (stash, flagstash_tag, ARGH1);
 
-  return gh_ulong2scm (GSDL_FLAGS2ULONG (flags, stash, SCM_ARG2));
+  return gh_ulong2scm (GSDL_FLAGS2ULONG (flags, stash, ARGH2));
 }
 #undef FUNC_NAME
 
@@ -397,8 +397,8 @@ MDEFLOCEXP (number_to_flags, "number->flags", 2, 0, 0,
             "of symbols.")
 #define FUNC_NAME s_number_to_flags
 {
-  ASSERT_SMOB (stash, flagstash_tag, SCM_ARG1);
-  ASSERT_EXACT (number, SCM_ARG2);
+  ASSERT_SMOB (stash, flagstash_tag, ARGH1);
+  ASSERT_EXACT (number, ARGH2);
 
   return gsdl_ulong2flags (gh_scm2ulong (number), stash);
 }

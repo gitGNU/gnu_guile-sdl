@@ -138,12 +138,12 @@ MDEFLOCEXP (create_cursor, "sdl-create-cursor", 6, 0, 0,
   SDL_Cursor *cursor;
   Uint8 *data, *mask;
 
-  ASSERT_VECTOR (s_data, SCM_ARG1);
-  ASSERT_VECTOR (s_mask, SCM_ARG2);
-  ASSERT_EXACT (s_w, SCM_ARG3);
-  ASSERT_EXACT (s_h, SCM_ARG4);
-  ASSERT_EXACT (s_hot_x, SCM_ARG5);
-  ASSERT_EXACT (s_hot_y, SCM_ARG6);
+  ASSERT_VECTOR (s_data, ARGH1);
+  ASSERT_VECTOR (s_mask, ARGH2);
+  ASSERT_EXACT (s_w, ARGH3);
+  ASSERT_EXACT (s_h, ARGH4);
+  ASSERT_EXACT (s_hot_x, ARGH5);
+  ASSERT_EXACT (s_hot_y, ARGH6);
 
   /* build the arrays */
   data = (Uint8 *) gh_scm2chars (s_data, NULL);
@@ -180,20 +180,20 @@ MDEFLOCEXP (create_yuv_overlay, "sdl-create-yuv-overlay", 3, 1, 0,
   Uint32 format;
   SDL_Surface *display;
 
-  ASSERT_EXACT (s_width, SCM_ARG1);
-  ASSERT_EXACT (s_height, SCM_ARG2);
+  ASSERT_EXACT (s_width, ARGH1);
+  ASSERT_EXACT (s_height, ARGH2);
 
   if (gh_symbol_p (s_format)) {
     format = GSDL_FLAG2ULONG (s_format, gsdl_overlay_formats);
   } else {
-    ASSERT_EXACT (s_format, SCM_ARG3);
+    ASSERT_EXACT (s_format, ARGH3);
     format = gh_scm2ulong (s_format);
   }
 
   if (SCM_UNBNDP (s_display)) {
     display = SDL_GetVideoSurface ();
   } else {
-    ASSERT_SURFACE (s_display, SCM_ARG4);
+    ASSERT_SURFACE (s_display, ARGH4);
     display = UNPACK_SURFACE (s_display);
   }
 
@@ -286,13 +286,13 @@ MDEFLOCEXP (list_modes, "sdl-list-modes", 0, 2, 0,
   SCM result;
 
   if (! SCM_UNBNDP (SCM_UNDEFINED)) {
-    ASSERT_PIXEL_FORMAT (s_pixel_format, SCM_ARG1);
+    ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
     format = UNPACK_PIXEL_FORMAT (s_pixel_format);
   }
 
   if (! SCM_UNBNDP (s_flags)) {
-    ASSERT_EXACT (s_flags, SCM_ARG2);
-    flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, SCM_ARG2);
+    ASSERT_EXACT (s_flags, ARGH2);
+    flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH2);
   }
 
   modes = SDL_ListModes (format, flags);
@@ -334,12 +334,12 @@ MDEFLOCEXP (video_mode_ok, "sdl-video-mode-ok", 4, 0, 0,
   Uint32 flags = 0;
   int result;
 
-  ASSERT_EXACT (s_width,  SCM_ARG1);
-  ASSERT_EXACT (s_height, SCM_ARG2);
-  ASSERT_EXACT (s_bpp,    SCM_ARG3);
+  ASSERT_EXACT (s_width,  ARGH1);
+  ASSERT_EXACT (s_height, ARGH2);
+  ASSERT_EXACT (s_bpp,    ARGH3);
 
   if (! SCM_UNBNDP (s_flags)) {
-    flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, SCM_ARG4);
+    flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH4);
   }
 
   result = SDL_VideoModeOK (gh_scm2long (s_width),
@@ -361,12 +361,12 @@ MDEFLOCEXP (set_video_mode, "sdl-set-video-mode", 3, 1, 0,
 {
   Uint32 flags = 0;
 
-  ASSERT_EXACT (s_width,  SCM_ARG1);
-  ASSERT_EXACT (s_height, SCM_ARG2);
-  ASSERT_EXACT (s_bpp,    SCM_ARG3);
+  ASSERT_EXACT (s_width,  ARGH1);
+  ASSERT_EXACT (s_height, ARGH2);
+  ASSERT_EXACT (s_bpp,    ARGH3);
 
   if (! SCM_UNBNDP (s_flags)) {
-    flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, SCM_ARG4);
+    flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH4);
   }
 
   RETURN_NEW_SURFACE
@@ -391,7 +391,7 @@ MDEFLOCEXP (update_rect, "sdl-update-rect", 2, 3, 0,
   Sint32 x, y, w, h;
 
   /* first arg is a surface */
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
+  ASSERT_SURFACE (s_surface, ARGH1);
 
   /* remaining args are a single rect, or 4 coords */
   if (SCM_SMOB_PREDICATE (rect_tag, s_x)) {
@@ -401,10 +401,10 @@ MDEFLOCEXP (update_rect, "sdl-update-rect", 2, 3, 0,
     w = rect->w;
     h = rect->h;
   } else {
-    ASSERT_EXACT (s_x, SCM_ARG2);
-    ASSERT_EXACT (s_y, SCM_ARG3);
-    ASSERT_EXACT (s_w, SCM_ARG4);
-    ASSERT_EXACT (s_h, SCM_ARG5);
+    ASSERT_EXACT (s_x, ARGH2);
+    ASSERT_EXACT (s_y, ARGH3);
+    ASSERT_EXACT (s_w, ARGH4);
+    ASSERT_EXACT (s_h, ARGH5);
     x = (Sint32) gh_scm2long (s_x);
     y = (Sint32) gh_scm2long (s_y);
     w = (Sint32) gh_scm2long (s_w);
@@ -427,10 +427,10 @@ MDEFLOCEXP (update_rects, "sdl-update-rects", 2, 0, 0,
   SDL_Rect *rect;
   SCM p;
 
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_PAIR (ls, SCM_ARG2);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_PAIR (ls, ARGH2);
   for (p = ls; ! gh_null_p (p); p = gh_cdr (p))
-    ASSERT_RECT (gh_car (p), SCM_ARG2);
+    ASSERT_RECT (gh_car (p), ARGH2);
 
   surface = UNPACK_SURFACE (s_surface);
   for (p = ls; ! gh_null_p (p); p = gh_cdr (p)) {
@@ -451,7 +451,7 @@ MDEFLOCEXP (sdl_flip, "sdl-flip", 0, 1, 0,
   SDL_Surface *surface;
 
   if (! SCM_UNBNDP (s_surface)) {
-    ASSERT_SURFACE (s_surface, SCM_ARG1);
+    ASSERT_SURFACE (s_surface, ARGH1);
     surface = UNPACK_SURFACE (s_surface);
   } else {
     surface = SDL_GetVideoSurface ();
@@ -473,8 +473,8 @@ MDEFLOCEXP (set_colors, "sdl-set-colors!", 2, 0, 0,
   SDL_Color *color;
   int i, length, result;
 
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_VECTOR (s_colors, SCM_ARG2);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_VECTOR (s_colors, ARGH2);
 
   length = gh_vector_length (s_colors);
   colors = (SDL_Color*) scm_must_malloc (length, FUNC_NAME);
@@ -504,10 +504,10 @@ MDEFLOCEXP (set_palette, "sdl-set-palette", 3, 0, 0,
   SDL_Color *color;
   int flags, i, length, result;
 
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_VECTOR (s_colors, SCM_ARG3);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_VECTOR (s_colors, ARGH3);
 
-  flags   = GSDL_FLAGS2ULONG (s_flags, gsdl_palette_flags, SCM_ARG2);
+  flags   = GSDL_FLAGS2ULONG (s_flags, gsdl_palette_flags, ARGH2);
   length  = gh_vector_length (s_colors);
   colors  = (SDL_Color*) scm_must_malloc (length, FUNC_NAME);
 
@@ -532,9 +532,9 @@ MDEFLOCEXP (set_gamma, "sdl-set-gamma", 3, 0, 0,
             "and @var{bluegamma}.")
 #define FUNC_NAME s_set_gamma
 {
-  ASSERT_NUMBER (s_redgamma,   SCM_ARG1);
-  ASSERT_NUMBER (s_greengamma, SCM_ARG2);
-  ASSERT_NUMBER (s_bluegamma,  SCM_ARG3);
+  ASSERT_NUMBER (s_redgamma,   ARGH1);
+  ASSERT_NUMBER (s_greengamma, ARGH2);
+  ASSERT_NUMBER (s_bluegamma,  ARGH3);
 
   RETURN_TRUE_IF_0
     (SDL_SetGamma ((float) SCM_REAL_VALUE (s_redgamma),
@@ -585,9 +585,9 @@ MDEFLOCEXP (set_gamma_ramp, "sdl-set-gamma-ramp", 3, 0, 0,
 {
   Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
 
-  ASSERT_VSZFIT (s_redtable,   SCM_ARG1);
-  ASSERT_VSZFIT (s_greentable, SCM_ARG2);
-  ASSERT_VSZFIT (s_bluetable,  SCM_ARG3);
+  ASSERT_VSZFIT (s_redtable,   ARGH1);
+  ASSERT_VSZFIT (s_greentable, ARGH2);
+  ASSERT_VSZFIT (s_bluetable,  ARGH3);
 
   gh_scm2shorts (s_redtable,   (short *) rt);
   gh_scm2shorts (s_greentable, (short *) gt);
@@ -609,7 +609,7 @@ MDEFLOCEXP (map_rgb, "sdl-map-rgb", 2, 2, 0,
 {
   Uint8 r, g, b;
 
-  ASSERT_PIXEL_FORMAT (s_pixel_format, SCM_ARG1);
+  ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
 
   if (SCM_SMOB_PREDICATE (color_tag, s_r)) {
     SDL_Color *color = UNPACK_COLOR (s_r);
@@ -617,9 +617,9 @@ MDEFLOCEXP (map_rgb, "sdl-map-rgb", 2, 2, 0,
     g = color->g;
     b = color->b;
   } else {
-    ASSERT_EXACT (s_r, SCM_ARG2);
-    ASSERT_EXACT (s_g, SCM_ARG3);
-    ASSERT_EXACT (s_b, SCM_ARG4);
+    ASSERT_EXACT (s_r, ARGH2);
+    ASSERT_EXACT (s_g, ARGH3);
+    ASSERT_EXACT (s_b, ARGH4);
     r = (Uint8) gh_scm2long (s_r);
     g = (Uint8) gh_scm2long (s_g);
     b = (Uint8) gh_scm2long (s_b);
@@ -642,20 +642,20 @@ MDEFLOCEXP (map_rgba, "sdl-map-rgba", 3, 2, 0,
 {
   Uint8 r, g, b, a;
 
-  ASSERT_PIXEL_FORMAT (s_pixel_format, SCM_ARG1);
+  ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
 
   if (SCM_SMOB_PREDICATE (color_tag, s_r)) {
     SDL_Color *color = UNPACK_COLOR (s_r);
     r = color->r;
     g = color->g;
     b = color->b;
-    ASSERT_EXACT (s_g, SCM_ARG3);
+    ASSERT_EXACT (s_g, ARGH3);
     a = (Uint8) gh_scm2long (s_g);
   } else {
-    ASSERT_EXACT (s_r, SCM_ARG2);
-    ASSERT_EXACT (s_g, SCM_ARG3);
-    ASSERT_EXACT (s_b, SCM_ARG4);
-    ASSERT_EXACT (s_a, SCM_ARG5);
+    ASSERT_EXACT (s_r, ARGH2);
+    ASSERT_EXACT (s_g, ARGH3);
+    ASSERT_EXACT (s_b, ARGH4);
+    ASSERT_EXACT (s_a, ARGH5);
     r = (Uint8) gh_scm2long (s_r);
     g = (Uint8) gh_scm2long (s_g);
     b = (Uint8) gh_scm2long (s_b);
@@ -684,8 +684,8 @@ MDEFLOCEXP (get_rgb, "sdl-get-rgb", 2, 0, 0,
 {
   Uint8 r, g, b;
 
-  ASSERT_EXACT (s_pixel, SCM_ARG1);
-  ASSERT_PIXEL_FORMAT (s_pixel_format, SCM_ARG2);
+  ASSERT_EXACT (s_pixel, ARGH1);
+  ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH2);
 
   SDL_GetRGB ((Uint32) gh_scm2long (s_pixel),
               UNPACK_PIXEL_FORMAT (s_pixel_format),
@@ -708,8 +708,8 @@ MDEFLOCEXP (get_rgba, "sdl-get-rgba", 2, 0, 0,
 {
   Uint8 r, g, b, a;
 
-  ASSERT_EXACT (s_pixel, SCM_ARG1);
-  ASSERT_PIXEL_FORMAT (s_pixel_format, SCM_ARG2);
+  ASSERT_EXACT (s_pixel, ARGH1);
+  ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH2);
 
   SDL_GetRGBA ((Uint32) gh_scm2long (s_pixel),
                UNPACK_PIXEL_FORMAT (s_pixel_format),
@@ -729,9 +729,9 @@ MDEFLOCEXP (fill_rect, "sdl-fill-rect", 3, 0, 0,
             "Return #t if successful.")
 #define FUNC_NAME s_fill_rect
 {
-  ASSERT_SURFACE (s_dst, SCM_ARG1);
-  ASSERT_RECT (s_dstrect, SCM_ARG2);
-  ASSERT_EXACT (s_color, SCM_ARG3);
+  ASSERT_SURFACE (s_dst, ARGH1);
+  ASSERT_RECT (s_dstrect, ARGH2);
+  ASSERT_EXACT (s_color, ARGH3);
 
   RETURN_TRUE_IF_0
     (SDL_FillRect (UNPACK_SURFACE (s_dst),
@@ -749,7 +749,7 @@ MDEFLOCEXP (display_format, "sdl-display-format", 1, 0, 0,
 {
   SDL_Surface *surface;
 
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
+  ASSERT_SURFACE (s_surface, ARGH1);
 
   surface = SDL_DisplayFormat (UNPACK_SURFACE (s_surface));
 
@@ -770,7 +770,7 @@ MDEFLOCEXP (display_format_alpha, "sdl-display-format-alpha", 1, 0, 0,
 {
   SDL_Surface *surface;
 
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
+  ASSERT_SURFACE (s_surface, ARGH1);
 
   surface = SDL_DisplayFormatAlpha (UNPACK_SURFACE (s_surface));
 
@@ -788,8 +788,8 @@ MDEFLOCEXP (warp_mouse, "sdl-warp-mouse", 2, 0, 0,
             "The return value is unspecified.")
 #define FUNC_NAME s_warp_mouse
 {
-  ASSERT_EXACT (s_x, SCM_ARG1);
-  ASSERT_EXACT (s_y, SCM_ARG2);
+  ASSERT_EXACT (s_x, ARGH1);
+  ASSERT_EXACT (s_y, ARGH2);
 
   SDL_WarpMouse ((Uint16) gh_scm2long (s_x), (Uint16) gh_scm2long (s_y));
   return SCM_UNSPECIFIED;
@@ -803,7 +803,7 @@ MDEFLOCEXP (set_cursor, "sdl-set-cursor", 1, 0, 0,
             "The return value is unspecified.")
 #define FUNC_NAME s_set_cursor
 {
-  ASSERT_CURSOR (s_cursor, SCM_ARG1);
+  ASSERT_CURSOR (s_cursor, ARGH1);
   SDL_SetCursor (UNPACK_CURSOR (s_cursor));
   return SCM_UNSPECIFIED;
 }
@@ -844,7 +844,7 @@ MDEFLOCEXP (gl_get_attribute, "sdl-gl-get-attribute", 1, 0, 0,
 {
   int value;
 
-  ASSERT_EXACT (s_attr, SCM_ARG1);
+  ASSERT_EXACT (s_attr, ARGH1);
 
   SDL_GL_GetAttribute ((SDL_GLattr) gh_scm2long (s_attr), &value);
   return gh_long2scm (value);
@@ -859,8 +859,8 @@ MDEFLOCEXP (gl_set_attribute, "sdl-gl-set-attribute", 2, 0, 0,
             "Both args are numbers.  The return value is unspecified.")
 #define FUNC_NAME s_gl_set_attribute
 {
-  ASSERT_EXACT (s_attr, SCM_ARG1);
-  ASSERT_EXACT (s_value, SCM_ARG2);
+  ASSERT_EXACT (s_attr, ARGH1);
+  ASSERT_EXACT (s_value, ARGH2);
 
   SDL_GL_SetAttribute ((SDL_GLattr) gh_scm2long (s_attr),
                        (int) gh_scm2long (s_value));
@@ -887,7 +887,7 @@ MDEFLOCEXP (lock_yuv_overlay, "sdl-lock-yuv-overlay", 1, 0, 0,
             "Return #f if successful.")
 #define FUNC_NAME s_lock_yuv_overlay
 {
-  ASSERT_OVERLAY (s_overlay, SCM_ARG1);
+  ASSERT_OVERLAY (s_overlay, ARGH1);
 
   RETURN_TRUE_IF_0
     (SDL_LockYUVOverlay (UNPACK_OVERLAY (s_overlay)));
@@ -901,7 +901,7 @@ MDEFLOCEXP (unlock_yuv_overlay, "sdl-unlock-yuv-overlay", 1, 0, 0,
             "The return value is unspecified.")
 #define FUNC_NAME s_unlock_yuv_overlay
 {
-  ASSERT_OVERLAY (s_overlay, SCM_ARG1);
+  ASSERT_OVERLAY (s_overlay, ARGH1);
 
   SDL_UnlockYUVOverlay (UNPACK_OVERLAY (s_overlay));
   return SCM_UNSPECIFIED;
@@ -915,8 +915,8 @@ MDEFLOCEXP (display_yuv_overlay, "sdl-display-yuv-overlay", 2, 0, 0,
             "over which it was created.  Return #t if successful.")
 #define FUNC_NAME s_display_yuv_overlay
 {
-  ASSERT_OVERLAY (s_overlay, SCM_ARG1);
-  ASSERT_RECT (s_dstrect, SCM_ARG2);
+  ASSERT_OVERLAY (s_overlay, ARGH1);
+  ASSERT_RECT (s_dstrect, ARGH2);
 
   RETURN_TRUE_IF_0
     (SDL_DisplayYUVOverlay (UNPACK_OVERLAY (s_overlay),
@@ -935,14 +935,14 @@ MDEFLOCEXP (wm_set_caption, "sdl-set-caption", 2, 0, 0,
 {
   char *title, *icon;
 
-  ASSERT_STRING (s_title, SCM_ARG1);
+  ASSERT_STRING (s_title, ARGH1);
 
   title = SCM_CHARS (s_title);
 
   if (SCM_UNBNDP (s_icon)) {
     icon = title;
   } else {
-    ASSERT_STRING (s_icon, SCM_ARG2);
+    ASSERT_STRING (s_icon, ARGH2);
     icon = SCM_CHARS (s_icon);
   }
 
@@ -976,7 +976,7 @@ MDEFLOCEXP (wm_set_icon, "sdl-set-icon", 1, 0, 0,
             "Set @var{icon} for the display window.")
 #define FUNC_NAME s_wm_set_icon
 {
-  ASSERT_SURFACE (icon, SCM_ARG1);
+  ASSERT_SURFACE (icon, ARGH1);
 
   /* set w/ a NULL mask for now */
   SDL_WM_SetIcon (UNPACK_SURFACE (icon), NULL);
@@ -1009,7 +1009,7 @@ MDEFLOCEXP (wm_toggle_full_screen, "sdl-toggle-full-screen", 0, 1, 0,
   if (SCM_UNBNDP (s_surface)) {
     surface = SDL_GetVideoSurface ();
   } else {
-    ASSERT_SURFACE (s_surface, SCM_ARG1);
+    ASSERT_SURFACE (s_surface, ARGH1);
     surface = UNPACK_SURFACE (s_surface);
   }
 
@@ -1028,7 +1028,7 @@ MDEFLOCEXP (wm_grab_input, "sdl-grab-input", 0, 1, 0,
   int mode = SDL_GRAB_QUERY;
 
   if (! SCM_UNBNDP (s_mode)) {
-    ASSERT_EXACT (s_mode, SCM_ARG1);
+    ASSERT_EXACT (s_mode, ARGH1);
     mode = gh_scm2long (s_mode);
   }
 

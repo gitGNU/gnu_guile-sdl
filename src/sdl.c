@@ -65,7 +65,7 @@ MDEFLOCEXP (sdl_init, "sdl-init", 1, 0, 0,
 {
   return gh_long2scm (SDL_Init
                       (GSDL_FLAGS2ULONG
-                       (sel, sdl_init_flags, SCM_ARG1)));
+                       (sel, sdl_init_flags, ARGH1)));
 }
 #undef FUNC_NAME
 
@@ -79,7 +79,7 @@ MDEFLOCEXP (sdl_init_subsystem, "sdl-init-subsystem", 1, 0, 0,
 {
   return gh_long2scm (SDL_InitSubSystem
                       (GSDL_FLAGS2ULONG
-                       (sel, sdl_init_flags, SCM_ARG1)));
+                       (sel, sdl_init_flags, ARGH1)));
 }
 #undef FUNC_NAME
 
@@ -103,7 +103,7 @@ MDEFLOCEXP (sdl_quit_subsystem, "sdl-quit-subsystem", 1, 0, 0,
             "from the same set useful for @code{sdl-init}.")
 #define FUNC_NAME s_sdl_quit_subsystem
 {
-  SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, sdl_init_flags, SCM_ARG1));
+  SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, sdl_init_flags, ARGH1));
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
@@ -118,7 +118,7 @@ MDEFLOCEXP (sdl_was_init, "sdl-was-init", 1, 0, 0,
 #define FUNC_NAME s_sdl_was_init
 {
   return gsdl_ulong2flags (SDL_WasInit (GSDL_FLAGS2ULONG
-                                        (sel, sdl_init_flags, SCM_ARG1)),
+                                        (sel, sdl_init_flags, ARGH1)),
                            sdl_init_flags);
 }
 #undef FUNC_NAME
@@ -142,7 +142,7 @@ MDEFLOCEXP (sdl_delay, "sdl-delay", 1, 0, 0,
             "Wait @var{ms} milliseconds.")
 #define FUNC_NAME s_sdl_delay
 {
-  ASSERT_EXACT (ms, SCM_ARG1);
+  ASSERT_EXACT (ms, ARGH1);
   SDL_Delay (gh_scm2ulong (ms));
   return SCM_UNSPECIFIED;
 }

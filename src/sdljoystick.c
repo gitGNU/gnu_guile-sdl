@@ -52,7 +52,7 @@ MDEFLOCEXP (sdl_joystick_null_p, "sdl-joystick-null?", 1, 0, 0,
 {
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
@@ -80,7 +80,7 @@ MDEFLOCEXP (sdl_joystick_name, "sdl-joystick-name", 0, 1, 0,
   int index = 0;
 
   if (! SCM_UNBNDP (s_index)) {
-    ASSERT_EXACT (s_index, SCM_ARG1);
+    ASSERT_EXACT (s_index, ARGH1);
     index = gh_scm2long (s_index);
   }
 
@@ -98,7 +98,7 @@ MDEFLOCEXP (sdl_joystick_open, "sdl-joystick-open", 0, 1, 0,
   int index = 0;
 
   if (! SCM_UNBNDP (s_index)) {
-    ASSERT_EXACT (s_index, SCM_ARG1);
+    ASSERT_EXACT (s_index, ARGH1);
     index = gh_scm2long (s_index);
   }
 
@@ -116,7 +116,7 @@ MDEFLOCEXP (sdl_joystick_opened_p, "sdl-joystick-opened?", 0, 1, 0,
   int index = 0;
 
   if (! SCM_UNBNDP (s_index)) {
-    ASSERT_EXACT (s_index, SCM_ARG1);
+    ASSERT_EXACT (s_index, ARGH1);
     index = gh_scm2long (s_index);
   }
 
@@ -134,7 +134,7 @@ MDEFLOCEXP (sdl_joystick_index, "sdl-joystick-index", 1, 0, 0,
 {
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
@@ -152,7 +152,7 @@ MDEFLOCEXP (sdl_joystick_num_axes, "sdl-joystick-num-axes", 1, 0, 0,
 {
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
@@ -170,7 +170,7 @@ MDEFLOCEXP (sdl_joystick_num_balls, "sdl-joystick-num-balls", 1, 0, 0,
 {
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
@@ -188,7 +188,7 @@ MDEFLOCEXP (sdl_joystick_num_hats, "sdl-joystick-num-hats", 1, 0, 0,
 {
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
@@ -206,7 +206,7 @@ MDEFLOCEXP (sdl_joystick_num_buttons, "sdl-joystick-num-buttons", 1, 0, 0,
 {
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
@@ -233,7 +233,7 @@ MDEFLOCEXP (sdl_joystick_event_state, "sdl-joystick-event-state", 1, 0, 0,
             "Set the Joystick event processing model to @var{state}.")
 #define FUNC_NAME s_sdl_joystick_event_state
 {
-  ASSERT_EXACT (s_state, SCM_ARG1);
+  ASSERT_EXACT (s_state, ARGH1);
 
   return gh_long2scm (SDL_JoystickEventState (gh_scm2long (s_state)));
 }
@@ -248,8 +248,8 @@ MDEFLOCEXP (sdl_joystick_get_axis, "sdl-joystick-get-axis", 2, 0, 0,
 {
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
-  ASSERT_EXACT (s_index, SCM_ARG2);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
+  ASSERT_EXACT (s_index, ARGH2);
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
@@ -274,8 +274,8 @@ MDEFLOCEXP (sdl_joystick_get_ball, "sdl-joystick-get-ball", 2, 0, 0,
   SCM s_ret;
   int dx, dy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
-  ASSERT_EXACT (s_index, SCM_ARG2);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
+  ASSERT_EXACT (s_index, ARGH2);
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
@@ -304,8 +304,8 @@ MDEFLOCEXP (sdl_joystick_get_hat, "sdl-joystick-get-hat", 2, 0, 0,
 {
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
-  ASSERT_EXACT (s_index, SCM_ARG2);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
+  ASSERT_EXACT (s_index, ARGH2);
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
@@ -324,8 +324,8 @@ MDEFLOCEXP (sdl_joystick_get_button, "sdl-joystick-get-button", 2, 0, 0,
 {
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
-  ASSERT_EXACT (s_index, SCM_ARG2);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
+  ASSERT_EXACT (s_index, ARGH2);
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
@@ -343,7 +343,7 @@ MDEFLOCEXP (sdl_joystick_close, "sdl-joystick-close", 1, 0, 0,
 {
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joy_smob, SCM_ARG1);
+  ASSERT_JOYSTICK (joy_smob, ARGH1);
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
   if (joy != NULL) {

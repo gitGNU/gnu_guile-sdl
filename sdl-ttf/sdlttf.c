@@ -83,8 +83,8 @@ MDEFLOCEXP (ttf_load_font, "sdl-load-font", 2, 0, 0,
             "Return a handle.")
 #define FUNC_NAME s_ttf_load_font
 {
-  ASSERT_STRING (file, SCM_ARG1);
-  ASSERT_EXACT (ptsize, SCM_ARG2);
+  ASSERT_STRING (file, ARGH1);
+  ASSERT_EXACT (ptsize, ARGH2);
 
   RETURN_NEW_TTFONT
     (TTF_OpenFont (SCM_CHARS (file),
@@ -100,7 +100,7 @@ MDEFLOCEXP (ttf_get_font_style, "sdl-font:style", 1, 0, 0,
             "doesn't reflect any inherent properties of the truetype font file.")
 #define FUNC_NAME s_ttf_get_font_style
 {
-  ASSERT_TTFONT (s_font, SCM_ARG1);
+  ASSERT_TTFONT (s_font, ARGH1);
 
   return gsdl_ulong2flags (TTF_GetFontStyle (UNPACK_TTFONT (s_font)),
                            sdl_ttf_flags);
@@ -117,9 +117,9 @@ MDEFLOCEXP (ttf_set_font_style, "sdl-font:set-style!", 2, 0, 0,
 {
   int style;
 
-  ASSERT_TTFONT (s_font, SCM_ARG1);
+  ASSERT_TTFONT (s_font, ARGH1);
 
-  style = GSDL_FLAGS2ULONG (s_style, sdl_ttf_flags, SCM_ARG2);
+  style = GSDL_FLAGS2ULONG (s_style, sdl_ttf_flags, ARGH2);
 
   TTF_SetFontStyle (UNPACK_TTFONT (s_font), style);
   return SCM_UNSPECIFIED;
@@ -133,7 +133,7 @@ MDEFLOCEXP (ttf_font_height, "sdl-font:height", 1, 0, 0,
             "usually equal to point size.")
 #define FUNC_NAME s_ttf_font_height
 {
-  ASSERT_TTFONT (s_font, SCM_ARG1);
+  ASSERT_TTFONT (s_font, ARGH1);
 
   return gh_long2scm (TTF_FontHeight (UNPACK_TTFONT (s_font)));
 }
@@ -146,7 +146,7 @@ MDEFLOCEXP (ttf_font_ascent, "sdl-font:ascent", 1, 0, 0,
             "@var{font}.  This is a positive number.")
 #define FUNC_NAME s_ttf_font_ascent
 {
-  ASSERT_TTFONT (s_font, SCM_ARG1);
+  ASSERT_TTFONT (s_font, ARGH1);
 
   return gh_long2scm (TTF_FontAscent (UNPACK_TTFONT (s_font)));
 }
@@ -159,7 +159,7 @@ MDEFLOCEXP (ttf_font_descent, "sdl-font:descent", 1, 0, 0,
             "@var{font}.  This is a negative number.")
 #define FUNC_NAME s_ttf_font_descent
 {
-  ASSERT_TTFONT (s_font, SCM_ARG1);
+  ASSERT_TTFONT (s_font, ARGH1);
 
   return gh_long2scm (TTF_FontDescent (UNPACK_TTFONT (s_font)));
 }
@@ -172,7 +172,7 @@ MDEFLOCEXP (ttf_font_line_skip, "sdl-font:line-skip", 1, 0, 0,
             "text for @var{font}.")
 #define FUNC_NAME s_ttf_font_line_skip
 {
-  ASSERT_TTFONT (s_font, SCM_ARG1);
+  ASSERT_TTFONT (s_font, ARGH1);
 
   return gh_long2scm (TTF_FontLineSkip (UNPACK_TTFONT (s_font)));
 }
@@ -195,8 +195,8 @@ MDEFLOCEXP (ttf_glyph_metrics, "sdl-font:glyph-metrics", 2, 0, 0,
 {
   int minx, maxx, miny, maxy, advance;
 
-  ASSERT_TTFONT (s_font, SCM_ARG1);
-  ASSERT_CHAR (s_ch, SCM_ARG2);
+  ASSERT_TTFONT (s_font, ARGH1);
+  ASSERT_CHAR (s_ch, ARGH2);
 
   TTF_GlyphMetrics (UNPACK_TTFONT (s_font),
                     (Uint16) gh_scm2long (s_ch),
@@ -224,8 +224,8 @@ MDEFLOCEXP (ttf_size_text, "sdl-font:size-text", 2, 0, 0,
 {
   int w, h;
 
-  ASSERT_TTFONT (s_font, SCM_ARG1);
-  ASSERT_STRING (s_text, SCM_ARG2);
+  ASSERT_TTFONT (s_font, ARGH1);
+  ASSERT_STRING (s_text, ARGH2);
 
   TTF_SizeText (UNPACK_TTFONT (s_font), SCM_CHARS (s_text), &w, &h);
   return SCM_LIST2 (gh_cons (gsdl_sym_w, gh_long2scm (w)),
@@ -244,8 +244,8 @@ MDEFLOCEXP (ttf_size_utf8, "sdl-font:size-utf8", 2, 0, 0,
 {
   int w, h;
 
-  ASSERT_TTFONT (s_font, SCM_ARG1);
-  ASSERT_STRING (s_text, SCM_ARG2);
+  ASSERT_TTFONT (s_font, ARGH1);
+  ASSERT_STRING (s_text, ARGH2);
 
   TTF_SizeUTF8 (UNPACK_TTFONT (s_font), SCM_CHARS (s_text), &w, &h);
   return SCM_LIST2 (gh_cons (gsdl_sym_w, gh_long2scm (w)),
@@ -268,9 +268,9 @@ MDEFLOCEXP (ttf_render_text, "sdl-render-text", 3, 1, 0,
   SDL_Surface *surface;
   char *text;
 
-  ASSERT_TTFONT (s_font, SCM_ARG1);
-  ASSERT_STRING (s_text, SCM_ARG2);
-  ASSERT_COLOR (s_fg, SCM_ARG3);
+  ASSERT_TTFONT (s_font, ARGH1);
+  ASSERT_STRING (s_text, ARGH2);
+  ASSERT_COLOR (s_fg, ARGH3);
 
   font = UNPACK_TTFONT (s_font);
   text = SCM_CHARS (s_text);
@@ -283,7 +283,7 @@ MDEFLOCEXP (ttf_render_text, "sdl-render-text", 3, 1, 0,
   } else if (gh_eq_p (s_bg, SCM_BOOL_T)) {
     surface = TTF_RenderText_Blended (font, text, *fg);
   } else {
-    ASSERT_COLOR (s_bg, SCM_ARG4);
+    ASSERT_COLOR (s_bg, ARGH4);
     surface = TTF_RenderText_Shaded (font, text, *fg, *(UNPACK_COLOR (s_bg)));
   }
 
@@ -306,9 +306,9 @@ MDEFLOCEXP (ttf_render_utf8, "sdl-render-utf8", 3, 1, 0,
   SDL_Surface *surface;
   char *text;
 
-  ASSERT_TTFONT (s_font, SCM_ARG1);
-  ASSERT_STRING (s_text, SCM_ARG2);
-  ASSERT_COLOR (s_fg, SCM_ARG3);
+  ASSERT_TTFONT (s_font, ARGH1);
+  ASSERT_STRING (s_text, ARGH2);
+  ASSERT_COLOR (s_fg, ARGH3);
 
   font = UNPACK_TTFONT (s_font);
   text = SCM_CHARS (s_text);
@@ -321,7 +321,7 @@ MDEFLOCEXP (ttf_render_utf8, "sdl-render-utf8", 3, 1, 0,
   } else if (gh_eq_p (s_bg, SCM_BOOL_T)) {
     surface = TTF_RenderUTF8_Blended (font, text, *fg);
   } else {
-    ASSERT_COLOR (s_bg, SCM_ARG4);
+    ASSERT_COLOR (s_bg, ARGH4);
     surface = TTF_RenderUTF8_Shaded (font, text, *fg, *(UNPACK_COLOR (s_bg)));
   }
 
@@ -344,9 +344,9 @@ MDEFLOCEXP (ttf_render_glyph, "sdl-render-glyph", 3, 1, 0,
   SDL_Surface *surface;
   char ch;
 
-  ASSERT_TTFONT (s_font, SCM_ARG1);
-  ASSERT_CHAR (s_ch, SCM_ARG2);
-  ASSERT_COLOR (s_fg, SCM_ARG3);
+  ASSERT_TTFONT (s_font, ARGH1);
+  ASSERT_CHAR (s_ch, ARGH2);
+  ASSERT_COLOR (s_fg, ARGH3);
 
   font = UNPACK_TTFONT (s_font);
   ch = gh_scm2char (s_ch);
@@ -359,7 +359,7 @@ MDEFLOCEXP (ttf_render_glyph, "sdl-render-glyph", 3, 1, 0,
   } else if (gh_eq_p (s_bg, SCM_BOOL_T)) {
     surface = TTF_RenderGlyph_Blended (font, ch, *fg);
   } else {
-    ASSERT_COLOR (s_bg, SCM_ARG4);
+    ASSERT_COLOR (s_bg, ARGH4);
     surface = TTF_RenderGlyph_Shaded (font, ch, *fg, *(UNPACK_COLOR (s_bg)));
   }
 

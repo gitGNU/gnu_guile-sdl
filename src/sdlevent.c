@@ -97,7 +97,7 @@ MDEFLOCEXP (make_event, "sdl-make-event", 0, 1, 0,
   int type=SDL_NOEVENT;
 
   if (! SCM_UNBNDP (s_type)) {
-    type = gsdl_enum2long (s_type, event_type_enum, SCM_ARG1, FUNC_NAME);
+    type = gsdl_enum2long (s_type, event_type_enum, ARGH1, FUNC_NAME);
   }
 
   event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME);
@@ -119,16 +119,16 @@ MDEFLOCEXP (make_keysym, "sdl-make-keysym", 0, 2, 0,
 
   /* set the sym if given */
   if (! SCM_UNBNDP (sym)) {
-    ASSERT_EXACT (sym, SCM_ARG1);
+    ASSERT_EXACT (sym, ARGH1);
     /* keysym->sym = (SDLKey) gh_scm2long (sym); */
     keysym->sym = (SDLKey) gsdl_enum2long (sym, event_keysym_enum,
-                                           SCM_ARG1, FUNC_NAME);
+                                           ARGH1, FUNC_NAME);
   }
 
   /* set the mod if given */
   if (! SCM_UNBNDP (mod)) {
-    ASSERT_EXACT (mod, SCM_ARG2);
-    keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, SCM_ARG2);
+    ASSERT_EXACT (mod, ARGH2);
+    keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, ARGH2);
   }
 
   /* return the new smob */
@@ -310,7 +310,7 @@ MDEFLOCEXP (poll_event, "poll-event", 0, 1, 0,
     result = SDL_PollEvent (NULL);
   } else {
     /* we're given an event smob - fill it */
-    ASSERT_SMOB (event, event_tag, SCM_ARG1);
+    ASSERT_SMOB (event, event_tag, ARGH1);
     result = SDL_PollEvent (SMOBGET (event, SDL_Event *));
   }
 
@@ -330,7 +330,7 @@ MDEFLOCEXP (wait_event, "wait-event", 0, 1, 0,
     result = SDL_WaitEvent (NULL);
   } else {
     /* we're given an event smob - fill it */
-    ASSERT_SMOB (event, event_tag, SCM_ARG1);
+    ASSERT_SMOB (event, event_tag, ARGH1);
     result = SDL_WaitEvent (SMOBGET (event, SDL_Event *));
   }
 
@@ -345,7 +345,7 @@ MDEFLOCEXP (push_event, "push-event", 1, 0, 0,
 {
   int result;
 
-  ASSERT_SMOB (event, event_tag, SCM_ARG1);
+  ASSERT_SMOB (event, event_tag, ARGH1);
 
   result = SDL_PushEvent (SMOBGET (event, SDL_Event *));
   return gh_long2scm (result);
@@ -416,8 +416,8 @@ MDEFLOCEXP (sdl_enable_key_repeat, "sdl-enable-key-repeat", 2, 0, 0,
 {
   int interval, delay;
 
-  ASSERT_EXACT (s_delay, SCM_ARG1);
-  ASSERT_EXACT (s_interval, SCM_ARG2);
+  ASSERT_EXACT (s_delay, ARGH1);
+  ASSERT_EXACT (s_interval, ARGH2);
 
   delay    = gh_scm2long (s_delay);
   interval = gh_scm2long (s_interval);
@@ -453,8 +453,8 @@ MDEFLOCEXP (sdl_set_mod_state, "sdl-set-mod-state", 1, 0, 0,
             "only the key modifier flags.")
 #define FUNC_NAME s_sdl_set_mod_state
 {
-  ASSERT_EXACT (modstate, SCM_ARG1);
-  SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, SCM_ARG1));
+  ASSERT_EXACT (modstate, ARGH1);
+  SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, ARGH1));
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
@@ -494,7 +494,7 @@ MDEFLOCEXP (sdl_button_p, "sdl-button?", 1, 0, 0,
             "")
 #define FUNC_NAME s_sdl_button_p
 {
-  ASSERT_EXACT (mask, SCM_ARG1);
+  ASSERT_EXACT (mask, ARGH1);
   return (SDL_BUTTON (gh_scm2long (mask))
           ? SCM_BOOL_T
           : SCM_BOOL_F);

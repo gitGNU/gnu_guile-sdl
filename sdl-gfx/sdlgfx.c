@@ -34,10 +34,10 @@ MDEFLOCEXP (sdl_draw_point, "sdl-draw-point", 4, 0, 0,
             "@var{x},@var{y} with color @var{color}.")
 #define FUNC_NAME s_sdl_draw_point
 {
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_EXACT (s_x, SCM_ARG2);
-  ASSERT_EXACT (s_y, SCM_ARG3);
-  ASSERT_EXACT (s_color, SCM_ARG4);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_EXACT (s_x, ARGH2);
+  ASSERT_EXACT (s_y, ARGH3);
+  ASSERT_EXACT (s_color, ARGH4);
 
   return gh_long2scm
     (pixelColor (UNPACK_SURFACE (s_surface),
@@ -55,12 +55,12 @@ MDEFLOCEXP (sdl_draw_line, "sdl-draw-line", 6, 0, 0,
             "with color @var{color}.")
 #define FUNC_NAME s_sdl_draw_line
 {
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_EXACT (s_x1, SCM_ARG2);
-  ASSERT_EXACT (s_y1, SCM_ARG3);
-  ASSERT_EXACT (s_x2, SCM_ARG4);
-  ASSERT_EXACT (s_y2, SCM_ARG5);
-  ASSERT_EXACT (s_color, SCM_ARG6);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_EXACT (s_x1, ARGH2);
+  ASSERT_EXACT (s_y1, ARGH3);
+  ASSERT_EXACT (s_x2, ARGH4);
+  ASSERT_EXACT (s_y2, ARGH5);
+  ASSERT_EXACT (s_color, ARGH6);
 
   return gh_long2scm
     (lineColor (UNPACK_SURFACE (s_surface),
@@ -79,12 +79,12 @@ MDEFLOCEXP (sdl_draw_aa_line, "sdl-draw-aa-line", 6, 0, 0,
             "with color @var{color}.")
 #define FUNC_NAME s_sdl_draw_aa_line
 {
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_EXACT (s_x1, SCM_ARG2);
-  ASSERT_EXACT (s_y1, SCM_ARG3);
-  ASSERT_EXACT (s_x2, SCM_ARG4);
-  ASSERT_EXACT (s_y2, SCM_ARG5);
-  ASSERT_EXACT (s_color, SCM_ARG6);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_EXACT (s_x1, ARGH2);
+  ASSERT_EXACT (s_y1, ARGH3);
+  ASSERT_EXACT (s_x2, ARGH4);
+  ASSERT_EXACT (s_y2, ARGH5);
+  ASSERT_EXACT (s_color, ARGH6);
 
   return gh_long2scm
     (aalineColor (UNPACK_SURFACE (s_surface),
@@ -104,12 +104,12 @@ MDEFLOCEXP (sdl_draw_rectangle, "sdl-draw-rectangle", 6, 1, 0,
             "Optional arg @var{fill} means to fill the rectangle as well.")
 #define FUNC_NAME s_sdl_draw_rectangle
 {
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_EXACT (s_x1, SCM_ARG2);
-  ASSERT_EXACT (s_y1, SCM_ARG3);
-  ASSERT_EXACT (s_x2, SCM_ARG4);
-  ASSERT_EXACT (s_y2, SCM_ARG5);
-  ASSERT_EXACT (s_color, SCM_ARG6);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_EXACT (s_x1, ARGH2);
+  ASSERT_EXACT (s_y1, ARGH3);
+  ASSERT_EXACT (s_x2, ARGH4);
+  ASSERT_EXACT (s_y2, ARGH5);
+  ASSERT_EXACT (s_color, ARGH6);
   if (SCM_UNBNDP (s_fill)) s_fill = SCM_BOOL_F;
 
   return gh_long2scm
@@ -131,11 +131,11 @@ MDEFLOCEXP (sdl_draw_circle, "sdl-draw-circle", 5, 1, 0,
             "Optional arg @var{fill} means to fill the circle as well.")
 #define FUNC_NAME s_sdl_draw_circle
 {
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_EXACT (s_x, SCM_ARG2);
-  ASSERT_EXACT (s_y, SCM_ARG3);
-  ASSERT_EXACT (s_r, SCM_ARG4);
-  ASSERT_EXACT (s_color, SCM_ARG5);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_EXACT (s_x, ARGH2);
+  ASSERT_EXACT (s_y, ARGH3);
+  ASSERT_EXACT (s_r, ARGH4);
+  ASSERT_EXACT (s_color, ARGH5);
   if (SCM_UNBNDP (s_fill)) s_fill = SCM_BOOL_F;
 
   return gh_long2scm
@@ -157,12 +157,12 @@ MDEFLOCEXP (sdl_draw_ellipse, "sdl-draw-ellipse", 6, 1, 0,
             "Optional arg @var{fill} means to fill the ellipse as well.")
 #define FUNC_NAME s_sdl_draw_ellipse
 {
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_EXACT (s_x, SCM_ARG2);
-  ASSERT_EXACT (s_y, SCM_ARG3);
-  ASSERT_EXACT (s_rx, SCM_ARG4);
-  ASSERT_EXACT (s_ry, SCM_ARG5);
-  ASSERT_EXACT (s_color, SCM_ARG6);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_EXACT (s_x, ARGH2);
+  ASSERT_EXACT (s_y, ARGH3);
+  ASSERT_EXACT (s_rx, ARGH4);
+  ASSERT_EXACT (s_ry, ARGH5);
+  ASSERT_EXACT (s_color, ARGH6);
   if (SCM_UNBNDP (s_fill)) s_fill = SCM_BOOL_F;
 
   return gh_long2scm
@@ -187,10 +187,10 @@ MDEFLOCEXP (sdl_draw_polygon, "sdl-draw-polygon", 4, 1, 0,
   int ret;
   Sint16 *vx, *vy;
 
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_VECTOR (s_vx, SCM_ARG2);
-  ASSERT_VECTOR (s_vy, SCM_ARG3);
-  ASSERT_EXACT (s_color, SCM_ARG4);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_VECTOR (s_vx, ARGH2);
+  ASSERT_VECTOR (s_vy, ARGH3);
+  ASSERT_EXACT (s_color, ARGH4);
   if (SCM_UNBNDP (s_fill)) s_fill = SCM_BOOL_F;
 
   vx = (Sint16 *) gh_scm2shorts (s_vx, NULL);
@@ -215,11 +215,11 @@ MDEFLOCEXP (sdl_draw_character, "sdl-draw-character", 5, 0, 0,
             "draw char @var{c} with @var{color} (a number).")
 #define FUNC_NAME s_sdl_draw_character
 {
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_EXACT (s_x, SCM_ARG2);
-  ASSERT_EXACT (s_y, SCM_ARG3);
-  ASSERT_CHAR (s_char, SCM_ARG4);
-  ASSERT_EXACT (s_color, SCM_ARG5);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_EXACT (s_x, ARGH2);
+  ASSERT_EXACT (s_y, ARGH3);
+  ASSERT_CHAR (s_char, ARGH4);
+  ASSERT_EXACT (s_color, ARGH5);
 
   return gh_long2scm
     (characterColor (UNPACK_SURFACE (s_surface),
@@ -235,11 +235,11 @@ MDEFLOCEXP (sdl_draw_string, "sdl-draw-string", 5, 0, 0,
             "draw string @var{text} with @var{color} (a number).")
 #define FUNC_NAME s_sdl_draw_string
 {
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
-  ASSERT_EXACT (s_x, SCM_ARG2);
-  ASSERT_EXACT (s_y, SCM_ARG3);
-  ASSERT_STRING (s_string, SCM_ARG4);
-  ASSERT_EXACT (s_color, SCM_ARG5);
+  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_EXACT (s_x, ARGH2);
+  ASSERT_EXACT (s_y, ARGH3);
+  ASSERT_STRING (s_string, ARGH4);
+  ASSERT_EXACT (s_color, ARGH5);
 
   return gh_long2scm
     (stringColor (UNPACK_SURFACE (s_surface),

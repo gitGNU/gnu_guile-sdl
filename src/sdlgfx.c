@@ -37,7 +37,7 @@ MDEFLOCEXP (vertical_flip_surface, "sdl-vertical-flip-surface", 1, 0, 0,
   SDL_Rect srcrect, dstrect;
 
   /* verify args */
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
+  ASSERT_SURFACE (s_surface, ARGH1);
 
   /* get source and dimensions */
   src = SMOBGET (s_surface, SDL_Surface *);
@@ -73,7 +73,7 @@ MDEFLOCEXP (horizontal_flip_surface, "sdl-horiztonal-flip-surface", 1, 0, 0,
   SDL_Rect srcrect, dstrect;
 
   /* verify args */
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
+  ASSERT_SURFACE (s_surface, ARGH1);
 
   /* get source and dimensions */
   src = SMOBGET (s_surface, SDL_Surface *);

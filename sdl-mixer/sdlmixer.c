@@ -88,19 +88,19 @@ MDEFLOCEXP (mix_open_audio, "sdl-open-audio", 0, 4, 0,
   int chunksize = 1024;
 
   if (! SCM_UNBNDP (s_freq)) {
-    ASSERT_EXACT (s_freq, SCM_ARG1);
+    ASSERT_EXACT (s_freq, ARGH1);
     freq = gh_scm2long (s_freq);
   }
 
   if (! SCM_UNBNDP (s_format)) {
-    ASSERT_EXACT (s_format, SCM_ARG2);
+    ASSERT_EXACT (s_format, ARGH2);
     format = gh_scm2long (s_format);
   }
 
   channels -= SCM_UNBNDP (s_stereo) ? 0 : SCM_FALSEP (s_stereo);
 
   if (! SCM_UNBNDP (s_chunksize)) {
-    ASSERT_EXACT (s_chunksize, SCM_ARG4);
+    ASSERT_EXACT (s_chunksize, ARGH4);
     chunksize = gh_scm2long (s_chunksize);
   }
 
@@ -119,7 +119,7 @@ MDEFLOCEXP (mix_allocate_channels, "sdl-allocated-channels", 1, 0, 0,
             "new number of allocated channels.")
 #define FUNC_NAME s_mix_allocate_channels
 {
-  ASSERT_EXACT (s_numchans, SCM_ARG1);
+  ASSERT_EXACT (s_numchans, ARGH1);
 
   return gh_long2scm (Mix_AllocateChannels (gh_scm2long (s_numchans)));
 }
@@ -158,7 +158,7 @@ MDEFLOCEXP (mix_load_music, "sdl-load-music", 1, 0, 0,
             "Return a handle to it.")
 #define FUNC_NAME s_mix_load_music
 {
-  ASSERT_STRING (file, SCM_ARG1);
+  ASSERT_STRING (file, ARGH1);
 
   RETURN_NEW_MUSIC
     (Mix_LoadMUS (SCM_CHARS (file)));
@@ -171,7 +171,7 @@ MDEFLOCEXP (mix_load_wave, "sdl-load-wave", 1, 0, 0,
             "Load a wave @var{file}. Return a handle to it.")
 #define FUNC_NAME s_mix_load_wave
 {
-  ASSERT_STRING (file, SCM_ARG1);
+  ASSERT_STRING (file, ARGH1);
 
   RETURN_NEW_AUDIO
     (Mix_LoadWAV (SCM_CHARS (file)));
@@ -187,7 +187,7 @@ MDEFLOCEXP (mix_reserve_channels, "sdl-reserve-channels", 1, 0, 0,
             "Return the number of reserved channels.")
 #define FUNC_NAME s_mix_reserve_channels
 {
-  ASSERT_EXACT (num, SCM_ARG1);
+  ASSERT_EXACT (num, ARGH1);
 
   return gh_long2scm (Mix_ReserveChannels (gh_scm2long (num)));
 }
@@ -206,10 +206,10 @@ MDEFLOCEXP (mix_group_channel, "sdl-group-channel", 1, 1, 0,
 {
   int tag = -1;
 
-  ASSERT_EXACT (s_which, SCM_ARG1);
+  ASSERT_EXACT (s_which, ARGH1);
 
   if (! SCM_UNBNDP (s_tag)) {
-    ASSERT_EXACT (s_tag, SCM_ARG2);
+    ASSERT_EXACT (s_tag, ARGH2);
     tag = gh_scm2long (s_tag);
   }
 
@@ -229,11 +229,11 @@ MDEFLOCEXP (mix_group_channels, "sdl-group-channels", 2, 1, 0,
 {
   int tag = -1;
 
-  ASSERT_EXACT (s_from, SCM_ARG1);
-  ASSERT_EXACT (s_to, SCM_ARG2);
+  ASSERT_EXACT (s_from, ARGH1);
+  ASSERT_EXACT (s_to, ARGH2);
 
   if (! SCM_UNBNDP (s_tag)) {
-    ASSERT_EXACT (s_tag, SCM_ARG3);
+    ASSERT_EXACT (s_tag, ARGH3);
     tag = gh_scm2long (s_tag);
   }
 
@@ -256,7 +256,7 @@ MDEFLOCEXP (mix_group_available, "sdl-group-available", 0, 1, 0,
   int tag = -1;
 
   if (! SCM_UNBNDP (s_tag)) {
-    ASSERT_EXACT (s_tag, SCM_ARG1);
+    ASSERT_EXACT (s_tag, ARGH1);
     tag = gh_scm2long (s_tag);
   }
 
@@ -274,7 +274,7 @@ MDEFLOCEXP (mix_group_count, "sdl-group-count", 0, 1, 0,
   int tag = -1;
 
   if (! SCM_UNBNDP (s_tag)) {
-    ASSERT_EXACT (s_tag, SCM_ARG1);
+    ASSERT_EXACT (s_tag, ARGH1);
     tag = gh_scm2long (s_tag);
   }
 
@@ -293,7 +293,7 @@ MDEFLOCEXP (mix_group_oldest, "sdl-group-oldest", 0, 1, 0,
   int tag = -1;
 
   if (! SCM_UNBNDP (s_tag)) {
-    ASSERT_EXACT (s_tag, SCM_ARG1);
+    ASSERT_EXACT (s_tag, ARGH1);
     tag = gh_scm2long (s_tag);
   }
 
@@ -312,7 +312,7 @@ MDEFLOCEXP (mix_group_newer, "sdl-group-newer", 0, 1, 0,
   int tag = -1;
 
   if (! SCM_UNBNDP (s_tag)) {
-    ASSERT_EXACT (s_tag, SCM_ARG1);
+    ASSERT_EXACT (s_tag, ARGH1);
     tag = gh_scm2long (s_tag);
   }
 
@@ -340,21 +340,21 @@ MDEFLOCEXP (mix_play_channel, "sdl-play-channel", 1, 4, 0,
   int ticks = -1;
   long rv;
 
-  ASSERT_AUDIO (s_chunk, SCM_ARG1);
+  ASSERT_AUDIO (s_chunk, ARGH1);
   chunk = UNPACK_AUDIO (s_chunk);
 
   if (! SCM_UNBNDP (s_channel)) {
-    ASSERT_EXACT (s_channel, SCM_ARG2);
+    ASSERT_EXACT (s_channel, ARGH2);
     channel = gh_scm2long (s_channel);
   }
 
   if (! SCM_UNBNDP (s_loops)) {
-    ASSERT_EXACT (s_loops, SCM_ARG3);
+    ASSERT_EXACT (s_loops, ARGH3);
     loops = gh_scm2long (s_loops);
   }
 
   if (! SCM_UNBNDP (s_ticks)) {
-    ASSERT_EXACT (s_ticks, SCM_ARG4);
+    ASSERT_EXACT (s_ticks, ARGH4);
     ticks = gh_scm2long (s_ticks);
   }
 
@@ -363,7 +363,7 @@ MDEFLOCEXP (mix_play_channel, "sdl-play-channel", 1, 4, 0,
     rv = Mix_PlayChannelTimed (channel, chunk, loops, ticks);
   } else {
     /* we have a fade */
-    ASSERT_EXACT (s_fade, SCM_ARG5);
+    ASSERT_EXACT (s_fade, ARGH5);
     rv = Mix_FadeInChannelTimed (channel, chunk, loops,
                                  gh_scm2long (s_fade),
                                  ticks);
@@ -384,11 +384,11 @@ MDEFLOCEXP (mix_play_music, "sdl-play-music", 1, 2, 0,
   int loops = 0;
   long rv;
 
-  ASSERT_MUSIC (s_music, SCM_ARG1);
+  ASSERT_MUSIC (s_music, ARGH1);
   music = UNPACK_MUSIC (s_music);
 
   if (! SCM_UNBNDP (s_loops)) {
-    ASSERT_EXACT (s_loops, SCM_ARG2);
+    ASSERT_EXACT (s_loops, ARGH2);
     loops = gh_scm2long (s_loops);
   }
 
@@ -397,7 +397,7 @@ MDEFLOCEXP (mix_play_music, "sdl-play-music", 1, 2, 0,
     rv = Mix_PlayMusic (music, loops);
   } else {
     /* we have a fade */
-    ASSERT_EXACT (s_fade, SCM_ARG3);
+    ASSERT_EXACT (s_fade, ARGH3);
     rv = Mix_FadeInMusic (music, loops, gh_scm2long (s_fade));
   }
   return gh_long2scm (rv);
@@ -425,7 +425,7 @@ MDEFLOCEXP (mix_volume, "sdl-volume", 0, 2, 0,
   long rv;
 
   if (! SCM_UNBNDP (s_volume)) {
-    ASSERT_EXACT (s_volume, SCM_ARG1);
+    ASSERT_EXACT (s_volume, ARGH1);
     volume = gh_scm2long (s_volume);
   }
 
@@ -437,7 +437,7 @@ MDEFLOCEXP (mix_volume, "sdl-volume", 0, 2, 0,
     rv = Mix_Volume (gh_scm2long (s_which), volume);
   } else {
     /* no-numeric which, must be a chunk smob */
-    ASSERT_AUDIO (s_which, SCM_ARG2);
+    ASSERT_AUDIO (s_which, ARGH2);
     rv = Mix_VolumeChunk (UNPACK_AUDIO (s_which), volume);
   }
   return gh_long2scm (rv);
@@ -455,7 +455,7 @@ MDEFLOCEXP (mix_volume_music, "sdl-music-volume", 0, 1, 0,
   int volume = -1;
 
   if (! SCM_UNBNDP (s_volume)) {
-    ASSERT_EXACT (s_volume, SCM_ARG1);
+    ASSERT_EXACT (s_volume, ARGH1);
     volume = gh_scm2long (s_volume);
   }
 
@@ -473,7 +473,7 @@ MDEFLOCEXP (mix_halt_channel, "sdl-halt-channel", 0, 1, 0,
   int channel = -1;
 
   if (! SCM_UNBNDP (s_channel)) {
-    ASSERT_EXACT (s_channel, SCM_ARG1);
+    ASSERT_EXACT (s_channel, ARGH1);
     channel = gh_scm2long (s_channel);
   }
 
@@ -491,7 +491,7 @@ MDEFLOCEXP (mix_halt_group, "sdl-halt-group", 0, 1, 0,
   int tag = -1;
 
   if (! SCM_UNBNDP (s_tag)) {
-    ASSERT_EXACT (s_tag, SCM_ARG1);
+    ASSERT_EXACT (s_tag, ARGH1);
     tag = gh_scm2long (s_tag);
   }
 
@@ -522,12 +522,12 @@ MDEFLOCEXP (mix_expire_channel, "sdl-expire-channel", 0, 2, 0,
   int ticks = -1;
 
   if (! SCM_UNBNDP (s_channel)) {
-    ASSERT_EXACT (s_channel, SCM_ARG1);
+    ASSERT_EXACT (s_channel, ARGH1);
     channel = gh_scm2long (s_channel);
   }
 
   if (! SCM_UNBNDP (s_ticks)) {
-    ASSERT_EXACT (s_ticks, SCM_ARG2);
+    ASSERT_EXACT (s_ticks, ARGH2);
     ticks = gh_scm2long (s_ticks);
   }
 
@@ -548,12 +548,12 @@ MDEFLOCEXP (mix_fade_out_channel, "sdl-fade-out-channel", 0, 2, 0,
   int ms = 0;
 
   if (! SCM_UNBNDP (s_which)) {
-    ASSERT_EXACT (s_which, SCM_ARG1);
+    ASSERT_EXACT (s_which, ARGH1);
     channel = gh_scm2long (s_which);
   }
 
   if (! SCM_UNBNDP (s_ms)) {
-    ASSERT_EXACT (s_ms, SCM_ARG2);
+    ASSERT_EXACT (s_ms, ARGH2);
     ms = gh_scm2long (s_ms);
   }
 
@@ -574,12 +574,12 @@ MDEFLOCEXP (mix_fade_out_group, "sdl-fade-out-group", 0, 2, 0,
   int ms = 0;
 
   if (! SCM_UNBNDP (s_tag)) {
-    ASSERT_EXACT (s_tag, SCM_ARG1);
+    ASSERT_EXACT (s_tag, ARGH1);
     tag = gh_scm2long (s_tag);
   }
 
   if (! SCM_UNBNDP (s_ms)) {
-    ASSERT_EXACT (s_ms, SCM_ARG2);
+    ASSERT_EXACT (s_ms, ARGH2);
     ms = gh_scm2long (s_ms);
   }
 
@@ -598,7 +598,7 @@ MDEFLOCEXP (mix_fade_out_music, "sdl-fade-out-music", 0, 1, 0,
   int ms = 0;
 
   if (! SCM_UNBNDP (s_ms)) {
-    ASSERT_EXACT (s_ms, SCM_ARG1);
+    ASSERT_EXACT (s_ms, ARGH1);
     ms = gh_scm2long (s_ms);
   }
 
@@ -626,7 +626,7 @@ MDEFLOCEXP (mix_fading_channel, "sdl-fading-channel", 0, 1, 0,
   int which = -1;
 
   if (! SCM_UNBNDP (s_which)) {
-    ASSERT_EXACT (s_which, SCM_ARG1);
+    ASSERT_EXACT (s_which, ARGH1);
     which = gh_scm2long (s_which);
   }
 
@@ -645,7 +645,7 @@ MDEFLOCEXP (mix_pause, "sdl-pause", 0, 1, 0,
   int channel = -1;
 
   if (! SCM_UNBNDP (s_channel)) {
-    ASSERT_EXACT (s_channel, SCM_ARG1);
+    ASSERT_EXACT (s_channel, ARGH1);
     channel = gh_scm2long (s_channel);
   }
 
@@ -665,7 +665,7 @@ MDEFLOCEXP (mix_resume, "sdl-resume", 0, 1, 0,
   int channel=-1;
 
   if (! SCM_UNBNDP (s_channel)) {
-    ASSERT_EXACT (s_channel, SCM_ARG1);
+    ASSERT_EXACT (s_channel, ARGH1);
     channel = gh_scm2long (s_channel);
   }
 
@@ -684,7 +684,7 @@ MDEFLOCEXP (mix_paused, "sdl-paused?", 0, 1, 0,
   int channel = -1;
 
   if (! SCM_UNBNDP (s_channel)) {
-    ASSERT_EXACT (s_channel, SCM_ARG1);
+    ASSERT_EXACT (s_channel, ARGH1);
     channel = gh_scm2long (s_channel);
   }
 
@@ -745,7 +745,7 @@ MDEFLOCEXP (mix_playing, "sdl-playing?", 0, 1, 0,
   int channel = -1;
 
   if (! SCM_UNBNDP (s_channel)) {
-    ASSERT_EXACT (s_channel, SCM_ARG1);
+    ASSERT_EXACT (s_channel, ARGH1);
     channel = gh_scm2long (s_channel);
   }
 
@@ -770,7 +770,7 @@ MDEFLOCEXP (mix_set_music_cmd, "sdl-set-music-command", 1, 0, 0,
             "to @var{command}, a string.")
 #define FUNC_NAME s_mix_set_music_cmd
 {
-  ASSERT_STRING (command, SCM_ARG1);
+  ASSERT_STRING (command, ARGH1);
   return gh_long2scm (Mix_SetMusicCMD (SCM_CHARS (command)));
 }
 #undef FUNC_NAME

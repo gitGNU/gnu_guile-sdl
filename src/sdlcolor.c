@@ -71,9 +71,9 @@ MDEFLOCEXP (make_color, "sdl-make-color", 3, 0, 0,
 {
   SDL_Color *color;
 
-  ASSERT_EXACT (s_r, SCM_ARG1);
-  ASSERT_EXACT (s_g, SCM_ARG2);
-  ASSERT_EXACT (s_b, SCM_ARG3);
+  ASSERT_EXACT (s_r, ARGH1);
+  ASSERT_EXACT (s_g, ARGH2);
+  ASSERT_EXACT (s_b, ARGH3);
 
   color = (SDL_Color *) scm_must_malloc (sizeof (SDL_Color), FUNC_NAME);
   color->r = gh_scm2int (s_r);

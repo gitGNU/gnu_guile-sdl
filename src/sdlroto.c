@@ -42,14 +42,14 @@ MDEFLOCEXP (sdl_roto_zoom_surface, "sdl-roto-zoom-surface", 2, 2, 0,
   int smooth=0;
   double angle=0.0, zoom=1.0;
 
-  ASSERT_SURFACE (surface_smob, SCM_ARG1);
+  ASSERT_SURFACE (surface_smob, ARGH1);
   surface = SMOBGET (surface_smob, SDL_Surface *);
 
-  ASSERT_NUMBER (s_angle, SCM_ARG2);
+  ASSERT_NUMBER (s_angle, ARGH2);
   angle = gh_scm2double (s_angle);
 
   if (! SCM_UNBNDP (s_zoom)) {
-    ASSERT_NUMBER (s_zoom, SCM_ARG3);
+    ASSERT_NUMBER (s_zoom, ARGH3);
     angle = gh_scm2double (s_angle);
   }
 
@@ -77,14 +77,14 @@ MDEFLOCEXP (sdl_zoom_surface, "sdl-zoom-surface", 2, 2, 0,
   double zoomx=1.0, zoomy=1.0;
   int smooth=0;
 
-  ASSERT_SURFACE (surface_smob, SCM_ARG1);
+  ASSERT_SURFACE (surface_smob, ARGH1);
   surface = SMOBGET (surface_smob, SDL_Surface *);
 
-  ASSERT_NUMBER (s_zoomx, SCM_ARG2);
+  ASSERT_NUMBER (s_zoomx, ARGH2);
   zoomx = gh_scm2double (s_zoomx);
 
   if (! SCM_UNBNDP (s_zoomy)) {
-    ASSERT_NUMBER (s_zoomy, SCM_ARG3);
+    ASSERT_NUMBER (s_zoomy, ARGH3);
     zoomy = gh_scm2double (s_zoomy);
   } else {
     zoomy = zoomx;
@@ -109,7 +109,7 @@ MDEFLOCEXP (vertical_flip_surface, "sdl-vertical-flip-surface", 1, 0, 0,
   SDL_Rect srcrect, dstrect;
 
   /* verify args */
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
+  ASSERT_SURFACE (s_surface, ARGH1);
 
   /* get source and dimensions */
   src = SMOBGET (s_surface, SDL_Surface *);
@@ -146,7 +146,7 @@ MDEFLOCEXP (horiztonal_flip_surface, "sdl-horizontal-flip-surface", 1, 0, 0,
   SDL_Rect srcrect, dstrect;
 
   /* verify args */
-  ASSERT_SURFACE (s_surface, SCM_ARG1);
+  ASSERT_SURFACE (s_surface, ARGH1);
 
   /* get source and dimensions */
   src = SMOBGET (s_surface, SDL_Surface *);

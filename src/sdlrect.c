@@ -76,10 +76,10 @@ MDEFLOCEXP (make_rect, "sdl-make-rect", 4, 0, 0,
 {
   SDL_Rect *rect;
 
-  ASSERT_EXACT (s_x, SCM_ARG1);
-  ASSERT_EXACT (s_y, SCM_ARG2);
-  ASSERT_EXACT (s_w, SCM_ARG3);
-  ASSERT_EXACT (s_h, SCM_ARG4);
+  ASSERT_EXACT (s_x, ARGH1);
+  ASSERT_EXACT (s_y, ARGH2);
+  ASSERT_EXACT (s_w, ARGH3);
+  ASSERT_EXACT (s_h, ARGH4);
 
   rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME);
   rect->x = gh_scm2long (s_x);

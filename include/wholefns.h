@@ -14,7 +14,7 @@ MDEFLOCEXP (c_func, s_func, 1, 0, 0, (SCM smob),                        \
             "Get @code{" #c_field "} from @code{" #c_type "} object.")  \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (smob, tag, SCM_ARG1);                                    \
+  ASSERT_SMOB (smob, tag, ARGH1);                                       \
   return gh_long2scm (SMOBFIELD (c_type, c_field));                     \
 }
 
@@ -24,8 +24,8 @@ MDEFLOCEXP (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
             "to @var{value}.")                                          \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (smob, tag, SCM_ARG1);                                    \
-  ASSERT_EXACT (value, SCM_ARG2);                                       \
+  ASSERT_SMOB (smob, tag, ARGH1);                                       \
+  ASSERT_EXACT (value, ARGH2);                                          \
   SMOBFIELD (c_type, c_field) = gh_scm2long (value);                    \
   return SCM_UNSPECIFIED;                                               \
 }
@@ -38,7 +38,7 @@ MDEFLOCEXP (c_func, s_func, 1, 0, 0, (SCM smob),                        \
             "")                                                         \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (smob, tag, SCM_ARG1);                                    \
+  ASSERT_SMOB (smob, tag, ARGH1);                                       \
   return gsdl_long2enum (SMOBFIELD (c_type, c_field), etype);           \
 }
 
@@ -47,9 +47,9 @@ MDEFLOCEXP (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
             "")                                                         \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (smob, tag, SCM_ARG1);                                    \
+  ASSERT_SMOB (smob, tag, ARGH1);                                       \
   SMOBFIELD (c_type, c_field)                                           \
-    = gsdl_enum2long (value, etype, SCM_ARG1, FUNC_NAME);               \
+    = gsdl_enum2long (value, etype, ARGH1, FUNC_NAME);                  \
   return SCM_UNSPECIFIED;                                               \
 }
 
@@ -61,7 +61,7 @@ MDEFLOCEXP (c_func, s_func, 1, 0, 0, (SCM smob),                        \
             "")                                                         \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (smob, c_tag, SCM_ARG1);                                  \
+  ASSERT_SMOB (smob, c_tag, ARGH1);                                     \
   return gsdl_ulong2flags (SMOBFIELD (c_type, c_field), stash);         \
 }
 
@@ -70,9 +70,9 @@ MDEFLOCEXP (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
             "")                                                         \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (smob, c_tag, SCM_ARG1);                                  \
+  ASSERT_SMOB (smob, c_tag, ARGH1);                                     \
   SMOBFIELD (c_type, c_field)                                           \
-    = GSDL_FLAGS2ULONG (value, stash, SCM_ARG2);                        \
+    = GSDL_FLAGS2ULONG (value, stash, ARGH2);                           \
   return SCM_UNSPECIFIED;                                               \
 }
 

@@ -54,7 +54,7 @@ MDEFLOCEXP (sdl_cd_null_p, "sdl-cd-null?", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
 
   cd = SMOBGET (cd_smob, SDL_CD *);
 
@@ -87,7 +87,7 @@ MDEFLOCEXP (sdl_cd_name, "sdl-cd-name", 0, 1, 0,
   int drive=0;
 
   if (! SCM_UNBNDP (s_drive)) {
-    ASSERT_EXACT (s_drive, SCM_ARG1);
+    ASSERT_EXACT (s_drive, ARGH1);
     drive = gh_scm2int (s_drive);
   }
 
@@ -109,7 +109,7 @@ MDEFLOCEXP (sdl_cd_open, "sdl-cd-open", 0, 1, 0,
   int cdrive=0;
 
   if (! SCM_UNBNDP (drive)) {
-    ASSERT_EXACT (drive, SCM_ARG1);
+    ASSERT_EXACT (drive, ARGH1);
     cdrive = gh_scm2int (drive);
   }
 
@@ -129,7 +129,7 @@ MDEFLOCEXP (sdl_cd_status, "sdl-cd-status", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
@@ -149,7 +149,7 @@ MDEFLOCEXP (sdl_cd_in_drive_p, "sdl-cd-in-drive?", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
@@ -172,7 +172,7 @@ MDEFLOCEXP (sdl_cd_get_num_tracks, "sdl-cd-get-num-tracks", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
@@ -192,7 +192,7 @@ MDEFLOCEXP (sdl_cd_get_cur_track, "sdl-cd-get-cur-track", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
@@ -212,7 +212,7 @@ MDEFLOCEXP (sdl_cd_get_cur_frame, "sdl-cd-get-cur-frame", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
@@ -238,11 +238,11 @@ MDEFLOCEXP (sdl_cd_get_nth_track, "sdl-cd-get-nth-track", 1, 1, 0,
   SDL_CD *cd;
   int n=0;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (! SCM_UNBNDP (s_n)) {
-    ASSERT_EXACT (s_n, SCM_ARG2);
+    ASSERT_EXACT (s_n, ARGH2);
     n = gh_scm2ulong (s_n);
   }
 
@@ -280,25 +280,25 @@ MDEFLOCEXP (sdl_cd_play_tracks, "sdl-cd-play-tracks", 1, 4, 0,
   int start_track=0, start_frame=0, n_tracks=1, n_frames=1;
   int ret;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
 
   if (! SCM_UNBNDP (s_start_track)) {
-    ASSERT_EXACT (s_start_track, SCM_ARG2);
+    ASSERT_EXACT (s_start_track, ARGH2);
     start_track = gh_scm2ulong (s_start_track);
   }
 
   if (! SCM_UNBNDP (s_start_frame)) {
-    ASSERT_EXACT (s_start_frame, SCM_ARG3);
+    ASSERT_EXACT (s_start_frame, ARGH3);
     start_frame = gh_scm2ulong (s_start_frame);
   }
 
   if (! SCM_UNBNDP (s_n_tracks)) {
-    ASSERT_EXACT (s_n_tracks, SCM_ARG4);
+    ASSERT_EXACT (s_n_tracks, ARGH4);
     n_tracks = gh_scm2ulong (s_n_tracks);;
   }
 
   if (! SCM_UNBNDP (s_n_frames)) {
-    ASSERT_EXACT (s_n_frames, SCM_ARG5);
+    ASSERT_EXACT (s_n_frames, ARGH5);
     n_frames = gh_scm2ulong (s_n_frames);
   } else {
     cd = SMOBGET (cd_smob, SDL_CD *);
@@ -330,9 +330,9 @@ MDEFLOCEXP (sdl_cd_play, "sdl-cd-play", 3, 0, 0,
   SDL_CD *cd;
   int ret;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
-  ASSERT_EXACT (s_start, SCM_ARG2);
-  ASSERT_EXACT (s_length, SCM_ARG3);
+  ASSERT_CDROM (cd_smob, ARGH1);
+  ASSERT_EXACT (s_start, ARGH2);
+  ASSERT_EXACT (s_length, ARGH3);
 
   cd = SMOBGET (cd_smob, SDL_CD *);
 
@@ -357,7 +357,7 @@ MDEFLOCEXP (sdl_cd_pause, "sdl-cd-pause", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
@@ -377,7 +377,7 @@ MDEFLOCEXP (sdl_cd_resume, "sdl-cd-resume", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
@@ -397,7 +397,7 @@ MDEFLOCEXP (sdl_cd_stop, "sdl-cd-stop", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
@@ -417,7 +417,7 @@ MDEFLOCEXP (sdl_cd_eject, "sdl-cd-eject", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
@@ -437,7 +437,7 @@ MDEFLOCEXP (sdl_cd_close, "sdl-cd-close", 1, 0, 0,
 {
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, SCM_ARG1);
+  ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
   if (cd != NULL) {
@@ -461,16 +461,16 @@ MDEFLOCEXP (sdl_cd_msf_to_frames, "sdl-cd-msf->frames", 1, 2, 0,
   int frames;
   int m, s=0, f=0;
 
-  ASSERT_EXACT (s_m, SCM_ARG1);
+  ASSERT_EXACT (s_m, ARGH1);
   m = gh_scm2ulong (s_m);
 
   if (! SCM_UNBNDP (s_s)) {
-    ASSERT_EXACT (s_s, SCM_ARG2);
+    ASSERT_EXACT (s_s, ARGH2);
     s = gh_scm2ulong (s_s);
   }
 
   if (! SCM_UNBNDP (s_f)) {
-    ASSERT_EXACT (s_f, SCM_ARG3);
+    ASSERT_EXACT (s_f, ARGH3);
     f = gh_scm2ulong (s_f);
   }
 
@@ -492,7 +492,7 @@ MDEFLOCEXP (sdl_cd_frames_to_msf, "sdl-cd-frames->msf", 1, 0, 0,
 {
   int frames, m, s, f;
 
-  ASSERT_EXACT (s_frames, SCM_ARG1);
+  ASSERT_EXACT (s_frames, ARGH1);
   frames = gh_scm2ulong (s_frames);
 
   FRAMES_TO_MSF (frames, &m , &s, &f);
