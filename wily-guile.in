@@ -1,0 +1,15 @@
+#!/bin/sh
+# wily-guile --- drop in replacement for guile that knows a few tricks
+
+HAVE_TTF=@HAVE_TTF@
+export HAVE_TTF
+
+HAVE_MIXER=@HAVE_MIXER@
+export HAVE_MIXER
+
+GUILE_MERGED_MODULE_CATALOG=`pwd`/pre-inst.merged-module-catalog
+export GUILE_MERGED_MODULE_CATALOG
+
+exec ${GUILE-guile} "$@"
+
+# wily-guile ends here

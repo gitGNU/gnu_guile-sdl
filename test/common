@@ -1,0 +1,14 @@
+;;; common -*- scheme -*-
+
+(define (env-1? x)
+  (string=? "1" (or (getenv x) "")))
+
+(define *have-ttf*    (env-1? "HAVE_TTF"))
+(define *have-mixer*  (env-1? "HAVE_MIXER"))
+(define *interactive* (env-1? "INTERACTIVE"))
+
+(define (exit-77 msg)
+  (format #t "INFO: ~A: ~A\n" (car (command-line)) (string-upcase msg))
+  (exit 77))
+
+;;; common ends here
