@@ -19,6 +19,10 @@ EXTRA_DIST =
 include $(top_srcdir)/am/fspec
 include $(top_srcdir)/am/snarfing
 
+install-data-hook:
+	cd $(cmoddir) ; for f in $(cmod_LTLIBRARIES) ; do \
+	   test -f lib$$f && rm -f lib$$f ; $(LN_S) $$f lib$$f ; done
+
 endif # HAVE_TTF
 
 ## Makefile.am ends here
