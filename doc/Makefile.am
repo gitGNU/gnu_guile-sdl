@@ -23,6 +23,7 @@ endif
 
 .twerp.texi:
 	guile-tools twerp2texi \
+	  -I ../sdl/.doc-index \
 	  -I ../src/.doc-index \
 	  $(minusIttfdocindex) \
 	  -I ../sdl-gfx/.doc-index \
