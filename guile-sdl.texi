@@ -8,7 +8,7 @@
 @end iftex
 @c %**end of header
 
-@set UPDATED 17 Jun 2001
+@set UPDATED 18 Jun 2001
 @set EDITION 0.1.0
 @set VERSION 0.1.0
 
@@ -71,11 +71,7 @@ application of graphics routines.  Several SDL add-on libraries have
 been wrapped and included with guile-sdl, including SDL_image (for
 loading multiple image formats), SDL_ttf (for rendering true type
 fonts), and SDL_mixer (for playing/mixing different audio formats).
-In addition, some low-level 2D graphics primitives for scaling and
-rotations have been provided.
-
-OpenGL is supported, but requires the guile-opengl library, which is
-currently in a very early alpha state.
+In addition, some low-level 2D graphics primitives have been provided.
 
 @menu
 * Quick Start::                A simple example
@@ -189,10 +185,10 @@ value have a question mark (@code{?}) appended.
 @node Enums and Constants, Create and Make, Renaming C Functions, Naming Conventions
 @subsection Enums and Constants
 
-SDL flags and numeric constants are denoted with a @code{type/}
+SDL flags and numeric constants are denoted with a @code{sdl-type/}
 prefix.  So for instance, the @code{SDL_INIT_FOO} constants are
-renamed @code{init/foo}.  In a few instances a type prefix has been
-introduced where one did not previously exist, to more clearly
+renamed @code{sdl-init/foo}.  In a few instances a type prefix has
+been introduced where one did not previously exist, to more clearly
 indicate the symbol as a constant and document its intent.
 
 The enumerated types for event types and key symbols are translated as
