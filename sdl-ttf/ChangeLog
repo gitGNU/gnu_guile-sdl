@@ -1,3 +1,7 @@
+2004-01-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlttf.c: Update copyright.
+
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (ttf_la_SOURCES): Add $(FLAGSTASH).

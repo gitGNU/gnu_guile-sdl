@@ -1,3 +1,7 @@
+2004-01-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ef-ref.twerp, guile-sdl.texi: Update copyright.
+
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (EXTRA_DIST): Remove TODO-excerpt. Add $(BUILT_SOURCES).

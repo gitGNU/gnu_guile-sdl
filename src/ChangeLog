@@ -1,3 +1,9 @@
+2004-01-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdl.c, sdlcdrom.c, sdlcolor.c, sdlenums.c, sdlevent.c,
+	sdlgfx.c, sdljoystick.c, sdlrect.c, sdlroto.c, sdlsurface.c,
+	sdlvideo.c: Update copyright.
+
 2003-11-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlevent.c (NUM2_GETTER, NUM2_SETTER, NUM3_GETTER, NUM3_SETTER):

@@ -1,3 +1,7 @@
+2004-01-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlenums.h, sdlsmobs.h, sdlvideo.h: Update copyright.
+
 2003-11-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* wholefns.h: Use GH_DEFPROC instead of MDEFLOCEXP.
