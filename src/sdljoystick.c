@@ -268,7 +268,6 @@ GH_DEFPROC (joystick_get_ball, "joystick-get-ball", 2, 0, 0,
 #define FUNC_NAME s_joystick_get_ball
 {
   SDL_Joystick *joy;
-  SCM s_ret;
   int dx, dy;
 
   ASSERT_JOYSTICK (joy_smob, ARGH1);
@@ -276,19 +275,18 @@ GH_DEFPROC (joystick_get_ball, "joystick-get-ball", 2, 0, 0,
 
   joy = SMOBGET (joy_smob, SDL_Joystick *);
 
-  s_ret = SCM_EOL;
   if (joy != NULL) {
     int ret;
 
     ret = SDL_JoystickGetBall (joy, gh_scm2long (s_index), &dx, &dy);
 
     if (ret != -1) {
-      s_ret = SCM_LIST2 (gh_cons (SYM (dx), gh_long2scm (dx)),
-                         gh_cons (SYM (dy), gh_long2scm (dy)));
+      RETURN_LIST2 (gh_cons (SYM (dx), gh_long2scm (dx)),
+                    gh_cons (SYM (dy), gh_long2scm (dy)));
     }
   }
 
-  return s_ret;
+  RETURN_LIST0;
 }
 #undef FUNC_NAME
 
