@@ -46,7 +46,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
                           ((let* ((len (string-length file))
                                   (ext (and (> len 4)
                                             (substring file (- len 4) len))))
-                             (and ext (member ext '(".xpm" ".png"))))
+                             (and ext (member ext '(".xpm" ".png" ".jpg"))))
                            (D (cons (in-vicinity image-dir file)
                                     ls)))
                           (else (D ls)))))))
