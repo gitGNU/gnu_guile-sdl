@@ -16,8 +16,9 @@ lib_LTLIBRARIES = libguileSDL.la
 
 INCLUDES = -I../include/ -ISDL_gfxPrimitives/ -ISDL_rotozoom/
 
-libguileSDL_la_SOURCES = sdl.c sdlvideo.c sdlcdrom.c sdljoystick.c \
-                      sdlevent.c sdlenums.c sdlroto.c #sdlgfx.c
+libguileSDL_la_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c    \
+                       sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c \
+                       sdlenums.c sdlroto.c #sdlgfx.c
 
 libguileSDL_la_CFLAGS  = $(CFLAGS)
 

@@ -1,9 +1,5 @@
 /*******************************************************************
- *  video.h -- SDL Video functions for Guile                       *
- *                                                                 *
- *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-07-06 02:23:56 foof>                         *
- *  Author:     Alex Shinn <foof@debian.org>                       *
+ *  sdlvideo.h -- SDL Video functions for Guile                    *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
  *                                                                 *
@@ -31,12 +27,12 @@
 /* sdl headers */
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include "sdlrect.h"
+#include "sdlcolor.h"
+#include "sdlsurface.h"
 
 /* tags for SDL smobs */
-extern long surface_tag;
 extern long cursor_tag;
-extern long rect_tag;
-extern long color_tag;
 extern long palette_tag;
 extern long pixel_format_tag;
 extern long overlay_tag;
@@ -47,44 +43,14 @@ extern SCM sdl_palette_flags;
 extern SCM sdl_alpha_enums;
 extern SCM sdl_gl_enums;
 
-#define SMOB_SURFACEP(x) (SCM_NIMP (x)\
-			 && (long) SCM_CAR (x) == surface_tag)
-
-scm_sizet free_surface (SCM surface);
-scm_sizet free_rect (SCM rect);
-scm_sizet free_color (SCM color);
 scm_sizet free_cursor (SCM s_cursor);
 scm_sizet free_yuv_overlay (SCM s_overlay);
 
 /* constructors */
-SCM img_load (SCM file);
-SCM make_surface (SCM s_width, SCM s_height);
-SCM create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
-                        SCM s_depth, SCM s_rmask, SCM s_gmask,
-                        SCM s_bmask, SCM s_amask);
-/* SCM create_rgb_surface_from (SCM s_pixels, SCM s_width, SCM s_height, */
-/*                              SCM s_depth, SCM s_pitch, SCM s_rmask, */
-/*                              SCM s_gmask, SCM s_bmask, SCM s_amask); */
 SCM create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
                    SCM s_hot_x, SCM s_hot_y);
 SCM create_yuv_overlay (SCM s_width, SCM s_height,
                         SCM s_format, SCM s_display);
-SCM make_rect (SCM s_x, SCM s_y, SCM s_w, SCM s_h);
-SCM rect_x (SCM s_rect);
-SCM rect_y (SCM s_rect);
-SCM rect_w (SCM s_rect);
-SCM rect_h (SCM s_rect);
-SCM rect_set_x (SCM s_rect, SCM s_x);
-SCM rect_set_y (SCM s_rect, SCM s_y);
-SCM rect_set_w (SCM s_rect, SCM s_w);
-SCM rect_set_h (SCM s_rect, SCM s_h);
-SCM make_color (SCM s_r, SCM s_g, SCM s_b);
-SCM color_r (SCM s_color);
-SCM color_g (SCM s_color);
-SCM color_b (SCM s_color);
-SCM color_set_r (SCM s_color, SCM s_r);
-SCM color_set_g (SCM s_color, SCM s_g);
-SCM color_set_b (SCM s_color, SCM s_b);
 SCM make_palette (SCM s_colors);
 SCM make_pixel_format (void);
 
@@ -105,16 +71,6 @@ SCM map_rgb (SCM s_pixel_fmt, SCM s_r, SCM s_g, SCM s_b);
 SCM map_rgba (SCM s_pixel_fmt, SCM s_r, SCM s_g, SCM s_b, SCM s_a);
 SCM get_rgb (SCM s_pixel, SCM s_pixel_fmt);
 SCM get_rgba (SCM s_pixel, SCM s_pixel_fmt);
-SCM lock_surface (SCM s_surface);
-SCM unlock_surface (SCM s_surface);
-SCM load_bmp (SCM s_file);
-SCM save_bmp (SCM s_surface, SCM s_file);
-SCM set_color_key (SCM s_surface, SCM s_flag, SCM s_key);
-SCM set_alpha (SCM s_surface, SCM s_flag, SCM s_alpha);
-SCM set_clip_rect (SCM s_surface, SCM s_rect);
-SCM get_clip_rect (SCM s_surface);
-SCM convert_surface (SCM s_src, SCM s_pixel_fmt, SCM s_flags);
-SCM blit_surface (SCM s_src, SCM s_srcrect, SCM s_dst, SCM s_dstrect);
 SCM display_format (SCM s_surface);
 SCM display_format_alpha (SCM s_surface);
 SCM warp_mouse (SCM s_x, SCM s_y);
