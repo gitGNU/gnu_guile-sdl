@@ -28,6 +28,8 @@
 @c  start the copyright page.
 @page
 @vskip 0pt plus 1filll
+Copyright @copyright{} 2003 Thien-Thi Nguyen
+
 Copyright @copyright{} 2001 Alex Shinn
 
 Permission is granted to make and distribute verbatim copies of
@@ -81,6 +83,8 @@ low-level 2D graphics primitives have been provided.
 @menu
 * Quick Start::                A simple example
 * Naming Conventions::         Naming conventions
+* Limitations::                Problems we don't hide
+* TODO::                       Plans for the future
 @end menu
 
 @node Quick Start
@@ -213,6 +217,72 @@ use @code{make} as a prefix.  In addition, we will sometimes introduce
 higher-level creation functions, such as @code{sdl-make-surface},
 which is a wrapper to @code{sdl-create-rgb-surface} which provides
 useful default values from the current screen information.
+
+
+@node Limitations
+@section Limitations
+
+There are some known problems with guile-sdl modules.  This section attempts
+to make them well-known, if not well-liked...
+
+@itemize
+
+@item API in flux
+
+Since guile-sdl is in alpha stage, its interfaces are not stable.
+Specifically, module names, the contents of modules, procedure names,
+procedure behavior: all these can change at any time up until the 1.0 release.
+C'est la vie.
+
+@item load order restrictions
+
+At this time, you cannot simply do @code{(use-modules (sdl ttf))} because of
+missing dependencies only fulfilled by @code{(sdl sdl)}.  You can't even do
+@code{(use-modules (sdl sdl) (sdl ttf))} reliably because @code{use-modules}
+may try to load its given modules in backwards order.  Instead, the only way
+to guarantee error-free loading is to do:
+
+@example
+(use-modules (sdl sdl))
+(use-modules (sdl ttf))
+@end example
+
+This limitation is due to the implementation decision to provide @code{(sdl
+ttf)} as a compiled module only, without Scheme code.  The rationale here is
+that exposing this bogosity will encourage (some of) the guile implementations
+to design and provide methods for module-dependency resolution from and for
+compiled modules (without Scheme code).  It's probably a good bet that the
+guile-1.4.x maintainer is scratching his head furiously at the moment over
+this issue.  We will see.
+
+@item no logo
+
+How can any self-respecting package of bindings for libsdl not have a flashy,
+animated logo?  Bonus points for suitable accompanying sound blurb.
+
+@item threading picture unclear
+
+Where do threads fit in if at all?  Why doesn't the guile-sdl maintainer
+learn all about threads, fix guile-1.4.x to support that and then arrange for
+guile-sdl to DTRT?  Questions questions...
+
+@item [your gripes here]
+
+@end itemize
+
+
+@node TODO
+@section TODO
+
+Here is an excerpt of the TODO file:
+
+@verbatiminclude TODO-excerpt
+
+Basically, a 1.0 release is still quite far away.  But we'll get there
+at some point.  Another interesting thing to consider is, what happens
+if there is another release of SDL after 1.2?  What if it is (gasp)
+incompatible with SDL 1.2?
+
 
 @c ---------------------------------------------------------------------------
 @c ---------------------------------------------------------------------------
