@@ -1,5 +1,9 @@
 2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlenums.c (print_flagstash): Start w/ hash char per convention.
+
+2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlgfx.c (scale_surface): Delete func.
 
 2005-01-04  Thien-Thi Nguyen  <ttn@surf.glug.org>
