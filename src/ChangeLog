@@ -1,3 +1,19 @@
+2003-11-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlcdrom.c: Use GH_DEFPROC instead of MDEFLOCEXP.
+	* sdlcolor.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlroto.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+	* sdl.c: Use GH_DEFPROC instead of MDEFLOCEXP
+	and GH_MODULE_LINK_FUNC instead of MDEFLINKFUNC.
+
 2003-11-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am: Include $(top_srcdir)/am/common.
