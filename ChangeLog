@@ -1,3 +1,8 @@
+2003-11-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* wily-guile.in: No longer consult
+	env var "GUILE"; simply use "guile".
+
 2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* configure.in (AC_DISABLE_STATIC):
