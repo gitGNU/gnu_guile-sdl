@@ -55,6 +55,7 @@ AM_PROG_LIBTOOL
 AC_OUTPUT([
 Makefile
 src/Makefile
+src/SDL_rotozoom/Makefile
 sdl/Makefile
 sdl-mixer/Makefile
 sdl-ttf/Makefile

@@ -10,26 +10,19 @@ CC=@CC@
 CFLAGS  = @CFLAGS@ -Wall
 LIBS    = @LIBS@
 
-#SUBDIRS = SDL_gfxPrimitives \
-#	  SDL_rotozoom
-
-#sdlmoduledir = $(datadir)/guile/sdl
-
-# The scheme file for bringing in the module
-#sdlmodule_DATA = sdl.scm dynlink.scm
-
+SUBDIRS = SDL_rotozoom #SDL_gfxPrimitives 
 
 EXTRA_DIST = sdl.h \
              sdlevent.h \
-             sdlgfx.h \
              sdlvideo.h \
              sdlenums.h \
              sdljoystick.h \
              sdlcdrom.h \
+             sdlroto.h \
+             #sdlgfx.h \
              #sdlrect.h \
              #sdltimer.h \
              #sdlkeyboard.h \
-             #sdlroto.h \
              #sdlimage.h \
              #sdlmouse.h \
 	     #sdlpalette.h \
@@ -38,23 +31,14 @@ EXTRA_DIST = sdl.h \
 
 lib_LTLIBRARIES = libguileSDL.la
 
-INCLUDES = -I../include/ #-ISDL_gfxPrimitives/ -ISDL_rotozoom/
-
-# libguileSDL_la_SOURCES = sdl.c sdlrect.c sdlpalette.c sdlsurface.c \
-# 		      sdlvideo.c \
-#                       sdlevents.c sdlkeyboard.c  sdlmouse.c \
-# 	              sdlcdrom.c  sdljoystick.c  sdltimer.c \
-# 		      sdlenums.c  sdlimage.c \
-#                       sdlgfx.c sdlroto.c \
-# 		      sdl-main.c
+INCLUDES = -I../include/ -ISDL_gfxPrimitives/ -ISDL_rotozoom/
 
 libguileSDL_la_SOURCES = sdl.c sdlvideo.c sdlcdrom.c sdljoystick.c \
-                      sdlevent.c sdlenums.c sdlgfx.c
+                      sdlevent.c sdlenums.c sdlroto.c #sdlgfx.c
 
 libguileSDL_la_CFLAGS  = $(CFLAGS)
 
-#libguileSDL_la_LIBADD  =  SDL_gfxPrimitives/libgfx.la
-#	  	          SDL_rotozoom/librotozoom.la	
+libguileSDL_la_LIBADD  =  SDL_rotozoom/librotozoom.la #SDL_gfxPrimitives/libgfx.la
 
 libguileSDL_la_LDFLAGS =             \
         -release $(LT_RELEASE)  \
