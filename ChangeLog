@@ -1,5 +1,13 @@
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (EXAMPLE_DIST, TEST_DIST, INCLUDE_DIST): Delete vars.
+	(as_is_dirs): New var.
+	(EXTRA_DIST): Remove $(EXAMPLE_DIST), $(TEST_DIST) and $(INCLUDE_DIST).
+	Add $(as_is_dirs) and alive.test.
+	(dist-hook): New target.
+
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* am/fspec: Surround everything in "if MAINTAINER_MODE" block.
 	* am/snarfing (noinst_DATA): Surround w/ "if MAINTAINER_MODE" block.
 
