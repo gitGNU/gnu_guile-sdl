@@ -10,7 +10,7 @@
 /* number getter and setter */
 
 #define GSDL_NUMBER_GETTER(s_func, c_func, tag, c_type, c_field)        \
-MDEFLOCEXP (c_func, s_func, 1, 0, 0, (SCM smob),                        \
+GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM smob),                        \
             "Get @code{" #c_field "} from @code{" #c_type "} object.")  \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
@@ -19,7 +19,7 @@ MDEFLOCEXP (c_func, s_func, 1, 0, 0, (SCM smob),                        \
 }
 
 #define GSDL_NUMBER_SETTER(s_func, c_func, tag, c_type, c_field)        \
-MDEFLOCEXP (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
+GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
             "Set @code{" #c_field "} in @code{" #c_type "} object\n"    \
             "to @var{value}.")                                          \
 {                                                                       \
@@ -34,7 +34,7 @@ MDEFLOCEXP (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
 /* enum getter and setter */
 
 #define GSDL_ENUM_GETTER(s_func, c_func, tag, c_type, c_field, etype)   \
-MDEFLOCEXP (c_func, s_func, 1, 0, 0, (SCM smob),                        \
+GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM smob),                        \
             "")                                                         \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
@@ -43,7 +43,7 @@ MDEFLOCEXP (c_func, s_func, 1, 0, 0, (SCM smob),                        \
 }
 
 #define GSDL_ENUM_SETTER(s_func, c_func, tag, c_type, c_field, etype)   \
-MDEFLOCEXP (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
+GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
             "")                                                         \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
@@ -57,7 +57,7 @@ MDEFLOCEXP (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
 /* flag getter and setter*/
 
 #define GSDL_FLAG_GETTER(s_func, c_func, c_tag, c_type, c_field, stash) \
-MDEFLOCEXP (c_func, s_func, 1, 0, 0, (SCM smob),                        \
+GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM smob),                        \
             "")                                                         \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
@@ -66,7 +66,7 @@ MDEFLOCEXP (c_func, s_func, 1, 0, 0, (SCM smob),                        \
 }
 
 #define GSDL_FLAG_SETTER(s_func, c_func, c_tag, c_type, c_field, stash) \
-MDEFLOCEXP (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
+GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM smob, SCM value),             \
             "")                                                         \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \

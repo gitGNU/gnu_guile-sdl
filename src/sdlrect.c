@@ -68,7 +68,7 @@ print_rect (SCM smob, SCM port, scm_print_state *pstate)
 }
 
 
-MDEFLOCEXP (make_rect, "sdl-make-rect", 4, 0, 0,
+GH_DEFPROC (make_rect, "sdl-make-rect", 4, 0, 0,
             (SCM s_x, SCM s_y, SCM s_w, SCM s_h),
             "Return a rect smob with location @var{x},@var{y}\n"
             "and dimensions @var{width} by @var{height}.")

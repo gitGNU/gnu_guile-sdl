@@ -64,7 +64,7 @@ print_color (SCM s_color, SCM port, scm_print_state *pstate)
 
 /* functions */
 
-MDEFLOCEXP (make_color, "sdl-make-color", 3, 0, 0,
+GH_DEFPROC (make_color, "sdl-make-color", 3, 0, 0,
             (SCM s_r, SCM s_g, SCM s_b),
             "Return a color with @var{r}, @var{g}, and @var{b} components.")
 #define FUNC_NAME s_make_color

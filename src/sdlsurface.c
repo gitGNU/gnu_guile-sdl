@@ -79,7 +79,7 @@ print_surface (SCM surface_smob, SCM port, scm_print_state *pstate)
 
 /* constructors */
 
-MDEFLOCEXP (sdl_make_surface, "sdl-make-surface", 2, 1, 0,
+GH_DEFPROC (sdl_make_surface, "sdl-make-surface", 2, 1, 0,
             (SCM s_width,
              SCM s_height,
              SCM s_flags),
@@ -115,7 +115,7 @@ MDEFLOCEXP (sdl_make_surface, "sdl-make-surface", 2, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_create_rgb_surface, "sdl-create-rgb-surface", 8, 0, 0,
+GH_DEFPROC (sdl_create_rgb_surface, "sdl-create-rgb-surface", 8, 0, 0,
             (SCM s_flags,
              SCM s_width, SCM s_height, SCM s_depth,
              SCM s_rmask, SCM s_gmask, SCM s_bmask, SCM s_amask),
@@ -169,7 +169,7 @@ GSDL_FLAG_GETTER ("sdl-surface:flags", surface_get_flags,
                   flags, gsdl_video_flags)
 
 
-MDEFLOCEXP (surface_get_format, "surface-get-format", 1, 0, 0,
+GH_DEFPROC (surface_get_format, "surface-get-format", 1, 0, 0,
             (SCM s_surface),
             "")
 #define FUNC_NAME s_surface_get_format
@@ -183,7 +183,7 @@ MDEFLOCEXP (surface_get_format, "surface-get-format", 1, 0, 0,
 
 /* utilities */
 
-MDEFLOCEXP (sdl_surface_p, "sdl-surface?", 1, 0, 0,
+GH_DEFPROC (sdl_surface_p, "sdl-surface?", 1, 0, 0,
             (SCM obj),
             "Return true iff @var{obj} is a surface.")
 #define FUNC_NAME s_sdl_surface_p
@@ -194,7 +194,7 @@ MDEFLOCEXP (sdl_surface_p, "sdl-surface?", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_lock_surface, "sdl-lock-surface", 1, 0, 0,
+GH_DEFPROC (sdl_lock_surface, "sdl-lock-surface", 1, 0, 0,
             (SCM s_surface),
             "Lock a @var{surface} for direct access.\n"
             "Return #t if successful.")
@@ -208,7 +208,7 @@ MDEFLOCEXP (sdl_lock_surface, "sdl-lock-surface", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_unlock_surface, "sdl-unlock-surface", 1, 0, 0,
+GH_DEFPROC (sdl_unlock_surface, "sdl-unlock-surface", 1, 0, 0,
             (SCM s_surface),
             "Unlock a previously locked @var{surface}.\n"
             "The return value is unspecified.")
@@ -222,7 +222,7 @@ MDEFLOCEXP (sdl_unlock_surface, "sdl-unlock-surface", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_load_bmp, "sdl-load-bmp", 1, 0, 0,
+GH_DEFPROC (sdl_load_bmp, "sdl-load-bmp", 1, 0, 0,
             (SCM s_file),
             "Return a surface made by loading the bitmap @var{file}.")
 #define FUNC_NAME s_sdl_load_bmp
@@ -235,7 +235,7 @@ MDEFLOCEXP (sdl_load_bmp, "sdl-load-bmp", 1, 0, 0,
 
 
 /* Load an image in one of many formats */
-MDEFLOCEXP (sdl_load_image, "sdl-load-image", 1, 0, 0,
+GH_DEFPROC (sdl_load_image, "sdl-load-image", 1, 0, 0,
             (SCM s_file),
             "Return a surface made by loading the image @var{file}.")
 #define FUNC_NAME s_sdl_load_bmp
@@ -247,7 +247,7 @@ MDEFLOCEXP (sdl_load_image, "sdl-load-image", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_save_bmp, "sdl-save-bmp", 2, 0, 0,
+GH_DEFPROC (sdl_save_bmp, "sdl-save-bmp", 2, 0, 0,
             (SCM s_surface,
              SCM s_file),
             "Save @var{surface} to @var{file} in Windows BMP format.\n"
@@ -264,7 +264,7 @@ MDEFLOCEXP (sdl_save_bmp, "sdl-save-bmp", 2, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_set_color_key, "sdl-set-color-key!", 3, 0, 0,
+GH_DEFPROC (sdl_set_color_key, "sdl-set-color-key!", 3, 0, 0,
             (SCM s_surface,
              SCM s_flag,
              SCM s_key),
@@ -287,7 +287,7 @@ MDEFLOCEXP (sdl_set_color_key, "sdl-set-color-key!", 3, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_set_alpha, "sdl-set-alpha!", 3, 0, 0,
+GH_DEFPROC (sdl_set_alpha, "sdl-set-alpha!", 3, 0, 0,
             (SCM s_surface,
              SCM s_flag,
              SCM s_alpha),
@@ -314,7 +314,7 @@ MDEFLOCEXP (sdl_set_alpha, "sdl-set-alpha!", 3, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_set_clip_rect, "sdl-set-clip-rect!", 2, 0, 0,
+GH_DEFPROC (sdl_set_clip_rect, "sdl-set-clip-rect!", 2, 0, 0,
             (SCM s_surface,
              SCM s_rect),
             "Set @var{surface} clipping rectangle to @var{rect}.")
@@ -336,7 +336,7 @@ MDEFLOCEXP (sdl_set_clip_rect, "sdl-set-clip-rect!", 2, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_get_clip_rect, "sdl-get-clip-rect", 1, 0, 0,
+GH_DEFPROC (sdl_get_clip_rect, "sdl-get-clip-rect", 1, 0, 0,
             (SCM s_surface),
             "Return the clipping rectangle for @var{surface}.")
 #define FUNC_NAME s_sdl_get_clip_rect
@@ -351,7 +351,7 @@ MDEFLOCEXP (sdl_get_clip_rect, "sdl-get-clip-rect", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_convert_surface, "sdl-convert-surface", 2, 1, 0,
+GH_DEFPROC (sdl_convert_surface, "sdl-convert-surface", 2, 1, 0,
             (SCM s_src,
              SCM s_fmt,
              SCM s_flags),
@@ -377,7 +377,7 @@ MDEFLOCEXP (sdl_convert_surface, "sdl-convert-surface", 2, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_blit_surface, "sdl-blit-surface", 1, 3, 0,
+GH_DEFPROC (sdl_blit_surface, "sdl-blit-surface", 1, 3, 0,
             (SCM s_src,
              SCM s_srcrect,
              SCM s_dst,

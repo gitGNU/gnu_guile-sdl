@@ -35,7 +35,7 @@ SCM event_keysym_enum;
 
 static SCM event_mod_flags;
 
-MDEFLOCEXP (sdl_get_event_mod_flags, "flagstash:event-mod", 0, 0, 0, (),
+GH_DEFPROC (sdl_get_event_mod_flags, "flagstash:event-mod", 0, 0, 0, (),
             "Return the flagstash object for event mod flags.")
 {
   return event_mod_flags;
@@ -88,7 +88,7 @@ free_keysym (SCM keysym)
 
 /* constructors */
 
-MDEFLOCEXP (make_event, "sdl-make-event", 0, 1, 0,
+GH_DEFPROC (make_event, "sdl-make-event", 0, 1, 0,
             (SCM s_type),
             "Create a new SDL event.")
 #define FUNC_NAME s_make_event
@@ -107,7 +107,7 @@ MDEFLOCEXP (make_event, "sdl-make-event", 0, 1, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (make_keysym, "sdl-make-keysym", 0, 2, 0,
+GH_DEFPROC (make_keysym, "sdl-make-keysym", 0, 2, 0,
             (SCM sym, SCM mod),
             "")
 #define FUNC_NAME s_make_keysym
@@ -278,7 +278,7 @@ NUM2_GETSET (user, data2)
 
 /* SDL event functions */
 
-MDEFLOCEXP (pump_events, "pump-events", 0, 0, 0, (), "")
+GH_DEFPROC (pump_events, "pump-events", 0, 0, 0, (), "")
 #define FUNC_NAME s_pump_events
 {
   SDL_PumpEvents ();
@@ -286,7 +286,7 @@ MDEFLOCEXP (pump_events, "pump-events", 0, 0, 0, (), "")
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (peep_events, "peep-events", 4, 0, 0,
+GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
             (SCM events, SCM numevents, SCM action, SCM mask),
             "")
 #define FUNC_NAME s_peep_events
@@ -298,7 +298,7 @@ MDEFLOCEXP (peep_events, "peep-events", 4, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (poll_event, "poll-event", 0, 1, 0,
+GH_DEFPROC (poll_event, "poll-event", 0, 1, 0,
             (SCM event),
             "")
 #define FUNC_NAME s_poll_event
@@ -319,7 +319,7 @@ MDEFLOCEXP (poll_event, "poll-event", 0, 1, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (wait_event, "wait-event", 0, 1, 0,
+GH_DEFPROC (wait_event, "wait-event", 0, 1, 0,
             (SCM event),
             "")
 #define FUNC_NAME s_wait_event
@@ -340,7 +340,7 @@ MDEFLOCEXP (wait_event, "wait-event", 0, 1, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (push_event, "push-event", 1, 0, 0,
+GH_DEFPROC (push_event, "push-event", 1, 0, 0,
             (SCM event),
             "")
 #define FUNC_NAME s_push_event
@@ -354,7 +354,7 @@ MDEFLOCEXP (push_event, "push-event", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (set_event_filter, "set-event-filter", 1, 0, 0,
+GH_DEFPROC (set_event_filter, "set-event-filter", 1, 0, 0,
             (SCM filter),
             "")
 #define FUNC_NAME s_set_event_filter
@@ -365,7 +365,7 @@ MDEFLOCEXP (set_event_filter, "set-event-filter", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (get_event_filter, "get-event-filter", 1, 0, 0,
+GH_DEFPROC (get_event_filter, "get-event-filter", 1, 0, 0,
             (SCM filter),
             "")
 #define FUNC_NAME s_get_event_filter
@@ -376,7 +376,7 @@ MDEFLOCEXP (get_event_filter, "get-event-filter", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (event_state, "event-state", 2, 0, 0,
+GH_DEFPROC (event_state, "event-state", 2, 0, 0,
             (SCM type, SCM state),
             "")
 #define FUNC_NAME s_event_state
@@ -388,7 +388,7 @@ MDEFLOCEXP (event_state, "event-state", 2, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_enable_unicode, "sdl-enable-unicode", 0, 1, 0,
+GH_DEFPROC (sdl_enable_unicode, "sdl-enable-unicode", 0, 1, 0,
             (SCM enable_p),
             "")
 #define FUNC_NAME s_sdl_enable_unicode
@@ -411,7 +411,7 @@ MDEFLOCEXP (sdl_enable_unicode, "sdl-enable-unicode", 0, 1, 0,
  * If 'delay' is set to 0, keyboard repeat is disabled.
  */
 
-MDEFLOCEXP (sdl_enable_key_repeat, "sdl-enable-key-repeat", 2, 0, 0,
+GH_DEFPROC (sdl_enable_key_repeat, "sdl-enable-key-repeat", 2, 0, 0,
             (SCM s_delay, SCM s_interval),
             "")
 #define FUNC_NAME s_sdl_enable_key_repeat
@@ -428,7 +428,7 @@ MDEFLOCEXP (sdl_enable_key_repeat, "sdl-enable-key-repeat", 2, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (sdl_get_key_state, "sdl-get-key-state", 1, 0, 0,
+GH_DEFPROC (sdl_get_key_state, "sdl-get-key-state", 1, 0, 0,
             (SCM numkeys),
             "Get a snapshot of the current state of the keyboard.\n"
             "Return an array of keystates, indexed by the SDLK_* syms.")
@@ -439,7 +439,7 @@ MDEFLOCEXP (sdl_get_key_state, "sdl-get-key-state", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (sdl_get_mod_state, "sdl-get-mod-state", 0, 0, 0,
+GH_DEFPROC (sdl_get_mod_state, "sdl-get-mod-state", 0, 0, 0,
             (),
             "Get the current key modifier state.")
 #define FUNC_NAME s_sdl_get_mod_state
@@ -448,7 +448,7 @@ MDEFLOCEXP (sdl_get_mod_state, "sdl-get-mod-state", 0, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (sdl_set_mod_state, "sdl-set-mod-state", 1, 0, 0,
+GH_DEFPROC (sdl_set_mod_state, "sdl-set-mod-state", 1, 0, 0,
             (SCM modstate),
             "Set the current key modifier state.\n"
             "This does not change the keyboard state,\n"
@@ -465,7 +465,7 @@ SCM_SYMBOL (gsdl_sym_state, "state");
 SCM_SYMBOL (gsdl_sym_x, "x");
 SCM_SYMBOL (gsdl_sym_y, "y");
 
-MDEFLOCEXP (sdl_get_mouse_state, "sdl-get-mouse-state", 0, 0, 0,
+GH_DEFPROC (sdl_get_mouse_state, "sdl-get-mouse-state", 0, 0, 0,
             (void),
             "Retrieve the current state of the mouse.")
 #define FUNC_NAME s_sdl_get_mouse_state
@@ -478,7 +478,7 @@ MDEFLOCEXP (sdl_get_mouse_state, "sdl-get-mouse-state", 0, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (sdl_get_relative_mouse_state, "sdl-get-mouse-relative-state",
+GH_DEFPROC (sdl_get_relative_mouse_state, "sdl-get-mouse-relative-state",
             0, 0, 0, (),
             "Retrieve the current state of the mouse.")
 #define FUNC_NAME s_sdl_get_relative_mouse_state
@@ -491,7 +491,7 @@ MDEFLOCEXP (sdl_get_relative_mouse_state, "sdl-get-mouse-relative-state",
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (sdl_button_p, "sdl-button?", 1, 0, 0,
+GH_DEFPROC (sdl_button_p, "sdl-button?", 1, 0, 0,
             (SCM mask),
             "")
 #define FUNC_NAME s_sdl_button_p

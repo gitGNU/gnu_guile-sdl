@@ -175,7 +175,7 @@ gsdl_long2enum (long value, SCM s_enum_type)
 
 /* scheme level conversions */
 
-MDEFLOCEXP (enum_to_number, "enum->number", 2, 0, 0,
+GH_DEFPROC (enum_to_number, "enum->number", 2, 0, 0,
             (SCM s_enum_type,
              SCM symbol),
             "Convert an enum number or symbol to a number.")
@@ -196,7 +196,7 @@ MDEFLOCEXP (enum_to_number, "enum->number", 2, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (number_to_enum, "number->enum", 2, 0, 0,
+GH_DEFPROC (number_to_enum, "number->enum", 2, 0, 0,
             (SCM s_enum_type, SCM number),
             "Convert a number to an enum.")
 #define FUNC_NAME s_number_to_enum
@@ -360,7 +360,7 @@ gsdl_ulong2flags (unsigned long value, SCM stash)
 
 /* scheme level conversions */
 
-MDEFLOCEXP (flagstash_flags, "flagstash-flags", 1, 0, 0,
+GH_DEFPROC (flagstash_flags, "flagstash-flags", 1, 0, 0,
             (SCM s_stash),
             "Return a list of all the flags (symbols) in @var{stash},\n"
             "a flagstash object, in unspecified order.")
@@ -379,7 +379,7 @@ MDEFLOCEXP (flagstash_flags, "flagstash-flags", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (flags_to_number, "flags->number", 2, 0, 0,
+GH_DEFPROC (flags_to_number, "flags->number", 2, 0, 0,
             (SCM stash, SCM flags),
             "Use @var{stash} to convert @var{flags} to a number.\n"
             "@var{flags} is a list of symbols.")
@@ -391,7 +391,7 @@ MDEFLOCEXP (flags_to_number, "flags->number", 2, 0, 0,
 }
 #undef FUNC_NAME
 
-MDEFLOCEXP (number_to_flags, "number->flags", 2, 0, 0,
+GH_DEFPROC (number_to_flags, "number->flags", 2, 0, 0,
             (SCM stash, SCM number),
             "Use @var{stash} to convert @var{number} to a list\n"
             "of symbols.")

@@ -29,7 +29,7 @@
 #include "sdlsmobs.h"
 
 
-MDEFLOCEXP (sdl_roto_zoom_surface, "sdl-roto-zoom-surface", 2, 2, 0,
+GH_DEFPROC (sdl_roto_zoom_surface, "sdl-roto-zoom-surface", 2, 2, 0,
             (SCM surface_smob,
              SCM s_angle,
              SCM s_zoom,
@@ -61,7 +61,7 @@ MDEFLOCEXP (sdl_roto_zoom_surface, "sdl-roto-zoom-surface", 2, 2, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_zoom_surface, "sdl-zoom-surface", 2, 2, 0,
+GH_DEFPROC (sdl_zoom_surface, "sdl-zoom-surface", 2, 2, 0,
             (SCM surface_smob,
              SCM s_zoomx,
              SCM s_zoomy,
@@ -97,7 +97,7 @@ MDEFLOCEXP (sdl_zoom_surface, "sdl-zoom-surface", 2, 2, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (vertical_flip_surface, "sdl-vertical-flip-surface", 1, 0, 0,
+GH_DEFPROC (vertical_flip_surface, "sdl-vertical-flip-surface", 1, 0, 0,
             (SCM s_surface),
             "Return a new vertically flipped copy of a @var{surface}.")
 #define FUNC_NAME s_vertical_flip_surface
@@ -134,7 +134,7 @@ MDEFLOCEXP (vertical_flip_surface, "sdl-vertical-flip-surface", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (horiztonal_flip_surface, "sdl-horizontal-flip-surface", 1, 0, 0,
+GH_DEFPROC (horiztonal_flip_surface, "sdl-horizontal-flip-surface", 1, 0, 0,
             (SCM s_surface),
             "Return a new horizontally flipped copy of @var{surface}.")
 #define FUNC_NAME s_horiztonal_flip_surface
@@ -171,7 +171,7 @@ MDEFLOCEXP (horiztonal_flip_surface, "sdl-horizontal-flip-surface", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (vh_flip_surface, "sdl-vh-flip-surface", 1, 0, 0,
+GH_DEFPROC (vh_flip_surface, "sdl-vh-flip-surface", 1, 0, 0,
             (SCM s_surface),
             "Return a new surface created by flipping @var{surface}\n"
             "both vertically and horizontally.")

@@ -33,7 +33,7 @@ static long joystick_tag;
   ASSERT_SMOB (obj, joystick_tag, which)
 
 
-MDEFLOCEXP (sdl_joystick_p, "sdl-joystick?", 1, 0, 0,
+GH_DEFPROC (sdl_joystick_p, "sdl-joystick?", 1, 0, 0,
             (SCM obj),
             "Return #t iff @var{obj} is a joystick smob.")
 #define FUNC_NAME s_sdl_joystick_p
@@ -44,7 +44,7 @@ MDEFLOCEXP (sdl_joystick_p, "sdl-joystick?", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_null_p, "sdl-joystick-null?", 1, 0, 0,
+GH_DEFPROC (sdl_joystick_null_p, "sdl-joystick-null?", 1, 0, 0,
             (SCM joy_smob),
             "Return #t iff @var{joystick} is a NULL joystick.")
 #define FUNC_NAME s_sdl_joystick_null_p
@@ -57,7 +57,7 @@ MDEFLOCEXP (sdl_joystick_null_p, "sdl-joystick-null?", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_num_joysticks, "sdl-num-joysticks", 0, 0, 0,
+GH_DEFPROC (sdl_num_joysticks, "sdl-num-joysticks", 0, 0, 0,
             (void),
             "Return the number of joysticks.")
 #define FUNC_NAME s_sdl_num_joysticks
@@ -67,7 +67,7 @@ MDEFLOCEXP (sdl_num_joysticks, "sdl-num-joysticks", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_name, "sdl-joystick-name", 0, 1, 0,
+GH_DEFPROC (sdl_joystick_name, "sdl-joystick-name", 0, 1, 0,
             (SCM s_index),
             "Return the name of the default joystick.\n"
             "Optional arg @var{n} specifies which joystick to check.")
@@ -85,7 +85,7 @@ MDEFLOCEXP (sdl_joystick_name, "sdl-joystick-name", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_open, "sdl-joystick-open", 0, 1, 0,
+GH_DEFPROC (sdl_joystick_open, "sdl-joystick-open", 0, 1, 0,
             (SCM s_index),
             "Return a handle to the default joystick opened for use.\n"
             "Optional arg @var{n} specifies which joystick to open.")
@@ -103,7 +103,7 @@ MDEFLOCEXP (sdl_joystick_open, "sdl-joystick-open", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_opened_p, "sdl-joystick-opened?", 0, 1, 0,
+GH_DEFPROC (sdl_joystick_opened_p, "sdl-joystick-opened?", 0, 1, 0,
             (SCM s_index),
             "Return #t iff the default joystick is opened.\n"
             "Optional arg @var{n} specifies which joystick to check.")
@@ -122,7 +122,7 @@ MDEFLOCEXP (sdl_joystick_opened_p, "sdl-joystick-opened?", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_index, "sdl-joystick-index", 1, 0, 0,
+GH_DEFPROC (sdl_joystick_index, "sdl-joystick-index", 1, 0, 0,
             (SCM joy_smob),
             "Return the index of @var{joystick}.")
 #define FUNC_NAME s_sdl_joystick_index
@@ -140,7 +140,7 @@ MDEFLOCEXP (sdl_joystick_index, "sdl-joystick-index", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_num_axes, "sdl-joystick-num-axes", 1, 0, 0,
+GH_DEFPROC (sdl_joystick_num_axes, "sdl-joystick-num-axes", 1, 0, 0,
             (SCM joy_smob),
             "Return the number of axes for @var{joystick}.")
 #define FUNC_NAME s_sdl_joystick_num_axes
@@ -158,7 +158,7 @@ MDEFLOCEXP (sdl_joystick_num_axes, "sdl-joystick-num-axes", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_num_balls, "sdl-joystick-num-balls", 1, 0, 0,
+GH_DEFPROC (sdl_joystick_num_balls, "sdl-joystick-num-balls", 1, 0, 0,
             (SCM joy_smob),
             "Return the number trackballs for @var{joystick}.")
 #define FUNC_NAME s_sdl_joystick_num_balls
@@ -176,7 +176,7 @@ MDEFLOCEXP (sdl_joystick_num_balls, "sdl-joystick-num-balls", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_num_hats, "sdl-joystick-num-hats", 1, 0, 0,
+GH_DEFPROC (sdl_joystick_num_hats, "sdl-joystick-num-hats", 1, 0, 0,
             (SCM joy_smob),
             "Return the number of hats for @var{joystick}.")
 #define FUNC_NAME s_sdl_joystick_num_hats
@@ -194,7 +194,7 @@ MDEFLOCEXP (sdl_joystick_num_hats, "sdl-joystick-num-hats", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_num_buttons, "sdl-joystick-num-buttons", 1, 0, 0,
+GH_DEFPROC (sdl_joystick_num_buttons, "sdl-joystick-num-buttons", 1, 0, 0,
             (SCM joy_smob),
             "Return number of buttons for @var{joystick}.")
 #define FUNC_NAME s_sdl_joystick_num_buttons
@@ -212,7 +212,7 @@ MDEFLOCEXP (sdl_joystick_num_buttons, "sdl-joystick-num-buttons", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_update, "sdl-joystick-update", 0, 0, 0,
+GH_DEFPROC (sdl_joystick_update, "sdl-joystick-update", 0, 0, 0,
             (void),
             "Update the state of all Joysticks.")
 #define FUNC_NAME s_sdl_joystick_update
@@ -223,7 +223,7 @@ MDEFLOCEXP (sdl_joystick_update, "sdl-joystick-update", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_event_state, "sdl-joystick-event-state", 1, 0, 0,
+GH_DEFPROC (sdl_joystick_event_state, "sdl-joystick-event-state", 1, 0, 0,
             (SCM s_state),
             "Set the Joystick event processing model to @var{state}.")
 #define FUNC_NAME s_sdl_joystick_event_state
@@ -235,7 +235,7 @@ MDEFLOCEXP (sdl_joystick_event_state, "sdl-joystick-event-state", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_get_axis, "sdl-joystick-get-axis", 2, 0, 0,
+GH_DEFPROC (sdl_joystick_get_axis, "sdl-joystick-get-axis", 2, 0, 0,
             (SCM joy_smob,
              SCM s_index),
             "For @var{joystick}, return state of @var{axis}.")
@@ -258,7 +258,7 @@ MDEFLOCEXP (sdl_joystick_get_axis, "sdl-joystick-get-axis", 2, 0, 0,
 SCM_SYMBOL (gsdl_sym_dx, "dx");
 SCM_SYMBOL (gsdl_sym_dy, "dy");
 
-MDEFLOCEXP (sdl_joystick_get_ball, "sdl-joystick-get-ball", 2, 0, 0,
+GH_DEFPROC (sdl_joystick_get_ball, "sdl-joystick-get-ball", 2, 0, 0,
             (SCM joy_smob,
              SCM s_index),
             "For @var{joystick}, return relative motion of trackball\n"
@@ -291,7 +291,7 @@ MDEFLOCEXP (sdl_joystick_get_ball, "sdl-joystick-get-ball", 2, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_get_hat, "sdl-joystick-get-hat", 2, 0, 0,
+GH_DEFPROC (sdl_joystick_get_hat, "sdl-joystick-get-hat", 2, 0, 0,
             (SCM joy_smob,
              SCM s_index),
             "For @var{joystick}, return state of hat @var{n}.")
@@ -311,7 +311,7 @@ MDEFLOCEXP (sdl_joystick_get_hat, "sdl-joystick-get-hat", 2, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_get_button, "sdl-joystick-get-button", 2, 0, 0,
+GH_DEFPROC (sdl_joystick_get_button, "sdl-joystick-get-button", 2, 0, 0,
             (SCM joy_smob,
              SCM s_index),
             "For @var{joystick}, return state of button @var{n}.")
@@ -331,7 +331,7 @@ MDEFLOCEXP (sdl_joystick_get_button, "sdl-joystick-get-button", 2, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_joystick_close, "sdl-joystick-close", 1, 0, 0,
+GH_DEFPROC (sdl_joystick_close, "sdl-joystick-close", 1, 0, 0,
             (SCM joy_smob),
             "Close a previously opened @var{joystick}.")
 #define FUNC_NAME s_sdl_joystick_close
