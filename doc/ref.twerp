@@ -27,10 +27,26 @@
 @twerpdoc (list-modes)
 @twerpdoc (video-mode-ok)
 @twerpdoc (set-video-mode)
+
+@section Rectangles
+
 @twerpdoc (make-rect)
+@twerpdoc (rect:x)
+@twerpdoc (rect:y)
+@twerpdoc (rect:w)
+@twerpdoc (rect:h)
+@twerpdoc (rect:set-x!)
+@twerpdoc (rect:set-y!)
+@twerpdoc (rect:set-w!)
+@twerpdoc (rect:set-h!)
+
 @twerpdoc (update-rect)
 @twerpdoc (update-rects)
+
 @twerpdoc (flip)
+
+@section Colors
+
 @twerpdoc (make-color)
 @twerpdoc (color:r)
 @twerpdoc (color:g)
@@ -39,6 +55,7 @@
 @twerpdoc (color:set-g!)
 @twerpdoc (color:set-b!)
 @twerpdoc (set-colors!)
+
 @twerpdoc (set-palette)
 @twerpdoc (set-gamma)
 @twerpdoc (get-gamma-ramp)
@@ -60,12 +77,18 @@
 @twerpdoc (lock-yuv-overlay)
 @twerpdoc (unlock-yuv-overlay)
 @twerpdoc (display-yuv-overlay)
+
+@section Window Manager
+
 @twerpdoc (set-caption)
 @twerpdoc (get-caption)
 @twerpdoc (set-icon)
 @twerpdoc (iconify-window)
 @twerpdoc (toggle-full-screen)
 @twerpdoc (grab-input)
+
+@section Surface
+
 @twerpdoc (make-surface)
 @twerpdoc (create-rgb-surface)
 @twerpdoc (surface:w)
@@ -85,12 +108,20 @@
 @twerpdoc (get-clip-rect)
 @twerpdoc (convert-surface)
 @twerpdoc (blit-surface)
+
+@section Rotation / Zooming
+
 @twerpdoc (roto-zoom-surface)
 @twerpdoc (zoom-surface)
+
+@section Misc Surface Operations
+
 @twerpdoc (vertical-flip-surface)
 @twerpdoc (horizontal-flip-surface)
 @twerpdoc (vh-flip-surface)
 @twerpdoc (scale-surface)
+
+@section Graphics Primitives
 
 @twerpdoc (draw-point)
 @twerpdoc (draw-line)
@@ -109,37 +140,101 @@
 @twerpdoc (make-event)
 @twerpdoc (make-keysym)
 @twerpdoc (event:type)
+
+@section Activity
+
+@twerpdoc (event:active:gain)
+@twerpdoc (event:active:state)
 @twerpdoc (event:active:set-gain!)
 @twerpdoc (event:active:set-state!)
-@twerpdoc (event:key:set-state!)
+
+@section Keys
+
 @twerpdoc (event:key:keysym:sym)
 @twerpdoc (event:key:keysym:mod)
+
+@twerpdoc (event:key:state)
+@twerpdoc (event:key:keysym:scancode)
+@twerpdoc (event:key:keysym:unicode)
+
+@twerpdoc (event:key:set-state!)
 @twerpdoc (event:key:keysym:set-scancode!)
 @twerpdoc (event:key:keysym:set-unicode!)
+
+@section Motions
+
+@twerpdoc (event:motion:state)
+@twerpdoc (event:motion:x)
+@twerpdoc (event:motion:y)
+@twerpdoc (event:motion:xrel)
+@twerpdoc (event:motion:yrel)
+
 @twerpdoc (event:motion:set-state!)
 @twerpdoc (event:motion:set-x!)
 @twerpdoc (event:motion:set-y!)
 @twerpdoc (event:motion:set-xrel!)
 @twerpdoc (event:motion:set-yrel!)
+
+@section Buttons
+
+@twerpdoc (button?)
+
+@twerpdoc (event:button:button)
+@twerpdoc (event:button:state)
+@twerpdoc (event:button:x)
+@twerpdoc (event:button:y)
+
 @twerpdoc (event:button:set-button!)
 @twerpdoc (event:button:set-state!)
 @twerpdoc (event:button:set-x!)
 @twerpdoc (event:button:set-y!)
+
+@section Joysticks
+
+@twerpdoc (event:jaxis:which)
+@twerpdoc (event:jaxis:axis)
+@twerpdoc (event:jaxis:value)
+
 @twerpdoc (event:jaxis:set-which!)
 @twerpdoc (event:jaxis:set-axis!)
 @twerpdoc (event:jaxis:set-value!)
+
+@twerpdoc (event:jbutton:which)
+@twerpdoc (event:jbutton:button)
+@twerpdoc (event:jbutton:state)
+
 @twerpdoc (event:jbutton:set-which!)
 @twerpdoc (event:jbutton:set-button!)
 @twerpdoc (event:jbutton:set-state!)
+
+@twerpdoc (event:jball:which)
+@twerpdoc (event:jball:ball)
+@twerpdoc (event:jball:xrel)
+@twerpdoc (event:jball:yrel)
+
 @twerpdoc (event:jball:set-which!)
 @twerpdoc (event:jball:set-ball!)
 @twerpdoc (event:jball:set-xrel!)
 @twerpdoc (event:jball:set-yrel!)
+
+@twerpdoc (event:jhat:which)
+@twerpdoc (event:jhat:hat)
+@twerpdoc (event:jhat:value)
+
 @twerpdoc (event:jhat:set-which!)
 @twerpdoc (event:jhat:set-hat!)
 @twerpdoc (event:jhat:set-value!)
+
+@section Resizes
+
+@twerpdoc (event:resize:w)
+@twerpdoc (event:resize:h)
+
 @twerpdoc (event:resize:set-w!)
 @twerpdoc (event:resize:set-h!)
+
+@section Misc
+
 @twerpdoc (pump-events)
 @twerpdoc (peep-events)
 @twerpdoc (poll-event)
@@ -155,14 +250,14 @@
 @twerpdoc (set-mod-state)
 @twerpdoc (get-mouse-state)
 @twerpdoc (get-mouse-relative-state)
-@twerpdoc (button?)
 
 @node Joystick
 @chapter Joystick
 
+@twerpdoc (num-joysticks)
+
 @twerpdoc (joystick?)
 @twerpdoc (joystick-null?)
-@twerpdoc (num-joysticks)
 @twerpdoc (joystick-name)
 @twerpdoc (joystick-open)
 @twerpdoc (joystick-opened?)
@@ -205,6 +300,8 @@
 
 @node OpenGL
 @chapter OpenGL
+
+[todo]
 
 @node TrueType
 @chapter TrueType
