@@ -1,5 +1,16 @@
 2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (TODO-excerpt): New target.
+	(BUILT_SOURCES): Add TODO-excerpt.
+	(guile-sdl.info): Update dependency list.
+
+	* guile-sdl.texi: Update copyright.
+	(Introduction): Add "Limitations" and "TODO" to menu.
+	(Limitations): New section node.
+	(TODO): New section node.
+
+2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* guile-sdl.texi (Top): Use "The (sdl *) Modules" for @top.
 	Rewrite introductory @ifinfo blurb.
 	Add @uref to SDL homepage in footnote.
