@@ -1,4 +1,4 @@
-+ 0.2
++ 0.2 "basics"
   + naming: remove "sdl-" prefix
   + install under $GUILE_LIBSITE and $GUILE_SITE
   + no longer install in $libdir
@@ -7,23 +7,42 @@
     + describe limits/restrictions
     + include TODO
 
+- 0.3 "coverage"
+  - improve documentation content
+  - /usr/include/SDL/*.h coverage
+  - opengl?
 
-- 0.3
+- 0.4 "control"
+  - threading system
+  - signals
+  - interop w/ other event loops?
+
+- 0.4 "glitches"
   - error handling cleanup
     - document policy
     - cases: NULL, -1, ...
-  - improve documentation content
-    - review
-    - fix
-  - library coverage
-    - methodology
-    - report
+
+- 0.6 "earth"
+  - two-level modularization
+    - many small modules: (sdl modules cdrom)
+    + overarching: (sdl sdl)
+  - finalize interfaces
+
+- 0.7 "water"
+  - executable modules: (sdl scripts FOO)
+  - third-party post-install extension framework
+
+- 0.8 "fire"
+  - performance tweaking
+
+- 0.9 "air"
+  - contrib/ and examples/
+
+- 1.0
 
 - eventually
-  - port to Mac OSX/BeOS
+  - port to Mac OSX/BeOS (ignore windoze)
   - switch to an automated wrapper generater
-  - create debian package
-  - provide more interesting examples
 
 __________________________________________________
 	Local Variables:
