@@ -1,3 +1,8 @@
+2005-01-13  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (install-data-hook): Fix ordering bug:
+	Check directory $(retired) emptiness after checking existence.
+
 2005-01-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* simple.scm (simple-stylus): Doc fix.
