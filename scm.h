@@ -2,7 +2,7 @@
  *  scm.h -- Guile helper functions                                *
  *                                                                 *
  *  Created:    <2001-06-03 20:07:15 foof>                         *
- *  Time-stamp: <2001-06-04 22:56:27 foof>                         *
+ *  Time-stamp: <2001-06-09 21:24:08 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -25,6 +25,8 @@
 
 #ifndef _GUILE_SDL_SCM_H
 #define _GUILE_SDL_SCM_H
+
+#include <libguile.h>
 
 /* lots of SDL functions return 0 for true, -1 otherwise */
 #define SCM_RETURN_TRUE_IF_0(exp)  \
@@ -58,6 +60,10 @@ SCM c_func (SCM s_smob, SCM s_value)                                   \
    return SCM_UNSPECIFIED;                                             \
 }
 
+/* register a C enum */
+SCM scm_c_define_enum (const char *name, ...);
+SCM scm_enum_to_number (SCM enum_pair, SCM symbol);
+SCM scm_number_to_enum (SCM enum_pair, SCM number);
 
 #endif /* ! _GUILE_SDL_SCM_H */
 
