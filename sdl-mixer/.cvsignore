@@ -1,1 +1,5 @@
 .libs
+Makefile
+dummy.info
+sdlmixer.texi
+sdlmixer.x

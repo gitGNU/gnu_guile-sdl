@@ -1,2 +1,6 @@
-.libs
 *.lo
+.libs
+Makefile
+dummy.info
+sdlttf.texi
+sdlttf.x

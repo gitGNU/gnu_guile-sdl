@@ -1,7 +1,12 @@
-*.x
 *.la
 *.lo
+*.x
 .deps
 .libs
 Makefile
 Makefile.in
+sdl.texi
+sdlevent.texi
+sdlroto.texi
+sdlsurface.texi
+sdlvideo.texi

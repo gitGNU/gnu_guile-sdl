@@ -4,8 +4,10 @@
 .libs
 Makefile
 Makefile
+Makefile.in
 config.cache
 config.log
 config.status
+configure
 guile-sdl
 sdl*.texi
