@@ -1,13 +1,13 @@
-The guile-sdl distribution:                   -*- text -*-
+The Guile-SDL distribution:                   -*- text -*-
 
 Thanks to:
 
-  Mike Vess, for help testing guile-sdl.
+  Mike Vess, for help testing Guile-SDL.
 
   Martin Grabmueller, for the guile-extension template from which this
-  package is structured.
+  package used to be structured.
 
-  Alex Shinn, Vikram Subramanian, and Joel Smith, for writing guile-sdl
+  Alex Shinn, Vikram Subramanian, and Joel Smith, for writing Guile-SDL
   in the first place, and for passing it on to maintainers w/ more time.
 
   Paolo Bonzini, for libtool help.
