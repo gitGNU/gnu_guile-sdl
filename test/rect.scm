@@ -29,29 +29,25 @@
 (seed->random-state (SDL:get-ticks))
 
 (define (rand-rect limit)
-  (let ((x (+ (SDL:rect:x limit) (random (SDL:rect:w limit))))
-        (y (+ (SDL:rect:y limit) (random (SDL:rect:h limit)))))
-    (SDL:make-rect x y
-                   (random (1+ (- (SDL:rect:w limit) x)))
-                   (random (1+ (- (SDL:rect:h limit) y))) )))
+  (let* ((limit-w (SDL:rect:w limit))
+         (limit-h (SDL:rect:h limit))
+         (w (random limit-w))
+         (h (random limit-h)))
+    (SDL:make-rect w h
+                   (+ (SDL:rect:x limit) (random (- limit-w w)))
+                   (+ (SDL:rect:y limit) (random (- limit-h h))))))
 
 ;; set the video mode to the dimensions of our rect
-(SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 16
-                    '(SDL_HWSURFACE))
+(define screen (SDL:set-video-mode (SDL:rect:w test-rect)
+                                   (SDL:rect:h test-rect)
+                                   16 '(SDL_HWSURFACE)))
 
 ;; draw some rectangles filled with random colors
-(let ((src-rect (SDL:make-surface (SDL:rect:w test-rect)
-                                  (SDL:rect:h test-rect))))
-  (do ((i 0 (1+ i)))
-      ((> i 10))
-    (let ((c (random #xffffff)))
-      (SDL:call-with-clip-rect
-       (rand-rect test-rect)
-       (lambda ()
-         (SDL:fill-rect src-rect test-rect c)
-         (SDL:blit-surface src-rect)
-         (SDL:flip)
-         (SDL:delay 100))))))
+(do ((i 0 (1+ i)))
+    ((= i 20))
+  (SDL:fill-rect screen (rand-rect test-rect) (random #xffffff))
+  (SDL:flip)
+  (SDL:delay 100))
 
 ;; quit SDL
 (SDL:quit)
