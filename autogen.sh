@@ -45,6 +45,7 @@ ln -sf `guile-config info includedir`/guile/modsup.h
 ######################################################################
 # Self knowledge.
 
+cd ..
 if [ -d CVS ] ; then
     # release tags all look like v-X-Y-Z
     cvs log -h autogen.sh \
