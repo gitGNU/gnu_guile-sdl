@@ -52,15 +52,15 @@ print_rect (SCM smob, SCM port, scm_print_state *pstate)
 {
   SDL_Rect *rect = SMOBGET (smob, SDL_Rect *);
 
-  scm_puts           ("#<SDL-Rect ", port);
-  scm_display (gh_int2scm (rect->w), port);
-  scm_puts                     ("x", port);
-  scm_display (gh_int2scm (rect->h), port);
-  scm_puts                     ("+", port);
-  scm_display (gh_int2scm (rect->x), port);
-  scm_puts                     ("+", port);
-  scm_display (gh_int2scm (rect->y), port);
-  scm_puts                     (">", port);
+  scm_puts      ("#<SDL-Rect ", port);
+  scm_intprint                          (rect->w, 10, port);
+  scm_putc      ('x', port);
+  scm_intprint                          (rect->h, 10, port);
+  scm_putc      ('+', port);
+  scm_intprint                          (rect->x, 10, port);
+  scm_putc      ('+', port);
+  scm_intprint                          (rect->y, 10, port);
+  scm_putc      ('>', port);
 
   /* non-zero means success */
   return 1;
