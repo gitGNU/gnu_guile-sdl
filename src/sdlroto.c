@@ -134,7 +134,7 @@ GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (horiztonal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
+GH_DEFPROC (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
             (SCM s_surface),
             "Return a new horizontally flipped copy of @var{surface}.")
 #define FUNC_NAME s_horiztonal_flip_surface
