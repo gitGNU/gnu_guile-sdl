@@ -89,7 +89,7 @@
 ;;
 ;; @table @code
 ;; @item #:set-font! filename size
-;; @item #:set-color! r g b
+;; @itemx #:set-color! r g b
 ;; Change the font or color, respectively.
 ;;
 ;; @item #:set-canvas! surface
