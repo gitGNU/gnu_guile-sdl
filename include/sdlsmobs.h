@@ -63,6 +63,8 @@ extern long gsdl_smob_tags[GSTX_TOO_MUCH];
 #define ASSERT_SURFACE(obj,n)       ASSERT_SMOB (obj, surface_tag, n)
 #define ASSERT_PIXEL_FORMAT(obj,n)  ASSERT_SMOB (obj, pixel_format_tag, n)
 
+#define RETURN_NEW_SURFACE(x)  SCM_RETURN_NEWSMOB (surface_tag, x)
+
 
 /* misc (this really belongs elsewhere) */
 
