@@ -1,5 +1,9 @@
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* cnofigure.in: Add check and workaround for GUILE_LIBSITE_DIR bug.
+
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* configure.in (GUILE_LIBSITE_DIR): New macro call.
 	Remove "manual" search for $GUILE_LIBSITE.
 	No longer set nor AC_SUBST `guilelibsitedir'.
