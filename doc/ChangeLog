@@ -1,5 +1,9 @@
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* guile-sdl.texi (Top): Mention methodology work-in-progress.
+
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* guile-sdl.texi Throughout, disable @include directives for now.
 	(Top): Use "The guile-sdl Library" for @top.
 
