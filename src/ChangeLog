@@ -1,5 +1,16 @@
 2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlcolor.c (NUMBER_SETTER):
+	Pass additional arg to `GSDL_NUMBER_SETTER'.
+
+	* sdlevent.c (NUMBER_SETTER): Likewise.
+
+	* sdlrect.c (NUMBER_SETTER):
+	Take additional arg `conv'; pass it to `GSDL_NUMBER_SETTER'.
+	(NUMBER_GETSET): Take additional arg `c2s'. Update callers.
+
+2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlevent.c (make_event): Use `GSDL_ENUM2LONG'.
 	(make_keysym): Likewise.
 	(peep_events): Likewise.

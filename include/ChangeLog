@@ -1,5 +1,9 @@
 2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* wholefuns.h (GSDL_NUMBER_SETTER): Take additional arg `conv'.
+
+2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlenums.h (GSDL_ENUM2LONG): New macro.
 	* wholefns.h (GSDL_ENUM_SETTER): Use `GSDL_ENUM2LONG'.
 
