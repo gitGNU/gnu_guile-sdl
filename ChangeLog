@@ -1,5 +1,11 @@
 2003-11-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* NEWS: Update copyright.
+	Use different `outline-regexp' buffer-local var.
+	Refill.
+
+2003-11-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* am: New directory
 	* am/snarfing: New file.
 	* am/fspec: New file.
