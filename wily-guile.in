@@ -1,10 +1,10 @@
 #!/bin/sh
 # wily-guile --- drop in replacement for "@GUILE@" that knows a few tricks
 
-HAVE_TTF=@HAVE_TTF@
+HAVE_TTF=${HAVE_TTF-@HAVE_TTF@}
 export HAVE_TTF
 
-HAVE_MIXER=@HAVE_MIXER@
+HAVE_MIXER=${HAVE_MIXER-@HAVE_MIXER@}
 export HAVE_MIXER
 
 top=@top_builddir_absolute@
