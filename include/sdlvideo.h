@@ -45,6 +45,7 @@ extern SCM sdl_gl_enums;
 
 scm_sizet free_cursor (SCM s_cursor);
 scm_sizet free_yuv_overlay (SCM s_overlay);
+scm_sizet free_pixel_format (SCM s_pixel_format);
 
 /* constructors */
 SCM create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
@@ -52,7 +53,6 @@ SCM create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
 SCM create_yuv_overlay (SCM s_width, SCM s_height,
                         SCM s_format, SCM s_display);
 SCM make_palette (SCM s_colors);
-SCM make_pixel_format (void);
 
 /* function prototypes */
 SCM get_video_surface (void);
