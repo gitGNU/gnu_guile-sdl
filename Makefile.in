@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p4 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -82,27 +82,19 @@ info_TEXINFOS = guile-sdl.texi
 
 lib_LTLIBRARIES = libguileSDL.la
 
-BUILT_SOURCES = sdl.x
-#libguileSDL_la_SOURCES = $(BUILT_SOURCES) guile-sdl.c guile-sdl.h video.c video.h
-libguileSDL_la_SOURCES = guile-sdl.c guile-sdl.h video.c video.h #image.c image.h
-libguileSDL_la_LDFLAGS = -lSDL -lSDL_image -lpthread -version-info 0:0 -export-dynamic
+libguileSDL_la_SOURCES = guile-sdl.c guile-sdl.h scm.c scm.h wm.c wm.h  			 video.c video.h image.c image.h gfx.c gfx.h    			 event.c event.h mixer.c mixer.h ttf.c ttf.h
 
-# sdldir = $(datadir)/guile/sdl
-# sdl_DATA = sdl.scm
-sdldir = $(datadir)/guile
-sdl_DATA = sdl/sdl.scm
+libguileSDL_la_LDFLAGS = -lSDL -lSDL_image -lSDL_mixer -lpthread -version-info 0:0 -export-dynamic
+
+sdldir = $(datadir)/guile/sdl
+sdl_DATA = sdl.scm
 
 EXTRA_DIST = autogen.sh convert.sh $(sdl_DATA)
 
-GUILE_SNARF = guile-snarf
-
-SUFFIXES = .x
-
-DISTCLEANFILES = *.x
-
 # test suite
-TESTS = test/image.scm
-TESTS_ENVIRONMENT = LTDL_LIBRARY_PATH=$(srcdir)/.libs 		    GUILE_LOAD_PATH=/home/foof/src/projects/
+TESTS = test/rect.scm test/image.scm test/event.scm test/mixer.scm         test/ttf.scm  test/cursor.scm
+
+TESTS_ENVIRONMENT = LTDL_LIBRARY_PATH=$(srcdir)/.libs 		    GUILE_LOAD_PATH=$(srcdir)
 
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -115,7 +107,8 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 libguileSDL_la_LIBADD = 
-libguileSDL_la_OBJECTS =  guile-sdl.lo video.lo
+libguileSDL_la_OBJECTS =  guile-sdl.lo scm.lo wm.lo video.lo image.lo \
+gfx.lo event.lo mixer.lo ttf.lo
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -137,13 +130,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DEP_FILES =  .deps/guile-sdl.P .deps/video.P
+DEP_FILES =  .deps/event.P .deps/gfx.P .deps/guile-sdl.P .deps/image.P \
+.deps/mixer.P .deps/scm.P .deps/ttf.P .deps/video.P .deps/wm.P
 SOURCES = $(libguileSDL_la_SOURCES)
 OBJECTS = $(libguileSDL_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .dvi .info .lo .o .ps .s .texi .texinfo .txi .x
+.SUFFIXES: .S .c .dvi .info .lo .o .ps .s .texi .texinfo .txi
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile
 
@@ -154,7 +148,7 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.in 
 	cd $(srcdir) && $(ACLOCAL)
 
-config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
+config.status: $(srcdir)/configure.in $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
 $(srcdir)/configure: @MAINTAINER_MODE_TRUE@$(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
@@ -298,7 +292,7 @@ uninstall-info:
 	else ii=; fi; \
 	list='$(INFO_DEPS)'; \
 	for file in $$list; do \
-	  test -z "$ii" \
+	  test -z "$$ii" \
 	    || install-info --info-dir=$(DESTDIR)$(infodir) --remove $$file; \
 	done
 	@$(NORMAL_UNINSTALL)
@@ -428,7 +422,6 @@ distdir: $(DISTFILES)
 	distdir=`cd $(distdir) && pwd`; \
 	cd $(top_srcdir) \
 	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu Makefile
-	$(mkinstalldirs) $(distdir)/sdl
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -533,10 +526,8 @@ clean-generic:
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
-	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
-	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 mostlyclean-am:  mostlyclean-libLTLIBRARIES mostlyclean-compile \
 		mostlyclean-libtool mostlyclean-aminfo mostlyclean-tags \
 		mostlyclean-depend mostlyclean-generic
@@ -584,9 +575,6 @@ all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
-.c.x:
-	$(GUILE_SNARF) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $< > $@ \
-	|| { rm $@; false; }
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
