@@ -2,9 +2,10 @@
 
 @c Copyright @copyright{} 2003,2004 Thien-Thi Nguyen
 
-@twerpdoc (flagstash-flags)
+@twerpdoc (enumstash-enums)
 @twerpdoc (enum->number)
 @twerpdoc (number->enum)
+@twerpdoc (flagstash-flags)
 @twerpdoc (flags->number)
 @twerpdoc (number->flags)
 
