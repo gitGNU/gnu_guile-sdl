@@ -80,7 +80,7 @@ GH_DEFPROC (make_color, "make-color", 3, 0, 0,
   color->g = gh_scm2int (s_g);
   color->b = gh_scm2int (s_b);
 
-  SCM_RETURN_NEWSMOB (color_tag, color);
+  RETURN_NEW_COLOR (color);
 }
 #undef FUNC_NAME
 
