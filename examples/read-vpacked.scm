@@ -1,5 +1,5 @@
 #!/bin/sh
-exec ${GUILE-guile} -s $0 "$@"
+exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
 !#
 ;;; Read Vertically-Packed Image
 
