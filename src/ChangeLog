@@ -1,3 +1,53 @@
+2004-03-05  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdl.c: Doc munging; nfc.
+
+	* sdlcdrom.c: Doc munging.
+	Simplify expressions comparing against NULL.
+	Use new macros.
+	(UNPACK_CDROM): New macro.
+	(RETURN_NEW_CDROM): Likewise.
+	(CDROM_P): Likewise.
+	(TRAYEMTPY): New simple symbol.
+	(STOPPED): Likewise.
+	(PLAYING): Likewise.
+	(PAUSED): Likewise.
+	(ERROR): Likewise.
+	(cd_status): Return symbol instead of number.
+	(cd_get_nth_track): On error return #f.
+
+	* sdlcolor.c: Use `UNPACK_COLOR'.
+
+	* sdlenums.c: Use new macros.
+	(ASSERT_ENUM): New macro.
+	(UNPACK_ENUM): Likewise.
+	(UNPACK_FLAGSTASH): Likewise.
+
+	* sdlevent.c: Doc munging.
+	Use new macros.
+	(UNPACK_EVENT): New macro.
+	(RETURN_NEW_EVENT): Likewise.
+	(UNPACK_KEYSYM): Likewise.
+	(RETURN_NEW_KEYSYM): Likewise.
+
+	* sdlgfx.c: Use macro `THROW_NOT_YET_IMPLEMENTED'.
+
+	* sdljoystick.c: Simplify expressions comparing against NULL.
+	Use new macros.
+	(UNPACK_JOYSTICK): New macro.
+	(RETURN_NEW_JOYSTICK): Likewise.
+	(JOYSTICK_P): Likewise.
+	(joystick_get_ball): On error, return #f.
+
+	* sdlroto.c: Refill; nfc.
+
+	* sdlsurface.c: Use new macro.
+	(SURFACE_P): New macro.
+
+	* sdlvideo.c: Use new macros.
+	(COLOR_P): New macro.
+	(RECT_P): Likewise.
+
 2004-03-04  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlsurface.c (string_to_image): New GH_DEFPROC.

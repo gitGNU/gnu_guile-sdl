@@ -6,6 +6,14 @@ See the end for copying conditions.
 Please send guile-sdl bug reports to <ttn@glug.org>.
 
 
+- 0.2.3 | NOT YET RELEASED
+
+  - return value changes
+    - cd-status: symbolic (was integer)
+    - cd-get-nth-track: #f on error (was empty list)
+    - joystick-get-ball: #f on error (was empty list)
+
+
 - 0.2.2 | 2004-02-08
 
   - bug fix: module (sdl sdl) no longer loads (ice-9 syncase)
