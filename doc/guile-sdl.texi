@@ -67,7 +67,7 @@ procedures are provided in the modules @code{(sdl misc-utils)} and
 * TrueType::                    TrueType Font Support
 * Audio::                       Audio Support
 
-* libSDL_gfx::                  By Andreas Schiffler
+* SDL_gfx::                     By Andreas Schiffler
 
 * Miscellaneous Utilities::     Everything Else
 * Simple Closures::             Experimental Abstractions
