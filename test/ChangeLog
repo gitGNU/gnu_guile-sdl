@@ -1,3 +1,11 @@
+2003-11-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* event.scm: Merge two `use-modules' forms
+	for `(sdl sdl)' and `(sdl ttf)' into one.
+	* ttf.scm: Likewise.
+	* gfx.scm: Likewise for `(sdl sdl)' and `(sdl gfx)'.
+	* mixer.scm: Likewise for `(sdl sdl)' and `(sdl mixer)'.
+
 2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* common: New file.
