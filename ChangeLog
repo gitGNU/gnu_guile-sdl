@@ -4,6 +4,7 @@
 
 	* configure.in (AC_CONFIG_FILES): Add wily-guile.
 	(chmod-plus-x): New AC_CONFIG_COMMANDS block.
+	(top_builddir_absolute): New AC_SUBST var.
 
 2003-11-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
