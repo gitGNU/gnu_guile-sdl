@@ -2,7 +2,7 @@
  *  guile-sdl.c -- SDL Video Wrappers for Guile                    *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-11 19:17:20 foof>                         *
+ *  Time-stamp: <2001-06-17 19:31:09 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -109,6 +109,15 @@ sdl_delay (SCM ms)
    return SCM_UNSPECIFIED;
 }
 
+/* error functions */
+
+SCM
+sdl_get_error (void)
+{
+   char *error = SDL_GetError();
+   return scm_makfrom0str (error);
+}
+
 void
 guile_sdl_init (void)
 {
@@ -117,23 +126,24 @@ guile_sdl_init (void)
    scm_c_define_gsubr ("number->enum",   2, 0, 0, scm_number_to_enum);
 
    /* general initializations */
-   scm_c_define_gsubr ("init",           1, 0, 0, sdl_init);
+   scm_c_define_gsubr ("init-sdl",       1, 0, 0, sdl_init);
    scm_c_define_gsubr ("init-subsystem", 1, 0, 0, sdl_init_subsystem);
-   scm_c_define_gsubr ("quit-all",       0, 0, 0, sdl_quit);
+   scm_c_define_gsubr ("quit-sdl",       0, 0, 0, sdl_quit);
    scm_c_define_gsubr ("quit-subsystem", 1, 0, 0, sdl_quit_subsystem);
    scm_c_define_gsubr ("was-init",       1, 0, 0, sdl_was_init);
    scm_c_define_gsubr ("get-ticks",      0, 0, 0, sdl_get_ticks);
    scm_c_define_gsubr ("delay",          1, 0, 0, sdl_delay);
+   scm_c_define_gsubr ("get-error",      0, 0, 0, sdl_get_error);
 
    /* constants */
    scm_c_define ("init/timer",       SCM_MAKINUM (SDL_INIT_TIMER));
    scm_c_define ("init/audio",       SCM_MAKINUM (SDL_INIT_AUDIO));
    scm_c_define ("init/video",       SCM_MAKINUM (SDL_INIT_VIDEO));
    scm_c_define ("init/cdrom",       SCM_MAKINUM (SDL_INIT_CDROM));
-   scm_c_define ("init/joystick",    SCM_MAKINUM (SDL_INIT_JOYSTICK)); 
-   scm_c_define ("init/everything",  SCM_MAKINUM (SDL_INIT_EVERYTHING)); 
-   scm_c_define ("init/noparachute", SCM_MAKINUM (SDL_INIT_NOPARACHUTE)); 
-   scm_c_define ("init/eventthread", SCM_MAKINUM (SDL_INIT_EVENTTHREAD)); 
+   scm_c_define ("init/joystick",    SCM_MAKINUM (SDL_INIT_JOYSTICK));
+   scm_c_define ("init/everything",  SCM_MAKINUM (SDL_INIT_EVERYTHING));
+   scm_c_define ("init/noparachute", SCM_MAKINUM (SDL_INIT_NOPARACHUTE));
+   scm_c_define ("init/eventthread", SCM_MAKINUM (SDL_INIT_EVENTTHREAD));
 
    /* exported symbols */
    scm_c_export (
@@ -141,8 +151,10 @@ guile_sdl_init (void)
       "enum->number", "number->enum",
       /* time */
       "get-ticks", "delay",
+      /* errors */
+      "get-error",
       /* sdl initializations */
-      "subsystems", "init", "quit-all", "init-subsystem",
+      "subsystems", "init-sdl", "quit-sdl", "init-subsystem",
       "quit-subsystem", "was-init",
       /* constants */
       "init/timer", "init/audio", "init/video",
