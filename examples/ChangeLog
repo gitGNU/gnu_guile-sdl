@@ -1,5 +1,9 @@
 2004-02-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* read-vpacked.scm: New file.
+
+2004-02-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* imagebrowser.scm: Add Commentary.
 	(image-dir): Set to "." by default.
 	(image-ring): Only add files w/ png or xpm extension.
