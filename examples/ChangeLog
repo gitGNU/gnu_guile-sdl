@@ -1,3 +1,7 @@
+2005-01-04  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* read-vpacked.scm: Add "-*-scheme-*-" hint for Emacs; nfc.
+
 2004-06-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* imagebrowser.scm (image-ring): Also accept bmp, pnm,
