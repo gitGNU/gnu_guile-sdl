@@ -5,7 +5,7 @@
 #  libtool 1.5.6
 #  autoconf 2.59
 #  automake 1.7.6
-#  guile 1.4.1.98
+#  guile 1.4.1.100
 #  gperf 3.0.1
 #  texinfo 4.6
 
