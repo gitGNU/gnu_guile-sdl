@@ -15,15 +15,17 @@
 (or (= 0 (SDL:ttf-init)) (error "could not init font lib"))
 
 ;; the directory to find the image in
-(define datadir (if (getenv "srcdir")
-                  (string-append (getenv "srcdir") "/test/")
-                  "./"))
+(define (datafile name)
+  (in-vicinity (or (and=> (getenv "srcdir")
+                          (lambda (d) (in-vicinity d "test")))
+                   ".")
+               name))
 
 ;; the text to display
 (define sentence "The quick brown fox jumped over the lazy sleeping dog.")
 
 ;; load a font file
-(define font (SDL:load-font (string-append datadir "crystal.ttf") 16))
+(define font (SDL:load-font (datafile "crystal.ttf") 16))
 
 ;; initialize the video mode
 (define test-rect (SDL:make-rect 0 0 640 480))

@@ -8,9 +8,11 @@
              ((sdl mixer) #:renamer (symbol-prefix-proc 'SDL:)))
 
 ;; the directory to find the image in
-(define datadir (if (getenv "srcdir")
-                  (string-append (getenv "srcdir") "/test/")
-                  "./"))
+(define (datafile name)
+  (in-vicinity (if (getenv "srcdir")
+                   (in-vicinity (getenv "srcdir") "test")
+                   ".")
+               name))
 
 ;; initialize the SDL mixer module
 (SDL:init '(SDL_INIT_AUDIO))
@@ -32,8 +34,8 @@
 
 
 ;; load a wav file
-(define background (SDL:load-music (string-append datadir "test.wav")))
-(define fx (SDL:load-wave (string-append datadir "noise.wav")))
+(define background (SDL:load-music (datafile "test.wav")))
+(define fx (SDL:load-wave (datafile "noise.wav")))
 
 ;; play the wav
 (SDL:volume 128)

@@ -25,12 +25,14 @@
                     '(SDL_HWSURFACE SDL_DOUBLEBUF))
 
 ;; the directory to find the image in
-(define datadir (if (getenv "srcdir")
-                  (string-append (getenv "srcdir") "/test/")
-                  "./"))
+(define (datafile name)
+  (in-vicinity (or (and=> (getenv "srcdir")
+                          (lambda (d) (in-vicinity d "test")))
+                   ".")
+               name))
 
 ;; load a font file
-(define font (SDL:load-font (string-append datadir "crystal.ttf") 16))
+(define font (SDL:load-font (datafile "crystal.ttf") 16))
 
 ;; presize some stuff
 (define height (SDL:font:height font))

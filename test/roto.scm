@@ -3,15 +3,17 @@
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
 
 ;; the directory to find the image in
-(define datadir (if (getenv "srcdir")
-                  (string-append (getenv "srcdir") "/test/")
-                  "./"))
+(define (datafile name)
+  (in-vicinity (or (and=> (getenv "srcdir")
+                          (lambda (d) (in-vicinity d "test")))
+                   ".")
+               name))
 
 ;; initialize the SDL video module
 (SDL:init '(SDL_INIT_VIDEO))
 
 ;; load the image
-(define gnu-head (SDL:load-image (string-append datadir "gnu-goatee.jpg")))
+(define gnu-head (SDL:load-image (datafile "gnu-goatee.jpg")))
 
 ;; the size of our test image
 (let* ((w (SDL:surface:w gnu-head))

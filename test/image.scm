@@ -3,9 +3,11 @@
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
 
 ;; the directory to find the image in
-(define datadir (if (getenv "srcdir")
-                  (string-append (getenv "srcdir") "/test/")
-                  "./"))
+(define (datafile name)
+  (in-vicinity (or (and=> (getenv "srcdir")
+                          (lambda (d) (in-vicinity d "test")))
+                   ".")
+               name))
 
 ;; the size of our test image
 (define gnu-rect (SDL:make-rect 0 0 200 153))
@@ -17,7 +19,7 @@
 (SDL:set-video-mode 200 153 16)
 
 ;; load and blit the image
-(let ((gnu-head (SDL:load-image (string-append datadir "gnu-goatee.jpg"))))
+(let ((gnu-head (SDL:load-image (datafile "gnu-goatee.jpg"))))
   (SDL:blit-surface gnu-head gnu-rect (SDL:get-video-surface) gnu-rect))
 
 ;; flip the double buffer
