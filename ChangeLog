@@ -1,3 +1,7 @@
+2005-04-03  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Bump version to "0.3.3" for release.
+
 2005-01-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* configure.in (VERSION): Bump to "0.3.2" for release.
