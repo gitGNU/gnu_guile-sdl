@@ -2,7 +2,7 @@
  *  event.c -- SDL input handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:58:16 foof>                         *
- *  Time-stamp: <2001-07-06 02:50:27 foof>                         *
+ *  Time-stamp: <2001-07-06 03:11:39 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -37,11 +37,6 @@ SCM event_type_enum;
 SCM event_state_enum;
 SCM event_keysym_enum;
 SCM event_mod_flags;
-
-/* symbols */
-SCM sdl_symbol_state;
-SCM sdl_symbol_x;
-SCM sdl_symbol_y;
 
 scm_sizet
 free_event (SCM event)
@@ -346,9 +341,12 @@ sdl_get_mouse_state (void)
 {
   int buttons, x, y;
   buttons = SDL_GetMouseState (&x, &y);
-  return SCM_LIST3 (scm_cons (sdl_symbol_state, scm_long2num (buttons)),
-                    scm_cons (sdl_symbol_x, scm_long2num (x)),
-                    scm_cons (sdl_symbol_y, scm_long2num (y)));
+  return SCM_LIST3 (scm_cons (scm_str2symbol ("state"),
+                              scm_long2num (buttons)),
+                    scm_cons (scm_str2symbol ("x"),
+                              scm_long2num (x)),
+                    scm_cons (scm_str2symbol ("y"),
+                              scm_long2num (y)));
 }
 
 /*
@@ -359,9 +357,12 @@ sdl_get_relative_mouse_state ()
 {
   int buttons, x, y;
   buttons = SDL_GetRelativeMouseState (&x, &y);
-  return SCM_LIST3 (scm_cons (sdl_symbol_state, scm_long2num (buttons)),
-                    scm_cons (sdl_symbol_x, scm_long2num (x)),
-                    scm_cons (sdl_symbol_y, scm_long2num (y)));
+  return SCM_LIST3 (scm_cons (scm_str2symbol ("state"),
+                              scm_long2num (buttons)),
+                    scm_cons (scm_str2symbol ("x"),
+                              scm_long2num (x)),
+                    scm_cons (scm_str2symbol ("y"),
+                              scm_long2num (y)));
 }
 
 SCM
@@ -380,11 +381,6 @@ void sdl_init_event (void)
   /* keysym_tag  = scm_make_smob_type ("keysym", sizeof (SDL_keysym)); */
 
   scm_set_smob_free (event_tag, free_event);
-
-  /* quick symbol references */
-  sdl_symbol_state = scm_str2symbol ("state");
-  sdl_symbol_x = scm_str2symbol ("x");
-  sdl_symbol_y = scm_str2symbol ("y");
 
   /* event type constants */
   event_type_enum = scm_c_define_enum (

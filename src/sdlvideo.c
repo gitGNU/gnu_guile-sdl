@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-07-06 03:04:19 foof>                         *
+ *  Time-stamp: <2001-07-06 03:13:20 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -49,10 +49,6 @@ SCM sdl_video_flags;
 SCM sdl_palette_flags;
 SCM sdl_alpha_enums;
 SCM sdl_gl_enums;
-
-SCM sdl_symbol_redtable, sdl_symbol_greentable, sdl_symbol_bluetable,
-  sdl_symbol_r, sdl_symbol_g, sdl_symbol_b, sdl_symbol_a,
-  sdl_symbol_title, sdl_symbol_icon;
 
 /* surfaces */
 
@@ -603,9 +599,9 @@ get_gamma_ramp (void)
          scm_vector_set_x (bluetable,  scm_long2num (i), scm_long2num (bt[i]));
       }
       /* return a list of red, green and blue tables */
-      return SCM_LIST3 (scm_cons (sdl_symbol_redtable, redtable),
-                        scm_cons (sdl_symbol_greentable, greentable),
-                        scm_cons (sdl_symbol_bluetable, bluetable));
+      return SCM_LIST3 (scm_cons (scm_str2symbol ("redtable"), redtable),
+                        scm_cons (scm_str2symbol ("greentable"), greentable),
+                        scm_cons (scm_str2symbol ("bluetable"), bluetable));
    } else {
       /* error, return false */
       return SCM_BOOL_F;
@@ -693,9 +689,9 @@ get_rgb (SCM s_pixel, SCM s_pixel_fmt)
 
    SDL_GetRGB (pixel, fmt, &r, &g, &b);
 
-   return SCM_LIST3 (scm_cons (sdl_symbol_r, scm_long2num (r)),
-                     scm_cons (sdl_symbol_g, scm_long2num (g)),
-                     scm_cons (sdl_symbol_b, scm_long2num (b)));
+   return SCM_LIST3 (scm_cons (scm_str2symbol ("r"), scm_long2num (r)),
+                     scm_cons (scm_str2symbol ("g"), scm_long2num (g)),
+                     scm_cons (scm_str2symbol ("b"), scm_long2num (b)));
 }
 
 SCM
@@ -713,10 +709,10 @@ get_rgba (SCM s_pixel, SCM s_pixel_fmt)
 
    SDL_GetRGBA (pixel, fmt, &r, &g, &b, &a);
 
-   return SCM_LIST4 (scm_cons (sdl_symbol_r, scm_long2num (r)),
-                     scm_cons (sdl_symbol_g, scm_long2num (g)),
-                     scm_cons (sdl_symbol_b, scm_long2num (b)),
-                     scm_cons (sdl_symbol_a, scm_long2num (a)));
+   return SCM_LIST4 (scm_cons (scm_str2symbol ("r"), scm_long2num (r)),
+                     scm_cons (scm_str2symbol ("g"), scm_long2num (g)),
+                     scm_cons (scm_str2symbol ("b"), scm_long2num (b)),
+                     scm_cons (scm_str2symbol ("a"), scm_long2num (a)));
 }
 
 SCM
@@ -1126,8 +1122,8 @@ wm_get_caption (void)
 
    SDL_WM_GetCaption (&title, &icon);
 
-   return SCM_LIST2 (scm_cons (sdl_symbol_title, scm_makfrom0str (title)),
-                     scm_cons (sdl_symbol_icon, scm_makfrom0str (icon)));
+   return SCM_LIST2 (scm_cons (scm_str2symbol ("title"), scm_makfrom0str (title)),
+                     scm_cons (scm_str2symbol ("icon"), scm_makfrom0str (icon)));
 }
 
 SCM
@@ -1196,17 +1192,6 @@ sdl_init_video (void)
    scm_set_smob_free (color_tag, free_color);
    scm_set_smob_free (cursor_tag, free_cursor);
    scm_set_smob_free (overlay_tag, free_yuv_overlay);
-
-   /* quick symbol references */
-   sdl_symbol_redtable = scm_str2symbol ("redtable");
-   sdl_symbol_greentable = scm_str2symbol ("greentable");
-   sdl_symbol_bluetable = scm_str2symbol ("bluetable");
-   sdl_symbol_r = scm_str2symbol ("r");
-   sdl_symbol_g = scm_str2symbol ("g");
-   sdl_symbol_b = scm_str2symbol ("b");
-   sdl_symbol_a = scm_str2symbol ("a");
-   sdl_symbol_title = scm_str2symbol ("title");
-   sdl_symbol_icon = scm_str2symbol ("icon");
 
    /* alpha constants */
    sdl_alpha_enums = scm_c_define_enum (
@@ -1373,6 +1358,7 @@ sdl_init_video (void)
       "sdl-display-format",     "sdl-display-format-alpha",
       "sdl-convert-surface",    "sdl-load-image",
       /* overlays */
+
       "sdl-create-yuv-overlay",   "sdl-lock-yuv-overlay",
       "sdl-unlock-yuv-overlay",   "sdl-display-yuv-overlay",
       /* video */
