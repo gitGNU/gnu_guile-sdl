@@ -1,5 +1,10 @@
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlroto.c (vertical_flip_surface, horizontal_flip_surface,
+	vh_flip_surface): Delete redundant funcs.
+
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlevent.c: Use `(void)' instead of `()' for arglists.
 	(make_keysym, pump_events, peep_events, poll_event, wait_event,
 	push_event, set_event_filter, get_event_filter, event_state,
