@@ -1,5 +1,15 @@
 2003-11-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* am/common: New file.
+
+	* am/snarfing (initsnarfsuffixes, docsnarfsuffixes): Delete vars.
+	(SUFFIXES, DISTCLEANFILES, noinst_DATA):
+	New "additive" vars significant to automake.
+
+	* am/fspec (SUFFIXES): New "additive" var significant to automake.
+
+2003-11-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* NEWS: Update copyright.
 	Use different `outline-regexp' buffer-local var.
 	Refill.
