@@ -1,8 +1,8 @@
 - 0.2
-  - no longer install in $libdir
-  - install under $guilesitelibdir
+  + no longer install in $libdir
+  + install under $guilelibsitedir and $GUILE_SITE
   - documentation
-    - methodology
+    + methodology
     - describe limits/restrictions
     - include TODO
 
@@ -24,6 +24,6 @@
 __________________________________________________
 	Local Variables:
 	mode: outline
-	outline-regexp: "\\([ ][ ]\\)*- "
+	outline-regexp: "\\([ ][ ]\\)*[-+] "
 	fill-column: 72
 	End:
