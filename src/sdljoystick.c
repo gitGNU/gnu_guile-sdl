@@ -51,30 +51,41 @@ sdl_init_joystick ()
 					      NULL);
   
   /* Check for NULL drive object */
-  scm_make_gsubr ("sdl-joystick-null?", 1, 0, 0, sdl_joystick_null_p);  
+  scm_c_define_gsubr ("sdl-joystick-null?", 1, 0, 0, sdl_joystick_null_p);  
    
   /* Register Scheme functions */
-  scm_make_gsubr ("sdl-num-joysticks", 0, 0, 0, sdl_num_joysticks);
-  scm_make_gsubr ("sdl-joystick-name", 1, 0, 0, sdl_joystick_name);
+  scm_c_define_gsubr ("sdl-num-joysticks", 0, 0, 0, sdl_num_joysticks);
+  scm_c_define_gsubr ("sdl-joystick-name", 1, 0, 0, sdl_joystick_name);
 
-  scm_make_gsubr ("sdl-joystick-open", 1, 0, 0, sdl_joystick_open);
-  scm_make_gsubr ("sdl-joystick-opened?", 1, 0, 0, sdl_joystick_opened_p);
+  scm_c_define_gsubr ("sdl-joystick-open", 1, 0, 0, sdl_joystick_open);
+  scm_c_define_gsubr ("sdl-joystick-opened?", 1, 0, 0, sdl_joystick_opened_p);
 
-  scm_make_gsubr ("sdl-joystick-index", 1, 0, 0, sdl_joystick_index);
-  scm_make_gsubr ("sdl-joystick-num-axes", 1, 0, 0, sdl_joystick_num_axes);
-  scm_make_gsubr ("sdl-joystick-num-balls", 1, 0, 0, sdl_joystick_num_balls);
-  scm_make_gsubr ("sdl-joystick-num-hats", 1, 0, 0, sdl_joystick_num_hats);
-  scm_make_gsubr ("sdl-joystick-num-buttons",1, 0, 0,sdl_joystick_num_buttons);
+  scm_c_define_gsubr ("sdl-joystick-index", 1, 0, 0, sdl_joystick_index);
+  scm_c_define_gsubr ("sdl-joystick-num-axes", 1, 0, 0, sdl_joystick_num_axes);
+  scm_c_define_gsubr ("sdl-joystick-num-balls", 1, 0, 0, sdl_joystick_num_balls);
+  scm_c_define_gsubr ("sdl-joystick-num-hats", 1, 0, 0, sdl_joystick_num_hats);
+  scm_c_define_gsubr ("sdl-joystick-num-buttons",1, 0, 0,sdl_joystick_num_buttons);
 
-  scm_make_gsubr ("sdl-joystick-update",0, 0, 0,sdl_joystick_update);
-  scm_make_gsubr ("sdl-joystick-event_state",0, 0, 0,sdl_joystick_event_state);
+  scm_c_define_gsubr ("sdl-joystick-update",0, 0, 0,sdl_joystick_update);
+  scm_c_define_gsubr ("sdl-joystick-event_state",0, 0, 0,sdl_joystick_event_state);
 
-  scm_make_gsubr ("sdl-joystick-get-axis",2, 0, 0,sdl_joystick_get_axis);
-  scm_make_gsubr ("sdl-joystick-get-ball",2, 0, 0,sdl_joystick_get_ball);
-  scm_make_gsubr ("sdl-joystick-get-hat",2, 0, 0,sdl_joystick_get_hat);
-  scm_make_gsubr ("sdl-joystick-get-button",2, 0, 0,sdl_joystick_get_button);
+  scm_c_define_gsubr ("sdl-joystick-get-axis",2, 0, 0,sdl_joystick_get_axis);
+  scm_c_define_gsubr ("sdl-joystick-get-ball",2, 0, 0,sdl_joystick_get_ball);
+  scm_c_define_gsubr ("sdl-joystick-get-hat",2, 0, 0,sdl_joystick_get_hat);
+  scm_c_define_gsubr ("sdl-joystick-get-button",2, 0, 0,sdl_joystick_get_button);
 
-  scm_make_gsubr ("sdl-joystick-close", 1, 0, 0, sdl_joystick_close);
+  scm_c_define_gsubr ("sdl-joystick-close", 1, 0, 0, sdl_joystick_close);
+
+  /* exported symbols */
+  scm_c_export ("sdl-joystick-null?",    "sdl-num-joysticks",
+                "sdl-joystick-name",     "sdl-joystick-open",
+                "sdl-joystick-opened?",  "sdl-joystick-index",
+                "sdl-joystick-num-axes", "sdl-joystick-num-balls",
+                "sdl-joystick-num-hats", "sdl-joystick-num-buttons",
+                "sdl-joystick-update",   "sdl-joystick-event_state",
+                "sdl-joystick-get-axis", "sdl-joystick-get-ball",
+                "sdl-joystick-get-hat",  "sdl-joystick-get-button",
+                "sdl-joystick-close",    NULL);
 }
 
 

@@ -45,6 +45,18 @@ sdl_init_cdrom ()
 
   scm_c_define_gsubr ("sdl-cd-msf-to-frames", 3, 0, 0, sdl_cd_msf_to_frames);
   scm_c_define_gsubr ("sdl-cd-frames-to-msf", 1, 0, 0, sdl_cd_frames_to_msf);
+
+  /* exported symbols */
+  scm_c_export ("sdl-cd-null?",          "sdl-cd-num-drives",
+                "sdl-cd-name",           "sdl-cd-open",
+                "sdl-cd-status",         "sdl-cd-in-drive?",
+                "sdl-cd-get-num-tracks", "sdl-cd-get-cur-track",
+                "sdl-cd-get-cur-frame",  "sdl-cd-get-nth-track",
+                "sdl-cd-play-tracks",    "sdl-cd-play",
+                "sdl-cd-pause",          "sdl-cd-resume",
+                "sdl-cd-stop",           "sdl-cd-eject",
+                "sdl-cd-close",          "sdl-cd-msf-to-frames",
+                "sdl-cd-frames-to-msf",  NULL);
 }
 
 
