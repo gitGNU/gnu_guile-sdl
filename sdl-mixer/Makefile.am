@@ -2,11 +2,7 @@
 
 AUTOMAKE_OPTIONS = gnu
 
-# User-definable stuff:
-CC=@CC@
-CFLAGS   = @CFLAGS@ -Wall
-LIBS     = @LIBS@
-INCLUDES = -I../include/
+AM_CPPFLAGS = -I../include/
 
 EXTRA_DIST = sdlmixer.h
 
@@ -34,7 +30,7 @@ GUILE_SNARF = guile-snarf
 
 SUFFIXES = .x .texi .doc
 %.x: %.c
-	$(GUILE_SNARF) $< $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) > $@ \
+	$(GUILE_SNARF) $< $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS) > $@ \
 	|| { rm $@; false; }
 
 DISTCLEANFILES = *.x
@@ -44,7 +40,7 @@ GUILE_SNARF_DOCS = guile-snarf-docs
 GUILE_SNARF_DOCS_TEXI = guile-snarf-docs-texi
 
 %.doc: %.c
-	$(GUILE_SNARF_DOCS) $(DEFS) $(INCLUDES) -I../include \
+	$(GUILE_SNARF_DOCS) $(DEFS) $(AM_CPPFLAGS) -I../include \
 	$(CPPFLAGS) $(CFLAGS) $< > $@ \
 	|| { rm $@; false; }
 
