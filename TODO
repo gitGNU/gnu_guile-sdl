@@ -1,4 +1,4 @@
-+ 0.2 "basics"
+- 0.2.x "basics"
   + naming: remove "sdl-" prefix
   + install under $GUILE_LIBSITE and $GUILE_SITE
   + no longer install in $libdir
@@ -6,9 +6,10 @@
     + methodology
     + describe limits/restrictions
     + include TODO
+  - handle #f given as optional arg
+  - review for gc-safety of intermediate values
 
 - 0.3 "coverage"
-  - review for "false-security" constructs
   - improve documentation content
   - /usr/include/SDL/*.h coverage
   - opengl?
