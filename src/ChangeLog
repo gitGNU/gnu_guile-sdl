@@ -1,3 +1,16 @@
+2005-02-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlvideo.c (print_pixel_format): New static func.
+	(gsdl_init_video): Register new func as pixel format printer.
+
+2005-02-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlsurface.c (print_surface): Use `scm_putc' and `scm_intprint'.
+	* sdlrect.c (print_rect): Likewise.
+	* sdljoystick.c (print_joy): Likewise.
+	* sdlenums.c (print_flagstash): Likewise.
+	* sdlcolor.c (print_color): Likewise.
+
 2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlsurface.c (set_alpha): Make third arg optional.
