@@ -1,12 +1,15 @@
 #!/bin/sh
 # usage: cov
+# env vars required: srcdir
 
 set -e
+
+test -n "${srcdir}"
 
 sed -e '/GH_DEFPROC/!d' \
     -e 's/^[^"]*"//g' \
     -e 's/".*//g' \
-    ../*/*.c \
+    ${srcdir}/../*/*.c \
     | sort \
     | uniq \
     > TMP1
@@ -16,7 +19,7 @@ sed -e '/twerpdoc/!d' \
     -e '/^event:/d' \
     -e '/^surface:/d' \
     -e '/^color:/d' \
-    *.twerp \
+    ${srcdir}/*.twerp \
     | sort \
     | uniq \
     > TMP2
@@ -27,10 +30,11 @@ if [ -s TMP ] ; then
     echo 'ERROR: bad doc coverage!'
     echo '       here is a list:'
     cat TMP
-    rm -f TMP1 TMP 2TMP
+    rm TMP1 TMP 2TMP
     exit 1
 fi
 
 rm TMP1 TMP2 TMP
+exit 0
 
 # cov ends here
