@@ -5,40 +5,40 @@
   (and debug? (apply format (current-error-port) (string-append s "\n") args)))
 
 (d>> "loading (sdl sdl)")
-(use-modules (sdl sdl))
+(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
 
 (d>> "are some scheme stuff defined?")
-(and sdl-version (d>> "sdl-version => ~A" sdl-version))
-(and sdl-with-clip-rect (d>> "sdl-with-clip-rect => ~A" sdl-with-clip-rect))
-(and sdl-rotate-square (d>> "sdl-rotate-square => ~A" sdl-rotate-square))
+(and SDL:call-with-clip-rect
+     (d>> "SDL:call-with-clip-rect => ~A" SDL:call-with-clip-rect))
+(and SDL:rotate-square (d>> "SDL:rotate-square => ~A" SDL:rotate-square))
 
-(d>> "is flags->number (C function exposed to Scheme) defined?")
-flags->number
+(d>> "is SDL:flags->number (C function exposed to Scheme) defined?")
+SDL:flags->number
 
 (d>> "all the flag stashes")
 (let ((all (list
-            (flagstash:init)
-            (flagstash:overlay)
-            (flagstash:video)
-            (flagstash:palette)
-            (flagstash:event-mod))))
+            (SDL:flagstash:init)
+            (SDL:flagstash:overlay)
+            (SDL:flagstash:video)
+            (SDL:flagstash:palette)
+            (SDL:flagstash:event-mod))))
   (d>> "all: ~S" all)
   (or (= 5 (length all))
       (error "unexpected number of flag stashes"))
   (for-each (lambda (stash)
-              (d>> "~A: ~S" stash (flagstash-flags stash)))
+              (d>> "~A: ~S" stash (SDL:flagstash-flags stash)))
             all))
 
 (d>> "find the keyboard mod flags")
-(define *kmod* (flagstash:event-mod))
-(or *kmod* (error "could not find sdl-mod-flags"))
+(define *kmod* (SDL:flagstash:event-mod))
+(or *kmod* (error "could not find SDL:mod-flags"))
 
-(d>> "try flags->number")
-(let ((n (flags->number *kmod* '(KMOD_LMETA KMOD_LSHIFT))))
+(d>> "try SDL:flags->number")
+(let ((n (SDL:flags->number *kmod* '(KMOD_LMETA KMOD_LSHIFT))))
   (d>> "~A\n" n)
-  (or (number? n) (error "flags->number did not yield a number!"))
+  (or (number? n) (error "SDL:flags->number did not yield a number!"))
   (or (string=? "2001" (number->string n 8))
-      (error "flags->number gave a number but it was wrong!")))
+      (error "SDL:flags->number gave a number but it was wrong!")))
 
 (let ((count 5))
   (d>> "doing ~A gc" count)
