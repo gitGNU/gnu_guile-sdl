@@ -33,7 +33,7 @@
 #define GAMMA_TABLE_SIZE  256
 
 
-static SCM sdl_gl_enums;
+static SCM gl_enums;
 SCM gsdl_alpha_enums;
 
 SCM gsdl_video_flags;
@@ -1076,7 +1076,7 @@ gsdl_init_video (void)
   gsdl_overlay_formats = gsdl_make_flagstash (&gsdl_overlay_flagstash);
 
   /* GL constants */
-  sdl_gl_enums = gsdl_define_enum (
+  gl_enums = gsdl_define_enum (
     "sdl-gl-enums",
     "SDL_GL_RED_SIZE",         SDL_GL_RED_SIZE,
     "SDL_GL_GREEN_SIZE",       SDL_GL_GREEN_SIZE,
