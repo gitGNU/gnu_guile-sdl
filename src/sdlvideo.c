@@ -767,7 +767,7 @@ GH_DEFPROC (fill_rect, "fill-rect", 3, 0, 0,
   RETURN_TRUE_IF_0
     (SDL_FillRect (UNPACK_SURFACE (surface),
                    UNPACK_RECT (rect),
-                   (Uint32) gh_scm2long (color)));
+                   gh_scm2ulong (color)));
 #undef FUNC_NAME
 }
 
