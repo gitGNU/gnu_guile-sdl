@@ -2,7 +2,7 @@
  *  sdlmixer.c -- SDL_mixer for Guile                              *
  *                                                                 *
  *  Created:    <2001-06-10 16:45:57 foof>                         *
- *  Time-stamp: <01/11/25 22:06:38 foof>                         *
+ *  Time-stamp: <01/11/25 22:09:32 foof>                         *
  *                                                                 *
  *  This program is free software; you can redistribute it and/or  *
  * modify it under the terms of the GNU General Public License as  *
@@ -121,12 +121,12 @@ and 'channels (the number of allocated channels).")
     return SCM_BOOL_F;
   }
 
-  return SCM_LIST3 (scm_cons (scm_str2symbol ("freq"),
-                              scm_long2num (freq)),
-                    scm_cons (scm_str2symbol ("format"),
-                              scm_long2num (format)),
-                    scm_cons (scm_str2symbol ("channels"),
-                              scm_long2num (channels)));
+  return scm_list_3 (scm_cons (scm_str2symbol ("freq"),
+                               scm_long2num (freq)),
+                     scm_cons (scm_str2symbol ("format"),
+                               scm_long2num (format)),
+                     scm_cons (scm_str2symbol ("channels"),
+                               scm_long2num (channels)));
 }
 #undef FUNC_NAME
 

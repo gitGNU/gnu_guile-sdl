@@ -2,7 +2,7 @@
  *  sdlttf.c -- SDL_ttf for Guile                                  *
  *                                                                 *
  *  Created:    <2001-06-11 18:03:28 foof>                         *
- *  Time-stamp: <01/11/25 22:07:01 foof>                         *
+ *  Time-stamp: <01/11/25 22:09:47 foof>                         *
  *                                                                 *
  *  This program is free software; you can redistribute it and/or  *
  * modify it under the terms of the GNU General Public License as  *
@@ -175,12 +175,12 @@ SCM_DEFINE( ttf_glyph_metrics, "sdl-font:glyph-metrics", 2, 0, 0,
 
   TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance);
 
-  return SCM_LIST5 (scm_cons (scm_str2symbol ("minx"), scm_long2num (minx)),
-                    scm_cons (scm_str2symbol ("maxx"), scm_long2num (maxx)),
-                    scm_cons (scm_str2symbol ("miny"), scm_long2num (miny)),
-                    scm_cons (scm_str2symbol ("maxy"), scm_long2num (maxy)),
-                    scm_cons (scm_str2symbol ("advance"),
-                              scm_long2num (advance)));
+  return scm_list_5 (scm_cons (scm_str2symbol ("minx"), scm_long2num (minx)),
+                     scm_cons (scm_str2symbol ("maxx"), scm_long2num (maxx)),
+                     scm_cons (scm_str2symbol ("miny"), scm_long2num (miny)),
+                     scm_cons (scm_str2symbol ("maxy"), scm_long2num (maxy)),
+                     scm_cons (scm_str2symbol ("advance"),
+                               scm_long2num (advance)));
 }
 #undef FUNC_NAME
 
@@ -203,8 +203,8 @@ SCM_DEFINE( ttf_size_text, "sdl-font:size-text", 2, 0, 0,
   text = SCM_STRING_CHARS (s_text);
 
   TTF_SizeText (font, text, &w, &h);
-  return SCM_LIST2 (scm_cons (scm_str2symbol ("w"), scm_long2num (w)),
-                    scm_cons (scm_str2symbol ("h"), scm_long2num (h)));
+  return scm_list_2 (scm_cons (scm_str2symbol ("w"), scm_long2num (w)),
+                     scm_cons (scm_str2symbol ("h"), scm_long2num (h)));
 }
 #undef FUNC_NAME
 
@@ -227,7 +227,7 @@ SCM_DEFINE( ttf_size_utf8, "sdl-font:size-utf8", 2, 0, 0,
   text = SCM_STRING_CHARS (s_text);
 
   TTF_SizeUTF8 (font, text, &w, &h);
-  return SCM_LIST2 (scm_long2num (w), scm_long2num (h));
+  return scm_list_2 (scm_long2num (w), scm_long2num (h));
 }
 #undef FUNC_NAME
 
