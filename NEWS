@@ -6,6 +6,50 @@ See the end for copying conditions.
 Please send guile-sdl bug reports to <ttn@glug.org>.
 
 
+- guile-sdl 0.2.0 (NOT YET RELEASED)
+
+  - installation change: scheme wrappers for most modules eliminated
+
+	Previously, the modules (sdl mixer), (sdl ttf) and (sdl gfx)
+	were implemented as a combination of a small piece of Scheme
+	code that dlopened a libtool-created shared object library in
+	${libdir}.  Since Guile can recognize certain shared object
+	libraries as modules and load them directly, these Scheme code
+	wrappers are not required and thus are now no longer distributed.
+	Instead, "make install" places the shared object libraries for
+	these modules and their support files in directory:
+
+		${GUILE_LIBSITE}/sdl/
+
+	The value of ${GUILE_LIBSITE} is determined by the `configure'
+	script.  Also installed in this directory is the compiled module
+	(sdl sdl-sup), an internal module used by all the user-facing
+	modules.  Related to these changes, if the program "guile-tools
+	make-module-catalog" is available, installation invokes it for
+	the ${GUILE_LIBSITE} directory for the compiled modules, and
+	${GUILE_SITE} for module (sdl sdl).  See README for more info.
+
+  - upgrade facility: make {check,clean}-000-libdir
+
+	See README section "Upgrading Tips" for info on how to handle
+	old ${libdir}/libguileSDL* files (from guile-sdl-0.1.x).
+
+  - "sdl-" prefix dropped
+
+	Procedure names no longer begin with "sdl-".  You can use the
+	module system's `#:renamer' clause (for `use-modules' and
+	`define-module' forms) to add this back, or possibly choose
+	another prefix.  The distributed tests and examples use "SDL:".
+
+
+- maintainership transfer: ttn
+
+	A big thanks goes to Alex Shinn, Vikram Subramanian, and Joel
+	Smith, the original authors of the disparate packages that all
+	came together as guile-sdl in mid-to-late 2001, for (1) writing
+	the code; (2) pooling their efforts; and (3) passing it on.
+
+
 - guile-sdl 0.1.7
 
 	Most of the merge complete.  Looking to make some minor clean-up
