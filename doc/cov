@@ -2,39 +2,33 @@
 # usage: cov
 # env vars required: srcdir
 
-set -e
-
 test -n "${srcdir}"
 
-sed -e '/GH_DEFPROC/!d' \
-    -e 's/^[^"]*"//g' \
-    -e 's/".*//g' \
-    ${srcdir}/../*/*.c \
+sed -e '//{N;s/^../=====/g;}' \
+    -e '/^=====/!d' \
+    -e 's/^=====//g' \
+    -e 's/[()]//g' \
+    -e 's/ .*//g' \
+    ../*/*.doc \
     | sort \
-    | uniq \
-    > TMP1
+    > TMP-dot-doc-files
 
 sed -e '/twerpdoc/!d' \
     -e 's/.*(//g;s/).*//g' \
-    -e '/^event:/d' \
-    -e '/^surface:/d' \
-    -e '/^color:/d' \
     ${srcdir}/*.twerp \
     | sort \
-    | uniq \
-    > TMP2
+    > TMP-twerpdoc-directives
 
-diff -u TMP1 TMP2 > TMP
+diff -u TMP-dot-doc-files TMP-twerpdoc-directives > TMP
 
 if [ -s TMP ] ; then
     echo 'ERROR: bad doc coverage!'
-    echo '       here is a list:'
     cat TMP
-    rm TMP1 TMP 2TMP
+    rm TMP-* TMP
     exit 1
 fi
 
-rm TMP1 TMP2 TMP
+rm TMP-* TMP
 exit 0
 
 # cov ends here
