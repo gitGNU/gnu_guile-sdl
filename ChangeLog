@@ -7,6 +7,9 @@
 	* Makefile.am (install-data-hook): Use $(GUILE_LIBSITE)
 	instead of $(guilelibsitedir).
 
+	* am/common (cmoddir): Use $(GUILE_LIBSITE)
+	instead of $(guilelibsitedir).
+
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* alive.test: Add #:renamer clause to `use-modules' form.
