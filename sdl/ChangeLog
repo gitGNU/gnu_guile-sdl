@@ -1,5 +1,11 @@
 2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (schememoddir): Use $(GUILE_LIBSITE).
+	(retired): New var.
+	(install-data-hook): New target.
+
+2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* misc-utils.scm: New file.
 
 	* Makefile.am: Include $(top_srcdir)/am/common.
