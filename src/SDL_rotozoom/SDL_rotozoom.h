@@ -1,3 +1,5 @@
+/* SDL_rotozoom.h */
+
 #ifndef _SDL_rotozoom_h
 #define _SDL_rotozoom_h
 
@@ -30,36 +32,32 @@ typedef struct tColorRGBA {
 typedef struct tColorY {
 	Uint8 y;
 } tColorY;
-	
+
 
 /* ---- Prototypes */
 
-/* 
- 
- rotozoomSurface()
 
- Rotates and zoomes a 32bit or 8bit 'src' surface to newly created 'dst' surface.
- 'angle' is the rotation in degrees. 'zoom' a scaling factor. If 'smooth' is 1
- then the destination 32bit surface is anti-aliased. If the surface is not 8bit
- or 32bit RGBA/ABGR it will be converted into a 32bit RGBA format on the fly.
+/*:Return a newly created surface made from rotating and zooming the
+   @var{src} surface.  @var{angle} is the rotation in degrees.  @var{zoom}
+   is a scaling factor.  If @var{smooth} is 1 then the result surface is
+   anti-aliased.  If @var{src} is not 8bit or 32bit RGBA/ABGR it will be
+   converted into a 32bit RGBA format on the fly.  The result surface is
+   32bit.
+*/
+SDL_Surface * rotozoomSurface (SDL_Surface *src,
+                               double angle, double zoom,
+                               int smooth);
 
-*/  
 
-SDL_Surface * rotozoomSurface (SDL_Surface *src, double angle, double zoom, int smooth);
-
-
-/* 
- 
- zoomSurface()
-
- Zoomes a 32bit or 8bit 'src' surface to newly created 'dst' surface.
- 'zoomx' and 'zoomy' are scaling factors for width and height. If 'smooth' is 1
- then the destination 32bit surface is anti-aliased. If the surface is not 8bit
- or 32bit RGBA/ABGR it will be converted into a 32bit RGBA format on the fly.
-
-*/  
-
-SDL_Surface * zoomSurface (SDL_Surface *src, double zoomx, double zoomy, int smooth);
+/*:Return a newly created surface made from zooming the @var{src} surface.
+   @var{zoomx} and @var{zoomy} are scaling factors for width and height.
+   If @var{smooth} is 1 then the result surface is anti-aliased.  If
+   @var{src} is not 8bit or 32bit RGBA/ABGR it will be converted into a
+   32bit RGBA format on the fly.  The result surface is 32bit.
+*/
+SDL_Surface * zoomSurface (SDL_Surface *src,
+                           double zoomx, double zoomy,
+                           int smooth);
 
 
 /* Ends C function definitions when using C++ */
@@ -68,3 +66,5 @@ SDL_Surface * zoomSurface (SDL_Surface *src, double zoomx, double zoomy, int smo
 #endif
 
 #endif /* _SDL_rotozoom_h */
+
+/* SDL_rotozoom.h ends here */
