@@ -19,6 +19,11 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 	This is to follow the Scheme convention for printing objects
 	that cannot be `read' back in.
 
+  - implementation for (sdl sdl) proc: event-state
+
+	Previously the interface was available but calling the proc
+	resulted in a "not yet implemented" error.
+
 
 - 0.3.0 | 2004-11-25
 
