@@ -1,5 +1,11 @@
 2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlsurface.c (set_alpha): Make third arg optional.
+	If unspecified, take it as zero.
+	Also, take #f for `flag' as zero, as well.
+
+2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlsurface.c (create_rgb_surface): Fix signedness bug:
 	Use `gh_scm2ulong'.  Also, remove redundant casts.
 
