@@ -48,7 +48,7 @@ long gsdl_smob_tags[GSTX_TOO_MUCH];
 
 static SCM sdl_init_flags;
 
-MDEFLOCEXP (sdl_get_init_flags, "flagstash:init", 0, 0, 0, (),
+GH_DEFPROC (sdl_get_init_flags, "flagstash:init", 0, 0, 0, (),
             "Return the flagstash object for @code{sdl-init} flags.")
 {
   return sdl_init_flags;
@@ -56,7 +56,7 @@ MDEFLOCEXP (sdl_get_init_flags, "flagstash:init", 0, 0, 0, (),
 
 
 /* Initialization */
-MDEFLOCEXP (sdl_init, "sdl-init", 1, 0, 0,
+GH_DEFPROC (sdl_init, "sdl-init", 1, 0, 0,
             (SCM sel),
             "Initialize SDL based on configuration flags @var{sel}.\n"
             "@var{sel} is a list of symbols whose names all begin\n"
@@ -70,7 +70,7 @@ MDEFLOCEXP (sdl_init, "sdl-init", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_init_subsystem, "sdl-init-subsystem", 1, 0, 0,
+GH_DEFPROC (sdl_init_subsystem, "sdl-init-subsystem", 1, 0, 0,
             (SCM sel),
             "Initialize the SDL subsystems represented by @var{sel}.\n"
             "@var{sel} is a list of flags (symbols)\n"
@@ -85,7 +85,7 @@ MDEFLOCEXP (sdl_init_subsystem, "sdl-init-subsystem", 1, 0, 0,
 
 
 /* Termination */
-MDEFLOCEXP (sdl_quit, "sdl-quit", 0, 0, 0,
+GH_DEFPROC (sdl_quit, "sdl-quit", 0, 0, 0,
             (void),
             "Shut down all SDL subsystems.")
 #define FUNC_NAME s_sdl_quit
@@ -96,7 +96,7 @@ MDEFLOCEXP (sdl_quit, "sdl-quit", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_quit_subsystem, "sdl-quit-subsystem", 1, 0, 0,
+GH_DEFPROC (sdl_quit_subsystem, "sdl-quit-subsystem", 1, 0, 0,
             (SCM sel),
             "Shut down the SDL subsystems represented by @var{sel}.\n"
             "@var{sel} is a list of flags (symbols)\n"
@@ -110,7 +110,7 @@ MDEFLOCEXP (sdl_quit_subsystem, "sdl-quit-subsystem", 1, 0, 0,
 
 
 /* Information */
-MDEFLOCEXP (sdl_was_init, "sdl-was-init", 1, 0, 0,
+GH_DEFPROC (sdl_was_init, "sdl-was-init", 1, 0, 0,
             (SCM sel),
             "Check if the SDL subsystems represented by @var{sel}\n"
             "have been initialized.  @var{sel} is a list of flags (symbols)\n"
@@ -126,7 +126,7 @@ MDEFLOCEXP (sdl_was_init, "sdl-was-init", 1, 0, 0,
 
 /* time functions */
 
-MDEFLOCEXP (sdl_get_ticks, "sdl-get-ticks", 0, 0, 0,
+GH_DEFPROC (sdl_get_ticks, "sdl-get-ticks", 0, 0, 0,
             (void),
             "Return the number of milliseconds since\n"
             "the SDL library initialization.")
@@ -137,7 +137,7 @@ MDEFLOCEXP (sdl_get_ticks, "sdl-get-ticks", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_delay, "sdl-delay", 1, 0, 0,
+GH_DEFPROC (sdl_delay, "sdl-delay", 1, 0, 0,
             (SCM ms),
             "Wait @var{ms} milliseconds.")
 #define FUNC_NAME s_sdl_delay
@@ -151,7 +151,7 @@ MDEFLOCEXP (sdl_delay, "sdl-delay", 1, 0, 0,
 
 /* error handling */
 
-MDEFLOCEXP (sdl_get_error, "sdl-get-error", 0, 0, 0,
+GH_DEFPROC (sdl_get_error, "sdl-get-error", 0, 0, 0,
             (void),
             "Return the current SDL error string.")
 #define FUNC_NAME s_sdl_get_error
@@ -187,6 +187,6 @@ init_module (void)
   gsdl_init_cdrom ();
 }
 
-MDEFLINKFUNC ("sdl sdl-sup", sdl_sdl_sup, init_module)
+GH_MODULE_LINK_FUNC ("sdl sdl-sup", sdl_sdl_sup, init_module)
 
 /* sdl.c ends here */

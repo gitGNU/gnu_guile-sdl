@@ -28,7 +28,7 @@
 #include "sdlsmobs.h"
 
 
-MDEFLOCEXP (sdl_draw_point, "sdl-draw-point", 4, 0, 0,
+GH_DEFPROC (sdl_draw_point, "sdl-draw-point", 4, 0, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_color),
             "On @var{surface}, draw a point at location\n"
             "@var{x},@var{y} with color @var{color}.")
@@ -47,7 +47,7 @@ MDEFLOCEXP (sdl_draw_point, "sdl-draw-point", 4, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_draw_line, "sdl-draw-line", 6, 0, 0,
+GH_DEFPROC (sdl_draw_line, "sdl-draw-line", 6, 0, 0,
             (SCM s_surface, SCM s_x1, SCM s_y1,
              SCM s_x2, SCM s_y2, SCM s_color),
             "On @var{surface}, draw a line segment from\n"
@@ -71,7 +71,7 @@ MDEFLOCEXP (sdl_draw_line, "sdl-draw-line", 6, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_draw_aa_line, "sdl-draw-aa-line", 6, 0, 0,
+GH_DEFPROC (sdl_draw_aa_line, "sdl-draw-aa-line", 6, 0, 0,
             (SCM s_surface, SCM s_x1, SCM s_y1,
              SCM s_x2, SCM s_y2, SCM s_color),
             "On @var{surface}, draw an anti-aliased line segment from\n"
@@ -95,7 +95,7 @@ MDEFLOCEXP (sdl_draw_aa_line, "sdl-draw-aa-line", 6, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_draw_rectangle, "sdl-draw-rectangle", 6, 1, 0,
+GH_DEFPROC (sdl_draw_rectangle, "sdl-draw-rectangle", 6, 1, 0,
             (SCM s_surface, SCM s_x1, SCM s_y1, SCM s_x2, SCM s_y2,
              SCM s_color, SCM s_fill),
             "On @var{surface}, draw rectangle with opposite points\n"
@@ -123,7 +123,7 @@ MDEFLOCEXP (sdl_draw_rectangle, "sdl-draw-rectangle", 6, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_draw_circle, "sdl-draw-circle", 5, 1, 0,
+GH_DEFPROC (sdl_draw_circle, "sdl-draw-circle", 5, 1, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_r,
              SCM s_color, SCM s_fill),
             "On @var{surface}, draw circle with center @var{x},@var{y}\n"
@@ -149,7 +149,7 @@ MDEFLOCEXP (sdl_draw_circle, "sdl-draw-circle", 5, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_draw_ellipse, "sdl-draw-ellipse", 6, 1, 0,
+GH_DEFPROC (sdl_draw_ellipse, "sdl-draw-ellipse", 6, 1, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_rx, SCM s_ry,
              SCM s_color, SCM s_fill),
             "On @var{surface}, draw ellipse with center @var{x},@var{y}\n"
@@ -176,7 +176,7 @@ MDEFLOCEXP (sdl_draw_ellipse, "sdl-draw-ellipse", 6, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_draw_polygon, "sdl-draw-polygon", 4, 1, 0,
+GH_DEFPROC (sdl_draw_polygon, "sdl-draw-polygon", 4, 1, 0,
             (SCM s_surface, SCM s_vx, SCM s_vy, SCM s_color, SCM s_fill),
             "On @var{surface}, draw a polygon whose points are specified\n"
             "by corresponding pairs from the uniform vectors\n"
@@ -209,7 +209,7 @@ MDEFLOCEXP (sdl_draw_polygon, "sdl-draw-polygon", 4, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_draw_character, "sdl-draw-character", 5, 0, 0,
+GH_DEFPROC (sdl_draw_character, "sdl-draw-character", 5, 0, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_char, SCM s_color),
             "On @var{surface} at position @var{x},@var{y},\n"
             "draw char @var{c} with @var{color} (a number).")
@@ -229,7 +229,7 @@ MDEFLOCEXP (sdl_draw_character, "sdl-draw-character", 5, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (sdl_draw_string, "sdl-draw-string", 5, 0, 0,
+GH_DEFPROC (sdl_draw_string, "sdl-draw-string", 5, 0, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_string, SCM s_color),
             "On @var{surface} at position @var{x},@var{y},\n"
             "draw string @var{text} with @var{color} (a number).")
@@ -260,6 +260,6 @@ init_module (void)
 #include "sdlgfx.x"
 }
 
-MDEFLINKFUNC ("sdl gfx", sdl_gfx, init_module)
+GH_MODULE_LINK_FUNC ("sdl gfx", sdl_gfx, init_module)
 
 /* sdlgfx.c ends here */

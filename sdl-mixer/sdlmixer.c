@@ -74,7 +74,7 @@ free_audio (SCM s_chunk)
 }
 
 
-MDEFLOCEXP (mix_open_audio, "sdl-open-audio", 0, 4, 0,
+GH_DEFPROC (mix_open_audio, "sdl-open-audio", 0, 4, 0,
             (SCM s_freq, SCM s_format, SCM s_stereo, SCM s_chunksize),
             "Open the mixer with a certain audio format.\n"
             "Optional args @var{freq} (number), @var{format} (number),\n"
@@ -111,7 +111,7 @@ MDEFLOCEXP (mix_open_audio, "sdl-open-audio", 0, 4, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_allocate_channels, "sdl-allocated-channels", 1, 0, 0,
+GH_DEFPROC (mix_allocate_channels, "sdl-allocated-channels", 1, 0, 0,
             (SCM s_numchans),
             "Dynamically change the number of channels managed by\n"
             "the mixer to @var{numchans}.  If decreasing the number\n"
@@ -130,7 +130,7 @@ SCM_SYMBOL (gsdl_sym_freq, "freq");
 SCM_SYMBOL (gsdl_sym_format, "format");
 SCM_SYMBOL (gsdl_sym_channels, "channels");
 
-MDEFLOCEXP (mix_query_spec, "sdl-query-spec", 0, 0, 0,
+GH_DEFPROC (mix_query_spec, "sdl-query-spec", 0, 0, 0,
             (void),
             "Return audio device parameters as an alist, or #f\n"
             "if the audio has not yet been opened.\n"
@@ -152,7 +152,7 @@ MDEFLOCEXP (mix_query_spec, "sdl-query-spec", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_load_music, "sdl-load-music", 1, 0, 0,
+GH_DEFPROC (mix_load_music, "sdl-load-music", 1, 0, 0,
             (SCM file),
             "Load a wave or a music (.mod .s3m .it .xm) @var{file}.\n"
             "Return a handle to it.")
@@ -166,7 +166,7 @@ MDEFLOCEXP (mix_load_music, "sdl-load-music", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_load_wave, "sdl-load-wave", 1, 0, 0,
+GH_DEFPROC (mix_load_wave, "sdl-load-wave", 1, 0, 0,
             (SCM file),
             "Load a wave @var{file}. Return a handle to it.")
 #define FUNC_NAME s_mix_load_wave
@@ -179,7 +179,7 @@ MDEFLOCEXP (mix_load_wave, "sdl-load-wave", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_reserve_channels, "sdl-reserve-channels", 1, 0, 0,
+GH_DEFPROC (mix_reserve_channels, "sdl-reserve-channels", 1, 0, 0,
             (SCM num),
             "Reserve the first @var{num} channels (0 through @var{num}-1)\n"
             "for the application.  I.E. don't allocate them dynamically to\n"
@@ -194,7 +194,7 @@ MDEFLOCEXP (mix_reserve_channels, "sdl-reserve-channels", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_group_channel, "sdl-group-channel", 1, 1, 0,
+GH_DEFPROC (mix_group_channel, "sdl-group-channel", 1, 1, 0,
             (SCM s_which, SCM s_tag),
             "Attach to @var{channel} a @var{tag}.\n"
             "A tag can be assigned to several mixer channels, to\n"
@@ -219,7 +219,7 @@ MDEFLOCEXP (mix_group_channel, "sdl-group-channel", 1, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_group_channels, "sdl-group-channels", 2, 1, 0,
+GH_DEFPROC (mix_group_channels, "sdl-group-channels", 2, 1, 0,
             (SCM s_from, SCM s_to, SCM s_tag),
             "Assign channels in the range @var{from} through @var{to}\n"
             "to the default group.  Optional arg @var{tag} specifies\n"
@@ -244,7 +244,7 @@ MDEFLOCEXP (mix_group_channels, "sdl-group-channels", 2, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_group_available, "sdl-group-available", 0, 1, 0,
+GH_DEFPROC (mix_group_available, "sdl-group-available", 0, 1, 0,
             (SCM s_tag),
             "Return the first available channel in the default\n"
             "group of channels.\n"
@@ -263,7 +263,7 @@ MDEFLOCEXP (mix_group_available, "sdl-group-available", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_group_count, "sdl-group-count", 0, 1, 0,
+GH_DEFPROC (mix_group_count, "sdl-group-count", 0, 1, 0,
             (SCM s_tag),
             "Return the number of channels in the default group.\n"
             "Optional arg @var{tag} specifies the group to check.")
@@ -281,7 +281,7 @@ MDEFLOCEXP (mix_group_count, "sdl-group-count", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_group_oldest, "sdl-group-oldest", 0, 1, 0,
+GH_DEFPROC (mix_group_oldest, "sdl-group-oldest", 0, 1, 0,
             (SCM s_tag),
             "Return the \"oldest\" sample playing in the default\n"
             "group of channels.\n"
@@ -300,7 +300,7 @@ MDEFLOCEXP (mix_group_oldest, "sdl-group-oldest", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_group_newer, "sdl-group-newer", 0, 1, 0,
+GH_DEFPROC (mix_group_newer, "sdl-group-newer", 0, 1, 0,
             (SCM s_tag),
             "Return the \"most recent\" (i.e. last) sample playing\n"
             "in the default group of channels.\n"
@@ -319,7 +319,7 @@ MDEFLOCEXP (mix_group_newer, "sdl-group-newer", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_play_channel, "sdl-play-channel", 1, 4, 0,
+GH_DEFPROC (mix_play_channel, "sdl-play-channel", 1, 4, 0,
             (SCM s_chunk, SCM s_channel, SCM s_loops, SCM s_ticks, SCM s_fade),
             "Play an audio @var{chunk} on a specific @var{channel}.\n"
             "If the channel is unspecified or is -1, play on the\n"
@@ -371,7 +371,7 @@ MDEFLOCEXP (mix_play_channel, "sdl-play-channel", 1, 4, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_play_music, "sdl-play-music", 1, 2, 0,
+GH_DEFPROC (mix_play_music, "sdl-play-music", 1, 2, 0,
             (SCM s_music, SCM s_loops, SCM s_fade),
             "Play a @var{music} track.\n"
             "Optional args @var{loops} and @var{fade}\n"
@@ -403,7 +403,7 @@ MDEFLOCEXP (mix_play_music, "sdl-play-music", 1, 2, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_volume, "sdl-volume", 0, 2, 0,
+GH_DEFPROC (mix_volume, "sdl-volume", 0, 2, 0,
             (SCM s_volume, SCM s_which),
             "Return the current volume on the default channel.\n"
             "Optional arg @var{v} (a number in the range 0-128) means\n"
@@ -443,7 +443,7 @@ MDEFLOCEXP (mix_volume, "sdl-volume", 0, 2, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_volume_music, "sdl-music-volume", 0, 1, 0,
+GH_DEFPROC (mix_volume_music, "sdl-music-volume", 0, 1, 0,
             (SCM s_volume),
             "Return the current volume.\n"
             "Optional arg @var{v} (a number in the range 0-128)\n"
@@ -462,7 +462,7 @@ MDEFLOCEXP (mix_volume_music, "sdl-music-volume", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_halt_channel, "sdl-halt-channel", 0, 1, 0,
+GH_DEFPROC (mix_halt_channel, "sdl-halt-channel", 0, 1, 0,
             (SCM s_channel),
             "Halt playing of the default channel.\n"
             "Optional arg @var{channel} specifies a channel to halt.")
@@ -480,7 +480,7 @@ MDEFLOCEXP (mix_halt_channel, "sdl-halt-channel", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_halt_group, "sdl-halt-group", 0, 1, 0,
+GH_DEFPROC (mix_halt_group, "sdl-halt-group", 0, 1, 0,
             (SCM s_tag),
             "Halt playing of the default group.\n"
             "Optional arg @var{tag} specifies the group to halt.")
@@ -498,7 +498,7 @@ MDEFLOCEXP (mix_halt_group, "sdl-halt-group", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_halt_music, "sdl-halt-music", 0, 0, 0,
+GH_DEFPROC (mix_halt_music, "sdl-halt-music", 0, 0, 0,
             (void),
             "Halt playing of the music.")
 #define FUNC_NAME s_mix_halt_music
@@ -508,7 +508,7 @@ MDEFLOCEXP (mix_halt_music, "sdl-halt-music", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_expire_channel, "sdl-expire-channel", 0, 2, 0,
+GH_DEFPROC (mix_expire_channel, "sdl-expire-channel", 0, 2, 0,
             (SCM s_channel, SCM s_ticks),
             "Turn off expiration for the default channel.\n"
             "Optional arg @var{channel} specifies a channel to change.\n"
@@ -534,7 +534,7 @@ MDEFLOCEXP (mix_expire_channel, "sdl-expire-channel", 0, 2, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_fade_out_channel, "sdl-fade-out-channel", 0, 2, 0,
+GH_DEFPROC (mix_fade_out_channel, "sdl-fade-out-channel", 0, 2, 0,
             (SCM s_which, SCM s_ms),
             "Halt a channel, fading it out progressively until silent.\n"
             "Optional arg @var{which} specifies a channel to halt.\n"
@@ -560,7 +560,7 @@ MDEFLOCEXP (mix_fade_out_channel, "sdl-fade-out-channel", 0, 2, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_fade_out_group, "sdl-fade-out-group", 0, 2, 0,
+GH_DEFPROC (mix_fade_out_group, "sdl-fade-out-group", 0, 2, 0,
             (SCM s_tag, SCM s_ms),
             "Halt a group, fading it out progressively until silent.\n"
             "Optional arg @var{tag} specifies a group to halt.\n"
@@ -586,7 +586,7 @@ MDEFLOCEXP (mix_fade_out_group, "sdl-fade-out-group", 0, 2, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_fade_out_music, "sdl-fade-out-music", 0, 1, 0,
+GH_DEFPROC (mix_fade_out_music, "sdl-fade-out-music", 0, 1, 0,
             (SCM s_ms),
             "Halt the music, fading it out progressively until silent.\n"
             "Optional arg @var{ms} specifies the number of milliseconds\n"
@@ -605,7 +605,7 @@ MDEFLOCEXP (mix_fade_out_music, "sdl-fade-out-music", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_fading_music, "sdl-fading-music", 0, 0, 0,
+GH_DEFPROC (mix_fading_music, "sdl-fading-music", 0, 0, 0,
             (void),
             "Return the fading status of the music.")
 #define FUNC_NAME s_mix_fading_music
@@ -615,7 +615,7 @@ MDEFLOCEXP (mix_fading_music, "sdl-fading-music", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_fading_channel, "sdl-fading-channel", 0, 1, 0,
+GH_DEFPROC (mix_fading_channel, "sdl-fading-channel", 0, 1, 0,
             (SCM s_which),
             "Return the fading status of a the default channel."
             "Optional arg @var{which} selects which channel to check.")
@@ -633,7 +633,7 @@ MDEFLOCEXP (mix_fading_channel, "sdl-fading-channel", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_pause, "sdl-pause", 0, 1, 0,
+GH_DEFPROC (mix_pause, "sdl-pause", 0, 1, 0,
             (SCM s_channel),
             "Pause the default channel."
             "Optional arg @var{channel} selects which channel to pause.\n"
@@ -653,7 +653,7 @@ MDEFLOCEXP (mix_pause, "sdl-pause", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_resume, "sdl-resume", 0, 1, 0,
+GH_DEFPROC (mix_resume, "sdl-resume", 0, 1, 0,
             (SCM s_channel),
             "Resume (unpause) the default channel.\n"
             "Optional arg @var{channel} selects which channel to resume.\n"
@@ -673,7 +673,7 @@ MDEFLOCEXP (mix_resume, "sdl-resume", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_paused, "sdl-paused?", 0, 1, 0,
+GH_DEFPROC (mix_paused, "sdl-paused?", 0, 1, 0,
             (SCM s_channel),
             "Return #t if the default channel is paused.\n"
             "Optional arg @var{channel} selects a which channel to check.")
@@ -692,7 +692,7 @@ MDEFLOCEXP (mix_paused, "sdl-paused?", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_pause_music, "sdl-pause-music", 0, 0, 0,
+GH_DEFPROC (mix_pause_music, "sdl-pause-music", 0, 0, 0,
             (void),
             "Pause the music.  Return value unspecified.")
 #define FUNC_NAME s_mix_pause_music
@@ -703,7 +703,7 @@ MDEFLOCEXP (mix_pause_music, "sdl-pause-music", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_resume_music, "sdl-resume-music", 0, 0, 0,
+GH_DEFPROC (mix_resume_music, "sdl-resume-music", 0, 0, 0,
             (void),
             "Resume (unpause) the music.  Return value unspecified.")
 #define FUNC_NAME s_mix_resume_music
@@ -714,7 +714,7 @@ MDEFLOCEXP (mix_resume_music, "sdl-resume-music", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_rewind_music, "sdl-rewind-music", 0, 0, 0,
+GH_DEFPROC (mix_rewind_music, "sdl-rewind-music", 0, 0, 0,
             (void),
             "Rewind the music.  Return value unspecified.")
 #define FUNC_NAME s_mix_rewind_music
@@ -725,7 +725,7 @@ MDEFLOCEXP (mix_rewind_music, "sdl-rewind-music", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_paused_music, "sdl-paused-music?", 0, 0, 0,
+GH_DEFPROC (mix_paused_music, "sdl-paused-music?", 0, 0, 0,
             (void),
             "Return #t if the music is currently paused.")
 #define FUNC_NAME s_mix_paused_music
@@ -736,7 +736,7 @@ MDEFLOCEXP (mix_paused_music, "sdl-paused-music?", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_playing, "sdl-playing?", 0, 1, 0,
+GH_DEFPROC (mix_playing, "sdl-playing?", 0, 1, 0,
             (SCM s_channel),
             "Return #t iff the default channel is playing.\n"
             "Optional arg @var{channel} selects which channel to check.")
@@ -755,7 +755,7 @@ MDEFLOCEXP (mix_playing, "sdl-playing?", 0, 1, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_playing_music, "sdl-playing-music?", 0, 0, 0,
+GH_DEFPROC (mix_playing_music, "sdl-playing-music?", 0, 0, 0,
             (void),
             "Return #t iff the music is currently playing.")
 #define FUNC_NAME s_mix_playing_music
@@ -766,7 +766,7 @@ MDEFLOCEXP (mix_playing_music, "sdl-playing-music?", 0, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_set_music_cmd, "sdl-set-music-command", 1, 0, 0,
+GH_DEFPROC (mix_set_music_cmd, "sdl-set-music-command", 1, 0, 0,
             (SCM command),
             "Stop music and set external music playback command\n"
             "to @var{command}, a string.")
@@ -778,7 +778,7 @@ MDEFLOCEXP (mix_set_music_cmd, "sdl-set-music-command", 1, 0, 0,
 #undef FUNC_NAME
 
 
-MDEFLOCEXP (mix_close_audio, "sdl-close-audio", 0, 0, 0,
+GH_DEFPROC (mix_close_audio, "sdl-close-audio", 0, 0, 0,
             (void),
             "Close the mixer, halting all playing audio.")
 #define FUNC_NAME s_mix_close_audio
@@ -815,6 +815,6 @@ init_module (void)
 #include "sdlmixer.x"
 }
 
-MDEFLINKFUNC ("sdl mixer", sdl_mixer, init_module)
+GH_MODULE_LINK_FUNC ("sdl mixer", sdl_mixer, init_module)
 
 /* sdlmixer.c ends here */
