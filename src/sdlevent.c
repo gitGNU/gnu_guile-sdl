@@ -1,6 +1,6 @@
 /* sdlevent.c --- SDL input handling for Guile
  *
- * 	Copyright (C) 2003,2004 Thien-Thi Nguyen
+ * 	Copyright (C) 2003,2004,2005 Thien-Thi Nguyen
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -194,7 +194,7 @@ GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
   GSDL_NUMBER_SETTER ("event:" s_frag,          \
                       event_ ## c_frag,         \
                       event_tag, SDL_Event *,   \
-                      c_field)
+                      c_field, gh_scm2ulong)
 
 #define NUM2_GETTER(a    ,    b)                \
   NUMBER_GETTER   (#a   ":"  #b,                \

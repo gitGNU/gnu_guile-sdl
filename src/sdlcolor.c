@@ -97,7 +97,7 @@ GH_DEFPROC (make_color, "make-color", 3, 0, 0,
   GSDL_NUMBER_SETTER ("color:set-" #f "!",      \
                       color_set_ ## f,          \
                       color_tag, SDL_Color *,   \
-                      f)
+                      f, gh_scm2ulong)
 
 #define NUMBER_GETSET(f) \
   NUMBER_GETTER (f)      \
