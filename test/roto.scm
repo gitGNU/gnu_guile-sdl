@@ -1,4 +1,5 @@
-#!/usr/local/bin/guile -s
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
 
 ;; simple rotozoom test
@@ -22,9 +23,9 @@
        (gnu-rect (sdl-make-rect 0 0 w h)))
   ;; set the video mode to the dimensions of our image
   (sdl-set-video-mode w h 16 '(SDL_HWSURFACE))
-  ;; rotate the image 15 degrees at a time
-  (do ((theta 0 (+ 15 theta)))
-      ((>= theta 360))
+  ;; rotate the image 27 degrees at a time
+  (do ((theta 0 (+ 27 theta)))
+      ((>= theta (* 3 360)))            ; a few times around
     (let ((image (sdl-roto-zoom-surface gnu-head theta 1.0 #t)))
       (sdl-fill-rect (sdl-get-video-surface) gnu-rect #xffff)
       (sdl-blit-surface image)
@@ -34,3 +35,4 @@
 ;; quit
 (sdl-quit)
 
+;;; roto.scm ends here
