@@ -6,7 +6,7 @@ See the end for copying conditions.
 Please send guile-sdl bug reports to <ttn@glug.org>.
 
 
-- guile-sdl 0.2.0 (NOT YET RELEASED)
+- guile-sdl 0.2.0 (released 2003-11-21)
 
   - installation change: scheme wrappers for most modules eliminated
 
