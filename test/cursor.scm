@@ -2,10 +2,6 @@
 !#
 
 ;; simple cursor test
-;; 
-;; Created:    <2001-06-13 00:38:13 foof>
-;; Time-stamp: <2001-07-05 15:01:18 foof>
-;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl))
 

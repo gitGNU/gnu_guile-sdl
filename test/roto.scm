@@ -2,10 +2,6 @@
 !#
 
 ;; simple rotozoom test
-;; 
-;; Created:    <2001-06-29 20:06:18 foof>
-;; Time-stamp: <2001-07-05 14:59:42 foof>
-;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl))
 

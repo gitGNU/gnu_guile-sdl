@@ -2,10 +2,6 @@
 !#
 
 ;; simple image test
-;; 
-;; Created:    <2001-05-29 20:38:26 foof>
-;; Time-stamp: <2001-07-05 14:48:17 foof>
-;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl))
 

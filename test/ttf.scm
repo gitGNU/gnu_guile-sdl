@@ -2,10 +2,6 @@
 !#
 
 ;; simple true type font test
-;; 
-;; Created:    <2001-06-10 19:14:30 foof>
-;; Time-stamp: <2001-07-05 14:54:48 foof>
-;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl)
              (sdl ttf)
@@ -32,17 +28,34 @@
 (define test-rect (sdl-make-rect 0 0 640 480))
 (sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 16)
 
-;; clear the rect and write the text
-(let ((screen (sdl-get-video-surface))
-      (text (sdl-render-text font sentence (sdl-make-color 0 0 0))))
-  (sdl-fill-rect screen test-rect #xffffff)  
-  (sdl-blit-surface text test-rect screen test-rect))
+(seed->random-state (sdl-get-ticks))
 
-;; flip and wait
-(sdl-flip)
-(sdl-delay 1000)
+(define rand-rect
+  (let* ((dimensions (sdl-font:size-text font sentence))
+         (w (car dimensions))
+         (h (cadr dimensions)))
+    (lambda ()
+      (sdl-make-rect (random (sdl-rect:w test-rect))
+                     (random (sdl-rect:h test-rect))
+                     w h))))
+
+(define rand-color
+  (lambda ()
+    (sdl-make-color (random #xff) (random #xff) (random #xff))))
+
+;; write the text in random locations with random colors
+(sdl-fill-rect (sdl-get-video-surface) test-rect #xffffff)  
+(let ((src-rect (sdl-make-surface (sdl-rect:w test-rect)
+                                  (sdl-rect:h test-rect)))
+      (screen (sdl-get-video-surface)))
+  (do ((i 0 (1+ i)))
+      ((> i 20))
+    (let ((text (sdl-render-text font sentence (rand-color) #t)))
+      (sdl-blit-surface text test-rect screen (rand-rect))
+      (sdl-flip))))
 
 ;; clean up
+(sdl-delay 1000)
 (sdl-ttf-quit)
 (sdl-quit)
 

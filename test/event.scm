@@ -2,10 +2,6 @@
 !#
 
 ;; simple event test
-;; 
-;; Created:    <2001-06-04 00:42:41 foof>
-;; Time-stamp: <2001-07-05 14:44:45 foof>
-;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl)
              (sdl ttf)
@@ -18,7 +14,7 @@
 (sdl-ttf-init)
 
 ;; get a sample rect size from a list of available modes
-(define test-rect (sdl-make-rect 0 0 320 200))
+(define test-rect (sdl-make-rect 0 0 600 200))
 
 ;; set the video mode to the dimensions of our rect
 (sdl-set-video-mode (sdl-rect:w test-rect) (sdl-rect:h test-rect) 8

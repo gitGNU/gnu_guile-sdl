@@ -2,10 +2,6 @@
 !#
 
 ;; simple mixer test
-;; 
-;; Created:    <2001-06-10 19:14:30 foof>
-;; Time-stamp: <2001-07-05 14:38:18 foof>
-;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl)
              (sdl mixer)

@@ -2,10 +2,6 @@
 !#
 
 ;; simple rectangle test
-;; 
-;; Created:    <2001-06-02 21:47:41 foof>
-;; Time-stamp: <2001-07-05 17:16:50 foof>
-;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl))
 

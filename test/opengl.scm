@@ -2,10 +2,6 @@
 !#
 
 ;; simple opengl test
-;; 
-;; Created:    <2001-06-16 17:02:54 foof>
-;; Time-stamp: <2001-07-05 14:39:02 foof>
-;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules (sdl sdl)
              (opengl opengl))
