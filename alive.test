@@ -7,11 +7,6 @@
 (d>> "loading (sdl sdl)")
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
 
-(d>> "are some scheme stuff defined?")
-(and SDL:call-with-clip-rect
-     (d>> "SDL:call-with-clip-rect => ~A" SDL:call-with-clip-rect))
-(and SDL:rotate-square (d>> "SDL:rotate-square => ~A" SDL:rotate-square))
-
 (d>> "is SDL:flags->number (C function exposed to Scheme) defined?")
 SDL:flags->number
 
