@@ -402,7 +402,8 @@ GH_DEFPROC (blit_surface, "blit-surface", 1, 3, 0,
   src = UNPACK_SURFACE (s_src);
 
   /* 2nd arg, source rect, default (0,0) by source dimensions */
-  if (BOUNDP (s_srcrect)) {
+  UNBOUND_MEANS_FALSE (s_srcrect);
+  if (SCM_NFALSEP (s_srcrect)) {
     ASSERT_RECT (s_srcrect, ARGH2);
     srcrect = UNPACK_RECT (s_srcrect);
   } else {
@@ -414,7 +415,8 @@ GH_DEFPROC (blit_surface, "blit-surface", 1, 3, 0,
   }
 
   /* 3rd arg, dest surface, default video surface */
-  if (BOUNDP (s_dst)) {
+  UNBOUND_MEANS_FALSE (s_dst);
+  if (SCM_NFALSEP (s_dst)) {
     ASSERT_SURFACE (s_dst, ARGH3);
     dst = UNPACK_SURFACE (s_dst);
   } else {
@@ -422,7 +424,8 @@ GH_DEFPROC (blit_surface, "blit-surface", 1, 3, 0,
   }
 
   /* 4th arg, dest rect, default src rect */
-  if (BOUNDP (s_dstrect)) {
+  UNBOUND_MEANS_FALSE (s_dstrect);
+  if (SCM_NFALSEP (s_dstrect)) {
     ASSERT_RECT (s_dstrect, ARGH4);
     dstrect = UNPACK_RECT (s_dstrect);
   } else {
