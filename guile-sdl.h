@@ -2,7 +2,7 @@
  *  guile-sdl.h -- SDL Video Wrappers for Guile                    *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-03 20:07:34 foof>                         *
+ *  Time-stamp: <2001-06-10 19:51:52 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -34,6 +34,10 @@ SCM sdl_quit_subsystem (SCM s_subsystems);
 
 /* Info */
 SCM sdl_was_init (SCM s_subsystems);
+
+/* Time */
+SCM sdl_get_ticks (void);
+SCM sdl_delay (SCM ms);
 
 /* Guile Initialization */
 void guile_sdl_init (void);

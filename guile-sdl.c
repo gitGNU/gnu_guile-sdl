@@ -2,7 +2,7 @@
  *  guile-sdl.c -- SDL Video Wrappers for Guile                    *
  *                                                                 *
  *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-06-09 21:01:56 foof>                         *
+ *  Time-stamp: <2001-06-10 19:51:31 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -34,6 +34,7 @@
 #include "image.h"
 #include "gfx.h"
 #include "event.h"
+#include "mixer.h"
 
 /* Initialization */
 SCM
@@ -90,19 +91,37 @@ sdl_was_init (SCM s_subsystems)
    return SCM_MAKINUM (SDL_WasInit (subsystems));
 }
 
+/* time functions */
+
+SCM
+sdl_get_ticks (void)
+{
+   return SCM_MAKINUM (SDL_GetTicks ());
+}
+
+SCM
+sdl_delay (SCM ms)
+{
+   SCM_ASSERT (SCM_INUMP (ms),  ms,  SCM_ARG1, "delay");
+   SDL_Delay (SCM_INUM (ms));
+   return SCM_UNSPECIFIED;
+}
+
 void
 guile_sdl_init (void)
 {
    /* scm util definition */
-   scm_make_gsubr ("enum->number",   2, 0, 0, scm_enum_to_number);
-   scm_make_gsubr ("number->enum",   2, 0, 0, scm_number_to_enum);
+   scm_c_define_gsubr ("enum->number",   2, 0, 0, scm_enum_to_number);
+   scm_c_define_gsubr ("number->enum",   2, 0, 0, scm_number_to_enum);
 
    /* general initializations */
-   scm_make_gsubr ("init",           1, 0, 0, sdl_init);
-   scm_make_gsubr ("init-subsystem", 1, 0, 0, sdl_init_subsystem);
-   scm_make_gsubr ("quit-all",       0, 0, 0, sdl_quit);
-   scm_make_gsubr ("quit-subsystem", 1, 0, 0, sdl_quit_subsystem);
-   scm_make_gsubr ("was-init",       1, 0, 0, sdl_was_init);
+   scm_c_define_gsubr ("init",           1, 0, 0, sdl_init);
+   scm_c_define_gsubr ("init-subsystem", 1, 0, 0, sdl_init_subsystem);
+   scm_c_define_gsubr ("quit-all",       0, 0, 0, sdl_quit);
+   scm_c_define_gsubr ("quit-subsystem", 1, 0, 0, sdl_quit_subsystem);
+   scm_c_define_gsubr ("was-init",       1, 0, 0, sdl_was_init);
+   scm_c_define_gsubr ("get-ticks",      0, 0, 0, sdl_get_ticks);
+   scm_c_define_gsubr ("delay",          1, 0, 0, sdl_delay);
 
    /* constants */
    scm_c_define ("init/timer",       SCM_MAKINUM (SDL_INIT_TIMER));
@@ -118,6 +137,8 @@ guile_sdl_init (void)
    scm_c_export (
       /* utils */
       "enum->number", "number->enum",
+      /* time */
+      "get-ticks", "delay",
       /* sdl initializations */
       "subsystems", "init", "quit-all", "init-subsystem",
       "quit-subsystem", "was-init",
@@ -138,5 +159,8 @@ guile_sdl_init (void)
 
    /* event initializations */
    sdl_event_init();
+
+   /* mixer initializations */
+   sdl_mixer_init();
 }
 
