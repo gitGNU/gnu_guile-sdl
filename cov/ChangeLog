@@ -1,3 +1,11 @@
+2005-04-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* scan (*Guile-SDL-implementation*): Delete var.
+	(*implementation-root*): New var.
+	(*implementation-subdirs*): New var.
+	(implementation-files): New proc.
+	(write-coverage): Use `implementation-files'.
+
 2005-01-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* scan, GNUmakefile, .cvsignore: New files.
