@@ -40,23 +40,23 @@
 
 /* define a numeric constant */
 #define SCM_DEFINE_CONST(name, value) \
-   scm_c_define (name, SCM_MAKINUM (value))
+   scm_c_define (name, scm_long2num (value))
 
 /* define a simple numeric getter */
-#define SCM_DEFINE_INUM_GETTER(s_func, c_func, c_tag, c_type, c_field) \
+#define SCM_DEFINE_NUMBER_GETTER(s_func, c_func, c_tag, c_type, c_field) \
 SCM c_func (SCM s_smob)                                                \
 {                                                                      \
    SCM_ASSERT_SMOB (s_smob, c_tag, SCM_ARG1, s_func);                  \
-   return SCM_MAKINUM (((c_type) SCM_CDR (s_smob))->c_field);          \
+   return scm_long2num (((c_type) SCM_CDR (s_smob))->c_field);          \
 }
 
 /* define a simple numeric setter */
-#define SCM_DEFINE_INUM_SETTER(s_func, c_func, c_tag, c_type, c_field) \
+#define SCM_DEFINE_NUMBER_SETTER(s_func, c_func, c_tag, c_type, c_field) \
 SCM c_func (SCM s_smob, SCM s_value)                                   \
 {                                                                      \
    SCM_ASSERT_SMOB (s_smob, c_tag, SCM_ARG1, s_func);                  \
-   SCM_ASSERT (SCM_INUMP (s_value), s_value, SCM_ARG2, s_func);        \
-   (((c_type) SCM_CDR (s_smob))->c_field) = SCM_INUM (s_value);        \
+   SCM_ASSERT (scm_exact_p (s_value), s_value, SCM_ARG2, s_func);        \
+   (((c_type) SCM_CDR (s_smob))->c_field) = scm_num2long (s_value, SCM_ARG1, "scm_num2long");        \
    return SCM_UNSPECIFIED;                                             \
 }
 

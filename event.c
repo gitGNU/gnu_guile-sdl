@@ -48,8 +48,8 @@ SCM make_event (SCM s_type)
    int type=SDL_NOEVENT;
 
    if (s_type != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_type), s_type, SCM_ARG1, "sdl-make-event");
-      type = SCM_INUM (s_type);
+      SCM_ASSERT (scm_exact_p (s_type), s_type, SCM_ARG1, "sdl-make-event");
+      type = scm_num2long (s_type, SCM_ARG1, "scm_num2long");
    }
 
    event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), "sdl-make-event");
@@ -68,14 +68,14 @@ SCM make_keysym (SCM sym, SCM mod)
 
    /* set the sym if given */
    if (sym != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (sym), sym, SCM_ARG1, "sdl-make-keysym");
-      keysym->sym = (SDLKey) SCM_INUM (sym);
+      SCM_ASSERT (scm_exact_p (sym), sym, SCM_ARG1, "sdl-make-keysym");
+      keysym->sym = (SDLKey) scm_num2long (sym, SCM_ARG1, "scm_num2long");
    }
 
    /* set the mod if given */
    if (mod != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (mod), mod, SCM_ARG2, "sdl-make-keysym");
-      keysym->mod = (SDLMod) SCM_INUM (mod);
+      SCM_ASSERT (scm_exact_p (mod), mod, SCM_ARG2, "sdl-make-keysym");
+      keysym->mod = (SDLMod) scm_num2long (mod, SCM_ARG1, "scm_num2long");
    }
 
    /* return the new smob */
@@ -84,27 +84,27 @@ SCM make_keysym (SCM sym, SCM mod)
 
 /* smob getters */
 
-/* SCM_DEFINE_INUM_GETTER ("event:type", event_type, event_tag,  */
+/* SCM_DEFINE_NUMBER_GETTER ("event:type", event_type, event_tag,  */
 /*                         SDL_Event*, type)  */
 
 SCM event_type (SCM event)
 {
    SCM t;
    SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "sdl-event:type");
-   t = SCM_MAKINUM (((SDL_Event*) SCM_CDR (event))->type);
+   t = scm_long2num (((SDL_Event*) SCM_CDR (event))->type);
    return scm_number_to_enum (event_type_enum, t);
 }
 
 
-SCM_DEFINE_INUM_GETTER ("sdl-event:active:gain", event_active_gain, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:active:gain", event_active_gain, event_tag,
                         SDL_Event*, active.gain)
-SCM_DEFINE_INUM_GETTER ("sdl-event:active:state", event_active_state, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:active:state", event_active_state, event_tag,
                         SDL_Event*, active.state)
 
-SCM_DEFINE_INUM_GETTER ("sdl-event:key:state", event_key_state, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:key:state", event_key_state, event_tag,
                         SDL_Event*, key.state)
 
-/* SCM_DEFINE_INUM_GETTER ("event:key:keysym:sym", event_key_keysym_sym,  */
+/* SCM_DEFINE_NUMBER_GETTER ("event:key:keysym:sym", event_key_keysym_sym,  */
 /*                         event_tag, SDL_Event*, key.keysym.sym)  */
 SCM event_key_keysym_sym (SCM s_event)
 {
@@ -113,86 +113,86 @@ SCM event_key_keysym_sym (SCM s_event)
 
    SCM_ASSERT_SMOB (s_event, event_tag, SCM_ARG1, "sdl-event:key:keysym:sym");
    event = (SDL_Event*) SCM_CDR (s_event);
-   sym = SCM_MAKINUM (event->key.keysym.sym);
+   sym = scm_long2num (event->key.keysym.sym);
    return scm_number_to_enum (event_keysym_enum, sym);
 }
 
-SCM_DEFINE_INUM_GETTER ("sdl-event:key:keysym:mod", event_key_keysym_mod,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:key:keysym:mod", event_key_keysym_mod,
                         event_tag, SDL_Event*, key.keysym.mod)
-SCM_DEFINE_INUM_GETTER ("sdl-event:key:keysym:scancode", event_key_keysym_scancode,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:key:keysym:scancode", event_key_keysym_scancode,
                         event_tag, SDL_Event*, key.keysym.scancode)
-SCM_DEFINE_INUM_GETTER ("sdl-event:key:keysym:unicode", event_key_keysym_unicode,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:key:keysym:unicode", event_key_keysym_unicode,
                         event_tag, SDL_Event*, key.keysym.unicode)
 
-SCM_DEFINE_INUM_GETTER ("sdl-event:motion:state", event_motion_state, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:motion:state", event_motion_state, event_tag,
                         SDL_Event*, motion.state)
-SCM_DEFINE_INUM_GETTER ("sdl-event:motion:x", event_motion_x, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:motion:x", event_motion_x, event_tag,
                         SDL_Event*, motion.x)
-SCM_DEFINE_INUM_GETTER ("sdl-event:motion:y", event_motion_y, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:motion:y", event_motion_y, event_tag,
                         SDL_Event*, motion.y)
-SCM_DEFINE_INUM_GETTER ("sdl-event:motion:xrel", event_motion_xrel, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:motion:xrel", event_motion_xrel, event_tag,
                         SDL_Event*, motion.xrel)
-SCM_DEFINE_INUM_GETTER ("sdl-event:motion:yrel", event_motion_yrel, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:motion:yrel", event_motion_yrel, event_tag,
                         SDL_Event*, motion.yrel)
 
-SCM_DEFINE_INUM_GETTER ("sdl-event:button:button", event_button_button, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:button:button", event_button_button, event_tag,
                         SDL_Event*, button.button)
-SCM_DEFINE_INUM_GETTER ("sdl-event:button:state", event_button_state, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:button:state", event_button_state, event_tag,
                         SDL_Event*, button.state)
-SCM_DEFINE_INUM_GETTER ("sdl-event:button:x", event_button_x, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:button:x", event_button_x, event_tag,
                         SDL_Event*, button.x)
-SCM_DEFINE_INUM_GETTER ("sdl-event:button:y", event_button_y, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:button:y", event_button_y, event_tag,
                         SDL_Event*, button.y)
 
-SCM_DEFINE_INUM_GETTER ("sdl-event:jaxis:which", event_jaxis_which, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jaxis:which", event_jaxis_which, event_tag,
                         SDL_Event*, jaxis.which)
-SCM_DEFINE_INUM_GETTER ("sdl-event:jaxis:axis", event_jaxis_axis, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jaxis:axis", event_jaxis_axis, event_tag,
                         SDL_Event*, jaxis.axis)
-SCM_DEFINE_INUM_GETTER ("sdl-event:jaxis:value", event_jaxis_value, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jaxis:value", event_jaxis_value, event_tag,
                         SDL_Event*, jaxis.value)
 
-SCM_DEFINE_INUM_GETTER ("sdl-event:jbutton:which", event_jbutton_which, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jbutton:which", event_jbutton_which, event_tag,
                         SDL_Event*, jbutton.which)
-SCM_DEFINE_INUM_GETTER ("sdl-event:jbutton:button", event_jbutton_button, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jbutton:button", event_jbutton_button, event_tag,
                         SDL_Event*, jbutton.button)
-SCM_DEFINE_INUM_GETTER ("sdl-event:jbutton:state", event_jbutton_state, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jbutton:state", event_jbutton_state, event_tag,
                         SDL_Event*, jbutton.state)
 
-SCM_DEFINE_INUM_GETTER ("sdl-event:jball:which", event_jball_which, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jball:which", event_jball_which, event_tag,
                         SDL_Event*, jball.which)
-SCM_DEFINE_INUM_GETTER ("sdl-event:jball:ball", event_jball_ball, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jball:ball", event_jball_ball, event_tag,
                         SDL_Event*, jball.ball)
-SCM_DEFINE_INUM_GETTER ("sdl-event:jball:xrel", event_jball_xrel, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jball:xrel", event_jball_xrel, event_tag,
                         SDL_Event*, jball.xrel)
-SCM_DEFINE_INUM_GETTER ("sdl-event:jball:yrel", event_jball_yrel, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jball:yrel", event_jball_yrel, event_tag,
                         SDL_Event*, jball.yrel)
 
-SCM_DEFINE_INUM_GETTER ("sdl-event:jhat:which", event_jhat_which, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jhat:which", event_jhat_which, event_tag,
                         SDL_Event*, jhat.which)
-SCM_DEFINE_INUM_GETTER ("sdl-event:jhat:hat", event_jhat_hat, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jhat:hat", event_jhat_hat, event_tag,
                         SDL_Event*, jhat.hat)
-SCM_DEFINE_INUM_GETTER ("sdl-event:jhat:value", event_jhat_state, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:jhat:value", event_jhat_state, event_tag,
                         SDL_Event*, jhat.value)
 
-SCM_DEFINE_INUM_GETTER ("sdl-event:resize:w", event_resize_w, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:resize:w", event_resize_w, event_tag,
                         SDL_Event*, resize.w)
-SCM_DEFINE_INUM_GETTER ("sdl-event:resize:h", event_resize_h, event_tag,
+SCM_DEFINE_NUMBER_GETTER ("sdl-event:resize:h", event_resize_h, event_tag,
                         SDL_Event*, resize.h)
 
-/* SCM_DEFINE_INUM_GETTER ("sdl-event:user:code", event_user_code, event_tag, */
+/* SCM_DEFINE_NUMBER_GETTER ("sdl-event:user:code", event_user_code, event_tag, */
 /*                         SDL_Event*, user.code) */
-/* SCM_DEFINE_INUM_GETTER ("event:user:data1", event_user_data1, event_tag,  */
+/* SCM_DEFINE_NUMBER_GETTER ("event:user:data1", event_user_data1, event_tag,  */
 /*                         SDL_Event*, user.data1)  */
-/* SCM_DEFINE_INUM_GETTER ("event:user:data2", event_user_data2, event_tag,  */
+/* SCM_DEFINE_NUMBER_GETTER ("event:user:data2", event_user_data2, event_tag,  */
 /*                         SDL_Event*, user.data2)  */
 
-/* SCM_DEFINE_INUM_GETTER ("keysym:scancode", keysym_scancode, keysym_tag,  */
+/* SCM_DEFINE_NUMBER_GETTER ("keysym:scancode", keysym_scancode, keysym_tag,  */
 /*                         SDL_keysym*, scancode)  */
-/* SCM_DEFINE_INUM_GETTER ("keysym:sym", keysym_sym, keysym_tag,  */
+/* SCM_DEFINE_NUMBER_GETTER ("keysym:sym", keysym_sym, keysym_tag,  */
 /*                         SDL_keysym*, sym)  */
-/* SCM_DEFINE_INUM_GETTER ("keysym:mod", keysym_mod, keysym_tag,  */
+/* SCM_DEFINE_NUMBER_GETTER ("keysym:mod", keysym_mod, keysym_tag,  */
 /*                         SDL_keysym*, mod)  */
-/* SCM_DEFINE_INUM_GETTER ("keysym:unicode", keysym_unicode, keysym_tag,  */
+/* SCM_DEFINE_NUMBER_GETTER ("keysym:unicode", keysym_unicode, keysym_tag,  */
 /*                         SDL_keysym*, unicode)  */
 
 /* SCM event_key_keysym (SCM s_event) */
@@ -230,7 +230,7 @@ SCM poll_event (SCM event)
       result = SDL_PollEvent ((SDL_Event*) SCM_CDR (event));
    }
 
-   return SCM_MAKINUM (result);
+   return scm_long2num (result);
 }
 
 /* extern DECLSPEC int SDL_WaitEvent(SDL_Event *event); */
@@ -247,7 +247,7 @@ SCM wait_event (SCM event)
       result = SDL_WaitEvent ((SDL_Event*) SCM_CDR (event));
    }
 
-   return SCM_MAKINUM (result);
+   return scm_long2num (result);
 }
 
 /* extern DECLSPEC int SDL_PushEvent(SDL_Event *event); */
@@ -258,7 +258,7 @@ SCM push_event (SCM event)
    SCM_ASSERT_SMOB (event, event_tag, SCM_ARG1, "sdl-push-event");
 
    result = SDL_PushEvent ((SDL_Event*) SCM_CDR (event));
-   return SCM_MAKINUM (result);
+   return scm_long2num (result);
 }
 
 /* extern DECLSPEC void SDL_SetEventFilter(SDL_EventFilter filter); */
@@ -293,7 +293,7 @@ sdl_enable_unicode (SCM enable_p)
       result = SDL_EnableUNICODE (1);
    }
 
-   return SCM_MAKINUM (result);
+   return scm_long2num (result);
 }
 
 /*
@@ -304,11 +304,11 @@ sdl_enable_key_repeat (SCM s_delay, SCM s_interval)
 {
    int interval, delay;
 
-   SCM_ASSERT (SCM_INUMP (s_delay), s_delay, SCM_ARG1, "sdl-enable-key-repeat");
-   SCM_ASSERT (SCM_INUMP (s_interval), s_interval, SCM_ARG2, "sdl-enable-key-repeat");
+   SCM_ASSERT (scm_exact_p (s_delay), s_delay, SCM_ARG1, "sdl-enable-key-repeat");
+   SCM_ASSERT (scm_exact_p (s_interval), s_interval, SCM_ARG2, "sdl-enable-key-repeat");
 
-   delay    = SCM_INUM (s_delay);
-   interval = SCM_INUM (s_interval);
+   delay    = scm_num2long (s_delay, SCM_ARG1, "scm_num2long");
+   interval = scm_num2long (s_interval, SCM_ARG1, "scm_num2long");
 
    SCM_RETURN_TRUE_IF_0 (SDL_EnableKeyRepeat (delay, interval));
 }
@@ -329,7 +329,7 @@ sdl_get_key_state (SCM numkeys)
 SCM
 sdl_get_mod_state (void)
 {
-   return SCM_MAKINUM (SDL_GetModState ());
+   return scm_long2num (SDL_GetModState ());
 }
 
 /*
@@ -339,8 +339,8 @@ sdl_get_mod_state (void)
 SCM
 sdl_set_mod_state (SCM modstate)
 {
-   SCM_ASSERT (SCM_INUMP (modstate), modstate, SCM_ARG1, "sdl-set-mod-state");
-   SDL_SetModState (SCM_INUM (modstate));
+   SCM_ASSERT (scm_exact_p (modstate), modstate, SCM_ARG1, "sdl-set-mod-state");
+   SDL_SetModState (scm_num2long (modstate, SCM_ARG1, "scm_num2long"));
    return SCM_UNSPECIFIED;
 }
 
@@ -355,9 +355,9 @@ sdl_get_mouse_state (void)
 {
    int buttons, x, y;
    buttons = SDL_GetMouseState (&x, &y);
-   return SCM_LIST3 (SCM_MAKINUM (buttons),
-                     SCM_MAKINUM (x),
-                     SCM_MAKINUM (y));
+   return SCM_LIST3 (scm_long2num (buttons),
+                     scm_long2num (x),
+                     scm_long2num (y));
 }
 
 /*
@@ -371,16 +371,16 @@ sdl_get_relative_mouse_state ()
 {
    int buttons, x, y;
    buttons = SDL_GetMouseState (&x, &y);
-   return SCM_LIST3 (SCM_MAKINUM (buttons),
-                     SCM_MAKINUM (x),
-                     SCM_MAKINUM (y));
+   return SCM_LIST3 (scm_long2num (buttons),
+                     scm_long2num (x),
+                     scm_long2num (y));
 }
 
 SCM
 sdl_button_p (SCM mask)
 {
-   SCM_ASSERT (SCM_INUMP (mask), mask, SCM_ARG1, "sdl-button?");
-   return SDL_BUTTON (SCM_INUM (mask)) ? SCM_BOOL_T : SCM_BOOL_F;
+   SCM_ASSERT (scm_exact_p (mask), mask, SCM_ARG1, "sdl-button?");
+   return SDL_BUTTON (scm_num2long (mask, SCM_ARG1, "scm_num2long")) ? SCM_BOOL_T : SCM_BOOL_F;
 }
 
 /* Initialize glue */

@@ -74,9 +74,9 @@ scm_c_define_enum (const char *name, ...)
       symname = va_arg (ap, char*);
       value = va_arg (ap, int);
       sym = scm_str2symbol (symname);
-      /* scm_vector_set_x (vec, SCM_MAKINUM (value), sym); */
-      scm_vector_set_x (vec, SCM_MAKINUM (value), sym);
-      scm_hashq_set_x (table, sym, SCM_MAKINUM (value));
+      /* scm_vector_set_x (vec, scm_long2num (value), sym); */
+      scm_vector_set_x (vec, scm_long2num (value), sym);
+      scm_hashq_set_x (table, sym, scm_long2num (value));
    }
 
    /* clean up */
@@ -111,7 +111,7 @@ scm_number_to_enum (SCM enum_pair, SCM number)
    vec = SCM_CAR (enum_pair);
    SCM_ASSERT (scm_vector_p (vec), enum_pair, SCM_ARG1, "number->enum");
 
-   SCM_ASSERT (SCM_INUMP (number), number, SCM_ARG2, "number->enum");
+   SCM_ASSERT (scm_exact_p (number), number, SCM_ARG2, "number->enum");
 
    /* return the numbered index into the vector */
    return scm_vector_ref (vec, number);

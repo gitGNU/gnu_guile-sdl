@@ -92,11 +92,11 @@ wm_grab_input (SCM s_mode)
    int mode = SDL_GRAB_QUERY;
 
    if (s_mode != SCM_UNDEFINED) {
-      SCM_ASSERT (SCM_INUMP (s_mode), s_mode, SCM_ARG1, "sdl-grab-input");
-      mode = SCM_INUM (s_mode);
+      SCM_ASSERT (scm_exact_p (s_mode), s_mode, SCM_ARG1, "sdl-grab-input");
+      mode = scm_num2long (s_mode, SCM_ARG1, "scm_num2long");
    }
 
-   return SCM_MAKINUM (SDL_WM_GrabInput (mode));
+   return scm_long2num (SDL_WM_GrabInput (mode));
 }
 
 void

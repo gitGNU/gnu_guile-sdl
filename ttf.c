@@ -42,9 +42,9 @@ ttf_load_font (SCM file, SCM ptsize)
 
    SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
                file, SCM_ARG1, "sdl-load-font");
-   SCM_ASSERT (SCM_INUMP (ptsize), ptsize, SCM_ARG2, "sdl-load-font");
+   SCM_ASSERT (scm_exact_p (ptsize), ptsize, SCM_ARG2, "sdl-load-font");
 
-   font = TTF_OpenFont (SCM_CHARS (file), SCM_INUM (ptsize));
+   font = TTF_OpenFont (SCM_CHARS (file), scm_num2long (ptsize, SCM_ARG1, "scm_num2long"));
    SCM_RETURN_NEWSMOB (ttf_font_tag, font);
 }
 
@@ -60,7 +60,7 @@ ttf_get_font_style (SCM s_font)
    SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:style");
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
 
-   return SCM_MAKINUM (TTF_GetFontStyle (font));
+   return scm_long2num (TTF_GetFontStyle (font));
 }
 
 SCM
@@ -70,10 +70,10 @@ ttf_set_font_style (SCM s_font, SCM s_style)
    int style;
 
    SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:set-style!");
-   SCM_ASSERT (SCM_INUMP (s_style), s_style, SCM_ARG2, "sdl-font:set-style!");
+   SCM_ASSERT (scm_exact_p (s_style), s_style, SCM_ARG2, "sdl-font:set-style!");
 
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
-   style = SCM_INUM (s_style);
+   style = scm_num2long (s_style, SCM_ARG1, "scm_num2long");
 
    TTF_SetFontStyle (font, style);
    return SCM_UNSPECIFIED;
@@ -88,7 +88,7 @@ ttf_font_height (SCM s_font)
    SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:height");
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
 
-   return SCM_MAKINUM (TTF_FontHeight (font));
+   return scm_long2num (TTF_FontHeight (font));
 }
 
 /* Get the offset from the baseline to the top of the font
@@ -102,7 +102,7 @@ ttf_font_ascent (SCM s_font)
    SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:ascent");
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
 
-   return SCM_MAKINUM (TTF_FontAscent (font));
+   return scm_long2num (TTF_FontAscent (font));
 }
 
 /* Get the offset from the baseline to the bottom of the font
@@ -116,7 +116,7 @@ ttf_font_descent (SCM s_font)
    SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:descent");
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
 
-   return SCM_MAKINUM (TTF_FontDescent (font));
+   return scm_long2num (TTF_FontDescent (font));
 }
 
 /* Get the recommended spacing between lines of text for this font */
@@ -128,7 +128,7 @@ ttf_font_line_skip (SCM s_font)
    SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:line-skip");
    font = (TTF_Font*) SCM_SMOB_DATA (s_font);
 
-   return SCM_MAKINUM (TTF_FontLineSkip (font));
+   return scm_long2num (TTF_FontLineSkip (font));
 }
 
 /* Get the metrics (dimensions) of a glyph */
@@ -147,9 +147,9 @@ ttf_glyph_metrics (SCM s_font, SCM s_ch)
 
    TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance);
 
-   return SCM_LIST5 (SCM_MAKINUM (minx),   SCM_MAKINUM (maxx),
-                     SCM_MAKINUM (miny),   SCM_MAKINUM (maxy),
-                     SCM_MAKINUM (advance));
+   return SCM_LIST5 (scm_long2num (minx),   scm_long2num (maxx),
+                     scm_long2num (miny),   scm_long2num (maxy),
+                     scm_long2num (advance));
 }
 
 /* Get the dimensions of a rendered string of text */
@@ -168,7 +168,7 @@ ttf_size_text (SCM s_font, SCM s_text)
    text = SCM_CHARS (s_text);
 
    TTF_SizeText (font, text, &w, &h);
-   return SCM_LIST2 (SCM_MAKINUM (w), SCM_MAKINUM (h));
+   return SCM_LIST2 (scm_long2num (w), scm_long2num (h));
 }
 
 SCM
@@ -186,7 +186,7 @@ ttf_size_utf8 (SCM s_font, SCM s_text)
    text = SCM_CHARS (s_text);
 
    TTF_SizeUTF8 (font, text, &w, &h);
-   return SCM_LIST2 (SCM_MAKINUM (w), SCM_MAKINUM (h));
+   return SCM_LIST2 (scm_long2num (w), scm_long2num (h));
 }
 
 /* SCM */

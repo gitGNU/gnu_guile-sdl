@@ -44,10 +44,10 @@ sdl_init (SCM s_subsystems)
 {
    int subsystems;
 
-   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init");
-   subsystems = SCM_INUM (s_subsystems);
+   SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init");
+   subsystems = scm_num2long (s_subsystems, SCM_ARG1, "scm_num2long");
 
-   return SCM_MAKINUM (SDL_Init (subsystems));
+   return scm_long2num (SDL_Init (subsystems));
 }
 
 SCM
@@ -55,10 +55,10 @@ sdl_init_subsystem (SCM s_subsystems)
 {
    int subsystems;
 
-   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init-subsystem");
-   subsystems = SCM_INUM (s_subsystems);
+   SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init-subsystem");
+   subsystems = scm_num2long (s_subsystems, SCM_ARG1, "scm_num2long");
 
-   return SCM_MAKINUM (SDL_InitSubSystem (subsystems));
+   return scm_long2num (SDL_InitSubSystem (subsystems));
 }
 
 /* Termination */
@@ -74,8 +74,8 @@ sdl_quit_subsystem (SCM s_subsystems)
 {
    int subsystems;
 
-   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "sdl-quit-subsystem");
-   subsystems = SCM_INUM (s_subsystems);
+   SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-quit-subsystem");
+   subsystems = scm_num2long (s_subsystems, SCM_ARG1, "scm_num2long");
 
    SDL_QuitSubSystem (subsystems);
    return SCM_UNSPECIFIED;
@@ -87,10 +87,10 @@ sdl_was_init (SCM s_subsystems)
 {
    int subsystems;
 
-   SCM_ASSERT (SCM_INUMP (s_subsystems), s_subsystems, SCM_ARG1, "sdl-was-init");
-   subsystems = SCM_INUM (s_subsystems);
+   SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-was-init");
+   subsystems = scm_num2long (s_subsystems, SCM_ARG1, "scm_num2long");
 
-   return SCM_MAKINUM (SDL_WasInit (subsystems));
+   return scm_long2num (SDL_WasInit (subsystems));
 }
 
 /* time functions */
@@ -98,14 +98,14 @@ sdl_was_init (SCM s_subsystems)
 SCM
 sdl_get_ticks (void)
 {
-   return SCM_MAKINUM (SDL_GetTicks ());
+   return scm_long2num (SDL_GetTicks ());
 }
 
 SCM
 sdl_delay (SCM ms)
 {
-   SCM_ASSERT (SCM_INUMP (ms),  ms,  SCM_ARG1, "sdl-delay");
-   SDL_Delay (SCM_INUM (ms));
+   SCM_ASSERT (scm_exact_p (ms),  ms,  SCM_ARG1, "sdl-delay");
+   SDL_Delay (scm_num2long (ms, SCM_ARG1, "scm_num2long"));
    return SCM_UNSPECIFIED;
 }
 
@@ -136,14 +136,14 @@ guile_sdl_init (void)
 /*    scm_c_define_gsubr ("sdl-get-error",      0, 0, 0, sdl_get_error); */
 
    /* constants */
-   scm_c_define ("sdl-init/timer",       SCM_MAKINUM (SDL_INIT_TIMER));
-   scm_c_define ("sdl-init/audio",       SCM_MAKINUM (SDL_INIT_AUDIO));
-   scm_c_define ("sdl-init/video",       SCM_MAKINUM (SDL_INIT_VIDEO));
-   scm_c_define ("sdl-init/cdrom",       SCM_MAKINUM (SDL_INIT_CDROM));
-   scm_c_define ("sdl-init/joystick",    SCM_MAKINUM (SDL_INIT_JOYSTICK));
-   scm_c_define ("sdl-init/everything",  SCM_MAKINUM (SDL_INIT_EVERYTHING));
-   scm_c_define ("sdl-init/noparachute", SCM_MAKINUM (SDL_INIT_NOPARACHUTE));
-   scm_c_define ("sdl-init/eventthread", SCM_MAKINUM (SDL_INIT_EVENTTHREAD));
+   scm_c_define ("sdl-init/timer",       scm_long2num (SDL_INIT_TIMER));
+   scm_c_define ("sdl-init/audio",       scm_long2num (SDL_INIT_AUDIO));
+   scm_c_define ("sdl-init/video",       scm_long2num (SDL_INIT_VIDEO));
+   scm_c_define ("sdl-init/cdrom",       scm_long2num (SDL_INIT_CDROM));
+   scm_c_define ("sdl-init/joystick",    scm_long2num (SDL_INIT_JOYSTICK));
+   scm_c_define ("sdl-init/everything",  scm_long2num (SDL_INIT_EVERYTHING));
+   scm_c_define ("sdl-init/noparachute", scm_long2num (SDL_INIT_NOPARACHUTE));
+   scm_c_define ("sdl-init/eventthread", scm_long2num (SDL_INIT_EVENTTHREAD));
 
    /* exported symbols */
    scm_c_export (
