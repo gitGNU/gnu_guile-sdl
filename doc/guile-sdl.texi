@@ -214,49 +214,13 @@ higher-level creation functions, such as @code{sdl-make-surface},
 which is a wrapper to @code{sdl-create-rgb-surface} which provides
 useful default values from the current screen information.
 
-@node General SDL
-@chapter General SDL
+@c ---------------------------------------------------------------------------
+@c ---------------------------------------------------------------------------
 
-[was @@include ../src/sdl.texi --ttn]
+@include ref.texi
 
-@node Video
-@chapter Video
-
-[was @@include ../src/sdlvideo.texi --ttn]
-
-[was @@include ../src/sdlsurface.texi --ttn]
-
-[was @@include ../src/sdlroto.texi --ttn]
-
-[was @@include ../sdl-gfx/sdlgfx.texi --ttn]
-
-@node Events
-@chapter Events
-
-[was @@include ../src/sdlevent.texi --ttn]
-
-@node Joystick
-@chapter Joystick
-
-[was @@include ../src/sdljoystick.texi --ttn]
-
-@node CDROM
-@chapter CDROM
-
-[was @@include ../src/sdlcdrom.texi --ttn]
-
-@node OpenGL
-@chapter OpenGL
-
-@node TrueType
-@chapter TrueType
-
-[was @@include ../sdl-ttf/sdlttf.texi --ttn]
-
-@node Audio
-@chapter Audio
-
-[was @@include ../sdl-mixer/sdlmixer.texi --ttn]
+@c ---------------------------------------------------------------------------
+@c ---------------------------------------------------------------------------
 
 @node Index
 @unnumbered Index
