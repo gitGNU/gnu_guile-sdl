@@ -1,0 +1,13 @@
+\input texinfo
+@c -*-texinfo-*-
+@c %**start of header
+@setfilename dummy.info
+@settitle dummy
+@iftex
+@afourpaper
+@end iftex
+@c %**end of header
+
+@c stub to force generation of .texi files
+
+@bye

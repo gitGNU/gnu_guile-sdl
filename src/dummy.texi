@@ -1,0 +1,13 @@
+\input texinfo
+@c -*-texinfo-*-
+@c %**start of header
+@setfilename guile-extension.info
+@settitle guile-extension
+@iftex
+@afourpaper
+@end iftex
+@c %**end of header
+
+@c stub to force generation of .texi files
+
+@bye
