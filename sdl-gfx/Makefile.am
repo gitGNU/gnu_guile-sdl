@@ -18,4 +18,8 @@ gfx_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module \
 
 include $(top_srcdir)/am/snarfing
 
+install-data-hook:
+	cd $(cmoddir) ; for f in $(cmod_LTLIBRARIES) ; do \
+	   test -f lib$$f && rm -f lib$$f ; $(LN_S) $$f lib$$f ; done
+
 ## Makefile.am ends here
