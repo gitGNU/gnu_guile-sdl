@@ -1,0 +1,7 @@
+These are some simple tests for guile-sdl.  They are normally run from
+the top-level guile-sdl directory by "make check", but you can also
+run them standalone from this directory.
+
+Note, these are just tests, and not necessarily very interesting.  For
+more interesting scripts see the examples/ directory.
+
