@@ -1,5 +1,9 @@
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlvideo.c: Use `gh_bool2scm'.
+
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlcdrom.c: Include "bool.h".
 	Use `RETURN_FALSE' and `NOT_FALSEP'.
 
