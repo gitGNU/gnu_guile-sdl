@@ -1,3 +1,12 @@
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ref.twerp: Throughout, remove defunct "sdl-" prefix.
+
+	* guile-sdl.texi (Quick Start): In example code, replace defunct
+	"sdl-" prefix w/ "SDL:". Also, add the appropriate `use-modules'
+	#:renamer clause.
+	(Create and Make): Update proc names to omit "sdl-" prefix.
+
 2003-11-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* guile-sdl.texi (Limitations): Remove "load order restrictions".
