@@ -1,5 +1,9 @@
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* argcheck.h (BOUNDP, UNBOUNDP, UNBOUND_MEANS_FALSE): New macros.
+
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* argcheck.h (ARGH1, ARGH2, ARGH3, ARGH4,
 	ARGH5, ARGH6, ARGH7, ARGHn): New macros.
 
