@@ -27,6 +27,7 @@
 #include "argcheck.h"
 #include "sdlsmobs.h"
 #include "retval.h"
+#include "bool.h"
 
 GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
@@ -116,7 +117,7 @@ GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
   UNBOUND_MEANS_FALSE (s_fill);
 
   RETURN_INT
-    ((SCM_FALSEP (s_fill)
+    ((EXACTLY_FALSEP (s_fill)
       ? rectangleColor
       : boxColor) (UNPACK_SURFACE (s_surface),
                    gh_scm2long (s_x1), gh_scm2long (s_y1),
@@ -142,7 +143,7 @@ GH_DEFPROC (draw_circle, "draw-circle", 5, 1, 0,
   UNBOUND_MEANS_FALSE (s_fill);
 
   RETURN_INT
-    ((SCM_FALSEP (s_fill)
+    ((EXACTLY_FALSEP (s_fill)
       ? circleColor
       : filledCircleColor) (UNPACK_SURFACE (s_surface),
                             gh_scm2long (s_x), gh_scm2long (s_y),
@@ -169,7 +170,7 @@ GH_DEFPROC (draw_ellipse, "draw-ellipse", 6, 1, 0,
   UNBOUND_MEANS_FALSE (s_fill);
 
   RETURN_INT
-    ((SCM_FALSEP (s_fill)
+    ((EXACTLY_FALSEP (s_fill)
       ? ellipseColor
       : filledEllipseColor) (UNPACK_SURFACE (s_surface),
                              gh_scm2long (s_x), gh_scm2long (s_y),
@@ -199,7 +200,7 @@ GH_DEFPROC (draw_polygon, "draw-polygon", 4, 1, 0,
   vx = (Sint16 *) gh_scm2shorts (s_vx, NULL);
   vy = (Sint16 *) gh_scm2shorts (s_vy, NULL);
 
-  ret = (SCM_FALSEP (s_fill)
+  ret = (EXACTLY_FALSEP (s_fill)
          ? polygonColor
          : filledPolygonColor) (UNPACK_SURFACE (s_surface),
                                 vx, vy,
