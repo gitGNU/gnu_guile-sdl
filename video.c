@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-05-16 00:33:40 foof>                         *
+ *  Time-stamp: <2001-05-29 21:19:25 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -27,8 +27,9 @@
 #include <libguile.h>
 /* sdl headers */
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
-#include "video.h"
+#define MAX_DRIVER_LEN 100
 
 /* tags for SDL smobs */
 static long surface_tag;
@@ -60,17 +61,17 @@ create_rgb_surface_from (SCM s_pixels, SCM s_width, SCM s_height,
    return SCM_UNSPECIFIED;
 }
 
-SCM
-img_load (SCM file)
-{
-   SDL_Surface *image;
+SCM  
+img_load (SCM file)  
+{  
+   SDL_Surface *image;  
 
-   SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),
-               file, SCM_ARG1, "sdl-load-image");
+   SCM_ASSERT ((SCM_NIMP (file) && SCM_STRINGP (file)),  
+               file, SCM_ARG1, "sdl-load-image");  
 
-   image = IMG_Load (SCM_CHARS (file));
-   SCM_RETURN_NEWSMOB (surface_tag, image);
-}
+   image = IMG_Load (SCM_CHARS (file));  
+   SCM_RETURN_NEWSMOB (surface_tag, image);  
+}  
 
 SCM
 create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
@@ -550,6 +551,7 @@ free_yuv_overlay (SCM s_overlay)
 void
 sdl_video_init (void)
 {
+   /* smobs */
    surface_tag   = scm_make_smob_type ("surface", sizeof (SDL_Surface));
    rect_tag      = scm_make_smob_type ("rect", sizeof (SDL_Rect));
    color_tag     = scm_make_smob_type ("color", sizeof (SDL_Color));
@@ -559,19 +561,30 @@ sdl_video_init (void)
    overlay_tag   = scm_make_smob_type ("overlay", sizeof (SDL_Overlay));
    video_info_tag = scm_make_smob_type ("video-info", sizeof (SDL_VideoInfo));
 
-   scm_make_gsubr ("sdl-make-rect",          4, 0, 0, make_rect);
-   scm_make_gsubr ("sdl-make-color",         3, 0, 0, make_color);
-   scm_make_gsubr ("sdl-get-video-surface",  0, 0, 0, get_video_surface);
-   scm_make_gsubr ("sdl-video-mode-ok",      4, 0, 0, video_mode_ok);
-   scm_make_gsubr ("sdl-set-video-mode",     4, 0, 0, set_video_mode);
-   scm_make_gsubr ("sdl-update-rect",        5, 0, 0, update_rect);
-   scm_make_gsubr ("sdl-flip",               1, 0, 0, flip);
-   scm_make_gsubr ("sdl-blit-surface",       4, 0, 0, blit_surface);
-   scm_make_gsubr ("sdl-fill-rect",          3, 0, 0, fill_rect);
-   scm_make_gsubr ("sdl-list-modes",         2, 0, 0, list_modes);
-   scm_make_gsubr ("sdl-video-driver-name",  0, 0, 0, video_driver_name);
-   scm_make_gsubr ("sdl-get-video-info",     0, 0, 0, get_video_info);
+   /* video functions */
+   scm_make_gsubr ("make-rect",          4, 0, 0, make_rect);
+   scm_make_gsubr ("make-color",         3, 0, 0, make_color);
+   scm_make_gsubr ("get-video-surface",  0, 0, 0, get_video_surface);
+   scm_make_gsubr ("video-mode-ok",      4, 0, 0, video_mode_ok);
+   scm_make_gsubr ("set-video-mode",     4, 0, 0, set_video_mode);
+   scm_make_gsubr ("update-rect",        5, 0, 0, update_rect);
+   scm_make_gsubr ("flip",               1, 0, 0, flip);
+   scm_make_gsubr ("blit-surface",       4, 0, 0, blit_surface);
+   scm_make_gsubr ("fill-rect",          3, 0, 0, fill_rect);
+   scm_make_gsubr ("list-modes",         2, 0, 0, list_modes);
+   scm_make_gsubr ("video-driver-name",  0, 0, 0, video_driver_name);
+   scm_make_gsubr ("get-video-info",     0, 0, 0, get_video_info);
 
-   scm_make_gsubr ("sdl-load-image",         1, 0, 0, img_load);
+   /* image functions */
+   scm_make_gsubr ("load-image",         1, 0, 0, img_load);
+
+   /* exported symbols */
+   scm_c_export ("make-rect", "make-color", "get-video-surface",
+                 "video-mode-ok", "set-video-mode", "update-rect",
+                 "flip", "blit-surface", "fill-rect", "list-modes",
+                 "video-driver-name", "get-video-info",
+                 /* image functions */
+                 "load-image",
+                 NULL);
 }
 

@@ -24,13 +24,12 @@
  ******************************************************************/
 
 #ifndef _GUILE_SDL_VIDEO_H
+#define _GUILE_SDL_VIDEO_H
 
 /* guile headers */
 #include <libguile.h>
 /* sdl headers */
 #include <SDL/SDL.h>
-
-#define MAX_DRIVER_LEN 100
 
 /* tags for SDL smobs */
 extern long surface_tag;
