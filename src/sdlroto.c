@@ -1,198 +1,194 @@
-#include <SDL/SDL.h>
-#include <SDL_rotozoom.h>
+/* sdl.c --- SDL Roto functions for Guile
+ *
+ * 	Copyright (C) 2003 Thien-Thi Nguyen
+ * 	Copyright (C) 2001 Alex Shinn
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+ * MA 02111-1307 USA
+ */
+
 #include <guile/gh.h>
-#include <libguile.h>
-#include "sdlvideo.h"
-#include "sdlroto.h"
+#include <SDL/SDL.h>
+
+#include "SDL_rotozoom.h"
+
+#include "config.h"
+#include "argcheck.h"
+#include "sdlsmobs.h"
 
 
-SCM_DEFINE( sdl_roto_zoom_surface, "sdl-roto-zoom-surface", 2, 2, 0,
+MDEFLOCEXP (sdl_roto_zoom_surface, "sdl-roto-zoom-surface", 2, 2, 0,
             (SCM surface_smob,
              SCM s_angle,
              SCM s_zoom,
              SCM s_smooth),
-"Returns a new rotated and zoomed copy of a surface.
-Zoom defaults to 1.0, and smooth defaults to #f.")
+            "Returns a new rotated and zoomed copy of a surface.\n"
+            "Zoom defaults to 1.0, and smooth defaults to #f.")
 #define FUNC_NAME s_sdl_roto_zoom_surface
 {
-  SDL_Surface *surface, *new_surface;  
+  SDL_Surface *surface, *new_surface;
   int smooth=0;
   double angle=0.0, zoom=1.0;
-  SCM new_smob;
 
-  SCM_ASSERT (SMOB_SURFACEP (surface_smob), surface_smob, SCM_ARG1, 
-	      "sdl-roto-zoom-surface");
-  surface = (SDL_Surface *) SCM_CDR (surface_smob);
-  
-  SCM_ASSERT (gh_number_p (s_angle), s_angle, SCM_ARG2, 
-	      "sdl-roto-zoom-surface");
-  angle = scm_num2dbl (s_angle, "sdl-roto-zoom-surface");
+  ASSERT_SURFACE (surface_smob, SCM_ARG1);
+  surface = SMOBGET (surface_smob, SDL_Surface *);
 
-  if (s_zoom != SCM_UNDEFINED) {
-    SCM_ASSERT (gh_number_p (s_zoom), s_zoom, SCM_ARG3, 
-                "sdl-roto-zoom-surface");
-    angle = scm_num2dbl (s_angle, "sdl-roto-zoom-surface");
+  ASSERT_NUMBER (s_angle, SCM_ARG2);
+  angle = gh_scm2double (s_angle);
+
+  if (! SCM_UNBNDP (s_zoom)) {
+    ASSERT_NUMBER (s_zoom, SCM_ARG3);
+    angle = gh_scm2double (s_angle);
   }
 
-  if (s_smooth != SCM_UNDEFINED) {
-    SCM_ASSERT (gh_boolean_p (s_smooth), s_smooth, SCM_ARG4, 
-                "sdl-roto-zoom-surface");
-    smooth = (s_smooth != SCM_BOOL_F);
-  }
+  smooth = (SCM_UNBNDP (s_smooth)) ? 0 : SCM_NFALSEP (s_smooth);
 
   new_surface = rotozoomSurface (surface, angle, zoom, smooth);
-  
-  SCM_NEWSMOB (new_smob, surface_tag, new_surface);
-  return new_smob;
+
+  RETURN_NEW_SURFACE (new_surface);
 }
 #undef FUNC_NAME
 
 
-SCM_DEFINE( sdl_zoom_surface, "sdl-zoom-surface", 2, 2, 0,
+MDEFLOCEXP (sdl_zoom_surface, "sdl-zoom-surface", 2, 2, 0,
             (SCM surface_smob,
              SCM s_zoomx,
              SCM s_zoomy,
              SCM s_smooth),
-"Returns a new scaled copy of a surface.
-ZoomY defaults to ZoomX, and smooth defaults to #f.")
+            "Return a new scaled copy of @var{surface}.\n"
+            "@var{zoomx} and @var{zoomy} specify the scaling factor.\n"
+            "If omitted, @var{zoomy} defaults to @var{zoomx}.\n"
+            "Optional fourth arg @var{smooth} turns on anti-aliasing.")
 #define FUNC_NAME s_sdl_zoom_surface
 {
-  SDL_Surface *surface, *new_surface;  
+  SDL_Surface *surface, *new_surface;
   double zoomx=1.0, zoomy=1.0;
   int smooth=0;
-  SCM new_smob;
 
-  SCM_ASSERT (SMOB_SURFACEP (surface_smob), surface_smob, SCM_ARG1, 
-	      "sdl-zoom-surface");
-  surface = (SDL_Surface *) SCM_CDR (surface_smob);
-  
-  SCM_ASSERT (gh_number_p (s_zoomx), s_zoomx, SCM_ARG2, 
-	      "sdl-zoom-surface");
-  zoomx = scm_num2dbl (s_zoomx, "sdl-zoom-surface");
+  ASSERT_SURFACE (surface_smob, SCM_ARG1);
+  surface = SMOBGET (surface_smob, SDL_Surface *);
 
-  if (s_zoomy != SCM_UNDEFINED) {
-    SCM_ASSERT (gh_number_p (s_zoomy), s_zoomy, SCM_ARG3, 
-                "sdl-zoom-surface");
-    zoomy = scm_num2dbl (s_zoomy, "sdl-zoom-surface");
+  ASSERT_NUMBER (s_zoomx, SCM_ARG2);
+  zoomx = gh_scm2double (s_zoomx);
+
+  if (! SCM_UNBNDP (s_zoomy)) {
+    ASSERT_NUMBER (s_zoomy, SCM_ARG3);
+    zoomy = gh_scm2double (s_zoomy);
   } else {
     zoomy = zoomx;
   }
 
-  if (s_smooth != SCM_UNDEFINED) {
-    SCM_ASSERT (gh_boolean_p (s_smooth), s_smooth, SCM_ARG4, 
-                "sdl-zoom-surface");
-    smooth = (s_smooth != SCM_BOOL_F);
-  }
+  smooth = (SCM_UNBNDP (s_smooth)) ? 0 : SCM_NFALSEP (s_smooth);
 
   new_surface = zoomSurface (surface, zoomx, zoomy, smooth);
 
-  SCM_NEWSMOB (new_smob, surface_tag, new_surface);
-  return new_smob;
+  RETURN_NEW_SURFACE (new_surface);
 }
 #undef FUNC_NAME
 
 
-SCM_DEFINE( vertical_flip_surface, "sdl-vertical-flip-surface", 1, 0, 0,
+MDEFLOCEXP (vertical_flip_surface, "sdl-vertical-flip-surface", 1, 0, 0,
             (SCM s_surface),
-"Returns a new vertically flipped copy of a surface.")
+            "Return a new vertically flipped copy of a @var{surface}.")
 #define FUNC_NAME s_vertical_flip_surface
 {
-   int i, w, h;
-   SDL_Surface *src, *dst;
-   SDL_Rect srcrect, dstrect;
+  int i, w, h;
+  SDL_Surface *src, *dst;
+  SDL_Rect srcrect, dstrect;
 
-   /* verify args */
-   SCM_ASSERT ((SCM_NIMP (s_surface)
-                && (long) SCM_CAR (s_surface) == surface_tag),
-               s_surface, SCM_ARG1, "sdl-vertical-flip-surface");
+  /* verify args */
+  ASSERT_SURFACE (s_surface, SCM_ARG1);
 
-   /* get source and dimensions */
-   src = (SDL_Surface *) SCM_CDR (s_surface);
-   w = src->w;
-   h = src->h;
+  /* get source and dimensions */
+  src = SMOBGET (s_surface, SDL_Surface *);
+  w = src->w;
+  h = src->h;
 
-   /* create a new surface */
-   dst = SDL_CreateRGBSurface (src->flags, w, h, 16, 0, 0, 0, 0);
+  /* create a new surface */
+  dst = SDL_CreateRGBSurface (src->flags, w, h, 16, 0, 0, 0, 0);
 
-   /* initialize the rects */
-   srcrect.x = 0;  srcrect.y = 0;    srcrect.w = w;  srcrect.h = 1;
-   dstrect.x = 0;  dstrect.y = h-1;  dstrect.w = w;  dstrect.h = 1;
+  /* initialize the rects */
+  srcrect.x = 0;  srcrect.y = 0;    srcrect.w = w;  srcrect.h = 1;
+  dstrect.x = 0;  dstrect.y = h-1;  dstrect.w = w;  dstrect.h = 1;
 
-   /* loop through, copying lines from top to bottom */
-   for (i=h; i>=0; i--) {
-      SDL_BlitSurface (src, &srcrect, dst, &dstrect);
-      srcrect.y++;
-      dstrect.y--;
-   }
+  /* loop through, copying lines from top to bottom */
+  for (i=h; i>=0; i--) {
+    SDL_BlitSurface (src, &srcrect, dst, &dstrect);
+    srcrect.y++;
+    dstrect.y--;
+  }
 
-   /* return the surface */
-   SCM_RETURN_NEWSMOB (surface_tag, dst);
+  /* return the surface */
+  RETURN_NEW_SURFACE (dst);
 }
 #undef FUNC_NAME
 
 
-SCM_DEFINE( horiztonal_flip_surface, "sdl-horizontal-flip-surface", 1, 0, 0,
+MDEFLOCEXP (horiztonal_flip_surface, "sdl-horizontal-flip-surface", 1, 0, 0,
             (SCM s_surface),
-"Returns a new horizontally flipped copy of a surface.")
+            "Return a new horizontally flipped copy of @var{surface}.")
 #define FUNC_NAME s_horiztonal_flip_surface
 {
-   int i, w, h;
-   SDL_Surface *src, *dst;
-   SDL_Rect srcrect, dstrect;
+  int i, w, h;
+  SDL_Surface *src, *dst;
+  SDL_Rect srcrect, dstrect;
 
-   /* verify args */
-   SCM_ASSERT ((SCM_NIMP (s_surface)
-                && (long) SCM_CAR (s_surface) == surface_tag),
-               s_surface, SCM_ARG1, "sdl-horizontal-flip-surface");
+  /* verify args */
+  ASSERT_SURFACE (s_surface, SCM_ARG1);
 
-   /* get source and dimensions */
-   src = (SDL_Surface *) SCM_CDR (s_surface);
-   w = src->w;
-   h = src->h;
+  /* get source and dimensions */
+  src = SMOBGET (s_surface, SDL_Surface *);
+  w = src->w;
+  h = src->h;
 
-   /* create a new surface */
-   dst = SDL_CreateRGBSurface (src->flags, w, h, 16, 0, 0, 0, 0);
+  /* create a new surface */
+  dst = SDL_CreateRGBSurface (src->flags, w, h, 16, 0, 0, 0, 0);
 
-   /* initialize the rects */
-   srcrect.x = 0;    srcrect.y = 0;  srcrect.w = 1;  srcrect.h = h;
-   dstrect.x = w-1;  dstrect.y = 0;  dstrect.w = 1;  dstrect.h = h;
+  /* initialize the rects */
+  srcrect.x = 0;    srcrect.y = 0;  srcrect.w = 1;  srcrect.h = h;
+  dstrect.x = w-1;  dstrect.y = 0;  dstrect.w = 1;  dstrect.h = h;
 
-   /* loop through, copying lines from left to right */
-   for (i=w; i>=0; i--) {
-      SDL_BlitSurface (src, &srcrect, dst, &dstrect);
-      srcrect.x++;
-      dstrect.x--;
-   }
+  /* loop through, copying lines from left to right */
+  for (i=w; i>=0; i--) {
+    SDL_BlitSurface (src, &srcrect, dst, &dstrect);
+    srcrect.x++;
+    dstrect.x--;
+  }
 
-   /* return the surface */
-   SCM_RETURN_NEWSMOB (surface_tag, dst);
+  /* return the surface */
+  RETURN_NEW_SURFACE (dst);
 }
 #undef FUNC_NAME
 
 
-SCM_DEFINE( vh_flip_surface, "sdl-vh-flip-surface", 1, 0, 0,
+MDEFLOCEXP (vh_flip_surface, "sdl-vh-flip-surface", 1, 0, 0,
             (SCM s_surface),
-"Returns a new vertically & horizontally flipped copy of a surface.")
+            "Return a new surface created by flipping @var{surface}\n"
+            "both vertically and horizontally.")
 #define FUNC_NAME s_vh_flip_surface
 {
-   SCM temp = vertical_flip_surface (s_surface);
-   return horiztonal_flip_surface (temp);
+  SCM temp = vertical_flip_surface (s_surface);
+  return horiztonal_flip_surface (temp);
 }
 #undef FUNC_NAME
 
-
-void 
-sdl_init_rotozoom ()
-{  
-  /* exported symbols */
-  scm_c_export (
-     "sdl-roto-zoom-surface", "sdl-zoom-surface",
-     "sdl-vertical-flip-surface", "sdl-horizontal-flip-surface",
-     "sdl-vh-flip-surface", NULL);
-
-#ifndef SCM_MAGIC_SNARFER
+
+void
+gsdl_init_rotozoom (void)
+{
 #include "sdlroto.x"
-#endif
-
 }
 
+/* sdlroto.c ends here */
