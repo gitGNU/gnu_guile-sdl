@@ -1,3 +1,8 @@
+2004-06-26  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlsmobs.h (ASSERT_SMOB): Use parens around args in expansion.
+	Also, rename args to be more informative.
+
 2004-03-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* retval.h (THROW_NOT_YET_IMPLEMENTED): New macro.
