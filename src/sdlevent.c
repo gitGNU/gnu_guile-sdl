@@ -96,7 +96,7 @@ MDEFLOCEXP (make_event, "sdl-make-event", 0, 1, 0,
   SDL_Event *event;
   int type=SDL_NOEVENT;
 
-  if (! SCM_UNBNDP (s_type)) {
+  if (BOUNDP (s_type)) {
     type = gsdl_enum2long (s_type, event_type_enum, ARGH1, FUNC_NAME);
   }
 
@@ -118,7 +118,7 @@ MDEFLOCEXP (make_keysym, "sdl-make-keysym", 0, 2, 0,
   keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym), FUNC_NAME);
 
   /* set the sym if given */
-  if (! SCM_UNBNDP (sym)) {
+  if (BOUNDP (sym)) {
     ASSERT_EXACT (sym, ARGH1);
     /* keysym->sym = (SDLKey) gh_scm2long (sym); */
     keysym->sym = (SDLKey) gsdl_enum2long (sym, event_keysym_enum,
@@ -126,7 +126,7 @@ MDEFLOCEXP (make_keysym, "sdl-make-keysym", 0, 2, 0,
   }
 
   /* set the mod if given */
-  if (! SCM_UNBNDP (mod)) {
+  if (BOUNDP (mod)) {
     ASSERT_EXACT (mod, ARGH2);
     keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, ARGH2);
   }
@@ -305,7 +305,7 @@ MDEFLOCEXP (poll_event, "poll-event", 0, 1, 0,
 {
   int result;
 
-  if (SCM_UNBNDP (event)) {
+  if (UNBOUNDP (event)) {
     /* no args */
     result = SDL_PollEvent (NULL);
   } else {
@@ -325,7 +325,7 @@ MDEFLOCEXP (wait_event, "wait-event", 0, 1, 0,
 {
   int result;
 
-  if (SCM_UNBNDP (event)) {
+  if (UNBOUNDP (event)) {
     /* no args */
     result = SDL_WaitEvent (NULL);
   } else {
@@ -393,7 +393,7 @@ MDEFLOCEXP (sdl_enable_unicode, "sdl-enable-unicode", 0, 1, 0,
 {
   int result;
 
-  if (SCM_UNBNDP (enable_p)) {
+  if (UNBOUNDP (enable_p)) {
     result = SDL_EnableUNICODE (-1);
   } else if (! gh_scm2bool (enable_p)) {
     result = SDL_EnableUNICODE (0);

@@ -110,7 +110,7 @@ MDEFLOCEXP (sdl_draw_rectangle, "sdl-draw-rectangle", 6, 1, 0,
   ASSERT_EXACT (s_x2, ARGH4);
   ASSERT_EXACT (s_y2, ARGH5);
   ASSERT_EXACT (s_color, ARGH6);
-  if (SCM_UNBNDP (s_fill)) s_fill = SCM_BOOL_F;
+  UNBOUND_MEANS_FALSE (s_fill);
 
   return gh_long2scm
     ((SCM_FALSEP (s_fill)
@@ -136,7 +136,7 @@ MDEFLOCEXP (sdl_draw_circle, "sdl-draw-circle", 5, 1, 0,
   ASSERT_EXACT (s_y, ARGH3);
   ASSERT_EXACT (s_r, ARGH4);
   ASSERT_EXACT (s_color, ARGH5);
-  if (SCM_UNBNDP (s_fill)) s_fill = SCM_BOOL_F;
+  UNBOUND_MEANS_FALSE (s_fill);
 
   return gh_long2scm
     ((SCM_FALSEP (s_fill)
@@ -163,7 +163,7 @@ MDEFLOCEXP (sdl_draw_ellipse, "sdl-draw-ellipse", 6, 1, 0,
   ASSERT_EXACT (s_rx, ARGH4);
   ASSERT_EXACT (s_ry, ARGH5);
   ASSERT_EXACT (s_color, ARGH6);
-  if (SCM_UNBNDP (s_fill)) s_fill = SCM_BOOL_F;
+  UNBOUND_MEANS_FALSE (s_fill);
 
   return gh_long2scm
     ((SCM_FALSEP (s_fill)
@@ -191,7 +191,7 @@ MDEFLOCEXP (sdl_draw_polygon, "sdl-draw-polygon", 4, 1, 0,
   ASSERT_VECTOR (s_vx, ARGH2);
   ASSERT_VECTOR (s_vy, ARGH3);
   ASSERT_EXACT (s_color, ARGH4);
-  if (SCM_UNBNDP (s_fill)) s_fill = SCM_BOOL_F;
+  UNBOUND_MEANS_FALSE (s_fill);
 
   vx = (Sint16 *) gh_scm2shorts (s_vx, NULL);
   vy = (Sint16 *) gh_scm2shorts (s_vy, NULL);

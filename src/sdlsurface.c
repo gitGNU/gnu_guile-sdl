@@ -95,7 +95,7 @@ MDEFLOCEXP (sdl_make_surface, "sdl-make-surface", 2, 1, 0,
   ASSERT_EXACT (s_width,  ARGH1);
   ASSERT_EXACT (s_height, ARGH2);
 
-  flags = (SCM_UNBNDP (s_flags)
+  flags = (UNBOUNDP (s_flags)
            ? SDL_GetVideoSurface ()->flags
            : GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH3));
 
@@ -325,7 +325,7 @@ MDEFLOCEXP (sdl_set_clip_rect, "sdl-set-clip-rect!", 2, 0, 0,
 
   ASSERT_SURFACE (s_surface, ARGH1);
 
-  if (! SCM_UNBNDP (s_rect)) {
+  if (BOUNDP (s_rect)) {
     /* rect defaults to NULL (the whole surface) */
     ASSERT_RECT (s_rect, ARGH2);
     rect = UNPACK_RECT (s_rect);
@@ -366,7 +366,7 @@ MDEFLOCEXP (sdl_convert_surface, "sdl-convert-surface", 2, 1, 0,
   ASSERT_SURFACE (s_src, ARGH1);
   ASSERT_PIXEL_FORMAT (s_fmt, ARGH2);
 
-  if (! SCM_UNBNDP (s_flags)) {
+  if (BOUNDP (s_flags)) {
     flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH3);
   }
 
@@ -403,7 +403,7 @@ MDEFLOCEXP (sdl_blit_surface, "sdl-blit-surface", 1, 3, 0,
   src = UNPACK_SURFACE (s_src);
 
   /* 2nd arg, source rect, default (0,0) by source dimensions */
-  if (! SCM_UNBNDP (s_srcrect)) {
+  if (BOUNDP (s_srcrect)) {
     ASSERT_RECT (s_srcrect, ARGH2);
     srcrect = UNPACK_RECT (s_srcrect);
   } else {
@@ -415,7 +415,7 @@ MDEFLOCEXP (sdl_blit_surface, "sdl-blit-surface", 1, 3, 0,
   }
 
   /* 3rd arg, dest surface, default video surface */
-  if (! SCM_UNBNDP (s_dst)) {
+  if (BOUNDP (s_dst)) {
     ASSERT_SURFACE (s_dst, ARGH3);
     dst = UNPACK_SURFACE (s_dst);
   } else {
@@ -423,7 +423,7 @@ MDEFLOCEXP (sdl_blit_surface, "sdl-blit-surface", 1, 3, 0,
   }
 
   /* 4th arg, dest rect, default src rect */
-  if (! SCM_UNBNDP (s_dstrect)) {
+  if (BOUNDP (s_dstrect)) {
     ASSERT_RECT (s_dstrect, ARGH4);
     dstrect = UNPACK_RECT (s_dstrect);
   } else {

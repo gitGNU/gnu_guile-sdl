@@ -86,7 +86,7 @@ MDEFLOCEXP (sdl_cd_name, "sdl-cd-name", 0, 1, 0,
   const char *name;
   int drive=0;
 
-  if (! SCM_UNBNDP (s_drive)) {
+  if (BOUNDP (s_drive)) {
     ASSERT_EXACT (s_drive, ARGH1);
     drive = gh_scm2int (s_drive);
   }
@@ -108,7 +108,7 @@ MDEFLOCEXP (sdl_cd_open, "sdl-cd-open", 0, 1, 0,
   SDL_CD *cd;
   int cdrive=0;
 
-  if (! SCM_UNBNDP (drive)) {
+  if (BOUNDP (drive)) {
     ASSERT_EXACT (drive, ARGH1);
     cdrive = gh_scm2int (drive);
   }
@@ -241,7 +241,7 @@ MDEFLOCEXP (sdl_cd_get_nth_track, "sdl-cd-get-nth-track", 1, 1, 0,
   ASSERT_CDROM (cd_smob, ARGH1);
   cd = SMOBGET (cd_smob, SDL_CD *);
 
-  if (! SCM_UNBNDP (s_n)) {
+  if (BOUNDP (s_n)) {
     ASSERT_EXACT (s_n, ARGH2);
     n = gh_scm2ulong (s_n);
   }
@@ -282,22 +282,22 @@ MDEFLOCEXP (sdl_cd_play_tracks, "sdl-cd-play-tracks", 1, 4, 0,
 
   ASSERT_CDROM (cd_smob, ARGH1);
 
-  if (! SCM_UNBNDP (s_start_track)) {
+  if (BOUNDP (s_start_track)) {
     ASSERT_EXACT (s_start_track, ARGH2);
     start_track = gh_scm2ulong (s_start_track);
   }
 
-  if (! SCM_UNBNDP (s_start_frame)) {
+  if (BOUNDP (s_start_frame)) {
     ASSERT_EXACT (s_start_frame, ARGH3);
     start_frame = gh_scm2ulong (s_start_frame);
   }
 
-  if (! SCM_UNBNDP (s_n_tracks)) {
+  if (BOUNDP (s_n_tracks)) {
     ASSERT_EXACT (s_n_tracks, ARGH4);
     n_tracks = gh_scm2ulong (s_n_tracks);;
   }
 
-  if (! SCM_UNBNDP (s_n_frames)) {
+  if (BOUNDP (s_n_frames)) {
     ASSERT_EXACT (s_n_frames, ARGH5);
     n_frames = gh_scm2ulong (s_n_frames);
   } else {
@@ -464,12 +464,12 @@ MDEFLOCEXP (sdl_cd_msf_to_frames, "sdl-cd-msf->frames", 1, 2, 0,
   ASSERT_EXACT (s_m, ARGH1);
   m = gh_scm2ulong (s_m);
 
-  if (! SCM_UNBNDP (s_s)) {
+  if (BOUNDP (s_s)) {
     ASSERT_EXACT (s_s, ARGH2);
     s = gh_scm2ulong (s_s);
   }
 
-  if (! SCM_UNBNDP (s_f)) {
+  if (BOUNDP (s_f)) {
     ASSERT_EXACT (s_f, ARGH3);
     f = gh_scm2ulong (s_f);
   }

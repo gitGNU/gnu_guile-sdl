@@ -79,7 +79,7 @@ MDEFLOCEXP (sdl_joystick_name, "sdl-joystick-name", 0, 1, 0,
 {
   int index = 0;
 
-  if (! SCM_UNBNDP (s_index)) {
+  if (BOUNDP (s_index)) {
     ASSERT_EXACT (s_index, ARGH1);
     index = gh_scm2long (s_index);
   }
@@ -97,7 +97,7 @@ MDEFLOCEXP (sdl_joystick_open, "sdl-joystick-open", 0, 1, 0,
 {
   int index = 0;
 
-  if (! SCM_UNBNDP (s_index)) {
+  if (BOUNDP (s_index)) {
     ASSERT_EXACT (s_index, ARGH1);
     index = gh_scm2long (s_index);
   }
@@ -115,7 +115,7 @@ MDEFLOCEXP (sdl_joystick_opened_p, "sdl-joystick-opened?", 0, 1, 0,
 {
   int index = 0;
 
-  if (! SCM_UNBNDP (s_index)) {
+  if (BOUNDP (s_index)) {
     ASSERT_EXACT (s_index, ARGH1);
     index = gh_scm2long (s_index);
   }

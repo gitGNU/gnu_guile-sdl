@@ -276,7 +276,7 @@ MDEFLOCEXP (ttf_render_text, "sdl-render-text", 3, 1, 0,
   text = SCM_CHARS (s_text);
   fg = UNPACK_COLOR (s_fg);
 
-  if (SCM_UNBNDP (s_bg)) s_bg = SCM_BOOL_F;
+  UNBOUND_MEANS_FALSE (s_bg);
 
   if (SCM_FALSEP (s_bg)) {
     surface = TTF_RenderText_Solid (font, text, *fg);
@@ -314,7 +314,7 @@ MDEFLOCEXP (ttf_render_utf8, "sdl-render-utf8", 3, 1, 0,
   text = SCM_CHARS (s_text);
   fg = UNPACK_COLOR (s_fg);
 
-  if (SCM_UNBNDP (s_bg)) s_bg = SCM_BOOL_F;
+  UNBOUND_MEANS_FALSE (s_bg);
 
   if (SCM_FALSEP (s_bg)) {
     surface = TTF_RenderUTF8_Solid (font, text, *fg);
@@ -352,7 +352,7 @@ MDEFLOCEXP (ttf_render_glyph, "sdl-render-glyph", 3, 1, 0,
   ch = gh_scm2char (s_ch);
   fg = UNPACK_COLOR (s_fg);
 
-  if (SCM_UNBNDP (s_bg)) s_bg = SCM_BOOL_F;
+  UNBOUND_MEANS_FALSE (s_bg);
 
   if (SCM_FALSEP (s_bg)) {
     surface = TTF_RenderGlyph_Solid (font, ch, *fg);

@@ -190,7 +190,7 @@ MDEFLOCEXP (create_yuv_overlay, "sdl-create-yuv-overlay", 3, 1, 0,
     format = gh_scm2ulong (s_format);
   }
 
-  if (SCM_UNBNDP (s_display)) {
+  if (UNBOUNDP (s_display)) {
     display = SDL_GetVideoSurface ();
   } else {
     ASSERT_SURFACE (s_display, ARGH4);
@@ -285,12 +285,12 @@ MDEFLOCEXP (list_modes, "sdl-list-modes", 0, 2, 0,
   SDL_Rect **modes;
   SCM result;
 
-  if (! SCM_UNBNDP (SCM_UNDEFINED)) {
+  if (BOUNDP (SCM_UNDEFINED)) {
     ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
     format = UNPACK_PIXEL_FORMAT (s_pixel_format);
   }
 
-  if (! SCM_UNBNDP (s_flags)) {
+  if (BOUNDP (s_flags)) {
     ASSERT_EXACT (s_flags, ARGH2);
     flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH2);
   }
@@ -338,7 +338,7 @@ MDEFLOCEXP (video_mode_ok, "sdl-video-mode-ok", 4, 0, 0,
   ASSERT_EXACT (s_height, ARGH2);
   ASSERT_EXACT (s_bpp,    ARGH3);
 
-  if (! SCM_UNBNDP (s_flags)) {
+  if (BOUNDP (s_flags)) {
     flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH4);
   }
 
@@ -365,7 +365,7 @@ MDEFLOCEXP (set_video_mode, "sdl-set-video-mode", 3, 1, 0,
   ASSERT_EXACT (s_height, ARGH2);
   ASSERT_EXACT (s_bpp,    ARGH3);
 
-  if (! SCM_UNBNDP (s_flags)) {
+  if (BOUNDP (s_flags)) {
     flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH4);
   }
 
@@ -450,7 +450,7 @@ MDEFLOCEXP (sdl_flip, "sdl-flip", 0, 1, 0,
 {
   SDL_Surface *surface;
 
-  if (! SCM_UNBNDP (s_surface)) {
+  if (BOUNDP (s_surface)) {
     ASSERT_SURFACE (s_surface, ARGH1);
     surface = UNPACK_SURFACE (s_surface);
   } else {
@@ -828,11 +828,8 @@ MDEFLOCEXP (show_cursor, "sdl-show-cursor", 0, 1, 0,
             "means to return the current state without toggling.")
 #define FUNC_NAME s_show_cursor
 {
-  return SDL_ShowCursor ((SCM_UNBNDP (query) || SCM_FALSEP (query))
-                          ? 0
-                          : -1)
-    ? SCM_BOOL_T
-    : SCM_BOOL_F;
+  UNBOUND_MEANS_FALSE (query);
+  return gh_bool2scm (SDL_ShowCursor (SCM_FALSEP (query) - 1));
 }
 #undef FUNC_NAME
 
@@ -939,7 +936,7 @@ MDEFLOCEXP (wm_set_caption, "sdl-set-caption", 2, 0, 0,
 
   title = SCM_CHARS (s_title);
 
-  if (SCM_UNBNDP (s_icon)) {
+  if (UNBOUNDP (s_icon)) {
     icon = title;
   } else {
     ASSERT_STRING (s_icon, ARGH2);
@@ -1006,7 +1003,7 @@ MDEFLOCEXP (wm_toggle_full_screen, "sdl-toggle-full-screen", 0, 1, 0,
 {
   SDL_Surface *surface;
 
-  if (SCM_UNBNDP (s_surface)) {
+  if (UNBOUNDP (s_surface)) {
     surface = SDL_GetVideoSurface ();
   } else {
     ASSERT_SURFACE (s_surface, ARGH1);
@@ -1027,7 +1024,7 @@ MDEFLOCEXP (wm_grab_input, "sdl-grab-input", 0, 1, 0,
 {
   int mode = SDL_GRAB_QUERY;
 
-  if (! SCM_UNBNDP (s_mode)) {
+  if (BOUNDP (s_mode)) {
     ASSERT_EXACT (s_mode, ARGH1);
     mode = gh_scm2long (s_mode);
   }

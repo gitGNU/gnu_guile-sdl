@@ -39,7 +39,6 @@ MDEFLOCEXP (sdl_roto_zoom_surface, "sdl-roto-zoom-surface", 2, 2, 0,
 #define FUNC_NAME s_sdl_roto_zoom_surface
 {
   SDL_Surface *surface, *new_surface;
-  int smooth=0;
   double angle=0.0, zoom=1.0;
 
   ASSERT_SURFACE (surface_smob, ARGH1);
@@ -48,14 +47,14 @@ MDEFLOCEXP (sdl_roto_zoom_surface, "sdl-roto-zoom-surface", 2, 2, 0,
   ASSERT_NUMBER (s_angle, ARGH2);
   angle = gh_scm2double (s_angle);
 
-  if (! SCM_UNBNDP (s_zoom)) {
+  if (BOUNDP (s_zoom)) {
     ASSERT_NUMBER (s_zoom, ARGH3);
     angle = gh_scm2double (s_angle);
   }
 
-  smooth = (SCM_UNBNDP (s_smooth)) ? 0 : SCM_NFALSEP (s_smooth);
+  UNBOUND_MEANS_FALSE (s_smooth);
 
-  new_surface = rotozoomSurface (surface, angle, zoom, smooth);
+  new_surface = rotozoomSurface (surface, angle, zoom, SCM_NFALSEP (s_smooth));
 
   RETURN_NEW_SURFACE (new_surface);
 }
@@ -75,7 +74,6 @@ MDEFLOCEXP (sdl_zoom_surface, "sdl-zoom-surface", 2, 2, 0,
 {
   SDL_Surface *surface, *new_surface;
   double zoomx=1.0, zoomy=1.0;
-  int smooth=0;
 
   ASSERT_SURFACE (surface_smob, ARGH1);
   surface = SMOBGET (surface_smob, SDL_Surface *);
@@ -83,16 +81,16 @@ MDEFLOCEXP (sdl_zoom_surface, "sdl-zoom-surface", 2, 2, 0,
   ASSERT_NUMBER (s_zoomx, ARGH2);
   zoomx = gh_scm2double (s_zoomx);
 
-  if (! SCM_UNBNDP (s_zoomy)) {
+  if (BOUNDP (s_zoomy)) {
     ASSERT_NUMBER (s_zoomy, ARGH3);
     zoomy = gh_scm2double (s_zoomy);
   } else {
     zoomy = zoomx;
   }
 
-  smooth = (SCM_UNBNDP (s_smooth)) ? 0 : SCM_NFALSEP (s_smooth);
+  UNBOUND_MEANS_FALSE (s_smooth);
 
-  new_surface = zoomSurface (surface, zoomx, zoomy, smooth);
+  new_surface = zoomSurface (surface, zoomx, zoomy, SCM_NFALSEP (s_smooth));
 
   RETURN_NEW_SURFACE (new_surface);
 }
