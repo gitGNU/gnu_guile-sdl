@@ -1,6 +1,6 @@
 /* sdlgfx.c --- Additional Graphics functions for Guile SDL
  *
- * 	Copyright (C) 2003,2004 Thien-Thi Nguyen
+ * 	Copyright (C) 2003,2004,2005 Thien-Thi Nguyen
  * 	Copyright (C) 2001 Alex Shinn
  *
  * This program is free software; you can redistribute it and/or
@@ -153,6 +153,27 @@ GH_DEFPROC (draw_circle, "draw-circle", 5, 1, 0,
 }
 
 
+GH_DEFPROC (draw_aa_circle, "draw-aa-circle", 5, 0, 0,
+            (SCM surface, SCM x, SCM y, SCM r, SCM color),
+            "On @var{surface}, draw an anti-aliased circle with center\n"
+            "@var{x},@var{y} and radius @var{r}, with color @var{color}.")
+{
+#define FUNC_NAME s_draw_aa_circle
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_EXACT (x, ARGH2);
+  ASSERT_EXACT (y, ARGH3);
+  ASSERT_EXACT (r, ARGH4);
+  ASSERT_EXACT (color, ARGH5);
+
+  RETURN_INT
+    (aacircleColor (UNPACK_SURFACE (surface),
+                    gh_scm2long (x), gh_scm2long (y),
+                    gh_scm2long (r),
+                    gh_scm2ulong (color)));
+#undef FUNC_NAME
+}
+
+
 GH_DEFPROC (draw_ellipse, "draw-ellipse", 6, 1, 0,
             (SCM surface, SCM x, SCM y, SCM rx, SCM ry,
              SCM color, SCM fill),
@@ -176,6 +197,29 @@ GH_DEFPROC (draw_ellipse, "draw-ellipse", 6, 1, 0,
                              gh_scm2long (x), gh_scm2long (y),
                              gh_scm2long (rx), gh_scm2long (ry),
                              gh_scm2ulong (color)));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC (draw_aa_ellipse, "draw-aa-ellipse", 6, 0, 0,
+            (SCM surface, SCM x, SCM y, SCM rx, SCM ry, SCM color),
+            "On @var{surface}, draw an anti-aliased ellipse with center\n"
+            "@var{x},@var{y}, x-radius @var{rx}, y-radius @var{ry}, with\n"
+            "color @var{color}.")
+{
+#define FUNC_NAME s_draw_aa_ellipse
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_EXACT (x, ARGH2);
+  ASSERT_EXACT (y, ARGH3);
+  ASSERT_EXACT (rx, ARGH4);
+  ASSERT_EXACT (ry, ARGH5);
+  ASSERT_EXACT (color, ARGH6);
+
+  RETURN_INT
+    (aaellipseColor (UNPACK_SURFACE (surface),
+                     gh_scm2long (x), gh_scm2long (y),
+                     gh_scm2long (rx), gh_scm2long (ry),
+                     gh_scm2ulong (color)));
 #undef FUNC_NAME
 }
 
