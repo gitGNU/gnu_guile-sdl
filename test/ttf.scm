@@ -43,16 +43,20 @@
   (lambda ()
     (sdl-make-color (random #xff) (random #xff) (random #xff))))
 
+;; clear the screen
+(sdl-fill-rect (sdl-get-video-surface) test-rect #xffffff)
+(sdl-flip)
+
 ;; write the text in random locations with random colors
-(sdl-fill-rect (sdl-get-video-surface) test-rect #xffffff)  
 (let ((src-rect (sdl-make-surface (sdl-rect:w test-rect)
                                   (sdl-rect:h test-rect)))
       (screen (sdl-get-video-surface)))
   (do ((i 0 (1+ i)))
-      ((> i 20))
-    (let ((text (sdl-render-text font sentence (rand-color) #t)))
-      (sdl-blit-surface text test-rect screen (rand-rect))
-      (sdl-flip))))
+      ((> i 50))
+    (let ((text (sdl-render-text font sentence (rand-color) #t))
+          (dst-rect (rand-rect)))
+      (sdl-blit-surface text test-rect screen dst-rect)
+      (sdl-update-rect screen dst-rect))))
 
 ;; clean up
 (sdl-delay 1000)
