@@ -1,0 +1,15 @@
+snarfcppopts		= $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS)
+initsnarfsuffixes	= .c .x
+docsnarfsuffixes	= .doc .texi
+c2doc			= guile-tools c2doc
+mkdocindex		= guile-tools make-twerp2texi-index
+dotdocfiles		= $(WRAPPER_SOURCES:.c=.doc)
+
+.c.x:
+	$(c2x) -o $@ $< $(snarfcppopts)
+
+.c.doc:
+	$(c2doc) -o $@ $< -- $(snarfcppopts)
+
+.doc-index: $(dotdocfiles)
+	$(mkdocindex) -o $@ $(dotdocfiles)

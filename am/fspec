@@ -1,0 +1,4 @@
+fspec2c = guile-tools fspec2c
+
+.fspec.c:
+	$(fspec2c) -o $@ $<
