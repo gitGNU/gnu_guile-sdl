@@ -7,25 +7,11 @@ SUBDIRS = src sdl sdl-mixer sdl-ttf sdl-gfx doc
 noinst_DATA = pre-inst.merged-module-catalog
 
 pre-inst.merged-module-catalog:
-	guile-tools make-module-catalog				\
-	   -d o,lo						\
-	   -X "~$$"						\
-	   -X "doc/"						\
-	   -X "CVS/"						\
-	   -X "/test/"						\
-	   `pwd` `test "$(srcdir)" = "." || { cd $(srcdir) ; pwd ; }`
-	if test "$(srcdir)" = "." ; then			\
-	  mv .module-catalog $@ ;				\
-	else							\
-	  guile-tools merge-module-catalogs -o $@		\
-	              .module-catalog				\
-	    $(srcdir)/.module-catalog ;				\
-	fi
-	rm -f .module-catalog $(srcdir)/.module-catalog
-	test -d .deps || mkdir .deps
-	( echo $@ : \\ ; \
-	  sed '\,((.*).*"/.*"),!d;s/"[^"]*$$/ \\/;s/^.*"/ /' $@ ; \
-	  echo ' # elephant' ) > .deps/pre-inst.Pmerged-module-catalog
+	if guile-tools | grep -q mkpimmc ; then			\
+	  guile-tools mkpimmc -d $(DEPDIR) $@ "$(srcdir)"	\
+	    -- -d in,lo,o					\
+	       -X '~$$' -X 'doc/' -X 'CVS/' -X '/test/' ;	\
+	else echo '()' > $@ ; fi
 
 install-data-hook:
 	if guile-tools | grep -q make-module-catalog ; then	\
