@@ -80,6 +80,21 @@
     (c! 540 100))
   (SDL:flip))
 
+;; draw polygons
+(do ((poly 0 (1+ poly)))
+    ((= 10 poly))
+  (let* ((n (+ 3 (random 5)))
+         (x-uv (make-vector n 0))
+         (y-uv (make-vector n 0)))
+    (do ((i 0 (1+ i)))
+        ((= i n))
+      (vector-set! x-uv i (random 640))
+      (vector-set! y-uv i (random 480)))
+    (SDL:draw-polygon (SDL:get-video-surface) x-uv y-uv
+                      (+ #x80 (ash (random #xffffff) 8))
+                      #t))
+  (SDL:flip))
+
 ;; clean up
 (SDL:delay 2000)
 (SDL:quit)
