@@ -200,11 +200,15 @@ thus enforcing their "constant" nature and for ease of use in
 and video surface flags, are treated as lists of symbols, each
 constant in the flag group that you would @code{or} together in C code
 becoming a symbol in the list.  All such constant symbols retain their
-exact C names.
+exact C names.  A particular set of flags is called a @dfn{flagstash}.
+You can use @code{flagstash-flags} to examine the flags encapsulated
+by a flagstash object.
 
 You may also pass numbers, and can convert between the symbol and
 numeric value with @code{enum->number}, @code{number->enum},
-@code{flags->number}, @code{number->flags}.
+@code{flags->number} and @code{number->flags}.
+
+@include ef-ref.texi
 
 @node Create and Make
 @subsection Create and Make
