@@ -448,11 +448,11 @@ GH_DEFPROC (enable_key_repeat, "enable-key-repeat", 2, 0, 0,
 
 GH_DEFPROC (get_key_state, "get-key-state", 1, 0, 0,
             (SCM numkeys),
+            "[not yet implemented]")
 #if 0
             "Get a snapshot of the current state of the keyboard.\n"
             "Return an array of keystates, indexed by the SDLK_* syms."
 #endif
-            "[not yet implemented]")
 #define FUNC_NAME s_get_key_state
 {
   scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
