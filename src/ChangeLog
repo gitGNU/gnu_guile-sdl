@@ -1,5 +1,14 @@
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlcdrom.c: Use `RETURN_LIST4',
+	`RETURN_LIST0' and `RETURN_LIST3'.
+	* sdlevent.c: Use `RETURN_LIST3'.
+	* sdljoystick.c: Use `RETURN_LIST2' and `RETURN_LIST0'.
+	* sdlvideo.c: Use `RETURN_LIST11', `RETURN_LIST3',
+	`RETURN_LIST4' and `RETURN_LIST2'.
+
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlvideo.c: Use `gh_bool2scm'.
 
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>

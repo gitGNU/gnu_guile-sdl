@@ -1,5 +1,9 @@
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlttf.c: Use `RETURN_LIST5' and `RETURN_LIST2'.
+
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlttf.c: Include "bool.h".
 	Use `EXACTLY_TRUEP' and `EXACTLY_FALSEP'.
 

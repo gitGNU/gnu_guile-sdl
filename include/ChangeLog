@@ -1,5 +1,10 @@
 2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* retval.h (RETURN_LIST0, _rv_PUSH, RETURN_LIST2, RETURN_LIST3,
+	RETURN_LIST4, RETURN_LIST5, RETURN_LIST11): New macros.
+
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* bool.h: New file.
 
 	* argcheck.h: Include "bool.h".
