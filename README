@@ -1,5 +1,5 @@
-				guile-sdl 0.1.7
-				---------------
+                              guile-sdl 0.1.8
+                              ---------------
 
   guile-sdl is a set of Guile bindings for SDL (Simple DirectMedia
 Layer) to enable Guile programmers to do all the nice things you can
