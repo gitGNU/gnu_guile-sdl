@@ -1,0 +1,37 @@
+;;; ttff.fspec --- ttf flags
+
+(
+ #:infile
+ "SDL/SDL_ttf.h"
+
+ #:regexp
+ "^#define *\(TTF_STYLE_[A-Z]+\)[ \t]+\(0x[0-9A-Fa-f]+\)"
+
+ #:key-match-num
+ 1
+
+ #:struct
+ ((1 char * name)               ; see "(gperf)User-supplied Struct"
+  (2 unsigned long val)
+  ("SCM_BOOL_F" SCM sname)
+  ("SCM_BOOL_F" SCM sval))
+
+ #:struct-name
+ "val_and_name"
+
+ #:gperf-options
+ "--language ANSI-C --global-table --omit-struct-type --includes"
+
+ #:pre-boilerplate
+ #{#include "gperfsup.h"
+   GPERFSUP_PRE_BOILERPLATE}#
+
+ #:post-boilerplate
+ #{GPERFSUP_POST_BOILERPLATE (ttf_flagstash, "sdl-ttf-flags")}#
+)
+
+;; Local variables:
+;; mode: scheme
+;; End:
+
+;;; ttff.fspec ends here
