@@ -1,3 +1,7 @@
+2005-04-03  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* notes.tdt: New file.
+
 2005-04-02  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* scan (write-coverage): Use `make-object-property'.
