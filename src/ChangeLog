@@ -1,3 +1,8 @@
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (.c.x, .cspec.c): Use guile-tools
+	instead of pre-inst-guile-tools.
+
 2003-11-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdl.c: Update copyright.
