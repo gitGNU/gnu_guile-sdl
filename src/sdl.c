@@ -46,12 +46,12 @@ extern void gsdl_init_cdrom (void);
 long gsdl_smob_tags[GSTX_TOO_MUCH];
 
 
-static SCM sdl_init_flags;
+static SCM init_flags;
 
 GH_DEFPROC (get_init_flags, "flagstash:init", 0, 0, 0, (),
             "Return the flagstash object for @code{sdl-init} flags.")
 {
-  return sdl_init_flags;
+  return init_flags;
 }
 
 
@@ -65,7 +65,7 @@ GH_DEFPROC (init, "sdl-init", 1, 0, 0,
 {
   return gh_long2scm (SDL_Init
                       (GSDL_FLAGS2ULONG
-                       (sel, sdl_init_flags, ARGH1)));
+                       (sel, init_flags, ARGH1)));
 }
 #undef FUNC_NAME
 
@@ -79,7 +79,7 @@ GH_DEFPROC (init_subsystem, "sdl-init-subsystem", 1, 0, 0,
 {
   return gh_long2scm (SDL_InitSubSystem
                       (GSDL_FLAGS2ULONG
-                       (sel, sdl_init_flags, ARGH1)));
+                       (sel, init_flags, ARGH1)));
 }
 #undef FUNC_NAME
 
@@ -103,7 +103,7 @@ GH_DEFPROC (quit_subsystem, "sdl-quit-subsystem", 1, 0, 0,
             "from the same set useful for @code{sdl-init}.")
 #define FUNC_NAME s_quit_subsystem
 {
-  SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, sdl_init_flags, ARGH1));
+  SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1));
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
@@ -118,8 +118,8 @@ GH_DEFPROC (was_init, "sdl-was-init", 1, 0, 0,
 #define FUNC_NAME s_was_init
 {
   return gsdl_ulong2flags (SDL_WasInit (GSDL_FLAGS2ULONG
-                                        (sel, sdl_init_flags, ARGH1)),
-                           sdl_init_flags);
+                                        (sel, init_flags, ARGH1)),
+                           init_flags);
 }
 #undef FUNC_NAME
 
@@ -172,7 +172,7 @@ init_module (void)
   gsdl_init_enums ();
 
   /* Init flags.  */
-  sdl_init_flags = gsdl_make_flagstash (&gsdl_init_flagstash);
+  init_flags = gsdl_make_flagstash (&gsdl_init_flagstash);
 
 #include "sdl.x"
 
