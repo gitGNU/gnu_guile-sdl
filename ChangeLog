@@ -1,5 +1,9 @@
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* acinclude.m4: New file.
+
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* alive.test: New file.
 
 2003-11-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
