@@ -46,6 +46,10 @@ are preserved on all copies.
 @ifinfo
 This file documents the guile-sdl library, which is a generic
 sdl for Guile.
+
+[NOTE: This document's structure is fine but there is no text!
+The doc snarfing methodology is still work-in-progress.  This
+notice will be removed when things are squared away. ---ttn]
 @end ifinfo
 
 @menu
