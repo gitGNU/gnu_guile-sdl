@@ -45,19 +45,7 @@ AH_BOTTOM([
 ])
 
 GUILE_SITE_DIR
-
-## begin GUILE_LIBSITE_DIR premonition
-## this will be replaced by GUILE_LIBSITE_DIR after guile 1.4.1.97 release
-AC_MSG_CHECKING([where to install the compiled modules])
-guilelibsitedir="`guile-config re-prefix-info pkglibdir 2>/dev/null`"
-if test x"$guilelibsitedir" = x ; then
-   AC_MSG_RESULT([unknown])
-   AC_MSG_ERROR([Sorry, cannot determine where to install.])
-fi
-guilelibsitedir="$guilelibsitedir"/site
-AC_SUBST(guilelibsitedir)
-AC_MSG_RESULT([$guilelibsitedir])
-## end GUILE_LIBSITE_DIR premonition
+GUILE_LIBSITE_DIR
 
 ##----------------------------------------------------------------------------
 ##: MATHLIB
