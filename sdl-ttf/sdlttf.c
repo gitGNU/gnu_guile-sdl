@@ -30,7 +30,7 @@
 #include "sym.h"
 #include "bool.h"
 
-GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
+GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
 
 
 static SCM ttf_flags;

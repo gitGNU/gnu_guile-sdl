@@ -29,7 +29,7 @@
 #include "retval.h"
 #include "bool.h"
 
-GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
+GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
 
 
 GH_DEFPROC (draw_point, "draw-point", 4, 0, 0,
