@@ -23,6 +23,8 @@ guile-sdl.info: $(BUILT_SOURCES)
 
 EXTRA_DIST = ref.twerp ef-ref.twerp cov
 
+TESTS_ENVIRONMENT = srcdir=$(srcdir)
+
 TESTS = cov
 
 ## Makefile.am ends here
