@@ -1,5 +1,12 @@
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdl.c: Use `RETURN_0STR'.
+	* sdlcdrom.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlcdrom.c: Use `RETURN_BOOL'.
 	* sdlevent.c: Likewise.
 	* sdljoystick.c: Likewise.
