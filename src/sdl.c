@@ -43,9 +43,10 @@ extern void gsdl_init_cdrom (void);
 extern void gsdl_init_gfx (void);
 
 
-/* See ../include/sdlsmobs.h for discussion.  */
+/* See ../include/sdlsmobs.h for discussion.
+   The assignment is forces allocation in data space.  */
 
-long gsdl_smob_tags[GSTX_TOO_MUCH];
+long gsdl_smob_tags[GSTX_TOO_MUCH] = {0x50feeb1e,};
 
 
 static SCM init_flags;
