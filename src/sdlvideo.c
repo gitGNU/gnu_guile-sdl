@@ -28,6 +28,7 @@
 #include "sdlenums.h"
 #include "sdlsmobs.h"
 #include "retval.h"
+#include "sym.h"
 
 
 #define MAX_DRIVER_LEN    100
@@ -217,17 +218,17 @@ GH_DEFPROC (get_video_surface, "get-video-surface", 0, 0, 0,
 #undef FUNC_NAME
 
 
-SCM_SYMBOL (gsdl_sym_hw_available, "hw-available");
-SCM_SYMBOL (gsdl_sym_ww_available, "ww-available");
-SCM_SYMBOL (gsdl_sym_blit_hw,      "blit-hw");
-SCM_SYMBOL (gsdl_sym_blit_hw_CC,   "blit-hw-CC");
-SCM_SYMBOL (gsdl_sym_blit_hw_A,    "blit-hw-A");
-SCM_SYMBOL (gsdl_sym_blit_sw,      "blit-sw");
-SCM_SYMBOL (gsdl_sym_blit_sw_CC,   "blit-sw-CC");
-SCM_SYMBOL (gsdl_sym_blit_sw_A,    "blit-sw-A");
-SCM_SYMBOL (gsdl_sym_blit_fill,    "blit-fill");
-SCM_SYMBOL (gsdl_sym_video_mem,    "video-mem");
-SCM_SYMBOL (gsdl_sym_vfmt,         "vfmt");
+DECLARE_SYM (hw_available, "hw-available");
+DECLARE_SYM (ww_available, "ww-available");
+DECLARE_SYM (blit_hw,      "blit-hw");
+DECLARE_SYM (blit_hw_CC,   "blit-hw-CC");
+DECLARE_SYM (blit_hw_A,    "blit-hw-A");
+DECLARE_SYM (blit_sw,      "blit-sw");
+DECLARE_SYM (blit_sw_CC,   "blit-sw-CC");
+DECLARE_SYM (blit_sw_A,    "blit-sw-A");
+DECLARE_SYM (blit_fill,    "blit-fill");
+DECLARE_SYM (video_mem,    "video-mem");
+DECLARE_SIMPLE_SYM (vfmt);
 
 GH_DEFPROC (get_video_info, "get-video-info", 0, 0, 0,
             (void),
@@ -244,17 +245,17 @@ GH_DEFPROC (get_video_info, "get-video-info", 0, 0, 0,
   SCM_NEWSMOB (format, pixel_format_tag, info->vfmt);
 
   return gh_list
-    (gh_cons (gsdl_sym_hw_available, SCM_BOOL (info->hw_available)),
-     gh_cons (gsdl_sym_ww_available, SCM_BOOL (info->wm_available)),
-     gh_cons (gsdl_sym_blit_hw,      SCM_BOOL (info->blit_hw)),
-     gh_cons (gsdl_sym_blit_hw_CC,   SCM_BOOL (info->blit_hw_CC)),
-     gh_cons (gsdl_sym_blit_hw_A,    SCM_BOOL (info->blit_hw_A)),
-     gh_cons (gsdl_sym_blit_sw,      SCM_BOOL (info->blit_sw)),
-     gh_cons (gsdl_sym_blit_sw_CC,   SCM_BOOL (info->blit_sw_CC)),
-     gh_cons (gsdl_sym_blit_sw_A,    SCM_BOOL (info->blit_sw_A)),
-     gh_cons (gsdl_sym_blit_fill,    gh_ulong2scm (info->blit_fill)),
-     gh_cons (gsdl_sym_video_mem,    gh_ulong2scm (info->video_mem)),
-     gh_cons (gsdl_sym_vfmt,         format),
+    (gh_cons (SYM (hw_available), SCM_BOOL (info->hw_available)),
+     gh_cons (SYM (ww_available), SCM_BOOL (info->wm_available)),
+     gh_cons (SYM (blit_hw),      SCM_BOOL (info->blit_hw)),
+     gh_cons (SYM (blit_hw_CC),   SCM_BOOL (info->blit_hw_CC)),
+     gh_cons (SYM (blit_hw_A),    SCM_BOOL (info->blit_hw_A)),
+     gh_cons (SYM (blit_sw),      SCM_BOOL (info->blit_sw)),
+     gh_cons (SYM (blit_sw_CC),   SCM_BOOL (info->blit_sw_CC)),
+     gh_cons (SYM (blit_sw_A),    SCM_BOOL (info->blit_sw_A)),
+     gh_cons (SYM (blit_fill),    gh_ulong2scm (info->blit_fill)),
+     gh_cons (SYM (video_mem),    gh_ulong2scm (info->video_mem)),
+     gh_cons (SYM (vfmt),         format),
      SCM_UNDEFINED);
 }
 #undef FUNC_NAME
@@ -549,9 +550,9 @@ GH_DEFPROC (set_gamma, "set-gamma", 3, 0, 0,
 }
 #undef FUNC_NAME
 
-SCM_SYMBOL (gsdl_sym_redtable, "redtable");
-SCM_SYMBOL (gsdl_sym_greentable, "greentable");
-SCM_SYMBOL (gsdl_sym_bluetable, "bluetable");
+DECLARE_SIMPLE_SYM (redtable);
+DECLARE_SIMPLE_SYM (greentable);
+DECLARE_SIMPLE_SYM (bluetable);
 
 #define GAMMAVEC(x)  (gh_shorts2svect ((short *) x, GAMMA_TABLE_SIZE))
 
@@ -569,9 +570,9 @@ GH_DEFPROC (get_gamma_ramp, "get-gamma-ramp", 0, 0, 0,
   if (SDL_GetGammaRamp (rt, gt, bt) == -1)
     return SCM_BOOL_F;
 
-  return SCM_LIST3 (gh_cons (gsdl_sym_redtable,   GAMMAVEC (rt)),
-                    gh_cons (gsdl_sym_greentable, GAMMAVEC (gt)),
-                    gh_cons (gsdl_sym_bluetable,  GAMMAVEC (bt)));
+  return SCM_LIST3 (gh_cons (SYM (redtable),   GAMMAVEC (rt)),
+                    gh_cons (SYM (greentable), GAMMAVEC (gt)),
+                    gh_cons (SYM (bluetable),  GAMMAVEC (bt)));
 }
 #undef FUNC_NAME
 
@@ -674,10 +675,10 @@ GH_DEFPROC (map_rgba, "map-rgba", 3, 2, 0,
 #undef FUNC_NAME
 
 
-SCM_SYMBOL (gsdl_sym_r, "r");
-SCM_SYMBOL (gsdl_sym_g, "g");
-SCM_SYMBOL (gsdl_sym_b, "b");
-SCM_SYMBOL (gsdl_sym_a, "a");
+DECLARE_SIMPLE_SYM (r);
+DECLARE_SIMPLE_SYM (g);
+DECLARE_SIMPLE_SYM (b);
+DECLARE_SIMPLE_SYM (a);
 
 GH_DEFPROC (get_rgb, "get-rgb", 2, 0, 0,
             (SCM s_pixel,
@@ -697,9 +698,9 @@ GH_DEFPROC (get_rgb, "get-rgb", 2, 0, 0,
               UNPACK_PIXEL_FORMAT (s_pixel_format),
               &r, &g, &b);
 
-  return SCM_LIST3 (gh_cons (gsdl_sym_r, gh_long2scm (r)),
-                    gh_cons (gsdl_sym_g, gh_long2scm (g)),
-                    gh_cons (gsdl_sym_b, gh_long2scm (b)));
+  return SCM_LIST3 (gh_cons (SYM (r), gh_long2scm (r)),
+                    gh_cons (SYM (g), gh_long2scm (g)),
+                    gh_cons (SYM (b), gh_long2scm (b)));
 }
 #undef FUNC_NAME
 
@@ -721,10 +722,10 @@ GH_DEFPROC (get_rgba, "get-rgba", 2, 0, 0,
                UNPACK_PIXEL_FORMAT (s_pixel_format),
                &r, &g, &b, &a);
 
-  return SCM_LIST4 (gh_cons (gsdl_sym_r, gh_long2scm (r)),
-                    gh_cons (gsdl_sym_g, gh_long2scm (g)),
-                    gh_cons (gsdl_sym_b, gh_long2scm (b)),
-                    gh_cons (gsdl_sym_a, gh_long2scm (a)));
+  return SCM_LIST4 (gh_cons (SYM (r), gh_long2scm (r)),
+                    gh_cons (SYM (g), gh_long2scm (g)),
+                    gh_cons (SYM (b), gh_long2scm (b)),
+                    gh_cons (SYM (a), gh_long2scm (a)));
 }
 #undef FUNC_NAME
 
@@ -956,8 +957,8 @@ GH_DEFPROC (wm_set_caption, "set-caption", 1, 1, 0,
 }
 #undef FUNC_NAME
 
-SCM_SYMBOL (gsdl_sym_title, "title");
-SCM_SYMBOL (gsdl_sym_icon, "icon");
+DECLARE_SIMPLE_SYM (title);
+DECLARE_SIMPLE_SYM (icon);
 
 GH_DEFPROC (wm_get_caption, "get-caption", 0, 0, 0,
             (void),
@@ -969,8 +970,8 @@ GH_DEFPROC (wm_get_caption, "get-caption", 0, 0, 0,
   char *title, *icon;
 
   SDL_WM_GetCaption (&title, &icon);
-  return SCM_LIST2 (gh_cons (gsdl_sym_title, gh_str02scm (title)),
-                    gh_cons (gsdl_sym_icon,  gh_str02scm (icon)));
+  return SCM_LIST2 (gh_cons (SYM (title), gh_str02scm (title)),
+                    gh_cons (SYM (icon),  gh_str02scm (icon)));
 }
 #undef FUNC_NAME
 
