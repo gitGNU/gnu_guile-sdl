@@ -1,3 +1,7 @@
+2004-07-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlmixer.c (init_module): Use macro `GSDL_CSCS'.
+
 2004-07-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am [HAVE_MIXER] (install-data-hook): New target.
