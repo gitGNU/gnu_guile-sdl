@@ -2,7 +2,7 @@
  *  gfx.h -- Additional Graphics functions for Guile SDL           *
  *                                                                 *
  *  Created:    <2001-06-03 02:00:32 foof>                         *
- *  Time-stamp: <2001-06-25 00:23:27 foof>                         *
+ *  Time-stamp: <2001-06-30 01:13:27 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -32,10 +32,56 @@
 #include <SDL/SDL.h>
 #include "sdlvideo.h"
 
-SCM vertical_flip_surface (SCM surface);
-SCM horiztonal_flip_surface (SCM surface);
-SCM vh_flip_surface (SCM surface);
-SCM scale_surface (SCM surface, SCM width, SCM height);
+/*--------------------Scheme functions-------------------------*/ 
+
+SCM sdl_draw_point (SCM surface_smob, SCM s_x, SCM s_y, 
+                    SCM s_color);
+
+
+SCM sdl_draw_line (SCM surface_smob, 
+                   SCM s_x1, SCM s_y1, 
+                   SCM s_x2, SCM s_y2, 
+                   SCM s_color);
+
+SCM sdl_draw_aa_line (SCM surface_smob, 
+                      SCM s_x1, SCM s_y1, 
+                      SCM s_x2, SCM s_y2, 
+                      SCM s_color);
+
+SCM sdl_draw_rectangle (SCM s_fill, 
+                        SCM surface_smob, 
+                        SCM s_x1, SCM s_y1, 
+                        SCM s_x2, SCM s_y2, 
+                        SCM s_color);
+
+SCM sdl_draw_circle (SCM s_fill, 
+                     SCM surface_smob, 
+                     SCM s_x, SCM s_y, 
+                     SCM s_r,
+                     SCM s_color);
+
+SCM sdl_draw_ellipse (SCM s_fill, 
+                      SCM surface_smob, 
+                      SCM s_x, SCM s_y, 
+                      SCM s_rx, SCM s_ry,
+                      SCM s_color);
+
+SCM sdl_draw_polygon (SCM s_fill, 
+                      SCM surface_smob, 
+                      SCM s_vx, SCM s_vy, /* Vectors */ 		       
+                      SCM s_color);
+
+SCM sdl_draw_character (SCM surface_smob, 
+                        SCM s_x, SCM s_y,
+                        SCM s_char,
+                        SCM s_color);
+
+SCM sdl_draw_string (SCM surface_smob, 
+                     SCM s_x, SCM s_y,
+                     SCM s_string,
+                     SCM s_color);
+
+/*-------------------------------------------------------------*/
 
 void sdl_gfx_init (void);
 
