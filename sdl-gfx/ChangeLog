@@ -1,3 +1,12 @@
+2005-01-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlgfx.c (draw_aa_circle): New GH_DEFPROC.
+	(draw_aa_ellipse): Likewise.
+
+2005-01-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (AM_CPPFLAGS): Also add $(SDL_CFLAGS).
+
 2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlgfx.c: Move "#define FUNC_NAME" inside func scope; nfc.

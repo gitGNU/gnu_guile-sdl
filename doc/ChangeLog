@@ -1,5 +1,10 @@
 2005-01-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* ref.twerp (Video): Add @twerpdoc for
+	`draw-aa-circle' and `draw-aa-ellipse'.
+
+2005-01-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* guile-sdl.texi: Mention module (sdl simple) in intro blurb.
 
 2005-01-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
