@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-10 22:52:24 foof>                         *
+ *  Time-stamp: <2001-06-13 00:17:24 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -49,6 +49,8 @@ long video_info_tag;
 scm_sizet
 free_surface (SCM surface)
 {
+   /* printf ("free_surface(%p)\n", (SDL_Surface*) SCM_SMOB_DATA (surface)); */
+   /* it's safe to call this on the primary display */
    SDL_FreeSurface ((SDL_Surface*) SCM_SMOB_DATA (surface));
    return sizeof (SDL_Surface);
 }
@@ -138,25 +140,86 @@ create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
    SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
 
-SCM
-create_rgb_surface_from (SCM s_pixels, SCM s_width, SCM s_height,
-                         SCM s_depth, SCM s_pitch, SCM s_rmask,
-                         SCM s_gmask, SCM s_bmask, SCM s_amask)
-{
-   return SCM_UNSPECIFIED;
-}
+/* SCM */
+/* create_rgb_surface_from (SCM s_pixels, SCM s_width, SCM s_height, */
+/*                          SCM s_depth, SCM s_pitch, SCM s_rmask, */
+/*                          SCM s_gmask, SCM s_bmask, SCM s_amask) */
+/* { */
+/*    return SCM_UNSPECIFIED; */
+/* } */
 
 SCM
 create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
                SCM s_hot_x, SCM s_hot_y)
 {
-   return SCM_UNSPECIFIED;
+   SDL_Cursor *cursor;
+   Uint8 *data, *mask;
+   int data_len, mask_len;
+   int i, w, h, hot_x, hot_y;
+
+   /* validate args */
+   SCM_ASSERT (scm_vector_p (s_data), s_data, SCM_ARG1, "create-cursor");
+   SCM_ASSERT (scm_vector_p (s_mask), s_mask, SCM_ARG2, "create-cursor");
+   SCM_ASSERT (SCM_INUMP (s_w), s_w, SCM_ARG3, "create-cursor");
+   SCM_ASSERT (SCM_INUMP (s_h), s_h, SCM_ARG4, "create-cursor");
+   SCM_ASSERT (SCM_INUMP (s_hot_x), s_hot_x, SCM_ARG5, "create-cursor");
+   SCM_ASSERT (SCM_INUMP (s_hot_y), s_hot_y, SCM_ARG5, "create-cursor");
+
+   /* build the arrays */
+   data_len = SCM_INUM (scm_vector_length (s_data));
+   data = scm_must_malloc (data_len, "create-cursor data array");
+   for (i=0; i<data_len; i++) {
+      data[i] = (Uint8) SCM_INUM (scm_vector_ref (s_data, SCM_MAKINUM (i)));
+   }
+   mask_len = SCM_INUM (scm_vector_length (s_mask));
+   mask = scm_must_malloc (mask_len, "create-cursor mask array");
+   for (i=0; i<mask_len; i++) {
+      mask[i] = (Uint8) SCM_INUM (scm_vector_ref (s_mask, SCM_MAKINUM (i)));
+   }
+
+   /* numbers */
+   w = SCM_INUM (s_w);
+   h = SCM_INUM (s_h);
+   hot_x = SCM_INUM (s_hot_x);
+   hot_y = SCM_INUM (s_hot_y);
+
+   /* create the cursor */
+   cursor = SDL_CreateCursor (data, mask, w, h, hot_x, hot_y);
+
+   /* free the arrays */
+   scm_must_free (data);
+   scm_must_free (mask);
+
+   /* return the new smob */
+   SCM_RETURN_NEWSMOB (cursor_tag, cursor);
 }
 
 SCM
 create_yuv_overlay (SCM s_width, SCM s_height, SCM s_format, SCM s_display)
 {
-   return SCM_UNSPECIFIED;
+   int width, height;
+   Uint32 format;
+   SDL_Surface *display;
+   SDL_Overlay *overlay;
+
+   SCM_ASSERT (SCM_INUMP (s_width), s_width, SCM_ARG1, "create-yuv-overlay");
+   SCM_ASSERT (SCM_INUMP (s_height), s_height, SCM_ARG2, "create-yuv-overlay");
+   SCM_ASSERT (SCM_INUMP (s_format), s_format, SCM_ARG3, "create-yuv-overlay");
+
+   width = SCM_INUM (s_width);
+   height = SCM_INUM (s_height);
+   format = (Uint32) SCM_INUM (s_format);
+
+   if (s_display == SCM_UNDEFINED) {
+      display = SDL_GetVideoSurface ();
+   } else {
+      SCM_ASSERT_SMOB (s_display, surface_tag, SCM_ARG4, "create-yuv-overlay");
+      display = (SDL_Surface*) SCM_SMOB_DATA (s_display);
+   }
+
+   overlay = SDL_CreateYUVOverlay (width, height, format, display);
+
+   SCM_RETURN_NEWSMOB (overlay_tag, overlay);
 }
 
 
@@ -165,6 +228,7 @@ create_yuv_overlay (SCM s_width, SCM s_height, SCM s_format, SCM s_display)
 scm_sizet
 free_rect (SCM rect)
 {
+   /* printf ("free_rect(%p)\n", rect); */
    free ((SDL_Rect*) SCM_SMOB_DATA (rect));
    return sizeof (SDL_Rect);
 }
@@ -205,6 +269,7 @@ SCM_DEFINE_INUM_SETTER ("rect:set-h!", rect_set_h, rect_tag, SDL_Rect*, h)
 scm_sizet
 free_color (SCM color)
 {
+   /* printf ("free_color(%p)\n", color); */
    free ((SDL_Color*) SCM_SMOB_DATA (color));
    return sizeof (SDL_Color);
 }
@@ -421,7 +486,17 @@ set_palette (SCM s_surface, SCM s_flags, SCM s_colors)
 SCM
 set_gamma (SCM s_redgamma, SCM s_greengamma, SCM s_bluegamma)
 {
-   return SCM_UNSPECIFIED;
+   float redgamma, greengamma, bluegamma;
+
+   SCM_ASSERT (scm_number_p (s_redgamma),   s_redgamma,   SCM_ARG1, "set-gamma");
+   SCM_ASSERT (scm_number_p (s_greengamma), s_greengamma, SCM_ARG2, "set-gamma");
+   SCM_ASSERT (scm_number_p (s_bluegamma),  s_bluegamma,  SCM_ARG3, "set-gamma");
+
+   redgamma   = (float) SCM_REAL_VALUE (s_redgamma);
+   greengamma = (float) SCM_REAL_VALUE (s_greengamma);
+   bluegamma  = (float) SCM_REAL_VALUE (s_bluegamma);
+
+   SCM_RETURN_TRUE_IF_0 (SDL_SetGamma (redgamma, greengamma, bluegamma));
 }
 
 SCM
@@ -439,25 +514,78 @@ set_gamma_ramp (SCM s_redtable, SCM s_greentable, SCM s_bluetable)
 SCM
 map_rgb (SCM s_pixel_fmt, SCM s_r, SCM s_g, SCM s_b)
 {
-   return SCM_UNSPECIFIED;
+   SDL_PixelFormat *fmt;
+   Uint8 r, g, b;
+
+   SCM_ASSERT_SMOB (s_pixel_fmt, pixel_format_tag, SCM_ARG1, "map-rbg");
+   SCM_ASSERT (SCM_INUMP (s_r), s_r, SCM_ARG2, "map-rgb");
+   SCM_ASSERT (SCM_INUMP (s_g), s_g, SCM_ARG3, "map-rgb");
+   SCM_ASSERT (SCM_INUMP (s_b), s_b, SCM_ARG4, "map-rgb");
+
+   fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_fmt);
+   r = (Uint8) SCM_INUM (s_r);
+   g = (Uint8) SCM_INUM (s_g);
+   b = (Uint8) SCM_INUM (s_b);
+
+   return SCM_MAKINUM (SDL_MapRGB (fmt, r, g, b));
 }
 
 SCM
 map_rgba (SCM s_pixel_fmt, SCM s_r, SCM s_g, SCM s_b, SCM s_a)
 {
-   return SCM_UNSPECIFIED;
+   SDL_PixelFormat *fmt;
+   Uint8 r, g, b, a;
+
+   SCM_ASSERT_SMOB (s_pixel_fmt, pixel_format_tag, SCM_ARG1, "map-rbga");
+   SCM_ASSERT (SCM_INUMP (s_r), s_r, SCM_ARG2, "map-rgba");
+   SCM_ASSERT (SCM_INUMP (s_g), s_g, SCM_ARG3, "map-rgba");
+   SCM_ASSERT (SCM_INUMP (s_b), s_b, SCM_ARG4, "map-rgba");
+   SCM_ASSERT (SCM_INUMP (s_a), s_a, SCM_ARG5, "map-rgba");
+
+   fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_fmt);
+   r = (Uint8) SCM_INUM (s_r);
+   g = (Uint8) SCM_INUM (s_g);
+   b = (Uint8) SCM_INUM (s_b);
+   a = (Uint8) SCM_INUM (s_a);
+
+   return SCM_MAKINUM (SDL_MapRGBA (fmt, r, g, b, a));
 }
 
 SCM
 get_rgb (SCM s_pixel, SCM s_pixel_fmt)
 {
-   return SCM_UNSPECIFIED;
+   SDL_PixelFormat *fmt;
+   Uint32 pixel;
+   Uint8 r, g, b;
+
+   SCM_ASSERT (SCM_INUMP (s_pixel), s_pixel, SCM_ARG1, "get-rgb");
+   SCM_ASSERT_SMOB (s_pixel_fmt, pixel_format_tag, SCM_ARG2, "get-rbg");
+
+   fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_fmt);
+   pixel = (Uint32) SCM_INUM (s_pixel);
+
+   SDL_GetRGB (pixel, fmt, &r, &g, &b);
+
+   return SCM_LIST3 (SCM_MAKINUM (r), SCM_MAKINUM (g), SCM_MAKINUM (b));
 }
 
 SCM
 get_rgba (SCM s_pixel, SCM s_pixel_fmt)
 {
-   return SCM_UNSPECIFIED;
+   SDL_PixelFormat *fmt;
+   Uint32 pixel;
+   Uint8 r, g, b, a;
+
+   SCM_ASSERT (SCM_INUMP (s_pixel), s_pixel, SCM_ARG1, "get-rgba");
+   SCM_ASSERT_SMOB (s_pixel_fmt, pixel_format_tag, SCM_ARG2, "get-rbga");
+
+   fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_pixel_fmt);
+   pixel = (Uint32) SCM_INUM (s_pixel);
+
+   SDL_GetRGBA (pixel, fmt, &r, &g, &b, &a);
+
+   return SCM_LIST4 (SCM_MAKINUM (r), SCM_MAKINUM (g),
+                     SCM_MAKINUM (b), SCM_MAKINUM (a));
 }
 
 /* SCM */
@@ -591,9 +719,23 @@ get_clip_rect (SCM s_surface)
 }
 
 SCM
-convert_surface (SCM s_src, SCM s_pixel_fmt, SCM s_flags)
+convert_surface (SCM s_src, SCM s_fmt, SCM s_flags)
 {
-   return SCM_UNSPECIFIED;
+   SDL_Surface *src, *result;
+   SDL_PixelFormat *fmt;
+   Uint32 flags;
+
+   SCM_ASSERT_SMOB (s_src, surface_tag,  SCM_ARG1, "convert-surface");
+   SCM_ASSERT_SMOB (s_fmt, pixel_format_tag, SCM_ARG2, "convert-surface");
+   SCM_ASSERT (SCM_INUMP (s_flags), s_flags, SCM_ARG3, "convert-surface");
+
+   src = (SDL_Surface*) SCM_SMOB_DATA (s_src);
+   fmt = (SDL_PixelFormat*) SCM_SMOB_DATA (s_fmt);
+   flags = (Uint32) SCM_INUM (s_flags);
+
+   result = SDL_ConvertSurface (src, fmt, flags);
+
+   SCM_RETURN_NEWSMOB (surface_tag, result);
 }
 
 SCM
@@ -607,7 +749,7 @@ blit_surface (SCM s_src, SCM s_srcrect, SCM s_dst, SCM s_dstrect)
    SCM_ASSERT_SMOB (s_src, surface_tag,  SCM_ARG1, "blit-surface");
    SCM_ASSERT_SMOB (s_srcrect, rect_tag, SCM_ARG2, "blit-surface");
    SCM_ASSERT_SMOB (s_dst, surface_tag,  SCM_ARG3, "blit-surface");
-   SCM_ASSERT_SMOB (s_srcrect, rect_tag, SCM_ARG3, "blit-surface");
+   SCM_ASSERT_SMOB (s_dstrect, rect_tag, SCM_ARG4, "blit-surface");
 
    src = (SDL_Surface *)  SCM_SMOB_DATA (s_src);
    srcrect = (SDL_Rect *) SCM_SMOB_DATA (s_srcrect);
@@ -638,43 +780,78 @@ fill_rect (SCM s_dst, SCM s_dstrect, SCM s_color)
 SCM
 display_format (SCM s_surface)
 {
-   return SCM_UNSPECIFIED;
+   SDL_Surface *surface;
+
+   SCM_ASSERT_SMOB (s_surface, surface_tag,  SCM_ARG1, "display-format");
+
+   surface = SDL_DisplayFormat ((SDL_Surface*) SCM_SMOB_DATA (s_surface));
+
+   if (! surface) {
+      return SCM_BOOL_F;
+   }
+
+   SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
 
 SCM
 display_format_alpha (SCM s_surface)
 {
-   return SCM_UNSPECIFIED;
+   SDL_Surface *surface;
+
+   SCM_ASSERT_SMOB (s_surface, surface_tag,  SCM_ARG1, "display-format-alpha");
+
+   surface = SDL_DisplayFormatAlpha ((SDL_Surface*) SCM_SMOB_DATA (s_surface));
+
+   if (! surface) {
+      return SCM_BOOL_F;
+   }
+
+   SCM_RETURN_NEWSMOB (surface_tag, surface);
 }
 
 SCM
 warp_mouse (SCM s_x, SCM s_y)
 {
+   Uint16 x, y;
+
+   SCM_ASSERT (SCM_INUMP (s_x), s_x, SCM_ARG1, "warp-mouse");
+   SCM_ASSERT (SCM_INUMP (s_y), s_y, SCM_ARG2, "warp-mouse");
+
+   x = (Uint16) SCM_INUM (s_x);
+   y = (Uint16) SCM_INUM (s_y);
+
+   SDL_WarpMouse (x, y);
+
    return SCM_UNSPECIFIED;
 }
 
-SCM
+scm_sizet
 free_cursor (SCM s_cursor)
 {
-   return SCM_UNSPECIFIED;
+   /* printf ("free_cursor(%p)\n", s_cursor); */
+   SDL_FreeCursor ((SDL_Cursor*) SCM_SMOB_DATA (s_cursor));
+   return sizeof (SDL_Cursor);
 }
 
 SCM
 set_cursor (SCM s_cursor)
 {
+   SCM_ASSERT_SMOB (s_cursor, cursor_tag, SCM_ARG1, "set-cursor");
+   SDL_SetCursor ((SDL_Cursor*) SCM_SMOB_DATA (s_cursor));
    return SCM_UNSPECIFIED;
 }
 
 SCM
 get_cursor (void)
 {
-   return SCM_UNSPECIFIED;
+   SCM_RETURN_NEWSMOB (cursor_tag, SDL_GetCursor());
 }
 
 SCM
 show_cursor (SCM s_toggle)
 {
-   return SCM_UNSPECIFIED;
+   SCM_ASSERT (SCM_INUMP (s_toggle), s_toggle, SCM_ARG1, "show-cursor");
+   return SCM_MAKINUM (SDL_ShowCursor (SCM_INUM (s_toggle)));
 }
 
 SCM
@@ -710,25 +887,47 @@ gl_swap_buffers (void)
 SCM
 lock_yuv_overlay (SCM s_overlay)
 {
-   return SCM_UNSPECIFIED;
+   SDL_Overlay *overlay;
+
+   SCM_ASSERT_SMOB (s_overlay, overlay_tag, SCM_ARG1, "lock-yuv-overlay");
+   overlay = (SDL_Overlay*) SCM_SMOB_DATA (s_overlay);
+
+   SCM_RETURN_TRUE_IF_0 (SDL_LockYUVOverlay (overlay));
 }
 
 SCM
 unlock_yuv_overlay (SCM s_overlay)
 {
+   SDL_Overlay *overlay;
+
+   SCM_ASSERT_SMOB (s_overlay, overlay_tag, SCM_ARG1, "unlock-yuv-overlay");
+   overlay = (SDL_Overlay*) SCM_SMOB_DATA (s_overlay);
+
+   SDL_UnlockYUVOverlay (overlay);
    return SCM_UNSPECIFIED;
 }
 
 SCM
 display_yuv_overlay (SCM s_overlay, SCM s_dstrect)
 {
-   return SCM_UNSPECIFIED;
+   SDL_Overlay *overlay;
+   SDL_Rect *rect;
+
+   SCM_ASSERT_SMOB (s_overlay, overlay_tag, SCM_ARG1, "display-yuv-overlay");
+   SCM_ASSERT_SMOB (s_dstrect, rect_tag, SCM_ARG2, "display-yuv-overlay");
+
+   overlay = (SDL_Overlay*) SCM_SMOB_DATA (s_overlay);
+   rect = (SDL_Rect*) SCM_SMOB_DATA (s_dstrect);
+
+   SCM_RETURN_TRUE_IF_0 (SDL_DisplayYUVOverlay (overlay, rect));
 }
 
-SCM
+scm_sizet
 free_yuv_overlay (SCM s_overlay)
 {
-   return SCM_UNSPECIFIED;
+   /* printf ("free_yuv_overlay(%p)\n", s_overlay); */
+   SDL_FreeYUVOverlay ((SDL_Overlay*) SCM_SMOB_DATA (s_overlay));
+   return sizeof (SDL_Overlay);
 }
 
 void
@@ -747,6 +946,8 @@ sdl_video_init (void)
    scm_set_smob_free (surface_tag, free_surface);
    scm_set_smob_free (rect_tag, free_rect);
    scm_set_smob_free (color_tag, free_color);
+   scm_set_smob_free (cursor_tag, free_cursor);
+   scm_set_smob_free (overlay_tag, free_yuv_overlay);
 
    /* rect functions */
    scm_c_define_gsubr ("make-rect",          4, 0, 0, make_rect);
@@ -766,6 +967,11 @@ sdl_video_init (void)
    scm_c_define_gsubr ("color:set-r!",       2, 0, 0, color_set_r);
    scm_c_define_gsubr ("color:set-g!",       2, 0, 0, color_set_g);
    scm_c_define_gsubr ("color:set-b!",       2, 0, 0, color_set_b);
+   /* pixel formats */
+   scm_c_define_gsubr ("map-rgb",            4, 0, 0, map_rgb);
+   scm_c_define_gsubr ("map-rgba",           5, 0, 0, map_rgba);
+   scm_c_define_gsubr ("get-rgb",            2, 0, 0, get_rgb);
+   scm_c_define_gsubr ("get-rgba",           2, 0, 0, get_rgba);
    /* surfaces */
    scm_c_define_gsubr ("get-video-surface",  0, 0, 0, get_video_surface);
    scm_c_define_gsubr ("make-surface",       2, 1, 0, make_surface);
@@ -776,12 +982,27 @@ sdl_video_init (void)
    scm_c_define_gsubr ("get-clip-rect",      1, 0, 0, get_clip_rect);
    scm_c_define_gsubr ("set-color-key!",     3, 0, 0, set_color_key);
    scm_c_define_gsubr ("set-alpha!",         3, 0, 0, set_alpha);
+   scm_c_define_gsubr ("set-gamma",          3, 0, 0, set_gamma);
+   scm_c_define_gsubr ("display-format",     1, 0, 0, display_format);
+   scm_c_define_gsubr ("display-format-alpha", 1, 0, 0, display_format_alpha);
+   scm_c_define_gsubr ("convert-surface",    3, 0, 0, convert_surface);
+   /* overlays */
+   scm_c_define_gsubr ("create-yuv-overlay", 3, 1, 0, create_yuv_overlay);
+   scm_c_define_gsubr ("lock-yuv-overlay",   1, 0, 0, lock_yuv_overlay);
+   scm_c_define_gsubr ("unlock-yuv-overlay", 1, 0, 0, unlock_yuv_overlay);
+   scm_c_define_gsubr ("display-yuv-overlay", 2, 0, 0, display_yuv_overlay);
    /* video */
    scm_c_define_gsubr ("set-video-mode",     4, 0, 0, set_video_mode);
    scm_c_define_gsubr ("update-rect",        5, 0, 0, update_rect);
    scm_c_define_gsubr ("flip",               0, 1, 0, flip);
    scm_c_define_gsubr ("blit-surface",       4, 0, 0, blit_surface);
    scm_c_define_gsubr ("fill-rect",          3, 0, 0, fill_rect);
+   /* cursors */
+   scm_c_define_gsubr ("create-cursor",      6, 0, 0, create_cursor);
+   scm_c_define_gsubr ("set-cursor",         1, 0, 0, set_cursor);
+   scm_c_define_gsubr ("get-cursor",         0, 0, 0, get_cursor);
+   scm_c_define_gsubr ("show-cursor",        1, 0, 0, show_cursor);
+   scm_c_define_gsubr ("warp-mouse",         2, 0, 0, warp_mouse);
    /* info */
    scm_c_define_gsubr ("list-modes",         0, 2, 0, list_modes);
    scm_c_define_gsubr ("video-mode-ok",      4, 0, 0, video_mode_ok);
@@ -796,13 +1017,23 @@ sdl_video_init (void)
       /* color functions */
       "make-color", "color:r", "color:g", "color:b",
       "color:set-r!", "color:set-g!", "color:set-b!",
+      /* pixel formats */
+      "map-rgb", "map-rgba", "get-rgb", "get-rgba",
       /* surfaces */
       "get-video-surface", "make-surface", "create-rgb-surface",
       "lock-surface", "unlock-surface", "set-clip-rect!",
       "get-clip-rect", "set-color-key!", "set-alpha!",
+      "set-gamma", "display-format", "display-format-alpha",
+      "convert-surface",
+      /* overlays */
+      "create-yuv-overlay", "lock-yuv-overlay", "unlock-yuv-overlay",
+      "display-yuv-overlay",
       /* video */
       "set-video-mode", "update-rect", "flip", "blit-surface",
       "fill-rect", "load-bmp", "save-bmp",
+      /* cursors */
+      "create-cursor", "set-cursor", "get-cursor", "show-cursor",
+      "warp-mouse",
       /* info */
       "list-modes", "video-mode-ok", "video-driver-name",
       "get-video-info", NULL);

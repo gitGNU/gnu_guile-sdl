@@ -2,7 +2,7 @@
  *  video.h -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-10 22:56:24 foof>                         *
+ *  Time-stamp: <2001-06-13 00:07:02 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -44,15 +44,17 @@ extern long video_info_tag;
 scm_sizet free_surface (SCM surface);
 scm_sizet free_rect (SCM rect);
 scm_sizet free_color (SCM color);
+scm_sizet free_cursor (SCM s_cursor);
+scm_sizet free_yuv_overlay (SCM s_overlay);
 
 /* constructors */
 SCM make_surface (SCM s_width, SCM s_height);
 SCM create_rgb_surface (SCM s_flags, SCM s_width, SCM s_height,
                         SCM s_depth, SCM s_rmask, SCM s_gmask,
                         SCM s_bmask, SCM s_amask);
-SCM create_rgb_surface_from (SCM s_pixels, SCM s_width, SCM s_height,
-                             SCM s_depth, SCM s_pitch, SCM s_rmask,
-                             SCM s_gmask, SCM s_bmask, SCM s_amask);
+/* SCM create_rgb_surface_from (SCM s_pixels, SCM s_width, SCM s_height, */
+/*                              SCM s_depth, SCM s_pitch, SCM s_rmask, */
+/*                              SCM s_gmask, SCM s_bmask, SCM s_amask); */
 SCM create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
                    SCM s_hot_x, SCM s_hot_y);
 SCM create_yuv_overlay (SCM s_width, SCM s_height,
@@ -106,7 +108,6 @@ SCM blit_surface (SCM s_src, SCM s_srcrect, SCM s_dst, SCM s_dstrect);
 SCM display_format (SCM s_surface);
 SCM display_format_alpha (SCM s_surface);
 SCM warp_mouse (SCM s_x, SCM s_y);
-SCM free_cursor (SCM s_cursor);
 SCM set_cursor (SCM s_cursor);
 SCM get_cursor (void);
 SCM show_cursor (SCM s_toggle);
@@ -118,7 +119,6 @@ SCM gl_swap_buffers (void);
 SCM lock_yuv_overlay (SCM s_overlay);
 SCM unlock_yuv_overlay (SCM s_overlay);
 SCM display_yuv_overlay (SCM s_overlay, SCM s_dstrect);
-SCM free_yuv_overlay (SCM s_overlay);
 
 /* called to initialize functions and smobs */
 void sdl_video_init (void);
