@@ -1,17 +1,18 @@
 + 0.2
+  + naming: remove "sdl-" prefix
+  + install under $GUILE_LIBSITE and $GUILE_SITE
   + no longer install in $libdir
-  + install under $guilelibsitedir and $GUILE_SITE
   + documentation
     + methodology
     + describe limits/restrictions
     + include TODO
+
 
 - 0.3
   - error handling cleanup
     - document policy
     - cases: NULL, -1, ...
   - improve documentation content
-  - naming
     - review
     - fix
   - library coverage
