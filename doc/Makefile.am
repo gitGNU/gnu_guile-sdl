@@ -2,7 +2,7 @@
 
 AUTOMAKE_OPTIONS = gnu
 
-BUILT_SOURCES = ref.texi ef-ref.texi TODO-excerpt
+BUILT_SOURCES = ref.texi ef-ref.texi excuse.texi TODO-excerpt
 
 info_TEXINFOS = guile-sdl.texi
 
