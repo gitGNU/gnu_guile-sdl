@@ -37,29 +37,30 @@ GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
   SDL_Surface *src, *dst;
   SDL_Rect srcrect, dstrect;
 
-  /* verify args */
+  /* Verify args.  */
   ASSERT_SURFACE (s_surface, ARGH1);
 
-  /* get source and dimensions */
+  /* Get source and dimensions.  */
   src = SMOBGET (s_surface, SDL_Surface *);
   w = src->w;
   h = src->h;
 
-  /* create a new surface */
+  /* Create a new surface.  */
   dst = SDL_CreateRGBSurface (src->flags, w, h, 16, 0, 0, 0, 0);
 
-  /* initialize the rects */
+  /* Initialize the rects.  */
   srcrect.x = 0;  srcrect.y = 0;    srcrect.w = w;  srcrect.h = 1;
   dstrect.x = 0;  dstrect.y = h-1;  dstrect.w = w;  dstrect.h = 1;
 
-  /* loop through, copying lines from top to bottom */
-  for (i=h; i>=0; i--) {
-    SDL_BlitSurface (src, &srcrect, dst, &dstrect);
-    srcrect.y++;
-    dstrect.y--;
-  }
+  /* Loop through, copying lines from top to bottom.  */
+  for (i = h; i >= 0; i--)
+    {
+      SDL_BlitSurface (src, &srcrect, dst, &dstrect);
+      srcrect.y++;
+      dstrect.y--;
+    }
 
-  /* return the surface */
+  /* Return the surface.  */
   RETURN_NEW_SURFACE (dst);
 }
 #undef FUNC_NAME
@@ -73,29 +74,30 @@ GH_DEFPROC (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
   SDL_Surface *src, *dst;
   SDL_Rect srcrect, dstrect;
 
-  /* verify args */
+  /* Verify args.  */
   ASSERT_SURFACE (s_surface, ARGH1);
 
-  /* get source and dimensions */
+  /* Get source and dimensions.  */
   src = SMOBGET (s_surface, SDL_Surface *);
   w = src->w;
   h = src->h;
 
-  /* create a new surface */
+  /* Create a new surface.  */
   dst = SDL_CreateRGBSurface (src->flags, w, h, 16, 0, 0, 0, 0);
 
-  /* initialize the rects */
+  /* Initialize the rects.  */
   srcrect.x = 0;    srcrect.y = 0;  srcrect.w = 1;  srcrect.h = h;
   dstrect.x = w-1;  dstrect.y = 0;  dstrect.w = 1;  dstrect.h = h;
 
-  /* loop through, copying lines from left to right */
-  for (i=w; i>=0; i--) {
-    SDL_BlitSurface (src, &srcrect, dst, &dstrect);
-    srcrect.x++;
-    dstrect.x--;
-  }
+  /* Loop through, copying lines from left to right.  */
+  for (i = w; i >= 0; i--)
+    {
+      SDL_BlitSurface (src, &srcrect, dst, &dstrect);
+      srcrect.x++;
+      dstrect.x--;
+    }
 
-  /* return the surface */
+  /* Return the surface.  */
   RETURN_NEW_SURFACE (dst);
 }
 #undef FUNC_NAME
@@ -116,7 +118,7 @@ GH_DEFPROC (scale_surface, "scale-surface", 3, 0, 0,
             "Scale @var{surface} by @var{width} and @var{height}.")
 #define FUNC_NAME s_scale_surface
 {
-  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
+  THROW_NOT_YET_IMPLEMENTED;
   RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
