@@ -9,8 +9,8 @@
 
 ;; the directory to find the image in
 (define (datafile name)
-  (in-vicinity (if (getenv "srcdir")
-                   (in-vicinity (getenv "srcdir") "test")
+  (in-vicinity (or (and=> (getenv "srcdir")
+                          (lambda (d) (in-vicinity d "test")))
                    ".")
                name))
 
