@@ -6,6 +6,53 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
+- 0.3.2 | 2005-01-23
+
+  - bugfix: (sdl sdl) proc `fill-rect' handles alpha/red values > 127
+
+	The color used to be extracted as signed instead of unsigned.
+	This caused incorrect out-of-range errors for color values whose
+	high bit (alpha for ABGR, red for RGBA) was set.
+
+  - bugfix: (sdl misc-utils) proc `copy-surface' handles SDL_SRCALPHA
+
+	The proc now takes care to clear this flag (and restore it
+	afterwards) in the source surface around the blit, so that RGB
+	values are copied correctly.  Unfortunately, the actual alpha
+	value is lost due to being unconditionally restored as 255.
+
+  - procs moved to (sdl gfx): zoom-surface and roto-zoom-surface
+
+	Side effect of the upgrade described in the next entry.
+
+  - embedded library upgraded: libSDL_gfx 2.0.13
+
+	This library (by Andreas Schiffler) is the successor to
+	libSDL_gfxPrimitives and libSDL_rotozoom, incorporating their
+	functionality and interfaces, and providing other goodies as
+	well.  The result for Guile-SDL users is that module (sdl gfx)
+	has been augmented w/ the following new procs:
+
+	zoom-surface		;; moved from (sdl sdl)
+	roto-zoom-surface	;; likewise
+	draw-hline		;; rest are completely new
+	draw-vline
+	draw-aa-circle
+	draw-aa-ellipse
+	draw-pie-slice
+	draw-trigon
+	draw-aa-trigon
+	draw-aa-polygon
+	draw-bezier
+	make-fps-manager
+	fps-manager-set!
+	fps-manager-get
+	fps-manager-delay!
+
+	For more info, see new chapter "libSDL_gfx" sections: Graphics
+	Primitives, Rotation / Zooming, and Managing Frame Rate.
+
+
 - 0.3.1 | 2005-01-08
 
   - bugfix: `make-surface' and `create-rgb-surface' no longer ignore `flags'
@@ -34,7 +81,6 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
   - new (sdl misc-utils) proc: ignore-all-event-types-except
 
   - new module: (sdl simple)
-
 
 
 - 0.3.0 | 2004-11-25
