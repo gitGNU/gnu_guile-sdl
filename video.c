@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-05-29 21:19:25 foof>                         *
+ *  Time-stamp: <2001-06-02 22:30:37 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -31,15 +31,18 @@
 
 #define MAX_DRIVER_LEN 100
 
+/* the primary video surface */
+static SCM video_surface;
+
 /* tags for SDL smobs */
-static long surface_tag;
-static long cursor_tag;
-static long rect_tag;
-static long color_tag;
-static long palette_tag;
-static long pixel_format_tag;
-static long overlay_tag;
-static long video_info_tag;
+long surface_tag;
+long cursor_tag;
+long rect_tag;
+long color_tag;
+long palette_tag;
+long pixel_format_tag;
+long overlay_tag;
+long video_info_tag;
 
 /* constants */
 
@@ -138,8 +141,11 @@ make_pixel_format (void)
 SCM
 get_video_surface (void)
 {
+   /* get the video surface */
    SDL_Surface *surface = SDL_GetVideoSurface();
-   SCM_RETURN_NEWSMOB (surface_tag, surface);
+   /* update and return the global video_surface smob */
+   SCM_SETCDR (video_surface, surface);
+   return video_surface;
 }
 
 SCM
@@ -242,7 +248,8 @@ set_video_mode (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags)
    flags  = (Uint32) SCM_INUM (s_flags);
 
    surface = SDL_SetVideoMode (width, height, bpp, flags);
-   SCM_RETURN_NEWSMOB (surface_tag, surface);
+   SCM_SETCDR (video_surface, surface);
+   return video_surface;
 }
 
 SCM
@@ -561,6 +568,11 @@ sdl_video_init (void)
    overlay_tag   = scm_make_smob_type ("overlay", sizeof (SDL_Overlay));
    video_info_tag = scm_make_smob_type ("video-info", sizeof (SDL_VideoInfo));
 
+   /* the default display */
+   SCM_NEWCELL (video_surface);
+   SCM_SETCAR (video_surface, surface_tag);
+   scm_c_define ("video-surface", video_surface);
+
    /* video functions */
    scm_make_gsubr ("make-rect",          4, 0, 0, make_rect);
    scm_make_gsubr ("make-color",         3, 0, 0, make_color);
@@ -583,6 +595,8 @@ sdl_video_init (void)
                  "video-mode-ok", "set-video-mode", "update-rect",
                  "flip", "blit-surface", "fill-rect", "list-modes",
                  "video-driver-name", "get-video-info",
+                 /* the default display */
+                 "video-surface",
                  /* image functions */
                  "load-image",
                  NULL);
