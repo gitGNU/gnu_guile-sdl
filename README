@@ -92,3 +92,4 @@ leftover files in ${libdir}.  There are three ways to remove them:
 Note that the "000" are all zeroes; it signifies the libtool version
 number and has nothing to do with either the guile-sdl package version or
 the library "release" version.
+
