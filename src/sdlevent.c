@@ -51,6 +51,12 @@ static long event_tag;
 #define ASSERT_EVENT(obj,which) \
   ASSERT_SMOB (obj, event_tag, which)
 
+#define UNPACK_EVENT(smob) \
+  (SMOBGET (smob, SDL_Event *))
+
+#define RETURN_NEW_EVENT(x) \
+  SCM_RETURN_NEWSMOB (event_tag, x)
+
 static
 SCM
 mark_event (SCM event)
@@ -62,7 +68,7 @@ static
 size_t
 free_event (SCM event)
 {
-  free (SMOBGET (event, SDL_Event *));
+  free (UNPACK_EVENT (event));
   /* return sizeof (SDL_Event); */
   return 0;
 }
@@ -70,8 +76,14 @@ free_event (SCM event)
 
 static long keysym_tag;
 
-#define ASSERT_KEYSYMe(obj,which) \
+#define ASSERT_KEYSYM(obj,which) \
   ASSERT_SMOB (obj, keysym_tag, which)
+
+#define UNPACK_KEYSYM(smob) \
+  (SMOBGET (smob, SDL_keysym *))
+
+#define RETURN_NEW_KEYSYM(x) \
+  SCM_RETURN_NEWSMOB (keysym_tag, x)
 
 static
 SCM
@@ -84,66 +96,67 @@ static
 size_t
 free_keysym (SCM keysym)
 {
-  SDL_keysym *k = SMOBGET (keysym, SDL_keysym *);
+  SDL_keysym *k = UNPACK_KEYSYM (keysym);
   free (k);
   return sizeof (SDL_keysym);
 }
 
 
-/* constructors */
+/* Constructors */
 
 GH_DEFPROC (make_event, "make-event", 0, 1, 0,
             (SCM s_type),
-            "Create a new SDL event.")
+            "Return a new SDL event.")
 #define FUNC_NAME s_make_event
 {
   SDL_Event *event;
-  int type=SDL_NOEVENT;
+  int type = SDL_NOEVENT;
 
-  if (BOUNDP (s_type)) {
+  if (BOUNDP (s_type))
     type = gsdl_enum2long (s_type, event_type_enum, ARGH1, FUNC_NAME);
-  }
 
   event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME);
   event->type = type;
 
-  SCM_RETURN_NEWSMOB (event_tag, event);
+  RETURN_NEW_EVENT (event);
 }
 #undef FUNC_NAME
 
 GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
             (SCM sym, SCM mod),
-            "Return a new keysym.  Option args @var{sym} and @var{mod}\n"
+            "Return a new keysym.  Optional args @var{sym} and @var{mod}\n"
             "specify a particular symbol and modifier, respectively.")
 #define FUNC_NAME s_make_keysym
 {
   SDL_keysym *keysym;
 
-  /* alloc the keysym */
+  /* Alloc the keysym.  */
   keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym), FUNC_NAME);
 
-  /* set the sym if given */
+  /* Set the sym if given.  */
   UNBOUND_MEANS_FALSE (sym);
-  if (NOT_FALSEP (sym)) {
-    ASSERT_EXACT (sym, ARGH1);
-    /* keysym->sym = (SDLKey) gh_scm2long (sym); */
-    keysym->sym = (SDLKey) gsdl_enum2long (sym, event_keysym_enum,
-                                           ARGH1, FUNC_NAME);
-  }
+  if (NOT_FALSEP (sym))
+    {
+      ASSERT_EXACT (sym, ARGH1);
+      /* keysym->sym = (SDLKey) gh_scm2long (sym); */
+      keysym->sym = (SDLKey) gsdl_enum2long (sym, event_keysym_enum,
+                                             ARGH1, FUNC_NAME);
+    }
 
-  /* set the mod if given */
-  if (BOUNDP (mod)) {
-    ASSERT_EXACT (mod, ARGH2);
-    keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, ARGH2);
-  }
+  /* Set the mod if given.  */
+  if (BOUNDP (mod))
+    {
+      ASSERT_EXACT (mod, ARGH2);
+      keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, ARGH2);
+    }
 
-  /* return the new smob */
-  SCM_RETURN_NEWSMOB (keysym_tag, keysym);
+  /* Return the new smob.  */
+  RETURN_NEW_KEYSYM (keysym);
 }
 #undef FUNC_NAME
 
 
-/* smob getters and setters */
+/* Smob getters and setters */
 
 
 #define ENUM_GETTER(s_frag, c_frag, c_field, etypefrag) \
@@ -286,7 +299,8 @@ NUM2_GETSET (user, data2)
 
 GH_DEFPROC (pump_events, "pump-events", 0, 0, 0,
             (void),
-            "Gather events from input devices and update the event queue.")
+            "Gather events from input devices and update the event\n"
+            "queue.  The return value is unspecified.")
 #define FUNC_NAME s_pump_events
 {
   SDL_PumpEvents ();
@@ -299,7 +313,7 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
             "[not yet implemented]")
 #define FUNC_NAME s_peep_events
 {
-  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
+  THROW_NOT_YET_IMPLEMENTED;
   /*  int SDL_PeepEvents (SDL_Event *events, int numevents, */
   /*                      SDL_eventaction action, Uint32 mask); */
   RETURN_UNSPECIFIED;
@@ -316,14 +330,15 @@ GH_DEFPROC (poll_event, "poll-event", 0, 1, 0,
 {
   int result;
 
-  if (UNBOUNDP (event)) {
-    /* no args */
+  if (UNBOUNDP (event))
+    /* No args.  */
     result = SDL_PollEvent (NULL);
-  } else {
-    /* we're given an event smob - fill it */
-    ASSERT_SMOB (event, event_tag, ARGH1);
-    result = SDL_PollEvent (SMOBGET (event, SDL_Event *));
-  }
+  else
+    {
+      /* We're given an event smob - fill it.  */
+      ASSERT_EVENT (event, ARGH1);
+      result = SDL_PollEvent (UNPACK_EVENT (event));
+    }
 
   RETURN_BOOL
     (result);
@@ -340,14 +355,15 @@ GH_DEFPROC (wait_event, "wait-event", 0, 1, 0,
 {
   int result;
 
-  if (UNBOUNDP (event)) {
-    /* no args */
+  if (UNBOUNDP (event))
+    /* No args.  */
     result = SDL_WaitEvent (NULL);
-  } else {
-    /* we're given an event smob - fill it */
-    ASSERT_SMOB (event, event_tag, ARGH1);
-    result = SDL_WaitEvent (SMOBGET (event, SDL_Event *));
-  }
+  else
+    {
+      /* We're given an event smob - fill it.  */
+      ASSERT_EVENT (event, ARGH1);
+      result = SDL_WaitEvent (UNPACK_EVENT (event));
+    }
 
   RETURN_BOOL
     (result);
@@ -362,9 +378,9 @@ GH_DEFPROC (push_event, "push-event", 1, 0, 0,
 {
   int result;
 
-  ASSERT_SMOB (event, event_tag, ARGH1);
+  ASSERT_EVENT (event, ARGH1);
 
-  result = SDL_PushEvent (SMOBGET (event, SDL_Event *));
+  result = SDL_PushEvent (UNPACK_EVENT (event));
   RETURN_INT (result);
 }
 #undef FUNC_NAME
@@ -374,7 +390,7 @@ GH_DEFPROC (set_event_filter, "set-event-filter", 1, 0, 0,
             "[not yet implemented]")
 #define FUNC_NAME s_set_event_filter
 {
-  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
+  THROW_NOT_YET_IMPLEMENTED;
   /* extern DECLSPEC void SDL_SetEventFilter (SDL_EventFilter filter); */
   RETURN_UNSPECIFIED;
 }
@@ -385,7 +401,7 @@ GH_DEFPROC (get_event_filter, "get-event-filter", 1, 0, 0,
             "[not yet implemented]")
 #define FUNC_NAME s_get_event_filter
 {
-  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
+  THROW_NOT_YET_IMPLEMENTED;
   /* extern DECLSPEC SDL_EventFilter SDL_GetEventFilter (void); */
   RETURN_UNSPECIFIED;
 }
@@ -396,7 +412,7 @@ GH_DEFPROC (event_state, "event-state", 2, 0, 0,
             "[not yet implemented]")
 #define FUNC_NAME s_event_state
 {
-  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
+  THROW_NOT_YET_IMPLEMENTED;
   /* extern DECLSPEC Uint8 SDL_EventState (Uint8 type, int state); */
   RETURN_UNSPECIFIED;
 }
@@ -410,17 +426,10 @@ GH_DEFPROC (enable_unicode, "enable-unicode", 0, 1, 0,
             "keyboard translation, or disables it if #f.")
 #define FUNC_NAME s_enable_unicode
 {
-  int result;
-
-  if (UNBOUNDP (enable_p)) {
-    result = SDL_EnableUNICODE (-1);
-  } else if (! gh_scm2bool (enable_p)) {
-    result = SDL_EnableUNICODE (0);
-  } else {
-    result = SDL_EnableUNICODE (1);
-  }
-
-  RETURN_INT (result);
+  RETURN_BOOL
+    (SDL_EnableUNICODE (UNBOUNDP (enable_p)
+                        ? -1
+                        : gh_scm2bool (enable_p)));
 }
 #undef FUNC_NAME
 
@@ -459,14 +468,14 @@ GH_DEFPROC (get_key_state, "get-key-state", 1, 0, 0,
 #endif
 #define FUNC_NAME s_get_key_state
 {
-  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL);
+  THROW_NOT_YET_IMPLEMENTED;
   RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
 
 GH_DEFPROC (get_mod_state, "get-mod-state", 0, 0, 0,
             (void),
-            "Get the current key modifier state.")
+            "Return the current key modifier state as a list of symbols.")
 #define FUNC_NAME s_get_mod_state
 {
   return gsdl_ulong2flags (SDL_GetModState (), event_mod_flags);
@@ -475,9 +484,9 @@ GH_DEFPROC (get_mod_state, "get-mod-state", 0, 0, 0,
 
 GH_DEFPROC (set_mod_state, "set-mod-state", 1, 0, 0,
             (SCM modstate),
-            "Set the current key modifier state.\n"
-            "This does not change the keyboard state,\n"
-            "only the key modifier flags.")
+            "Set the current key modifier state to @var{modstate},\n"
+            "a list of symbols.  This does not change the keyboard state,\n"
+            "only the key modifier flags.  The return value is unspecified.")
 #define FUNC_NAME s_set_mod_state
 {
   ASSERT_EXACT (modstate, ARGH1);
@@ -492,7 +501,8 @@ DECLARE_SIMPLE_SYM (y);
 
 GH_DEFPROC (get_mouse_state, "get-mouse-state", 0, 0, 0,
             (void),
-            "Retrieve the current state of the mouse.")
+            "Return the current state of the mouse as an alist with\n"
+            "symbolic keys: @code{state}, @code{x} and @code{y}.")
 #define FUNC_NAME s_get_mouse_state
 {
   int buttons, x, y;
@@ -505,7 +515,8 @@ GH_DEFPROC (get_mouse_state, "get-mouse-state", 0, 0, 0,
 
 GH_DEFPROC (get_relative_mouse_state, "get-mouse-relative-state", 0, 0, 0,
             (void),
-            "Retrieve the current state of the mouse.")
+            "Return the current relative state of the mouse as an alist\n"
+            "symbolic keys: @code{state}, @code{x} and @code{y}.")
 #define FUNC_NAME s_get_relative_mouse_state
 {
   int buttons, x, y;
@@ -533,7 +544,7 @@ GH_DEFPROC (button_p, "button?", 1, 0, 0,
 
 extern flagstash_t gsdl_kmod_flagstash;
 
-/* Initialize glue */
+/* Initialize glue.  */
 void
 gsdl_init_event (void)
 {
