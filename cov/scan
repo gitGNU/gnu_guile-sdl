@@ -35,7 +35,6 @@ exec ${GUILE-guile} -e "(cov scan)" -s $0 "$@" # -*-scheme-*-
 ;;
 ;; TODO:
 ;; - Improve scan methods from "proof-of-concept" grade to "useful".
-;; - Either pass in, or dynamically determine, list of implementation files.
 
 ;;; Code:
 
@@ -73,25 +72,29 @@ exec ${GUILE-guile} -e "(cov scan)" -s $0 "$@" # -*-scheme-*-
                 (apply simple-format #t "~S ~S\n" x))
               interface)))
 
-(define *Guile-SDL-implementation*
-  (map (lambda (rel)
-         (in-vicinity ".." rel))
-       '("sdl-gfx/sdlgfx.c"
-         "sdl-gfx/SDL_gfxPrimitives/SDL_gfxPrimitives.c"
-         "sdl-mixer/sdlmixer.c"
-         "sdl-ttf/sdlttf.c"
-         "src/sdl.c"
-         "src/sdlcdrom.c"
-         "src/sdlcolor.c"
-         "src/sdlenums.c"
-         "src/sdlevent.c"
-         "src/sdlgfx.c"
-         "src/sdljoystick.c"
-         "src/sdlrect.c"
-         "src/sdlroto.c"
-         "src/sdlsurface.c"
-         "src/sdlvideo.c"
-         "src/SDL_rotozoom/SDL_rotozoom.c")))
+(define *implementation-root* "..")
+(define *implementation-subdirs* '("src" "sdl-gfx" "sdl-mixer" "sdl-ttf"))
+
+(define (implementation-files)
+  (let ((rv '()))
+    (define (recurse dir)
+      (let* ((stream (opendir dir))
+             (next (lambda () (readdir stream))))
+        (let loop ((filename (next)))
+          (if (eof-object? filename)
+              (closedir stream)
+              (let ((full (in-vicinity dir filename)))
+                (cond ((member filename '("." ".." "CVS")))
+                      ((file-is-directory? full)
+                       (recurse full))
+                      ((string=? (substring full (- (string-length full) 2))
+                                 ".c")
+                       (set! rv (cons full rv))))
+                (loop (next)))))))
+    (for-each (lambda (sub)
+                (recurse (in-vicinity *implementation-root* sub)))
+              *implementation-subdirs*)
+    rv))
 
 (define (write-coverage api-filename)
   (let ((api (read-text-db-table (open-input-file api-filename)))
@@ -101,7 +104,7 @@ exec ${GUILE-guile} -e "(cov scan)" -s $0 "$@" # -*-scheme-*-
                        (let ((cur (current-buffer)))
                          (set-object-property! cur 'filename filename)
                          cur)))
-                   *Guile-SDL-implementation*)))
+                   (implementation-files))))
     (define (search s)
       (let ((files '()))
         (define (add! x)
