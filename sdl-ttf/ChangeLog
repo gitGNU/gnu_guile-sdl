@@ -1,5 +1,33 @@
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlttf.h: Delete file.
+
+	* sdlttf.c: Update copyright.
+	Include <guile/gh.h>.
+	Include <SDL/SDL_ttf.h>.
+	No longer include "sdlttf.h".
+	No longer include "sdlvideo.h".
+	Include "config.h", "argcheck.h", "sdlsmobs.h" and "sdlenums.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(sdl_ttf_flags): Make static.
+	(sdl_get_ttf_flags): New MDEFLOCEXP func.
+	(ttf_font_tag): Make static.
+	(ASSERT_TTFONT, UNPACK_TTFONT, RETURN_NEW_TTFONT): New macros.
+	(mark_font): New static func.
+	(free_font): Make static.
+	(gsdl_ttf_flagstash): New extern var decl.
+	(init_module): Rename from `sdl_ttf_init'. Make static.
+	Register func `mark_font'.
+	Initialize `sdl_ttf_flags' using `gsdl_make_flagstash'
+	instead of using `scm_c-define_flag'.
+	Remove call to `scm_c_export'.
+	(scm_init_sdl_ttf_module): New static func,
+	declared and defined by MDEFLINKFUNC macro.
+
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* Makefile.am (AM_CPPFLAGS): Add $(srcdir) variants.
 	(cmoddir, FLAGSTASH): New vars.
 	(BUILT_SOURCES): Add $(FLAGSTASH).
@@ -13,6 +41,8 @@
 	(SUFFIXES): Add ".fspec".
 	(.c.x): Rewrite to use $(c2x).
 	(.fspec.c): New pattern rule.
+
+	* ttff.fspec: New file.
 
 2003-10-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
