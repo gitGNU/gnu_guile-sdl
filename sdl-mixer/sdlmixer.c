@@ -89,19 +89,22 @@ GH_DEFPROC (mix_open_audio, "open-audio", 0, 4, 0,
   int channels = 2;
   int chunksize = 1024;
 
-  if (BOUNDP (s_freq)) {
+  UNBOUND_MEANS_FALSE (s_freq);
+  if (SCM_NFALSEP (s_freq)) {
     ASSERT_EXACT (s_freq, ARGH1);
     freq = gh_scm2long (s_freq);
   }
 
-  if (BOUNDP (s_format)) {
+  UNBOUND_MEANS_FALSE (s_format);
+  if (SCM_NFALSEP (s_format)) {
     ASSERT_EXACT (s_format, ARGH2);
     format = gh_scm2long (s_format);
   }
 
   channels -= UNBOUNDP (s_stereo) ? 0 : SCM_FALSEP (s_stereo);
 
-  if (BOUNDP (s_chunksize)) {
+  UNBOUND_MEANS_FALSE (s_chunksize);
+  if (SCM_NFALSEP (s_chunksize)) {
     ASSERT_EXACT (s_chunksize, ARGH4);
     chunksize = gh_scm2long (s_chunksize);
   }
@@ -343,17 +346,20 @@ GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
   ASSERT_AUDIO (s_chunk, ARGH1);
   chunk = UNPACK_AUDIO (s_chunk);
 
-  if (BOUNDP (s_channel)) {
+  UNBOUND_MEANS_FALSE (s_channel);
+  if (SCM_NFALSEP (s_channel)) {
     ASSERT_EXACT (s_channel, ARGH2);
     channel = gh_scm2long (s_channel);
   }
 
-  if (BOUNDP (s_loops)) {
+  UNBOUND_MEANS_FALSE (s_loops);
+  if (SCM_NFALSEP (s_loops)) {
     ASSERT_EXACT (s_loops, ARGH3);
     loops = gh_scm2long (s_loops);
   }
 
-  if (BOUNDP (s_ticks)) {
+  UNBOUND_MEANS_FALSE (s_ticks);
+  if (SCM_NFALSEP (s_ticks)) {
     ASSERT_EXACT (s_ticks, ARGH4);
     ticks = gh_scm2long (s_ticks);
   }
@@ -387,7 +393,8 @@ GH_DEFPROC (mix_play_music, "play-music", 1, 2, 0,
   ASSERT_MUSIC (s_music, ARGH1);
   music = UNPACK_MUSIC (s_music);
 
-  if (BOUNDP (s_loops)) {
+  UNBOUND_MEANS_FALSE (s_loops);
+  if (SCM_NFALSEP (s_loops)) {
     ASSERT_EXACT (s_loops, ARGH2);
     loops = gh_scm2long (s_loops);
   }
@@ -424,7 +431,8 @@ GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
   int volume = -1;
   long rv;
 
-  if (BOUNDP (s_volume)) {
+  UNBOUND_MEANS_FALSE (s_volume);
+  if (SCM_NFALSEP (s_volume)) {
     ASSERT_EXACT (s_volume, ARGH1);
     volume = gh_scm2long (s_volume);
   }
@@ -521,7 +529,8 @@ GH_DEFPROC (mix_expire_channel, "expire-channel", 0, 2, 0,
   int channel = -1;
   int ticks = -1;
 
-  if (BOUNDP (s_channel)) {
+  UNBOUND_MEANS_FALSE (s_channel);
+  if (SCM_NFALSEP (s_channel)) {
     ASSERT_EXACT (s_channel, ARGH1);
     channel = gh_scm2long (s_channel);
   }
@@ -547,7 +556,8 @@ GH_DEFPROC (mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
   int channel = -1;
   int ms = 0;
 
-  if (BOUNDP (s_which)) {
+  UNBOUND_MEANS_FALSE (s_which);
+  if (SCM_NFALSEP (s_which)) {
     ASSERT_EXACT (s_which, ARGH1);
     channel = gh_scm2long (s_which);
   }
@@ -573,7 +583,8 @@ GH_DEFPROC (mix_fade_out_group, "fade-out-group", 0, 2, 0,
   int tag = -1;
   int ms = 0;
 
-  if (BOUNDP (s_tag)) {
+  UNBOUND_MEANS_FALSE (s_tag);
+  if (SCM_NFALSEP (s_tag)) {
     ASSERT_EXACT (s_tag, ARGH1);
     tag = gh_scm2long (s_tag);
   }
