@@ -39,6 +39,7 @@ extern void gsdl_init_event (void);
 extern void gsdl_init_joystick (void);
 extern void gsdl_init_cdrom (void);
 extern void gsdl_init_gfx (void);
+extern void gsdl_init_misc (void);
 
 
 /* See ../include/sdlsmobs.h for discussion.
@@ -184,6 +185,7 @@ init_module (void)
   gsdl_init_joystick ();
   gsdl_init_cdrom ();
   gsdl_init_gfx ();
+  gsdl_init_misc ();
 }
 
 GH_MODULE_LINK_FUNC ("sdl sdl", sdl_sdl, init_module)
