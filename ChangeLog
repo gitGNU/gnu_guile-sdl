@@ -1,5 +1,9 @@
 2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* configure.in (GUILE_SITE_DIR): New macro call.
+
+2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* alive.test: Remove shell-script header.
 	Use vars defined in test/common.
 
