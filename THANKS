@@ -2,6 +2,8 @@ The guile-sdl distribution:                   -*- text -*-
 
 Thanks to:
 
+  Mike Vess, for help testing guile-sdl.
+
   Martin Grabmueller, for the guile-extension template from which this
   package is structured.
 
