@@ -23,8 +23,7 @@
 ;;; Code:
 
 (define-module (sdl sdl)
-  #:use-module (sdl sdl-sup)
-  #:use-module (ice-9 syncase))
+  #:use-module (sdl sdl-sup))
 
 ;; first things first: jump in the air a little and forget to hit the ground
 
@@ -33,15 +32,6 @@
  (module-public-interface (resolve-module '(sdl sdl-sup))))
 
 ;;; some utility functions, need to organize these into modules
-
-;;;; perform a thunk with a clipping rect temporarily in place
-;;(define-syntax with-clip-rect
-;;  (syntax-rules ()
-;;    ((_ rect body ...)
-;;     (let ((orig-rect (get-clip-rect (get-video-surface))))
-;;       (set-clip-rect! (get-video-surface) rect)
-;;       body ...
-;;       (set-clip-rect! (get-video-surface) orig-rect)))))
 
 (define (call-with-clip-rect rect thunk)
   (let* ((s (get-video-surface))
