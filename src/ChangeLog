@@ -133,6 +133,17 @@
 	Remove calls to `scm_c_define_gsubr'.
 	Remove call to `scm_c_export'.
 
+	* sdlgfx.c: Update copyright.
+	Include <guile/gh.h> and <SDL/SDL_image.h>.
+	No longer include "sdlgfx.h".
+	Include "config.h", "argcheck.h" and "sdlsmobs.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Write docstrings.
+	(gsdl_gfx_init): Rename from `sdl_gfx_init'.
+	Remove calls to `scm_c_define_gsubr'.
+	Remove call to `scm_c_export'.
+
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"
