@@ -63,7 +63,15 @@ extern long gsdl_smob_tags[GSTX_TOO_MUCH];
 #define ASSERT_SURFACE(obj,n)       ASSERT_SMOB (obj, surface_tag, n)
 #define ASSERT_PIXEL_FORMAT(obj,n)  ASSERT_SMOB (obj, pixel_format_tag, n)
 
-#define RETURN_NEW_SURFACE(x)  SCM_RETURN_NEWSMOB (surface_tag, x)
+#define UNPACK_COLOR(smob)         (SMOBGET (smob, SDL_Color *))
+#define UNPACK_RECT(smob)          (SMOBGET (smob, SDL_Rect *))
+#define UNPACK_SURFACE(smob)       (SMOBGET (smob, SDL_Surface *))
+#define UNPACK_PIXEL_FORMAT(smob)  (SMOBGET (smob, SDL_PixelFormat *))
+
+#define RETURN_NEW_COLOR(x)         SCM_RETURN_NEWSMOB (color_tag, x)
+#define RETURN_NEW_RECT(x)          SCM_RETURN_NEWSMOB (rect_tag, x)
+#define RETURN_NEW_SURFACE(x)       SCM_RETURN_NEWSMOB (surface_tag, x)
+#define RETURN_NEW_PIXEL_FORMAT(x)  SCM_RETURN_NEWSMOB (pixel_format_tag, x)
 
 
 /* misc (this really belongs elsewhere) */
