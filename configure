@@ -1813,6 +1813,7 @@ ac_given_INSTALL="$INSTALL"
 trap 'rm -fr `echo "
 Makefile
 src/Makefile
+src/SDL_gfxPrimitives/Makefile
 sdl/Makefile
 sdl-mixer/Makefile
 sdl-ttf/Makefile
@@ -1924,6 +1925,7 @@ cat >> $CONFIG_STATUS <<EOF
 
 CONFIG_FILES=\${CONFIG_FILES-"Makefile
 src/Makefile
+src/SDL_gfxPrimitives/Makefile
 sdl/Makefile
 sdl-mixer/Makefile
 sdl-ttf/Makefile
