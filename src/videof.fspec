@@ -23,7 +23,7 @@
  "val_and_name"
 
  #:gperf-options
- "--language ANSI-C --global-table --omit-struct-type"
+ "--language ANSI-C --global-table --omit-struct-type --includes"
 
  #:pre-boilerplate
  #{#include "gperfsup.h"
