@@ -53,7 +53,8 @@ a package which provides the modules
 for use in Guile Scheme programs.  These modules wrap the Simple Direct Media
 Layer@footnote{The SDL homepage is @uref{http://www.libsdl.org}.} libraries on
 your system.  Additionally, experimental abstractions and convenience
-procedures are provided in the module @code{(sdl misc-utils)}.
+procedures are provided in the modules @code{(sdl misc-utils)} and
+@code{(sdl simple)}.
 @end ifinfo
 
 @menu
