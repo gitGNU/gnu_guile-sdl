@@ -33,10 +33,8 @@
 
 /* tags for SDL smobs */
 extern long cursor_tag;
-extern long palette_tag;
 extern long pixel_format_tag;
 extern long overlay_tag;
-extern long video_info_tag;
 
 extern SCM sdl_video_flags;
 extern SCM sdl_palette_flags;
@@ -52,7 +50,6 @@ SCM create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
                    SCM s_hot_x, SCM s_hot_y);
 SCM create_yuv_overlay (SCM s_width, SCM s_height,
                         SCM s_format, SCM s_display);
-SCM make_palette (SCM s_colors);
 
 /* function prototypes */
 SCM get_video_surface (void);

@@ -42,14 +42,16 @@ free_event (SCM event)
 }
 
 /* constructors */
-SCM make_event (SCM s_type)
+
+SCM_DEFINE( make_event, "sdl-make-event", 0, 1, 0,
+            (SCM s_type),
+"Create a new SDL event.")
+#define FUNC_NAME s_make_event
 {
   SDL_Event *event;
   int type=SDL_NOEVENT;
 
   if (s_type != SCM_UNDEFINED) {
-    /* SCM_ASSERT (scm_exact_p (s_type), s_type, SCM_ARG1, "sdl-make-event"); */
-    /* type = scm_num2long (s_type, SCM_ARG1, "scm_num2long"); */
     type = scm_enum2long (s_type, event_type_enum, SCM_ARG1, "sdl-make-event");
   }
 
@@ -58,6 +60,8 @@ SCM make_event (SCM s_type)
 
   SCM_RETURN_NEWSMOB (event_tag, event);
 }
+#undef FUNC_NAME
+
 
 SCM make_keysym (SCM sym, SCM mod)
 {

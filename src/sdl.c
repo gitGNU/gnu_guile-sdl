@@ -1,10 +1,6 @@
 /*******************************************************************
  *  sdl.c -- SDL Wrappers for Guile                                *
  *                                                                 *
- *  Created:    <2001-04-08 13:48:18 foof>                         *
- *  Time-stamp: <2001-07-08 02:42:56 foof>                         *
- *  Author:     Alex Shinn <foof@debian.org>                       *
- *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
  *                                                                 *
  *  This program is free software; you can redistribute it and/or  *
@@ -43,103 +39,132 @@
 SCM sdl_init_flags;
 
 /* Initialization */
-SCM
-sdl_init (SCM s_subsystems)
+SCM_DEFINE( sdl_init, "sdl-init", 1, 0, 0,
+            (SCM s_subsystems),
+"Initializes SDL.")
+#define FUNC_NAME s_sdl_init
 {
   unsigned long subsystems;
 
-  /* SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init"); */
   subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
                                 SCM_ARG1, "sdl-init");
 
   return scm_long2num (SDL_Init (subsystems));
 }
+#undef FUNC_NAME
 
-SCM
-sdl_init_subsystem (SCM s_subsystems)
+
+SCM_DEFINE( sdl_init_subsystem, "sdl-init-subsystem", 1, 0, 0,
+            (SCM s_subsystems),
+"Initializes the given SDL subsystems.")
+#define FUNC_NAME s_sdl_init_subsystem
 {
   unsigned long subsystems;
 
-  /* SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-init-subsystem"); */
   subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
                                 SCM_ARG1, "sdl-init-subsystems");
 
   return scm_long2num (SDL_InitSubSystem (subsystems));
 }
+#undef FUNC_NAME
+
 
 /* Termination */
-SCM
-sdl_quit (void)
+SCM_DEFINE( sdl_quit, "sdl-quit", 0, 0, 0,
+            (void),
+"Shuts down all SDL subsystems.")
+#define FUNC_NAME s_sdl_quit
 {
   SDL_Quit();
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-sdl_quit_subsystem (SCM s_subsystems)
+
+SCM_DEFINE( sdl_quit_subsystem, "sdl-quit-subsystem", 1, 0, 0,
+            (SCM s_subsystems),
+"Shuts down the given SDL subsystems.")
+#define FUNC_NAME s_sdl_quit_subsystem
 {
   unsigned long subsystems;
 
-  /* SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-quit-subsystem"); */
   subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
                                 SCM_ARG1, "scm_num2long");
 
   SDL_QuitSubSystem (subsystems);
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
+
 
 /* Information */
-SCM
-sdl_was_init (SCM s_subsystems)
+SCM_DEFINE( sdl_was_init, "sdl-was-init", 1, 0, 0,
+            (SCM s_subsystems),
+"Check which SDL subsystems have been initialized.")
+#define FUNC_NAME s_sdl_was_init
 {
   unsigned long subsystems;
 
-  /* SCM_ASSERT (scm_exact_p (s_subsystems), s_subsystems, SCM_ARG1, "sdl-was-init"); */
   subsystems = scm_flags2ulong (s_subsystems, sdl_init_flags,
                                 SCM_ARG1, "scm_num2long");
 
-  return scm_long2num (SDL_WasInit (subsystems));
+  return scm_ulong2flags (SDL_WasInit (subsystems), sdl_init_flags);
 }
+#undef FUNC_NAME
+
 
 /* time functions */
 
-SCM
-sdl_get_ticks (void)
+SCM_DEFINE( sdl_get_ticks, "sdl-get-ticks", 0, 0, 0,
+            (void),
+"Get the number of milliseconds since the SDL library initialization.")
+#define FUNC_NAME s_sdl_get_ticks
 {
   return scm_long2num (SDL_GetTicks ());
 }
+#undef FUNC_NAME
 
-SCM
-sdl_delay (SCM ms)
+
+SCM_DEFINE( sdl_delay, "sdl-delay", 1, 0, 0,
+            (SCM ms),
+"Wait a specified number of milliseconds before returning.")
+#define FUNC_NAME s_sdl_delay
 {
   SCM_ASSERT (scm_exact_p (ms),  ms,  SCM_ARG1, "sdl-delay");
   SDL_Delay (scm_num2long (ms, SCM_ARG1, "scm_num2long"));
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-/* error functions */
 
-SCM
-sdl_get_error (void)
+/* error handling */
+
+SCM_DEFINE( sdl_get_error, "sdl-get-error", 0, 0, 0,
+            (void),
+"Return the current SDL error string.")
+#define FUNC_NAME s_sdl_get_error
 {
   char *error = SDL_GetError();
   return scm_makfrom0str (error);
 }
+#undef FUNC_NAME
+
 
 void
 guile_sdl_init (void)
 {
+  /* initialize enums first, so we can use them */
   sdl_init_enums();
 
   /* general initializations */
-  scm_c_define_gsubr ("sdl-init",           1, 0, 0, sdl_init);
-  scm_c_define_gsubr ("sdl-init-subsystem", 1, 0, 0, sdl_init_subsystem);
-  scm_c_define_gsubr ("sdl-quit",           0, 0, 0, sdl_quit);
-  scm_c_define_gsubr ("sdl-quit-subsystem", 1, 0, 0, sdl_quit_subsystem);
-  scm_c_define_gsubr ("sdl-was-init",       1, 0, 0, sdl_was_init);
-  scm_c_define_gsubr ("sdl-get-ticks",      0, 0, 0, sdl_get_ticks);
-  scm_c_define_gsubr ("sdl-delay",          1, 0, 0, sdl_delay);
-  scm_c_define_gsubr ("sdl-get-error",      0, 0, 0, sdl_get_error);
+/*   scm_c_define_gsubr ("sdl-init",           1, 0, 0, sdl_init); */
+/*   scm_c_define_gsubr ("sdl-init-subsystem", 1, 0, 0, sdl_init_subsystem); */
+/*   scm_c_define_gsubr ("sdl-quit",           0, 0, 0, sdl_quit); */
+/*   scm_c_define_gsubr ("sdl-quit-subsystem", 1, 0, 0, sdl_quit_subsystem); */
+/*   scm_c_define_gsubr ("sdl-was-init",       1, 0, 0, sdl_was_init); */
+/*   scm_c_define_gsubr ("sdl-get-ticks",      0, 0, 0, sdl_get_ticks); */
+/*   scm_c_define_gsubr ("sdl-delay",          1, 0, 0, sdl_delay); */
+/*   scm_c_define_gsubr ("sdl-get-error",      0, 0, 0, sdl_get_error); */
 
   /* init flags */
   sdl_init_flags = scm_c_define_flag (
@@ -165,6 +190,10 @@ guile_sdl_init (void)
     "sdl-quit-subsystem", "sdl-was-init",
     "sdl-init-flags",
     NULL);
+
+#ifndef SCM_MAGIC_SNARFER
+#include "sdl.x"
+#endif
 
   /* initialize subsystems */
   sdl_init_rect();

@@ -2,7 +2,7 @@
  *  sdlenums.c -- Enum helper functions                            *
  *                                                                 *
  *  Created:    <2001-06-09 19:22:27 foof>                         *
- *  Time-stamp: <2001-07-05 17:10:58 foof>                         *
+ *  Time-stamp: <2001-07-09 21:39:37 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -175,8 +175,11 @@ scm_long2enum (long value, SCM s_enum_type)
 
 /* scheme level conversions */
 
-SCM
-scm_enum_to_number (SCM s_enum_type, SCM symbol)
+SCM_DEFINE( scm_enum_to_number, "enum->number", 2, 0, 0,
+            (SCM s_enum_type,
+             SCM symbol),
+"Converts an enum number or symbol to a number.")
+#define FUNC_NAME s_scm_enum_to_number
 {
   SCM table;
   enum_struct *enum_type;
@@ -191,6 +194,8 @@ scm_enum_to_number (SCM s_enum_type, SCM symbol)
   /* lookup and return the number in the pair */
   return scm_hashq_ref (table, symbol, SCM_BOOL_F);
 }
+#undef FUNC_NAME
+
 
 SCM
 scm_number_to_enum (SCM s_enum_type, SCM number)

@@ -8,9 +8,7 @@
 @end iftex
 @c %**end of header
 
-@set UPDATED 18 Jun 2001
-@set EDITION 0.1.0
-@set VERSION 0.1.0
+@include version.texi
 
 @dircategory Guile
 @direntry
@@ -212,11 +210,19 @@ useful default values from the current screen information.
 @node General SDL, Video, Introduction, Top
 @chapter General SDL
 
+@include sdl.texi
+
 @node Video, Events, General SDL, Top
 @chapter Video
 
+@include sdlvideo.texi
+@include sdlsurface.texi
+@include sdlroto.texi
+
 @node Events, OpenGL, Video, Top
 @chapter Events
+
+@include sdlevent.texi
 
 @node OpenGL, TrueType, Events, Top
 @chapter OpenGL

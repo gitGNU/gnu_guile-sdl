@@ -81,9 +81,10 @@ SCM_DEFINE( sdl_make_surface, "sdl-make-surface", 2, 1, 0,
             (SCM s_width,
              SCM s_height,
              SCM s_flags),
-"Create an empty sdl-surface with the same color depth and masks "
-"as the current screen.  Takes 2 arguments, width and height, plus "
-"an optional third argument of video flags.")
+"Create an empty SDL-Surface
+Takes 2 arguments, width and height, plus an optional third argument
+of video flags.  Color depth and masks will be those for the current
+video surface.")
 #define FUNC_NAME s_sdl_make_surface
 {
   /* surface to make */
@@ -139,8 +140,8 @@ SCM_DEFINE( sdl_create_rgb_surface, "sdl-create-rgb-surface", 8, 0, 0,
              SCM s_gmask,
              SCM s_bmask,
              SCM s_amask),
-"Create an empty sdl-surface.  Takes 8 arguments, directly analagous "
-"to SDL_CreateRGBSurface.")
+"Create an empty sdl-surface.
+Takes 8 arguments, directly analagous to those for SDL_CreateRGBSurface.")
 #define FUNC_NAME s_sdl_create_rgb_surface
 {
   /* surface to make */
@@ -403,7 +404,7 @@ SCM_DEFINE( sdl_get_clip_rect, "sdl-get-clip-rect", 1, 0, 0,
 #undef FUNC_NAME
 
 
-SCM_DEFINE( sdl_convert_surface, "sdl-convert-surface", 3, 0, 0,
+SCM_DEFINE( sdl_convert_surface, "sdl-convert-surface", 2, 1, 0,
             (SCM s_src,
              SCM s_fmt,
              SCM s_flags),
@@ -500,20 +501,20 @@ sdl_init_surface (void)
   scm_c_define_gsubr ("sdl-surface:depth",      1, 0, 0, surface_get_depth);
   scm_c_define_gsubr ("sdl-surface:flags",      1, 0, 0, surface_get_flags);
   scm_c_define_gsubr ("sdl-surface:format",     1, 0, 0, surface_get_format);
-  scm_c_define_gsubr ("sdl-make-surface",       2, 1, 0, sdl_make_surface);
-  scm_c_define_gsubr ("sdl-create-rgb-surface", 8, 0, 0, sdl_create_rgb_surface);
-  scm_c_define_gsubr ("sdl-surface?",           1, 0, 0, sdl_surface_p);
-  scm_c_define_gsubr ("sdl-lock-surface",       1, 0, 0, sdl_lock_surface);
-  scm_c_define_gsubr ("sdl-unlock-surface",     1, 0, 0, sdl_unlock_surface);
-  scm_c_define_gsubr ("sdl-set-clip-rect!",     2, 0, 0, sdl_set_clip_rect);
-  scm_c_define_gsubr ("sdl-get-clip-rect",      1, 0, 0, sdl_get_clip_rect);
-  scm_c_define_gsubr ("sdl-set-color-key!",     3, 0, 0, sdl_set_color_key);
-  scm_c_define_gsubr ("sdl-set-alpha!",         3, 0, 0, sdl_set_alpha);
-  scm_c_define_gsubr ("sdl-convert-surface",    2, 1, 0, sdl_convert_surface);
-  scm_c_define_gsubr ("sdl-load-image",         1, 0, 0, sdl_load_image);
-  scm_c_define_gsubr ("sdl-load-bmp",           1, 0, 0, sdl_load_bmp);
-  scm_c_define_gsubr ("sdl-save-bmp",           2, 0, 0, sdl_save_bmp);
-  scm_c_define_gsubr ("sdl-blit-surface",       1, 3, 0, sdl_blit_surface);
+/*   scm_c_define_gsubr ("sdl-make-surface",       2, 1, 0, sdl_make_surface); */
+/*   scm_c_define_gsubr ("sdl-create-rgb-surface", 8, 0, 0, sdl_create_rgb_surface); */
+/*   scm_c_define_gsubr ("sdl-surface?",           1, 0, 0, sdl_surface_p); */
+/*   scm_c_define_gsubr ("sdl-lock-surface",       1, 0, 0, sdl_lock_surface); */
+/*   scm_c_define_gsubr ("sdl-unlock-surface",     1, 0, 0, sdl_unlock_surface); */
+/*   scm_c_define_gsubr ("sdl-set-clip-rect!",     2, 0, 0, sdl_set_clip_rect); */
+/*   scm_c_define_gsubr ("sdl-get-clip-rect",      1, 0, 0, sdl_get_clip_rect); */
+/*   scm_c_define_gsubr ("sdl-set-color-key!",     3, 0, 0, sdl_set_color_key); */
+/*   scm_c_define_gsubr ("sdl-set-alpha!",         3, 0, 0, sdl_set_alpha); */
+/*   scm_c_define_gsubr ("sdl-convert-surface",    2, 1, 0, sdl_convert_surface); */
+/*   scm_c_define_gsubr ("sdl-load-image",         1, 0, 0, sdl_load_image); */
+/*   scm_c_define_gsubr ("sdl-load-bmp",           1, 0, 0, sdl_load_bmp); */
+/*   scm_c_define_gsubr ("sdl-save-bmp",           2, 0, 0, sdl_save_bmp); */
+/*   scm_c_define_gsubr ("sdl-blit-surface",       1, 3, 0, sdl_blit_surface); */
 
   /* exported symbols */
   scm_c_export (
@@ -527,5 +528,10 @@ sdl_init_surface (void)
     "sdl-load-bmp",           "sdl-save-bmp",
     "sdl-blit-surface",       "sdl-load-image",
     NULL);
+
+#ifndef SCM_MAGIC_SNARFER
+#include "sdlsurface.x"
+#endif
+
 }
 

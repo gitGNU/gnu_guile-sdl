@@ -36,21 +36,52 @@
 
 /* tags for SDL smobs */
 long cursor_tag;
-long palette_tag;
 long pixel_format_tag;
 long overlay_tag;
-long video_info_tag;
 
 SCM sdl_video_flags;
 SCM sdl_palette_flags;
 SCM sdl_alpha_enums;
 SCM sdl_gl_enums;
 
-/* functions */
+/* smob functions */
 
-SCM
-create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
-               SCM s_hot_x, SCM s_hot_y)
+scm_sizet
+free_cursor (SCM s_cursor)
+{
+  /* printf ("free_cursor(%p)\n", s_cursor); */
+  SDL_FreeCursor ((SDL_Cursor*) SCM_SMOB_DATA (s_cursor));
+  return sizeof (SDL_Cursor);
+}
+
+scm_sizet
+free_yuv_overlay (SCM s_overlay)
+{
+  /* printf ("free_yuv_overlay(%p)\n", s_overlay); */
+  SDL_FreeYUVOverlay ((SDL_Overlay*) SCM_SMOB_DATA (s_overlay));
+  return sizeof (SDL_Overlay);
+}
+
+scm_sizet
+free_pixel_format (SCM s_pixel_format)
+{
+  /* printf ("free_pixel_format(%p)\n", s_pixel_format); */
+  /* always part of a surface, no need to free */
+  return 0;
+}
+
+
+/* scheme callable functions */
+
+SCM_DEFINE( create_cursor, "sdl-create-cursor", 6, 0, 0,
+            (SCM s_data,
+             SCM s_mask,
+             SCM s_w,
+             SCM s_h,
+             SCM s_hot_x,
+             SCM s_hot_y),
+"Creates a new cursor.")
+#define FUNC_NAME s_create_cursor
 {
   SDL_Cursor *cursor;
   Uint8 *data, *mask;
@@ -97,9 +128,16 @@ create_cursor (SCM s_data, SCM s_mask, SCM s_w, SCM s_h,
   /* return the new smob */
   SCM_RETURN_NEWSMOB (cursor_tag, cursor);
 }
+#undef FUNC_NAME
 
-SCM
-create_yuv_overlay (SCM s_width, SCM s_height, SCM s_format, SCM s_display)
+
+SCM_DEFINE( create_yuv_overlay, "sdl-create-yuv-overlay", 3, 1, 0,
+            (SCM s_width,
+             SCM s_height,
+             SCM s_format,
+             SCM s_display),
+"Creates a new YUV overlay.")
+#define FUNC_NAME s_create_yuv_overlay
 {
   int width, height;
   Uint32 format;
@@ -125,16 +163,8 @@ create_yuv_overlay (SCM s_width, SCM s_height, SCM s_format, SCM s_display)
 
   SCM_RETURN_NEWSMOB (overlay_tag, overlay);
 }
+#undef FUNC_NAME
 
-/* palettes */
-SCM
-make_palette (SCM s_colors)
-{
-  return SCM_UNSPECIFIED;
-}
-
-
-/* function prototypes */
 
 SCM_DEFINE( get_video_surface, "sdl-get-video-surface", 0, 0, 0,
             (void),
@@ -148,11 +178,37 @@ SCM_DEFINE( get_video_surface, "sdl-get-video-surface", 0, 0, 0,
 
 SCM_DEFINE( get_video_info, "sdl-get-video-info", 0, 0, 0,
             (void),
-"Returns information about the video hardware.")
+"Returns information about the video hardware as an alist.")
 #define FUNC_NAME s_get_video_info
 {
   const SDL_VideoInfo *info = SDL_GetVideoInfo();
-  SCM_RETURN_NEWSMOB (video_info_tag, info);
+  SCM format;
+
+  SCM_NEWSMOB (format, pixel_format_tag, info->vfmt);
+
+  /* SCM_RETURN_NEWSMOB (video_info_tag, info); */
+  return scm_listify (scm_cons (scm_str2symbol ("hw_available"),
+                                SCM_BOOL (info->hw_available)),
+                      scm_cons (scm_str2symbol ("ww_available"),
+                                SCM_BOOL (info->wm_available)),
+                      scm_cons (scm_str2symbol ("blit_hw"),
+                                SCM_BOOL (info->blit_hw)),
+                      scm_cons (scm_str2symbol ("blit_hw_CC"),
+                                SCM_BOOL (info->blit_hw_CC)),
+                      scm_cons (scm_str2symbol ("blit_hw_A"),
+                                SCM_BOOL (info->blit_hw_A)),
+                      scm_cons (scm_str2symbol ("blit_sw"),
+                                SCM_BOOL (info->blit_sw)),
+                      scm_cons (scm_str2symbol ("blit_sw_CC"),
+                                SCM_BOOL (info->blit_sw_CC)),
+                      scm_cons (scm_str2symbol ("blit_sw_A"),
+                                SCM_BOOL (info->blit_sw_A)),
+                      scm_cons (scm_str2symbol ("blit_fill"),
+                                scm_ulong2num (info->blit_fill)),
+                      scm_cons (scm_str2symbol ("video_mem"),
+                                scm_ulong2num (info->video_mem)),
+                      scm_cons (scm_str2symbol ("vfmt"), format),
+                      SCM_UNDEFINED);
 }
 #undef FUNC_NAME
 
@@ -172,9 +228,9 @@ SCM_DEFINE( video_driver_name, "sdl-video-driver-name", 0, 0, 0,
 SCM_DEFINE( list_modes, "sdl-list-modes", 0, 2, 0,
             (SCM s_pixel_format,
              SCM s_flags),
-"Return a list of available screen dimensions for the given format and "
-"and flags.  Format defaults to that for the current screen.  Flags "
-"default to none.")
+"Return a list of available screen dimensions for the given format
+and flags.  Format defaults to that for the current screen.  Flags
+default to none.")
 #define FUNC_NAME s_list_modes
 {
   SDL_PixelFormat *format=NULL;
@@ -258,7 +314,7 @@ SCM_DEFINE( video_mode_ok, "sdl-video-mode-ok", 4, 0, 0,
 #undef FUNC_NAME
 
 
-SCM_DEFINE( set_video_mode, "sdl-set-video-mode", 4, 0, 0,
+SCM_DEFINE( set_video_mode, "sdl-set-video-mode", 3, 1, 0,
             (SCM s_width,
              SCM s_height,
              SCM s_bpp,
@@ -293,9 +349,9 @@ SCM_DEFINE( update_rect, "sdl-update-rect", 2, 3, 0,
              SCM s_y,
              SCM s_w,
              SCM s_h),
-"Makes sure a given area on a surface is updated.  Arguments are "
-"the surface to be updated, followed by either an SDL-Rect or the "
-"four coordinates x, y, w, and h.")
+"Makes sure a given area on a surface is updated.
+Arguments are the surface to be updated, followed by either an
+SDL-Rect or the four coordinates x, y, w, and h.")
 #define FUNC_NAME s_update_rect
 {
   SDL_Surface *surface;
@@ -334,8 +390,7 @@ SCM_DEFINE( update_rect, "sdl-update-rect", 2, 3, 0,
 SCM_DEFINE( update_rects, "sdl-update-rects", 2, 0, 0,
             (SCM surface_smob,
              SCM rect_list),
-"Makes sure the given list of rectangles is updated on the given "
-"surface.")
+"Updates the given list of rectangles on the given surface.")
 #define FUNC_NAME s_update_rects
 {
   SCM rect_smob;
@@ -364,7 +419,7 @@ SCM_DEFINE( update_rects, "sdl-update-rects", 2, 0, 0,
 #undef FUNC_NAME
 
 
-SCM_DEFINE( sdl_flip, "sdl-flip", 1, 0, 0,
+SCM_DEFINE( sdl_flip, "sdl-flip", 0, 1, 0,
             (SCM s_surface),
 "Swaps surface double buffers.")
 #define FUNC_NAME s_sdl_flip
@@ -457,7 +512,7 @@ SCM_DEFINE( set_gamma, "sdl-set-gamma", 3, 0, 0,
             (SCM s_redgamma,
              SCM s_greengamma,
              SCM s_bluegamma),
-            "Sets the color gamma function for the display.")
+"Sets the color gamma function for the display.")
 #define FUNC_NAME s_set_gamma
 {
   float redgamma, greengamma, bluegamma;
@@ -475,8 +530,11 @@ SCM_DEFINE( set_gamma, "sdl-set-gamma", 3, 0, 0,
 #undef FUNC_NAME
 
 
-SCM
-get_gamma_ramp (void)
+SCM_DEFINE( get_gamma_ramp, "sdl-get-gamma-ramp", 0, 0, 0,
+            (void),
+"Gets the gamma translation lookup tables currently used by the display.
+Each table is an vector of 256 integer values.")
+#define FUNC_NAME s_get_gamma_ramp
 {
   SCM redtable, greentable, bluetable, prot;
   Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
@@ -503,9 +561,16 @@ get_gamma_ramp (void)
     return SCM_BOOL_F;
   }
 }
+#undef FUNC_NAME
 
-SCM
-set_gamma_ramp (SCM s_redtable, SCM s_greentable, SCM s_bluetable)
+
+SCM_DEFINE( set_gamma_ramp, "sdl-set-gamma-ramp", 3, 0, 0,
+            (SCM s_redtable,
+             SCM s_greentable,
+             SCM s_bluetable),
+"Sets the gamma translation lookup tables currently used by the display.
+Each table is an vector of 256 integer values.")
+#define FUNC_NAME s_get_gamma_ramp
 {
   Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
   int i;
@@ -529,6 +594,7 @@ set_gamma_ramp (SCM s_redtable, SCM s_greentable, SCM s_bluetable)
 
   SCM_RETURN_TRUE_IF_0 (SDL_SetGammaRamp (rt, gt, bt));
 }
+#undef FUNC_NAME
 
 
 SCM_DEFINE( map_rgb, "sdl-map-rgb", 2, 2, 0,
@@ -536,8 +602,9 @@ SCM_DEFINE( map_rgb, "sdl-map-rgb", 2, 2, 0,
              SCM s_r,
              SCM s_g,
              SCM s_b),
-"Map a RGB color value to a pixel format.  Takes a pixel format "
-"followed by either an SDL-Color or the three r, g, b values.")
+"Map a RGB color value to a pixel format.
+Takes a pixel format followed by either an SDL-Color or the three
+r, g, b values.")
 #define FUNC_NAME s_map_rgb
 {
   SDL_PixelFormat *fmt;
@@ -572,9 +639,9 @@ SCM_DEFINE( map_rgba, "sdl-map-rgba", 3, 2, 0,
              SCM s_g,
              SCM s_b,
              SCM s_a),
-"Map a RGB color value to a pixel format.  Takes a pixel format "
-"followed by either an SDL-Color or the three r, g, b values, "
-"followed by the alpha value.")
+"Map a RGB color value to a pixel format.
+Takes a pixel format followed by either an SDL-Color or the three r,
+g, b values, followed by the alpha value.")
 #define FUNC_NAME s_map_rgba
 {
   SDL_PixelFormat *fmt;
@@ -589,8 +656,8 @@ SCM_DEFINE( map_rgba, "sdl-map-rgba", 3, 2, 0,
     r = color->r;
     g = color->g;
     b = color->b;
-    SCM_ASSERT (scm_exact_p (s_g), s_a, SCM_ARG3, "sdl-map-rgba");
-    a = (Uint8) scm_num2long (s_g, SCM_ARG5, "sdl-map-rgba");
+    SCM_ASSERT (scm_exact_p (s_g), s_g, SCM_ARG3, "sdl-map-rgba");
+    a = (Uint8) scm_num2long (s_g, SCM_ARG3, "sdl-map-rgba");
   } else {
     SCM_ASSERT (scm_exact_p (s_r), s_r, SCM_ARG2, "sdl-map-rgba");
     SCM_ASSERT (scm_exact_p (s_g), s_g, SCM_ARG3, "sdl-map-rgba");
@@ -610,8 +677,8 @@ SCM_DEFINE( map_rgba, "sdl-map-rgba", 3, 2, 0,
 SCM_DEFINE( get_rgb, "sdl-get-rgb", 2, 0, 0,
             (SCM s_pixel,
              SCM s_pixel_format),
-"Get RGB values from a pixel in the specified pixel format. "
-"Returns an alist with r, g and b entries.")
+"Get RGB values from a pixel in the specified pixel format.
+Returns an alist with r, g and b entries.")
 #define FUNC_NAME s_get_rgb
 {
   SDL_PixelFormat *fmt;
@@ -636,8 +703,8 @@ SCM_DEFINE( get_rgb, "sdl-get-rgb", 2, 0, 0,
 SCM_DEFINE( get_rgba, "sdl-get-rgba", 2, 0, 0,
             (SCM s_pixel,
              SCM s_pixel_format),
-"Get RGBA values from a pixel in the specified pixel format."
-"Returns an alist with r, g, b and a entries.")
+"Get RGBA values from a pixel in the specified pixel format.
+Returns an alist with r, g, b and a entries.")
 #define FUNC_NAME s_get_rgba
 {
   SDL_PixelFormat *fmt;
@@ -745,46 +812,38 @@ SCM_DEFINE( warp_mouse, "sdl-warp-mouse", 2, 0, 0,
 #undef FUNC_NAME
 
 
-scm_sizet
-free_cursor (SCM s_cursor)
-{
-  /* printf ("free_cursor(%p)\n", s_cursor); */
-  SDL_FreeCursor ((SDL_Cursor*) SCM_SMOB_DATA (s_cursor));
-  return sizeof (SDL_Cursor);
-}
-
-SCM
-set_cursor (SCM s_cursor)
+SCM_DEFINE( set_cursor, "sdl-set-cursor", 1, 0, 0,
+            (SCM s_cursor),
+"Set the current mouse cursor.")
+#define FUNC_NAME s_set_cursor
 {
   SCM_ASSERT_SMOB (s_cursor, cursor_tag, SCM_ARG1, "sdl-set-cursor");
   SDL_SetCursor ((SDL_Cursor*) SCM_SMOB_DATA (s_cursor));
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-get_cursor (void)
+
+SCM_DEFINE( get_cursor, "sdl-get-cursor", 0, 0, 0,
+            (void),
+"Get the current mouse cursor.")
+#define FUNC_NAME s_get_cursor
 {
   SCM_RETURN_NEWSMOB (cursor_tag, SDL_GetCursor());
 }
+#undef FUNC_NAME
 
-SCM
-show_cursor (SCM s_toggle)
+
+SCM_DEFINE( show_cursor, "sdl-show-cursor", 1, 0, 0,
+            (SCM s_toggle),
+"Toggle the visibility of the mouse cursor.")
+#define FUNC_NAME s_show_cursor
 {
   SCM_ASSERT (scm_exact_p (s_toggle), s_toggle, SCM_ARG1, "sdl-show-cursor");
   return scm_long2num (SDL_ShowCursor (scm_num2long (s_toggle, SCM_ARG1, "sdl-show-cursor")));
 }
+#undef FUNC_NAME
 
-/* SCM */
-/* gl_load_library (SCM s_path) */
-/* { */
-/*    return SCM_UNSPECIFIED; */
-/* } */
-
-/* SCM */
-/* gl_get_proc_address (SCM s_proc) */
-/* { */
-/*    return SCM_UNSPECIFIED; */
-/* } */
 
 SCM_DEFINE( gl_get_attribute, "sdl-gl-get-attribute", 1, 0, 0,
             (SCM s_attr),
@@ -837,8 +896,10 @@ SCM_DEFINE( gl_swap_buffers, "sdl-gl-swap-buffers", 0, 0, 0,
 #undef FUNC_NAME
 
 
-SCM
-lock_yuv_overlay (SCM s_overlay)
+SCM_DEFINE( lock_yuv_overlay, "sdl-lock-yuv-overlay", 1, 0, 0,
+            (SCM s_overlay),
+"Lock the given YUV overlay.")
+#define FUNC_NAME s_lock_yuv_overlay
 {
   SDL_Overlay *overlay;
 
@@ -847,9 +908,13 @@ lock_yuv_overlay (SCM s_overlay)
 
   SCM_RETURN_TRUE_IF_0 (SDL_LockYUVOverlay (overlay));
 }
+#undef FUNC_NAME
 
-SCM
-unlock_yuv_overlay (SCM s_overlay)
+
+SCM_DEFINE( unlock_yuv_overlay, "sdl-unlock-yuv-overlay", 1, 0, 0,
+            (SCM s_overlay),
+"Unlock a previously locked YUV overlay.")
+#define FUNC_NAME s_unlock_yuv_overlay
 {
   SDL_Overlay *overlay;
 
@@ -859,9 +924,14 @@ unlock_yuv_overlay (SCM s_overlay)
   SDL_UnlockYUVOverlay (overlay);
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-display_yuv_overlay (SCM s_overlay, SCM s_dstrect)
+
+SCM_DEFINE( display_yuv_overlay, "sdl-display-yuv-overlay", 2, 0, 0,
+            (SCM s_overlay,
+             SCM s_dstrect),
+"Blit a YUV overlay to the display over which it was created.")
+#define FUNC_NAME s_display_yuv_overlay
 {
   SDL_Overlay *overlay;
   SDL_Rect *rect;
@@ -874,19 +944,16 @@ display_yuv_overlay (SCM s_overlay, SCM s_dstrect)
 
   SCM_RETURN_TRUE_IF_0 (SDL_DisplayYUVOverlay (overlay, rect));
 }
+#undef FUNC_NAME
 
-scm_sizet
-free_yuv_overlay (SCM s_overlay)
-{
-  /* printf ("free_yuv_overlay(%p)\n", s_overlay); */
-  SDL_FreeYUVOverlay ((SDL_Overlay*) SCM_SMOB_DATA (s_overlay));
-  return sizeof (SDL_Overlay);
-}
 
 /* window manager functions */
 
-SCM
-wm_set_caption (SCM s_title, SCM s_icon)
+SCM_DEFINE( wm_set_caption, "sdl-set-caption", 2, 0, 0,
+            (SCM s_title,
+             SCM s_icon),
+"Sets the title-bar and icon name of the display window.")
+#define FUNC_NAME s_wm_set_caption
 {
   char *title, *icon;
 
@@ -907,9 +974,13 @@ wm_set_caption (SCM s_title, SCM s_icon)
 
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-wm_get_caption (void)
+
+SCM_DEFINE( wm_get_caption, "sdl-get-caption", 0, 0, 0,
+            (void),
+"Gets the title-bar and icon name of the display window.")
+#define FUNC_NAME s_wm_get_caption
 {
   char *title;
   char *icon;
@@ -919,9 +990,13 @@ wm_get_caption (void)
   return SCM_LIST2 (scm_cons (scm_str2symbol ("title"), scm_makfrom0str (title)),
                     scm_cons (scm_str2symbol ("icon"), scm_makfrom0str (icon)));
 }
+#undef FUNC_NAME
 
-SCM
-wm_set_icon (SCM icon)
+
+SCM_DEFINE( wm_set_icon, "sdl-set-icon", 1, 0, 0,
+            (SCM icon),
+"Sets the icon for the display window.")
+#define FUNC_NAME s_wm_set_icon
 {
   SDL_Surface *surface;
 
@@ -933,15 +1008,23 @@ wm_set_icon (SCM icon)
 
   return SCM_UNSPECIFIED;
 }
+#undef FUNC_NAME
 
-SCM
-wm_iconify_window (void)
+
+SCM_DEFINE( wm_iconify_window, "sdl-iconify-window", 0, 0, 0,
+            (void),
+"Iconify/Minimise the window.")
+#define FUNC_NAME s_wm_iconify_window
 {
   return SDL_WM_IconifyWindow () ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-SCM
-wm_toggle_full_screen (SCM s_surface)
+
+SCM_DEFINE( wm_toggle_full_screen, "sdl-toggle-full-screen", 0, 1, 0,
+            (SCM s_surface),
+"Toggles the application between windowed and fullscreen mode, if supported.")
+#define FUNC_NAME s_wm_toggle_full_screen
 {
   SDL_Surface *surface;
 
@@ -954,9 +1037,13 @@ wm_toggle_full_screen (SCM s_surface)
 
   return SDL_WM_ToggleFullScreen (surface) ? SCM_BOOL_T : SCM_BOOL_F;
 }
+#undef FUNC_NAME
 
-SCM
-wm_grab_input (SCM s_mode)
+
+SCM_DEFINE( wm_grab_input, "sdl-grab-input", 0, 1, 0,
+            (SCM s_mode),
+"Grabs mouse and keyboard input.")
+#define FUNC_NAME s_wm_grab_input
 {
   int mode = SDL_GRAB_QUERY;
 
@@ -967,24 +1054,17 @@ wm_grab_input (SCM s_mode)
 
   return scm_long2num (SDL_WM_GrabInput (mode));
 }
+#undef FUNC_NAME
 
-scm_sizet
-free_pixel_format (SCM s_pixel_format)
-{
-  /* printf ("free_pixel_format(%p)\n", s_pixel_format); */
-  /* always part of a surface, no need to free */
-  return 0;
-}
 
 void
 sdl_init_video (void)
 {
   /* smobs */
   cursor_tag    = scm_make_smob_type ("SDL-Cursor", sizeof (SDL_Cursor));
-  palette_tag   = scm_make_smob_type ("SDL-Palette", sizeof (SDL_Palette));
-  pixel_format_tag = scm_make_smob_type ("SDL-Pixel-Format", sizeof (SDL_PixelFormat));
+  pixel_format_tag = scm_make_smob_type ("SDL-Pixel-Format",
+                                         sizeof (SDL_PixelFormat));
   overlay_tag   = scm_make_smob_type ("SDL-Overlay", sizeof (SDL_Overlay));
-  video_info_tag = scm_make_smob_type ("SDL-Video-Info", sizeof (SDL_VideoInfo));
 
   scm_set_smob_free (cursor_tag, free_cursor);
   scm_set_smob_free (overlay_tag, free_yuv_overlay);
@@ -1052,53 +1132,6 @@ sdl_init_video (void)
     "SDL_GL_ACCUM_ALPHA_SIZE", SDL_GL_ACCUM_ALPHA_SIZE,
      NULL);
 
-  /* pixel formats */
-  scm_c_define_gsubr ("sdl-map-rgb",            4, 0, 0, map_rgb);
-  scm_c_define_gsubr ("sdl-map-rgba",           5, 0, 0, map_rgba);
-  scm_c_define_gsubr ("sdl-get-rgb",            2, 0, 0, get_rgb);
-  scm_c_define_gsubr ("sdl-get-rgba",           2, 0, 0, get_rgba);
-  /* surfaces */
-  scm_c_define_gsubr ("sdl-get-video-surface",  0, 0, 0, get_video_surface);
-  scm_c_define_gsubr ("sdl-set-colors!",        2, 0, 0, set_colors);
-  scm_c_define_gsubr ("sdl-set-palette!",       3, 0, 0, set_palette);
-  scm_c_define_gsubr ("sdl-set-gamma",          3, 0, 0, set_gamma);
-  scm_c_define_gsubr ("sdl-set-gamma-ramp",     3, 0, 0, set_gamma_ramp);
-  scm_c_define_gsubr ("sdl-get-gamma-ramp",     0, 0, 0, get_gamma_ramp);
-  scm_c_define_gsubr ("sdl-display-format",     1, 0, 0, display_format);
-  scm_c_define_gsubr ("sdl-display-format-alpha", 1, 0, 0, display_format_alpha);
-  /* overlays */
-  scm_c_define_gsubr ("sdl-create-yuv-overlay", 3, 1, 0, create_yuv_overlay);
-  scm_c_define_gsubr ("sdl-lock-yuv-overlay",   1, 0, 0, lock_yuv_overlay);
-  scm_c_define_gsubr ("sdl-unlock-yuv-overlay", 1, 0, 0, unlock_yuv_overlay);
-  scm_c_define_gsubr ("sdl-display-yuv-overlay", 2, 0, 0, display_yuv_overlay);
-  /* video */
-  scm_c_define_gsubr ("sdl-set-video-mode",     3, 1, 0, set_video_mode);
-  scm_c_define_gsubr ("sdl-update-rect",        2, 3, 0, update_rect);
-  scm_c_define_gsubr ("sdl-update-rects",       2, 0, 0, update_rects);
-  scm_c_define_gsubr ("sdl-flip",               0, 1, 0, sdl_flip);
-  scm_c_define_gsubr ("sdl-fill-rect",          3, 0, 0, fill_rect);
-  /* opengl */
-  scm_c_define_gsubr ("sdl-gl-swap-buffers",    0, 0, 0, gl_swap_buffers);
-  scm_c_define_gsubr ("sdl-gl-get-attribute",   1, 0, 0, gl_get_attribute);
-  scm_c_define_gsubr ("sdl-gl-set-attribute",   2, 0, 0, gl_set_attribute);
-  /* cursors */
-  scm_c_define_gsubr ("sdl-create-cursor",      6, 0, 0, create_cursor);
-  scm_c_define_gsubr ("sdl-set-cursor",         1, 0, 0, set_cursor);
-  scm_c_define_gsubr ("sdl-get-cursor",         0, 0, 0, get_cursor);
-  scm_c_define_gsubr ("sdl-show-cursor",        1, 0, 0, show_cursor);
-  scm_c_define_gsubr ("sdl-warp-mouse",         2, 0, 0, warp_mouse);
-  /* wm */
-  scm_c_define_gsubr ("sdl-set-caption",        1, 1, 0, wm_set_caption);
-  scm_c_define_gsubr ("sdl-get-caption",        0, 0, 0, wm_get_caption);
-  scm_c_define_gsubr ("sdl-set-icon",           1, 0, 0, wm_set_icon);
-  scm_c_define_gsubr ("sdl-iconify-window",     0, 0, 0, wm_iconify_window);
-  scm_c_define_gsubr ("sdl-toggle-full-screen", 0, 0, 0, wm_toggle_full_screen);
-  /* info */
-  scm_c_define_gsubr ("sdl-list-modes",         0, 2, 0, list_modes);
-  scm_c_define_gsubr ("sdl-video-mode-ok",      3, 1, 0, video_mode_ok);
-  scm_c_define_gsubr ("sdl-video-driver-name",  0, 0, 0, video_driver_name);
-  scm_c_define_gsubr ("sdl-get-video-info",     0, 0, 0, get_video_info);
-
   /* exported symbols */
   scm_c_export (
     /* flags & enums */
@@ -1132,7 +1165,12 @@ sdl_init_video (void)
     "sdl-toggle-full-screen", "sdl-grab-input",
     /* info */
     "sdl-list-modes",         "sdl-video-mode-ok",
-    "sdl-video-driver-name",  "get-video-info",
+    "sdl-video-driver-name",  "sdl-get-video-info",
     NULL);
+
+#ifndef SCM_MAGIC_SNARFER
+#include "sdlvideo.x"
+#endif
+
 }
 

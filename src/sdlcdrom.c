@@ -271,8 +271,12 @@ sdl_cd_play_tracks (SCM cd_smob,
 }
 
 
-SCM 
-sdl_cd_play   (SCM cd_smob, SCM s_start, SCM s_length)
+SCM_DEFINE( sdl_cd_play, "sdl-cd-play", 3, 0, 0,
+            (SCM cd_smob,
+             SCM s_start,
+             SCM s_length),
+"Initializes SDL.")
+#define FUNC_NAME s_sdl_cd_play
 {
   SDL_CD *cd;
   int ret;
@@ -296,8 +300,8 @@ sdl_cd_play   (SCM cd_smob, SCM s_start, SCM s_length)
   }
   
   return scm_long2num (ret);
-
 }
+#undef FUNC_NAME
 
 SCM 
 sdl_cd_pause  (SCM cd_smob)

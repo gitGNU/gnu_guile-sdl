@@ -1,5 +1,6 @@
 #include <SDL/SDL.h>
 #include <guile/gh.h>
+#include <libguile.h>
 #include "sdljoystick.h"
 
 long sdl_joystick_tag;
@@ -105,11 +106,15 @@ sdl_joystick_null_p (SCM joy_smob)
     return SCM_BOOL_F;
 }
 
-static SCM 
-sdl_num_joysticks (void)
+
+SCM_DEFINE( sdl_num_joysticks, "sdl-num-joysticks", 0, 0, 0,
+            (void),
+"Returns the number of joysticks.")
+#define FUNC_NAME s_sdl_num_joysticks
 {
   return (gh_long2scm (SDL_NumJoysticks ()));
 }
+#undef FUNC_NAME
 
 
 static SCM 

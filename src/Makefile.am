@@ -16,9 +16,12 @@ lib_LTLIBRARIES = libguileSDL.la
 
 INCLUDES = -I../include/ -ISDL_gfxPrimitives/ -ISDL_rotozoom/
 
-libguileSDL_la_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c    \
-                       sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c \
-                       sdlenums.c sdlroto.c #sdlgfx.c
+WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
+                  sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
+                  sdlenums.c sdlroto.c #sdlgfx.c
+BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x)
+
+libguileSDL_la_SOURCES = $(BUILT_SOURCES) $(WRAPPER_SOURCES)
 
 libguileSDL_la_CFLAGS  = $(CFLAGS)
 
@@ -28,4 +31,14 @@ libguileSDL_la_LDFLAGS =             \
         -release $(LT_RELEASE)  \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
+
+# snarfing
+GUILE_SNARF = guile-snarf
+
+SUFFIXES = .x
+.c.x:
+	$(GUILE_SNARF) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $< > $@ \
+	|| { rm $@; false; }
+
+DISTCLEANFILES = *.x
 
