@@ -1,3 +1,8 @@
+2005-01-04  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ref.twerp (Simple Closures): New node/chapter.
+	* guile-sdl.texi (Top): Add "Simple Closures" to menu.
+
 2004-11-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* ref.twerp (Events): Fix omission bug:

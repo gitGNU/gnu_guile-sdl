@@ -1,3 +1,8 @@
+2005-01-04  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* simple.scm: New file.
+	* Makefile.am (schememod_DATA): Add simple.scm.
+
 2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* misc-utils.scm (poll-with-push-on-timeout-proc): New proc, exported.
