@@ -1,5 +1,9 @@
 2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* rect.scm, mixer.scm, event.scm: Use `simple-format'.
+
+2005-01-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* fading.scm: New file.
 
 2004-05-26  Thien-Thi Nguyen  <ttn@surf.glug.org>
