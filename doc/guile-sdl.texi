@@ -41,15 +41,14 @@ are preserved on all copies.
 @syncodeindex fn cp
 
 @node Top
-@top The guile-sdl Library
+@top The (sdl *) Modules
 
 @ifinfo
-This file documents the guile-sdl library, which is a generic
-sdl for Guile.
-
-[NOTE: This document's structure is fine but there is no text!
-The doc snarfing methodology is still work-in-progress.  This
-notice will be removed when things are squared away. ---ttn]
+This file documents the guile-sdl package, which provides the modules
+@code{(sdl sdl)}, @code{(sdl gfx)}, @code{(sdl ttf)} and @code{(sdl mixer)}
+for use in Guile Scheme programs.  These modules wrap the Simple Direct Media
+Layer@footnote{The SDL homepage is @uref{http://www.libsdl.org}.} libraries on
+your system.
 @end ifinfo
 
 @menu
@@ -68,7 +67,7 @@ notice will be removed when things are squared away. ---ttn]
 @node Introduction
 @chapter Introduction
 
-The guile-sdl library is an interface to the SDL (Simple Direct Media
+The (sdl *) modules are an interface to the SDL (Simple Direct Media
 Layer) library.  The goal is to provide both a clean and direct
 interface to the lowest level SDL, while extending with higher level
 concepts where useful, such as default arguments and functional-style
@@ -166,17 +165,18 @@ backwards, and escape or q to quit.
 @node Naming Conventions
 @section Naming Conventions
 
+The most important thing to learning a wrapped library for a
+programming language, assuming you know the language and the library,
+is to know the naming conventions.  Then you can begin programming
+without having to look up the exact function reference (available
+in the rest of this document).
+
 @menu
 * Renaming C Functions::        How SDL C Functions are named in Guile
 * Enums and Constants::         Naming enumerated types
 * Create and Make::             Create vs Make Functions
 @end menu
 
-The most important thing to learning a wrapped library for a
-programming language, assuming you know the language and the library,
-is to know the naming conventions.  Then you can begin programming
-without having to look up the exact function reference for the wrapper
-library.
 
 @node Renaming C Functions
 @subsection Renaming C Functions
