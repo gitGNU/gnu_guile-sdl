@@ -7,8 +7,8 @@ info_TEXINFOS = guile-sdl.texi
 lib_LTLIBRARIES = libguileSDL.la
 
 BUILT_SOURCES = sdl.x
-libguileSDL_la_SOURCES = guile-sdl.c guile-sdl.h scm.c scm.h \
-			 video.c video.h image.c image.h gfx.c gfx.h         \
+libguileSDL_la_SOURCES = guile-sdl.c guile-sdl.h scm.c scm.h wm.c wm.h  \
+			 video.c video.h image.c image.h gfx.c gfx.h    \
 			 event.c event.h mixer.c mixer.h
 libguileSDL_la_LDFLAGS = -lSDL -lSDL_image -lSDL_mixer -lpthread -version-info 0:0 -export-dynamic
 
