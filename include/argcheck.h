@@ -1,8 +1,12 @@
+/* argcheck.h */
+
 #ifndef GUILE_SDL_ARGCHECK_H
 #define GUILE_SDL_ARGCHECK_H 1
 
+#include "bool.h"
+
 #define ASSERT_EXACT(obj,n) \
-  SCM_ASSERT (SCM_NFALSEP (scm_exact_p ((obj))), (obj), n, FUNC_NAME)
+  SCM_ASSERT (NOT_FALSEP (scm_exact_p ((obj))), (obj), n, FUNC_NAME)
 
 #define ASSERT_VECTOR(obj,n) \
   SCM_ASSERT (SCM_VECTORP ((obj)), (obj), n, FUNC_NAME)
@@ -14,7 +18,7 @@
   SCM_ASSERT (SCM_STRINGP ((obj)), (obj), n, FUNC_NAME)
 
 #define ASSERT_NUMBER(obj,n) \
-  SCM_ASSERT (SCM_NFALSEP (scm_number_p ((obj))), (obj), n, FUNC_NAME)
+  SCM_ASSERT (NOT_FALSEP (scm_number_p ((obj))), (obj), n, FUNC_NAME)
 
 #define ASSERT_CHAR(obj,n) \
   SCM_ASSERT (SCM_CHARP ((obj)), (obj), n, FUNC_NAME)
@@ -36,6 +40,8 @@
 #define BOUNDP(x)    (! SCM_EQ_P (x, SCM_UNDEFINED))
 #define UNBOUNDP(x)    (SCM_EQ_P (x, SCM_UNDEFINED))
 
-#define UNBOUND_MEANS_FALSE(x)  if (UNBOUNDP (x)) x = SCM_BOOL_F
+#define UNBOUND_MEANS_FALSE(x)  if (UNBOUNDP (x)) SET_FALSE (x)
 
-#endif /* GUILE_SDL_ARGCHECK_H */
+#endif /* ! defined (GUILE_SDL_ARGCHECK_H) */
+
+/* argcheck.h ends here */
