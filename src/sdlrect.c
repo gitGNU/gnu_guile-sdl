@@ -87,7 +87,7 @@ GH_DEFPROC (make_rect, "make-rect", 4, 0, 0,
   rect->w = gh_scm2ulong (s_w);
   rect->h = gh_scm2ulong (s_h);
 
-  SCM_RETURN_NEWSMOB (rect_tag, rect);
+  RETURN_NEW_RECT (rect);
 }
 #undef FUNC_NAME
 
