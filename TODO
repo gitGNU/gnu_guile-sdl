@@ -11,7 +11,7 @@
     - peep-event
     - set-event-filter
     - get-event-filter
-    - event-state
+    + event-state
     - get-key-state
     + scale-surface (deleted)
   - user-alloc alternatives (less consing) for event procs
