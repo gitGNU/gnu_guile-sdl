@@ -41,7 +41,7 @@ are preserved on all copies.
 @syncodeindex fn cp
 
 @node Top
-@top Guile SDL Bindings
+@top The guile-sdl Library
 
 @ifinfo
 This file documents the guile-sdl library, which is a generic
@@ -213,30 +213,33 @@ useful default values from the current screen information.
 @node General SDL
 @chapter General SDL
 
-@include ../src/sdl.texi
+[was @@include ../src/sdl.texi --ttn]
 
 @node Video
 @chapter Video
 
-@include ../src/sdlvideo.texi
-@include ../src/sdlsurface.texi
-@include ../src/sdlroto.texi
-@include ../sdl-gfx/sdlgfx.texi
+[was @@include ../src/sdlvideo.texi --ttn]
+
+[was @@include ../src/sdlsurface.texi --ttn]
+
+[was @@include ../src/sdlroto.texi --ttn]
+
+[was @@include ../sdl-gfx/sdlgfx.texi --ttn]
 
 @node Events
 @chapter Events
 
-@include ../src/sdlevent.texi
+[was @@include ../src/sdlevent.texi --ttn]
 
 @node Joystick
 @chapter Joystick
 
-@include ../src/sdljoystick.texi
+[was @@include ../src/sdljoystick.texi --ttn]
 
 @node CDROM
 @chapter CDROM
 
-@include ../src/sdlcdrom.texi
+[was @@include ../src/sdlcdrom.texi --ttn]
 
 @node OpenGL
 @chapter OpenGL
@@ -244,12 +247,12 @@ useful default values from the current screen information.
 @node TrueType
 @chapter TrueType
 
-@include ../sdl-ttf/sdlttf.texi
+[was @@include ../sdl-ttf/sdlttf.texi --ttn]
 
 @node Audio
 @chapter Audio
 
-@include ../sdl-mixer/sdlmixer.texi
+[was @@include ../sdl-mixer/sdlmixer.texi --ttn]
 
 @node Index
 @unnumbered Index
