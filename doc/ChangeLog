@@ -1,3 +1,10 @@
+2005-02-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ref.twerp (SDL_gfx): Rename node from "libSDL_gfx".
+	Likewise w/ chapter name.
+
+	* guile-sdl.texi (Top): Update menu.
+
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* ref.twerp (libSDL_gfx): Add @twerpdoc for
