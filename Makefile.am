@@ -65,4 +65,14 @@ install-data-hook:
 	  guile-tools make-module-catalog `pwd` ;		\
 	fi
 
-# Makefile.am ends here
+## these are to support upgrading from 0:0:0 ltlib: see README
+
+check-000-libdir:
+	@echo 'files in $(libdir) matching "libguileSDL*":'
+	@ls $(libdir)/libguileSDL* | sed 's/^/ /g'
+
+clean-000-libdir:
+	@echo 'deleting $(libdir)/libguileSDL* files'
+	rm -f $(libdir)/libguileSDL*
+
+## Makefile.am ends here
