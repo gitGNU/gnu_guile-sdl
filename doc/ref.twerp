@@ -137,6 +137,7 @@
 @chapter Events
 
 @twerpdoc (flagstash:event-mod)
+@twerpdoc (flagstash:event-mask)
 @twerpdoc (make-event)
 @twerpdoc (make-keysym)
 @twerpdoc (event:type)
