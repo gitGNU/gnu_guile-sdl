@@ -6,6 +6,7 @@ PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
 # User-definable stuff:
+INCLUDES = -I../include/ -ISDL_gfxPrimitives/ -ISDL_rotozoom/
 CC=@CC@
 CFLAGS  = @CFLAGS@ -Wall
 LIBS    = @LIBS@
@@ -13,8 +14,6 @@ LIBS    = @LIBS@
 SUBDIRS = SDL_rotozoom
 
 lib_LTLIBRARIES = libguileSDL.la
-
-INCLUDES = -I../include/ -ISDL_gfxPrimitives/ -ISDL_rotozoom/
 
 WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \

@@ -19,12 +19,15 @@ EXAMPLE_DIST =  examples/README \
 		examples/gnu-head.png \
 		examples/launcher.png \
 		examples/william-rogers.png
-INCLUDE_DIST =  include/sdl.h       include/sdlcolor.h \
-		include/sdlevent.h  include/sdlrect.h \
-		include/sdlsmobs.h  include/sdlvideo.h \
-		include/sdlcdrom.h  include/sdlenums.h \
+TEST_DIST    =  test/README            test/crystal.ttf \
+		test/gnu-goatee.jpg    test/noise.wav \
+		test/test.wav
+INCLUDE_DIST =  include/sdl.h          include/sdlcolor.h \
+		include/sdlevent.h     include/sdlrect.h \
+		include/sdlsmobs.h     include/sdlvideo.h \
+		include/sdlcdrom.h     include/sdlenums.h \
 		include/sdljoystick.h  include/sdlroto.h \
 		include/sdlsurface.h  
 
-EXTRA_DIST = $(EXAMPLE_DIST) test/README $(TESTS) $(INCLUDE_DIST)
+EXTRA_DIST = $(EXAMPLE_DIST) $(TEST_DIST) $(TESTS) $(INCLUDE_DIST)
 
