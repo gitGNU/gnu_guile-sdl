@@ -1,6 +1,6 @@
 2005-01-05  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
-	* sicp-painter.scm (flip-horiz): Fix typo.
+	* sicp-painter.scm (beside, flip-horiz): Fix typos.
 
 2005-01-04  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
