@@ -7,11 +7,12 @@ info_TEXINFOS = guile-sdl.texi
 lib_LTLIBRARIES = libguileSDL.la
 
 BUILT_SOURCES = sdl.x
-#libguileSDL_la_SOURCES = $(BUILT_SOURCES) guile-sdl.c guile-sdl.h video.c video.h
-libguileSDL_la_SOURCES = guile-sdl.c guile-sdl.h video.c video.h #image.c image.h
+libguileSDL_la_SOURCES = guile-sdl.c guile-sdl.h video.c video.h image.c \
+			 image.h gfx.c gfx.h event.c event.h
 libguileSDL_la_LDFLAGS = -lSDL -lSDL_image -lpthread -version-info 0:0 -export-dynamic
 
 sdldir = $(datadir)/guile
+sdldatadir = $(datadir)/guile/sdl
 sdl_DATA = sdl/sdl.scm
 
 EXTRA_DIST = autogen.sh convert.sh $(sdl_DATA)
@@ -26,6 +27,6 @@ SUFFIXES = .x
 DISTCLEANFILES = *.x
 
 # test suite
-TESTS = test/rect.scm test/image.scm
+TESTS = test/rect.scm test/image.scm test/event.scm
 TESTS_ENVIRONMENT = LTDL_LIBRARY_PATH=$(srcdir)/.libs \
 		    GUILE_LOAD_PATH=$(srcdir)
