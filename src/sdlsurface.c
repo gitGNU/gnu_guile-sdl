@@ -148,11 +148,11 @@ GH_DEFPROC (create_rgb_surface, "create-rgb-surface", 8, 0, 0,
   RETURN_NEW_SURFACE
     (SDL_CreateRGBSurface (cflags,
                            gh_scm2long (width), gh_scm2long (height),
-                           (Uint8)  gh_scm2long (depth),
-                           (Uint32) gh_scm2long (rmask),
-                           (Uint32) gh_scm2long (gmask),
-                           (Uint32) gh_scm2long (bmask),
-                           (Uint32) gh_scm2long (amask)));
+                           gh_scm2long (depth),
+                           gh_scm2ulong (rmask),
+                           gh_scm2ulong (gmask),
+                           gh_scm2ulong (bmask),
+                           gh_scm2ulong (amask)));
 #undef FUNC_NAME
 }
 
