@@ -1,5 +1,9 @@
 2005-01-05  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* misc-utils.scm (copy-surface): New proc, exported.
+
+2005-01-05  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* simple.scm (simple-canvas): Take arg `bpp'.
 	Use it as bits-per-pixel arg when setting video mode.
 
