@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce configure.
 
 AC_INIT(src/sdl.c)
-AM_INIT_AUTOMAKE("guile-sdl", "0.1.0")
+AM_INIT_AUTOMAKE("guile-sdl", "0.1.7")
 AM_MAINTAINER_MODE
 
 CFLAGS="-Wall -pedantic -ansi"
@@ -22,27 +22,81 @@ AC_DEFUN([GUILE_FLAGS],[
 ])
 
 GUILE_FLAGS
-if test "`guile -c '(display (string>=? (version) "1.4.1"))'`" != "#t"; then
+if test "`guile -c '(display (string>=? (version) "1.5.0"))'`" != "#t"; then
   AC_MSG_ERROR([Your Guile is too old.  You need CVS Guile January 2001 or later.])
 fi
 
+dnl Figure out which math library to use - taken from SDL_gfxPrimitives
+case "$target" in
+    *-*-cygwin* | *-*-mingw32*)
+        MATHLIB=""
+        ;;
+    *-*-beos*)
+        MATHLIB=""
+        ;;
+    *-*-darwin*)
+        MATHLIB=""
+        ;;
+    *-*-aix*)
+	if test x$ac_cv_prog_gcc = xyes; then
+     	    CFLAGS="-mthreads"
+	fi
+        ;;
+    alpha*-*-linux*)
+    	CFLAGS="$CFLAGS -mcpu=ev4 -Wa,-mall"
+	;;
+    *)
+        MATHLIB="-lm"
+        ;;
+esac
+AC_SUBST(MATHLIB)
+
 dnl Check for SDL
-dnl SDL_VERSION=1.2.0
+SDL_VERSION=1.2.0
+AM_PATH_SDL($SDL_VERSION,
+            :,
+            AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!])
+)
 
-dnl AM_PATH_SDL($SDL_VERSION,,
-dnl   AC_MSG_ERROR([
-dnl *** SDL $SDL_VERSION or better is required.]),
-dnl     )
-
-dnl CFLAGS="$CFLAGS $SDL_CFLAGS"
-dnl LIBS="$LIBS $SDL_LIBS"
+CFLAGS="$CFLAGS $SDL_CFLAGS"
+LIBS="$LIBS $SDL_LIBS"
 
 dnl Checks for libraries.
 dnl MUST have SDL_image
-dnl AC_CHECK_LIB(SDL_image, IMG_Load,
-dnl 	     LIBS="$LIBS -lSDL_image",
-dnl 	     AC_MSG_ERROR([*** SDL_image library not found!])	
-dnl 	    )
+AC_CHECK_LIB(SDL_image, IMG_Load,
+ 	     LIBS="$LIBS -lSDL_image",
+ 	     AC_MSG_ERROR([*** SDL_image library not found!])	
+ 	    )
+
+dnl SDL_mixer is optional
+have_mixer=yes
+AC_ARG_ENABLE(mixer,
+[  --enable-mixer          Provide bindings for SDL_mixer [default=yes]],
+	       , enable_mixer=yes)
+
+if test x$enable_mixer = xyes; then	
+
+	AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio,
+		     LIBS="$LIBS -lSDL_mixer",
+	     	     have_mixer=no
+	    	     )	
+	AM_CONDITIONAL(HAVE_MIXER, test x$have_mixer = xyes)
+fi
+
+dnl SDL_ttf is optional
+have_ttf=yes
+AC_ARG_ENABLE(ttf,
+[  --enable-ttf          Provide bindings for SDL_ttf [default=yes]],
+	       , enable_ttf=yes)
+
+if test x$enable_ttf = xyes; then	
+
+	AC_CHECK_LIB(SDL_ttf, TTF_Init,
+		     LIBS="$LIBS -lSDL_ttf",
+	     	     have_ttf=no
+	    	     )	
+	AM_CONDITIONAL(HAVE_TTF, test x$have_ttf = xyes)
+fi
 
 AC_PROG_CC
 AC_PROG_CPP

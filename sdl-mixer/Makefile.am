@@ -17,17 +17,20 @@ WRAPPER_SOURCES = sdlmixer.c
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x)
 BUILT_DOCS      = $(WRAPPER_SOURCES:.c=.texi)
 
+if HAVE_MIXER
 lib_LTLIBRARIES = libguileSDL_mixer.la
-
 libguileSDL_mixer_la_SOURCES = $(BUILT_SOURCES) $(WRAPPER_SOURCES)
-
 libguileSDL_mixer_la_CFLAGS  = $(CFLAGS)
+else
+lib_LTLIBRARIES =
+libguileSDL_mixer_la_SOURCES =
+libguileSDL_mixer_la_CFLAGS  =
+endif
 
+libguileSDL_mixer_la_DEPENDENCIES = $(BUILT_DOCS)
 libguileSDL_mixer_la_LDFLAGS =             \
         -release $(LT_RELEASE)  \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
-
-libguileSDL_mixer_la_DEPENDENCIES = $(BUILT_DOCS)
 
 # snarfing
 GUILE_SNARF = guile-snarf

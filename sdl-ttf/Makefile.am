@@ -17,16 +17,19 @@ WRAPPER_SOURCES = sdlttf.c
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x)
 BUILT_DOCS   = $(WRAPPER_SOURCES:.c=.texi)
 
+if HAVE_TTF
 lib_LTLIBRARIES = libguileSDL_ttf.la
-
 libguileSDL_ttf_la_SOURCES = $(BUILT_SOURCES) $(WRAPPER_SOURCES)
-
 libguileSDL_ttf_la_CFLAGS  = $(CFLAGS)
+else
+lib_LTLIBRARIES =
+libguileSDL_ttf_la_SOURCES =
+libguileSDL_ttf_la_CFLAGS  =
+endif
 
 libguileSDL_ttf_la_LDFLAGS =             \
         -release $(LT_RELEASE)  \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
-
 libguileSDL_ttf_la_DEPENDENCIES = $(BUILT_DOCS)
 
 # snarfing
