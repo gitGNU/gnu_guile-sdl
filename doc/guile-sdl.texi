@@ -2,7 +2,8 @@
 @c -*-texinfo-*-
 @c %**start of header
 @setfilename guile-sdl.info
-@settitle guile-sdl
+@settitle Guile-SDL
+@paragraphindent 0
 @iftex
 @afourpaper
 @end iftex
@@ -12,14 +13,14 @@
 
 @dircategory Guile
 @direntry
-* guile-sdl: (guile-sdl).     SDL for Guile
+* Guile-SDL: (guile-sdl).     SDL for Guile
 @end direntry
 
 
 @c --- title page starts here ---
 
 @titlepage
-@title guile-sdl
+@title Guile-SDL
 @subtitle SDL for Guile
 @subtitle Version @value{VERSION}
 @author Alex Shinn
@@ -46,11 +47,12 @@ are preserved on all copies.
 @top The (sdl *) Modules
 
 @ifinfo
-This file documents the guile-sdl package, which provides the modules
+This file documents the Guile-SDL package, which provides the modules
 @code{(sdl sdl)}, @code{(sdl gfx)}, @code{(sdl ttf)} and @code{(sdl mixer)}
 for use in Guile Scheme programs.  These modules wrap the Simple Direct Media
 Layer@footnote{The SDL homepage is @uref{http://www.libsdl.org}.} libraries on
-your system.
+your system.  Additionally, experimental abstractions and convenience
+procedures are provided in the module @code{(sdl misc-utils)}.
 @end ifinfo
 
 @menu
@@ -78,7 +80,7 @@ Layer) library.  The goal is to provide both a clean and direct
 interface to the lowest level SDL, while extending with higher level
 concepts where useful, such as default arguments and functional-style
 application of graphics routines.  Several SDL add-on libraries have
-been wrapped and included with guile-sdl, including SDL_image (for
+been wrapped and included with Guile-SDL, including SDL_image (for
 loading multiple image formats), SDL_ttf (for rendering true type
 fonts), SDL_mixer (for playing/mixing different audio formats), and
 SDL_rotozoom (for rotating and scaling images).  In addition, some
@@ -95,7 +97,7 @@ low-level 2D graphics primitives have been provided.
 @section Quick Start
 
 To whet your appetite, and hopefully get you excited about the ease
-and flexibility of programming with guile-sdl, we begin with a simple
+and flexibility of programming with Guile-SDL, we begin with a simple
 example.  The following program, which can be found in the examples
 directory, is a simple image browser.  You can cycle through images by
 using space, n or right to go forward, backspace, p or left to go
@@ -204,12 +206,40 @@ thus enforcing their "constant" nature and for ease of use in
 and video surface flags, are treated as lists of symbols, each
 constant in the flag group that you would @code{or} together in C code
 becoming a symbol in the list.  All such constant symbols retain their
-exact C names.  A particular set of flags is called a @dfn{flagstash}.
-You can use @code{flagstash-flags} to examine the flags encapsulated
-by a flagstash object.
+exact C names.
 
-You may also pass numbers, and can convert between the symbol and
-numeric value with @code{enum->number}, @code{number->enum},
+A particular set of enums is called an @dfn{enumstash}.  Likewise
+@dfn{flagstash} for flags.
+
+@defvr enumstash fading-status
+Returned by @code{fading-music} and @code{fading-channel}.
+@xref{Audio}.
+@end defvr
+
+@defvr enumstash event-types
+First arg to @code{make-event} and to @code{event-state}.  @xref{Events}.
+@end defvr
+
+@defvr enumstash event-keys
+First arg to @code{make-keysym}.  @xref{Events}.
+@end defvr
+
+@defvr enumstash event-states
+Second arg to and return value of @code{event-state}.  @xref{Events}.
+@end defvr
+
+@defvr enumstash alpha-enums
+Third arg to @code{set-alpha!}.  @xref{Video}.
+@end defvr
+
+@defvr enumstash gl-enums
+Currently unused.
+@end defvr
+
+You can use @code{enumstash-enums} and @code{flagstash-flags} to examine the
+enums and flags encapsulated by these respectively typed objects.  You may
+also use integers where enums/flags are expected, and can convert between the
+symbol and numeric value with @code{enum->number}, @code{number->enum},
 @code{flags->number} and @code{number->flags}.
 
 @include ef-ref.texi
@@ -230,14 +260,14 @@ useful default values from the current screen information.
 @node Limitations
 @section Limitations
 
-There are some known problems with guile-sdl modules.  This section attempts
+There are some known problems with Guile-SDL modules.  This section attempts
 to make them well-known, if not well-liked...
 
 @itemize
 
 @item API in flux
 
-Since guile-sdl is in alpha stage, its interfaces are not stable.
+Since Guile-SDL is in alpha stage, its interfaces are not stable.
 Specifically, module names, the contents of modules, procedure names,
 procedure behavior: all these can change at any time up until the 1.0 release.
 C'est la vie.
@@ -249,9 +279,9 @@ animated logo?  Bonus points for suitable accompanying sound blurb.
 
 @item threading picture unclear
 
-Where do threads fit in if at all?  Why doesn't the guile-sdl maintainer
+Where do threads fit in if at all?  Why doesn't the Guile-SDL maintainer
 learn all about threads, fix guile-1.4.x to support that and then arrange for
-guile-sdl to DTRT?  Questions questions...
+Guile-SDL to DTRT?  Questions questions...
 
 @item [your gripes here]
 
