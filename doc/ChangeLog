@@ -1,0 +1,6 @@
+2003-10-31  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* guile-sdl.texi: Throughout, remove 2nd and subsequent comma-
+	separated args as well as the comma from each @node directive.
+	(top): Add this directive.
+
