@@ -141,6 +141,7 @@
 @twerpdoc (make-event)
 @twerpdoc (make-keysym)
 @twerpdoc (event:type)
+@twerpdoc (event:set-type!)
 
 @section Activity
 
@@ -152,7 +153,9 @@
 @section Keys
 
 @twerpdoc (event:key:keysym:sym)
+@twerpdoc (event:key:keysym:set-sym!)
 @twerpdoc (event:key:keysym:mod)
+@twerpdoc (event:key:keysym:set-mod!)
 
 @twerpdoc (event:key:state)
 @twerpdoc (event:key:keysym:scancode)
