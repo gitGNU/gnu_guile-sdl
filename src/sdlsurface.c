@@ -1,6 +1,6 @@
 /* sdlsurface.c --- SDL Surface functions
  *
- * 	Copyright (C) 2003,2004 Thien-Thi Nguyen
+ * 	Copyright (C) 2003,2004,2005 Thien-Thi Nguyen
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -110,11 +110,11 @@ GH_DEFPROC (make_surface, "make-surface", 2, 1, 0,
     (SDL_CreateRGBSurface (cflags,
                            gh_scm2long (width), gh_scm2long (height),
                            /* Defaults from current video info.  */
-                           (Uint8)  fmt->BitsPerPixel,
-                           (Uint32) fmt->Rmask,
-                           (Uint32) fmt->Gmask,
-                           (Uint32) fmt->Bmask,
-                           (Uint32) fmt->Amask));
+                           fmt->BitsPerPixel,
+                           fmt->Rmask,
+                           fmt->Gmask,
+                           fmt->Bmask,
+                           fmt->Amask));
 #undef FUNC_NAME
 }
 
@@ -142,7 +142,7 @@ GH_DEFPROC (create_rgb_surface, "create-rgb-surface", 8, 0, 0,
   ASSERT_EXACT (bmask,  ARGH7);
   ASSERT_EXACT (amask,  ARGHn);
 
-  cflags = (Uint32) GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH1);
+  cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH1);
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
@@ -299,7 +299,7 @@ GH_DEFPROC (set_color_key, "set-color-key!", 3, 0, 0,
   ASSERT_SURFACE (surface, ARGH1);
   ASSERT_EXACT (key, ARGH3);
 
-  cflag = (Uint32) GSDL_FLAGS2ULONG (flag, gsdl_video_flags, ARGH2);
+  cflag = GSDL_FLAGS2ULONG (flag, gsdl_video_flags, ARGH2);
 
   RETURN_TRUE_IF_0
     (SDL_SetColorKey (UNPACK_SURFACE (surface),
@@ -325,7 +325,7 @@ GH_DEFPROC (set_alpha, "set-alpha!", 3, 0, 0,
   /* ASSERT_EXACT (flag, ARGH2); */
   ASSERT_EXACT (alpha, ARGH3);
 
-  cflag  = (Uint32) GSDL_FLAGS2ULONG (flag, gsdl_video_flags, ARGH2);
+  cflag  = GSDL_FLAGS2ULONG (flag, gsdl_video_flags, ARGH2);
   calpha = (Uint8) GSDL_ENUM2LONG (alpha, gsdl_alpha_enums, ARGH3);
 
   RETURN_TRUE_IF_0
@@ -392,7 +392,7 @@ GH_DEFPROC (convert_surface, "convert-surface", 2, 1, 0,
   ASSERT_PIXEL_FORMAT (format, ARGH2);
 
   if (BOUNDP (flags))
-    cflags = (Uint32) GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH3);
+    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH3);
 
   RETURN_NEW_SURFACE
     (SDL_ConvertSurface (UNPACK_SURFACE (surface),
