@@ -42,3 +42,23 @@ SUFFIXES = .x
 
 DISTCLEANFILES = *.x
 
+# docs
+info_TEXINFOS = dummy.texi
+dummy_TEXINFOS  = sdl.texi sdlevent.texi sdlroto.texi \
+		  sdlsurface.texi sdlvideo.texi
+
+# doc snarfing
+GUILE_SNARF_DOCS = guile-snarf-docs
+GUILE_SNARF_DOCS_TEXI = guile-snarf-docs-texi
+
+SUFFIXES = .texi .doc
+
+%.doc: %.c
+	$(GUILE_SNARF_DOCS) $(DEFS) $(INCLUDES) -I../include \
+	$(CPPFLAGS) $(CFLAGS) $< > $@ \
+	|| { rm $@; false; }
+
+.doc.texi:
+	$(GUILE_SNARF_DOCS_TEXI) $< > $@ \
+	|| { rm $@; false; }
+

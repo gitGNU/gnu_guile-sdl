@@ -34,9 +34,29 @@ libguileSDL_gfx_la_LDFLAGS =             \
 GUILE_SNARF = guile-snarf
 
 SUFFIXES = .x
-.c.x:
+%.x: %.c
 	$(GUILE_SNARF) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $< > $@ \
 	|| { rm $@; false; }
 
 DISTCLEANFILES = *.x
+
+# docs
+TEXINFO_TEX = ../doc/texinfo.tex
+info_TEXINFOS = dummy.texi
+dummy_TEXINFOS = sdlgfx.texi
+
+# doc snarfing
+GUILE_SNARF_DOCS = guile-snarf-docs
+GUILE_SNARF_DOCS_TEXI = guile-snarf-docs-texi
+
+SUFFIXES = .texi .doc
+
+%.doc: %.c
+	$(GUILE_SNARF_DOCS) $(DEFS) $(INCLUDES) -I../include \
+	$(CPPFLAGS) $(CFLAGS) $< > $@ \
+	|| { rm $@; false; }
+
+.doc.texi:
+	$(GUILE_SNARF_DOCS_TEXI) $< > $@ \
+	|| { rm $@; false; }
 

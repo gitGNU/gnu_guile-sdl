@@ -13,9 +13,12 @@ INCLUDES = -I../include/
 
 EXTRA_DIST = sdlmixer.h
 
+WRAPPER_SOURCES = sdlmixer.c
+BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x)
+
 lib_LTLIBRARIES = libguileSDL_mixer.la
 
-libguileSDL_mixer_la_SOURCES = sdlmixer.c
+libguileSDL_mixer_la_SOURCES = $(BUILT_SOURCES) $(WRAPPER_SOURCES)
 
 libguileSDL_mixer_la_CFLAGS  = $(CFLAGS)
 
@@ -23,4 +26,33 @@ libguileSDL_mixer_la_LDFLAGS =             \
         -release $(LT_RELEASE)  \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
+# snarfing
+GUILE_SNARF = guile-snarf
+
+SUFFIXES = .x
+%.x: %.c
+	$(GUILE_SNARF) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $< > $@ \
+	|| { rm $@; false; }
+
+DISTCLEANFILES = *.x
+
+# docs
+TEXINFO_TEX = ../doc/texinfo.tex
+info_TEXINFOS = dummy.texi
+dummy_TEXINFOS = sdlmixer.texi
+
+# doc snarfing
+GUILE_SNARF_DOCS = guile-snarf-docs
+GUILE_SNARF_DOCS_TEXI = guile-snarf-docs-texi
+
+SUFFIXES = .texi .doc
+
+%.doc: %.c
+	$(GUILE_SNARF_DOCS) $(DEFS) $(INCLUDES) -I../include \
+	$(CPPFLAGS) $(CFLAGS) $< > $@ \
+	|| { rm $@; false; }
+
+.doc.texi:
+	$(GUILE_SNARF_DOCS_TEXI) $< > $@ \
+	|| { rm $@; false; }
 
