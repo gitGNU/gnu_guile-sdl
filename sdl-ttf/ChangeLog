@@ -1,4 +1,8 @@
 2003-10-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (PACKAGE, VERSION): Delete directives.
+
+2003-10-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* Makefile.am: Merge multiple `SUFFIXES' directives into one.
 
