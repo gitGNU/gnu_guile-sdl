@@ -4,7 +4,7 @@
 ;; simple event test
 ;; 
 ;; Created:    <2001-06-04 00:42:41 foof>
-;; Time-stamp: <2001-06-04 21:32:40 foof>
+;; Time-stamp: <2001-06-09 21:25:11 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules ((sdl sdl)
@@ -27,12 +27,12 @@
       (display "type: ")
       (display event-type)
       (newline)
-      (if (= event-type 2)
+      (if (eq? event-type 'event/key-down)
         (let ((sym (sdl-event:key:keysym:sym e)))
           (display "sym: ")
           (display sym)
           (newline)
-          (if (= sym 27)
+          (if (eq? sym 'key/escape)
             (newline)
             (input-loop e)))
         (input-loop e)))))
