@@ -52,6 +52,7 @@ sdl for Guile.
 * General SDL::                 General SDL functions
 * Video::                       Video and Graphics Functions
 * Events::                      Events and Input Handling
+* CDROM::                       CDROM Handling
 * OpenGL::                      OpenGL Interface
 * TrueType::                    TrueType Font Support
 * Audio::                       Audio Support
@@ -220,12 +221,17 @@ useful default values from the current screen information.
 @include ../src/sdlroto.texi
 @include ../sdl-gfx/sdlgfx.texi
 
-@node Events, OpenGL, Video, Top
+@node Events, CDROM, Video, Top
 @chapter Events
 
 @include ../src/sdlevent.texi
 
-@node OpenGL, TrueType, Events, Top
+@node CDROM, OpenGL, Events, Top
+@chapter Events
+
+@include ../src/sdlcdrom.texi
+
+@node OpenGL, TrueType, CDROM, Top
 @chapter OpenGL
 
 @node TrueType, Audio, OpenGL, Top
