@@ -29,7 +29,8 @@
 
 ;; Return a @dfn{canvas closure} that accepts a few simple messages.
 ;; If @var{init?} is non-#f, initalize the SDL video subsystem first.
-;; @var{w} and @var{h} specify the width and height, respectively.
+;; @var{w}, @var{h}, and @var{bpp} specify the width, height, and
+;; bits-per-pixel, respectively.
 ;; @var{flags} are symbols to set the video mode.  If omitted, the
 ;; default is @code{SDL_HWSURFACE} and @code{SDL_DOUBLEBUF}.
 ;;
@@ -54,14 +55,14 @@
 ;; Return width, height, or a cons of width and height, respectively.
 ;; @end table
 ;;
-(define (simple-canvas init? w h . flags)
+(define (simple-canvas init? w h bpp . flags)
   (or (not init?)
       (= 0 (|||-init '(SDL_INIT_VIDEO)))
       (error "could not init SDL"))
   (let ((canvas (|||-set-video-mode
-                    w h 0 (if (null? flags)
-                              '(SDL_HWSURFACE SDL_DOUBLEBUF)
-                              flags)))
+                    w h bpp (if (null? flags)
+                               '(SDL_HWSURFACE SDL_DOUBLEBUF)
+                               flags)))
         (rect (|||-make-rect 0 0 w h))
         (bg #f))
     (define (set-bg! r g b)
