@@ -37,8 +37,9 @@
     (error "could not init libSDL or libpthread") )
 
 
-;; some utility functions, need to organize these into modules
+;;; some utility functions, need to organize these into modules
 
+;; perform a thunk with a clipping rect temporarily in place
 (define-syntax sdl-with-clip-rect
   (syntax-rules ()
     ((_ rect body ...)
@@ -46,4 +47,20 @@
        (sdl-set-clip-rect! (sdl-get-video-surface) rect)
        body ...
        (sdl-set-clip-rect! (sdl-get-video-surface) orig-rect)))))
+
+
+;; rotate a square retaining its original size
+(define (sdl-rotate-square src angle)
+  (let* ((width (sdl-surface:w src))
+         (height (sdl-surface:h src))
+         (rotated (sdl-roto-zoom-surface src (- angle 90) 1.0 #t))
+         (new-width (sdl-surface:w rotated))
+         (new-height (sdl-surface:h rotated))
+         (width-offset (quotient (- new-width width) 2))
+         (height-offset (quotient (- new-height height) 2))
+         (src-rect (sdl-make-rect width-offset height-offset width height))
+         (dst (sdl-make-surface width height))
+         (dst-rect (sdl-make-rect 0 0 width height)))
+    (sdl-blit-surface rotated src-rect dst dst-rect)
+    dst))
 
