@@ -1,6 +1,6 @@
 /* sdlgfx.c --- Additional Graphics functions for Guile SDL
  *
- * 	Copyright (C) 2003 Thien-Thi Nguyen
+ * 	Copyright (C) 2003,2004 Thien-Thi Nguyen
  * 	Copyright (C) 2001 Alex Shinn
  *
  * This program is free software; you can redistribute it and/or

@@ -1,6 +1,6 @@
 ;;; sdl.scm --- SDL for Guile
 
-;; 	Copyright (C) 2003 Thien-Thi Nguyen
+;; 	Copyright (C) 2003,2004 Thien-Thi Nguyen
 ;; 	Copyright (C) 2001 Alex Shinn <foof@debian.org>
 ;;
 ;; This is free software; you can redistribute it and/or modify
