@@ -13,12 +13,20 @@ TODO-excerpt: $(top_srcdir)/TODO
 
 guile-sdl.info: $(BUILT_SOURCES)
 
+if HAVE_TTF
+minusIttfdocindex = -I ../sdl-ttf/.doc-index
+endif
+
+if HAVE_MIXER
+minusImixerdocindex = -I ../sdl-mixer/.doc-index
+endif
+
 .twerp.texi:
 	guile-tools twerp2texi \
 	  -I ../src/.doc-index \
-	  -I ../sdl-ttf/.doc-index \
+	  $(minusIttfdocindex) \
 	  -I ../sdl-gfx/.doc-index \
-	  -I ../sdl-mixer/.doc-index \
+	  $(minusImixerdocindex) \
 	  -o $@ $<
 
 EXTRA_DIST = ref.twerp ef-ref.twerp cov $(BUILT_SOURCES)
