@@ -134,7 +134,7 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 AC_DISABLE_STATIC	dnl module only
 AC_LIBTOOL_TAGS([])
-AM_PROG_LIBTOOL
+AC_PROG_LIBTOOL
 
 top_builddir_absolute=`pwd`
 AC_SUBST([top_builddir_absolute])
