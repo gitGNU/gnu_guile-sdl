@@ -32,4 +32,10 @@
 #define ARGH7 SCM_ARG7
 #define ARGHn SCM_ARGn
 
+
+#define BOUNDP(x)    (! SCM_EQ_P (x, SCM_UNDEFINED))
+#define UNBOUNDP(x)    (SCM_EQ_P (x, SCM_UNDEFINED))
+
+#define UNBOUND_MEANS_FALSE(x)  if (UNBOUNDP (x)) x = SCM_BOOL_F
+
 #endif /* GUILE_SDL_ARGCHECK_H */
