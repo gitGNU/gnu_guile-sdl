@@ -1,5 +1,9 @@
 2004-05-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* acinclude.m4 (AM_PATH_SDL): Quote as first arg in AC_DEFUN.
+
+2004-05-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* configure.in: Use AC_PROG_LIBTOOL, not AM_PROG_LIBTOOL.
 
 2004-03-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
