@@ -33,7 +33,10 @@ ef-ref.texi: $(top_srcdir)/*/*.c
 	  $(minusImixerdocindex) \
 	  -o $@ $<
 
-EXTRA_DIST = ref.twerp ef-ref.twerp cov $(BUILT_SOURCES)
+excuse.texi: $(top_srcdir)/cov/notes.tdt
+	$(srcdir)/mkexcuse $< > $@
+
+EXTRA_DIST = ref.twerp ef-ref.twerp cov mkexcuse $(BUILT_SOURCES)
 
 if MAINTAINER_MODE
 TESTS_ENVIRONMENT = srcdir=$(srcdir)
