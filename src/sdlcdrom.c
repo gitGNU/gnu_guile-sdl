@@ -239,14 +239,14 @@ GH_DEFPROC (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
 
   if ((cd != NULL) && (n < cd->numtracks)) {
     /* Form an assoc list */
-    return SCM_LIST4
+    RETURN_LIST4
       (gh_cons (SYM (id),     gh_long2scm (cd->track[n].id)),
        gh_cons (SYM (type),   gh_long2scm (cd->track[n].type)),
        gh_cons (SYM (length), gh_ulong2scm (cd->track[n].length)),
        gh_cons (SYM (offset), gh_ulong2scm (cd->track[n].offset)));
   }
   else {
-    return SCM_EOL;
+    RETURN_LIST0;
   }
 }
 #undef FUNC_NAME
@@ -493,9 +493,9 @@ GH_DEFPROC (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
   frames = gh_scm2ulong (s_frames);
 
   FRAMES_TO_MSF (frames, &m , &s, &f);
-  return SCM_LIST3 (gh_cons (SYM (m), gh_ulong2scm (m)),
-                    gh_cons (SYM (s), gh_ulong2scm (s)),
-                    gh_cons (SYM (f), gh_ulong2scm (f)));
+  RETURN_LIST3 (gh_cons (SYM (m), gh_ulong2scm (m)),
+                gh_cons (SYM (s), gh_ulong2scm (s)),
+                gh_cons (SYM (f), gh_ulong2scm (f)));
 }
 #undef FUNC_NAME
 
