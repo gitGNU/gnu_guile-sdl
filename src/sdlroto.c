@@ -40,7 +40,7 @@ GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
 #define FUNC_NAME s_roto_zoom_surface
 {
   SDL_Surface *surface, *new_surface;
-  double angle=0.0, zoom=1.0;
+  double angle = 0.0, zoom = 1.0;
 
   ASSERT_SURFACE (surface_smob, ARGH1);
   surface = SMOBGET (surface_smob, SDL_Surface *);
@@ -49,10 +49,11 @@ GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
   angle = gh_scm2double (s_angle);
 
   UNBOUND_MEANS_FALSE (s_zoom);
-  if (NOT_FALSEP (s_zoom)) {
-    ASSERT_NUMBER (s_zoom, ARGH3);
-    zoom = gh_scm2double (s_zoom);
-  }
+  if (NOT_FALSEP (s_zoom))
+    {
+      ASSERT_NUMBER (s_zoom, ARGH3);
+      zoom = gh_scm2double (s_zoom);
+    }
 
   UNBOUND_MEANS_FALSE (s_smooth);
 
@@ -75,7 +76,7 @@ GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
 #define FUNC_NAME s_zoom_surface
 {
   SDL_Surface *surface, *new_surface;
-  double zoomx=1.0, zoomy=1.0;
+  double zoomx = 1.0, zoomy = 1.0;
 
   ASSERT_SURFACE (surface_smob, ARGH1);
   surface = SMOBGET (surface_smob, SDL_Surface *);
@@ -84,12 +85,13 @@ GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
   zoomx = gh_scm2double (s_zoomx);
 
   UNBOUND_MEANS_FALSE (s_zoomy);
-  if (NOT_FALSEP (s_zoomy)) {
-    ASSERT_NUMBER (s_zoomy, ARGH3);
-    zoomy = gh_scm2double (s_zoomy);
-  } else {
+  if (NOT_FALSEP (s_zoomy))
+    {
+      ASSERT_NUMBER (s_zoomy, ARGH3);
+      zoomy = gh_scm2double (s_zoomy);
+    }
+  else
     zoomy = zoomx;
-  }
 
   UNBOUND_MEANS_FALSE (s_smooth);
 
