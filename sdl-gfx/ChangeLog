@@ -1,3 +1,7 @@
+2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlgfx.c: Move "#define FUNC_NAME" inside func scope; nfc.
+
 2004-07-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (install-data-hook): New target.

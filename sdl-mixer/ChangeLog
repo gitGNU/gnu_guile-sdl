@@ -1,5 +1,9 @@
 2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlmixer.c: Move "#define FUNC_NAME" inside func scope; nfc.
+
+2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlmixer.c (RETURN_FADINGSTATUS): New macro.
 	(mix_fading_music): Fix bug: Use RETURN_FADINGSTATUS.
 	(mix_fading_channel): Likewise.

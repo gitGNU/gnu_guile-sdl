@@ -1,5 +1,19 @@
 2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdl.c: Move "#define FUNC_NAME" inside func scope; nfc.
+	* sdlcdrom.c: Likewise.
+	* sdlcolor.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlroto.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlevent.c (gsdl_init_event):
 	Remove `SDL_DISABLE' from `event-states' enumstash.
 
