@@ -1,5 +1,8 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
+(define debug? (getenv "DEBUG"))
+(and debug? (debug-enable 'debug 'backtrace))
 
 ;; simple rectangle test
 
@@ -8,9 +11,14 @@
 ;; initialize the SDL video module
 (sdl-init '(SDL_INIT_VIDEO))
 
+(and debug?
+     (for-each (lambda (x) (format #t "video-info: ~S\n" x))
+               (sdl-get-video-info)))
+
 ;; get a sample rect size from a list of available modes
 (define test-rect
   (let ((modes (sdl-list-modes)))
+    (and debug? (format #t "hmm: (sdl-list-modes) => ~A\n" modes))
     (cond ((eq? modes #f)
            (error "no supported video modes"))
           ((eq? modes #t)
@@ -19,6 +27,7 @@
           (else
            ;; a list - choose the first mode
            (car modes)))))
+(and debug? (format #t "test-rect => ~A\n" test-rect))
 
 (seed->random-state (sdl-get-ticks))
 
@@ -48,3 +57,4 @@
 ;; quit SDL
 (sdl-quit)
 
+;;; rect.scm ends here
