@@ -29,6 +29,7 @@
 #include "sdlsmobs.h"
 #include "retval.h"
 #include "sym.h"
+#include "bool.h"
 
 
 #define MAX_DRIVER_LEN    100
@@ -288,13 +289,13 @@ GH_DEFPROC (list_modes, "list-modes", 0, 2, 0,
   SCM result;
 
   UNBOUND_MEANS_FALSE (s_pixel_format);
-  if (SCM_NFALSEP (s_pixel_format)) {
+  if (NOT_FALSEP (s_pixel_format)) {
     ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
     format = UNPACK_PIXEL_FORMAT (s_pixel_format);
   }
 
   UNBOUND_MEANS_FALSE (s_flags);
-  if (SCM_NFALSEP (s_flags)) {
+  if (NOT_FALSEP (s_flags)) {
     ASSERT_EXACT (s_flags, ARGH2);
     flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH2);
   }
@@ -303,11 +304,11 @@ GH_DEFPROC (list_modes, "list-modes", 0, 2, 0,
 
   if (modes == (SDL_Rect**)0) {
     /* return #f to signify no resolutions are available */
-    result = SCM_BOOL_F;
+    SET_FALSE (result);
   }
   else if (modes == (SDL_Rect**)-1) {
     /* return #t to signify all resolutions are available */
-    result = SCM_BOOL_T;
+    SET_TRUE (result);
   } else {
     int i;
 
@@ -350,7 +351,7 @@ GH_DEFPROC (video_mode_ok, "video-mode-ok", 3, 1, 0,
                             gh_scm2long (s_height),
                             gh_scm2long (s_bpp),
                             flags);
-  return result ? gh_long2scm (result) : SCM_BOOL_F;
+  return result ? gh_long2scm (result) : BOOL_FALSE;
 }
 #undef FUNC_NAME
 
@@ -568,7 +569,7 @@ GH_DEFPROC (get_gamma_ramp, "get-gamma-ramp", 0, 0, 0,
   Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
 
   if (SDL_GetGammaRamp (rt, gt, bt) == -1)
-    return SCM_BOOL_F;
+    RETURN_FALSE;
 
   return SCM_LIST3 (gh_cons (SYM (redtable),   GAMMAVEC (rt)),
                     gh_cons (SYM (greentable), GAMMAVEC (gt)),
@@ -761,7 +762,7 @@ GH_DEFPROC (display_format, "display-format", 1, 0, 0,
   surface = SDL_DisplayFormat (UNPACK_SURFACE (s_surface));
 
   if (! surface)
-    return SCM_BOOL_F;
+    RETURN_FALSE;
 
   RETURN_NEW_SURFACE (surface);
 }
@@ -782,7 +783,7 @@ GH_DEFPROC (display_format_alpha, "display-format-alpha", 1, 0, 0,
   surface = SDL_DisplayFormatAlpha (UNPACK_SURFACE (s_surface));
 
   if (! surface)
-    return SCM_BOOL_F;
+    RETURN_FALSE;
 
   RETURN_NEW_SURFACE (surface);
 }
@@ -836,7 +837,7 @@ GH_DEFPROC (show_cursor, "show-cursor", 0, 1, 0,
 #define FUNC_NAME s_show_cursor
 {
   UNBOUND_MEANS_FALSE (query);
-  RETURN_BOOL (SDL_ShowCursor (SCM_FALSEP (query) - 1));
+  RETURN_BOOL (SDL_ShowCursor (EXACTLY_FALSEP (query) - 1));
 }
 #undef FUNC_NAME
 
