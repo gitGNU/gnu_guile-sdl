@@ -201,6 +201,47 @@
 	Remove calls to `scm_c_define_gsubr'.
 	Remove call to `scm_c_export'.
 
+	* sdlvideo.c: Update copyright.
+	No longer include <libguile.h>.
+	Include <guile/gh.h>.
+	No longer include "sdlrect.h".
+	No longer include "sdlcolor.h".
+	No longer include "sdlsurface.h".
+	Include "config.h" and "argcheck.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(sdl_gl_enums): Make static.
+	(gsdl_alpha_enums): Rename from `sdl_alpha_enums'.
+	(gsdl_video_flags): Rename from `sdl_video_flags'.
+	(gsdl_palette_flags): Rename from `sdl_palette_flags'.
+	(pixel_format_tag): Delete var.
+	(cursor_tag, overlay_tag): Make static.
+	(ASSERT_CURSOR, ASSERT_OVERLAY, UNPACK_CURSOR, UNPACK_OVERLAY,
+	RETURN_NEW_CURSOR, RETURN_NEW_OVERLAY): New macros.
+	(mark_cursor, mark_yuv_overlay, mark_pixel_format): New static funcs.
+	(free_cursor, free_yuv_overlay, free_pixel_format): Make static.
+	(sdl_get_video_flags, sdl_get_palette_flags,
+	sdl_get_overlay_formats): New MDEFLOCEXP funcs.
+	(gsdl_sym_hw_available, gsdl_sym_ww_available, gsdl_sym_blit_hw,
+	gsdl_sym_blit_hw_CC, gsdl_sym_blit_hw_A, gsdl_sym_blit_sw,
+	gsdl_sym_blit_sw_CC, gsdl_sym_blit_sw_A, gsdl_sym_blit_fill,
+	gsdl_sym_video_mem, gsdl_sym_vfmt, gsdl_sym_redtable,
+	gsdl_sym_greentable, gsdl_sym_bluetable, gsdl-sym_r, gsdl_sym_g,
+	gsdl_sym_b, gsdl_sym_a, gsdl_sym_title, gsdl_sym_icon): New static vars.
+	(GAMMAVEC): New macro.
+	(fill_rect): No longer return a number. Instead, return #t for success.
+	(ASSERT_VSZFIT): New macro.
+	(gsdl_video_flagstash, gsdl_palette_flagstash,
+	gsdl_overlay_flagstash): New extern var decls.
+	(gsdl_init_video): Rename from `sdl_init_video'.
+	Register `mark_cursor' and `free_cursor'.
+	Register `mark_pixel_format'.
+	Register `mark_yuv_overlay'.
+	(gsdl_video_flags, gsdl_palette_flags, gsdl_overlay_formats):
+	Initialize using `gsdl_make_flagstash' instead of `scm_c_define_flag'.
+	Remove call to `scm_c_export'.
+
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"

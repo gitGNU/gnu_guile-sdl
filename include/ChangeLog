@@ -1,3 +1,7 @@
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* argcheck.h (ASSERT_PAIR): New macro.
+
 2003-11-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlsmobs.h (RETURN_NEW_SURFACE): New macro.
