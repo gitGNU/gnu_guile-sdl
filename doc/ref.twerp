@@ -120,7 +120,6 @@
 @twerpdoc (vertical-flip-surface)
 @twerpdoc (horizontal-flip-surface)
 @twerpdoc (vh-flip-surface)
-@twerpdoc (scale-surface)
 
 @section Graphics Primitives
 
