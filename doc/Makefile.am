@@ -2,7 +2,7 @@
 
 AUTOMAKE_OPTIONS = gnu
 
-BUILT_SOURCES = ref.texi TODO-excerpt
+BUILT_SOURCES = ref.texi ef-ref.texi TODO-excerpt
 
 info_TEXINFOS = guile-sdl.texi
 
@@ -20,5 +20,7 @@ guile-sdl.info: $(BUILT_SOURCES)
 	  -I ../sdl-gfx/.doc-index \
 	  -I ../sdl-mixer/.doc-index \
 	  -o $@ $<
+
+EXTRA_DIST = ref.twerp ef-ref.twerp cov
 
 ## Makefile.am ends here
