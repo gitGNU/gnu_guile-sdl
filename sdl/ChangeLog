@@ -2,7 +2,7 @@
 
 	* misc-utils.scm (copy-surface): If the source surface has
 	SDL_SRCALPHA flag set, clear and restore it before and after,
-	respectively, the blit.
+	respectively, the blit.  Also, arrange to copy source flags.
 
 2005-01-13  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
