@@ -331,8 +331,7 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
             "If it is @code{SDL_GETEVENT}, act like for @code{SDL_PEEKEVENT}\n"
             "except return a list of matching events instead of a count,\n"
             "removing them from the queue.\n"
-            "[incomplete: missing validation and error handling; also,\n"
-            "this should not be released until it uses uniform vectors]")
+            "[incomplete: missing validation and error handling]")
 {
 #define FUNC_NAME s_peep_events
   SDL_Event *cevents = NULL;
@@ -363,7 +362,7 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
       for (i = 0, ls = events;
            i < cnumevents;
            i++, ls = gh_cdr (ls))
-        memcpy (&cevents[i], UNPACK_EVENT (gh_car (ls)), sizeof (SDL_Event));
+        cevents[i] = *(UNPACK_EVENT (gh_car (ls)));
       ret = SDL_PeepEvents (cevents, cnumevents, caction, 0);
       break;
 
@@ -384,7 +383,7 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
           for (i = ret - 1; -1 < i; i--)
             {
               cev = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME);
-              memcpy (cev, &cevents[i], sizeof (SDL_Event));
+              *cev = cevents[i];
               SCM_NEWSMOB (ev, event_tag, cev);
               ls = gh_cons (ev, ls);
             }
