@@ -26,6 +26,7 @@
 #include "config.h"
 #include "argcheck.h"
 #include "sdlsmobs.h"
+#include "retval.h"
 
 GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
@@ -41,7 +42,7 @@ GH_DEFPROC (draw_point, "draw-point", 4, 0, 0,
   ASSERT_EXACT (s_y, ARGH3);
   ASSERT_EXACT (s_color, ARGH4);
 
-  return gh_long2scm
+  RETURN_INT
     (pixelColor (UNPACK_SURFACE (s_surface),
                  gh_scm2long (s_x), gh_scm2long (s_y),
                  gh_scm2ulong (s_color)));
@@ -64,7 +65,7 @@ GH_DEFPROC (draw_line, "draw-line", 6, 0, 0,
   ASSERT_EXACT (s_y2, ARGH5);
   ASSERT_EXACT (s_color, ARGH6);
 
-  return gh_long2scm
+  RETURN_INT
     (lineColor (UNPACK_SURFACE (s_surface),
                 gh_scm2long (s_x1), gh_scm2long (s_y1),
                 gh_scm2long (s_x2), gh_scm2long (s_y2),
@@ -88,7 +89,7 @@ GH_DEFPROC (draw_aa_line, "draw-aa-line", 6, 0, 0,
   ASSERT_EXACT (s_y2, ARGH5);
   ASSERT_EXACT (s_color, ARGH6);
 
-  return gh_long2scm
+  RETURN_INT
     (aalineColor (UNPACK_SURFACE (s_surface),
                   gh_scm2long (s_x1), gh_scm2long (s_y1),
                   gh_scm2long (s_x2), gh_scm2long (s_y2),
@@ -114,7 +115,7 @@ GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
   ASSERT_EXACT (s_color, ARGH6);
   UNBOUND_MEANS_FALSE (s_fill);
 
-  return gh_long2scm
+  RETURN_INT
     ((SCM_FALSEP (s_fill)
       ? rectangleColor
       : boxColor) (UNPACK_SURFACE (s_surface),
@@ -140,7 +141,7 @@ GH_DEFPROC (draw_circle, "draw-circle", 5, 1, 0,
   ASSERT_EXACT (s_color, ARGH5);
   UNBOUND_MEANS_FALSE (s_fill);
 
-  return gh_long2scm
+  RETURN_INT
     ((SCM_FALSEP (s_fill)
       ? circleColor
       : filledCircleColor) (UNPACK_SURFACE (s_surface),
@@ -167,7 +168,7 @@ GH_DEFPROC (draw_ellipse, "draw-ellipse", 6, 1, 0,
   ASSERT_EXACT (s_color, ARGH6);
   UNBOUND_MEANS_FALSE (s_fill);
 
-  return gh_long2scm
+  RETURN_INT
     ((SCM_FALSEP (s_fill)
       ? ellipseColor
       : filledEllipseColor) (UNPACK_SURFACE (s_surface),
@@ -206,7 +207,7 @@ GH_DEFPROC (draw_polygon, "draw-polygon", 4, 1, 0,
                                 gh_scm2ulong (s_color));
   free (vx);
   free (vy);
-  return gh_long2scm (ret);
+  RETURN_INT (ret);
 }
 #undef FUNC_NAME
 
@@ -223,7 +224,7 @@ GH_DEFPROC (draw_character, "draw-character", 5, 0, 0,
   ASSERT_CHAR (s_char, ARGH4);
   ASSERT_EXACT (s_color, ARGH5);
 
-  return gh_long2scm
+  RETURN_INT
     (characterColor (UNPACK_SURFACE (s_surface),
                      gh_scm2long (s_x), gh_scm2long (s_y),
                      gh_scm2char (s_char), gh_scm2ulong (s_color)));
@@ -243,7 +244,7 @@ GH_DEFPROC (draw_string, "draw-string", 5, 0, 0,
   ASSERT_STRING (s_string, ARGH4);
   ASSERT_EXACT (s_color, ARGH5);
 
-  return gh_long2scm
+  RETURN_INT
     (stringColor (UNPACK_SURFACE (s_surface),
                   gh_scm2long (s_x), gh_scm2long (s_y),
                   SCM_CHARS (s_string),
