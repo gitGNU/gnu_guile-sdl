@@ -1,3 +1,7 @@
+2005-01-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* simple.scm (simple-stylus): Doc fix.
+
 2005-01-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* misc-utils.scm (ignore-all-event-types-except): New proc, exported.
