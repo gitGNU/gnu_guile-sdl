@@ -18,6 +18,7 @@
   - programming practice review
     - 0-means-success return values
     - return value consistency
+    - use unsigned long for colors
   - /usr/include/SDL/*.h coverage
   - opengl?
 
