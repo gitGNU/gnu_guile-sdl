@@ -1,5 +1,16 @@
 2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlsurface.c (create_rgb_surface): Fix signedness bug:
+	Use `gh_scm2ulong'.  Also, remove redundant casts.
+
+	* sdlvideo.c (map_rgb): Likewise.
+	(map_rgba): Likewise.
+	(get_rgb): Likewise.
+	(get_rgba): Likewise.
+	(warp_mouse): Likewise.
+
+2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlsurface.c (make_surface): Remove redundant casts.
 	(create_rgb_surface): Likewise.
 	(set_color_key): Likewise.
