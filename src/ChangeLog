@@ -62,6 +62,45 @@
 	Remove calls to `scm_c_define_gsubr'.
 	Remove call to `scm_c_export'.
 
+	* sdlenums.c: Update copyright.
+	No longer include <libguile.h>.
+	Include <guile/gh.h>.
+	No longer include "sdlsurface.h".
+	Include "config.h" and "argcheck.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(MAX_FLAGS): Delete macro.
+	(enum_tag): Make static.
+	(enum_struct): New struct.
+	(mark_enum, free_enum): Make static.
+	(REASONABLE_BUCKET_COUNT): New macro.
+	(MAKE_HASH_TABLE): New macro.
+	(gsdl_define_enum): Rename from `scm_c_define_enum'.
+	(gsdl_enum2long): Rename from `scm_enum2long'.
+	(gsdl_long2enum): Rename from `scm_long2enum'.
+	(number_to_enum): Rename from `scm_number_to_enum'. Make MDEFLOCEXP.
+	(scm_c_define_flag): Delete func.
+	(flagstash_tag): New static var.
+	(ASSERT_FLAGSTASH): New macro.
+	(mark_flagstash, free_flagstash, print_flagstash): New static funcs.
+	(gsdl_make_flagstash): New func.
+	(gsdl_flags2ulong): Rename from `scm_flags2ulong'.
+	Remove support for `flags' being an exact number.
+	Add support for `flags' being a single symbol.
+	(gsdl_ulong2flags): Rename from `scm_ulong2flags'.
+	Fix bug: Test full mask instead of only one bit position.
+	Fix bug: Handle case where stash has a member w/ value 0x0.
+	No longer unconditionally return computed result; instead,
+	return SCM_BOOL_F if the stash does not cover the value.
+	(flagstash_flags): New MDEFLOCEXP func.
+	(flags_to_number): Rename from `scm_flags_to_number'.
+	Make MDEFLOCEXP.
+	(number_to_flags): Likewise from `scm_number_to_flags'.
+	(gsdl_init_enums): Renaem from `sdl_init_enums'.
+	Register smob type "flagstash" and its mark, free, print funcs.
+	Remove call to `scm_c_export'.
+
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"
