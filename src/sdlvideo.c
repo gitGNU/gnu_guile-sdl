@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-25 00:28:56 foof>                         *
+ *  Time-stamp: <2001-06-30 01:18:48 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -1153,7 +1153,7 @@ wm_grab_input (SCM s_mode)
 }
 
 void
-sdl_video_init (void)
+sdl_init_video (void)
 {
    /* smobs */
    surface_tag   = scm_make_smob_type ("surface", sizeof (SDL_Surface));
@@ -1172,9 +1172,29 @@ sdl_video_init (void)
    scm_set_smob_free (overlay_tag, free_yuv_overlay);
 
    /* alpha constants */
-
    SCM_DEFINE_CONST ("sdl-alpha/opaque",      SDL_ALPHA_OPAQUE);
    SCM_DEFINE_CONST ("sdl-alpha/transparent", SDL_ALPHA_TRANSPARENT);
+
+   /* video constants */
+   SCM_DEFINE_CONST ("sdl-video/swsurface",   SDL_SWSURFACE); /* Surface is in system memory */
+   SCM_DEFINE_CONST ("sdl-video/hwsurface",   SDL_HWSURFACE); /* Surface is in video memory */
+   SCM_DEFINE_CONST ("sdl-video/asyncblit",   SDL_ASYNCBLIT); /* Use asynchronous blits if possible */
+   /* Available for SDL_SetVideoMode() */
+   SCM_DEFINE_CONST ("sdl-video/anyformat",   SDL_ANYFORMAT); /* Allow any video depth/pixel-format */
+   SCM_DEFINE_CONST ("sdl-video/hwpalette",   SDL_HWPALETTE); /* Surface has exclusive palette */
+   SCM_DEFINE_CONST ("sdl-video/doublebuf",   SDL_DOUBLEBUF); /* Set up double-buffered video mode */
+   SCM_DEFINE_CONST ("sdl-video/fullscreen",  SDL_FULLSCREEN); /* Surface is a full screen display */
+   SCM_DEFINE_CONST ("sdl-video/opengl",      SDL_OPENGL); /* Create an OpenGL rendering context */
+   SCM_DEFINE_CONST ("sdl-video/openglblit",  SDL_OPENGLBLIT); /* Create an OpenGL rendering context and use it for blitting */
+   SCM_DEFINE_CONST ("sdl-video/resizable",   SDL_RESIZABLE); /* This video mode may be resized */
+   SCM_DEFINE_CONST ("sdl-video/noframe",     SDL_NOFRAME); /* No window caption or edge frame */
+   /* Used internally (read-only) */
+   SCM_DEFINE_CONST ("sdl-video/hwaccel",     SDL_HWACCEL); /* Blit uses hardware acceleration */
+   SCM_DEFINE_CONST ("sdl-video/srccolorkey", SDL_SRCCOLORKEY); /* Blit uses a source color key */
+   SCM_DEFINE_CONST ("sdl-video/rleaccelok",  SDL_RLEACCELOK); /* Private flag */
+   SCM_DEFINE_CONST ("sdl-video/rleaccel",    SDL_RLEACCEL); /* Surface is RLE encoded */
+   SCM_DEFINE_CONST ("sdl-video/srcalpha",    SDL_SRCALPHA); /* Blit uses source alpha blending */
+   SCM_DEFINE_CONST ("sdl-video/prealloc",    SDL_PREALLOC); /* Surface uses preallocated memory */
 
    /* yuv overlay formats */
    SCM_DEFINE_CONST ("sdl-yv12-overlay", SDL_YV12_OVERLAY);  /* Planar mode: Y + V + U  (3 planes) */
