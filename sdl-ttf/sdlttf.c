@@ -27,6 +27,7 @@
 #include "sdlsmobs.h"
 #include "sdlenums.h"
 #include "retval.h"
+#include "sym.h"
 
 GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
@@ -182,11 +183,11 @@ GH_DEFPROC (ttf_font_line_skip, "font:line-skip", 1, 0, 0,
 #undef FUNC_NAME
 
 
-SCM_SYMBOL (gsdl_sym_minx, "minx");
-SCM_SYMBOL (gsdl_sym_maxx, "maxx");
-SCM_SYMBOL (gsdl_sym_miny, "miny");
-SCM_SYMBOL (gsdl_sym_maxy, "maxy");
-SCM_SYMBOL (gsdl_sym_advance, "advance");
+DECLARE_SIMPLE_SYM (minx);
+DECLARE_SIMPLE_SYM (maxx);
+DECLARE_SIMPLE_SYM (miny);
+DECLARE_SIMPLE_SYM (maxy);
+DECLARE_SIMPLE_SYM (advance);
 
 GH_DEFPROC (ttf_glyph_metrics, "font:glyph-metrics", 2, 0, 0,
             (SCM s_font, SCM s_ch),
@@ -205,17 +206,17 @@ GH_DEFPROC (ttf_glyph_metrics, "font:glyph-metrics", 2, 0, 0,
                     (Uint16) gh_scm2long (s_ch),
                     &minx, &maxx, &miny, &maxy, &advance);
 
-  return SCM_LIST5 (gh_cons (gsdl_sym_minx, gh_long2scm (minx)),
-                    gh_cons (gsdl_sym_maxx, gh_long2scm (maxx)),
-                    gh_cons (gsdl_sym_miny, gh_long2scm (miny)),
-                    gh_cons (gsdl_sym_maxy, gh_long2scm (maxy)),
-                    gh_cons (gsdl_sym_advance, gh_long2scm (advance)));
+  return SCM_LIST5 (gh_cons (SYM (minx), gh_long2scm (minx)),
+                    gh_cons (SYM (maxx), gh_long2scm (maxx)),
+                    gh_cons (SYM (miny), gh_long2scm (miny)),
+                    gh_cons (SYM (maxy), gh_long2scm (maxy)),
+                    gh_cons (SYM (advance), gh_long2scm (advance)));
 }
 #undef FUNC_NAME
 
 
-SCM_SYMBOL (gsdl_sym_w, "w");
-SCM_SYMBOL (gsdl_sym_h, "h");
+DECLARE_SIMPLE_SYM (w);
+DECLARE_SIMPLE_SYM (h);
 
 GH_DEFPROC (ttf_size_text, "font:size-text", 2, 0, 0,
             (SCM s_font, SCM s_text),
@@ -231,8 +232,8 @@ GH_DEFPROC (ttf_size_text, "font:size-text", 2, 0, 0,
   ASSERT_STRING (s_text, ARGH2);
 
   TTF_SizeText (UNPACK_TTFONT (s_font), SCM_CHARS (s_text), &w, &h);
-  return SCM_LIST2 (gh_cons (gsdl_sym_w, gh_long2scm (w)),
-                    gh_cons (gsdl_sym_h, gh_long2scm (h)));
+  return SCM_LIST2 (gh_cons (SYM (w), gh_long2scm (w)),
+                    gh_cons (SYM (h), gh_long2scm (h)));
 }
 #undef FUNC_NAME
 

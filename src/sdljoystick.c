@@ -26,6 +26,7 @@
 #include "argcheck.h"
 #include "sdlsmobs.h"
 #include "retval.h"
+#include "sym.h"
 
 
 static long joystick_tag;
@@ -256,8 +257,8 @@ GH_DEFPROC (joystick_get_axis, "joystick-get-axis", 2, 0, 0,
 #undef FUNC_NAME
 
 
-SCM_SYMBOL (gsdl_sym_dx, "dx");
-SCM_SYMBOL (gsdl_sym_dy, "dy");
+DECLARE_SIMPLE_SYM (dx);
+DECLARE_SIMPLE_SYM (dy);
 
 GH_DEFPROC (joystick_get_ball, "joystick-get-ball", 2, 0, 0,
             (SCM joy_smob,
@@ -282,8 +283,8 @@ GH_DEFPROC (joystick_get_ball, "joystick-get-ball", 2, 0, 0,
     ret = SDL_JoystickGetBall (joy, gh_scm2long (s_index), &dx, &dy);
 
     if (ret != -1) {
-      s_ret = SCM_LIST2 (gh_cons (gsdl_sym_dx, gh_long2scm (dx)),
-                         gh_cons (gsdl_sym_dy, gh_long2scm (dy)));
+      s_ret = SCM_LIST2 (gh_cons (SYM (dx), gh_long2scm (dx)),
+                         gh_cons (SYM (dy), gh_long2scm (dy)));
     }
   }
 

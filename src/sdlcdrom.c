@@ -28,6 +28,7 @@
 #include "argcheck.h"
 #include "sdlsmobs.h"
 #include "retval.h"
+#include "sym.h"
 
 
 static long cdrom_tag;
@@ -212,10 +213,10 @@ GH_DEFPROC (cd_get_cur_frame, "cd-get-cur-frame", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-SCM_SYMBOL (gsdl_sym_offset, "offset");
-SCM_SYMBOL (gsdl_sym_length, "length");
-SCM_SYMBOL (gsdl_sym_type, "type");
-SCM_SYMBOL (gsdl_sym_id, "id");
+DECLARE_SIMPLE_SYM (offset);
+DECLARE_SIMPLE_SYM (length);
+DECLARE_SIMPLE_SYM (type);
+DECLARE_SIMPLE_SYM (id);
 
 GH_DEFPROC (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
             (SCM cd_smob,
@@ -237,10 +238,10 @@ GH_DEFPROC (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
   if ((cd != NULL) && (n < cd->numtracks)) {
     /* Form an assoc list */
     return SCM_LIST4
-      (gh_cons (gsdl_sym_id,     gh_long2scm (cd->track[n].id)),
-       gh_cons (gsdl_sym_type,   gh_long2scm (cd->track[n].type)),
-       gh_cons (gsdl_sym_length, gh_ulong2scm (cd->track[n].length)),
-       gh_cons (gsdl_sym_offset, gh_ulong2scm (cd->track[n].offset)));
+      (gh_cons (SYM (id),     gh_long2scm (cd->track[n].id)),
+       gh_cons (SYM (type),   gh_long2scm (cd->track[n].type)),
+       gh_cons (SYM (length), gh_ulong2scm (cd->track[n].length)),
+       gh_cons (SYM (offset), gh_ulong2scm (cd->track[n].offset)));
   }
   else {
     return SCM_EOL;
@@ -474,9 +475,9 @@ GH_DEFPROC (cd_msf_to_frames, "cd-msf->frames", 1, 2, 0,
 #undef FUNC_NAME
 
 
-SCM_SYMBOL (gsdl_sym_f, "f");
-SCM_SYMBOL (gsdl_sym_s, "s");
-SCM_SYMBOL (gsdl_sym_m, "m");
+DECLARE_SIMPLE_SYM (f);
+DECLARE_SIMPLE_SYM (s);
+DECLARE_SIMPLE_SYM (m);
 
 GH_DEFPROC (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
             (SCM s_frames),
@@ -490,9 +491,9 @@ GH_DEFPROC (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
   frames = gh_scm2ulong (s_frames);
 
   FRAMES_TO_MSF (frames, &m , &s, &f);
-  return SCM_LIST3 (gh_cons (gsdl_sym_m, gh_ulong2scm (m)),
-                    gh_cons (gsdl_sym_s, gh_ulong2scm (s)),
-                    gh_cons (gsdl_sym_f, gh_ulong2scm (f)));
+  return SCM_LIST3 (gh_cons (SYM (m), gh_ulong2scm (m)),
+                    gh_cons (SYM (s), gh_ulong2scm (s)),
+                    gh_cons (SYM (f), gh_ulong2scm (f)));
 }
 #undef FUNC_NAME
 

@@ -27,6 +27,7 @@
 #include "sdlenums.h"
 #include "sdlsmobs.h"
 #include "retval.h"
+#include "sym.h"
 
 GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
@@ -131,10 +132,9 @@ GH_DEFPROC (mix_allocate_channels, "allocated-channels", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-
-SCM_SYMBOL (gsdl_sym_freq, "freq");
-SCM_SYMBOL (gsdl_sym_format, "format");
-SCM_SYMBOL (gsdl_sym_channels, "channels");
+DECLARE_SIMPLE_SYM (freq);
+DECLARE_SIMPLE_SYM (format);
+DECLARE_SIMPLE_SYM (channels);
 
 GH_DEFPROC (mix_query_spec, "query-spec", 0, 0, 0,
             (void),
@@ -151,9 +151,9 @@ GH_DEFPROC (mix_query_spec, "query-spec", 0, 0, 0,
     return SCM_BOOL_F;
   }
 
-  return SCM_LIST3 (gh_cons (gsdl_sym_freq, gh_long2scm (freq)),
-                    gh_cons (gsdl_sym_format, gh_long2scm (format)),
-                    gh_cons (gsdl_sym_channels, gh_long2scm (channels)));
+  return SCM_LIST3 (gh_cons (SYM (freq), gh_long2scm (freq)),
+                    gh_cons (SYM (format), gh_long2scm (format)),
+                    gh_cons (SYM (channels), gh_long2scm (channels)));
 }
 #undef FUNC_NAME
 
