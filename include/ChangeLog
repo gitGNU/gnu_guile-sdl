@@ -1,3 +1,10 @@
+2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* retval.h: New file.
+	* sdlsmobs.h (RETURN_TRUE_IF_0): Move to retval.h.
+	* wholefns.h: Include "retval.h".
+	Use `RETURN_UNSPECIFIED'.
+
 2004-01-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlenums.h, sdlsmobs.h, sdlvideo.h: Update copyright.

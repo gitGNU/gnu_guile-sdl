@@ -1,3 +1,8 @@
+2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlmixer.c: Include "retval.h".
+	Use `RETURN_UNSPECIFIED'.
+
 2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlmixer.c (mix_open_audio): Handle #f same as

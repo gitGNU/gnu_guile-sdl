@@ -1,3 +1,8 @@
+2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlttf.c: Include "retval.h".
+	Use `RETURN_UNSPECIFIED'.
+
 2004-02-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlttf.c (ttf_init): Fix bug: Use `RETURN_TRUE_IF_0'.

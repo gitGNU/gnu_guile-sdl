@@ -1,3 +1,14 @@
+2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdl.c: Include "retval.h".
+	Use `RETURN_UNSPECIFIED'.
+	* sdlcdrom.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlvideo.c: Likewise.
+
 2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlvideo.c (video_mode_ok): Make fourth arg optional.
