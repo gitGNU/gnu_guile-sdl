@@ -1,3 +1,12 @@
+2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlevent.c (make_event): Use `GSDL_ENUM2LONG'.
+	(make_keysym): Likewise.
+	(peep_events): Likewise.
+	(event_state): Likewise.
+
+	* sdlsurface.c (set_alpha): Likewise.
+
 2005-02-05  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlsurface.c (get_clip_rect): Fix omission bug: Allocate rect.
