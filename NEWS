@@ -2,7 +2,13 @@ guile-sdl NEWS --- history of user-visible changes.
 Copyright (C) 2001 Alex Shinn
 See the end for copying conditions.
 
-Please send guile-sdl bug reports to <foof@debian.org>.
+Please send guile-sdl bug reports to <foof@synthcode.com>.
+
+
+* guile-sdl 0.1.7
+
+Most of the merge complete.  Looking to make some minor clean-up and
+bugfixes before a 0.2.0 release.
 
 
 * guile-sdl 0.1.0

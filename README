@@ -1,26 +1,26 @@
-				guile-sdl 0.1.6
+				guile-sdl 0.1.7
 				---------------
 
   guile-sdl is a set of Guile bindings for SDL (Simple DirectMedia
 Layer) to enable Guile programmers to do all the nice things you can
 do with SDL.
 
-  All the functions have been wrapped by hand (Which I later found was
+  All the functions have been wrapped by hand (which I later found was
 a stupid thing to do, but anyway, it's been done).
 
   Most of the SDL functions have been wrapped with the exception of
 few functions that were too C-centric. The SDL Threads and the Audio
 funcions haven't been included because of the problems with Guile code
-being run from more than one thread.However audio programming can be
+being run from more than one thread.  However audio programming can be
 done with the sdl-mixer module that requires the SDL_mixer
-library. YUV overlay functions are not included.
+library.
 
   OpenGL funcions are also included but are not tested. Have a feeling
 that OpenGL can be used through guileGL after getting a OpenGL surface
 from SDL.
 
-  Also included is SDL_rotozoom-1.4 (by A. Schiffler
-<aschiffler@home.com>) and the bindings for them.
+  Also included are SDL_gfxPrimitives-1.4 and SDL_rotozoom-1.4 
+(by A. Schiffler  <aschiffler@home.com>) and the bindings for them.
 
 
 Requirements
@@ -34,8 +34,8 @@ Requirements
 
 Installation
 ------------
- Uses GNU autoconf, automake for building from the sources.
-The only interesting option for configure is --enable-mixer=yes/no to
-optionally provide support for SDL_mixer.If "no" is not specified, SDL_mixer
-will be searched for in the library directories.
+ Uses GNU autoconf, automake for building from the sources.  The only
+interesting option for configure is --enable-mixer=yes/no to
+optionally provide support for SDL_mixer.  If "no" is not specified,
+SDL_mixer will be searched for in the library directories.
 

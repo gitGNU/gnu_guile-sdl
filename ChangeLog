@@ -1,3 +1,9 @@
+2001-08-07  Alex Shinn  <foof@synthcode.com>
+
+	* guile-sdl 0.1.7: return of SDL_gfxPrimitives, all files use the
+	snarfer for both defs and docs, cleanup, bugfixes, testing for
+	libs with autoconf again
+
 2001-07-10  Alex Shinn  <foof@synthcode.com>
 
 	* guile-sdl 0.1.6: building .x and .texi from snarfer defs
