@@ -1,4 +1,7 @@
 - 0.3 "coverage"
+  - handle pre-installed libSDL_gfx
+    - write configure check for it
+    - use it if it is featureful enough
   - write configure check for guile that can load binary modules
   + compiled modules methodology
     + gcc 2.95.4 / binutils 2.12 / libc6 2.2.5
