@@ -30,6 +30,9 @@
 #include "bool.h"
 
 
+static SCM hfold;
+static SCM acons;
+
 static long enum_tag;
 
 typedef struct {
@@ -76,7 +79,7 @@ free_enum (SCM s_enum)
                 : 431))))))
 
 #define MAKE_HASH_TABLE(size) \
-  (scm_make_vector (REASONABLE_BUCKET_COUNT (size), BOOL_FALSE))
+  (scm_make_vector (REASONABLE_BUCKET_COUNT (size), SCM_EOL))
 
 
 /* Register a C enum.  */
@@ -183,6 +186,30 @@ gsdl_long2enum (long value, SCM s_enum_type)
 
 
 /* Scheme level conversions */
+
+GH_DEFPROC (enumstash_enums, "enumstash-enums", 1, 0, 0,
+            (SCM s_enum_type),
+            "Return the list of symbols associated with @var{enum-type}.")
+#define FUNC_NAME s_enumstash_enums
+{
+  SCM rv;
+  enum_struct *enum_type;
+
+  ASSERT_ENUM (s_enum_type, ARGH1);
+
+  enum_type = UNPACK_ENUM (s_enum_type);
+  rv = gh_call3 (hfold, acons, SCM_EOL, enum_type->table);
+  {
+    SCM ls = rv;
+    while (! gh_null_p (ls))
+      {
+        gh_set_car_x (ls, gh_caar (ls));
+        ls = gh_cdr (ls);
+      }
+  }
+  return rv;
+}
+#undef FUNC_NAME
 
 GH_DEFPROC (enum_to_number, "enum->number", 2, 0, 0,
             (SCM s_enum_type,
@@ -436,6 +463,9 @@ gsdl_init_enums (void)
   scm_set_smob_mark  (flagstash_tag, mark_flagstash);
   scm_set_smob_free  (flagstash_tag, free_flagstash);
   scm_set_smob_print (flagstash_tag, print_flagstash);
+
+  acons = gh_lookup ("acons");
+  hfold = gh_lookup ("hash-fold");
 
 #include "sdlenums.x"
 }
