@@ -1,3 +1,31 @@
+2003-11-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdl.c: Update copyright.
+	No longer include <libguile.h>.
+	Include <guile/gh.h>.
+	No longer include "sdl.h".
+	Include "config.h" and "argcheck.h".
+	No longer include "sdlrect.h", "sdlcolor.h", "sdlsurface.h",
+	"sdlvideo.h", "sdlevent.h", "sdlcdrom.h", "sdljoystick.h"
+	and "sdlroto.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(gsdl_init_enums): Add forward decl for this func.
+	(gsdl_init_rect, gsdl_init_color, gsdl_init_video,
+	gsdl_init_surface, gsdl_init_rotozoom, gsdl_init_event,
+	gsdl_init_joystick, gsdl_init_cdrom): Likewise.
+	(gsdl_smob_tags): New var.
+	(sdl_init_flags): Make static.
+	(sdl_get_init_flags): New MDEFLOCEXP func.
+	(gsdl_init_flagstash): New extern var decl.
+	(init_module): Rename from `guile_sdl_init' and make static.
+	Use `gsdl_make_flagstash' and associated arglist to
+	set `sdl_init_flags' instead of `scm_c_define_flag'.
+	Remove call to `scm_c_export'.
+	(scm_init_sdl_sdl_sup_module): New func, declared and
+	defined using macro `MDEFLINKFUNC'.
+
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"
