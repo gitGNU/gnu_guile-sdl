@@ -33,22 +33,18 @@ libguileSDL_la_LDFLAGS =             \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 libguileSDL_la_DEPENDENCIES = sdl.texi sdlevent.texi sdlroto.texi \
-		  sdlsurface.texi sdlvideo.texi sdlcdrom.texi
+			      sdlsurface.texi sdlvideo.texi sdlcdrom.texi \
+		  	      sdljoystick.texi
 
 # snarfing
 GUILE_SNARF = guile-snarf
 
 SUFFIXES = .x
-.c.x:
+%.x: %.c
 	$(GUILE_SNARF) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $< > $@ \
 	|| { rm $@; false; }
 
 DISTCLEANFILES = *.x
-
-# docs
-#info_TEXINFOS = dummy.texi
-#dummy_TEXINFOS  = sdl.texi sdlevent.texi sdlroto.texi \
-#		  sdlsurface.texi sdlvideo.texi
 
 # doc snarfing
 GUILE_SNARF_DOCS = guile-snarf-docs
