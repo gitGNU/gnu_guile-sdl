@@ -1,3 +1,18 @@
+2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* common: New file.
+
+	* cursor.scm: Remove shell-script header.
+	Check vars defined in common file, use `exit-77' as appropriate.
+	* gfx.scm: Likewise.
+	* mixer.scm: Likewise.
+	* rect.scm: Likewise.
+	* ttf.scm: Likewise
+	* event.scm: Likewise.
+	* image.scm: Likewise.
+	* opengl.scm: Likewise.
+	* roto.scm: Likewise.
+
 2003-11-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* cursor.scm: Rewrite header in modern-sh-wrapper style.
