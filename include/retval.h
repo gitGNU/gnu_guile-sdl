@@ -8,8 +8,12 @@
 #define RETURN_UNSPECIFIED \
   return SCM_UNSPECIFIED
 
-/* Integer return values.  */
+/* Return a converted integer.  */
 #define RETURN_INT(exp) \
   return gh_long2scm (exp)
+
+/* Return a converted boolean.  */
+#define RETURN_BOOL(exp) \
+  return gh_bool2scm (exp)
 
 /* retval.h ends here */
