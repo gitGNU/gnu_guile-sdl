@@ -1,0 +1,43 @@
+2003-11-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cursor.scm: Rewrite header in modern-sh-wrapper style.
+	* opengl.scm: Likewise.
+	* image.scm: Likewise.
+
+	* event.scm: Rewrite header in modern-sh-wrapper style.
+	In shell-script header, add checks for env vars
+	NONINTERACTIVE and HAVE_TTF, and exit 77 as appropriate.
+	No longer use module (ice-9 format).
+	Split one `use-modules' into two for `(sdl sdl)' and `(sdl ttf)'.
+	(debug?): New var, init from env var DEBUG.
+	If non-#f, enable debug evaluator and backtrace on error.
+
+	* rect.scm: Rewrite header in modern-sh-wrapper style.
+	(debug?): New var, init from env var DEBUG.
+	If non-#f, enable debug evaluator and backtrace on error.
+	Also, if `debug?', display `sdl-get-video-info' alist.
+
+	* roto.scm: Rewrite header in modern-sh-wrapper style.
+	Replace 15 degrees and one turn,
+	with 27 degrees and 3 turns, respectively.
+
+	* ttf.scm: Rewrite header in modern-sh-wrapper style.
+	In shell-script header, add checks for env var
+	HAVE_TTF, and exit 77 as appropriate.
+	No longer use module (ice-9 format).
+	Split one `use-modules' into two for `(sdl sdl)' and `(sdl ttf)'.
+	(debug?): New var, init from env var DEBUG.
+	If non-#f, enable debug evaluator and backtrace on error.
+
+	* gfx.scm: Rewrite header in modern-sh-wrapper style.
+	Split one `use-modules' into two for `(sdl sdl)' and `(sdl gfx)'.
+	(debug?): New var, init from env var DEBUG.
+	If non-#f, enable debug evaluator and backtrace on error.
+
+	* mixer.scm: Rewrite header in modern-sh-wrapper style.
+	In shell-script header, add check for env var
+	HAVE_MIXER, and exit 77 as appropriate.
+	No longer use module (ice-9 format).
+	Split one `use-modules' into two for `(sdl sdl)' and `(sdl mixer)'.
+	In the case where `sdl-query-spec' returns #f,
+	display informative message before doing exit 77.
