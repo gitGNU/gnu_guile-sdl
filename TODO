@@ -1,10 +1,10 @@
-- 0.2
++ 0.2
   + no longer install in $libdir
   + install under $guilelibsitedir and $GUILE_SITE
-  - documentation
+  + documentation
     + methodology
-    - describe limits/restrictions
-    - include TODO
+    + describe limits/restrictions
+    + include TODO
 
 - 0.3
   - improve documentation content
