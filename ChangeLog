@@ -1,5 +1,10 @@
 2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* autogen.sh: Add commands to create .last-release file,
+	but only if CVS dir exists.
+
+2003-11-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* Makefile.am (EXAMPLE_DIST, TEST_DIST, INCLUDE_DIST): Delete vars.
 	(as_is_dirs): New var.
 	(EXTRA_DIST): Remove $(EXAMPLE_DIST), $(TEST_DIST) and $(INCLUDE_DIST).
