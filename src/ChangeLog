@@ -1,6 +1,10 @@
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
-	* sdlgfx.c (horizontal_flip_surface): Fix typo in scheme name.
+	* sdlgfx.c (horizontal_flip_surface):
+	Fix typo in scheme name.
+
+	* sdlroto.c (horizontal_flip_surface):
+	Rename from `horiztonal_flip_surface'.
 
 2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
