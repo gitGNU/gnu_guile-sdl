@@ -1,3 +1,7 @@
+2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to "0.2.5" for release.
+
 2004-07-13  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* autogen.sh: Bum commands to produce aclocal.m4.
