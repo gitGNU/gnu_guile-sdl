@@ -1,4 +1,5 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
 
 ;; simple image test
@@ -48,3 +49,4 @@
 (sdl-delay 500)
 (sdl-quit)
 
+;;; image.scm ends here

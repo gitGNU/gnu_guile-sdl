@@ -1,4 +1,5 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
 
 ;; simple cursor test
@@ -37,3 +38,4 @@
 ;; quit SDL
 (sdl-quit)
 
+;;; cursor.scm ends here

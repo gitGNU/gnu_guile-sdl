@@ -1,4 +1,5 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
 
 ;; simple opengl test
@@ -40,3 +41,4 @@
 (sdl-delay 3000)
 (sdl-quit)
 
+;;; opengl.scm ends here
