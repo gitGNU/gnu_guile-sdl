@@ -323,7 +323,7 @@ GH_DEFPROC (list_modes, "list-modes", 0, 2, 0,
 #undef FUNC_NAME
 
 
-GH_DEFPROC (video_mode_ok, "video-mode-ok", 4, 0, 0,
+GH_DEFPROC (video_mode_ok, "video-mode-ok", 3, 1, 0,
             (SCM s_width, SCM s_height, SCM s_bpp, SCM s_flags),
             "Check to see if a particular video mode is supported.\n"
             "Args are @var{width}, @var{height}, @var{bpp} (numbers),\n"
@@ -446,7 +446,8 @@ GH_DEFPROC (update_rects, "update-rects", 2, 0, 0,
 
 GH_DEFPROC (flip, "flip", 0, 1, 0,
             (SCM s_surface),
-            "Swap @var{surface} double buffers.\n"
+            "Swap double buffers of the default surface,\n"
+            "or of @var{surface} if specified.\n"
             "The return value is unspecified.")
 #define FUNC_NAME s_flip
 {
@@ -928,10 +929,11 @@ GH_DEFPROC (display_yuv_overlay, "display-yuv-overlay", 2, 0, 0,
 
 /* window manager functions */
 
-GH_DEFPROC (wm_set_caption, "set-caption", 2, 0, 0,
+GH_DEFPROC (wm_set_caption, "set-caption", 1, 1, 0,
             (SCM s_title, SCM s_icon),
             "Set the title-bar and icon name of the display window\n"
-            "to @var{title} and @var{icon} (both strings), respectively.")
+            "to @var{title} and @var{icon} (both strings), respectively.\n"
+            "If @var{icon} is not specified, use @var{title} by default.")
 #define FUNC_NAME s_wm_set_caption
 {
   char *title, *icon;
