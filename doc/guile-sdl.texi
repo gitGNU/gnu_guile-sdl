@@ -56,6 +56,7 @@ your system.
 @menu
 * Introduction::                What is this all about?
 * General SDL::                 General SDL functions
+
 * Video::                       Video and Graphics Functions
 * Events::                      Events and Input Handling
 * Joystick::                    Joystick Handling
@@ -63,7 +64,10 @@ your system.
 * OpenGL::                      OpenGL Interface
 * TrueType::                    TrueType Font Support
 * Audio::                       Audio Support
-* Index::                       Procedure index.
+
+* Miscellaneous Utilities::     Everything Else
+
+* Index::
 @end menu
 
 @node Introduction
