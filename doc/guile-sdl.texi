@@ -69,6 +69,7 @@ procedures are provided in the module @code{(sdl misc-utils)}.
 * Audio::                       Audio Support
 
 * Miscellaneous Utilities::     Everything Else
+* Simple Closures::             Experimental Abstractions
 
 * Index::
 @end menu
