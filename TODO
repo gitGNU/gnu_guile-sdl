@@ -8,6 +8,7 @@
     + include TODO
 
 - 0.3 "coverage"
+  - review for "false-security" constructs
   - improve documentation content
   - /usr/include/SDL/*.h coverage
   - opengl?
