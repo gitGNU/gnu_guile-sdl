@@ -2,7 +2,7 @@
  *  sdlsmobs.h -- Smob helper definitions                          *
  *                                                                 *
  *  Created:    <2001-06-03 20:07:15 foof>                         *
- *  Time-stamp: <2001-07-03 19:04:49 foof>                         *
+ *  Time-stamp: <2001-07-07 21:50:26 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -74,7 +74,6 @@ SCM c_func (SCM s_smob)                                                      \
 SCM c_func (SCM s_smob, SCM s_value)                                         \
 {                                                                            \
   SCM_ASSERT_SMOB (s_smob, c_tag, SCM_ARG1, s_func);                         \
-  SCM_ASSERT (scm_exact_p (s_value), s_value, SCM_ARG2, s_func);             \
   (((c_type) SCM_CDR (s_smob))->c_field) = scm_enum2long (s_value,           \
                                                           s_enum_type,       \
                                                           SCM_ARG1,          \
@@ -97,7 +96,6 @@ SCM c_func (SCM s_smob)                                                      \
 SCM c_func (SCM s_smob, SCM s_value)                                         \
 {                                                                            \
   SCM_ASSERT_SMOB (s_smob, c_tag, SCM_ARG1, s_func);                         \
-  SCM_ASSERT (scm_exact_p (s_value), s_value, SCM_ARG2, s_func);             \
   (((c_type) SCM_CDR (s_smob))->c_field) = scm_flags2ulong (s_value,         \
                                                             s_flag_type,     \
                                                             SCM_ARG1,        \
