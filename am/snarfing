@@ -1,6 +1,6 @@
 ## am/snarfing --- init and documentation snarfing
 
-snarfcppopts	= $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS)
+snarfcppopts	= $(DEFS) -I. -I.. $(AM_CPPFLAGS) $(CPPFLAGS)
 c2doc		= guile-tools c2doc
 mkdocindex	= guile-tools make-twerp2texi-index
 dotdocfiles	= $(WRAPPER_SOURCES:.c=.doc)
