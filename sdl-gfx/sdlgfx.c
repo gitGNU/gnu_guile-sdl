@@ -354,7 +354,7 @@ GH_DEFPROC (draw_aa_trigon, "draw-aa-trigon", 8, 0, 0,
                     gh_scm2long (x1), gh_scm2long (y1),
                     gh_scm2long (x2), gh_scm2long (y2),
                     gh_scm2long (x3), gh_scm2long (y3),
-                    gh_scm2long (color)));
+                    gh_scm2ulong (color)));
 #undef FUNC_NAME
 }
 
