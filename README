@@ -18,7 +18,10 @@ A. Schiffler <aschiffler@home.com>) and bindings for them.
 Requirements
 ------------
 
-* Guile that can load binary module (a b c) from file a/b/c.so on %load-path
+* Guile that
+  can load binary module (a b c)
+         either from file a/b/c.so on %load-path
+             or from file a/b/libc.so on %load-path
 * SDL-1.2
 * SDL_image
 * SDL_mixer (optional, required if audio support is needed)
