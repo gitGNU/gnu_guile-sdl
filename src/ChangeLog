@@ -1,3 +1,10 @@
+2005-04-02  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* misc.c: New file.
+	* Makefile.am (WRAPPER_SOURCES): Add misc.c.
+	* sdl.c (gsdl_init_misc): New extern func decl.
+	(init_module): Call `gsdl_init_misc'.
+
 2005-02-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlvideo.c (print_pixel_format): New static func.
