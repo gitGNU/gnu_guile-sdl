@@ -21,25 +21,6 @@
 
 (define sdl-version "0.1.0")
 
-(export sdl-set-video-mode sdl-version sdl-init sdl-quit sdl-create-rgb-surface
-        sdl-create-rgb-surface-from sdl-create-cursor sdl-fill-rect
-        sdl-create-yuv-overlay sdl-make-rect sdl-make-color sdl-make-palette
-        sdl-make-pixel-format sdl-get-video-surface sdl-get-video-info
-        sdl-video-driver-name sdl-list-modes sdl-video-mode-ok sdl-update-rect
-        sdl-update-rects sdl-flip sdl-set-colors sdl-set-palette sdl-set-gamma
-        sdl-get-gamma-ramp sdl-set-gamma-ramp sdl-map-rgb sdl-map-rgba
-        sdl-get-rgb sdl-get-rgba sdl-free-surface sdl-lock-surface
-        sdl-unlock-surface sdl-load-bmp sdl-save-bmp sdl-set-color-key
-        sdl-set-alpha sdl-set-clip-rect sdl-get-clip-rect sdl-convert-surface
-        sdl-blit-surface sdl-display-format sdl-display-format-alpha
-        sdl-warp-mouse sdl-free-cursor sdl-set-cursor sdl-get-cursor
-        sdl-show-cursor sdl-gl-load-library sdl-gl-get-proc-address
-        sdl-gl-get-attribute sdl-gl-set-attribute sdl-gl-swap-buffers
-        sdl-lock-yuv-overlay sdl-unlock-yuv-overlay sdl-display-yuv-overlay
-        sdl-free-yuv-overlay
-        sdl-load-image
-        )
-
 (if (and (dynamic-object? (dynamic-link "libpthread"))
          (dynamic-object? (dynamic-link "libSDL"))
          (dynamic-object? (dynamic-link "libSDL_image")))
