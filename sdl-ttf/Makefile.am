@@ -35,7 +35,7 @@ libguileSDL_ttf_la_DEPENDENCIES = $(BUILT_DOCS)
 # snarfing
 GUILE_SNARF = guile-snarf
 
-SUFFIXES = .x
+SUFFIXES = .x .texi .doc
 %.x: %.c
 	$(GUILE_SNARF) $< $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) > $@ \
 	|| { rm $@; false; }
@@ -46,8 +46,6 @@ DISTCLEANFILES = *.x
 GUILE_SNARF_DOCS = guile-snarf-docs
 GUILE_SNARF_DOCS_TEXI = guile-snarf-docs-texi
 
-SUFFIXES = .texi .doc
-
 %.doc: %.c
 	$(GUILE_SNARF_DOCS) $(DEFS) $(INCLUDES) -I../include \
 	$(CPPFLAGS) $(CFLAGS) $< > $@ \
@@ -57,4 +55,3 @@ SUFFIXES = .texi .doc
 	touch $@
 #	$(GUILE_SNARF_DOCS_TEXI) $< > $@ \
 #	|| { rm $@; false; }
-

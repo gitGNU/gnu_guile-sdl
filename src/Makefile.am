@@ -38,7 +38,7 @@ libguileSDL_la_DEPENDENCIES = sdl.texi sdlevent.texi sdlroto.texi \
 # snarfing
 GUILE_SNARF = guile-snarf
 
-SUFFIXES = .x
+SUFFIXES = .x .texi .doc
 %.x: %.c
 	$(GUILE_SNARF) $< $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) > $@ \
 	|| { rm $@; false; }
@@ -49,8 +49,6 @@ DISTCLEANFILES = *.x
 GUILE_SNARF_DOCS = guile-snarf-docs
 GUILE_SNARF_DOCS_TEXI = snarf-check-and-output-texi
 
-SUFFIXES = .texi .doc
-
 %.doc: %.c
 	$(GUILE_SNARF_DOCS) $< $(DEFS) $(INCLUDES) -I../include \
 	$(CPPFLAGS) $(CFLAGS) > $@ \
@@ -60,4 +58,3 @@ SUFFIXES = .texi .doc
 	touch $@
 #	cat $< | $(GUILE_SNARF_DOCS_TEXI) > $@ \
 #	|| { rm $@; false; }
-
