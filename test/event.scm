@@ -43,8 +43,9 @@
 (define white (SDL:make-color #xff #xff #xff))
 
 ;; write text centered on screen
-(define (display-centered text)
-  (let* ((rendered (SDL:render-text font text white #t))
+(define (display-centered fstr . args)
+  (let* ((text (apply simple-format #f fstr args))
+         (rendered (SDL:render-text font text white #t))
          (dimensions (SDL:font:size-text font text))
          (width (cdr (assq 'w dimensions)))
          (screen (SDL:get-video-surface))
@@ -64,22 +65,29 @@
         ((SDL_KEYDOWN SDL_KEYUP)
          (let ((sym (SDL:event:key:keysym:sym e))
                (mods (SDL:event:key:keysym:mod e)))
-           (display-centered (simple-format #f "~A: ~A ~A" event-type sym mods))
+           (display-centered "~A: ~A ~A" event-type sym mods)
            (if (eq? sym 'SDLK_ESCAPE)
-             #f
-             (input-loop e))))
+               #f
+               (input-loop e))))
         ((SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP)
          (let ((button (SDL:event:button:button e)))
-           (display-centered (simple-format #f "~A: ~A" event-type button)))
+           (display-centered "~A: ~A" event-type button))
          (input-loop e))
         ((SDL_MOUSEMOTION)
          (let ((x (SDL:event:motion:x e))
                (y (SDL:event:motion:y e)))
-           (display-centered (simple-format #f "~A: ~Ax~A" event-type x y)))
+           (display-centered "~A: ~Ax~A" event-type x y))
          (input-loop e))
         (else
-         (display-centered (simple-format #f "~A" event-type))
+         (display-centered "~A" event-type)
          (input-loop e))))))
+
+;; report event states
+(for-each (lambda (type)
+            (display-centered "~A : ~A"
+                              type (SDL:event-state type 'SDL_QUERY))
+            (SDL:delay 42))
+          (SDL:enumstash-enums SDL:event-types))
 
 ;; display an explanatory message
 (let* ((text "(Press Escape to Quit)")
