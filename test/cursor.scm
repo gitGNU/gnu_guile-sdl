@@ -23,6 +23,12 @@
 (SDL:fill-rect (SDL:get-video-surface) test-rect #xffffff)
 (SDL:flip)
 
+;; move the mouse (rude, but we can live w/ that)
+(SDL:warp-mouse (ash (SDL:surface:w (SDL:get-video-surface)) -1)
+                (ash (SDL:surface:h (SDL:get-video-surface)) -1))
+
+(SDL:delay 1000)
+
 ;; primitive cursor creation (need a higher level one)
 (let* ((data #(85 85 85 85 85 85 85 85 85 85 85 85 85 85 85 85))
        (mask data)
