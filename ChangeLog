@@ -1,3 +1,8 @@
+2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* wily-guile.in (HAVE_TTF, HAVE_MIXER):
+	Allow environment to override these variables.
+
 2003-11-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* wily-guile.in: Use @GUILE@ instead of "guile".
