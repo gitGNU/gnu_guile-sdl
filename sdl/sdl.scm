@@ -19,6 +19,10 @@
 
 (define-module (sdl sdl))
 
+(use-modules (ice-9 syncase))
+
+(export-syntax sdl-with-clip-rect)
+
 (define sdl-version "0.1.0")
 
 (if (and (dynamic-object? (dynamic-link "libpthread"))
@@ -31,3 +35,15 @@
           (dynamic-call "guile_sdl_init" lib)
           (error "could not find libguileSDL") ))
     (error "could not init libSDL or libpthread") )
+
+
+;; some utility functions, need to organize these into modules
+
+(define-syntax sdl-with-clip-rect
+  (syntax-rules ()
+    ((_ rect body ...)
+     (let ((orig-rect (sdl-get-clip-rect (sdl-get-video-surface))))
+       (sdl-set-clip-rect! (sdl-get-video-surface) rect)
+       body ...
+       (sdl-set-clip-rect! (sdl-get-video-surface) orig-rect)))))
+
