@@ -386,12 +386,134 @@ GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
 
 
 
+/*
+ * framerate
+ */
+
+#include "SDL_framerate.h"
+
+static long fpsmgr_tag;
+
+#define ASSERT_FPSMGR(obj,n)  ASSERT_SMOB (obj, fpsmgr_tag, n)
+#define UNPACK_FPSMGR(smob)   (SMOBGET (smob, FPSmanager *))
+
+static
+SCM
+mark_fpsmgr (SCM fpsmgr)
+{
+  return fpsmgr;
+}
+
+static
+size_t
+free_fpsmgr (SCM fpsmgr)
+{
+  free (UNPACK_FPSMGR (fpsmgr));
+  return 0;
+}
+
+static
+int
+print_fpsmgr (SCM fpsmgr, SCM port, scm_print_state *pstate)
+{
+  int chz;
+  FPSmanager *m = UNPACK_FPSMGR (fpsmgr);
+
+  chz = SDL_getFramerate (m);
+
+  scm_puts     ("#<FPS-manager ", port);
+  scm_display (gh_long2scm (chz), port);
+  scm_puts                ("Hz>", port);
+
+  /* Non-zero means success.  */
+  return 1;
+}
+
+
+GH_DEFPROC (make_fps_manager, "make-fps-manager", 0, 1, 0,
+            (SCM n),
+            "Return a FPS manager object to be passed as the first\n"
+            "arg to @code{fps-manager-set!}, @code{fps-manager-get} and\n"
+            "@code{fps-manager-delay!}.\n"
+            "Optional arg @var{n} specifies the value in Hz to\n"
+            "initialize the object (default 30 if not specified).")
+{
+#define FUNC_NAME s_make_fps_manager
+  FPSmanager *m;
+
+  UNBOUND_MEANS_FALSE (n);
+  m = (FPSmanager *) malloc (sizeof (FPSmanager));
+  SDL_initFramerate (m);
+  if (NOT_FALSEP (n))
+    {
+      ASSERT_EXACT (n, ARGH1);
+      SDL_setFramerate (m, gh_scm2int (n));
+    }
+
+  SCM_RETURN_NEWSMOB (fpsmgr_tag, m);
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC (fps_manager_set_x, "fps-manager-set!", 2, 0, 0,
+            (SCM mgr, SCM n),
+            "Arrange for FPS manager @var{mgr} to try to maintain a\n"
+            "frame rate of @var{n} Hz.  Return #f if not successful.")
+{
+#define FUNC_NAME s_fps_manager_set_x
+  ASSERT_FPSMGR (mgr, ARGH1);
+  ASSERT_EXACT (n, ARGH2);
+
+  RETURN_TRUE_IF_0
+    (SDL_setFramerate (UNPACK_FPSMGR (mgr), gh_scm2int (n)));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC (fps_manager_get, "fps-manager-get", 1, 0, 0,
+            (SCM mgr),
+            "Return the frame rate of FPS manager @var{mgr} in Hz,\n"
+            "or #f if unsuccessful.")
+{
+#define FUNC_NAME s_fps_manager_get
+  int ret;
+
+  ASSERT_FPSMGR (mgr, ARGH1);
+
+  ret = SDL_getFramerate (UNPACK_FPSMGR (mgr));
+  return (0 > ret
+          ? SCM_BOOL_F
+          : gh_int2scm (ret));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC (fps_manager_delay_x, "fps-manager-delay!", 1, 0, 0,
+            (SCM mgr),
+            "Request an appropriate delay from FPS manager @var{mgr}.")
+{
+#define FUNC_NAME s_fps_manager_delay_x
+  ASSERT_FPSMGR (mgr, ARGH1);
+
+  SDL_framerateDelay (UNPACK_FPSMGR (mgr));
+
+  RETURN_UNSPECIFIED;
+#undef FUNC_NAME
+}
+
+
+
 /* dispatch */
 
 static
 void
 init_module (void)
 {
+  fpsmgr_tag = scm_make_smob_type ("FPS-manager", sizeof (FPSmanager));
+  scm_set_smob_mark  (fpsmgr_tag, mark_fpsmgr);
+  scm_set_smob_free  (fpsmgr_tag, free_fpsmgr);
+  scm_set_smob_print (fpsmgr_tag, print_fpsmgr);
+
 #include "sdlgfx.x"
 }
 
