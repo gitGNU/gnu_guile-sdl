@@ -12,6 +12,7 @@ Here are some cvs tags and their meanings:
 
   ok-1   -- passes "make && make check"
   ok-2   -- like ok-1, plus doc snarfing (doc/guile-sdl.info available)
+  ok-3   -- like ok-2, plus "make install" (w/ module catalog update)
 
 
 Happy hacking!
