@@ -1,3 +1,19 @@
+2004-09-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdl-gfx/sdlgfx.c: Cleanup/synchronize formals and docstrings.
+	* sdl-mixer/sdlmixer.c: Likewise.
+	* sdl-ttf/sdlttf.c: Likewise.
+	* src/sdlcdrom.c: Likewise.
+	* src/sdlcolor.c: Likewise.
+	* src/sdlenums.c: Likewise.
+	* src/sdlevent.c: Likewise.
+	* src/sdlgfx.c: Likewise.
+	* src/sdljoystick.c: Likewise.
+	* src/sdlrect.c: Likewise.
+	* src/sdlroto.c: Likewise.
+	* src/sdlsurface.c: Likewise.
+	* src/sdlvideo.c: Likewise.
+
 2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* configure.in (VERSION): Bump to "0.2.5" for release.
