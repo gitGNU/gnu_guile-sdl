@@ -309,23 +309,34 @@ GH_DEFPROC (set_color_key, "set-color-key!", 3, 0, 0,
 }
 
 
-GH_DEFPROC (set_alpha, "set-alpha!", 3, 0, 0,
+GH_DEFPROC (set_alpha, "set-alpha!", 2, 1, 0,
             (SCM surface,
              SCM flag,
              SCM alpha),
             "Adjust @var{surface} alpha properties as specified by\n"
-            "@var{flag} (see @code{flagstash:video}) and @var{alpha}.")
+            "@var{flag} (see @code{flagstash:video}) and @var{alpha}\n"
+            "(one of the symbols @code{SDL_ALPHA_OPAQUE} or\n"
+            "@code{SDL_ALPHA_TRANSPARENT}, or a number 0-255).\n"
+            "If @var{flag} is #f, ignore @var{alpha} completely.")
 {
 #define FUNC_NAME s_set_alpha
   Uint32 cflag;
   Uint8 calpha;
 
   ASSERT_SURFACE (surface, ARGH1);
-  /* hmmm, why was this here? --ttn */
-  /* ASSERT_EXACT (flag, ARGH2); */
-  ASSERT_EXACT (alpha, ARGH3);
+  if (EXACTLY_FALSEP (flag) || gh_null_p (flag))
+    {
+      flag = SCM_BOOL_F;
+      alpha = SCM_INUM0;
+    }
+  if (UNBOUNDP (alpha))
+    alpha = SCM_INUM0;
+  else
+    ASSERT_EXACT (alpha, ARGH3);
 
-  cflag  = GSDL_FLAGS2ULONG (flag, gsdl_video_flags, ARGH2);
+  cflag = (EXACTLY_FALSEP (flag)
+           ? 0
+           : GSDL_FLAGS2ULONG (flag, gsdl_video_flags, ARGH2));
   calpha = (Uint8) GSDL_ENUM2LONG (alpha, gsdl_alpha_enums, ARGH3);
 
   RETURN_TRUE_IF_0
