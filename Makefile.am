@@ -9,10 +9,7 @@ TESTS = alive.test \
 	test/rect.scm test/image.scm test/event.scm test/mixer.scm \
         test/ttf.scm  test/cursor.scm test/roto.scm test/gfx.scm
 
-TESTS_ENVIRONMENT = \
-  HAVE_TTF=$(HAVE_TTF) \
-  HAVE_MIXER=$(HAVE_MIXER) \
-  GUILE_MERGED_MODULE_CATALOG=`pwd`/pre-inst.merged-module-catalog
+TESTS_ENVIRONMENT = ./wily-guile -l $(srcdir)/test/common -s
 
 # distribution
 EXAMPLE_DIST =  examples/README \
