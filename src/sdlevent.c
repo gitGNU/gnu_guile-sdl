@@ -173,12 +173,12 @@ GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
 #define NUM2_GETTER(a    ,    b)                \
   NUMBER_GETTER   (#a   ":"  #b,                \
                     a ## _ ## b,                \
-                    a ## . ## b)
+                    a    .    b)
 
 #define NUM2_SETTER(a      ,      b)            \
   NUMBER_SETTER   (#a   ":set-"  #b "!",        \
                     a ## _set_ ## b,            \
-                    a ##   .   ## b)
+                    a      .      b)
 
 #define NUM2_GETSET(a, b) \
   NUM2_GETTER (a, b)      \
@@ -188,12 +188,12 @@ GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
 #define NUM3_GETTER(a    ,    b    ,    c)      \
   NUMBER_GETTER   (#a   ":"  #b   ":"  #c,      \
                     a ## _ ## b ## _ ## c,      \
-                    a ## . ## b ## . ## c)
+                    a    .    b    .    c)
 
 #define NUM3_SETTER(a    ,    b      ,      c)          \
   NUMBER_SETTER   (#a   ":"  #b   ":set-"  #c "!",      \
                     a ## _ ## b ## _set_ ## c,          \
-                    a ## . ## b ##   .   ## c)
+                    a    .    b      .      c)
 
 #define NUM3_GETSET(a, b, c) \
   NUM3_GETTER (a, b, c)      \
