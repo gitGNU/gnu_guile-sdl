@@ -23,10 +23,10 @@
 #define GUILE_SDL_SMOBS_H
 
 /* useful type-checking for smobs */
-#define ASSERT_SMOB(arg, tag, error)                    \
-  SCM_ASSERT ((SCM_NIMP (arg)                           \
-                 && (long) SCM_CAR (arg) == tag),       \
-                arg, error, FUNC_NAME)
+#define ASSERT_SMOB(smob, tag, which)                   \
+  SCM_ASSERT ((SCM_NIMP (smob)                          \
+               && (long) SCM_CAR (smob) == (tag)),      \
+              (smob), (which), FUNC_NAME)
 
 #define SMOBGET(smob,c_type)       ((c_type) SCM_SMOB_DATA (smob))
 #define SMOBSET(smob,val)          (SCM_SET_SMOB_DATA (smob, val))
