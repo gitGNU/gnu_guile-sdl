@@ -21,8 +21,9 @@
 ;; display audio device info
 (let ((specs (sdl-query-spec)))
   (display (format #f "Opened audio at ~A Hz ~A bit ~A\n"
-                   (car specs) (logand (cadr specs) #xFF)
-                   (if (> (caddr specs) 1) "stereo" "mono"))))
+                   (cdr (assq 'freq specs))
+                   (logand (cdr (assq 'format specs)) #xFF)
+                   (if (> (cdr (assq 'channels specs)) 1) "stereo" "mono"))))
 
 
 ;; load a wav file
