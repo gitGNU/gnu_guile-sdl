@@ -853,9 +853,9 @@ init_module (void)
   /* enums */
   fading_status_enum = gsdl_define_enum (
       "fading-status",
-      "MIX_NO_FADING",      MIX_NO_FADING,
-      "MIX_FADING_OUT",     MIX_FADING_OUT,
-      "MIX_FADING_IN",      MIX_FADING_IN,
+      GSDL_CSCS (MIX_NO_FADING),
+      GSDL_CSCS (MIX_FADING_OUT),
+      GSDL_CSCS (MIX_FADING_IN),
       NULL);
 
 #include "sdlmixer.x"
