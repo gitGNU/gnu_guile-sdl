@@ -71,11 +71,10 @@ free_font (SCM s_font)
 
 GH_DEFPROC (ttf_init, "ttf-init", 0, 0, 0,
             (void),
-            "Initialize the SDL_ttf subsystem.")
+            "Initialize the SDL_ttf subsystem.  Return #t if successful.")
 #define FUNC_NAME s_ttf_init
 {
-  return gh_bool2scm
-    (TTF_Init ());
+  RETURN_TRUE_IF_0 (TTF_Init ());
 }
 #undef FUNC_NAME
 
