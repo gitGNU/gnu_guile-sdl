@@ -21,7 +21,7 @@ guile-sdl.info: $(BUILT_SOURCES)
 	  -I ../sdl-mixer/.doc-index \
 	  -o $@ $<
 
-EXTRA_DIST = ref.twerp ef-ref.twerp cov
+EXTRA_DIST = ref.twerp ef-ref.twerp cov TODO-excerpt
 
 TESTS_ENVIRONMENT = srcdir=$(srcdir)
 
