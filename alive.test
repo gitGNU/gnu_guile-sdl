@@ -51,6 +51,8 @@ SDL:flags->number
        (d>> "loading (sdl mixer)")
        (use-modules (sdl mixer))))
 
+(use-modules (sdl simple))
+
 (exit #t)
 
 ;;; alive.test ends here
