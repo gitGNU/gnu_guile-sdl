@@ -1,9 +1,5 @@
 /*******************************************************************
- *  event.c -- SDL input handling for Guile                        *
- *                                                                 *
- *  Created:    <2001-05-27 13:58:16 foof>                         *
- *  Time-stamp: <2001-07-06 03:11:39 foof>                         *
- *  Author:     Alex Shinn <foof@debian.org>                       *
+ *  sdlevent.c -- SDL input handling for Guile                     *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
  *                                                                 *
@@ -82,7 +78,8 @@ SCM make_keysym (SCM sym, SCM mod)
   /* set the mod if given */
   if (mod != SCM_UNDEFINED) {
     SCM_ASSERT (scm_exact_p (mod), mod, SCM_ARG2, "sdl-make-keysym");
-    keysym->mod = (SDLMod) scm_num2long (mod, SCM_ARG1, "scm_num2long");
+    keysym->mod = (SDLMod) scm_flags2ulong (mod, event_mod_flags,
+                                            SCM_ARG2, "sdl-make-keysym");
   }
 
   /* return the new smob */
@@ -219,7 +216,7 @@ SCM poll_event (SCM event)
     result = SDL_PollEvent ((SDL_Event*) SCM_CDR (event));
   }
 
-  return scm_long2num (result);
+  return result ? SCM_BOOL_T : SCM_BOOL_F;
 }
 
 /* extern DECLSPEC int SDL_WaitEvent(SDL_Event *event); */
@@ -236,7 +233,7 @@ SCM wait_event (SCM event)
     result = SDL_WaitEvent ((SDL_Event*) SCM_CDR (event));
   }
 
-  return scm_long2num (result);
+  return result ? SCM_BOOL_T : SCM_BOOL_F;
 }
 
 /* extern DECLSPEC int SDL_PushEvent(SDL_Event *event); */
@@ -318,7 +315,7 @@ sdl_get_key_state (SCM numkeys)
 SCM
 sdl_get_mod_state (void)
 {
-  return scm_long2num (SDL_GetModState ());
+  return scm_ulong2flags (SDL_GetModState (), event_mod_flags);
 }
 
 /*
@@ -328,8 +325,9 @@ sdl_get_mod_state (void)
 SCM
 sdl_set_mod_state (SCM modstate)
 {
-  SCM_ASSERT (scm_exact_p (modstate), modstate, SCM_ARG1, "sdl-set-mod-state");
-  SDL_SetModState (scm_num2long (modstate, SCM_ARG1, "scm_num2long"));
+  /* SCM_ASSERT (scm_exact_p (modstate), modstate, SCM_ARG1, "sdl-set-mod-state"); */
+  SDL_SetModState (scm_flags2ulong (modstate, event_mod_flags, SCM_ARG1,
+                                    "sdl-set-mod-state"));
   return SCM_UNSPECIFIED;
 }
 
