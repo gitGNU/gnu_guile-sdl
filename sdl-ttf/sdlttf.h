@@ -2,7 +2,7 @@
  *  ttf.h -- SDL_ttf for Guile                                     *
  *                                                                 *
  *  Created:    <2001-06-11 18:03:28 foof>                         *
- *  Time-stamp: <2001-06-25 01:05:18 foof>                         *
+ *  Time-stamp: <2001-07-28 23:54:01 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -36,6 +36,7 @@
 
 /* smob tags */
 extern long ttf_font_tag;
+extern SCM sdl_ttf_flags;
 
 /* Initialize the TTF engine - returns 0 if successful, -1 on error */
 SCM ttf_init (void);

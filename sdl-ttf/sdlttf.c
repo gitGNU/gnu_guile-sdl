@@ -2,7 +2,7 @@
  *  ttf.c -- SDL_ttf for Guile                                     *
  *                                                                 *
  *  Created:    <2001-06-11 18:03:28 foof>                         *
- *  Time-stamp: <2001-07-05 14:26:36 foof>                         *
+ *  Time-stamp: <2001-07-29 00:11:55 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -28,6 +28,7 @@
 
 /* smob tags */
 long ttf_font_tag;
+SCM sdl_ttf_flags;
 
 SCM
 ttf_init (void)
@@ -52,16 +53,19 @@ ttf_load_font (SCM file, SCM ptsize)
    This font style is implemented by modifying the font glyphs, and
    doesn't reflect any inherent properties of the truetype font file.
 */
-SCM
-ttf_get_font_style (SCM s_font)
-{
-  TTF_Font *font;
+SCM 
+ttf_get_font_style (SCM s_font) 
+{ 
+  TTF_Font *font; 
 
-  SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:style");
-  font = (TTF_Font*) SCM_SMOB_DATA (s_font);
+  SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:style"); 
+  font = (TTF_Font*) SCM_SMOB_DATA (s_font); 
 
-  return scm_long2num (TTF_GetFontStyle (font));
-}
+  return scm_ulong2flags (TTF_GetFontStyle (font), sdl_ttf_flags); 
+} 
+
+/* SCM_DEFINE_FLAG_GETTER ("sdl-font:style", ttf_get_font_style, ttf_font_tag, */
+/*                         TTF_Font*, , sdl_ttf_flags) */
 
 SCM
 ttf_set_font_style (SCM s_font, SCM s_style)
@@ -70,10 +74,10 @@ ttf_set_font_style (SCM s_font, SCM s_style)
   int style;
 
   SCM_ASSERT_SMOB (s_font, ttf_font_tag, SCM_ARG1, "sdl-font:set-style!");
-  SCM_ASSERT (scm_exact_p (s_style), s_style, SCM_ARG2, "sdl-font:set-style!");
+  /* SCM_ASSERT (scm_exact_p (s_style), s_style, SCM_ARG2, "sdl-font:set-style!"); */
 
   font = (TTF_Font*) SCM_SMOB_DATA (s_font);
-  style = scm_num2long (s_style, SCM_ARG1, "scm_num2long");
+  style = scm_flags2ulong (s_style, sdl_ttf_flags, SCM_ARG1, "scm_num2long");
 
   TTF_SetFontStyle (font, style);
   return SCM_UNSPECIFIED;
@@ -325,6 +329,15 @@ sdl_ttf_init (void)
   ttf_font_tag = scm_make_smob_type ("font", sizeof (struct TTF_Font*));
   scm_set_smob_free (ttf_font_tag, free_font);
 
+  /* init flags */
+  sdl_ttf_flags = scm_c_define_flag (
+    "sdl-ttf-flags",
+    "TTF_STYLE_NORMAL",      TTF_STYLE_NORMAL,
+    "TTF_STYLE_BOLD",        TTF_STYLE_BOLD,
+    "TTF_STYLE_ITALIC",      TTF_STYLE_ITALIC,
+    "TTF_STYLE_UNDERLINE",   TTF_STYLE_UNDERLINE,
+    NULL);
+
   /* functions */
   scm_c_define_gsubr ("sdl-ttf-init",            0, 0, 0, ttf_init);
   scm_c_define_gsubr ("sdl-ttf-quit",            0, 0, 0, ttf_quit);
@@ -344,6 +357,7 @@ sdl_ttf_init (void)
 
   /* exported symbols */
   scm_c_export (
+    "sdl-ttf-flags",
     "sdl-ttf-init",             "sdl-ttf-quit",           "sdl-load-font",
     "sdl-font:style",           "sdl-font:set-style!",    "sdl-font:height",
     "sdl-font:ascent",          "sdl-font:descent",       "sdl-font:line-skip",
