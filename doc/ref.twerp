@@ -364,4 +364,12 @@
 @twerpdoc (set-music-command)
 @twerpdoc (close-audio)
 
+@node Miscellaneous Utilities
+@chapter Miscellaneous Utilities
+
+These are available in module @code{(sdl misc-utils)}.
+
+@twerpdoc (call-with-clip-rect)
+@twerpdoc (rotate-square)
+
 @c ref.twerp ends here
