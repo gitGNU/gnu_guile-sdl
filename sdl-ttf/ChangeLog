@@ -1,3 +1,8 @@
+2004-02-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlttf.c (ttf_init): Revert 2004-02-23 change:
+	Use `RETURN_INT' instead of `RETURN_TRUE_IF_0'.
+
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlttf.c: Use `RETURN_INT'.
