@@ -1,5 +1,10 @@
 2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (TESTS_ENVIRONMENT): Rewrite to use
+	"./wily-guile -l $(srcdir)/test/common -s" for each test.
+
+2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* wily-guile.in: New file.
 
 	* configure.in (AC_CONFIG_FILES): Add wily-guile.
