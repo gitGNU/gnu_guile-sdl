@@ -6,6 +6,7 @@
 ** Port to Windows/Mac OSX/BeOS
 ** Look into a unified guile-gtk enum/flag method
 ** Switch to an automated wrapper generater
+** Create debian package
 
 * Wrappers
 
@@ -13,7 +14,6 @@
 ** Provide better defaults
 ** Consider low-level audio wrappers
 ** Consider timer wrappers
-** Bugfixes
 
 * Docs
 
