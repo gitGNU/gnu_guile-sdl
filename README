@@ -1,32 +1,25 @@
-                              guile-sdl 0.1.8
-                              ---------------
+Introduction
+------------
 
-  guile-sdl is a set of Guile bindings for SDL (Simple DirectMedia
-Layer) to enable Guile programmers to do all the nice things you can
-do with SDL.
+This directory contains guile-sdl, a set of modules that provide bindings for
+SDL (Simple DirectMedia Layer) to enable Guile programmers to do all the nice
+things you can do with SDL.
 
-  All the functions have been wrapped by hand (which I later found was
-a stupid thing to do, but anyway, it's been done).
+Most of the SDL functions have been wrapped with the exception of a few
+functions that were too C-centric.  The SDL Threads and the Audio funcions
+haven't been included because of the problems with Guile code being run from
+more than one thread.  However audio programming can be done with the module
+`(sdl mixer)' that requires the SDL_mixer library.
 
-  Most of the SDL functions have been wrapped with the exception of
-few functions that were too C-centric. The SDL Threads and the Audio
-funcions haven't been included because of the problems with Guile code
-being run from more than one thread.  However audio programming can be
-done with the sdl-mixer module that requires the SDL_mixer
-library.
-
-  OpenGL funcions are also included but are not tested. Have a feeling
-that OpenGL can be used through guileGL after getting a OpenGL surface
-from SDL.
-
-  Also included are SDL_gfxPrimitives-1.4 and SDL_rotozoom-1.4 
-(by A. Schiffler  <aschiffler@home.com>) and the bindings for them.
+Also included are SDL_gfxPrimitives-1.4 and SDL_rotozoom-1.4
+(by A. Schiffler  <aschiffler@home.com>) and bindings for them.
 
 
 Requirements
 ------------
-* Guile     (Used guile-1.6 for testing)
-* SDL-1.2 
+
+* Guile
+* SDL-1.2
 * SDL_image
 * SDL_mixer (optional, required if audio support is needed)
 * SDL_ttf (optional, required if truetype font support is needed)
@@ -34,8 +27,18 @@ Requirements
 
 Installation
 ------------
- Uses GNU autoconf, automake for building from the sources.  The only
-interesting option for configure is --enable-mixer=yes/no to
-optionally provide support for SDL_mixer.  If "no" is not specified,
-SDL_mixer will be searched for in the library directories.
 
+See file INSTALL for generic installation instructions.  Briefly:
+
+  ./configure [--disable-mixer] [--disable-ttf]
+  make
+  make check [INTERACTIVE=1]
+  make install
+
+By default, configuration tries to find the libSDL_mixer and libSDL_ttf
+libs and headers to build modules (sdl mixer) and (sdl ttf), respectively.
+If they are not found, these modules will not be installed.
+
+By default, "make check" runs only tests which do not require user
+interaction.  You can specify `INTERACTIVE=1' to enable running these
+particular tests.
