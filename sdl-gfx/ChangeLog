@@ -1,5 +1,15 @@
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* Makefile.am (AM_CPPFLAGS): No longer
+	use "-I$(srcdir)/SDL_gfxPrimitives".
+	Instead, use "-I$(srcdir)/SDL_gfx".
+	(SUBDIRS): Remove SDL_gfxPrimitives. Add SDL_gfx.
+	(gfx_la_FLAGS): No longer specify
+	"-LSDL_gfxPrimitives" and "-lSDL_gfxPrimitives".
+	Instead, specify "-LSDL_gfx" and "-lSDL_gfx".
+
+2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* SDL_gfx/Makefile.am: New file.
 
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
