@@ -1,3 +1,17 @@
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (AM_CPPFLAGS): Add $(srcdir) variants.
+	(lib_LTLIBRARIES): Delete directive.
+	(libguileSDL_gfx_la_SOURCES): Likewise.
+	(libguileSDL_gfx_la_CFLAGS): Likewise.
+	(libguileSDL_gfx_la_LIBADD): Likewise.
+	(libguileSDL_gfx_la_LDFLAGS): Likewise.
+	(libguileSDL_gfx_la_DEPENDENCIES): Likewise.
+	(cmoddir): New var.
+	(cmod_LTLIBRARIES, gfx_la_SOURCES, gfx_la_LDFLAGS): New directives.
+	(GUILE_SNARF): Delete var.
+	(.c.x): Rewrite to use $(c2x).
+
 2003-10-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (CC, CFLAGS, LIBS): Delete vars.
