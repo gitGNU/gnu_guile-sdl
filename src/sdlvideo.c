@@ -143,8 +143,8 @@ GH_DEFPROC (create_cursor, "create-cursor", 6, 0, 0,
             "Return a new cursor from @var{data} and @var{mask}\n"
             "(vectors), sized @var{width} by @var{height}\n"
             "and with hot pixel located at @var{hotx},@var{hoty}.")
-#define FUNC_NAME s_create_cursor
 {
+#define FUNC_NAME s_create_cursor
   SDL_Cursor *cursor;
   Uint8 *data, *mask;
 
@@ -172,8 +172,8 @@ GH_DEFPROC (create_cursor, "create-cursor", 6, 0, 0,
 
   /* Return the new smob.  */
   RETURN_NEW_CURSOR (cursor);
-}
 #undef FUNC_NAME
+}
 
 
 #define GSDL_FLAG2ULONG(flag,table) \
@@ -185,8 +185,8 @@ GH_DEFPROC (create_yuv_overlay, "create-yuv-overlay", 3, 1, 0,
             "with format @var{f} (a symbol or an exact number).  Optional\n"
             "arg @var{display} specifies a surface to use instead of\n"
             "creating a new one.")
-#define FUNC_NAME s_create_yuv_overlay
 {
+#define FUNC_NAME s_create_yuv_overlay
   Uint32 format;
   SDL_Surface *display;
 
@@ -214,18 +214,18 @@ GH_DEFPROC (create_yuv_overlay, "create-yuv-overlay", 3, 1, 0,
                            gh_scm2long (s_height),
                            format,
                            display));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (get_video_surface, "get-video-surface", 0, 0, 0,
             (void),
             "Return the current display surface.")
-#define FUNC_NAME s_get_video_surface
 {
+#define FUNC_NAME s_get_video_surface
   RETURN_NEW_SURFACE (SDL_GetVideoSurface ());
-}
 #undef FUNC_NAME
+}
 
 
 DECLARE_SYM (hw_available, "hw-available");
@@ -247,8 +247,8 @@ GH_DEFPROC (get_video_info, "get-video-info", 0, 0, 0,
             "@code{bit-hw}, @code{blit-hw-CC}, @code{blit-hw-A},\n"
             "@code{blit-sw}, @code{blit-sw-CC}, @code{blit-sw-A},\n"
             "@code{blit-fill}, @code{video-mem} and @code{vfmt}.")
-#define FUNC_NAME s_get_video_info
 {
+#define FUNC_NAME s_get_video_info
   const SDL_VideoInfo *info = SDL_GetVideoInfo ();
   SCM format;
 
@@ -266,20 +266,20 @@ GH_DEFPROC (get_video_info, "get-video-info", 0, 0, 0,
      gh_cons (SYM (blit_fill),    gh_ulong2scm (info->blit_fill)),
      gh_cons (SYM (video_mem),    gh_ulong2scm (info->video_mem)),
      gh_cons (SYM (vfmt),         format));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (video_driver_name, "video-driver-name", 0, 0, 0,
             (void),
             "Return the name of the video driver.")
-#define FUNC_NAME s_video_driver_name
 {
+#define FUNC_NAME s_video_driver_name
   char name[MAX_DRIVER_LEN];
   SDL_VideoDriverName (name, MAX_DRIVER_LEN);
   RETURN_0STR (name);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (list_modes, "list-modes", 0, 2, 0,
@@ -289,8 +289,8 @@ GH_DEFPROC (list_modes, "list-modes", 0, 2, 0,
             "the current screen.  Flags default to none\n"
             "(see @code{flagstash:video}).\n"
             "Return #f if no modes are available, #t if all are available.")
-#define FUNC_NAME s_list_modes
 {
+#define FUNC_NAME s_list_modes
   SDL_PixelFormat *format = NULL;
   Uint32 flags = 0;
   SDL_Rect **modes;
@@ -333,8 +333,8 @@ GH_DEFPROC (list_modes, "list-modes", 0, 2, 0,
         }
     }
   return result;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (video_mode_ok, "video-mode-ok", 3, 1, 0,
@@ -345,8 +345,8 @@ GH_DEFPROC (video_mode_ok, "video-mode-ok", 3, 1, 0,
             "Return #f if the mode is not supported, or a number\n"
             "indicating the bits-per-pixel of the closest available\n"
             "mode supporting @var{width} and @var{height}.")
-#define FUNC_NAME s_video_mode_ok
 {
+#define FUNC_NAME s_video_mode_ok
   Uint32 flags = 0;
   int result;
 
@@ -362,8 +362,8 @@ GH_DEFPROC (video_mode_ok, "video-mode-ok", 3, 1, 0,
                             gh_scm2long (s_bpp),
                             flags);
   return result ? gh_long2scm (result) : BOOL_FALSE;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (set_video_mode, "set-video-mode", 3, 1, 0,
@@ -372,8 +372,8 @@ GH_DEFPROC (set_video_mode, "set-video-mode", 3, 1, 0,
             "@var{h} and bits-per-pixel @var{bpp}.  Optional arg\n"
             "@var{flags} (see @code{flagstash:video}) is supported.\n"
             "Return a new surface.")
-#define FUNC_NAME s_set_video_mode
 {
+#define FUNC_NAME s_set_video_mode
   Uint32 flags = 0;
 
   ASSERT_EXACT (s_width,  ARGH1);
@@ -388,8 +388,8 @@ GH_DEFPROC (set_video_mode, "set-video-mode", 3, 1, 0,
                        gh_scm2long (s_height),
                        gh_scm2long (s_bpp),
                        flags));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (update_rect, "update-rect", 2, 3, 0,
@@ -399,8 +399,8 @@ GH_DEFPROC (update_rect, "update-rect", 2, 3, 0,
             "the second through fifth args are numbers specifying\n"
             "the x, y, width and height of a rectangular area.\n"
             "The return value is unspecified.")
-#define FUNC_NAME s_update_rect
 {
+#define FUNC_NAME s_update_rect
   SDL_Rect *rect;
   Sint32 x, y, w, h;
 
@@ -430,16 +430,16 @@ GH_DEFPROC (update_rect, "update-rect", 2, 3, 0,
 
   SDL_UpdateRect (UNPACK_SURFACE (s_surface), x, y, w, h);
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (update_rects, "update-rects", 2, 0, 0,
             (SCM s_surface, SCM ls),
             "On @var{surface}, update the rectangles in @var{ls}.\n"
             "The return value is unspecified.")
-#define FUNC_NAME s_update_rects
 {
+#define FUNC_NAME s_update_rects
   SDL_Surface *surface;
   SDL_Rect *rect;
   SCM p;
@@ -456,8 +456,8 @@ GH_DEFPROC (update_rects, "update-rects", 2, 0, 0,
       SDL_UpdateRect (surface, rect->x, rect->y, rect->w, rect->h);
     }
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (flip, "flip", 0, 1, 0,
@@ -465,8 +465,8 @@ GH_DEFPROC (flip, "flip", 0, 1, 0,
             "Swap double buffers of the default surface,\n"
             "or of @var{surface} if specified.\n"
             "The return value is unspecified.")
-#define FUNC_NAME s_flip
 {
+#define FUNC_NAME s_flip
   SDL_Surface *surface;
 
   if (BOUNDP (s_surface))
@@ -479,16 +479,16 @@ GH_DEFPROC (flip, "flip", 0, 1, 0,
 
   SDL_Flip (surface);
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (set_colors, "set-colors!", 2, 0, 0,
             (SCM s_surface, SCM s_colors),
             "Set a portion of the colormap for the 8-bit @var{surface}\n"
             "using @var{colors}, a vector of SDL-Colors.")
-#define FUNC_NAME s_set_colors
 {
+#define FUNC_NAME s_set_colors
   SDL_Color *colors;
   SDL_Color *color;
   int i, length, result;
@@ -511,8 +511,8 @@ GH_DEFPROC (set_colors, "set-colors!", 2, 0, 0,
 
   RETURN_BOOL
     (result);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (set_palette, "set-palette", 3, 0, 0,
@@ -520,8 +520,8 @@ GH_DEFPROC (set_palette, "set-palette", 3, 0, 0,
             "Set the palette of an 8-bit @var{surface}\n"
             "using @var{flags} (see @code{flagstash:palette}) and\n"
             "@var{colors}, a vector of SDL-Colors.")
-#define FUNC_NAME s_set_palette
 {
+#define FUNC_NAME s_set_palette
   SDL_Color *colors;
   SDL_Color *color;
   int flags, i, length, result;
@@ -545,8 +545,8 @@ GH_DEFPROC (set_palette, "set-palette", 3, 0, 0,
 
   RETURN_BOOL
     (result);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (set_gamma, "set-gamma", 3, 0, 0,
@@ -554,8 +554,8 @@ GH_DEFPROC (set_gamma, "set-gamma", 3, 0, 0,
             "Set the color gamma function for the display\n"
             "using real numbers @var{redgamma}, @var{greengamma}\n"
             "and @var{bluegamma}.")
-#define FUNC_NAME s_set_gamma
 {
+#define FUNC_NAME s_set_gamma
   ASSERT_NUMBER (s_redgamma,   ARGH1);
   ASSERT_NUMBER (s_greengamma, ARGH2);
   ASSERT_NUMBER (s_bluegamma,  ARGH3);
@@ -564,8 +564,8 @@ GH_DEFPROC (set_gamma, "set-gamma", 3, 0, 0,
     (SDL_SetGamma ((float) SCM_REAL_VALUE (s_redgamma),
                    (float) SCM_REAL_VALUE (s_greengamma),
                    (float) SCM_REAL_VALUE (s_bluegamma)));
-}
 #undef FUNC_NAME
+}
 
 DECLARE_SIMPLE_SYM (redtable);
 DECLARE_SIMPLE_SYM (greentable);
@@ -580,8 +580,8 @@ GH_DEFPROC (get_gamma_ramp, "get-gamma-ramp", 0, 0, 0,
             "Return an alist with keys @code{redtable}, @code{greentable}\n"
             "and @code{bluetable}, and values the corresponding vectors.\n"
             "Return #f if unsuccesful.")
-#define FUNC_NAME s_get_gamma_ramp
 {
+#define FUNC_NAME s_get_gamma_ramp
   Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
 
   if (SDL_GetGammaRamp (rt, gt, bt) == -1)
@@ -590,8 +590,8 @@ GH_DEFPROC (get_gamma_ramp, "get-gamma-ramp", 0, 0, 0,
   RETURN_LIST3 (gh_cons (SYM (redtable),   GAMMAVEC (rt)),
                 gh_cons (SYM (greentable), GAMMAVEC (gt)),
                 gh_cons (SYM (bluetable),  GAMMAVEC (bt)));
-}
 #undef FUNC_NAME
+}
 
 
 #define ASSERT_VSZFIT(v,which)                          \
@@ -605,8 +605,8 @@ GH_DEFPROC (set_gamma_ramp, "set-gamma-ramp", 3, 0, 0,
             "used by the display, for @var{redtable}, @var{greentable}\n"
             "and @var{bluetable}.  Each table is an vector of 256\n"
             "integer values.  Return #t if successful.")
-#define FUNC_NAME s_get_gamma_ramp
 {
+#define FUNC_NAME s_get_gamma_ramp
   Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
 
   ASSERT_VSZFIT (s_redtable,   ARGH1);
@@ -619,8 +619,8 @@ GH_DEFPROC (set_gamma_ramp, "set-gamma-ramp", 3, 0, 0,
 
   RETURN_TRUE_IF_0
     (SDL_SetGammaRamp (rt, gt, bt));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (map_rgb, "map-rgb", 2, 2, 0,
@@ -629,8 +629,8 @@ GH_DEFPROC (map_rgb, "map-rgb", 2, 2, 0,
             "The second arg can be an SDL-Color, otherwise the second\n"
             "through fourth args are red, green and blue values (numbers).\n"
             "Return the mapped components as a number.")
-#define FUNC_NAME s_map_rgb
 {
+#define FUNC_NAME s_map_rgb
   Uint8 r, g, b;
 
   ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
@@ -654,8 +654,8 @@ GH_DEFPROC (map_rgb, "map-rgb", 2, 2, 0,
 
   RETURN_INT (SDL_MapRGB (UNPACK_PIXEL_FORMAT (s_pixel_format),
                           r, g, b));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (map_rgba, "map-rgba", 3, 2, 0,
@@ -665,8 +665,8 @@ GH_DEFPROC (map_rgba, "map-rgba", 3, 2, 0,
             "value (number).  Otherwise, the second through fifth args\n"
             "are red, green, blue and alpha values (numbers).\n"
             "Return the mapped components as a number.")
-#define FUNC_NAME s_map_rgba
 {
+#define FUNC_NAME s_map_rgba
   Uint8 r, g, b, a;
 
   ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
@@ -694,8 +694,8 @@ GH_DEFPROC (map_rgba, "map-rgba", 3, 2, 0,
 
   RETURN_INT (SDL_MapRGBA (UNPACK_PIXEL_FORMAT (s_pixel_format),
                            r, g, b, a));
-}
 #undef FUNC_NAME
+}
 
 
 DECLARE_SIMPLE_SYM (r);
@@ -710,8 +710,8 @@ GH_DEFPROC (get_rgb, "get-rgb", 2, 0, 0,
             "@var{format}.  Return an alist with keys @code{r}, @code{g}\n"
             "and @code{b}, with red, green and blue values (numbers),\n"
             "respectively.")
-#define FUNC_NAME s_get_rgb
 {
+#define FUNC_NAME s_get_rgb
   Uint8 r, g, b;
 
   ASSERT_EXACT (s_pixel, ARGH1);
@@ -724,8 +724,8 @@ GH_DEFPROC (get_rgb, "get-rgb", 2, 0, 0,
   RETURN_LIST3 (gh_cons (SYM (r), gh_long2scm (r)),
                 gh_cons (SYM (g), gh_long2scm (g)),
                 gh_cons (SYM (b), gh_long2scm (b)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (get_rgba, "get-rgba", 2, 0, 0,
@@ -734,8 +734,8 @@ GH_DEFPROC (get_rgba, "get-rgba", 2, 0, 0,
             "@var{format}.  Return an alist with keys @code{r}, @code{g},\n"
             "@code{b} and @code{a}, with red, green, blue and alpha values\n"
             "(numbers), respectively.")
-#define FUNC_NAME s_get_rgba
 {
+#define FUNC_NAME s_get_rgba
   Uint8 r, g, b, a;
 
   ASSERT_EXACT (s_pixel, ARGH1);
@@ -749,16 +749,16 @@ GH_DEFPROC (get_rgba, "get-rgba", 2, 0, 0,
                 gh_cons (SYM (g), gh_long2scm (g)),
                 gh_cons (SYM (b), gh_long2scm (b)),
                 gh_cons (SYM (a), gh_long2scm (a)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (fill_rect, "fill-rect", 3, 0, 0,
             (SCM s_dst, SCM s_dstrect, SCM s_color),
             "Fill @var{surface} @var{rect} with @var{color} (a number).\n"
             "Return #t if successful.")
-#define FUNC_NAME s_fill_rect
 {
+#define FUNC_NAME s_fill_rect
   ASSERT_SURFACE (s_dst, ARGH1);
   ASSERT_RECT (s_dstrect, ARGH2);
   ASSERT_EXACT (s_color, ARGH3);
@@ -767,16 +767,16 @@ GH_DEFPROC (fill_rect, "fill-rect", 3, 0, 0,
     (SDL_FillRect (UNPACK_SURFACE (s_dst),
                    UNPACK_RECT (s_dstrect),
                    (Uint32) gh_scm2long (s_color)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (display_format, "display-format", 1, 0, 0,
             (SCM s_surface),
             "Return a new surface made by converting @var{surface}\n"
             "to the display format.  Return #f if not successful.")
-#define FUNC_NAME s_display_format
 {
+#define FUNC_NAME s_display_format
   SDL_Surface *surface;
 
   ASSERT_SURFACE (s_surface, ARGH1);
@@ -787,8 +787,8 @@ GH_DEFPROC (display_format, "display-format", 1, 0, 0,
     RETURN_FALSE;
 
   RETURN_NEW_SURFACE (surface);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (display_format_alpha, "display-format-alpha", 1, 0, 0,
@@ -796,8 +796,8 @@ GH_DEFPROC (display_format_alpha, "display-format-alpha", 1, 0, 0,
             "Return a new surface made by converting @var{surface}\n"
             "to the display format, with an alpha channel.  Return #f\n"
             "if not successful.")
-#define FUNC_NAME s_display_format_alpha
 {
+#define FUNC_NAME s_display_format_alpha
   SDL_Surface *surface;
 
   ASSERT_SURFACE (s_surface, ARGH1);
@@ -808,46 +808,46 @@ GH_DEFPROC (display_format_alpha, "display-format-alpha", 1, 0, 0,
     RETURN_FALSE;
 
   RETURN_NEW_SURFACE (surface);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (warp_mouse, "warp-mouse", 2, 0, 0,
             (SCM s_x, SCM s_y),
             "Set the position of the mouse cursor to @var{x},@var{y}.\n"
             "The return value is unspecified.")
-#define FUNC_NAME s_warp_mouse
 {
+#define FUNC_NAME s_warp_mouse
   ASSERT_EXACT (s_x, ARGH1);
   ASSERT_EXACT (s_y, ARGH2);
 
   SDL_WarpMouse ((Uint16) gh_scm2long (s_x), (Uint16) gh_scm2long (s_y));
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (set_cursor, "set-cursor", 1, 0, 0,
             (SCM s_cursor),
             "Set the current mouse cursor to @var{cursor}.\n"
             "The return value is unspecified.")
-#define FUNC_NAME s_set_cursor
 {
+#define FUNC_NAME s_set_cursor
   ASSERT_CURSOR (s_cursor, ARGH1);
   SDL_SetCursor (UNPACK_CURSOR (s_cursor));
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (get_cursor, "get-cursor", 0, 0, 0,
             (void),
             "Get the current mouse cursor.")
-#define FUNC_NAME s_get_cursor
 {
+#define FUNC_NAME s_get_cursor
   RETURN_NEW_CURSOR (SDL_GetCursor ());
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (show_cursor, "show-cursor", 0, 1, 0,
@@ -856,27 +856,27 @@ GH_DEFPROC (show_cursor, "show-cursor", 0, 1, 0,
             "Return #t if was being displayed before the call,\n"
             "and #f if not.  Optional arg @var{query} non-#f\n"
             "means to return the current state without toggling.")
-#define FUNC_NAME s_show_cursor
 {
+#define FUNC_NAME s_show_cursor
   UNBOUND_MEANS_FALSE (query);
   RETURN_BOOL (SDL_ShowCursor (EXACTLY_FALSEP (query) - 1));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (gl_get_attribute, "gl-get-attribute", 1, 0, 0,
             (SCM s_attr),
             "Return the value of a special SDL/OpenGL @var{attribute}.")
-#define FUNC_NAME s_gl_get_attribute
 {
+#define FUNC_NAME s_gl_get_attribute
   int value;
 
   ASSERT_EXACT (s_attr, ARGH1);
 
   SDL_GL_GetAttribute ((SDL_GLattr) gh_scm2long (s_attr), &value);
   RETURN_INT (value);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (gl_set_attribute, "gl-set-attribute", 2, 0, 0,
@@ -884,72 +884,72 @@ GH_DEFPROC (gl_set_attribute, "gl-set-attribute", 2, 0, 0,
              SCM s_value),
             "Set the special SDL/OpenGL @var{attribute} to @var{value}.\n"
             "Both args are numbers.  The return value is unspecified.")
-#define FUNC_NAME s_gl_set_attribute
 {
+#define FUNC_NAME s_gl_set_attribute
   ASSERT_EXACT (s_attr, ARGH1);
   ASSERT_EXACT (s_value, ARGH2);
 
   SDL_GL_SetAttribute ((SDL_GLattr) gh_scm2long (s_attr),
                        (int) gh_scm2long (s_value));
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (gl_swap_buffers, "gl-swap-buffers", 0, 0, 0,
             (void),
             "Swap OpenGL framebuffers/Update Display.\n"
             "The return value is unspecified.")
-#define FUNC_NAME s_gl_swap_buffers
 {
+#define FUNC_NAME s_gl_swap_buffers
   SDL_GL_SwapBuffers ();
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (lock_yuv_overlay, "lock-yuv-overlay", 1, 0, 0,
             (SCM s_overlay),
             "Lock the given YUV @var{overlay}.\n"
             "Return #f if successful.")
-#define FUNC_NAME s_lock_yuv_overlay
 {
+#define FUNC_NAME s_lock_yuv_overlay
   ASSERT_OVERLAY (s_overlay, ARGH1);
 
   RETURN_TRUE_IF_0
     (SDL_LockYUVOverlay (UNPACK_OVERLAY (s_overlay)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (unlock_yuv_overlay, "unlock-yuv-overlay", 1, 0, 0,
             (SCM s_overlay),
             "Unlock a previously locked YUV @var{overlay}.\n"
             "The return value is unspecified.")
-#define FUNC_NAME s_unlock_yuv_overlay
 {
+#define FUNC_NAME s_unlock_yuv_overlay
   ASSERT_OVERLAY (s_overlay, ARGH1);
 
   SDL_UnlockYUVOverlay (UNPACK_OVERLAY (s_overlay));
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (display_yuv_overlay, "display-yuv-overlay", 2, 0, 0,
             (SCM s_overlay, SCM s_dstrect),
             "Blit a YUV @var{overlay} to the display @var{dstrect}\n"
             "over which it was created.  Return #t if successful.")
-#define FUNC_NAME s_display_yuv_overlay
 {
+#define FUNC_NAME s_display_yuv_overlay
   ASSERT_OVERLAY (s_overlay, ARGH1);
   ASSERT_RECT (s_dstrect, ARGH2);
 
   RETURN_TRUE_IF_0
     (SDL_DisplayYUVOverlay (UNPACK_OVERLAY (s_overlay),
                             UNPACK_RECT (s_dstrect)));
-}
 #undef FUNC_NAME
+}
 
 
 /* window manager functions */
@@ -959,8 +959,8 @@ GH_DEFPROC (wm_set_caption, "set-caption", 1, 1, 0,
             "Set the title-bar and icon name of the display window\n"
             "to @var{title} and @var{icon} (both strings), respectively.\n"
             "If @var{icon} is not specified, use @var{title} by default.")
-#define FUNC_NAME s_wm_set_caption
 {
+#define FUNC_NAME s_wm_set_caption
   char *title, *icon;
 
   ASSERT_STRING (s_title, ARGH1);
@@ -978,8 +978,8 @@ GH_DEFPROC (wm_set_caption, "set-caption", 1, 1, 0,
   SDL_WM_SetCaption (title, icon);
 
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 DECLARE_SIMPLE_SYM (title);
 DECLARE_SIMPLE_SYM (icon);
@@ -989,41 +989,41 @@ GH_DEFPROC (wm_get_caption, "get-caption", 0, 0, 0,
             "Return an alist with keys @code{title} and @code{icon}\n"
             "and values the title-bar and icon name of the display\n"
             "window, respectively.")
-#define FUNC_NAME s_wm_get_caption
 {
+#define FUNC_NAME s_wm_get_caption
   char *title, *icon;
 
   SDL_WM_GetCaption (&title, &icon);
   RETURN_LIST2 (gh_cons (SYM (title), gh_str02scm (title)),
                 gh_cons (SYM (icon),  gh_str02scm (icon)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (wm_set_icon, "set-icon", 1, 0, 0,
             (SCM icon),
             "Set @var{icon} for the display window.")
-#define FUNC_NAME s_wm_set_icon
 {
+#define FUNC_NAME s_wm_set_icon
   ASSERT_SURFACE (icon, ARGH1);
 
   /* Set w/ a NULL mask for now.  */
   SDL_WM_SetIcon (UNPACK_SURFACE (icon), NULL);
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (wm_iconify_window, "iconify-window", 0, 0, 0,
             (void),
             "Iconify/Minimize the window.\n"
             "Return #t if successful.")
-#define FUNC_NAME s_wm_iconify_window
 {
+#define FUNC_NAME s_wm_iconify_window
   RETURN_BOOL
     (SDL_WM_IconifyWindow ());
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (wm_toggle_full_screen, "toggle-full-screen", 0, 1, 0,
@@ -1032,8 +1032,8 @@ GH_DEFPROC (wm_toggle_full_screen, "toggle-full-screen", 0, 1, 0,
             "and fullscreen mode, if supported.  Optional arg\n"
             "@var{surface} specifies another surface to toggle.\n"
             "Return #t if successful.")
-#define FUNC_NAME s_wm_toggle_full_screen
 {
+#define FUNC_NAME s_wm_toggle_full_screen
   SDL_Surface *surface;
 
   if (UNBOUNDP (s_surface))
@@ -1046,8 +1046,8 @@ GH_DEFPROC (wm_toggle_full_screen, "toggle-full-screen", 0, 1, 0,
 
   RETURN_BOOL
     (SDL_WM_ToggleFullScreen (surface));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (wm_grab_input, "grab-input", 0, 1, 0,
@@ -1055,8 +1055,8 @@ GH_DEFPROC (wm_grab_input, "grab-input", 0, 1, 0,
             "Grab mouse and keyboard input.\n"
             "Optional arg @var{mode} (a number) specifies the kind\n"
             "of grab (default SDL_GRAB_QUERY).")
-#define FUNC_NAME s_wm_grab_input
 {
+#define FUNC_NAME s_wm_grab_input
   int mode = SDL_GRAB_QUERY;
 
   if (BOUNDP (s_mode))
@@ -1066,8 +1066,8 @@ GH_DEFPROC (wm_grab_input, "grab-input", 0, 1, 0,
     }
 
   RETURN_INT (SDL_WM_GrabInput (mode));
-}
 #undef FUNC_NAME
+}
 
 
 

@@ -75,27 +75,27 @@ free_font (SCM s_font)
 GH_DEFPROC (ttf_init, "ttf-init", 0, 0, 0,
             (void),
             "Initialize the SDL_ttf subsystem.")
-#define FUNC_NAME s_ttf_init
 {
+#define FUNC_NAME s_ttf_init
   RETURN_INT (TTF_Init ());
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_load_font, "load-font", 2, 0, 0,
             (SCM file, SCM ptsize),
             "Load a font from @var{file} with point size @var{ptsize}.\n"
             "Return a handle.")
-#define FUNC_NAME s_ttf_load_font
 {
+#define FUNC_NAME s_ttf_load_font
   ASSERT_STRING (file, ARGH1);
   ASSERT_EXACT (ptsize, ARGH2);
 
   RETURN_NEW_TTFONT
     (TTF_OpenFont (SCM_CHARS (file),
                    gh_scm2long (ptsize)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_get_font_style, "font:style", 1, 0, 0,
@@ -103,14 +103,14 @@ GH_DEFPROC (ttf_get_font_style, "font:style", 1, 0, 0,
             "Return the style of @var{font} (see @code{flagstash:ttf}).\n"
             "This font style is implemented by modifying the font glyphs, and\n"
             "doesn't reflect any inherent properties of the truetype font file.")
-#define FUNC_NAME s_ttf_get_font_style
 {
+#define FUNC_NAME s_ttf_get_font_style
   ASSERT_TTFONT (s_font, ARGH1);
 
   return gsdl_ulong2flags (TTF_GetFontStyle (UNPACK_TTFONT (s_font)),
                            ttf_flags);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_set_font_style, "font:set-style!", 2, 0, 0,
@@ -118,8 +118,8 @@ GH_DEFPROC (ttf_set_font_style, "font:set-style!", 2, 0, 0,
             "Set @var{font} style to @var{style} (see @code{flagstash:ttf}).\n"
             "This font style is implemented by modifying the font glyphs, and\n"
             "doesn't reflect any inherent properties of the truetype font file.")
-#define FUNC_NAME s_ttf_set_font_style
 {
+#define FUNC_NAME s_ttf_set_font_style
   int style;
 
   ASSERT_TTFONT (s_font, ARGH1);
@@ -128,60 +128,60 @@ GH_DEFPROC (ttf_set_font_style, "font:set-style!", 2, 0, 0,
 
   TTF_SetFontStyle (UNPACK_TTFONT (s_font), style);
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_font_height, "font:height", 1, 0, 0,
             (SCM s_font),
             "Return the total height of @var{font},\n"
             "usually equal to point size.")
-#define FUNC_NAME s_ttf_font_height
 {
+#define FUNC_NAME s_ttf_font_height
   ASSERT_TTFONT (s_font, ARGH1);
 
   RETURN_INT (TTF_FontHeight (UNPACK_TTFONT (s_font)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_font_ascent, "font:ascent", 1, 0, 0,
             (SCM s_font),
             "Return the offset from the baseline to the top of\n"
             "@var{font}.  This is a positive number.")
-#define FUNC_NAME s_ttf_font_ascent
 {
+#define FUNC_NAME s_ttf_font_ascent
   ASSERT_TTFONT (s_font, ARGH1);
 
   RETURN_INT (TTF_FontAscent (UNPACK_TTFONT (s_font)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_font_descent, "font:descent", 1, 0, 0,
             (SCM s_font),
             "Return the offset from the baseline to the bottom of\n"
             "@var{font}.  This is a negative number.")
-#define FUNC_NAME s_ttf_font_descent
 {
+#define FUNC_NAME s_ttf_font_descent
   ASSERT_TTFONT (s_font, ARGH1);
 
   RETURN_INT (TTF_FontDescent (UNPACK_TTFONT (s_font)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_font_line_skip, "font:line-skip", 1, 0, 0,
             (SCM s_font),
             "Return the recommended spacing between lines of\n"
             "text for @var{font}.")
-#define FUNC_NAME s_ttf_font_line_skip
 {
+#define FUNC_NAME s_ttf_font_line_skip
   ASSERT_TTFONT (s_font, ARGH1);
 
   RETURN_INT (TTF_FontLineSkip (UNPACK_TTFONT (s_font)));
-}
 #undef FUNC_NAME
+}
 
 
 DECLARE_SIMPLE_SYM (minx);
@@ -196,8 +196,8 @@ GH_DEFPROC (ttf_glyph_metrics, "font:glyph-metrics", 2, 0, 0,
             "The glyph is a @var{font}-specific rendering of char @var{ch}.\n"
             "Alist keys are: @code{minx}, @code{maxx}, @code{miny},\n"
             "@code{maxy} and @code{advance}.  Values are numbers.")
-#define FUNC_NAME s_ttf_glyph_metrics
 {
+#define FUNC_NAME s_ttf_glyph_metrics
   int minx, maxx, miny, maxy, advance;
 
   ASSERT_TTFONT (s_font, ARGH1);
@@ -212,8 +212,8 @@ GH_DEFPROC (ttf_glyph_metrics, "font:glyph-metrics", 2, 0, 0,
                 gh_cons (SYM (miny), gh_long2scm (miny)),
                 gh_cons (SYM (maxy), gh_long2scm (maxy)),
                 gh_cons (SYM (advance), gh_long2scm (advance)));
-}
 #undef FUNC_NAME
+}
 
 
 DECLARE_SIMPLE_SYM (w);
@@ -225,8 +225,8 @@ GH_DEFPROC (ttf_size_text, "font:size-text", 2, 0, 0,
             "corresponding values (numbers) representing the width\n"
             "and height of the @var{font}-specific rendering of\n"
             "the string @var{text}.")
-#define FUNC_NAME s_ttf_size_text
 {
+#define FUNC_NAME s_ttf_size_text
   int w, h;
 
   ASSERT_TTFONT (s_font, ARGH1);
@@ -235,8 +235,8 @@ GH_DEFPROC (ttf_size_text, "font:size-text", 2, 0, 0,
   TTF_SizeText (UNPACK_TTFONT (s_font), SCM_CHARS (s_text), &w, &h);
   RETURN_LIST2 (gh_cons (SYM (w), gh_long2scm (w)),
                 gh_cons (SYM (h), gh_long2scm (h)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_size_utf8, "font:size-utf8", 2, 0, 0,
@@ -245,8 +245,8 @@ GH_DEFPROC (ttf_size_utf8, "font:size-utf8", 2, 0, 0,
             "corresponding values (numbers) representing the width\n"
             "and height of the @var{font}-specific rendering of\n"
             "the utf8 string @var{text}.")
-#define FUNC_NAME s_ttf_size_utf8
 {
+#define FUNC_NAME s_ttf_size_utf8
   int w, h;
 
   ASSERT_TTFONT (s_font, ARGH1);
@@ -255,8 +255,8 @@ GH_DEFPROC (ttf_size_utf8, "font:size-utf8", 2, 0, 0,
   TTF_SizeUTF8 (UNPACK_TTFONT (s_font), SCM_CHARS (s_text), &w, &h);
   RETURN_LIST2 (gh_cons (gsdl_sym_w, gh_long2scm (w)),
                 gh_cons (gsdl_sym_h, gh_long2scm (h)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_render_text, "render-text", 3, 1, 0,
@@ -266,8 +266,8 @@ GH_DEFPROC (ttf_render_text, "render-text", 3, 1, 0,
             "Third argument is the foreground color;\n"
             "optional fourth argument is the background color,\n"
             "or #t if the text is to be blended.")
-#define FUNC_NAME s_ttf_render_text
 {
+#define FUNC_NAME s_ttf_render_text
   TTF_Font *font;
   SDL_Color *fg;
   SDL_Surface *surface;
@@ -294,8 +294,8 @@ GH_DEFPROC (ttf_render_text, "render-text", 3, 1, 0,
     }
 
   RETURN_NEW_SURFACE (surface);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_render_utf8, "render-utf8", 3, 1, 0,
@@ -305,8 +305,8 @@ GH_DEFPROC (ttf_render_utf8, "render-utf8", 3, 1, 0,
             "Third argument is the foreground color;\n"
             "optional fourth argument is the background color,\n"
             "or #t if the text is to be blended.")
-#define FUNC_NAME s_ttf_render_utf8
 {
+#define FUNC_NAME s_ttf_render_utf8
   TTF_Font *font;
   SDL_Color *fg;
   SDL_Surface *surface;
@@ -333,8 +333,8 @@ GH_DEFPROC (ttf_render_utf8, "render-utf8", 3, 1, 0,
     }
 
   RETURN_NEW_SURFACE (surface);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_render_glyph, "render-glyph", 3, 1, 0,
@@ -344,8 +344,8 @@ GH_DEFPROC (ttf_render_glyph, "render-glyph", 3, 1, 0,
             "Third argument is the foreground color;\n"
             "optional fourth argument is the background color,\n"
             "or #t if the text is to be blended.")
-#define FUNC_NAME s_ttf_render_glyph
 {
+#define FUNC_NAME s_ttf_render_glyph
   TTF_Font *font;
   SDL_Color *fg;
   SDL_Surface *surface;
@@ -372,19 +372,19 @@ GH_DEFPROC (ttf_render_glyph, "render-glyph", 3, 1, 0,
     }
 
   RETURN_NEW_SURFACE (surface);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (ttf_quit, "ttf-quit", 0, 0, 0,
             (void),
             "Quit the SDL_ttf subsystem.")
-#define FUNC_NAME s_ttf_quit
 {
+#define FUNC_NAME s_ttf_quit
   TTF_Quit ();
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 

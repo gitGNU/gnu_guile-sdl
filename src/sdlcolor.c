@@ -67,8 +67,8 @@ print_color (SCM s_color, SCM port, scm_print_state *pstate)
 GH_DEFPROC (make_color, "make-color", 3, 0, 0,
             (SCM s_r, SCM s_g, SCM s_b),
             "Return a color with @var{r}, @var{g}, and @var{b} components.")
-#define FUNC_NAME s_make_color
 {
+#define FUNC_NAME s_make_color
   SDL_Color *color;
 
   ASSERT_EXACT (s_r, ARGH1);
@@ -81,8 +81,8 @@ GH_DEFPROC (make_color, "make-color", 3, 0, 0,
   color->b = gh_scm2int (s_b);
 
   RETURN_NEW_COLOR (color);
-}
 #undef FUNC_NAME
+}
 
 
 /* Color getters and setters */

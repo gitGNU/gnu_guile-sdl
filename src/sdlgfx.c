@@ -31,8 +31,8 @@
 GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
             (SCM s_surface),
             "Return a new surface created by flipping @var{surface} vertically.")
-#define FUNC_NAME s_vertical_flip_surface
 {
+#define FUNC_NAME s_vertical_flip_surface
   int i, w, h;
   SDL_Surface *src, *dst;
   SDL_Rect srcrect, dstrect;
@@ -62,14 +62,14 @@ GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
 
   /* Return the surface.  */
   RETURN_NEW_SURFACE (dst);
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
             (SCM s_surface),
             "Return a new surface created by flipping @var{surface} horizontally.")
-#define FUNC_NAME s_horizontal_flip_surface
 {
+#define FUNC_NAME s_horizontal_flip_surface
   int i, w, h;
   SDL_Surface *src, *dst;
   SDL_Rect srcrect, dstrect;
@@ -99,29 +99,29 @@ GH_DEFPROC (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
 
   /* Return the surface.  */
   RETURN_NEW_SURFACE (dst);
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (vh_flip_surface, "vh-flip-surface", 1, 0, 0,
             (SCM s_surface),
             "Return a new surface created by flipping @var{surface}\n"
             "both vertically and horizontally.")
-#define FUNC_NAME s_vh_flip_surface
 {
+#define FUNC_NAME s_vh_flip_surface
   SCM temp = vertical_flip_surface (s_surface);
   return horizontal_flip_surface (temp);
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (scale_surface, "scale-surface", 3, 0, 0,
             (SCM surface, SCM width, SCM height),
             "Scale @var{surface} by @var{width} and @var{height}.")
-#define FUNC_NAME s_scale_surface
 {
+#define FUNC_NAME s_scale_surface
   THROW_NOT_YET_IMPLEMENTED;
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 

@@ -36,8 +36,8 @@ GH_DEFPROC (draw_point, "draw-point", 4, 0, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_color),
             "On @var{surface}, draw a point at location\n"
             "@var{x},@var{y} with color @var{color}.")
-#define FUNC_NAME s_draw_point
 {
+#define FUNC_NAME s_draw_point
   ASSERT_SURFACE (s_surface, ARGH1);
   ASSERT_EXACT (s_x, ARGH2);
   ASSERT_EXACT (s_y, ARGH3);
@@ -47,8 +47,8 @@ GH_DEFPROC (draw_point, "draw-point", 4, 0, 0,
     (pixelColor (UNPACK_SURFACE (s_surface),
                  gh_scm2long (s_x), gh_scm2long (s_y),
                  gh_scm2ulong (s_color)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (draw_line, "draw-line", 6, 0, 0,
@@ -57,8 +57,8 @@ GH_DEFPROC (draw_line, "draw-line", 6, 0, 0,
             "On @var{surface}, draw a line segment from\n"
             "@var{x1},@var{y1} to @var{x2},@var{y2},\n"
             "with color @var{color}.")
-#define FUNC_NAME s_draw_line
 {
+#define FUNC_NAME s_draw_line
   ASSERT_SURFACE (s_surface, ARGH1);
   ASSERT_EXACT (s_x1, ARGH2);
   ASSERT_EXACT (s_y1, ARGH3);
@@ -71,8 +71,8 @@ GH_DEFPROC (draw_line, "draw-line", 6, 0, 0,
                 gh_scm2long (s_x1), gh_scm2long (s_y1),
                 gh_scm2long (s_x2), gh_scm2long (s_y2),
                 gh_scm2ulong (s_color)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (draw_aa_line, "draw-aa-line", 6, 0, 0,
@@ -81,8 +81,8 @@ GH_DEFPROC (draw_aa_line, "draw-aa-line", 6, 0, 0,
             "On @var{surface}, draw an anti-aliased line segment from\n"
             "@var{x1},@var{y1} to @var{x2},@var{y2},\n"
             "with color @var{color}.")
-#define FUNC_NAME s_draw_aa_line
 {
+#define FUNC_NAME s_draw_aa_line
   ASSERT_SURFACE (s_surface, ARGH1);
   ASSERT_EXACT (s_x1, ARGH2);
   ASSERT_EXACT (s_y1, ARGH3);
@@ -95,8 +95,8 @@ GH_DEFPROC (draw_aa_line, "draw-aa-line", 6, 0, 0,
                   gh_scm2long (s_x1), gh_scm2long (s_y1),
                   gh_scm2long (s_x2), gh_scm2long (s_y2),
                   gh_scm2ulong (s_color)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
@@ -106,8 +106,8 @@ GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
             "@var{x1},@var{y1} and @var{x2},@var{y2},\n"
             "with color @var{color}.\n"
             "Optional arg @var{fill} means to fill the rectangle as well.")
-#define FUNC_NAME s_draw_rectangle
 {
+#define FUNC_NAME s_draw_rectangle
   ASSERT_SURFACE (s_surface, ARGH1);
   ASSERT_EXACT (s_x1, ARGH2);
   ASSERT_EXACT (s_y1, ARGH3);
@@ -123,8 +123,8 @@ GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
                    gh_scm2long (s_x1), gh_scm2long (s_y1),
                    gh_scm2long (s_x2), gh_scm2long (s_y2),
                    gh_scm2ulong (s_color)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (draw_circle, "draw-circle", 5, 1, 0,
@@ -133,8 +133,8 @@ GH_DEFPROC (draw_circle, "draw-circle", 5, 1, 0,
             "On @var{surface}, draw circle with center @var{x},@var{y}\n"
             "and radius @var{r}, with color @var{color}.\n"
             "Optional arg @var{fill} means to fill the circle as well.")
-#define FUNC_NAME s_draw_circle
 {
+#define FUNC_NAME s_draw_circle
   ASSERT_SURFACE (s_surface, ARGH1);
   ASSERT_EXACT (s_x, ARGH2);
   ASSERT_EXACT (s_y, ARGH3);
@@ -149,8 +149,8 @@ GH_DEFPROC (draw_circle, "draw-circle", 5, 1, 0,
                             gh_scm2long (s_x), gh_scm2long (s_y),
                             gh_scm2long (s_r),
                             gh_scm2ulong (s_color)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (draw_ellipse, "draw-ellipse", 6, 1, 0,
@@ -159,8 +159,8 @@ GH_DEFPROC (draw_ellipse, "draw-ellipse", 6, 1, 0,
             "On @var{surface}, draw ellipse with center @var{x},@var{y}\n"
             "x-radius @var{rx}, y-radius @var{ry}, with color @var{color}.\n"
             "Optional arg @var{fill} means to fill the ellipse as well.")
-#define FUNC_NAME s_draw_ellipse
 {
+#define FUNC_NAME s_draw_ellipse
   ASSERT_SURFACE (s_surface, ARGH1);
   ASSERT_EXACT (s_x, ARGH2);
   ASSERT_EXACT (s_y, ARGH3);
@@ -176,8 +176,8 @@ GH_DEFPROC (draw_ellipse, "draw-ellipse", 6, 1, 0,
                              gh_scm2long (s_x), gh_scm2long (s_y),
                              gh_scm2long (s_rx), gh_scm2long (s_ry),
                              gh_scm2ulong (s_color)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (draw_polygon, "draw-polygon", 4, 1, 0,
@@ -186,8 +186,8 @@ GH_DEFPROC (draw_polygon, "draw-polygon", 4, 1, 0,
             "by corresponding pairs from the uniform vectors\n"
             "@var{vx} and @var{vy}, in color @var{color}.  Optional\n"
             "arg @var{fill} means to fill the polygon as well.")
-#define FUNC_NAME s_draw_polygon
 {
+#define FUNC_NAME s_draw_polygon
   int ret;
   Sint16 *vx, *vy;
 
@@ -209,16 +209,16 @@ GH_DEFPROC (draw_polygon, "draw-polygon", 4, 1, 0,
   free (vx);
   free (vy);
   RETURN_INT (ret);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (draw_character, "draw-character", 5, 0, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_char, SCM s_color),
             "On @var{surface} at position @var{x},@var{y},\n"
             "draw char @var{c} with @var{color} (a number).")
-#define FUNC_NAME s_draw_character
 {
+#define FUNC_NAME s_draw_character
   ASSERT_SURFACE (s_surface, ARGH1);
   ASSERT_EXACT (s_x, ARGH2);
   ASSERT_EXACT (s_y, ARGH3);
@@ -229,16 +229,16 @@ GH_DEFPROC (draw_character, "draw-character", 5, 0, 0,
     (characterColor (UNPACK_SURFACE (s_surface),
                      gh_scm2long (s_x), gh_scm2long (s_y),
                      gh_scm2char (s_char), gh_scm2ulong (s_color)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (draw_string, "draw-string", 5, 0, 0,
             (SCM s_surface, SCM s_x, SCM s_y, SCM s_string, SCM s_color),
             "On @var{surface} at position @var{x},@var{y},\n"
             "draw string @var{text} with @var{color} (a number).")
-#define FUNC_NAME s_draw_string
 {
+#define FUNC_NAME s_draw_string
   ASSERT_SURFACE (s_surface, ARGH1);
   ASSERT_EXACT (s_x, ARGH2);
   ASSERT_EXACT (s_y, ARGH3);
@@ -250,8 +250,8 @@ GH_DEFPROC (draw_string, "draw-string", 5, 0, 0,
                   gh_scm2long (s_x), gh_scm2long (s_y),
                   SCM_CHARS (s_string),
                   gh_scm2ulong (s_color)));
-}
 #undef FUNC_NAME
+}
 
 
 

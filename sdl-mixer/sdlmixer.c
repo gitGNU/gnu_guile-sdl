@@ -86,8 +86,8 @@ GH_DEFPROC (mix_open_audio, "open-audio", 0, 4, 0,
             "Optional args @var{freq} (number), @var{format} (number),\n"
             "@var{stereo} (boolean) and @var{chunksize} (number) specify\n"
             "those aspects of the device.  Return #t if successful.")
-#define FUNC_NAME s_mix_open_audio
 {
+#define FUNC_NAME s_mix_open_audio
   int freq = MIX_DEFAULT_FREQUENCY;
   Uint16 format = MIX_DEFAULT_FORMAT;
   int channels = 2;
@@ -119,8 +119,8 @@ GH_DEFPROC (mix_open_audio, "open-audio", 0, 4, 0,
   /* Open the audio device.  */
   RETURN_TRUE_IF_0
     (Mix_OpenAudio (freq, MIX_DEFAULT_FORMAT, channels, 1024));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_allocate_channels, "allocated-channels", 1, 0, 0,
@@ -129,13 +129,13 @@ GH_DEFPROC (mix_allocate_channels, "allocated-channels", 1, 0, 0,
             "the mixer to @var{numchans}.  If decreasing the number\n"
             "of channels, the upper channels are stopped.  Return the\n"
             "new number of allocated channels.")
-#define FUNC_NAME s_mix_allocate_channels
 {
+#define FUNC_NAME s_mix_allocate_channels
   ASSERT_EXACT (s_numchans, ARGH1);
 
   RETURN_INT (Mix_AllocateChannels (gh_scm2long (s_numchans)));
-}
 #undef FUNC_NAME
+}
 
 DECLARE_SIMPLE_SYM (freq);
 DECLARE_SIMPLE_SYM (format);
@@ -147,8 +147,8 @@ GH_DEFPROC (mix_query_spec, "query-spec", 0, 0, 0,
             "if the audio has not yet been opened.\n"
             "Keys are @code{freq} (frequency), @code{format},\n"
             "and @code{channels} (the number of allocated channels).")
-#define FUNC_NAME s_mix_query_spec
 {
+#define FUNC_NAME s_mix_query_spec
   int freq, channels;
   Uint16 format;
 
@@ -158,35 +158,35 @@ GH_DEFPROC (mix_query_spec, "query-spec", 0, 0, 0,
   RETURN_LIST3 (gh_cons (SYM (freq), gh_long2scm (freq)),
                 gh_cons (SYM (format), gh_long2scm (format)),
                 gh_cons (SYM (channels), gh_long2scm (channels)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_load_music, "load-music", 1, 0, 0,
             (SCM file),
             "Load a wave or a music (.mod .s3m .it .xm) @var{file}.\n"
             "Return a handle to it.")
-#define FUNC_NAME s_mix_load_music
 {
+#define FUNC_NAME s_mix_load_music
   ASSERT_STRING (file, ARGH1);
 
   RETURN_NEW_MUSIC
     (Mix_LoadMUS (SCM_CHARS (file)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_load_wave, "load-wave", 1, 0, 0,
             (SCM file),
             "Load a wave @var{file}. Return a handle to it.")
-#define FUNC_NAME s_mix_load_wave
 {
+#define FUNC_NAME s_mix_load_wave
   ASSERT_STRING (file, ARGH1);
 
   RETURN_NEW_AUDIO
     (Mix_LoadWAV (SCM_CHARS (file)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_reserve_channels, "reserve-channels", 1, 0, 0,
@@ -195,13 +195,13 @@ GH_DEFPROC (mix_reserve_channels, "reserve-channels", 1, 0, 0,
             "for the application.  I.E. don't allocate them dynamically to\n"
             "the next sample if requested with a -1 value below.\n"
             "Return the number of reserved channels.")
-#define FUNC_NAME s_mix_reserve_channels
 {
+#define FUNC_NAME s_mix_reserve_channels
   ASSERT_EXACT (num, ARGH1);
 
   RETURN_INT (Mix_ReserveChannels (gh_scm2long (num)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_group_channel, "group-channel", 1, 1, 0,
@@ -212,8 +212,8 @@ GH_DEFPROC (mix_group_channel, "group-channel", 1, 1, 0,
             "is -1, the tag is removed (actually -1 is the tag used\n"
             "to represent the group of all the channels).  Return\n"
             "#t if successful.")
-#define FUNC_NAME s_mix_group_channel
 {
+#define FUNC_NAME s_mix_group_channel
   int tag = -1;
 
   ASSERT_EXACT (s_which, ARGH1);
@@ -226,8 +226,8 @@ GH_DEFPROC (mix_group_channel, "group-channel", 1, 1, 0,
 
   RETURN_BOOL
     (Mix_GroupChannel (gh_scm2long (s_which), tag));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_group_channels, "group-channels", 2, 1, 0,
@@ -235,8 +235,8 @@ GH_DEFPROC (mix_group_channels, "group-channels", 2, 1, 0,
             "Assign channels in the range @var{from} through @var{to}\n"
             "to the default group.  Optional arg @var{tag} specifies\n"
             "the group to use.  Return #t if successful.")
-#define FUNC_NAME s_mix_group_channels
 {
+#define FUNC_NAME s_mix_group_channels
   int tag = -1;
 
   ASSERT_EXACT (s_from, ARGH1);
@@ -252,8 +252,8 @@ GH_DEFPROC (mix_group_channels, "group-channels", 2, 1, 0,
     (Mix_GroupChannels (gh_scm2long (s_from),
                         gh_scm2long (s_to),
                         tag));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_group_available, "group-available", 0, 1, 0,
@@ -261,8 +261,8 @@ GH_DEFPROC (mix_group_available, "group-available", 0, 1, 0,
             "Return the first available channel in the default\n"
             "group of channels.\n"
             "Optional arg @var{tag} specifies the group to check.")
-#define FUNC_NAME s_mix_group_available
 {
+#define FUNC_NAME s_mix_group_available
   int tag = -1;
 
   if (BOUNDP (s_tag))
@@ -272,16 +272,16 @@ GH_DEFPROC (mix_group_available, "group-available", 0, 1, 0,
     }
 
   RETURN_INT (Mix_GroupAvailable (tag));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_group_count, "group-count", 0, 1, 0,
             (SCM s_tag),
             "Return the number of channels in the default group.\n"
             "Optional arg @var{tag} specifies the group to check.")
-#define FUNC_NAME s_mix_group_count
 {
+#define FUNC_NAME s_mix_group_count
   int tag = -1;
 
   if (BOUNDP (s_tag))
@@ -291,8 +291,8 @@ GH_DEFPROC (mix_group_count, "group-count", 0, 1, 0,
     }
 
   RETURN_INT (Mix_GroupCount (tag));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_group_oldest, "group-oldest", 0, 1, 0,
@@ -300,8 +300,8 @@ GH_DEFPROC (mix_group_oldest, "group-oldest", 0, 1, 0,
             "Return the \"oldest\" sample playing in the default\n"
             "group of channels.\n"
             "Optional arg @var{tag} specifies the group to check.")
-#define FUNC_NAME s_mix_group_oldest
 {
+#define FUNC_NAME s_mix_group_oldest
   int tag = -1;
 
   if (BOUNDP (s_tag))
@@ -311,8 +311,8 @@ GH_DEFPROC (mix_group_oldest, "group-oldest", 0, 1, 0,
     }
 
   RETURN_INT (Mix_GroupOldest (tag));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_group_newer, "group-newer", 0, 1, 0,
@@ -320,8 +320,8 @@ GH_DEFPROC (mix_group_newer, "group-newer", 0, 1, 0,
             "Return the \"most recent\" (i.e. last) sample playing\n"
             "in the default group of channels.\n"
             "Optional arg @var{tag} specifies the group to check.")
-#define FUNC_NAME s_mix_group_newer
 {
+#define FUNC_NAME s_mix_group_newer
   int tag = -1;
 
   if (BOUNDP (s_tag))
@@ -331,8 +331,8 @@ GH_DEFPROC (mix_group_newer, "group-newer", 0, 1, 0,
     }
 
   RETURN_INT (Mix_GroupNewer (tag));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
@@ -346,8 +346,8 @@ GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
             "If @var{fade} is specified, fade in over that number of\n"
             "milliseconds.  Return which channel was used to play\n"
             "the sound.")
-#define FUNC_NAME s_mix_play_channel
 {
+#define FUNC_NAME s_mix_play_channel
   int channel = -1;
   Mix_Chunk *chunk;
   int loops = 0;
@@ -390,8 +390,8 @@ GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
                                    ticks);
     }
   RETURN_INT (rv);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_play_music, "play-music", 1, 2, 0,
@@ -399,8 +399,8 @@ GH_DEFPROC (mix_play_music, "play-music", 1, 2, 0,
             "Play a @var{music} track.\n"
             "Optional args @var{loops} and @var{fade}\n"
             "are as in @code{play-channel}.")
-#define FUNC_NAME s_mix_play_music
 {
+#define FUNC_NAME s_mix_play_music
   Mix_Music *music;
   int loops = 0;
   long rv;
@@ -425,8 +425,8 @@ GH_DEFPROC (mix_play_music, "play-music", 1, 2, 0,
       rv = Mix_FadeInMusic (music, loops, gh_scm2long (s_fade));
     }
   RETURN_INT (rv);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
@@ -443,8 +443,8 @@ GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
             "or chunk.  If the channel is unspecified or is -1, set volume\n"
             "for all channels.  Return the original volume.  If the volume\n"
             "is unspecified or is -1, just return the current volume.")
-#define FUNC_NAME s_mix_volume
 {
+#define FUNC_NAME s_mix_volume
   int volume = -1;
   long rv;
 
@@ -468,8 +468,8 @@ GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
       rv = Mix_VolumeChunk (UNPACK_AUDIO (s_which), volume);
     }
   RETURN_INT (rv);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_volume_music, "music-volume", 0, 1, 0,
@@ -477,8 +477,8 @@ GH_DEFPROC (mix_volume_music, "music-volume", 0, 1, 0,
             "Return the current volume.\n"
             "Optional arg @var{v} (a number in the range 0-128)\n"
             "means set the volume to @var{v}.")
-#define FUNC_NAME s_mix_volume_music
 {
+#define FUNC_NAME s_mix_volume_music
   int volume = -1;
 
   if (BOUNDP (s_volume))
@@ -488,16 +488,16 @@ GH_DEFPROC (mix_volume_music, "music-volume", 0, 1, 0,
     }
 
   RETURN_INT (Mix_VolumeMusic (volume));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_halt_channel, "halt-channel", 0, 1, 0,
             (SCM s_channel),
             "Halt playing of the default channel.\n"
             "Optional arg @var{channel} specifies a channel to halt.")
-#define FUNC_NAME s_mix_halt_channel
 {
+#define FUNC_NAME s_mix_halt_channel
   int channel = -1;
 
   if (BOUNDP (s_channel))
@@ -507,16 +507,16 @@ GH_DEFPROC (mix_halt_channel, "halt-channel", 0, 1, 0,
     }
 
   RETURN_INT (Mix_HaltChannel (channel));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_halt_group, "halt-group", 0, 1, 0,
             (SCM s_tag),
             "Halt playing of the default group.\n"
             "Optional arg @var{tag} specifies the group to halt.")
-#define FUNC_NAME s_mix_halt_group
 {
+#define FUNC_NAME s_mix_halt_group
   int tag = -1;
 
   if (BOUNDP (s_tag))
@@ -526,18 +526,18 @@ GH_DEFPROC (mix_halt_group, "halt-group", 0, 1, 0,
     }
 
   RETURN_INT (Mix_HaltGroup (tag));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_halt_music, "halt-music", 0, 0, 0,
             (void),
             "Halt playing of the music.")
-#define FUNC_NAME s_mix_halt_music
 {
+#define FUNC_NAME s_mix_halt_music
   RETURN_INT (Mix_HaltMusic ());
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_expire_channel, "expire-channel", 0, 2, 0,
@@ -546,8 +546,8 @@ GH_DEFPROC (mix_expire_channel, "expire-channel", 0, 2, 0,
             "Optional arg @var{channel} specifies a channel to change.\n"
             "Optional arg @var{ticks} (a number) means set the expiration\n"
             "delay to that many milliseconds, rather than turning it off.")
-#define FUNC_NAME s_mix_expire_channel
 {
+#define FUNC_NAME s_mix_expire_channel
   int channel = -1;
   int ticks = -1;
 
@@ -565,8 +565,8 @@ GH_DEFPROC (mix_expire_channel, "expire-channel", 0, 2, 0,
     }
 
   RETURN_INT (Mix_ExpireChannel (channel, ticks));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
@@ -575,8 +575,8 @@ GH_DEFPROC (mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
             "Optional arg @var{which} specifies a channel to halt.\n"
             "Second optional arg @var{ms} specifies the number of\n"
             "milliseconds the fading will take (default 0).")
-#define FUNC_NAME s_mix_fade_out_channel
 {
+#define FUNC_NAME s_mix_fade_out_channel
   int channel = -1;
   int ms = 0;
 
@@ -594,8 +594,8 @@ GH_DEFPROC (mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
     }
 
   RETURN_INT (Mix_FadeOutChannel (channel, ms));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_fade_out_group, "fade-out-group", 0, 2, 0,
@@ -604,8 +604,8 @@ GH_DEFPROC (mix_fade_out_group, "fade-out-group", 0, 2, 0,
             "Optional arg @var{tag} specifies a group to halt.\n"
             "Second optional arg @var{ms} specifies the number of\n"
             "milliseconds the fading will take (default 0).")
-#define FUNC_NAME s_mix_fade_out_group
 {
+#define FUNC_NAME s_mix_fade_out_group
   int tag = -1;
   int ms = 0;
 
@@ -623,8 +623,8 @@ GH_DEFPROC (mix_fade_out_group, "fade-out-group", 0, 2, 0,
     }
 
   RETURN_INT (Mix_FadeOutGroup (tag, ms));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_fade_out_music, "fade-out-music", 0, 1, 0,
@@ -632,8 +632,8 @@ GH_DEFPROC (mix_fade_out_music, "fade-out-music", 0, 1, 0,
             "Halt the music, fading it out progressively until silent.\n"
             "Optional arg @var{ms} specifies the number of milliseconds\n"
             "the fading will take (default 0).")
-#define FUNC_NAME s_mix_fade_out_music
 {
+#define FUNC_NAME s_mix_fade_out_music
   int ms = 0;
 
   if (BOUNDP (s_ms))
@@ -643,26 +643,26 @@ GH_DEFPROC (mix_fade_out_music, "fade-out-music", 0, 1, 0,
     }
 
   RETURN_INT (Mix_FadeOutMusic (ms));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_fading_music, "fading-music", 0, 0, 0,
             (void),
             "Return the fading status of the music.")
-#define FUNC_NAME s_mix_fading_music
 {
+#define FUNC_NAME s_mix_fading_music
   RETURN_FADINGSTATUS (Mix_FadingMusic ());
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_fading_channel, "fading-channel", 0, 1, 0,
             (SCM s_which),
             "Return the fading status of a the default channel."
             "Optional arg @var{which} selects which channel to check.")
-#define FUNC_NAME s_mix_fading_channel
 {
+#define FUNC_NAME s_mix_fading_channel
   int which = -1;
 
   if (BOUNDP (s_which))
@@ -672,8 +672,8 @@ GH_DEFPROC (mix_fading_channel, "fading-channel", 0, 1, 0,
     }
 
   RETURN_FADINGSTATUS (Mix_FadingChannel (which));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_pause, "pause", 0, 1, 0,
@@ -681,8 +681,8 @@ GH_DEFPROC (mix_pause, "pause", 0, 1, 0,
             "Pause the default channel."
             "Optional arg @var{channel} selects which channel to pause.\n"
             "Return value unspecified.")
-#define FUNC_NAME s_mix_pause
 {
+#define FUNC_NAME s_mix_pause
   int channel = -1;
 
   if (BOUNDP (s_channel))
@@ -693,8 +693,8 @@ GH_DEFPROC (mix_pause, "pause", 0, 1, 0,
 
   Mix_Pause (channel);
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_resume, "resume", 0, 1, 0,
@@ -702,8 +702,8 @@ GH_DEFPROC (mix_resume, "resume", 0, 1, 0,
             "Resume (unpause) the default channel.\n"
             "Optional arg @var{channel} selects which channel to resume.\n"
             "Return value unspecified.")
-#define FUNC_NAME s_mix_resume
 {
+#define FUNC_NAME s_mix_resume
   int channel = -1;
 
   if (BOUNDP (s_channel))
@@ -714,16 +714,16 @@ GH_DEFPROC (mix_resume, "resume", 0, 1, 0,
 
   Mix_Resume (channel);
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_paused, "paused?", 0, 1, 0,
             (SCM s_channel),
             "Return #t if the default channel is paused.\n"
             "Optional arg @var{channel} selects a which channel to check.")
-#define FUNC_NAME s_mix_resume
 {
+#define FUNC_NAME s_mix_resume
   int channel = -1;
 
   if (BOUNDP (s_channel))
@@ -734,60 +734,60 @@ GH_DEFPROC (mix_paused, "paused?", 0, 1, 0,
 
   RETURN_BOOL
     (Mix_Paused (channel));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_pause_music, "pause-music", 0, 0, 0,
             (void),
             "Pause the music.  Return value unspecified.")
-#define FUNC_NAME s_mix_pause_music
 {
+#define FUNC_NAME s_mix_pause_music
   Mix_PauseMusic ();
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_resume_music, "resume-music", 0, 0, 0,
             (void),
             "Resume (unpause) the music.  Return value unspecified.")
-#define FUNC_NAME s_mix_resume_music
 {
+#define FUNC_NAME s_mix_resume_music
   Mix_ResumeMusic ();
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_rewind_music, "rewind-music", 0, 0, 0,
             (void),
             "Rewind the music.  Return value unspecified.")
-#define FUNC_NAME s_mix_rewind_music
 {
+#define FUNC_NAME s_mix_rewind_music
   Mix_RewindMusic ();
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_paused_music, "paused-music?", 0, 0, 0,
             (void),
             "Return #t if the music is currently paused.")
-#define FUNC_NAME s_mix_paused_music
 {
+#define FUNC_NAME s_mix_paused_music
   RETURN_BOOL
     (Mix_PausedMusic ());
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_playing, "playing?", 0, 1, 0,
             (SCM s_channel),
             "Return #t iff the default channel is playing.\n"
             "Optional arg @var{channel} selects which channel to check.")
-#define FUNC_NAME s_mix_playing
 {
+#define FUNC_NAME s_mix_playing
   int channel = -1;
 
   if (BOUNDP (s_channel))
@@ -798,42 +798,42 @@ GH_DEFPROC (mix_playing, "playing?", 0, 1, 0,
 
   RETURN_BOOL
     (Mix_Playing (channel));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_playing_music, "playing-music?", 0, 0, 0,
             (void),
             "Return #t iff the music is currently playing.")
-#define FUNC_NAME s_mix_playing_music
 {
+#define FUNC_NAME s_mix_playing_music
   RETURN_BOOL
     (Mix_PlayingMusic ());
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_set_music_cmd, "set-music-command", 1, 0, 0,
             (SCM command),
             "Stop music and set external music playback command\n"
             "to @var{command}, a string.")
-#define FUNC_NAME s_mix_set_music_cmd
 {
+#define FUNC_NAME s_mix_set_music_cmd
   ASSERT_STRING (command, ARGH1);
   RETURN_INT (Mix_SetMusicCMD (SCM_CHARS (command)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (mix_close_audio, "close-audio", 0, 0, 0,
             (void),
             "Close the mixer, halting all playing audio.")
-#define FUNC_NAME s_mix_close_audio
 {
+#define FUNC_NAME s_mix_close_audio
   Mix_CloseAudio ();
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 

@@ -107,8 +107,8 @@ free_keysym (SCM keysym)
 GH_DEFPROC (make_event, "make-event", 0, 1, 0,
             (SCM s_type),
             "Return a new SDL event.")
-#define FUNC_NAME s_make_event
 {
+#define FUNC_NAME s_make_event
   SDL_Event *event;
   int type = SDL_NOEVENT;
 
@@ -119,15 +119,15 @@ GH_DEFPROC (make_event, "make-event", 0, 1, 0,
   event->type = type;
 
   RETURN_NEW_EVENT (event);
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
             (SCM sym, SCM mod),
             "Return a new keysym.  Optional args @var{sym} and @var{mod}\n"
             "specify a particular symbol and modifier, respectively.")
-#define FUNC_NAME s_make_keysym
 {
+#define FUNC_NAME s_make_keysym
   SDL_keysym *keysym;
 
   /* Alloc the keysym.  */
@@ -152,8 +152,8 @@ GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
 
   /* Return the new smob.  */
   RETURN_NEW_KEYSYM (keysym);
-}
 #undef FUNC_NAME
+}
 
 
 /* Smob getters and setters */
@@ -301,24 +301,24 @@ GH_DEFPROC (pump_events, "pump-events", 0, 0, 0,
             (void),
             "Gather events from input devices and update the event\n"
             "queue.  The return value is unspecified.")
-#define FUNC_NAME s_pump_events
 {
+#define FUNC_NAME s_pump_events
   SDL_PumpEvents ();
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
             (SCM events, SCM numevents, SCM action, SCM mask),
             "[not yet implemented]")
-#define FUNC_NAME s_peep_events
 {
+#define FUNC_NAME s_peep_events
   THROW_NOT_YET_IMPLEMENTED;
   /*  int SDL_PeepEvents (SDL_Event *events, int numevents, */
   /*                      SDL_eventaction action, Uint32 mask); */
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (poll_event, "poll-event", 0, 1, 0,
             (SCM event),
@@ -326,8 +326,8 @@ GH_DEFPROC (poll_event, "poll-event", 0, 1, 0,
             "Optional arg @var{event} specifies an event object (from\n"
             "@code{make-event} to be filled in with the next event from\n"
             "the queue (if available).")
-#define FUNC_NAME s_poll_event
 {
+#define FUNC_NAME s_poll_event
   int result;
 
   if (UNBOUNDP (event))
@@ -342,8 +342,8 @@ GH_DEFPROC (poll_event, "poll-event", 0, 1, 0,
 
   RETURN_BOOL
     (result);
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (wait_event, "wait-event", 0, 1, 0,
             (SCM event),
@@ -351,8 +351,8 @@ GH_DEFPROC (wait_event, "wait-event", 0, 1, 0,
             "Optional arg @var{event} specifies an event object (from\n"
             "@code{make-event} to be filled in with the next event from\n"
             "the queue.")
-#define FUNC_NAME s_wait_event
 {
+#define FUNC_NAME s_wait_event
   int result;
 
   if (UNBOUNDP (event))
@@ -367,56 +367,56 @@ GH_DEFPROC (wait_event, "wait-event", 0, 1, 0,
 
   RETURN_BOOL
     (result);
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (push_event, "push-event", 1, 0, 0,
             (SCM event),
             "Push @var{event} onto the queue.  Return 1 for success,\n"
             "0 if the queue was full, -1 for other errors.")
-#define FUNC_NAME s_push_event
 {
+#define FUNC_NAME s_push_event
   int result;
 
   ASSERT_EVENT (event, ARGH1);
 
   result = SDL_PushEvent (UNPACK_EVENT (event));
   RETURN_INT (result);
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (set_event_filter, "set-event-filter", 1, 0, 0,
             (SCM filter),
             "[not yet implemented]")
-#define FUNC_NAME s_set_event_filter
 {
+#define FUNC_NAME s_set_event_filter
   THROW_NOT_YET_IMPLEMENTED;
   /* extern DECLSPEC void SDL_SetEventFilter (SDL_EventFilter filter); */
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (get_event_filter, "get-event-filter", 1, 0, 0,
             (SCM filter),
             "[not yet implemented]")
-#define FUNC_NAME s_get_event_filter
 {
+#define FUNC_NAME s_get_event_filter
   THROW_NOT_YET_IMPLEMENTED;
   /* extern DECLSPEC SDL_EventFilter SDL_GetEventFilter (void); */
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (event_state, "event-state", 2, 0, 0,
             (SCM type, SCM state),
             "[not yet implemented]")
-#define FUNC_NAME s_event_state
 {
+#define FUNC_NAME s_event_state
   THROW_NOT_YET_IMPLEMENTED;
   /* extern DECLSPEC Uint8 SDL_EventState (Uint8 type, int state); */
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (enable_unicode, "enable-unicode", 0, 1, 0,
@@ -424,14 +424,14 @@ GH_DEFPROC (enable_unicode, "enable-unicode", 0, 1, 0,
             "Return #t iff UNICODE keyboard translation is enabled.\n"
             "Optional arg @var{enable?} if non-#f, enables UNICODE\n"
             "keyboard translation, or disables it if #f.")
-#define FUNC_NAME s_enable_unicode
 {
+#define FUNC_NAME s_enable_unicode
   RETURN_BOOL
     (SDL_EnableUNICODE (UNBOUNDP (enable_p)
                         ? -1
                         : gh_scm2bool (enable_p)));
-}
 #undef FUNC_NAME
+}
 
 /*
  * If 'delay' is set to 0, keyboard repeat is disabled.
@@ -445,8 +445,8 @@ GH_DEFPROC (enable_key_repeat, "enable-key-repeat", 2, 0, 0,
             "@var{interval} is the time in ms between keyboard repeat\n"
             "events.  If @var{delay} is 0, keyboard repeat is disabled.\n"
             "Return #t on success.")
-#define FUNC_NAME s_enable_key_repeat
 {
+#define FUNC_NAME s_enable_key_repeat
   int interval, delay;
 
   ASSERT_EXACT (s_delay, ARGH1);
@@ -456,8 +456,8 @@ GH_DEFPROC (enable_key_repeat, "enable-key-repeat", 2, 0, 0,
   interval = gh_scm2long (s_interval);
 
   RETURN_TRUE_IF_0 (SDL_EnableKeyRepeat (delay, interval));
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (get_key_state, "get-key-state", 1, 0, 0,
             (SCM numkeys),
@@ -466,34 +466,34 @@ GH_DEFPROC (get_key_state, "get-key-state", 1, 0, 0,
             "Get a snapshot of the current state of the keyboard.\n"
             "Return an array of keystates, indexed by the SDLK_* syms."
 #endif
-#define FUNC_NAME s_get_key_state
 {
+#define FUNC_NAME s_get_key_state
   THROW_NOT_YET_IMPLEMENTED;
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (get_mod_state, "get-mod-state", 0, 0, 0,
             (void),
             "Return the current key modifier state as a list of symbols.")
-#define FUNC_NAME s_get_mod_state
 {
+#define FUNC_NAME s_get_mod_state
   return gsdl_ulong2flags (SDL_GetModState (), event_mod_flags);
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (set_mod_state, "set-mod-state", 1, 0, 0,
             (SCM modstate),
             "Set the current key modifier state to @var{modstate},\n"
             "a list of symbols.  This does not change the keyboard state,\n"
             "only the key modifier flags.  The return value is unspecified.")
-#define FUNC_NAME s_set_mod_state
 {
+#define FUNC_NAME s_set_mod_state
   ASSERT_EXACT (modstate, ARGH1);
   SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, ARGH1));
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 DECLARE_SIMPLE_SYM (state);
 DECLARE_SIMPLE_SYM (x);
@@ -503,29 +503,29 @@ GH_DEFPROC (get_mouse_state, "get-mouse-state", 0, 0, 0,
             (void),
             "Return the current state of the mouse as an alist with\n"
             "symbolic keys: @code{state}, @code{x} and @code{y}.")
-#define FUNC_NAME s_get_mouse_state
 {
+#define FUNC_NAME s_get_mouse_state
   int buttons, x, y;
   buttons = SDL_GetMouseState (&x, &y);
   RETURN_LIST3 (gh_cons (SYM (state), gh_long2scm (buttons)),
                 gh_cons (SYM (x), gh_long2scm (x)),
                 gh_cons (SYM (y), gh_long2scm (y)));
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (get_relative_mouse_state, "get-mouse-relative-state", 0, 0, 0,
             (void),
             "Return the current relative state of the mouse as an alist\n"
             "symbolic keys: @code{state}, @code{x} and @code{y}.")
-#define FUNC_NAME s_get_relative_mouse_state
 {
+#define FUNC_NAME s_get_relative_mouse_state
   int buttons, x, y;
   buttons = SDL_GetRelativeMouseState (&x, &y);
   RETURN_LIST3 (gh_cons (SYM (state), gh_long2scm (buttons)),
                 gh_cons (SYM (x), gh_long2scm (x)),
                 gh_cons (SYM (y), gh_long2scm (y)));
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (button_p, "button?", 1, 0, 0,
             (SCM mask),
@@ -533,13 +533,13 @@ GH_DEFPROC (button_p, "button?", 1, 0, 0,
             "are pressed.  Use 1 for left, 2 for middle and 4 for right,\n"
             "combined with @code{logior}, to form @var{mask}.  For example,\n"
             "a value of 5 specifies both left and right buttons.")
-#define FUNC_NAME s_button_p
 {
+#define FUNC_NAME s_button_p
   ASSERT_EXACT (mask, ARGH1);
   RETURN_BOOL
     (SDL_BUTTON (gh_scm2long (mask)));
-}
 #undef FUNC_NAME
+}
 
 
 extern flagstash_t gsdl_kmod_flagstash;

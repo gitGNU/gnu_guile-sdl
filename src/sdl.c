@@ -64,11 +64,11 @@ GH_DEFPROC (init, "init", 1, 0, 0,
             "Initialize SDL based on configuration flags @var{sel}.\n"
             "@var{sel} is a list of symbols whose names all begin\n"
             "with @code{SDL_INIT_}.")
-#define FUNC_NAME s_init
 {
+#define FUNC_NAME s_init
   RETURN_INT (SDL_Init (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1)));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (init_subsystem, "init-subsystem", 1, 0, 0,
@@ -76,23 +76,23 @@ GH_DEFPROC (init_subsystem, "init-subsystem", 1, 0, 0,
             "Initialize the SDL subsystems represented by @var{sel}.\n"
             "@var{sel} is a list of flags (symbols)\n"
             "from the same set useful for @code{init}.")
-#define FUNC_NAME s_init_subsystem
 {
+#define FUNC_NAME s_init_subsystem
   RETURN_INT (SDL_InitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1)));
-}
 #undef FUNC_NAME
+}
 
 
 /* Termination */
 GH_DEFPROC (quit, "quit", 0, 0, 0,
             (void),
             "Shut down all SDL subsystems.")
-#define FUNC_NAME s_quit
 {
+#define FUNC_NAME s_quit
   SDL_Quit ();
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (quit_subsystem, "quit-subsystem", 1, 0, 0,
@@ -100,12 +100,12 @@ GH_DEFPROC (quit_subsystem, "quit-subsystem", 1, 0, 0,
             "Shut down the SDL subsystems represented by @var{sel}.\n"
             "@var{sel} is a list of flags (symbols)\n"
             "from the same set useful for @code{init}.")
-#define FUNC_NAME s_quit_subsystem
 {
+#define FUNC_NAME s_quit_subsystem
   SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1));
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 /* Information */
@@ -115,13 +115,13 @@ GH_DEFPROC (was_init, "was-init", 1, 0, 0,
             "been initialized.  @var{sel} is a list of flags (symbols)\n"
             "from the same set useful for @code{init}.  Return a list\n"
             "likewise composed.")
-#define FUNC_NAME s_was_init
 {
+#define FUNC_NAME s_was_init
   return gsdl_ulong2flags (SDL_WasInit (GSDL_FLAGS2ULONG
                                         (sel, init_flags, ARGH1)),
                            init_flags);
-}
 #undef FUNC_NAME
+}
 
 
 /* time functions */
@@ -130,24 +130,24 @@ GH_DEFPROC (get_ticks, "get-ticks", 0, 0, 0,
             (void),
             "Return the number of milliseconds since\n"
             "the SDL library initialization.")
-#define FUNC_NAME s_get_ticks
 {
+#define FUNC_NAME s_get_ticks
   RETURN_INT (SDL_GetTicks ());
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (delay, "delay", 1, 0, 0,
             (SCM ms),
             "Wait @var{ms} milliseconds.\n"
             "The return value is unspecified.")
-#define FUNC_NAME s_delay
 {
+#define FUNC_NAME s_delay
   ASSERT_EXACT (ms, ARGH1);
   SDL_Delay (gh_scm2ulong (ms));
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 /* error handling */
@@ -155,12 +155,12 @@ GH_DEFPROC (delay, "delay", 1, 0, 0,
 GH_DEFPROC (get_error, "get-error", 0, 0, 0,
             (void),
             "Return the current SDL error string.")
-#define FUNC_NAME s_get_error
 {
+#define FUNC_NAME s_get_error
   char *error = SDL_GetError ();
   RETURN_0STR (error);
-}
 #undef FUNC_NAME
+}
 
 
 extern flagstash_t gsdl_init_flagstash;

@@ -72,8 +72,8 @@ GH_DEFPROC (make_rect, "make-rect", 4, 0, 0,
             (SCM s_x, SCM s_y, SCM s_w, SCM s_h),
             "Return a rect smob with location @var{x},@var{y}\n"
             "and dimensions @var{width} by @var{height}.")
-#define FUNC_NAME s_make_rect
 {
+#define FUNC_NAME s_make_rect
   SDL_Rect *rect;
 
   ASSERT_EXACT (s_x, ARGH1);
@@ -88,8 +88,8 @@ GH_DEFPROC (make_rect, "make-rect", 4, 0, 0,
   rect->h = gh_scm2ulong (s_h);
 
   RETURN_NEW_RECT (rect);
-}
 #undef FUNC_NAME
+}
 
 
 /* rect getters and setters */

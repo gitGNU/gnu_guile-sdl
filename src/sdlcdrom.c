@@ -49,35 +49,35 @@ static long cdrom_tag;
 GH_DEFPROC (cd_p, "cd?", 1, 0, 0,
             (SCM obj),
             "Return #t iff @var{obj} is a cd smob.")
-#define FUNC_NAME s_cd_p
 {
+#define FUNC_NAME s_cd_p
   RETURN_BOOL
     (CDROM_P (obj));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_null_p, "cd-null?", 1, 0, 0,
             (SCM cd_smob),
             "Return #t iff @var{cd} is a null pointer.")
-#define FUNC_NAME s_cd_null_p
 {
+#define FUNC_NAME s_cd_null_p
   ASSERT_CDROM (cd_smob, ARGH1);
 
   RETURN_BOOL
     (! UNPACK_CDROM (cd_smob));
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_num_drives, "cd-num-drives", 0, 0, 0,
             (),
             "Return the number of CD drives.")
-#define FUNC_NAME s_cd_num_drives
 {
+#define FUNC_NAME s_cd_num_drives
   RETURN_INT (SDL_CDNumDrives ());
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_name, "cd-name", 0, 1, 0,
@@ -85,8 +85,8 @@ GH_DEFPROC (cd_name, "cd-name", 0, 1, 0,
             "Return a human-readable, system-dependent\n"
             "identifier (a string) for the CD-ROM.\n"
             "Optional arg @var{drive} is a number specifying which drive.")
-#define FUNC_NAME s_cd_name
 {
+#define FUNC_NAME s_cd_name
   const char *name;
   int drive = 0;
 
@@ -98,18 +98,16 @@ GH_DEFPROC (cd_name, "cd-name", 0, 1, 0,
 
   name = SDL_CDName (drive);
   RETURN_0STR (name);
-}
 #undef FUNC_NAME
-
+}
 
 GH_DEFPROC (cd_open, "cd-open", 0, 1, 0,
             (SCM drive),
             "Open the CD-ROM drive for access and return its handle.\n"
             "If the drive is unavailable, return #f.\n"
             "Optional arg @var{drive} is a number specifying which drive.")
-#define FUNC_NAME s_cd_open
-
 {
+#define FUNC_NAME s_cd_open
   SDL_CD *cd;
   int cdrive = 0;
 
@@ -124,8 +122,8 @@ GH_DEFPROC (cd_open, "cd-open", 0, 1, 0,
     RETURN_FALSE;
   else
     RETURN_NEW_CDROM (cd);
-}
 #undef FUNC_NAME
+}
 
 
 DECLARE_SIMPLE_SYM (TRAYEMPTY);
@@ -139,8 +137,8 @@ GH_DEFPROC (cd_status, "cd-status", 1, 0, 0,
             "Return the current status of the drive @var{cd}\n"
             "as a symbol, one of: @code{TRAYEMTPY}, @code{STOPPED},\n"
             "@code{PLAYING}, @code{PAUSED} or @code{ERROR}.")
-#define FUNC_NAME s_cd_status
 {
+#define FUNC_NAME s_cd_status
   SDL_CD *cd;
   int ret = CD_ERROR;
 
@@ -158,15 +156,15 @@ GH_DEFPROC (cd_status, "cd-status", 1, 0, 0,
     case CD_PAUSED:    return SYM (PAUSED);
     default:           return SYM (ERROR);
     }
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
             (SCM cd_smob),
             "Return #t iff there is a CD in drive @var{cd}.")
-#define FUNC_NAME s_cd_in_drive_p
 {
+#define FUNC_NAME s_cd_in_drive_p
   SDL_CD *cd;
 
   ASSERT_CDROM (cd_smob, ARGH1);
@@ -176,15 +174,15 @@ GH_DEFPROC (cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
     RETURN_BOOL (CD_INDRIVE (SDL_CDStatus (cd)));
   else
     RETURN_FALSE;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_get_num_tracks, "cd-get-num-tracks", 1, 0, 0,
             (SCM cd_smob),
             "Return the number of tracks on the @var{cd}.")
-#define FUNC_NAME s_cd_get_num_tracks
 {
+#define FUNC_NAME s_cd_get_num_tracks
   SDL_CD *cd;
   int ret = -1;
 
@@ -195,15 +193,15 @@ GH_DEFPROC (cd_get_num_tracks, "cd-get-num-tracks", 1, 0, 0,
     ret = cd->numtracks;
 
   RETURN_INT (ret);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_get_cur_track, "cd-get-cur-track", 1, 0, 0,
             (SCM cd_smob),
             "Return the current track on the @var{cd}.")
-#define FUNC_NAME s_cd_get_cur_track
 {
+#define FUNC_NAME s_cd_get_cur_track
   SDL_CD *cd;
   int ret = -1;
 
@@ -214,15 +212,15 @@ GH_DEFPROC (cd_get_cur_track, "cd-get-cur-track", 1, 0, 0,
     ret = cd->cur_track;
 
   RETURN_INT (ret);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_get_cur_frame, "cd-get-cur-frame", 1, 0, 0,
             (SCM cd_smob),
             "Return the current frame of the @var{cd}.")
-#define FUNC_NAME s_cd_get_cur_frame
 {
+#define FUNC_NAME s_cd_get_cur_frame
   SDL_CD *cd;
   int ret = -1;
 
@@ -233,8 +231,8 @@ GH_DEFPROC (cd_get_cur_frame, "cd-get-cur-frame", 1, 0, 0,
     ret = cd->cur_frame;
 
   RETURN_INT (ret);
-}
 #undef FUNC_NAME
+}
 
 
 DECLARE_SIMPLE_SYM (offset);
@@ -246,8 +244,8 @@ GH_DEFPROC (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
             (SCM cd_smob, SCM s_n),
             "Return info for @var{cd} track @var{n} as an alist\n"
             "or #f if there were problems.")
-#define FUNC_NAME s_cd_get_nth_track
 {
+#define FUNC_NAME s_cd_get_nth_track
   SDL_CD *cd;
   int n = 0;
 
@@ -269,8 +267,8 @@ GH_DEFPROC (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
        gh_cons (SYM (offset), gh_ulong2scm (cd->track[n].offset)));
   else
     RETURN_FALSE;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
@@ -287,8 +285,8 @@ GH_DEFPROC (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
             "tracks, and should only be called after calling\n"
             "@code{cd-status} to get track information about the CD.\n"
             "Return #t if successful.")
-#define FUNC_NAME s_cd_play_tracks
 {
+#define FUNC_NAME s_cd_play_tracks
   SDL_CD *cd;
   int start_track = 0, start_frame = 0, n_tracks = 1, n_frames = 1;
   int ret = -1;
@@ -334,8 +332,8 @@ GH_DEFPROC (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
     ret = SDL_CDPlayTracks (cd, start_track, start_frame, n_tracks, n_frames);
 
   RETURN_TRUE_IF_0 (ret);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_play, "cd-play", 3, 0, 0,
@@ -344,8 +342,8 @@ GH_DEFPROC (cd_play, "cd-play", 3, 0, 0,
              SCM s_length),
             "Play a @var{cd} from @var{start} frame for\n"
             "@var{length} frames.  Return #t if successful.")
-#define FUNC_NAME s_cd_play
 {
+#define FUNC_NAME s_cd_play
   SDL_CD *cd;
   int ret = -1;
 
@@ -361,15 +359,15 @@ GH_DEFPROC (cd_play, "cd-play", 3, 0, 0,
                       gh_scm2ulong (s_length));
 
   RETURN_TRUE_IF_0 (ret);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_pause, "cd-pause", 1, 0, 0,
             (SCM cd_smob),
             "Pause a @var{cd}.  Return #t if successful.")
-#define FUNC_NAME s_cd_pause
 {
+#define FUNC_NAME s_cd_pause
   SDL_CD *cd;
   int ret = -1;
 
@@ -380,15 +378,15 @@ GH_DEFPROC (cd_pause, "cd-pause", 1, 0, 0,
     ret = SDL_CDPause (cd);
 
   RETURN_TRUE_IF_0 (ret);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_resume, "cd-resume", 1, 0, 0,
             (SCM cd_smob),
             "Resume (unpause) a @var{cd}.  Return #t if successful.")
-#define FUNC_NAME s_cd_resume
 {
+#define FUNC_NAME s_cd_resume
   SDL_CD *cd;
   int ret = -1;
 
@@ -399,15 +397,15 @@ GH_DEFPROC (cd_resume, "cd-resume", 1, 0, 0,
     ret = SDL_CDResume (cd);
 
   RETURN_TRUE_IF_0 (ret);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_stop, "cd-stop", 1, 0, 0,
             (SCM cd_smob),
             "Stop a @var{cd}.  Return #t if successful.")
-#define FUNC_NAME s_cd_stop
 {
+#define FUNC_NAME s_cd_stop
   SDL_CD *cd;
   int ret = -1;
 
@@ -418,15 +416,15 @@ GH_DEFPROC (cd_stop, "cd-stop", 1, 0, 0,
     ret = SDL_CDStop (cd);
 
   RETURN_TRUE_IF_0 (ret);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_eject, "cd-eject", 1, 0, 0,
             (SCM cd_smob),
             "Eject a @var{cd}.  Return #t if successful.")
-#define FUNC_NAME s_cd_eject
 {
+#define FUNC_NAME s_cd_eject
   SDL_CD *cd;
   int ret = -1;
 
@@ -437,15 +435,15 @@ GH_DEFPROC (cd_eject, "cd-eject", 1, 0, 0,
     ret = SDL_CDEject (cd);
 
   RETURN_TRUE_IF_0 (ret);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_close, "cd-close", 1, 0, 0,
             (SCM cd_smob),
             "Close a @var{cd}.  The return value is unspecified.")
-#define FUNC_NAME s_cd_close
 {
+#define FUNC_NAME s_cd_close
   SDL_CD *cd;
 
   ASSERT_CDROM (cd_smob, ARGH1);
@@ -458,8 +456,8 @@ GH_DEFPROC (cd_close, "cd-close", 1, 0, 0,
     }
 
   RETURN_UNSPECIFIED;
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (cd_msf_to_frames, "cd-msf->frames", 1, 2, 0,
@@ -469,8 +467,8 @@ GH_DEFPROC (cd_msf_to_frames, "cd-msf->frames", 1, 2, 0,
             "Return frames (an integer) computed from"
             "@var{m}, second @var{s} and frame @var{f}.\n"
             "@var{s} and @var{f} are optional.")
-#define FUNC_NAME s_cd_msf_to_frames
 {
+#define FUNC_NAME s_cd_msf_to_frames
   int frames;
   int m, s = 0, f = 0;
 
@@ -493,8 +491,8 @@ GH_DEFPROC (cd_msf_to_frames, "cd-msf->frames", 1, 2, 0,
 
   frames = MSF_TO_FRAMES (m, s, f);
   RETURN_INT (frames);
-}
 #undef FUNC_NAME
+}
 
 
 DECLARE_SIMPLE_SYM (f);
@@ -505,8 +503,8 @@ GH_DEFPROC (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
             (SCM s_frames),
             "Return a minute/second/frames alist made from\n"
             "converting @var{frames} (a number).")
-#define FUNC_NAME s_cd_frames_to_msf
 {
+#define FUNC_NAME s_cd_frames_to_msf
   int frames, m, s, f;
 
   ASSERT_EXACT (s_frames, ARGH1);
@@ -516,8 +514,8 @@ GH_DEFPROC (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
   RETURN_LIST3 (gh_cons (SYM (m), gh_ulong2scm (m)),
                 gh_cons (SYM (s), gh_ulong2scm (s)),
                 gh_cons (SYM (f), gh_ulong2scm (f)));
-}
 #undef FUNC_NAME
+}
 
 /*-------------------------------------------------------------*/
 

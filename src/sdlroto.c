@@ -37,8 +37,8 @@ GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
              SCM s_smooth),
             "Returns a new rotated and zoomed copy of a surface.\n"
             "Zoom defaults to 1.0, and smooth defaults to #f.")
-#define FUNC_NAME s_roto_zoom_surface
 {
+#define FUNC_NAME s_roto_zoom_surface
   SDL_Surface *surface, *new_surface;
   double angle = 0.0, zoom = 1.0;
 
@@ -60,8 +60,8 @@ GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
   new_surface = rotozoomSurface (surface, angle, zoom, NOT_FALSEP (s_smooth));
 
   RETURN_NEW_SURFACE (new_surface);
-}
 #undef FUNC_NAME
+}
 
 
 GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
@@ -73,8 +73,8 @@ GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
             "@var{zoomx} and @var{zoomy} specify the scaling factor.\n"
             "If omitted, @var{zoomy} defaults to @var{zoomx}.\n"
             "Optional fourth arg @var{smooth} turns on anti-aliasing.")
-#define FUNC_NAME s_zoom_surface
 {
+#define FUNC_NAME s_zoom_surface
   SDL_Surface *surface, *new_surface;
   double zoomx = 1.0, zoomy = 1.0;
 
@@ -98,8 +98,8 @@ GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
   new_surface = zoomSurface (surface, zoomx, zoomy, NOT_FALSEP (s_smooth));
 
   RETURN_NEW_SURFACE (new_surface);
-}
 #undef FUNC_NAME
+}
 
 
 void

@@ -190,8 +190,8 @@ gsdl_long2enum (long value, SCM s_enum_type)
 GH_DEFPROC (enumstash_enums, "enumstash-enums", 1, 0, 0,
             (SCM s_enum_type),
             "Return the list of symbols associated with @var{enum-type}.")
-#define FUNC_NAME s_enumstash_enums
 {
+#define FUNC_NAME s_enumstash_enums
   SCM rv;
   enum_struct *enum_type;
 
@@ -208,15 +208,15 @@ GH_DEFPROC (enumstash_enums, "enumstash-enums", 1, 0, 0,
       }
   }
   return rv;
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (enum_to_number, "enum->number", 2, 0, 0,
             (SCM s_enum_type,
              SCM symbol),
             "Convert an enum number or symbol to a number.")
-#define FUNC_NAME s_enum_to_number
 {
+#define FUNC_NAME s_enum_to_number
   SCM table;
   enum_struct *enum_type;
 
@@ -229,14 +229,14 @@ GH_DEFPROC (enum_to_number, "enum->number", 2, 0, 0,
 
   /* Lookup and return the number in the pair.  */
   return scm_hashq_ref (table, symbol, BOOL_FALSE);
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (number_to_enum, "number->enum", 2, 0, 0,
             (SCM s_enum_type, SCM number),
             "Convert a number to an enum.")
-#define FUNC_NAME s_number_to_enum
 {
+#define FUNC_NAME s_number_to_enum
   SCM vec;
   long index;
   enum_struct *enum_type;
@@ -251,8 +251,8 @@ GH_DEFPROC (number_to_enum, "number->enum", 2, 0, 0,
 
   /* Return the numbered index into the vector.  */
   return gh_vector_ref (vec, gh_long2scm (index));
-}
 #undef FUNC_NAME
+}
 
 
 /* flagstash smob */
@@ -411,8 +411,8 @@ GH_DEFPROC (flagstash_flags, "flagstash-flags", 1, 0, 0,
             (SCM s_stash),
             "Return a list of all the flags (symbols) in @var{stash},\n"
             "a flagstash object, in unspecified order.")
-#define FUNC_NAME s_flagstash_flags
 {
+#define FUNC_NAME s_flagstash_flags
   int i;
   flagstash_t *stash;
   SCM rv = SCM_EOL;
@@ -423,33 +423,33 @@ GH_DEFPROC (flagstash_flags, "flagstash-flags", 1, 0, 0,
   for (i = 0; i < stash->total; i++)
     rv = gh_cons (gh_symbol2scm (stash->linear[i]->name), rv);
   return rv;
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (flags_to_number, "flags->number", 2, 0, 0,
             (SCM stash, SCM flags),
             "Use @var{stash} to convert @var{flags} to a number.\n"
             "@var{flags} is a list of symbols.")
-#define FUNC_NAME s_flags_to_number
 {
+#define FUNC_NAME s_flags_to_number
   ASSERT_FLAGSTASH (stash, ARGH1);
 
   RETURN_UINT (GSDL_FLAGS2ULONG (flags, stash, ARGH2));
-}
 #undef FUNC_NAME
+}
 
 GH_DEFPROC (number_to_flags, "number->flags", 2, 0, 0,
             (SCM stash, SCM number),
             "Use @var{stash} to convert @var{number} to a list\n"
             "of symbols.")
-#define FUNC_NAME s_number_to_flags
 {
+#define FUNC_NAME s_number_to_flags
   ASSERT_FLAGSTASH (stash, ARGH1);
   ASSERT_EXACT (number, ARGH2);
 
   return gsdl_ulong2flags (gh_scm2ulong (number), stash);
-}
 #undef FUNC_NAME
+}
 
 
 void
