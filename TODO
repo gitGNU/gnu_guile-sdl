@@ -1,5 +1,4 @@
-- 0.2.x "basics"
-  - write configure check for guile that can load binary modules
++ 0.2.x "basics"
   + enums introspection
   + naming: remove "sdl-" prefix
   + install under $GUILE_LIBSITE only
@@ -8,17 +7,30 @@
     + methodology
     + describe limits/restrictions
     + include TODO
+    + docs should not use "smobs"
   + handle #f given as optional arg
-  - programming practice review
-    - 0-means-success return values
-    - gc-safety of intermediate values
-    - smob handling
+  + programming practice review
+    + gc-safety of intermediate values
+    + smob handling
+
+- 0.3 "coverage"
+  - write configure check for guile that can load binary modules
   - compiled modules methodology
     + gcc 2.95.4 / binutils 2.12 / libc6 2.2.5
     - gcc 3.3.3 / binutils 2.14 or later / libc6 2.3.3
-
-- 0.3 "coverage"
-  - improve documentation content
+  - flags collected but silently dropped
+    - make-surface
+  - interface present but "not yet implemented"
+    - peep-event
+    - set-event-filter
+    - get-event-filter
+    - event-state
+    - get-key-state
+    - scale-surface
+  - user-alloc alternatives (less consing) for event procs
+  - programming practice review
+    - 0-means-success return values
+    - return value consistency
   - /usr/include/SDL/*.h coverage
   - opengl?
 
