@@ -11,8 +11,8 @@ haven't been included because of the problems with Guile code being run
 from more than one thread.  However audio programming can be done with the
 module `(sdl mixer)' that requires the SDL_mixer library.
 
-Also included are SDL_gfxPrimitives-1.4 and SDL_rotozoom-1.4 (by
-A. Schiffler <aschiffler@home.com>) and bindings for them.
+Also included are SDL_gfxPrimitives-1.4 and SDL_rotozoom-1.4
+(by A. Schiffler <aschiffler@home.com>) and bindings for them.
 
 
 Requirements
@@ -92,4 +92,3 @@ leftover files in ${libdir}.  There are three ways to remove them:
 Note that the "000" are all zeroes; it signifies the libtool version
 number and has nothing to do with either the Guile-SDL package version or
 the library "release" version.
-
