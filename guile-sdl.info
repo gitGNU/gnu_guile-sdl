@@ -15,19 +15,226 @@ for Guile.
 * Menu:
 
 * Introduction::                What is this all about?
+* General SDL::                 General SDL functions
+* Video::                       Video and Graphics Functions
+* Events::                      Events and Input Handling
+* OpenGL::                      OpenGL Interface
+* TrueType::                    TrueType Font Support
+* Audio::                       Audio Support
 * Index::                       Procedure index.
 
 
-File: guile-sdl.info,  Node: Introduction,  Next: Index,  Prev: Top,  Up: Top
+File: guile-sdl.info,  Node: Introduction,  Next: General SDL,  Prev: Top,  Up: Top
 
 Introduction
 ************
 
-   The guile-sdl library is a shared library which is a starting point
-for developing Guile with the SDL (Simple Direct Media Layer) library.
+   The guile-sdl library is an interface to the SDL (Simple Direct Media
+Layer) library.  The goal is to provide both a clean and direct
+interface to the lowest level SDL, while extending with higher level
+concepts where useful, such as default arguments and functional-style
+application of graphics routines.  Several SDL add-on libraries have
+been wrapped and included with guile-sdl, including SDL_image (for
+loading multiple image formats), SDL_ttf (for rendering true type
+fonts), and SDL_mixer (for playing/mixing different audio formats).  In
+addition, some low-level 2D graphics primitives for scaling and
+rotations have been provided.
+
+   OpenGL is supported, but requires the guile-opengl library, which is
+currently in a very early alpha state.
+
+* Menu:
+
+* Quick Start::                A simple example
+* Naming Conventions::         Naming conventions
 
 
-File: guile-sdl.info,  Node: Index,  Prev: Introduction,  Up: Top
+File: guile-sdl.info,  Node: Quick Start,  Prev: Naming Conventions,  Up: Introduction
+
+Quick Start
+===========
+
+   To whet your appetite, and hopefully get you excited about the ease
+and flexibility of programming with guile-sdl, we begin with a simple
+example.  The following program, which can be found in the examples
+directory, is a simple image browser.  You can cycle through images by
+using space, n or right to go forward, backspace, p or left to go
+backwards, and escape or q to quit.
+
+     ;; use the SDL module (prefixing symbols with "sdl-")
+     (use-modules ((sdl sdl)
+                   :rename (symbol-prefix-proc 'sdl-)))
+     
+     ;; srfi-1 for list processing and srfi-2 for and-let*
+     (use-modules (srfi srfi-1)
+                  (srfi srfi-2))
+     
+     ;; initialize the video subsystem
+     (init-sdl init/video)
+     
+     ;; directory to search for images in
+     (define image-dir "/usr/share/pixmaps/")
+     
+     ;; utility to test if a path is a directory
+     (define (file? f)
+       (let* ((stats (stat f))
+              (type (stat:type stats)))
+         (eq? type 'regular)))
+     
+     ;; build a ring of image file names
+     (define image-ring
+       (let ((dir (opendir image-dir)))
+         (letrec ((D (lambda (ls)
+                       (let ((file (readdir dir)))
+                         (if (eof-object? file)
+                             (begin (closedir dir) ls)
+                             (D (cons (string-append image-dir file)
+                                      ls)))))))
+           (apply circular-list (reverse (filter file? (D '())))))))
+     
+     ;; functions to cycle through the ring
+     (define (next-image)
+       (let ((next (car image-ring)))
+         (set! image-ring (cdr image-ring))
+         next))
+     
+     (define (prev-image)
+       (let ((orig image-ring))
+         (while (not (eq? (cddr image-ring) orig))
+           (set! image-ring (cdr image-ring)))
+         (let ((image (car image-ring)))
+           (set! image-ring (cdr image-ring))
+           image)))
+     
+     ;; display an image given a filename
+     (define (show file)
+       (and-let* ((image (load-image file)))
+         (set-video-mode (surface:w image) (surface:h image)
+                         24 video/hwsurface)
+         (blit-surface image)
+         (flip)))
+     
+     ;; show the first image
+     (show (next-image))
+     
+     ;; event handler
+     (let handle ((e (make-event)))
+       (if (wait-event e)
+         (case (event:type e)
+           ((event/key-down)
+            (case (event:key:keysym:sym e)
+              ((key/left key/backspace key/p)
+               (show (prev-image)))
+              ((key/right key/space key/n)
+               (show (next-image)))
+              ((key/escape key/q)
+               (quit-sdl)
+               (quit))))
+           (else
+             (handle e))))
+         (handle e))
+
+
+File: guile-sdl.info,  Node: Naming Conventions,  Next: Quick Start,  Up: Introduction
+
+Naming Conventions
+==================
+
+* Menu:
+
+* Renaming C Functions::        How SDL C Functions are named in Guile
+* Enums and Constants::         Naming enumerated types
+* Create and Make::             Create vs Make Functions
+
+   The most important thing to learning a wrapped library for a
+programming language, assuming you know the language and the library,
+is to know the naming conventions.  Then you can begin programming
+without having to look up the exact function reference for the wrapper
+library.
+
+
+File: guile-sdl.info,  Node: Renaming C Functions,  Next: Enums and Constants,  Up: Naming Conventions
+
+Renaming C Functions
+--------------------
+
+   As with standard guile naming conventions, all names are converted to
+lower-case, and underscores are replaced with hyphens.  By default the
+`SDL_' prefix is removed, though you may wish to import with an `sdl-'
+prefix renamer.  To avoid conflicting with the standard `quit'
+procedure, `SDL_quit' is renamed `quit-sdl', and `SDL_init' is renamed
+`init-sdl' for symmetry.
+
+
+File: guile-sdl.info,  Node: Enums and Constants,  Next: Create and Make,  Prev: Renaming C Functions,  Up: Naming Conventions
+
+Enums and Constants
+-------------------
+
+   SDL flags and numeric constants are denoted with a `type/' prefix.
+So for instance, the `SDL_INIT_FOO' constants are renamed `init/foo'.
+In a few instances a type prefix has been introduced where one did not
+previously exist, to more clearly indicate the symbol as a constant and
+document its intent.
+
+   The enumerated types for event types and key symbols are translated
+as symbols, for ease of use in `case' statements.  This is not done for
+other constants, which are typically flags that need to be joined with
+`logior'.
+
+
+File: guile-sdl.info,  Node: Create and Make,  Prev: Enums and Constants,  Up: Naming Conventions
+
+Create and Make
+---------------
+
+   The standard SDL prefix for creating a new instance of a type is
+`create'.  The standard Guile prefix is `make'.  Wherever an SDL
+function uses the `create' prefix we will keep it.  SMOB creation
+functions unique to Guile, such as `make-rect', will use `make' as a
+prefix.  In addition, we will sometimes introduce higher-level creation
+functions, such as `make-surface', which is a wrapper to
+`create-rgb-surface' which provides useful default values from the
+current screen information.
+
+
+File: guile-sdl.info,  Node: General SDL,  Next: Video,  Prev: Introduction,  Up: Top
+
+General SDL
+***********
+
+
+File: guile-sdl.info,  Node: Video,  Next: Events,  Prev: General SDL,  Up: Top
+
+Video
+*****
+
+
+File: guile-sdl.info,  Node: Events,  Next: OpenGL,  Prev: Video,  Up: Top
+
+Events
+******
+
+
+File: guile-sdl.info,  Node: OpenGL,  Next: TrueType,  Prev: Events,  Up: Top
+
+OpenGL
+******
+
+
+File: guile-sdl.info,  Node: TrueType,  Next: Audio,  Prev: OpenGL,  Up: Top
+
+TrueType
+********
+
+
+File: guile-sdl.info,  Node: Audio,  Next: Index,  Prev: TrueType,  Up: Top
+
+Audio
+*****
+
+
+File: guile-sdl.info,  Node: Index,  Prev: Audio,  Up: Top
 
 Index
 *****
@@ -37,7 +244,18 @@ Index
 
 Tag Table:
 Node: Top187
-Node: Introduction466
-Node: Index717
+Node: Introduction788
+Node: Quick Start1767
+Node: Naming Conventions4649
+Node: Renaming C Functions5254
+Node: Enums and Constants5778
+Node: Create and Make6479
+Node: General SDL7106
+Node: Video7220
+Node: Events7316
+Node: OpenGL7409
+Node: TrueType7505
+Node: Audio7604
+Node: Index7696
 
 End Tag Table
