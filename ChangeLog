@@ -1,3 +1,10 @@
+2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* wily-guile.in: New file.
+
+	* configure.in (AC_CONFIG_FILES): Add wily-guile.
+	(chmod-plus-x): New AC_CONFIG_COMMANDS block.
+
 2003-11-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* am/common: New file.
