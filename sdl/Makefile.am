@@ -5,7 +5,7 @@ AUTOMAKE_OPTIONS = gnu
 include $(top_srcdir)/am/common
 
 schememoddir = $(GUILE_LIBSITE)/sdl
-schememod_DATA = misc-utils.scm
+schememod_DATA = misc-utils.scm simple.scm
 
 EXTRA_DIST = $(schememod_DATA)
 
