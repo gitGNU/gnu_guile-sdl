@@ -6,8 +6,8 @@
 (define debug? (getenv "DEBUG"))
 (and debug? (debug-enable 'debug 'backtrace))
 
-(use-modules (sdl sdl))                 ; fixme: these must be separate due
-(use-modules (sdl ttf))                 ;        to compiled modules weirdness
+(use-modules (sdl sdl)
+             (sdl ttf))
 
 ;; initialize the SDL video (and event) module
 (let ((res (sdl-init '(SDL_INIT_VIDEO))))
