@@ -11,7 +11,7 @@ SUFFIXES = .texi .twerp
 TODO-excerpt: $(top_srcdir)/TODO
 	sed '1,/^_/!d;s/__*//' $< > $@
 
-guile-sdl.info: ref.texi
+guile-sdl.info: $(BUILT_SOURCES)
 
 .twerp.texi:
 	guile-tools twerp2texi \
