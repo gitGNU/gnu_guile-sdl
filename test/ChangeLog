@@ -1,3 +1,10 @@
+2004-05-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* gfx.scm: Expand line-drawing.
+	Add section to draw ellipses.
+	Add section to draw circles.
+	Bump before-quit delay to 2000.
+
 2004-03-04  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* event.scm (datadir): Delete var.
