@@ -13,6 +13,9 @@ Please send guile-sdl bug reports to <ttn@glug.org>.
     - cd-get-nth-track: #f on error (was empty list)
     - joystick-get-ball: #f on error (was empty list)
 
+  - new (sdl sdl) proc: string->image
+
+
 - 0.2.2 | 2004-02-08
 
   - bug fix: module (sdl sdl) no longer loads (ice-9 syncase)
