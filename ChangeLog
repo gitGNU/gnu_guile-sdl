@@ -1,5 +1,9 @@
 2003-11-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* configure.in (CFLAGS): With gcc, no longer specify "-ansi".
+
+2003-11-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* autogen.sh: Add call to autoheader.
 	Move modsup.h from top-level dir to "include" subdir.
 
