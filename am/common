@@ -1,0 +1,19 @@
+## am/common --- frags useful in many Makefile.am files
+
+## vars significant to automake
+
+cmoddir = $(guilelibsitedir)/sdl
+
+AM_CPPFLAGS = -I$(srcdir) -I$(top_srcdir)/include
+
+SUFFIXES = .c
+
+DISTCLEANFILES =
+
+noinst_DATA =
+
+## Local variables:
+## mode: makefile
+## End:
+
+## am/common ends here
