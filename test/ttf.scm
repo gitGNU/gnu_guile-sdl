@@ -12,7 +12,7 @@
 (SDL:init '(SDL_INIT_VIDEO))
 
 ;; initialize the font lib
-(or (SDL:ttf-init) (error "could not init font lib"))
+(or (= 0 (SDL:ttf-init)) (error "could not init font lib"))
 
 ;; the directory to find the image in
 (define datadir (if (getenv "srcdir")
