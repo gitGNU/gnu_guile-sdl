@@ -2,7 +2,7 @@
  *  event.c -- SDL input handling for Guile                        *
  *                                                                 *
  *  Created:    <2001-05-27 13:58:16 foof>                         *
- *  Time-stamp: <2001-06-09 21:23:13 foof>                         *
+ *  Time-stamp: <2001-06-10 19:12:20 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -449,52 +449,52 @@ void sdl_event_init (void)
 /*    SCM_DEFINE_CONST ("mod/reserved", KMOD_RESERVED); */
 
    /* functions */
-   scm_make_gsubr ("make-event",  1, 0, 0, make_event);
-   scm_make_gsubr ("make-keysym", 0, 2, 0, make_keysym);
-   scm_make_gsubr ("poll-event",  0, 1, 0, poll_event);
-   scm_make_gsubr ("wait-event",  0, 1, 0, wait_event);
-   scm_make_gsubr ("push-event",  1, 0, 0, push_event);
+   scm_c_define_gsubr ("make-event",  1, 0, 0, make_event);
+   scm_c_define_gsubr ("make-keysym", 0, 2, 0, make_keysym);
+   scm_c_define_gsubr ("poll-event",  0, 1, 0, poll_event);
+   scm_c_define_gsubr ("wait-event",  0, 1, 0, wait_event);
+   scm_c_define_gsubr ("push-event",  1, 0, 0, push_event);
 
    /* smob getters */
-   scm_make_gsubr ("event:type", 1, 0, 0, event_type);
-/*    scm_make_gsubr ("event:active:gain", 1, 0, 0, event_active_gain); */
-/*    scm_make_gsubr ("event:active:state", 1, 0, 0, event_active_state); */
-/*    scm_make_gsubr ("event:key:state", 1, 0, 0, event_key_state); */
-   scm_make_gsubr ("event:key:keysym:sym", 1, 0, 0, event_key_keysym_sym);
-/*    scm_make_gsubr ("event:key:keysym:mod", 1, 0, 0, event_key_keysym_mod); */
-/*    scm_make_gsubr ("event:key:keysym:scancode", 1, 0, 0, event_key_keysym_scancode); */
-/*    scm_make_gsubr ("event:key:keysym:unicode", 1, 0, 0, event_key_keysym_unicode); */
-/*    scm_make_gsubr ("event:motion:state", 1, 0, 0, event_motion_state); */
-/*    scm_make_gsubr ("event:motion:x", 1, 0, 0, event_motion_x); */
-/*    scm_make_gsubr ("event:motion:y", 1, 0, 0, event_motion_y); */
-/*    scm_make_gsubr ("event:motion:xrel", 1, 0, 0, event_motion_xrel); */
-/*    scm_make_gsubr ("event:motion:yrel", 1, 0, 0, event_motion_yrel); */
-/*    scm_make_gsubr ("event:button:button", 1, 0, 0, event_button_button); */
-/*    scm_make_gsubr ("event:button:state", 1, 0, 0, event_button_state); */
-/*    scm_make_gsubr ("event:button:x", 1, 0, 0, event_button_x); */
-/*    scm_make_gsubr ("event:button:y", 1, 0, 0, event_button_y); */
-/*    scm_make_gsubr ("event:jaxis:which", 1, 0, 0, event_jaxis_which); */
-/*    scm_make_gsubr ("event:jaxis:axis", 1, 0, 0, event_jaxis_axis); */
-/*    scm_make_gsubr ("event:jaxis:value", 1, 0, 0, event_jaxis_value); */
-/*    scm_make_gsubr ("event:jbutton:which", 1, 0, 0, event_jbutton_which); */
-/*    scm_make_gsubr ("event:jbutton:button", 1, 0, 0, event_jbutton_button); */
-/*    scm_make_gsubr ("event:jbutton:state", 1, 0, 0, event_jbutton_state); */
-/*    scm_make_gsubr ("event:jball:which", 1, 0, 0, event_jball_which); */
-/*    scm_make_gsubr ("event:jball:ball", 1, 0, 0, event_jball_ball); */
-/*    scm_make_gsubr ("event:jball:xrel", 1, 0, 0, event_jball_xrel); */
-/*    scm_make_gsubr ("event:jball:yrel", 1, 0, 0, event_jball_yrel); */
-/*    scm_make_gsubr ("event:jhat:which", 1, 0, 0, event_jhat_which); */
-/*    scm_make_gsubr ("event:jhat:hat", 1, 0, 0, event_jhat_hat); */
-/*    scm_make_gsubr ("event:jhat:value", 1, 0, 0, event_jhat_value); */
-/*    scm_make_gsubr ("event:resize:w", 1, 0, 0, event_resize_w); */
-/*    scm_make_gsubr ("event:resize:h", 1, 0, 0, event_resize_h); */
-/*    scm_make_gsubr ("event:user:code", 1, 0, 0, event_user_code); */
-/* /\*    scm_make_gsubr ("event:user:data1", 1, 0, 0, event_user_data1); *\/ */
-/* /\*    scm_make_gsubr ("event:user:data2", 1, 0, 0, event_user_data2); *\/ */
-/*    scm_make_gsubr ("keysym:scancode", 1, 0, 0, keysym_scancode); */
-/*    scm_make_gsubr ("keysym:sym", 1, 0, 0, keysym_sym); */
-/*    scm_make_gsubr ("keysym:mod", 1, 0, 0, keysym_mod); */
-/*    scm_make_gsubr ("keysym:unicode", 1, 0, 0, keysym_unicode); */
+   scm_c_define_gsubr ("event:type", 1, 0, 0, event_type);
+/*    scm_c_define_gsubr ("event:active:gain", 1, 0, 0, event_active_gain); */
+/*    scm_c_define_gsubr ("event:active:state", 1, 0, 0, event_active_state); */
+/*    scm_c_define_gsubr ("event:key:state", 1, 0, 0, event_key_state); */
+   scm_c_define_gsubr ("event:key:keysym:sym", 1, 0, 0, event_key_keysym_sym);
+/*    scm_c_define_gsubr ("event:key:keysym:mod", 1, 0, 0, event_key_keysym_mod); */
+/*    scm_c_define_gsubr ("event:key:keysym:scancode", 1, 0, 0, event_key_keysym_scancode); */
+/*    scm_c_define_gsubr ("event:key:keysym:unicode", 1, 0, 0, event_key_keysym_unicode); */
+/*    scm_c_define_gsubr ("event:motion:state", 1, 0, 0, event_motion_state); */
+/*    scm_c_define_gsubr ("event:motion:x", 1, 0, 0, event_motion_x); */
+/*    scm_c_define_gsubr ("event:motion:y", 1, 0, 0, event_motion_y); */
+/*    scm_c_define_gsubr ("event:motion:xrel", 1, 0, 0, event_motion_xrel); */
+/*    scm_c_define_gsubr ("event:motion:yrel", 1, 0, 0, event_motion_yrel); */
+/*    scm_c_define_gsubr ("event:button:button", 1, 0, 0, event_button_button); */
+/*    scm_c_define_gsubr ("event:button:state", 1, 0, 0, event_button_state); */
+/*    scm_c_define_gsubr ("event:button:x", 1, 0, 0, event_button_x); */
+/*    scm_c_define_gsubr ("event:button:y", 1, 0, 0, event_button_y); */
+/*    scm_c_define_gsubr ("event:jaxis:which", 1, 0, 0, event_jaxis_which); */
+/*    scm_c_define_gsubr ("event:jaxis:axis", 1, 0, 0, event_jaxis_axis); */
+/*    scm_c_define_gsubr ("event:jaxis:value", 1, 0, 0, event_jaxis_value); */
+/*    scm_c_define_gsubr ("event:jbutton:which", 1, 0, 0, event_jbutton_which); */
+/*    scm_c_define_gsubr ("event:jbutton:button", 1, 0, 0, event_jbutton_button); */
+/*    scm_c_define_gsubr ("event:jbutton:state", 1, 0, 0, event_jbutton_state); */
+/*    scm_c_define_gsubr ("event:jball:which", 1, 0, 0, event_jball_which); */
+/*    scm_c_define_gsubr ("event:jball:ball", 1, 0, 0, event_jball_ball); */
+/*    scm_c_define_gsubr ("event:jball:xrel", 1, 0, 0, event_jball_xrel); */
+/*    scm_c_define_gsubr ("event:jball:yrel", 1, 0, 0, event_jball_yrel); */
+/*    scm_c_define_gsubr ("event:jhat:which", 1, 0, 0, event_jhat_which); */
+/*    scm_c_define_gsubr ("event:jhat:hat", 1, 0, 0, event_jhat_hat); */
+/*    scm_c_define_gsubr ("event:jhat:value", 1, 0, 0, event_jhat_value); */
+/*    scm_c_define_gsubr ("event:resize:w", 1, 0, 0, event_resize_w); */
+/*    scm_c_define_gsubr ("event:resize:h", 1, 0, 0, event_resize_h); */
+/*    scm_c_define_gsubr ("event:user:code", 1, 0, 0, event_user_code); */
+/* /\*    scm_c_define_gsubr ("event:user:data1", 1, 0, 0, event_user_data1); *\/ */
+/* /\*    scm_c_define_gsubr ("event:user:data2", 1, 0, 0, event_user_data2); *\/ */
+/*    scm_c_define_gsubr ("keysym:scancode", 1, 0, 0, keysym_scancode); */
+/*    scm_c_define_gsubr ("keysym:sym", 1, 0, 0, keysym_sym); */
+/*    scm_c_define_gsubr ("keysym:mod", 1, 0, 0, keysym_mod); */
+/*    scm_c_define_gsubr ("keysym:unicode", 1, 0, 0, keysym_unicode); */
 
    /* exported symbols */
    scm_c_export (

@@ -2,7 +2,7 @@
  *  gfx.c -- Additional Graphics functions for Guile SDL           *
  *                                                                 *
  *  Created:    <2001-06-03 02:00:32 foof>                         *
- *  Time-stamp: <2001-06-03 16:41:33 foof>                         *
+ *  Time-stamp: <2001-06-10 19:13:51 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -112,10 +112,10 @@ scale_surface (SCM surface, SCM width, SCM height)
 void
 sdl_gfx_init (void)
 {
-   scm_make_gsubr ("vertical-flip-surface",    1, 0, 0, vertical_flip_surface);
-   scm_make_gsubr ("horizontal-flip-surface",  1, 0, 0, horiztonal_flip_surface);
-   scm_make_gsubr ("vh-flip-surface",          1, 0, 0, vh_flip_surface);
-   scm_make_gsubr ("scale-surface",            3, 0, 0, scale_surface);
+   scm_c_define_gsubr ("vertical-flip-surface",    1, 0, 0, vertical_flip_surface);
+   scm_c_define_gsubr ("horizontal-flip-surface",  1, 0, 0, horiztonal_flip_surface);
+   scm_c_define_gsubr ("vh-flip-surface",          1, 0, 0, vh_flip_surface);
+   scm_c_define_gsubr ("scale-surface",            3, 0, 0, scale_surface);
 
    scm_c_export ("vertical-flip-surface",
                  "horizontal-flip-surface",

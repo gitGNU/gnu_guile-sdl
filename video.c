@@ -2,7 +2,7 @@
  *  video.c -- SDL Video functions for Guile                       *
  *                                                                 *
  *  Created:    <2001-04-24 23:40:20 foof>                         *
- *  Time-stamp: <2001-06-04 23:11:16 foof>                         *
+ *  Time-stamp: <2001-06-10 19:12:11 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -723,44 +723,44 @@ sdl_video_init (void)
    video_info_tag = scm_make_smob_type ("video-info", sizeof (SDL_VideoInfo));
 
    /* rect functions */
-   scm_make_gsubr ("make-rect",          4, 0, 0, make_rect);
-   scm_make_gsubr ("rect:x",             1, 0, 0, rect_x);
-   scm_make_gsubr ("rect:y",             1, 0, 0, rect_y);
-   scm_make_gsubr ("rect:w",             1, 0, 0, rect_w);
-   scm_make_gsubr ("rect:h",             1, 0, 0, rect_h);
-   scm_make_gsubr ("rect:set-x!",        2, 0, 0, rect_set_x);
-   scm_make_gsubr ("rect:set-y!",        2, 0, 0, rect_set_y);
-   scm_make_gsubr ("rect:set-w!",        2, 0, 0, rect_set_w);
-   scm_make_gsubr ("rect:set-h!",        2, 0, 0, rect_set_h);
+   scm_c_define_gsubr ("make-rect",          4, 0, 0, make_rect);
+   scm_c_define_gsubr ("rect:x",             1, 0, 0, rect_x);
+   scm_c_define_gsubr ("rect:y",             1, 0, 0, rect_y);
+   scm_c_define_gsubr ("rect:w",             1, 0, 0, rect_w);
+   scm_c_define_gsubr ("rect:h",             1, 0, 0, rect_h);
+   scm_c_define_gsubr ("rect:set-x!",        2, 0, 0, rect_set_x);
+   scm_c_define_gsubr ("rect:set-y!",        2, 0, 0, rect_set_y);
+   scm_c_define_gsubr ("rect:set-w!",        2, 0, 0, rect_set_w);
+   scm_c_define_gsubr ("rect:set-h!",        2, 0, 0, rect_set_h);
    /* color functions */
-   scm_make_gsubr ("make-color",         3, 0, 0, make_color);
-   scm_make_gsubr ("color:r",            1, 0, 0, color_r);
-   scm_make_gsubr ("color:g",            1, 0, 0, color_g);
-   scm_make_gsubr ("color:b",            1, 0, 0, color_b);
-   scm_make_gsubr ("color:set-r!",       2, 0, 0, color_set_r);
-   scm_make_gsubr ("color:set-g!",       2, 0, 0, color_set_g);
-   scm_make_gsubr ("color:set-b!",       2, 0, 0, color_set_b);
+   scm_c_define_gsubr ("make-color",         3, 0, 0, make_color);
+   scm_c_define_gsubr ("color:r",            1, 0, 0, color_r);
+   scm_c_define_gsubr ("color:g",            1, 0, 0, color_g);
+   scm_c_define_gsubr ("color:b",            1, 0, 0, color_b);
+   scm_c_define_gsubr ("color:set-r!",       2, 0, 0, color_set_r);
+   scm_c_define_gsubr ("color:set-g!",       2, 0, 0, color_set_g);
+   scm_c_define_gsubr ("color:set-b!",       2, 0, 0, color_set_b);
    /* surfaces */
-   scm_make_gsubr ("get-video-surface",  0, 0, 0, get_video_surface);
-   scm_make_gsubr ("make-surface",       2, 1, 0, make_surface);
-   scm_make_gsubr ("create-rgb-surface", 8, 0, 0, create_rgb_surface);
-   scm_make_gsubr ("lock-surface",       1, 0, 0, lock_surface);
-   scm_make_gsubr ("unlock-surface",     1, 0, 0, unlock_surface);
-   scm_make_gsubr ("set-clip-rect!",     2, 0, 0, set_clip_rect);
-   scm_make_gsubr ("get-clip-rect",      1, 0, 0, get_clip_rect);
-   scm_make_gsubr ("set-color-key!",     3, 0, 0, set_color_key);
-   scm_make_gsubr ("set-alpha!",         3, 0, 0, set_alpha);
+   scm_c_define_gsubr ("get-video-surface",  0, 0, 0, get_video_surface);
+   scm_c_define_gsubr ("make-surface",       2, 1, 0, make_surface);
+   scm_c_define_gsubr ("create-rgb-surface", 8, 0, 0, create_rgb_surface);
+   scm_c_define_gsubr ("lock-surface",       1, 0, 0, lock_surface);
+   scm_c_define_gsubr ("unlock-surface",     1, 0, 0, unlock_surface);
+   scm_c_define_gsubr ("set-clip-rect!",     2, 0, 0, set_clip_rect);
+   scm_c_define_gsubr ("get-clip-rect",      1, 0, 0, get_clip_rect);
+   scm_c_define_gsubr ("set-color-key!",     3, 0, 0, set_color_key);
+   scm_c_define_gsubr ("set-alpha!",         3, 0, 0, set_alpha);
    /* video */
-   scm_make_gsubr ("set-video-mode",     4, 0, 0, set_video_mode);
-   scm_make_gsubr ("update-rect",        5, 0, 0, update_rect);
-   scm_make_gsubr ("flip",               0, 1, 0, flip);
-   scm_make_gsubr ("blit-surface",       4, 0, 0, blit_surface);
-   scm_make_gsubr ("fill-rect",          3, 0, 0, fill_rect);
+   scm_c_define_gsubr ("set-video-mode",     4, 0, 0, set_video_mode);
+   scm_c_define_gsubr ("update-rect",        5, 0, 0, update_rect);
+   scm_c_define_gsubr ("flip",               0, 1, 0, flip);
+   scm_c_define_gsubr ("blit-surface",       4, 0, 0, blit_surface);
+   scm_c_define_gsubr ("fill-rect",          3, 0, 0, fill_rect);
    /* info */
-   scm_make_gsubr ("list-modes",         0, 2, 0, list_modes);
-   scm_make_gsubr ("video-mode-ok",      4, 0, 0, video_mode_ok);
-   scm_make_gsubr ("video-driver-name",  0, 0, 0, video_driver_name);
-   scm_make_gsubr ("get-video-info",     0, 0, 0, get_video_info);
+   scm_c_define_gsubr ("list-modes",         0, 2, 0, list_modes);
+   scm_c_define_gsubr ("video-mode-ok",      4, 0, 0, video_mode_ok);
+   scm_c_define_gsubr ("video-driver-name",  0, 0, 0, video_driver_name);
+   scm_c_define_gsubr ("get-video-info",     0, 0, 0, get_video_info);
 
    /* exported symbols */
    scm_c_export (
