@@ -15,10 +15,15 @@ mixer_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module -lSDL_mixer
 
 include $(top_srcdir)/am/snarfing
 
+endif # HAVE_MIXER
+
 install-data-hook:
+if HAVE_MIXER
 	cd $(cmoddir) ; for f in $(cmod_LTLIBRARIES) ; do \
 	   test -f lib$$f && rm -f lib$$f ; $(LN_S) $$f lib$$f ; done
+else
+	@echo '(nothing to do for "$@")'
+endif # not HAVE_MIXER
 
-endif # HAVE_MIXER
 
 ## Makefile.am ends here
