@@ -2,7 +2,7 @@
  *  mixer.c -- SDL_mixer for Guile                                 *
  *                                                                 *
  *  Created:    <2001-06-10 16:45:57 foof>                         *
- *  Time-stamp: <2001-06-10 20:04:03 foof>                         *
+ *  Time-stamp: <2001-06-10 21:31:56 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -27,8 +27,24 @@
 #include <mixer.h>
 
 long mix_music_tag;
-long mix_chunk_tag;
+long mix_audio_tag;
 SCM fading_status_enum;
+
+scm_sizet
+free_music (SCM s_music)
+{
+   Mix_Music *music = (Mix_Music*) SCM_SMOB_DATA (s_music);
+   Mix_FreeMusic (music);
+   return sizeof (struct Mix_Music*);
+}
+
+scm_sizet
+free_audio (SCM s_chunk)
+{
+   Mix_Chunk *chunk = (Mix_Chunk*) SCM_SMOB_DATA (s_chunk);
+   Mix_FreeChunk (chunk);
+   return sizeof (Mix_Chunk);
+}
 
 /* Open the mixer with a certain audio format */
 SCM
@@ -123,7 +139,7 @@ mix_load_wave (SCM file)
                file, SCM_ARG1, "load-wave");
 
    chunk = Mix_LoadWAV (SCM_CHARS (file));
-   SCM_RETURN_NEWSMOB (mix_chunk_tag, chunk);
+   SCM_RETURN_NEWSMOB (mix_audio_tag, chunk);
 }
 
 /* Free an audio chunk previously loaded */
@@ -257,7 +273,7 @@ mix_play_channel (SCM s_chunk, SCM s_channel, SCM s_loops,
    int ticks=-1;
    int fade=0;
 
-   SCM_ASSERT_SMOB (s_chunk, mix_chunk_tag, SCM_ARG1, "play-channel");
+   SCM_ASSERT_SMOB (s_chunk, mix_audio_tag, SCM_ARG1, "play-channel");
    chunk = (Mix_Chunk*) SCM_SMOB_DATA (s_chunk);
 
    if (s_channel != SCM_UNDEFINED) {
@@ -338,7 +354,7 @@ mix_volume (SCM s_volume, SCM s_which)
       return SCM_MAKINUM (Mix_Volume (channel, volume));
    } else {
       /* no-numeric which, must be a chunk smob */
-      SCM_ASSERT_SMOB (s_which, mix_chunk_tag, SCM_ARG2, "volume");
+      SCM_ASSERT_SMOB (s_which, mix_audio_tag, SCM_ARG2, "volume");
       chunk = (Mix_Chunk*) SCM_SMOB_DATA (s_which);
       return SCM_MAKINUM (Mix_VolumeChunk (chunk, volume));
    }
@@ -606,7 +622,9 @@ sdl_mixer_init (void)
 {
    /* smobs */
    mix_music_tag = scm_make_smob_type ("music", sizeof (struct Mix_Music*));
-   mix_chunk_tag = scm_make_smob_type ("audio", sizeof (Mix_Chunk));
+   mix_audio_tag = scm_make_smob_type ("audio", sizeof (Mix_Chunk));
+   scm_set_smob_free (mix_music_tag, free_music);
+   scm_set_smob_free (mix_audio_tag, free_audio);
 
    /* enums */
    fading_status_enum = scm_c_define_enum (

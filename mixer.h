@@ -2,7 +2,7 @@
  *  mixer.h -- SDL_mixer for Guile                                 *
  *                                                                 *
  *  Created:    <2001-06-10 16:45:57 foof>                         *
- *  Time-stamp: <2001-06-10 19:58:20 foof>                         *
+ *  Time-stamp: <2001-06-10 21:26:29 foof>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -34,7 +34,11 @@
 #include "scm.h"
 
 extern long mix_music_tag;
-extern long mix_chunk_tag;
+extern long mix_audio_tag;
+
+scm_sizet free_music (SCM music);
+scm_sizet free_audio (SCM chunk);
+/* int print_music (SCM port, SCM music, void *state); */
 
 SCM mix_open_audio (SCM freq, SCM format, SCM channels, SCM chunksize);
 
