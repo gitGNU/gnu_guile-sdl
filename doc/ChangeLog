@@ -1,5 +1,15 @@
 2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* guile-sdl.texi: Add @paragraphindent in header block.
+	Update package name.
+	(Top): Mention module (sdl misc-utils).
+	(Renaming C Functions): Mention enumstash objects.
+	Add docs for vars `fading-status', `event-types',
+	`event-keys', `alpha-enums' and `gl-enums'.
+	Mention proc `enumstash-enums'.
+
+2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* ef-ref.twerp: Add @twerpdoc for `enumstash-enums'.
 
 2004-06-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
