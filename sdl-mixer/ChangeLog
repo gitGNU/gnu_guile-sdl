@@ -1,3 +1,8 @@
+2004-11-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (install-data-hook): Move outside `HAVE_MIXER'.
+	Add do-nothing `not HAVE_MIXER' else-clause.
+
 2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlmixer.c: Move "#define FUNC_NAME" inside func scope; nfc.
