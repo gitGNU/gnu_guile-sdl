@@ -19,6 +19,32 @@
 (SDL:fill-rect (SDL:get-video-surface) test-rect #xffffff)
 (SDL:flip)
 
+;; draw beziers
+(do ((bez 0 (1+ bez)))
+    ((= 100 bez))
+  (let* ((n (+ 3 (random 5)))
+         (x-uv (make-vector n 0))
+         (y-uv (make-vector n 0)))
+    (do ((i 0 (1+ i)))
+        ((= i n))
+      (vector-set! x-uv i (random 640))
+      (vector-set! y-uv i (random 480)))
+    (SDL:draw-bezier (SDL:get-video-surface) x-uv y-uv 5
+                     (+ #x80 (ash (random #xffffff) 8))))
+  (SDL:flip))
+
+;; draw horizontal and vertical lines
+(let* ((surface (SDL:get-video-surface))
+       (w (SDL:surface:w surface))
+       (h (SDL:surface:h surface)))
+  (do ((i 0 (1+ i)))
+      ((= i h))
+    (SDL:draw-hline surface (random w) (random w) i (random #xffffff)))
+  (do ((i 0 (1+ i)))
+      ((= i w))
+    (SDL:draw-vline surface i (random h) (random h) (random #xffffff)))
+  (SDL:flip))
+
 ;; draw lines
 (define (one start-l start-r start-t start-b)
   (let ((surface (SDL:get-video-surface)))
@@ -79,6 +105,26 @@
     (c! 540 380)
     (c! 540 100))
   (SDL:flip))
+
+;; draw pie slices
+(let* ((surface (SDL:get-video-surface))
+       (w (SDL:surface:w surface))
+       (h (SDL:surface:h surface)))
+  (do ((slice 0 (1+ slice)))
+      ((= 42 slice))
+    (let* ((x (random w))
+           (y (random h))
+           (color (ash (random #xffffff) 8))
+           (beg (random 360))
+           (sub (quotient (- (+ beg (random 360)) beg) 16)))
+      (do ((i 0 (1+ i)))
+          ((= i 16))
+        (SDL:draw-pie-slice surface
+                            x y (min x (- w x) y (- h y))
+                            (+ beg (* sub i)) (+ beg (* sub (1+ i)))
+                            (+ (* 9 i) color)
+                            #t))
+      (SDL:flip))))
 
 ;; draw polygons
 (do ((poly 0 (1+ poly)))

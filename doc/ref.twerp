@@ -356,14 +356,21 @@
 @section Graphics Primitives
 
 @twerpdoc (draw-point)
+@twerpdoc (draw-hline)
+@twerpdoc (draw-vline)
+@twerpdoc (draw-rectangle)
 @twerpdoc (draw-line)
 @twerpdoc (draw-aa-line)
-@twerpdoc (draw-rectangle)
 @twerpdoc (draw-circle)
 @twerpdoc (draw-aa-circle)
 @twerpdoc (draw-ellipse)
 @twerpdoc (draw-aa-ellipse)
+@twerpdoc (draw-pie-slice)
+@twerpdoc (draw-trigon)
+@twerpdoc (draw-aa-trigon)
 @twerpdoc (draw-polygon)
+@twerpdoc (draw-aa-polygon)
+@twerpdoc (draw-bezier)
 @twerpdoc (draw-character)
 @twerpdoc (draw-string)
 
