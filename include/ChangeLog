@@ -1,5 +1,9 @@
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* retval.h (RETURN_UINT): New macro.
+
+2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* retval.h (RETURN_0STR): New macro.
 
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>

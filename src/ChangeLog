@@ -1,5 +1,9 @@
 2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlenums.c: Use `RETURN_UINT'.
+
+2004-02-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdl.c: Use `RETURN_0STR'.
 	* sdlcdrom.c: Likewise.
 	* sdljoystick.c: Likewise.
