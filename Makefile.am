@@ -37,8 +37,7 @@ noinst_DATA = pre-inst.merged-module-catalog
 
 pre-inst.merged-module-catalog:
 	guile-tools make-module-catalog				\
-	   -X "[.]o$$"						\
-	   -X "[.]lo$$"						\
+	   -d o,lo						\
 	   -X "~$$"						\
 	   -X "doc/"						\
 	   -X "CVS/"						\
