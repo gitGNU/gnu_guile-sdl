@@ -35,6 +35,13 @@
 #define MAX_DRIVER_LEN    100
 #define GAMMA_TABLE_SIZE  256
 
+#define COLOR_P(x) \
+  (SCM_SMOB_PREDICATE (color_tag, x))
+
+#define RECT_P(x) \
+  (SCM_SMOB_PREDICATE (rect_tag, x))
+
+
 
 static SCM gl_enums;
 SCM gsdl_alpha_enums;
@@ -122,7 +129,7 @@ static
 size_t
 free_pixel_format (SCM s_pixel_format)
 {
-  /* always part of a surface, no need to free */
+  /* Always part of a surface, no need to free.  */
   return 0;
 }
 
@@ -148,22 +155,22 @@ GH_DEFPROC (create_cursor, "create-cursor", 6, 0, 0,
   ASSERT_EXACT (s_hot_x, ARGH5);
   ASSERT_EXACT (s_hot_y, ARGH6);
 
-  /* build the arrays */
+  /* Build the arrays.  */
   data = (Uint8 *) gh_scm2chars (s_data, NULL);
   mask = (Uint8 *) gh_scm2chars (s_mask, NULL);
 
-  /* create the cursor */
+  /* Create the cursor.  */
   cursor = SDL_CreateCursor (data, mask,
                              gh_scm2long (s_w),
                              gh_scm2long (s_h),
                              gh_scm2long (s_hot_x),
                              gh_scm2long (s_hot_y));
 
-  /* free the arrays */
+  /* Free the arrays.  */
   /*scm_must_*/free (data);
   /*scm_must_*/free (mask);
 
-  /* return the new smob */
+  /* Return the new smob.  */
   RETURN_NEW_CURSOR (cursor);
 }
 #undef FUNC_NAME
@@ -186,19 +193,21 @@ GH_DEFPROC (create_yuv_overlay, "create-yuv-overlay", 3, 1, 0,
   ASSERT_EXACT (s_width, ARGH1);
   ASSERT_EXACT (s_height, ARGH2);
 
-  if (gh_symbol_p (s_format)) {
+  if (gh_symbol_p (s_format))
     format = GSDL_FLAG2ULONG (s_format, gsdl_overlay_formats);
-  } else {
-    ASSERT_EXACT (s_format, ARGH3);
-    format = gh_scm2ulong (s_format);
-  }
+  else
+    {
+      ASSERT_EXACT (s_format, ARGH3);
+      format = gh_scm2ulong (s_format);
+    }
 
-  if (UNBOUNDP (s_display)) {
+  if (UNBOUNDP (s_display))
     display = SDL_GetVideoSurface ();
-  } else {
-    ASSERT_SURFACE (s_display, ARGH4);
-    display = UNPACK_SURFACE (s_display);
-  }
+  else
+    {
+      ASSERT_SURFACE (s_display, ARGH4);
+      display = UNPACK_SURFACE (s_display);
+    }
 
   RETURN_NEW_OVERLAY
     (SDL_CreateYUVOverlay (gh_scm2long (s_width),
@@ -288,38 +297,41 @@ GH_DEFPROC (list_modes, "list-modes", 0, 2, 0,
   SCM result;
 
   UNBOUND_MEANS_FALSE (s_pixel_format);
-  if (NOT_FALSEP (s_pixel_format)) {
-    ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
-    format = UNPACK_PIXEL_FORMAT (s_pixel_format);
-  }
+  if (NOT_FALSEP (s_pixel_format))
+    {
+      ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
+      format = UNPACK_PIXEL_FORMAT (s_pixel_format);
+    }
 
   UNBOUND_MEANS_FALSE (s_flags);
-  if (NOT_FALSEP (s_flags)) {
-    ASSERT_EXACT (s_flags, ARGH2);
-    flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH2);
-  }
+  if (NOT_FALSEP (s_flags))
+    {
+      ASSERT_EXACT (s_flags, ARGH2);
+      flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH2);
+    }
 
   modes = SDL_ListModes (format, flags);
 
-  if (modes == (SDL_Rect**)0) {
-    /* return #f to signify no resolutions are available */
+  if (modes == (SDL_Rect**)0)
+    /* Return #f to signify no resolutions are available.  */
     SET_FALSE (result);
-  }
-  else if (modes == (SDL_Rect**)-1) {
-    /* return #t to signify all resolutions are available */
+  else if (modes == (SDL_Rect**)-1)
+    /* Return #t to signify all resolutions are available.  */
     SET_TRUE (result);
-  } else {
-    int i;
+  else
+    {
+      int i;
 
-    /* otherwise return a list of the available resolutions */
-    result = SCM_EOL;
-    for (i = 0; modes[i]; i++) {
-      SCM rect;
+      /* Otherwise return a list of the available resolutions.  */
+      result = SCM_EOL;
+      for (i = 0; modes[i]; i++)
+        {
+          SCM rect;
 
-      SCM_NEWSMOB (rect, rect_tag, modes[i]);
-      result = gh_cons (rect, result);
+          SCM_NEWSMOB (rect, rect_tag, modes[i]);
+          result = gh_cons (rect, result);
+        }
     }
-  }
   return result;
 }
 #undef FUNC_NAME
@@ -342,9 +354,8 @@ GH_DEFPROC (video_mode_ok, "video-mode-ok", 3, 1, 0,
   ASSERT_EXACT (s_height, ARGH2);
   ASSERT_EXACT (s_bpp,    ARGH3);
 
-  if (BOUNDP (s_flags)) {
+  if (BOUNDP (s_flags))
     flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH4);
-  }
 
   result = SDL_VideoModeOK (gh_scm2long (s_width),
                             gh_scm2long (s_height),
@@ -369,9 +380,8 @@ GH_DEFPROC (set_video_mode, "set-video-mode", 3, 1, 0,
   ASSERT_EXACT (s_height, ARGH2);
   ASSERT_EXACT (s_bpp,    ARGH3);
 
-  if (BOUNDP (s_flags)) {
+  if (BOUNDP (s_flags))
     flags = (Uint32) GSDL_FLAGS2ULONG (s_flags, gsdl_video_flags, ARGH4);
-  }
 
   RETURN_NEW_SURFACE
     (SDL_SetVideoMode (gh_scm2long (s_width),
@@ -394,26 +404,29 @@ GH_DEFPROC (update_rect, "update-rect", 2, 3, 0,
   SDL_Rect *rect;
   Sint32 x, y, w, h;
 
-  /* first arg is a surface */
+  /* First arg is a surface.  */
   ASSERT_SURFACE (s_surface, ARGH1);
 
-  /* remaining args are a single rect, or 4 coords */
-  if (SCM_SMOB_PREDICATE (rect_tag, s_x)) {
-    rect = UNPACK_RECT (s_x);
-    x = rect->x;
-    y = rect->y;
-    w = rect->w;
-    h = rect->h;
-  } else {
-    ASSERT_EXACT (s_x, ARGH2);
-    ASSERT_EXACT (s_y, ARGH3);
-    ASSERT_EXACT (s_w, ARGH4);
-    ASSERT_EXACT (s_h, ARGH5);
-    x = (Sint32) gh_scm2long (s_x);
-    y = (Sint32) gh_scm2long (s_y);
-    w = (Sint32) gh_scm2long (s_w);
-    h = (Sint32) gh_scm2long (s_h);
-  }
+  /* Remaining args are a single rect, or 4 coords.  */
+  if (RECT_P (s_x))
+    {
+      rect = UNPACK_RECT (s_x);
+      x = rect->x;
+      y = rect->y;
+      w = rect->w;
+      h = rect->h;
+    }
+  else
+    {
+      ASSERT_EXACT (s_x, ARGH2);
+      ASSERT_EXACT (s_y, ARGH3);
+      ASSERT_EXACT (s_w, ARGH4);
+      ASSERT_EXACT (s_h, ARGH5);
+      x = (Sint32) gh_scm2long (s_x);
+      y = (Sint32) gh_scm2long (s_y);
+      w = (Sint32) gh_scm2long (s_w);
+      h = (Sint32) gh_scm2long (s_h);
+    }
 
   SDL_UpdateRect (UNPACK_SURFACE (s_surface), x, y, w, h);
   RETURN_UNSPECIFIED;
@@ -437,10 +450,11 @@ GH_DEFPROC (update_rects, "update-rects", 2, 0, 0,
     ASSERT_RECT (gh_car (p), ARGH2);
 
   surface = UNPACK_SURFACE (s_surface);
-  for (p = ls; ! gh_null_p (p); p = gh_cdr (p)) {
-    rect = UNPACK_RECT (gh_car (p));
-    SDL_UpdateRect (surface, rect->x, rect->y, rect->w, rect->h);
-  }
+  for (p = ls; ! gh_null_p (p); p = gh_cdr (p))
+    {
+      rect = UNPACK_RECT (gh_car (p));
+      SDL_UpdateRect (surface, rect->x, rect->y, rect->w, rect->h);
+    }
   RETURN_UNSPECIFIED;
 }
 #undef FUNC_NAME
@@ -455,12 +469,13 @@ GH_DEFPROC (flip, "flip", 0, 1, 0,
 {
   SDL_Surface *surface;
 
-  if (BOUNDP (s_surface)) {
-    ASSERT_SURFACE (s_surface, ARGH1);
-    surface = UNPACK_SURFACE (s_surface);
-  } else {
+  if (BOUNDP (s_surface))
+    {
+      ASSERT_SURFACE (s_surface, ARGH1);
+      surface = UNPACK_SURFACE (s_surface);
+    }
+  else
     surface = SDL_GetVideoSurface ();
-  }
 
   SDL_Flip (surface);
   RETURN_UNSPECIFIED;
@@ -484,10 +499,11 @@ GH_DEFPROC (set_colors, "set-colors!", 2, 0, 0,
   length = gh_vector_length (s_colors);
   colors = (SDL_Color*) scm_must_malloc (length, FUNC_NAME);
 
-  for (i = 0; i < length; i++) {
-    color = UNPACK_COLOR (gh_vector_ref (s_colors, gh_long2scm (i)));
-    colors[i] = *color;
-  }
+  for (i = 0; i < length; i++)
+    {
+      color = UNPACK_COLOR (gh_vector_ref (s_colors, gh_long2scm (i)));
+      colors[i] = *color;
+    }
 
   result = SDL_SetColors (UNPACK_SURFACE (s_surface),
                           colors, 0, length);
@@ -517,10 +533,11 @@ GH_DEFPROC (set_palette, "set-palette", 3, 0, 0,
   length  = gh_vector_length (s_colors);
   colors  = (SDL_Color*) scm_must_malloc (length, FUNC_NAME);
 
-  for (i = 0; i < length; i++) {
-    color = UNPACK_COLOR (gh_vector_ref (s_colors, gh_long2scm (i)));
-    colors[i] = *color;
-  }
+  for (i = 0; i < length; i++)
+    {
+      color = UNPACK_COLOR (gh_vector_ref (s_colors, gh_long2scm (i)));
+      colors[i] = *color;
+    }
 
   result = SDL_SetPalette (UNPACK_SURFACE (s_surface),
                            flags, colors, 0, length);
@@ -618,19 +635,22 @@ GH_DEFPROC (map_rgb, "map-rgb", 2, 2, 0,
 
   ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
 
-  if (SCM_SMOB_PREDICATE (color_tag, s_r)) {
-    SDL_Color *color = UNPACK_COLOR (s_r);
-    r = color->r;
-    g = color->g;
-    b = color->b;
-  } else {
-    ASSERT_EXACT (s_r, ARGH2);
-    ASSERT_EXACT (s_g, ARGH3);
-    ASSERT_EXACT (s_b, ARGH4);
-    r = (Uint8) gh_scm2long (s_r);
-    g = (Uint8) gh_scm2long (s_g);
-    b = (Uint8) gh_scm2long (s_b);
-  }
+  if (COLOR_P (s_r))
+    {
+      SDL_Color *color = UNPACK_COLOR (s_r);
+      r = color->r;
+      g = color->g;
+      b = color->b;
+    }
+  else
+    {
+      ASSERT_EXACT (s_r, ARGH2);
+      ASSERT_EXACT (s_g, ARGH3);
+      ASSERT_EXACT (s_b, ARGH4);
+      r = (Uint8) gh_scm2long (s_r);
+      g = (Uint8) gh_scm2long (s_g);
+      b = (Uint8) gh_scm2long (s_b);
+    }
 
   RETURN_INT (SDL_MapRGB (UNPACK_PIXEL_FORMAT (s_pixel_format),
                           r, g, b));
@@ -651,23 +671,26 @@ GH_DEFPROC (map_rgba, "map-rgba", 3, 2, 0,
 
   ASSERT_PIXEL_FORMAT (s_pixel_format, ARGH1);
 
-  if (SCM_SMOB_PREDICATE (color_tag, s_r)) {
-    SDL_Color *color = UNPACK_COLOR (s_r);
-    r = color->r;
-    g = color->g;
-    b = color->b;
-    ASSERT_EXACT (s_g, ARGH3);
-    a = (Uint8) gh_scm2long (s_g);
-  } else {
-    ASSERT_EXACT (s_r, ARGH2);
-    ASSERT_EXACT (s_g, ARGH3);
-    ASSERT_EXACT (s_b, ARGH4);
-    ASSERT_EXACT (s_a, ARGH5);
-    r = (Uint8) gh_scm2long (s_r);
-    g = (Uint8) gh_scm2long (s_g);
-    b = (Uint8) gh_scm2long (s_b);
-    a = (Uint8) gh_scm2long (s_a);
-  }
+  if (COLOR_P (s_r))
+    {
+      SDL_Color *color = UNPACK_COLOR (s_r);
+      r = color->r;
+      g = color->g;
+      b = color->b;
+      ASSERT_EXACT (s_g, ARGH3);
+      a = (Uint8) gh_scm2long (s_g);
+    }
+  else
+    {
+      ASSERT_EXACT (s_r, ARGH2);
+      ASSERT_EXACT (s_g, ARGH3);
+      ASSERT_EXACT (s_b, ARGH4);
+      ASSERT_EXACT (s_a, ARGH5);
+      r = (Uint8) gh_scm2long (s_r);
+      g = (Uint8) gh_scm2long (s_g);
+      b = (Uint8) gh_scm2long (s_b);
+      a = (Uint8) gh_scm2long (s_a);
+    }
 
   RETURN_INT (SDL_MapRGBA (UNPACK_PIXEL_FORMAT (s_pixel_format),
                            r, g, b, a));
@@ -944,12 +967,13 @@ GH_DEFPROC (wm_set_caption, "set-caption", 1, 1, 0,
 
   title = SCM_CHARS (s_title);
 
-  if (UNBOUNDP (s_icon)) {
+  if (UNBOUNDP (s_icon))
     icon = title;
-  } else {
-    ASSERT_STRING (s_icon, ARGH2);
-    icon = SCM_CHARS (s_icon);
-  }
+  else
+    {
+      ASSERT_STRING (s_icon, ARGH2);
+      icon = SCM_CHARS (s_icon);
+    }
 
   SDL_WM_SetCaption (title, icon);
 
@@ -983,7 +1007,7 @@ GH_DEFPROC (wm_set_icon, "set-icon", 1, 0, 0,
 {
   ASSERT_SURFACE (icon, ARGH1);
 
-  /* set w/ a NULL mask for now */
+  /* Set w/ a NULL mask for now.  */
   SDL_WM_SetIcon (UNPACK_SURFACE (icon), NULL);
   RETURN_UNSPECIFIED;
 }
@@ -1012,12 +1036,13 @@ GH_DEFPROC (wm_toggle_full_screen, "toggle-full-screen", 0, 1, 0,
 {
   SDL_Surface *surface;
 
-  if (UNBOUNDP (s_surface)) {
+  if (UNBOUNDP (s_surface))
     surface = SDL_GetVideoSurface ();
-  } else {
-    ASSERT_SURFACE (s_surface, ARGH1);
-    surface = UNPACK_SURFACE (s_surface);
-  }
+  else
+    {
+      ASSERT_SURFACE (s_surface, ARGH1);
+      surface = UNPACK_SURFACE (s_surface);
+    }
 
   RETURN_BOOL
     (SDL_WM_ToggleFullScreen (surface));
@@ -1034,10 +1059,11 @@ GH_DEFPROC (wm_grab_input, "grab-input", 0, 1, 0,
 {
   int mode = SDL_GRAB_QUERY;
 
-  if (BOUNDP (s_mode)) {
-    ASSERT_EXACT (s_mode, ARGH1);
-    mode = gh_scm2long (s_mode);
-  }
+  if (BOUNDP (s_mode))
+    {
+      ASSERT_EXACT (s_mode, ARGH1);
+      mode = gh_scm2long (s_mode);
+    }
 
   RETURN_INT (SDL_WM_GrabInput (mode));
 }
