@@ -18,7 +18,7 @@ A. Schiffler <aschiffler@home.com>) and bindings for them.
 Requirements
 ------------
 
-* Guile
+* Guile that can load binary module (a b c) as .../a/b/c.so
 * SDL-1.2
 * SDL_image
 * SDL_mixer (optional, required if audio support is needed)
@@ -55,14 +55,11 @@ info file to various directories under ${prefix} and ${exec_prefix}.  See
 the file INSTALL if you wish to choose different values for the ${} vars.
 
       ${prefix}/info                 -- guile-sdl.info
-      ${prefix}/share/guile/site/sdl -- (sdl sdl)
-   ${exec_prefix}/lib/guile/site/sdl -- (sdl sdl-sup)
+      ${prefix}/share/guile/site/sdl -- (sdl misc-utils)
+   ${exec_prefix}/lib/guile/site/sdl -- (sdl sdl)
                                         (sdl mixer)
                                         (sdl ttf)
                                         (sdl gfx)
-
-The module `(sdl sdl-sup)' is internal (i.e., undocumented) but reference
-and background information about the other modules are in the info file.
 
 Additionally, if your system supports "guile-tools make-module-catalog",
 that program is run in both "site" directories to create and/or update the
