@@ -30,14 +30,14 @@
 GH_USE_MODULE (sdlsup, "(sdl sdl-sup)"); /* for various gsdl_* C funcs */
 
 
-static SCM sdl_ttf_flags;
+static SCM ttf_flags;
 
 GH_DEFPROC (get_ttf_flags, "flagstash:ttf", 0, 0, 0, (void),
             "Return the flagstash object for ttf flags.\n"
             "You can pass this object to proc @code{flagstash-flags}\n"
             "to get a list of its flags.")
 {
-  return sdl_ttf_flags;
+  return ttf_flags;
 }
 
 
@@ -106,7 +106,7 @@ GH_DEFPROC (ttf_get_font_style, "sdl-font:style", 1, 0, 0,
   ASSERT_TTFONT (s_font, ARGH1);
 
   return gsdl_ulong2flags (TTF_GetFontStyle (UNPACK_TTFONT (s_font)),
-                           sdl_ttf_flags);
+                           ttf_flags);
 }
 #undef FUNC_NAME
 
@@ -122,7 +122,7 @@ GH_DEFPROC (ttf_set_font_style, "sdl-font:set-style!", 2, 0, 0,
 
   ASSERT_TTFONT (s_font, ARGH1);
 
-  style = GSDL_FLAGS2ULONG (s_style, sdl_ttf_flags, ARGH2);
+  style = GSDL_FLAGS2ULONG (s_style, ttf_flags, ARGH2);
 
   TTF_SetFontStyle (UNPACK_TTFONT (s_font), style);
   return SCM_UNSPECIFIED;
@@ -396,7 +396,7 @@ init_module (void)
   scm_set_smob_free (ttf_font_tag, free_font);
 
   /* init flags */
-  sdl_ttf_flags = gsdl_make_flagstash (&gsdl_ttf_flagstash);
+  ttf_flags = gsdl_make_flagstash (&gsdl_ttf_flagstash);
 
 #include "sdlttf.x"
 }
