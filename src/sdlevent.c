@@ -497,9 +497,9 @@ GH_DEFPROC (get_mouse_state, "get-mouse-state", 0, 0, 0,
 {
   int buttons, x, y;
   buttons = SDL_GetMouseState (&x, &y);
-  return SCM_LIST3 (gh_cons (SYM (state), gh_long2scm (buttons)),
-                    gh_cons (SYM (x), gh_long2scm (x)),
-                    gh_cons (SYM (y), gh_long2scm (y)));
+  RETURN_LIST3 (gh_cons (SYM (state), gh_long2scm (buttons)),
+                gh_cons (SYM (x), gh_long2scm (x)),
+                gh_cons (SYM (y), gh_long2scm (y)));
 }
 #undef FUNC_NAME
 
@@ -510,9 +510,9 @@ GH_DEFPROC (get_relative_mouse_state, "get-mouse-relative-state", 0, 0, 0,
 {
   int buttons, x, y;
   buttons = SDL_GetRelativeMouseState (&x, &y);
-  return SCM_LIST3 (gh_cons (SYM (state), gh_long2scm (buttons)),
-                    gh_cons (SYM (x), gh_long2scm (x)),
-                    gh_cons (SYM (y), gh_long2scm (y)));
+  RETURN_LIST3 (gh_cons (SYM (state), gh_long2scm (buttons)),
+                gh_cons (SYM (x), gh_long2scm (x)),
+                gh_cons (SYM (y), gh_long2scm (y)));
 }
 #undef FUNC_NAME
 

@@ -152,9 +152,9 @@ GH_DEFPROC (mix_query_spec, "query-spec", 0, 0, 0,
     RETURN_FALSE;
   }
 
-  return SCM_LIST3 (gh_cons (SYM (freq), gh_long2scm (freq)),
-                    gh_cons (SYM (format), gh_long2scm (format)),
-                    gh_cons (SYM (channels), gh_long2scm (channels)));
+  RETURN_LIST3 (gh_cons (SYM (freq), gh_long2scm (freq)),
+                gh_cons (SYM (format), gh_long2scm (format)),
+                gh_cons (SYM (channels), gh_long2scm (channels)));
 }
 #undef FUNC_NAME
 
