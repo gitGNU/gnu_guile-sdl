@@ -23,6 +23,7 @@
   - interop w/ other event loops?
 
 - 0.5 "glitches"
+  - review/revise interfaces (WARNING: disruptive)
   - error handling cleanup
     - document policy
     - cases: NULL, -1, ...
