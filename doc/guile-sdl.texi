@@ -249,7 +249,7 @@ symbol and numeric value with @code{enum->number}, @code{number->enum},
 
 The standard SDL prefix for creating a new instance of a type is
 @code{create}.  The standard Guile prefix is @code{make}.  Wherever an
-SDL function uses the @code{create} prefix we will keep it.  SMOB
+SDL function uses the @code{create} prefix we will keep it.  Object
 creation functions unique to Guile, such as @code{make-rect}, will
 use @code{make} as a prefix.  In addition, we will sometimes introduce
 higher-level creation functions, such as @code{make-surface},
