@@ -534,7 +534,7 @@ SDL_Surface * rotozoomSurface (SDL_Surface *src, double angle, double zoom, int 
   sy=sanglezoom*y;
   nxmax=0.0;
   nymax=0.0;
-  //
+
   nx=ceil(fabs(cx+sy));
   if (nx>nxmax) {
    nxmax=nx;
@@ -551,7 +551,7 @@ SDL_Surface * rotozoomSurface (SDL_Surface *src, double angle, double zoom, int 
   if (nx>nxmax) {
    nxmax=nx;
   }
-  //
+
   ny=ceil(fabs(sx+cy));
   if (ny>nymax) {
    nymax=ny;
@@ -568,7 +568,7 @@ SDL_Surface * rotozoomSurface (SDL_Surface *src, double angle, double zoom, int 
   if (ny>nymax) {
    nymax=ny;
   }
-  //
+
   dstwidthhalf=nxmax;
   if (dstwidthhalf==0) {
    dstwidthhalf=1;
