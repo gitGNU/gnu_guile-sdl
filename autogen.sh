@@ -2,9 +2,10 @@
 # Usage: sh -x ./autogen.sh [--libtoolize]
 #
 # This has been tested with the following toolset:
-#  libtool 1.4.3
+#  libtool 1.5
 #  autoconf 2.57
 #  automake 1.7.6
+#  guile 1.4.1.97
 
 [ -f sdl/sdl.scm ] || {
   echo "autogen.sh: run this command only in the guile-sdl directory."
