@@ -41,7 +41,8 @@ free_surface (SCM surface)
 {
   /* printf ("free_surface(%p)\n", (SDL_Surface*) SCM_SMOB_DATA (surface)); */
   SDL_FreeSurface ((SDL_Surface*) SCM_SMOB_DATA (surface));
-  return sizeof (SDL_Surface);
+  /* return sizeof (SDL_Surface); */
+  return 0;
 }
 
 int

@@ -488,7 +488,7 @@ free_cd (SCM cd_smob)
   if (cd != NULL)
     SDL_CDClose(cd);
  
-  return size;
+  return 0;
 }
 
 

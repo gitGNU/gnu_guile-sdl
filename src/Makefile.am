@@ -40,23 +40,24 @@ GUILE_SNARF = guile-snarf
 
 SUFFIXES = .x
 %.x: %.c
-	$(GUILE_SNARF) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $< > $@ \
+	$(GUILE_SNARF) $< $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) > $@ \
 	|| { rm $@; false; }
 
 DISTCLEANFILES = *.x
 
 # doc snarfing
 GUILE_SNARF_DOCS = guile-snarf-docs
-GUILE_SNARF_DOCS_TEXI = guile-snarf-docs-texi
+GUILE_SNARF_DOCS_TEXI = snarf-check-and-output-texi
 
 SUFFIXES = .texi .doc
 
 %.doc: %.c
-	$(GUILE_SNARF_DOCS) $(DEFS) $(INCLUDES) -I../include \
-	$(CPPFLAGS) $(CFLAGS) $< > $@ \
+	$(GUILE_SNARF_DOCS) $< $(DEFS) $(INCLUDES) -I../include \
+	$(CPPFLAGS) $(CFLAGS) > $@ \
 	|| { rm $@; false; }
 
 .doc.texi:
-	$(GUILE_SNARF_DOCS_TEXI) $< > $@ \
-	|| { rm $@; false; }
+	touch $@
+#	cat $< | $(GUILE_SNARF_DOCS_TEXI) > $@ \
+#	|| { rm $@; false; }
 

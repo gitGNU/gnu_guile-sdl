@@ -2,7 +2,7 @@
  *  sdlenums.c -- Enum helper functions                            *
  *                                                                 *
  *  Created:    <2001-06-09 19:22:27 foof>                         *
- *  Time-stamp: <01/11/25 12:51:17 foof>                         *
+ *  Time-stamp: <02/06/26 13:03:54 mikiso>                         *
  *  Author:     Alex Shinn <foof@debian.org>                       *
  *                                                                 *
  *  Copyright (C) 2001 Alex Shinn                                  *
@@ -37,7 +37,8 @@ free_enum (SCM s_enum)
 {
   enum_struct *enum_smob = (enum_struct*) SCM_SMOB_DATA (s_enum);
   free(enum_smob);
-  return sizeof (enum_struct*);
+  /* return sizeof (enum_struct*); */
+  return 0;
 }
 
 SCM

@@ -39,7 +39,8 @@ free_rect (SCM rect)
 {
   /* printf ("free_rect(%p)\n", rect); */
   free ((SDL_Rect*) SCM_SMOB_DATA (rect));
-  return sizeof (SDL_Rect);
+  /* return sizeof (SDL_Rect); */
+  return 0;
 }
 
 int
@@ -77,7 +78,7 @@ make_rect (SCM s_x, SCM s_y, SCM s_w, SCM s_h)
   SCM_ASSERT (scm_exact_p (s_w),  s_w,  SCM_ARG3, "sdl-make-rect");
   SCM_ASSERT (scm_exact_p (s_h),  s_h,  SCM_ARG4, "sdl-make-rect");
 
-  rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), "sdl-make-rect");
+  rect = (SDL_Rect *) scm_gc_malloc (sizeof (SDL_Rect), "sdl-make-rect");
   rect->x = scm_num2long (s_x, SCM_ARG1, "sdl-make-rect");
   rect->y = scm_num2long (s_y, SCM_ARG2, "sdl-make-rect");
   rect->w = scm_num2long (s_w, SCM_ARG3, "sdl-make-rect");

@@ -35,9 +35,10 @@ long color_tag;
 size_t
 free_color (SCM s_color)
 {
-  /* printf ("free_color(%p)\n", color); */
-  free ((SDL_Color*) SCM_SMOB_DATA (s_color));
-  return sizeof (SDL_Color);
+   /* printf ("free_color(%p)\n", color); */
+   free ((SDL_Color*) SCM_SMOB_DATA (s_color));
+   /* return sizeof (SDL_Color); */
+   return 0;
 }
 
 int
@@ -74,7 +75,7 @@ make_color (SCM s_r, SCM s_g, SCM s_b)
   SCM_ASSERT (scm_exact_p (s_g),  s_g,  SCM_ARG2, "sdl-make-color");
   SCM_ASSERT (scm_exact_p (s_b),  s_b,  SCM_ARG3, "sdl-make-color");
 
-  color = (SDL_Color *) scm_must_malloc (sizeof (SDL_Color), "sdl-make-color");
+  color = (SDL_Color *) scm_gc_malloc (sizeof (SDL_Color), "sdl-make-color");
   color->r = scm_num2long (s_r, SCM_ARG1, "sdl-make-color");
   color->g = scm_num2long (s_g, SCM_ARG2, "sdl-make-color");
   color->b = scm_num2long (s_b, SCM_ARG3, "sdl-make-color");

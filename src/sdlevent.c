@@ -38,7 +38,8 @@ size_t
 free_event (SCM event)
 {
   free ((SDL_Event*) SCM_SMOB_DATA (event));
-  return sizeof (SDL_Event);
+  /* return sizeof (SDL_Event); */
+  return 0;
 }
 
 /* constructors */
@@ -55,7 +56,7 @@ SCM_DEFINE( make_event, "sdl-make-event", 0, 1, 0,
     type = scm_enum2long (s_type, event_type_enum, SCM_ARG1, "sdl-make-event");
   }
 
-  event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), "sdl-make-event");
+  event = (SDL_Event *) scm_gc_malloc (sizeof (SDL_Event), "sdl-make-event");
   event->type = type;
 
   SCM_RETURN_NEWSMOB (event_tag, event);
@@ -68,7 +69,7 @@ SCM make_keysym (SCM sym, SCM mod)
   SDL_keysym *keysym;
 
   /* alloc the keysym */
-  keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym),
+  keysym = (SDL_keysym *) scm_gc_malloc (sizeof (SDL_keysym),
                                            "sdl-make-keysym");
 
   /* set the sym if given */
