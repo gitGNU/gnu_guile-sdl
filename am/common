@@ -2,7 +2,7 @@
 
 ## vars significant to automake
 
-cmoddir = $(guilelibsitedir)/sdl
+cmoddir = $(GUILE_LIBSITE)/sdl
 
 AM_CPPFLAGS = -I$(srcdir) -I$(top_srcdir)/include
 
