@@ -34,35 +34,39 @@
 
 ;;; some utility functions, need to organize these into modules
 
-;; perform a thunk with a clipping rect temporarily in place
-(define-syntax sdl-with-clip-rect
-  (syntax-rules ()
-    ((_ rect body ...)
-     (let ((orig-rect (sdl-get-clip-rect (sdl-get-video-surface))))
-       (sdl-set-clip-rect! (sdl-get-video-surface) rect)
-       body ...
-       (sdl-set-clip-rect! (sdl-get-video-surface) orig-rect)))))
+;;;; perform a thunk with a clipping rect temporarily in place
+;;(define-syntax with-clip-rect
+;;  (syntax-rules ()
+;;    ((_ rect body ...)
+;;     (let ((orig-rect (get-clip-rect (get-video-surface))))
+;;       (set-clip-rect! (get-video-surface) rect)
+;;       body ...
+;;       (set-clip-rect! (get-video-surface) orig-rect)))))
 
+(define (call-with-clip-rect rect thunk)
+  (let* ((s (get-video-surface))
+         (orig (get-clip-rect s)))
+    (set-clip-rect! s rect)
+    (thunk)
+    (set-clip-rect! s orig)))
 
 ;; rotate a square retaining its original size
-(define (sdl-rotate-square src angle)
-  (let* ((width (sdl-surface:w src))
-         (height (sdl-surface:h src))
-         (rotated (sdl-roto-zoom-surface src (- angle 90) 1.0 #t))
-         (new-width (sdl-surface:w rotated))
-         (new-height (sdl-surface:h rotated))
+(define (rotate-square src angle)
+  (let* ((width (surface:w src))
+         (height (surface:h src))
+         (rotated (roto-zoom-surface src (- angle 90) 1.0 #t))
+         (new-width (surface:w rotated))
+         (new-height (surface:h rotated))
          (width-offset (quotient (- new-width width) 2))
          (height-offset (quotient (- new-height height) 2))
-         (src-rect (sdl-make-rect width-offset height-offset width height))
-         (dst (sdl-make-surface width height))
-         (dst-rect (sdl-make-rect 0 0 width height)))
-    (sdl-blit-surface rotated src-rect dst dst-rect)
+         (src-rect (make-rect width-offset height-offset width height))
+         (dst (make-surface width height))
+         (dst-rect (make-rect 0 0 width height)))
+    (blit-surface rotated src-rect dst dst-rect)
     dst))
 
-(export-syntax sdl-with-clip-rect)
+(export call-with-clip-rect)
 
-(export sdl-rotate-square)
-
-(define-public sdl-wait-event wait-event)
+(export rotate-square)
 
 ;;; sdl.scm ends here
