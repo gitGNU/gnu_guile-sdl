@@ -1,1 +1,5 @@
+*.lo
+*.la
+.deps
+.libs
 guile-sdl
