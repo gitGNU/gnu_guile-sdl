@@ -1,120 +1,124 @@
-/*******************************************************************
- *  sdlcolor.c -- SDL Color functions for Guile                    *
- *                                                                 *
- *  Copyright (C) 2001 Alex Shinn                                  *
- *                                                                 *
- *  This program is free software; you can redistribute it and/or  *
- * modify it under the terms of the GNU General Public License as  *
- * published by the Free Software Foundation; either version 2 of  *
- * the License, or (at your option) any later version.             *
- *                                                                 *
- * This program is distributed in the hope that it will be useful, *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of  *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the   *
- * GNU General Public License for more details.                    *
- *                                                                 *
- * You should have received a copy of the GNU General Public       *
- * License along with this program; if not, write to the Free      *
- * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,  *
- * MA 02111-1307 USA                                               *
- ******************************************************************/
+/* sdlcolor.c --- SDL Color functions for Guile
+ *
+ * 	Copyright (C) 2003 Thien-Thi Nguyen
+ * 	Copyright (C) 2001 Alex Shinn
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+ * MA 02111-1307 USA
+ */
 
 /* guile headers */
-#include <libguile.h>
-/* sdl headers */
+
+#include <guile/gh.h>
 #include <SDL/SDL.h>
-/* scm util headers */
-#include "sdlenums.h"
+
+#include "config.h"
+#include "argcheck.h"
 #include "sdlsmobs.h"
-#include "sdlsurface.h"
+#include "wholefns.h"
 
-/* tags for SDL smobs */
-long color_tag;
+static
+SCM
+mark_color (SCM s_color)
+{
+  return s_color;
+}
 
-/* smob function */
+static
 size_t
 free_color (SCM s_color)
 {
-   /* printf ("free_color(%p)\n", color); */
-   free ((SDL_Color*) SCM_SMOB_DATA (s_color));
-   /* return sizeof (SDL_Color); */
-   return 0;
+  free (SMOBGET (s_color, SDL_Color *));
+  /* return sizeof (SDL_Color); */
+  return 0;
 }
 
+static
 int
 print_color (SCM s_color, SCM port, scm_print_state *pstate)
 {
-  SDL_Color *color = (SDL_Color *) SCM_SMOB_DATA (s_color);
-  SCM r,g,b;
+  SDL_Color *color = SMOBGET (s_color, SDL_Color *);
 
-  r = scm_long2num (color->r);
-  g = scm_long2num (color->g);
-  b = scm_long2num (color->b);
-
-  scm_puts ("#<SDL-Color r=", port);
-  scm_display(r, port);
-  scm_puts (" g=", port);
-  scm_display(g, port);
-  scm_puts (" b=", port);
-  scm_display(b, port);
-  scm_puts (">", port);
+  scm_puts          ("#<SDL-Color r=", port);
+  scm_display (gh_long2scm (color->r), port);
+  scm_puts                     (" g=", port);
+  scm_display (gh_long2scm (color->g), port);
+  scm_puts                     (" b=", port);
+  scm_display (gh_long2scm (color->b), port);
+  scm_puts                       (">", port);
 
   /* non-zero means success */
   return 1;
 }
 
-
+
 /* functions */
 
-SCM
-make_color (SCM s_r, SCM s_g, SCM s_b)
+MDEFLOCEXP (make_color, "sdl-make-color", 3, 0, 0,
+            (SCM s_r, SCM s_g, SCM s_b),
+            "Return a color with @var{r}, @var{g}, and @var{b} components.")
+#define FUNC_NAME s_make_color
 {
   SDL_Color *color;
 
-  SCM_ASSERT (scm_exact_p (s_r),  s_r,  SCM_ARG1, "sdl-make-color");
-  SCM_ASSERT (scm_exact_p (s_g),  s_g,  SCM_ARG2, "sdl-make-color");
-  SCM_ASSERT (scm_exact_p (s_b),  s_b,  SCM_ARG3, "sdl-make-color");
+  ASSERT_EXACT (s_r, SCM_ARG1);
+  ASSERT_EXACT (s_g, SCM_ARG2);
+  ASSERT_EXACT (s_b, SCM_ARG3);
 
-  color = (SDL_Color *) scm_must_malloc (sizeof (SDL_Color), "sdl-make-color");
-  color->r = scm_num2long (s_r, SCM_ARG1, "sdl-make-color");
-  color->g = scm_num2long (s_g, SCM_ARG2, "sdl-make-color");
-  color->b = scm_num2long (s_b, SCM_ARG3, "sdl-make-color");
+  color = (SDL_Color *) scm_must_malloc (sizeof (SDL_Color), FUNC_NAME);
+  color->r = gh_scm2int (s_r);
+  color->g = gh_scm2int (s_g);
+  color->b = gh_scm2int (s_b);
 
   SCM_RETURN_NEWSMOB (color_tag, color);
 }
+#undef FUNC_NAME
 
-/* color getters */
-SCM_DEFINE_NUMBER_GETTER ("sdl-color:r", color_r, color_tag, SDL_Color*, r)
-SCM_DEFINE_NUMBER_GETTER ("sdl-color:g", color_g, color_tag, SDL_Color*, g)
-SCM_DEFINE_NUMBER_GETTER ("sdl-color:b", color_b, color_tag, SDL_Color*, b)
+
+/* color getters and setters */
 
-/* color setters */
-SCM_DEFINE_NUMBER_SETTER ("sdl-color:set-r!", color_set_r, color_tag, SDL_Color*, r)
-SCM_DEFINE_NUMBER_SETTER ("sdl-color:set-g!", color_set_g, color_tag, SDL_Color*, g)
-SCM_DEFINE_NUMBER_SETTER ("sdl-color:set-b!", color_set_b, color_tag, SDL_Color*, b)
+#define NUMBER_GETTER(f)                        \
+  GSDL_NUMBER_GETTER ("sdl-color:" #f,          \
+                      color_ ## f,              \
+                      color_tag, SDL_Color *,   \
+                      f)
 
+#define NUMBER_SETTER(f)                        \
+  GSDL_NUMBER_SETTER ("sdl-color:set-" #f "!",  \
+                      color_set_ ## f,          \
+                      color_tag, SDL_Color *,   \
+                      f)
 
+#define NUMBER_GETSET(f) \
+  NUMBER_GETTER (f)      \
+  NUMBER_SETTER (f)
+
+NUMBER_GETSET(r)
+NUMBER_GETSET(g)
+NUMBER_GETSET(b)
+
+
 void
-sdl_init_color (void)
+gsdl_init_color (void)
 {
-  /* smobs */
   color_tag = scm_make_smob_type ("SDL-Color", sizeof(SDL_Color));
-  scm_set_smob_free (color_tag, free_color);
+  scm_set_smob_mark  (color_tag, mark_color);
+  scm_set_smob_free  (color_tag, free_color);
   scm_set_smob_print (color_tag, print_color);
 
-  /* color functions */
-  scm_c_define_gsubr ("sdl-make-color",         3, 0, 0, make_color);
-  scm_c_define_gsubr ("sdl-color:r",            1, 0, 0, color_r);
-  scm_c_define_gsubr ("sdl-color:g",            1, 0, 0, color_g);
-  scm_c_define_gsubr ("sdl-color:b",            1, 0, 0, color_b);
-  scm_c_define_gsubr ("sdl-color:set-r!",       2, 0, 0, color_set_r);
-  scm_c_define_gsubr ("sdl-color:set-g!",       2, 0, 0, color_set_g);
-  scm_c_define_gsubr ("sdl-color:set-b!",       2, 0, 0, color_set_b);
-
-  /* exported symbols */
-  scm_c_export (
-    "sdl-make-color",   "sdl-color:r",  "sdl-color:g",  "sdl-color:b",
-    "sdl-color:set-r!", "sdl-color:set-g!", "sdl-color:set-b!",
-    NULL);
+#include "sdlcolor.x"
 }
 
+/* sdlcolor.c ends here */
