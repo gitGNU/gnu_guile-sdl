@@ -55,11 +55,11 @@ info file to various directories under ${prefix} and ${exec_prefix}.  See
 the file INSTALL if you wish to choose different values for the ${} vars.
 
       ${prefix}/info                 -- guile-sdl.info
-      ${prefix}/share/guile/site/sdl -- (sdl misc-utils)
    ${exec_prefix}/lib/guile/site/sdl -- (sdl sdl)
                                         (sdl mixer)
                                         (sdl ttf)
                                         (sdl gfx)
+                                        (sdl misc-utils)
 
 Additionally, if your system supports "guile-tools make-module-catalog",
 that program is run in both "site" directories to create and/or update the
