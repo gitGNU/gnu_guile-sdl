@@ -347,6 +347,9 @@ gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
   val_and_name_t *hit;
   unsigned long result = 0;
 
+  if (EXACTLY_FALSEP (flags) || gh_null_p (flags))
+    return 0;
+
   if (gh_pair_p (flags))
     {
       SCM head;
@@ -363,8 +366,7 @@ gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
     }
   else
     {
-      if (pos)                          /* !pos => already checked */
-        ASSERT_SYMBOL (flags, pos);
+      ASSERT_SYMBOL (flags, pos);
       hit = s->lookup (SCM_CHARS (flags), SCM_LENGTH (flags));
       if (hit)
         result = hit->val;
