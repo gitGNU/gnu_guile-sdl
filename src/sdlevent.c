@@ -105,18 +105,20 @@ free_keysym (SCM keysym)
 /* Constructors */
 
 GH_DEFPROC (make_event, "make-event", 0, 1, 0,
-            (SCM s_type),
-            "Return a new SDL event.")
+            (SCM type),
+            "Return a new SDL event.\n"
+            "Optional arg @var{type} is one of the symbols\n"
+            "enumerated in the variable @code{event-types}.")
 {
 #define FUNC_NAME s_make_event
   SDL_Event *event;
-  int type = SDL_NOEVENT;
+  int ctype = SDL_NOEVENT;
 
-  if (BOUNDP (s_type))
-    type = gsdl_enum2long (s_type, event_type_enum, ARGH1, FUNC_NAME);
+  if (BOUNDP (type))
+    ctype = gsdl_enum2long (type, event_type_enum, ARGH1, FUNC_NAME);
 
   event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME);
-  event->type = type;
+  event->type = ctype;
 
   RETURN_NEW_EVENT (event);
 #undef FUNC_NAME
@@ -324,7 +326,7 @@ GH_DEFPROC (poll_event, "poll-event", 0, 1, 0,
             (SCM event),
             "Poll for events and return #t if there are any pending.\n"
             "Optional arg @var{event} specifies an event object (from\n"
-            "@code{make-event} to be filled in with the next event from\n"
+            "@code{make-event}) to be filled in with the next event from\n"
             "the queue (if available).")
 {
 #define FUNC_NAME s_poll_event
@@ -349,7 +351,7 @@ GH_DEFPROC (wait_event, "wait-event", 0, 1, 0,
             (SCM event),
             "Wait indefinitely for and return #f only if there were errors.\n"
             "Optional arg @var{event} specifies an event object (from\n"
-            "@code{make-event} to be filled in with the next event from\n"
+            "@code{make-event}) to be filled in with the next event from\n"
             "the queue.")
 {
 #define FUNC_NAME s_wait_event
@@ -438,7 +440,7 @@ GH_DEFPROC (enable_unicode, "enable-unicode", 0, 1, 0,
  */
 
 GH_DEFPROC (enable_key_repeat, "enable-key-repeat", 2, 0, 0,
-            (SCM s_delay, SCM s_interval),
+            (SCM delay, SCM interval),
             "Enable or disable keyboard repeat.\n"
             "@var{delay} is the initial delay in ms between the time\n"
             "when a key is pressed, and keyboard repeat begins.\n"
@@ -447,15 +449,15 @@ GH_DEFPROC (enable_key_repeat, "enable-key-repeat", 2, 0, 0,
             "Return #t on success.")
 {
 #define FUNC_NAME s_enable_key_repeat
-  int interval, delay;
+  int cinterval, cdelay;
 
-  ASSERT_EXACT (s_delay, ARGH1);
-  ASSERT_EXACT (s_interval, ARGH2);
+  ASSERT_EXACT (delay, ARGH1);
+  ASSERT_EXACT (interval, ARGH2);
 
-  delay    = gh_scm2long (s_delay);
-  interval = gh_scm2long (s_interval);
+  cdelay    = gh_scm2long (delay);
+  cinterval = gh_scm2long (interval);
 
-  RETURN_TRUE_IF_0 (SDL_EnableKeyRepeat (delay, interval));
+  RETURN_TRUE_IF_0 (SDL_EnableKeyRepeat (cdelay, cinterval));
 #undef FUNC_NAME
 }
 
@@ -557,176 +559,176 @@ gsdl_init_event (void)
   scm_set_smob_free (keysym_tag, free_keysym);
 
   /* event type constants */
-  event_type_enum = gsdl_define_enum (
-    "event-types",
-    GSDL_CSCS (SDL_ACTIVEEVENT),
-    GSDL_CSCS (SDL_KEYDOWN),
-    GSDL_CSCS (SDL_KEYUP),
-    GSDL_CSCS (SDL_MOUSEMOTION),
-    GSDL_CSCS (SDL_MOUSEBUTTONDOWN),
-    GSDL_CSCS (SDL_MOUSEBUTTONUP),
-    GSDL_CSCS (SDL_JOYAXISMOTION),
-    GSDL_CSCS (SDL_JOYBALLMOTION),
-    GSDL_CSCS (SDL_JOYHATMOTION),
-    GSDL_CSCS (SDL_JOYBUTTONDOWN),
-    GSDL_CSCS (SDL_JOYBUTTONUP),
-    GSDL_CSCS (SDL_QUIT),
-    GSDL_CSCS (SDL_SYSWMEVENT),
-    GSDL_CSCS (SDL_VIDEORESIZE),
-    GSDL_CSCS (SDL_USEREVENT),
-    NULL);
+  event_type_enum = gsdl_define_enum
+    ("event-types",
+     GSDL_CSCS (SDL_ACTIVEEVENT),
+     GSDL_CSCS (SDL_KEYDOWN),
+     GSDL_CSCS (SDL_KEYUP),
+     GSDL_CSCS (SDL_MOUSEMOTION),
+     GSDL_CSCS (SDL_MOUSEBUTTONDOWN),
+     GSDL_CSCS (SDL_MOUSEBUTTONUP),
+     GSDL_CSCS (SDL_JOYAXISMOTION),
+     GSDL_CSCS (SDL_JOYBALLMOTION),
+     GSDL_CSCS (SDL_JOYHATMOTION),
+     GSDL_CSCS (SDL_JOYBUTTONDOWN),
+     GSDL_CSCS (SDL_JOYBUTTONUP),
+     GSDL_CSCS (SDL_QUIT),
+     GSDL_CSCS (SDL_SYSWMEVENT),
+     GSDL_CSCS (SDL_VIDEORESIZE),
+     GSDL_CSCS (SDL_USEREVENT),
+     NULL);
 
   /* keysyms */
-  event_keysym_enum = gsdl_define_enum (
-    "event-keys",
-    GSDL_CSCS (SDLK_BACKSPACE),
-    GSDL_CSCS (SDLK_TAB),
-    GSDL_CSCS (SDLK_CLEAR),
-    GSDL_CSCS (SDLK_RETURN),
-    GSDL_CSCS (SDLK_PAUSE),
-    GSDL_CSCS (SDLK_ESCAPE),
-    GSDL_CSCS (SDLK_SPACE),
-    GSDL_CSCS (SDLK_EXCLAIM),
-    GSDL_CSCS (SDLK_QUOTEDBL),
-    GSDL_CSCS (SDLK_HASH),
-    GSDL_CSCS (SDLK_DOLLAR),
-    GSDL_CSCS (SDLK_AMPERSAND),
-    GSDL_CSCS (SDLK_QUOTE),
-    GSDL_CSCS (SDLK_LEFTPAREN),
-    GSDL_CSCS (SDLK_RIGHTPAREN),
-    GSDL_CSCS (SDLK_ASTERISK),
-    GSDL_CSCS (SDLK_PLUS),
-    GSDL_CSCS (SDLK_COMMA),
-    GSDL_CSCS (SDLK_MINUS),
-    GSDL_CSCS (SDLK_PERIOD),
-    GSDL_CSCS (SDLK_SLASH),
-    GSDL_CSCS (SDLK_0),
-    GSDL_CSCS (SDLK_1),
-    GSDL_CSCS (SDLK_2),
-    GSDL_CSCS (SDLK_3),
-    GSDL_CSCS (SDLK_4),
-    GSDL_CSCS (SDLK_5),
-    GSDL_CSCS (SDLK_6),
-    GSDL_CSCS (SDLK_7),
-    GSDL_CSCS (SDLK_8),
-    GSDL_CSCS (SDLK_9),
-    GSDL_CSCS (SDLK_COLON),
-    GSDL_CSCS (SDLK_SEMICOLON),
-    GSDL_CSCS (SDLK_LESS),
-    GSDL_CSCS (SDLK_EQUALS),
-    GSDL_CSCS (SDLK_GREATER),
-    GSDL_CSCS (SDLK_QUESTION),
-    GSDL_CSCS (SDLK_AT),
-    GSDL_CSCS (SDLK_LEFTBRACKET),
-    GSDL_CSCS (SDLK_BACKSLASH),
-    GSDL_CSCS (SDLK_RIGHTBRACKET),
-    GSDL_CSCS (SDLK_CARET),
-    GSDL_CSCS (SDLK_UNDERSCORE),
-    GSDL_CSCS (SDLK_BACKQUOTE),
-    GSDL_CSCS (SDLK_a),
-    GSDL_CSCS (SDLK_b),
-    GSDL_CSCS (SDLK_c),
-    GSDL_CSCS (SDLK_d),
-    GSDL_CSCS (SDLK_e),
-    GSDL_CSCS (SDLK_f),
-    GSDL_CSCS (SDLK_g),
-    GSDL_CSCS (SDLK_h),
-    GSDL_CSCS (SDLK_i),
-    GSDL_CSCS (SDLK_j),
-    GSDL_CSCS (SDLK_k),
-    GSDL_CSCS (SDLK_l),
-    GSDL_CSCS (SDLK_m),
-    GSDL_CSCS (SDLK_n),
-    GSDL_CSCS (SDLK_o),
-    GSDL_CSCS (SDLK_p),
-    GSDL_CSCS (SDLK_q),
-    GSDL_CSCS (SDLK_r),
-    GSDL_CSCS (SDLK_s),
-    GSDL_CSCS (SDLK_t),
-    GSDL_CSCS (SDLK_u),
-    GSDL_CSCS (SDLK_v),
-    GSDL_CSCS (SDLK_w),
-    GSDL_CSCS (SDLK_x),
-    GSDL_CSCS (SDLK_y),
-    GSDL_CSCS (SDLK_z),
-    GSDL_CSCS (SDLK_DELETE),
-    GSDL_CSCS (SDLK_KP0),
-    GSDL_CSCS (SDLK_KP1),
-    GSDL_CSCS (SDLK_KP2),
-    GSDL_CSCS (SDLK_KP3),
-    GSDL_CSCS (SDLK_KP4),
-    GSDL_CSCS (SDLK_KP5),
-    GSDL_CSCS (SDLK_KP6),
-    GSDL_CSCS (SDLK_KP7),
-    GSDL_CSCS (SDLK_KP8),
-    GSDL_CSCS (SDLK_KP9),
-    GSDL_CSCS (SDLK_KP_PERIOD),
-    GSDL_CSCS (SDLK_KP_DIVIDE),
-    GSDL_CSCS (SDLK_KP_MULTIPLY),
-    GSDL_CSCS (SDLK_KP_MINUS),
-    GSDL_CSCS (SDLK_KP_PLUS),
-    GSDL_CSCS (SDLK_KP_ENTER),
-    GSDL_CSCS (SDLK_KP_EQUALS),
-    GSDL_CSCS (SDLK_UP),
-    GSDL_CSCS (SDLK_DOWN),
-    GSDL_CSCS (SDLK_RIGHT),
-    GSDL_CSCS (SDLK_LEFT),
-    GSDL_CSCS (SDLK_INSERT),
-    GSDL_CSCS (SDLK_HOME),
-    GSDL_CSCS (SDLK_END),
-    GSDL_CSCS (SDLK_PAGEUP),
-    GSDL_CSCS (SDLK_PAGEDOWN),
-    GSDL_CSCS (SDLK_F1),
-    GSDL_CSCS (SDLK_F2),
-    GSDL_CSCS (SDLK_F3),
-    GSDL_CSCS (SDLK_F4),
-    GSDL_CSCS (SDLK_F5),
-    GSDL_CSCS (SDLK_F6),
-    GSDL_CSCS (SDLK_F7),
-    GSDL_CSCS (SDLK_F8),
-    GSDL_CSCS (SDLK_F9),
-    GSDL_CSCS (SDLK_F10),
-    GSDL_CSCS (SDLK_F11),
-    GSDL_CSCS (SDLK_F12),
-    GSDL_CSCS (SDLK_F13),
-    GSDL_CSCS (SDLK_F14),
-    GSDL_CSCS (SDLK_F15),
-    GSDL_CSCS (SDLK_NUMLOCK),
-    GSDL_CSCS (SDLK_CAPSLOCK),
-    GSDL_CSCS (SDLK_SCROLLOCK),
-    GSDL_CSCS (SDLK_RSHIFT),
-    GSDL_CSCS (SDLK_LSHIFT),
-    GSDL_CSCS (SDLK_RCTRL),
-    GSDL_CSCS (SDLK_LCTRL),
-    GSDL_CSCS (SDLK_RALT),
-    GSDL_CSCS (SDLK_LALT),
-    GSDL_CSCS (SDLK_RMETA),
-    GSDL_CSCS (SDLK_LMETA),
-    GSDL_CSCS (SDLK_LSUPER),
-    GSDL_CSCS (SDLK_RSUPER),
-    GSDL_CSCS (SDLK_MODE),
-    GSDL_CSCS (SDLK_HELP),
-    GSDL_CSCS (SDLK_PRINT),
-    GSDL_CSCS (SDLK_SYSREQ),
-    GSDL_CSCS (SDLK_BREAK),
-    GSDL_CSCS (SDLK_MENU),
-    GSDL_CSCS (SDLK_POWER),
-    GSDL_CSCS (SDLK_EURO),
-    NULL);
+  event_keysym_enum = gsdl_define_enum
+    ("event-keys",
+     GSDL_CSCS (SDLK_BACKSPACE),
+     GSDL_CSCS (SDLK_TAB),
+     GSDL_CSCS (SDLK_CLEAR),
+     GSDL_CSCS (SDLK_RETURN),
+     GSDL_CSCS (SDLK_PAUSE),
+     GSDL_CSCS (SDLK_ESCAPE),
+     GSDL_CSCS (SDLK_SPACE),
+     GSDL_CSCS (SDLK_EXCLAIM),
+     GSDL_CSCS (SDLK_QUOTEDBL),
+     GSDL_CSCS (SDLK_HASH),
+     GSDL_CSCS (SDLK_DOLLAR),
+     GSDL_CSCS (SDLK_AMPERSAND),
+     GSDL_CSCS (SDLK_QUOTE),
+     GSDL_CSCS (SDLK_LEFTPAREN),
+     GSDL_CSCS (SDLK_RIGHTPAREN),
+     GSDL_CSCS (SDLK_ASTERISK),
+     GSDL_CSCS (SDLK_PLUS),
+     GSDL_CSCS (SDLK_COMMA),
+     GSDL_CSCS (SDLK_MINUS),
+     GSDL_CSCS (SDLK_PERIOD),
+     GSDL_CSCS (SDLK_SLASH),
+     GSDL_CSCS (SDLK_0),
+     GSDL_CSCS (SDLK_1),
+     GSDL_CSCS (SDLK_2),
+     GSDL_CSCS (SDLK_3),
+     GSDL_CSCS (SDLK_4),
+     GSDL_CSCS (SDLK_5),
+     GSDL_CSCS (SDLK_6),
+     GSDL_CSCS (SDLK_7),
+     GSDL_CSCS (SDLK_8),
+     GSDL_CSCS (SDLK_9),
+     GSDL_CSCS (SDLK_COLON),
+     GSDL_CSCS (SDLK_SEMICOLON),
+     GSDL_CSCS (SDLK_LESS),
+     GSDL_CSCS (SDLK_EQUALS),
+     GSDL_CSCS (SDLK_GREATER),
+     GSDL_CSCS (SDLK_QUESTION),
+     GSDL_CSCS (SDLK_AT),
+     GSDL_CSCS (SDLK_LEFTBRACKET),
+     GSDL_CSCS (SDLK_BACKSLASH),
+     GSDL_CSCS (SDLK_RIGHTBRACKET),
+     GSDL_CSCS (SDLK_CARET),
+     GSDL_CSCS (SDLK_UNDERSCORE),
+     GSDL_CSCS (SDLK_BACKQUOTE),
+     GSDL_CSCS (SDLK_a),
+     GSDL_CSCS (SDLK_b),
+     GSDL_CSCS (SDLK_c),
+     GSDL_CSCS (SDLK_d),
+     GSDL_CSCS (SDLK_e),
+     GSDL_CSCS (SDLK_f),
+     GSDL_CSCS (SDLK_g),
+     GSDL_CSCS (SDLK_h),
+     GSDL_CSCS (SDLK_i),
+     GSDL_CSCS (SDLK_j),
+     GSDL_CSCS (SDLK_k),
+     GSDL_CSCS (SDLK_l),
+     GSDL_CSCS (SDLK_m),
+     GSDL_CSCS (SDLK_n),
+     GSDL_CSCS (SDLK_o),
+     GSDL_CSCS (SDLK_p),
+     GSDL_CSCS (SDLK_q),
+     GSDL_CSCS (SDLK_r),
+     GSDL_CSCS (SDLK_s),
+     GSDL_CSCS (SDLK_t),
+     GSDL_CSCS (SDLK_u),
+     GSDL_CSCS (SDLK_v),
+     GSDL_CSCS (SDLK_w),
+     GSDL_CSCS (SDLK_x),
+     GSDL_CSCS (SDLK_y),
+     GSDL_CSCS (SDLK_z),
+     GSDL_CSCS (SDLK_DELETE),
+     GSDL_CSCS (SDLK_KP0),
+     GSDL_CSCS (SDLK_KP1),
+     GSDL_CSCS (SDLK_KP2),
+     GSDL_CSCS (SDLK_KP3),
+     GSDL_CSCS (SDLK_KP4),
+     GSDL_CSCS (SDLK_KP5),
+     GSDL_CSCS (SDLK_KP6),
+     GSDL_CSCS (SDLK_KP7),
+     GSDL_CSCS (SDLK_KP8),
+     GSDL_CSCS (SDLK_KP9),
+     GSDL_CSCS (SDLK_KP_PERIOD),
+     GSDL_CSCS (SDLK_KP_DIVIDE),
+     GSDL_CSCS (SDLK_KP_MULTIPLY),
+     GSDL_CSCS (SDLK_KP_MINUS),
+     GSDL_CSCS (SDLK_KP_PLUS),
+     GSDL_CSCS (SDLK_KP_ENTER),
+     GSDL_CSCS (SDLK_KP_EQUALS),
+     GSDL_CSCS (SDLK_UP),
+     GSDL_CSCS (SDLK_DOWN),
+     GSDL_CSCS (SDLK_RIGHT),
+     GSDL_CSCS (SDLK_LEFT),
+     GSDL_CSCS (SDLK_INSERT),
+     GSDL_CSCS (SDLK_HOME),
+     GSDL_CSCS (SDLK_END),
+     GSDL_CSCS (SDLK_PAGEUP),
+     GSDL_CSCS (SDLK_PAGEDOWN),
+     GSDL_CSCS (SDLK_F1),
+     GSDL_CSCS (SDLK_F2),
+     GSDL_CSCS (SDLK_F3),
+     GSDL_CSCS (SDLK_F4),
+     GSDL_CSCS (SDLK_F5),
+     GSDL_CSCS (SDLK_F6),
+     GSDL_CSCS (SDLK_F7),
+     GSDL_CSCS (SDLK_F8),
+     GSDL_CSCS (SDLK_F9),
+     GSDL_CSCS (SDLK_F10),
+     GSDL_CSCS (SDLK_F11),
+     GSDL_CSCS (SDLK_F12),
+     GSDL_CSCS (SDLK_F13),
+     GSDL_CSCS (SDLK_F14),
+     GSDL_CSCS (SDLK_F15),
+     GSDL_CSCS (SDLK_NUMLOCK),
+     GSDL_CSCS (SDLK_CAPSLOCK),
+     GSDL_CSCS (SDLK_SCROLLOCK),
+     GSDL_CSCS (SDLK_RSHIFT),
+     GSDL_CSCS (SDLK_LSHIFT),
+     GSDL_CSCS (SDLK_RCTRL),
+     GSDL_CSCS (SDLK_LCTRL),
+     GSDL_CSCS (SDLK_RALT),
+     GSDL_CSCS (SDLK_LALT),
+     GSDL_CSCS (SDLK_RMETA),
+     GSDL_CSCS (SDLK_LMETA),
+     GSDL_CSCS (SDLK_LSUPER),
+     GSDL_CSCS (SDLK_RSUPER),
+     GSDL_CSCS (SDLK_MODE),
+     GSDL_CSCS (SDLK_HELP),
+     GSDL_CSCS (SDLK_PRINT),
+     GSDL_CSCS (SDLK_SYSREQ),
+     GSDL_CSCS (SDLK_BREAK),
+     GSDL_CSCS (SDLK_MENU),
+     GSDL_CSCS (SDLK_POWER),
+     GSDL_CSCS (SDLK_EURO),
+     NULL);
 
   event_mod_flags = gsdl_make_flagstash (&gsdl_kmod_flagstash);
 
   /* event states */
-  event_state_enum = gsdl_define_enum (
-    "event-states",
-    GSDL_CSCS (SDL_QUERY),
-    GSDL_CSCS (SDL_IGNORE),
-    /* SDL_DISABLE is not mentioned in the associated comment in SDL_events.h
-       (SDL 1.2), and moreover, its value is the same as SDL_IGNORE, so we
-       tickle the irony bone a bit and don't include it in Guile-SDL.  */
-    /* GSDL_CSCS (SDL_DISABLE), */
-    GSDL_CSCS (SDL_ENABLE),
-    NULL);
+  event_state_enum = gsdl_define_enum
+    ("event-states",
+     GSDL_CSCS (SDL_QUERY),
+     GSDL_CSCS (SDL_IGNORE),
+     /* SDL_DISABLE is not mentioned in the associated comment in SDL_events.h
+        (SDL 1.2), and moreover, its value is the same as SDL_IGNORE, so we
+        tickle the irony bone a bit and don't include it in Guile-SDL.  */
+     /* GSDL_CSCS (SDL_DISABLE), */
+     GSDL_CSCS (SDL_ENABLE),
+     NULL);
 
 #include "sdlevent.x"
 }

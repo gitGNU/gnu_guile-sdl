@@ -69,23 +69,23 @@ print_rect (SCM smob, SCM port, scm_print_state *pstate)
 
 
 GH_DEFPROC (make_rect, "make-rect", 4, 0, 0,
-            (SCM s_x, SCM s_y, SCM s_w, SCM s_h),
-            "Return a rect smob with location @var{x},@var{y}\n"
+            (SCM x, SCM y, SCM width, SCM height),
+            "Return a rectangle object with location @var{x},@var{y}\n"
             "and dimensions @var{width} by @var{height}.")
 {
 #define FUNC_NAME s_make_rect
   SDL_Rect *rect;
 
-  ASSERT_EXACT (s_x, ARGH1);
-  ASSERT_EXACT (s_y, ARGH2);
-  ASSERT_EXACT (s_w, ARGH3);
-  ASSERT_EXACT (s_h, ARGH4);
+  ASSERT_EXACT (x, ARGH1);
+  ASSERT_EXACT (y, ARGH2);
+  ASSERT_EXACT (width, ARGH3);
+  ASSERT_EXACT (height, ARGH4);
 
   rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME);
-  rect->x = gh_scm2long (s_x);
-  rect->y = gh_scm2long (s_y);
-  rect->w = gh_scm2ulong (s_w);
-  rect->h = gh_scm2ulong (s_h);
+  rect->x = gh_scm2long (x);
+  rect->y = gh_scm2long (y);
+  rect->w = gh_scm2ulong (width);
+  rect->h = gh_scm2ulong (height);
 
   RETURN_NEW_RECT (rect);
 #undef FUNC_NAME

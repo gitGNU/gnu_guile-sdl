@@ -51,89 +51,89 @@ static long mix_audio_tag;
 
 static
 SCM
-mark_music (SCM s_music)
+mark_music (SCM music)
 {
-  return s_music;
+  return music;
 }
 
 static
 size_t
-free_music (SCM s_music)
+free_music (SCM music)
 {
-  Mix_FreeMusic (UNPACK_MUSIC (s_music));
+  Mix_FreeMusic (UNPACK_MUSIC (music));
   return sizeof (struct Mix_Music*);
 }
 
 static
 SCM
-mark_audio (SCM s_chunk)
+mark_audio (SCM chunk)
 {
-  return s_chunk;
+  return chunk;
 }
 
 static
 size_t
-free_audio (SCM s_chunk)
+free_audio (SCM chunk)
 {
-  Mix_FreeChunk (UNPACK_AUDIO (s_chunk));
+  Mix_FreeChunk (UNPACK_AUDIO (chunk));
   return sizeof (Mix_Chunk);
 }
 
 
 GH_DEFPROC (mix_open_audio, "open-audio", 0, 4, 0,
-            (SCM s_freq, SCM s_format, SCM s_stereo, SCM s_chunksize),
+            (SCM freq, SCM format, SCM stereo, SCM chunksize),
             "Open the mixer with a certain audio format.\n"
             "Optional args @var{freq} (number), @var{format} (number),\n"
             "@var{stereo} (boolean) and @var{chunksize} (number) specify\n"
             "those aspects of the device.  Return #t if successful.")
 {
 #define FUNC_NAME s_mix_open_audio
-  int freq = MIX_DEFAULT_FREQUENCY;
-  Uint16 format = MIX_DEFAULT_FORMAT;
-  int channels = 2;
-  int chunksize = 1024;
+  int cfreq = MIX_DEFAULT_FREQUENCY;
+  Uint16 cformat = MIX_DEFAULT_FORMAT;
+  int cchannels = 2;
+  int cchunksize = 1024;
 
-  UNBOUND_MEANS_FALSE (s_freq);
-  if (NOT_FALSEP (s_freq))
+  UNBOUND_MEANS_FALSE (freq);
+  if (NOT_FALSEP (freq))
     {
-      ASSERT_EXACT (s_freq, ARGH1);
-      freq = gh_scm2long (s_freq);
+      ASSERT_EXACT (freq, ARGH1);
+      cfreq = gh_scm2long (freq);
     }
 
-  UNBOUND_MEANS_FALSE (s_format);
-  if (NOT_FALSEP (s_format))
+  UNBOUND_MEANS_FALSE (format);
+  if (NOT_FALSEP (format))
     {
-      ASSERT_EXACT (s_format, ARGH2);
-      format = gh_scm2long (s_format);
+      ASSERT_EXACT (format, ARGH2);
+      cformat = gh_scm2long (format);
     }
 
-  channels -= UNBOUNDP (s_stereo) ? 0 : EXACTLY_FALSEP (s_stereo);
+  cchannels -= UNBOUNDP (stereo) ? 0 : EXACTLY_FALSEP (stereo);
 
-  UNBOUND_MEANS_FALSE (s_chunksize);
-  if (NOT_FALSEP (s_chunksize))
+  UNBOUND_MEANS_FALSE (chunksize);
+  if (NOT_FALSEP (chunksize))
     {
-      ASSERT_EXACT (s_chunksize, ARGH4);
-      chunksize = gh_scm2long (s_chunksize);
+      ASSERT_EXACT (chunksize, ARGH4);
+      cchunksize = gh_scm2long (chunksize);
     }
 
   /* Open the audio device.  */
   RETURN_TRUE_IF_0
-    (Mix_OpenAudio (freq, MIX_DEFAULT_FORMAT, channels, 1024));
+    (Mix_OpenAudio (cfreq, MIX_DEFAULT_FORMAT, cchannels, 1024));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_allocate_channels, "allocated-channels", 1, 0, 0,
-            (SCM s_numchans),
+            (SCM numchans),
             "Dynamically change the number of channels managed by\n"
             "the mixer to @var{numchans}.  If decreasing the number\n"
             "of channels, the upper channels are stopped.  Return the\n"
             "new number of allocated channels.")
 {
 #define FUNC_NAME s_mix_allocate_channels
-  ASSERT_EXACT (s_numchans, ARGH1);
+  ASSERT_EXACT (numchans, ARGH1);
 
-  RETURN_INT (Mix_AllocateChannels (gh_scm2long (s_numchans)));
+  RETURN_INT (Mix_AllocateChannels (gh_scm2long (numchans)));
 #undef FUNC_NAME
 }
 
@@ -192,7 +192,8 @@ GH_DEFPROC (mix_load_wave, "load-wave", 1, 0, 0,
 GH_DEFPROC (mix_reserve_channels, "reserve-channels", 1, 0, 0,
             (SCM num),
             "Reserve the first @var{num} channels (0 through @var{num}-1)\n"
-            "for the application.  I.E. don't allocate them dynamically to\n"
+            "for the application.  In other words don't allocate them\n"
+            "dynamically to\n"
             "the next sample if requested with a -1 value below.\n"
             "Return the number of reserved channels.")
 {
@@ -205,7 +206,7 @@ GH_DEFPROC (mix_reserve_channels, "reserve-channels", 1, 0, 0,
 
 
 GH_DEFPROC (mix_group_channel, "group-channel", 1, 1, 0,
-            (SCM s_which, SCM s_tag),
+            (SCM channel, SCM tag),
             "Attach to @var{channel} a @var{tag}.\n"
             "A tag can be assigned to several mixer channels, to\n"
             "form groups of channels.  If @var{tag} is not specified, or\n"
@@ -214,129 +215,129 @@ GH_DEFPROC (mix_group_channel, "group-channel", 1, 1, 0,
             "#t if successful.")
 {
 #define FUNC_NAME s_mix_group_channel
-  int tag = -1;
+  int ctag = -1;
 
-  ASSERT_EXACT (s_which, ARGH1);
+  ASSERT_EXACT (channel, ARGH1);
 
-  if (BOUNDP (s_tag))
+  if (BOUNDP (tag))
     {
-      ASSERT_EXACT (s_tag, ARGH2);
-      tag = gh_scm2long (s_tag);
+      ASSERT_EXACT (tag, ARGH2);
+      ctag = gh_scm2long (tag);
     }
 
   RETURN_BOOL
-    (Mix_GroupChannel (gh_scm2long (s_which), tag));
+    (Mix_GroupChannel (gh_scm2long (channel), ctag));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_group_channels, "group-channels", 2, 1, 0,
-            (SCM s_from, SCM s_to, SCM s_tag),
+            (SCM from, SCM to, SCM tag),
             "Assign channels in the range @var{from} through @var{to}\n"
             "to the default group.  Optional arg @var{tag} specifies\n"
             "the group to use.  Return #t if successful.")
 {
 #define FUNC_NAME s_mix_group_channels
-  int tag = -1;
+  int ctag = -1;
 
-  ASSERT_EXACT (s_from, ARGH1);
-  ASSERT_EXACT (s_to, ARGH2);
+  ASSERT_EXACT (from, ARGH1);
+  ASSERT_EXACT (to, ARGH2);
 
-  if (BOUNDP (s_tag))
+  if (BOUNDP (tag))
     {
-      ASSERT_EXACT (s_tag, ARGH3);
-      tag = gh_scm2long (s_tag);
+      ASSERT_EXACT (tag, ARGH3);
+      ctag = gh_scm2long (tag);
     }
 
   RETURN_BOOL
-    (Mix_GroupChannels (gh_scm2long (s_from),
-                        gh_scm2long (s_to),
-                        tag));
+    (Mix_GroupChannels (gh_scm2long (from),
+                        gh_scm2long (to),
+                        ctag));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_group_available, "group-available", 0, 1, 0,
-            (SCM s_tag),
+            (SCM tag),
             "Return the first available channel in the default\n"
             "group of channels.\n"
             "Optional arg @var{tag} specifies the group to check.")
 {
 #define FUNC_NAME s_mix_group_available
-  int tag = -1;
+  int ctag = -1;
 
-  if (BOUNDP (s_tag))
+  if (BOUNDP (tag))
     {
-      ASSERT_EXACT (s_tag, ARGH1);
-      tag = gh_scm2long (s_tag);
+      ASSERT_EXACT (tag, ARGH1);
+      ctag = gh_scm2long (tag);
     }
 
-  RETURN_INT (Mix_GroupAvailable (tag));
+  RETURN_INT (Mix_GroupAvailable (ctag));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_group_count, "group-count", 0, 1, 0,
-            (SCM s_tag),
+            (SCM tag),
             "Return the number of channels in the default group.\n"
             "Optional arg @var{tag} specifies the group to check.")
 {
 #define FUNC_NAME s_mix_group_count
-  int tag = -1;
+  int ctag = -1;
 
-  if (BOUNDP (s_tag))
+  if (BOUNDP (tag))
     {
-      ASSERT_EXACT (s_tag, ARGH1);
-      tag = gh_scm2long (s_tag);
+      ASSERT_EXACT (tag, ARGH1);
+      ctag = gh_scm2long (tag);
     }
 
-  RETURN_INT (Mix_GroupCount (tag));
+  RETURN_INT (Mix_GroupCount (ctag));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_group_oldest, "group-oldest", 0, 1, 0,
-            (SCM s_tag),
+            (SCM tag),
             "Return the \"oldest\" sample playing in the default\n"
             "group of channels.\n"
             "Optional arg @var{tag} specifies the group to check.")
 {
 #define FUNC_NAME s_mix_group_oldest
-  int tag = -1;
+  int ctag = -1;
 
-  if (BOUNDP (s_tag))
+  if (BOUNDP (tag))
     {
-      ASSERT_EXACT (s_tag, ARGH1);
-      tag = gh_scm2long (s_tag);
+      ASSERT_EXACT (tag, ARGH1);
+      ctag = gh_scm2long (tag);
     }
 
-  RETURN_INT (Mix_GroupOldest (tag));
+  RETURN_INT (Mix_GroupOldest (ctag));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_group_newer, "group-newer", 0, 1, 0,
-            (SCM s_tag),
+            (SCM tag),
             "Return the \"most recent\" (i.e. last) sample playing\n"
             "in the default group of channels.\n"
             "Optional arg @var{tag} specifies the group to check.")
 {
 #define FUNC_NAME s_mix_group_newer
-  int tag = -1;
+  int ctag = -1;
 
-  if (BOUNDP (s_tag))
+  if (BOUNDP (tag))
     {
-      ASSERT_EXACT (s_tag, ARGH1);
-      tag = gh_scm2long (s_tag);
+      ASSERT_EXACT (tag, ARGH1);
+      ctag = gh_scm2long (tag);
     }
 
-  RETURN_INT (Mix_GroupNewer (tag));
+  RETURN_INT (Mix_GroupNewer (ctag));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
-            (SCM s_chunk, SCM s_channel, SCM s_loops, SCM s_ticks, SCM s_fade),
+            (SCM chunk, SCM channel, SCM loops, SCM ticks, SCM fade),
             "Play an audio @var{chunk} on a specific @var{channel}.\n"
             "If the channel is unspecified or is -1, play on the\n"
             "first free channel.  If @var{loops} is specified and\n"
@@ -348,46 +349,46 @@ GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
             "the sound.")
 {
 #define FUNC_NAME s_mix_play_channel
-  int channel = -1;
-  Mix_Chunk *chunk;
-  int loops = 0;
-  int ticks = -1;
+  int cchannel = -1;
+  Mix_Chunk *cchunk;
+  int cloops = 0;
+  int cticks = -1;
   long rv;
 
-  ASSERT_AUDIO (s_chunk, ARGH1);
-  chunk = UNPACK_AUDIO (s_chunk);
+  ASSERT_AUDIO (chunk, ARGH1);
+  cchunk = UNPACK_AUDIO (chunk);
 
-  UNBOUND_MEANS_FALSE (s_channel);
-  if (NOT_FALSEP (s_channel))
+  UNBOUND_MEANS_FALSE (channel);
+  if (NOT_FALSEP (channel))
     {
-      ASSERT_EXACT (s_channel, ARGH2);
-      channel = gh_scm2long (s_channel);
+      ASSERT_EXACT (channel, ARGH2);
+      cchannel = gh_scm2long (channel);
     }
 
-  UNBOUND_MEANS_FALSE (s_loops);
-  if (NOT_FALSEP (s_loops))
+  UNBOUND_MEANS_FALSE (loops);
+  if (NOT_FALSEP (loops))
     {
-      ASSERT_EXACT (s_loops, ARGH3);
-      loops = gh_scm2long (s_loops);
+      ASSERT_EXACT (loops, ARGH3);
+      cloops = gh_scm2long (loops);
     }
 
-  UNBOUND_MEANS_FALSE (s_ticks);
-  if (NOT_FALSEP (s_ticks))
+  UNBOUND_MEANS_FALSE (ticks);
+  if (NOT_FALSEP (ticks))
     {
-      ASSERT_EXACT (s_ticks, ARGH4);
-      ticks = gh_scm2long (s_ticks);
+      ASSERT_EXACT (ticks, ARGH4);
+      cticks = gh_scm2long (ticks);
     }
 
-  if (UNBOUNDP (s_fade))
+  if (UNBOUNDP (fade))
     /* No fade, normal Mix_PlayChannelTimed.  */
-    rv = Mix_PlayChannelTimed (channel, chunk, loops, ticks);
+    rv = Mix_PlayChannelTimed (cchannel, cchunk, cloops, cticks);
   else
     {
       /* We have a fade.  */
-      ASSERT_EXACT (s_fade, ARGH5);
-      rv = Mix_FadeInChannelTimed (channel, chunk, loops,
-                                   gh_scm2long (s_fade),
-                                   ticks);
+      ASSERT_EXACT (fade, ARGH5);
+      rv = Mix_FadeInChannelTimed (cchannel, cchunk, cloops,
+                                   gh_scm2long (fade),
+                                   cticks);
     }
   RETURN_INT (rv);
 #undef FUNC_NAME
@@ -395,34 +396,34 @@ GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
 
 
 GH_DEFPROC (mix_play_music, "play-music", 1, 2, 0,
-            (SCM s_music, SCM s_loops, SCM s_fade),
+            (SCM music, SCM loops, SCM fade),
             "Play a @var{music} track.\n"
             "Optional args @var{loops} and @var{fade}\n"
             "are as in @code{play-channel}.")
 {
 #define FUNC_NAME s_mix_play_music
-  Mix_Music *music;
-  int loops = 0;
+  Mix_Music *cmusic;
+  int cloops = 0;
   long rv;
 
-  ASSERT_MUSIC (s_music, ARGH1);
-  music = UNPACK_MUSIC (s_music);
+  ASSERT_MUSIC (music, ARGH1);
+  cmusic = UNPACK_MUSIC (music);
 
-  UNBOUND_MEANS_FALSE (s_loops);
-  if (NOT_FALSEP (s_loops))
+  UNBOUND_MEANS_FALSE (loops);
+  if (NOT_FALSEP (loops))
     {
-      ASSERT_EXACT (s_loops, ARGH2);
-      loops = gh_scm2long (s_loops);
+      ASSERT_EXACT (loops, ARGH2);
+      cloops = gh_scm2long (loops);
     }
 
-  if (UNBOUNDP (s_fade))
+  if (UNBOUNDP (fade))
     /* No fade, normal Mix_PlayMusic.  */
-    rv = Mix_PlayMusic (music, loops);
+    rv = Mix_PlayMusic (cmusic, cloops);
   else
     {
       /* We have a fade.  */
-      ASSERT_EXACT (s_fade, ARGH3);
-      rv = Mix_FadeInMusic (music, loops, gh_scm2long (s_fade));
+      ASSERT_EXACT (fade, ARGH3);
+      rv = Mix_FadeInMusic (cmusic, cloops, gh_scm2long (fade));
     }
   RETURN_INT (rv);
 #undef FUNC_NAME
@@ -430,13 +431,13 @@ GH_DEFPROC (mix_play_music, "play-music", 1, 2, 0,
 
 
 GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
-            (SCM s_volume, SCM s_which),
+            (SCM volume, SCM which),
             "Return the current volume on the default channel.\n"
-            "Optional arg @var{v} (a number in the range 0-128) means\n"
-            "set the volume to @var{v} and return the original volume.\n"
+            "Optional arg @var{volume} (a number in the range 0-128) means\n"
+            "set the volume to @var{volume} and return the original volume.\n"
             "Optional second arg @var{which} specifies a chunk or\n"
             "channel to check (or modify) instead of the default.\n"
-            "If @var{v} is non-#f and @var{which} is #f, modify all\n"
+            "If @var{volume} is non-#f and @var{which} is #f, modify all\n"
             "channels.\n\n"
             "[Here is the original (perhaps clearer) docstring. ---ttn]\n\n"
             "Set the volume in the range of 0-128 of a specific channel\n"
@@ -445,27 +446,27 @@ GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
             "is unspecified or is -1, just return the current volume.")
 {
 #define FUNC_NAME s_mix_volume
-  int volume = -1;
+  int cvolume = -1;
   long rv;
 
-  UNBOUND_MEANS_FALSE (s_volume);
-  if (NOT_FALSEP (s_volume))
+  UNBOUND_MEANS_FALSE (volume);
+  if (NOT_FALSEP (volume))
     {
-      ASSERT_EXACT (s_volume, ARGH1);
-      volume = gh_scm2long (s_volume);
+      ASSERT_EXACT (volume, ARGH1);
+      cvolume = gh_scm2long (volume);
     }
 
-  if (UNBOUNDP (s_which))
+  if (UNBOUNDP (which))
     /* No chunk or channel, call Mix_Volume on default channel.  */
-    rv = Mix_Volume (-1, volume);
-  else if (gh_exact_p (s_which))
+    rv = Mix_Volume (-1, cvolume);
+  else if (gh_exact_p (which))
     /* Numeric which, treat as channel number.  */
-    rv = Mix_Volume (gh_scm2long (s_which), volume);
+    rv = Mix_Volume (gh_scm2long (which), cvolume);
   else
     {
       /* No-numeric which, must be a chunk smob.  */
-      ASSERT_AUDIO (s_which, ARGH2);
-      rv = Mix_VolumeChunk (UNPACK_AUDIO (s_which), volume);
+      ASSERT_AUDIO (which, ARGH2);
+      rv = Mix_VolumeChunk (UNPACK_AUDIO (which), cvolume);
     }
   RETURN_INT (rv);
 #undef FUNC_NAME
@@ -473,59 +474,59 @@ GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
 
 
 GH_DEFPROC (mix_volume_music, "music-volume", 0, 1, 0,
-            (SCM s_volume),
+            (SCM volume),
             "Return the current volume.\n"
-            "Optional arg @var{v} (a number in the range 0-128)\n"
-            "means set the volume to @var{v}.")
+            "Optional arg @var{volume} (a number in the range 0-128)\n"
+            "means set the volume to @var{volume}.")
 {
 #define FUNC_NAME s_mix_volume_music
-  int volume = -1;
+  int cvolume = -1;
 
-  if (BOUNDP (s_volume))
+  if (BOUNDP (volume))
     {
-      ASSERT_EXACT (s_volume, ARGH1);
-      volume = gh_scm2long (s_volume);
+      ASSERT_EXACT (volume, ARGH1);
+      cvolume = gh_scm2long (volume);
     }
 
-  RETURN_INT (Mix_VolumeMusic (volume));
+  RETURN_INT (Mix_VolumeMusic (cvolume));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_halt_channel, "halt-channel", 0, 1, 0,
-            (SCM s_channel),
+            (SCM channel),
             "Halt playing of the default channel.\n"
             "Optional arg @var{channel} specifies a channel to halt.")
 {
 #define FUNC_NAME s_mix_halt_channel
-  int channel = -1;
+  int cchannel = -1;
 
-  if (BOUNDP (s_channel))
+  if (BOUNDP (channel))
     {
-      ASSERT_EXACT (s_channel, ARGH1);
-      channel = gh_scm2long (s_channel);
+      ASSERT_EXACT (channel, ARGH1);
+      cchannel = gh_scm2long (channel);
     }
 
-  RETURN_INT (Mix_HaltChannel (channel));
+  RETURN_INT (Mix_HaltChannel (cchannel));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_halt_group, "halt-group", 0, 1, 0,
-            (SCM s_tag),
+            (SCM tag),
             "Halt playing of the default group.\n"
             "Optional arg @var{tag} specifies the group to halt.")
 {
 #define FUNC_NAME s_mix_halt_group
-  int tag = -1;
+  int ctag = -1;
 
-  if (BOUNDP (s_tag))
+  if (BOUNDP (tag))
     {
-      ASSERT_EXACT (s_tag, ARGH1);
-      tag = gh_scm2long (s_tag);
+      ASSERT_EXACT (tag, ARGH1);
+      ctag = gh_scm2long (tag);
     }
 
-  RETURN_INT (Mix_HaltGroup (tag));
+  RETURN_INT (Mix_HaltGroup (ctag));
 #undef FUNC_NAME
 }
 
@@ -541,108 +542,108 @@ GH_DEFPROC (mix_halt_music, "halt-music", 0, 0, 0,
 
 
 GH_DEFPROC (mix_expire_channel, "expire-channel", 0, 2, 0,
-            (SCM s_channel, SCM s_ticks),
+            (SCM channel, SCM ticks),
             "Turn off expiration for the default channel.\n"
             "Optional arg @var{channel} specifies a channel to change.\n"
             "Optional arg @var{ticks} (a number) means set the expiration\n"
             "delay to that many milliseconds, rather than turning it off.")
 {
 #define FUNC_NAME s_mix_expire_channel
-  int channel = -1;
-  int ticks = -1;
+  int cchannel = -1;
+  int cticks = -1;
 
-  UNBOUND_MEANS_FALSE (s_channel);
-  if (NOT_FALSEP (s_channel))
+  UNBOUND_MEANS_FALSE (channel);
+  if (NOT_FALSEP (channel))
     {
-      ASSERT_EXACT (s_channel, ARGH1);
-      channel = gh_scm2long (s_channel);
+      ASSERT_EXACT (channel, ARGH1);
+      cchannel = gh_scm2long (channel);
     }
 
-  if (BOUNDP (s_ticks))
+  if (BOUNDP (ticks))
     {
-      ASSERT_EXACT (s_ticks, ARGH2);
-      ticks = gh_scm2long (s_ticks);
+      ASSERT_EXACT (ticks, ARGH2);
+      cticks = gh_scm2long (ticks);
     }
 
-  RETURN_INT (Mix_ExpireChannel (channel, ticks));
+  RETURN_INT (Mix_ExpireChannel (cchannel, cticks));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
-            (SCM s_which, SCM s_ms),
+            (SCM which, SCM ms),
             "Halt a channel, fading it out progressively until silent.\n"
             "Optional arg @var{which} specifies a channel to halt.\n"
             "Second optional arg @var{ms} specifies the number of\n"
             "milliseconds the fading will take (default 0).")
 {
 #define FUNC_NAME s_mix_fade_out_channel
-  int channel = -1;
-  int ms = 0;
+  int cchannel = -1;
+  int cms = 0;
 
-  UNBOUND_MEANS_FALSE (s_which);
-  if (NOT_FALSEP (s_which))
+  UNBOUND_MEANS_FALSE (which);
+  if (NOT_FALSEP (which))
     {
-      ASSERT_EXACT (s_which, ARGH1);
-      channel = gh_scm2long (s_which);
+      ASSERT_EXACT (which, ARGH1);
+      cchannel = gh_scm2long (which);
     }
 
-  if (BOUNDP (s_ms))
+  if (BOUNDP (ms))
     {
-      ASSERT_EXACT (s_ms, ARGH2);
-      ms = gh_scm2long (s_ms);
+      ASSERT_EXACT (ms, ARGH2);
+      cms = gh_scm2long (ms);
     }
 
-  RETURN_INT (Mix_FadeOutChannel (channel, ms));
+  RETURN_INT (Mix_FadeOutChannel (cchannel, cms));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_fade_out_group, "fade-out-group", 0, 2, 0,
-            (SCM s_tag, SCM s_ms),
+            (SCM tag, SCM ms),
             "Halt a group, fading it out progressively until silent.\n"
             "Optional arg @var{tag} specifies a group to halt.\n"
             "Second optional arg @var{ms} specifies the number of\n"
             "milliseconds the fading will take (default 0).")
 {
 #define FUNC_NAME s_mix_fade_out_group
-  int tag = -1;
-  int ms = 0;
+  int ctag = -1;
+  int cms = 0;
 
-  UNBOUND_MEANS_FALSE (s_tag);
-  if (NOT_FALSEP (s_tag))
+  UNBOUND_MEANS_FALSE (tag);
+  if (NOT_FALSEP (tag))
     {
-      ASSERT_EXACT (s_tag, ARGH1);
-      tag = gh_scm2long (s_tag);
+      ASSERT_EXACT (tag, ARGH1);
+      ctag = gh_scm2long (tag);
     }
 
-  if (BOUNDP (s_ms))
+  if (BOUNDP (ms))
     {
-      ASSERT_EXACT (s_ms, ARGH2);
-      ms = gh_scm2long (s_ms);
+      ASSERT_EXACT (ms, ARGH2);
+      cms = gh_scm2long (ms);
     }
 
-  RETURN_INT (Mix_FadeOutGroup (tag, ms));
+  RETURN_INT (Mix_FadeOutGroup (ctag, cms));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_fade_out_music, "fade-out-music", 0, 1, 0,
-            (SCM s_ms),
+            (SCM ms),
             "Halt the music, fading it out progressively until silent.\n"
             "Optional arg @var{ms} specifies the number of milliseconds\n"
             "the fading will take (default 0).")
 {
 #define FUNC_NAME s_mix_fade_out_music
-  int ms = 0;
+  int cms = 0;
 
-  if (BOUNDP (s_ms))
+  if (BOUNDP (ms))
     {
-      ASSERT_EXACT (s_ms, ARGH1);
-      ms = gh_scm2long (s_ms);
+      ASSERT_EXACT (ms, ARGH1);
+      cms = gh_scm2long (ms);
     }
 
-  RETURN_INT (Mix_FadeOutMusic (ms));
+  RETURN_INT (Mix_FadeOutMusic (cms));
 #undef FUNC_NAME
 }
 
@@ -658,82 +659,82 @@ GH_DEFPROC (mix_fading_music, "fading-music", 0, 0, 0,
 
 
 GH_DEFPROC (mix_fading_channel, "fading-channel", 0, 1, 0,
-            (SCM s_which),
+            (SCM which),
             "Return the fading status of a the default channel."
             "Optional arg @var{which} selects which channel to check.")
 {
 #define FUNC_NAME s_mix_fading_channel
-  int which = -1;
+  int cwhich = -1;
 
-  if (BOUNDP (s_which))
+  if (BOUNDP (which))
     {
-      ASSERT_EXACT (s_which, ARGH1);
-      which = gh_scm2long (s_which);
+      ASSERT_EXACT (which, ARGH1);
+      cwhich = gh_scm2long (which);
     }
 
-  RETURN_FADINGSTATUS (Mix_FadingChannel (which));
+  RETURN_FADINGSTATUS (Mix_FadingChannel (cwhich));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_pause, "pause", 0, 1, 0,
-            (SCM s_channel),
+            (SCM channel),
             "Pause the default channel."
             "Optional arg @var{channel} selects which channel to pause.\n"
             "Return value unspecified.")
 {
 #define FUNC_NAME s_mix_pause
-  int channel = -1;
+  int cchannel = -1;
 
-  if (BOUNDP (s_channel))
+  if (BOUNDP (channel))
     {
-      ASSERT_EXACT (s_channel, ARGH1);
-      channel = gh_scm2long (s_channel);
+      ASSERT_EXACT (channel, ARGH1);
+      cchannel = gh_scm2long (channel);
     }
 
-  Mix_Pause (channel);
+  Mix_Pause (cchannel);
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_resume, "resume", 0, 1, 0,
-            (SCM s_channel),
+            (SCM channel),
             "Resume (unpause) the default channel.\n"
             "Optional arg @var{channel} selects which channel to resume.\n"
             "Return value unspecified.")
 {
 #define FUNC_NAME s_mix_resume
-  int channel = -1;
+  int cchannel = -1;
 
-  if (BOUNDP (s_channel))
+  if (BOUNDP (channel))
     {
-      ASSERT_EXACT (s_channel, ARGH1);
-      channel = gh_scm2long (s_channel);
+      ASSERT_EXACT (channel, ARGH1);
+      cchannel = gh_scm2long (channel);
     }
 
-  Mix_Resume (channel);
+  Mix_Resume (cchannel);
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (mix_paused, "paused?", 0, 1, 0,
-            (SCM s_channel),
+            (SCM channel),
             "Return #t if the default channel is paused.\n"
             "Optional arg @var{channel} selects a which channel to check.")
 {
 #define FUNC_NAME s_mix_resume
-  int channel = -1;
+  int cchannel = -1;
 
-  if (BOUNDP (s_channel))
+  if (BOUNDP (channel))
     {
-      ASSERT_EXACT (s_channel, ARGH1);
-      channel = gh_scm2long (s_channel);
+      ASSERT_EXACT (channel, ARGH1);
+      cchannel = gh_scm2long (channel);
     }
 
   RETURN_BOOL
-    (Mix_Paused (channel));
+    (Mix_Paused (cchannel));
 #undef FUNC_NAME
 }
 
@@ -783,21 +784,21 @@ GH_DEFPROC (mix_paused_music, "paused-music?", 0, 0, 0,
 
 
 GH_DEFPROC (mix_playing, "playing?", 0, 1, 0,
-            (SCM s_channel),
+            (SCM channel),
             "Return #t iff the default channel is playing.\n"
             "Optional arg @var{channel} selects which channel to check.")
 {
 #define FUNC_NAME s_mix_playing
-  int channel = -1;
+  int cchannel = -1;
 
-  if (BOUNDP (s_channel))
+  if (BOUNDP (channel))
     {
-      ASSERT_EXACT (s_channel, ARGH1);
-      channel = gh_scm2long (s_channel);
+      ASSERT_EXACT (channel, ARGH1);
+      cchannel = gh_scm2long (channel);
     }
 
   RETURN_BOOL
-    (Mix_Playing (channel));
+    (Mix_Playing (cchannel));
 #undef FUNC_NAME
 }
 
@@ -852,12 +853,12 @@ init_module (void)
   scm_set_smob_free (mix_audio_tag, free_audio);
 
   /* enums */
-  fading_status_enum = gsdl_define_enum (
-      "fading-status",
-      GSDL_CSCS (MIX_NO_FADING),
-      GSDL_CSCS (MIX_FADING_OUT),
-      GSDL_CSCS (MIX_FADING_IN),
-      NULL);
+  fading_status_enum = gsdl_define_enum
+    ("fading-status",
+     GSDL_CSCS (MIX_NO_FADING),
+     GSDL_CSCS (MIX_FADING_OUT),
+     GSDL_CSCS (MIX_FADING_IN),
+     NULL);
 
 #include "sdlmixer.x"
 }

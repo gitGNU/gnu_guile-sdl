@@ -29,7 +29,7 @@
 
 
 GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
-            (SCM s_surface),
+            (SCM surface),
             "Return a new surface created by flipping @var{surface} vertically.")
 {
 #define FUNC_NAME s_vertical_flip_surface
@@ -38,10 +38,10 @@ GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
   SDL_Rect srcrect, dstrect;
 
   /* Verify args.  */
-  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_SURFACE (surface, ARGH1);
 
   /* Get source and dimensions.  */
-  src = SMOBGET (s_surface, SDL_Surface *);
+  src = SMOBGET (surface, SDL_Surface *);
   w = src->w;
   h = src->h;
 
@@ -66,7 +66,7 @@ GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
 }
 
 GH_DEFPROC (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
-            (SCM s_surface),
+            (SCM surface),
             "Return a new surface created by flipping @var{surface} horizontally.")
 {
 #define FUNC_NAME s_horizontal_flip_surface
@@ -75,10 +75,10 @@ GH_DEFPROC (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
   SDL_Rect srcrect, dstrect;
 
   /* Verify args.  */
-  ASSERT_SURFACE (s_surface, ARGH1);
+  ASSERT_SURFACE (surface, ARGH1);
 
   /* Get source and dimensions.  */
-  src = SMOBGET (s_surface, SDL_Surface *);
+  src = SMOBGET (surface, SDL_Surface *);
   w = src->w;
   h = src->h;
 
@@ -103,12 +103,12 @@ GH_DEFPROC (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
 }
 
 GH_DEFPROC (vh_flip_surface, "vh-flip-surface", 1, 0, 0,
-            (SCM s_surface),
+            (SCM surface),
             "Return a new surface created by flipping @var{surface}\n"
             "both vertically and horizontally.")
 {
 #define FUNC_NAME s_vh_flip_surface
-  SCM temp = vertical_flip_surface (s_surface);
+  SCM temp = vertical_flip_surface (surface);
   return horizontal_flip_surface (temp);
 #undef FUNC_NAME
 }

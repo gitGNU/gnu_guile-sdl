@@ -29,33 +29,33 @@
 
 static
 SCM
-mark_color (SCM s_color)
+mark_color (SCM color)
 {
-  return s_color;
+  return color;
 }
 
 static
 size_t
-free_color (SCM s_color)
+free_color (SCM color)
 {
-  free (UNPACK_COLOR (s_color));
+  free (UNPACK_COLOR (color));
   /* return sizeof (SDL_Color); */
   return 0;
 }
 
 static
 int
-print_color (SCM s_color, SCM port, scm_print_state *pstate)
+print_color (SCM color, SCM port, scm_print_state *pstate)
 {
-  SDL_Color *color = UNPACK_COLOR (s_color);
+  SDL_Color *ccolor = UNPACK_COLOR (color);
 
-  scm_puts          ("#<SDL-Color r=", port);
-  scm_display (gh_long2scm (color->r), port);
-  scm_puts                     (" g=", port);
-  scm_display (gh_long2scm (color->g), port);
-  scm_puts                     (" b=", port);
-  scm_display (gh_long2scm (color->b), port);
-  scm_puts                       (">", port);
+  scm_puts           ("#<SDL-Color r=", port);
+  scm_display (gh_long2scm (ccolor->r), port);
+  scm_puts                      (" g=", port);
+  scm_display (gh_long2scm (ccolor->g), port);
+  scm_puts                      (" b=", port);
+  scm_display (gh_long2scm (ccolor->b), port);
+  scm_puts                        (">", port);
 
   /* Non-zero means success.  */
   return 1;
@@ -65,20 +65,21 @@ print_color (SCM s_color, SCM port, scm_print_state *pstate)
 /* Functions */
 
 GH_DEFPROC (make_color, "make-color", 3, 0, 0,
-            (SCM s_r, SCM s_g, SCM s_b),
-            "Return a color with @var{r}, @var{g}, and @var{b} components.")
+            (SCM r, SCM g, SCM b),
+            "Return a color object with @var{r}, @var{g},\n"
+            "and @var{b} components.")
 {
 #define FUNC_NAME s_make_color
   SDL_Color *color;
 
-  ASSERT_EXACT (s_r, ARGH1);
-  ASSERT_EXACT (s_g, ARGH2);
-  ASSERT_EXACT (s_b, ARGH3);
+  ASSERT_EXACT (r, ARGH1);
+  ASSERT_EXACT (g, ARGH2);
+  ASSERT_EXACT (b, ARGH3);
 
   color = (SDL_Color *) scm_must_malloc (sizeof (SDL_Color), FUNC_NAME);
-  color->r = gh_scm2int (s_r);
-  color->g = gh_scm2int (s_g);
-  color->b = gh_scm2int (s_b);
+  color->r = gh_scm2int (r);
+  color->g = gh_scm2int (g);
+  color->b = gh_scm2int (b);
 
   RETURN_NEW_COLOR (color);
 #undef FUNC_NAME

@@ -48,7 +48,7 @@ static long cdrom_tag;
 
 GH_DEFPROC (cd_p, "cd?", 1, 0, 0,
             (SCM obj),
-            "Return #t iff @var{obj} is a cd smob.")
+            "Return #t iff @var{obj} is a CDROM drive object.")
 {
 #define FUNC_NAME s_cd_p
   RETURN_BOOL
@@ -58,21 +58,22 @@ GH_DEFPROC (cd_p, "cd?", 1, 0, 0,
 
 
 GH_DEFPROC (cd_null_p, "cd-null?", 1, 0, 0,
-            (SCM cd_smob),
-            "Return #t iff @var{cd} is a null pointer.")
+            (SCM cdrom),
+            "Return #t iff @var{cdrom} is a null pointer.\n"
+            "[What does that mean? --ttn]")
 {
 #define FUNC_NAME s_cd_null_p
-  ASSERT_CDROM (cd_smob, ARGH1);
+  ASSERT_CDROM (cdrom, ARGH1);
 
   RETURN_BOOL
-    (! UNPACK_CDROM (cd_smob));
+    (! UNPACK_CDROM (cdrom));
 #undef FUNC_NAME
 }
 
 
 GH_DEFPROC (cd_num_drives, "cd-num-drives", 0, 0, 0,
             (),
-            "Return the number of CD drives.")
+            "Return the number of CDROM drives.")
 {
 #define FUNC_NAME s_cd_num_drives
   RETURN_INT (SDL_CDNumDrives ());
@@ -81,29 +82,29 @@ GH_DEFPROC (cd_num_drives, "cd-num-drives", 0, 0, 0,
 
 
 GH_DEFPROC (cd_name, "cd-name", 0, 1, 0,
-            (SCM s_drive),
+            (SCM drive),
             "Return a human-readable, system-dependent\n"
-            "identifier (a string) for the CD-ROM.\n"
+            "identifier (a string) for the CDROM.\n"
             "Optional arg @var{drive} is a number specifying which drive.")
 {
 #define FUNC_NAME s_cd_name
   const char *name;
-  int drive = 0;
+  int cdrive = 0;
 
-  if (BOUNDP (s_drive))
+  if (BOUNDP (drive))
     {
-      ASSERT_EXACT (s_drive, ARGH1);
-      drive = gh_scm2int (s_drive);
+      ASSERT_EXACT (drive, ARGH1);
+      cdrive = gh_scm2int (drive);
     }
 
-  name = SDL_CDName (drive);
+  name = SDL_CDName (cdrive);
   RETURN_0STR (name);
 #undef FUNC_NAME
 }
 
 GH_DEFPROC (cd_open, "cd-open", 0, 1, 0,
             (SCM drive),
-            "Open the CD-ROM drive for access and return its handle.\n"
+            "Open the CDROM drive for access and return its handle.\n"
             "If the drive is unavailable, return #f.\n"
             "Optional arg @var{drive} is a number specifying which drive.")
 {
@@ -133,8 +134,8 @@ DECLARE_SIMPLE_SYM (PAUSED);
 DECLARE_SIMPLE_SYM (ERROR);
 
 GH_DEFPROC (cd_status, "cd-status", 1, 0, 0,
-            (SCM cd_smob),
-            "Return the current status of the drive @var{cd}\n"
+            (SCM cdrom),
+            "Return the current status of the drive @var{cdrom}\n"
             "as a symbol, one of: @code{TRAYEMTPY}, @code{STOPPED},\n"
             "@code{PLAYING}, @code{PAUSED} or @code{ERROR}.")
 {
@@ -142,8 +143,8 @@ GH_DEFPROC (cd_status, "cd-status", 1, 0, 0,
   SDL_CD *cd;
   int ret = CD_ERROR;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     ret = SDL_CDStatus (cd);
@@ -161,14 +162,14 @@ GH_DEFPROC (cd_status, "cd-status", 1, 0, 0,
 
 
 GH_DEFPROC (cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
-            (SCM cd_smob),
-            "Return #t iff there is a CD in drive @var{cd}.")
+            (SCM cdrom),
+            "Return #t iff there is a CD in drive @var{cdrom}.")
 {
 #define FUNC_NAME s_cd_in_drive_p
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     RETURN_BOOL (CD_INDRIVE (SDL_CDStatus (cd)));
@@ -179,15 +180,15 @@ GH_DEFPROC (cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
 
 
 GH_DEFPROC (cd_get_num_tracks, "cd-get-num-tracks", 1, 0, 0,
-            (SCM cd_smob),
-            "Return the number of tracks on the @var{cd}.")
+            (SCM cdrom),
+            "Return the number of tracks on the CD in drive @var{cdrom}.")
 {
 #define FUNC_NAME s_cd_get_num_tracks
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     ret = cd->numtracks;
@@ -198,15 +199,15 @@ GH_DEFPROC (cd_get_num_tracks, "cd-get-num-tracks", 1, 0, 0,
 
 
 GH_DEFPROC (cd_get_cur_track, "cd-get-cur-track", 1, 0, 0,
-            (SCM cd_smob),
-            "Return the current track on the @var{cd}.")
+            (SCM cdrom),
+            "Return the current track on the CD in drive @var{cdrom}.")
 {
 #define FUNC_NAME s_cd_get_cur_track
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     ret = cd->cur_track;
@@ -217,15 +218,15 @@ GH_DEFPROC (cd_get_cur_track, "cd-get-cur-track", 1, 0, 0,
 
 
 GH_DEFPROC (cd_get_cur_frame, "cd-get-cur-frame", 1, 0, 0,
-            (SCM cd_smob),
-            "Return the current frame of the @var{cd}.")
+            (SCM cdrom),
+            "Return the current frame of the CD in drive @var{cdrom}.")
 {
 #define FUNC_NAME s_cd_get_cur_frame
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     ret = cd->cur_frame;
@@ -241,30 +242,30 @@ DECLARE_SIMPLE_SYM (type);
 DECLARE_SIMPLE_SYM (id);
 
 GH_DEFPROC (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
-            (SCM cd_smob, SCM s_n),
-            "Return info for @var{cd} track @var{n} as an alist\n"
-            "or #f if there were problems.")
+            (SCM cdrom, SCM n),
+            "For CD in drive @var{cdrom}, return info on track @var{n}\n"
+            "as an alist or #f if there were problems.")
 {
 #define FUNC_NAME s_cd_get_nth_track
   SDL_CD *cd;
-  int n = 0;
+  int cn = 0;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
-  if (BOUNDP (s_n))
+  if (BOUNDP (n))
     {
-      ASSERT_EXACT (s_n, ARGH2);
-      n = gh_scm2ulong (s_n);
+      ASSERT_EXACT (n, ARGH2);
+      cn = gh_scm2ulong (n);
     }
 
-  if (cd && (n < cd->numtracks))
+  if (cd && (cn < cd->numtracks))
     /* Form an assoc list.  */
     RETURN_LIST4
-      (gh_cons (SYM (id),     gh_long2scm (cd->track[n].id)),
-       gh_cons (SYM (type),   gh_long2scm (cd->track[n].type)),
-       gh_cons (SYM (length), gh_ulong2scm (cd->track[n].length)),
-       gh_cons (SYM (offset), gh_ulong2scm (cd->track[n].offset)));
+      (gh_cons (SYM (id),     gh_long2scm (cd->track[cn].id)),
+       gh_cons (SYM (type),   gh_long2scm (cd->track[cn].type)),
+       gh_cons (SYM (length), gh_ulong2scm (cd->track[cn].length)),
+       gh_cons (SYM (offset), gh_ulong2scm (cd->track[cn].offset)));
   else
     RETURN_FALSE;
 #undef FUNC_NAME
@@ -272,13 +273,13 @@ GH_DEFPROC (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
 
 
 GH_DEFPROC (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
-            (SCM cd_smob,
-             SCM s_start_track,
-             SCM s_start_frame,
-             SCM s_n_tracks,
-             SCM s_n_frames),
-            "Play the given CD tracks."
-            "Play the @var{cd} starting at @var{start-track} and\n"
+            (SCM cdrom,
+             SCM start_track,
+             SCM start_frame,
+             SCM n_tracks,
+             SCM n_frames),
+            "Play the given CD tracks in drive @var{cdrom}.\n"
+            "Play the CD starting at @var{start-track} and\n"
             "@var{start-frame} for @var{ntracks} tracks and @var{nframes}\n"
             "frames.  If both @var{ntrack} and @var{nframe} are 0, play\n"
             "until the end of the CD.  This procedure will skip data\n"
@@ -288,48 +289,48 @@ GH_DEFPROC (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
 {
 #define FUNC_NAME s_cd_play_tracks
   SDL_CD *cd;
-  int start_track = 0, start_frame = 0, n_tracks = 1, n_frames = 1;
+  int cstart_track = 0, cstart_frame = 0, cn_tracks = 1, cn_frames = 1;
   int ret = -1;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
+  ASSERT_CDROM (cdrom, ARGH1);
 
-  UNBOUND_MEANS_FALSE (s_start_track);
-  if (NOT_FALSEP (s_start_track))
+  UNBOUND_MEANS_FALSE (start_track);
+  if (NOT_FALSEP (start_track))
     {
-      ASSERT_EXACT (s_start_track, ARGH2);
-      start_track = gh_scm2ulong (s_start_track);
+      ASSERT_EXACT (start_track, ARGH2);
+      cstart_track = gh_scm2ulong (start_track);
     }
 
-  UNBOUND_MEANS_FALSE (s_start_frame);
-  if (NOT_FALSEP (s_start_frame))
+  UNBOUND_MEANS_FALSE (start_frame);
+  if (NOT_FALSEP (start_frame))
     {
-      ASSERT_EXACT (s_start_frame, ARGH3);
-      start_frame = gh_scm2ulong (s_start_frame);
+      ASSERT_EXACT (start_frame, ARGH3);
+      cstart_frame = gh_scm2ulong (start_frame);
     }
 
-  UNBOUND_MEANS_FALSE (s_n_tracks);
-  if (NOT_FALSEP (s_n_tracks))
+  UNBOUND_MEANS_FALSE (n_tracks);
+  if (NOT_FALSEP (n_tracks))
     {
-      ASSERT_EXACT (s_n_tracks, ARGH4);
-      n_tracks = gh_scm2ulong (s_n_tracks);;
+      ASSERT_EXACT (n_tracks, ARGH4);
+      cn_tracks = gh_scm2ulong (n_tracks);;
     }
 
-  UNBOUND_MEANS_FALSE (s_n_frames);
-  if (NOT_FALSEP (s_n_frames))
+  UNBOUND_MEANS_FALSE (n_frames);
+  if (NOT_FALSEP (n_frames))
     {
-      ASSERT_EXACT (s_n_frames, ARGH5);
-      n_frames = gh_scm2ulong (s_n_frames);
+      ASSERT_EXACT (n_frames, ARGH5);
+      cn_frames = gh_scm2ulong (n_frames);
     }
   else
     {
-      cd = UNPACK_CDROM (cd_smob);
-      n_frames = cd->track[start_track + n_tracks - 1].length;
+      cd = UNPACK_CDROM (cdrom);
+      cn_frames = cd->track[cstart_track + cn_tracks - 1].length;
     }
 
-  cd = UNPACK_CDROM (cd_smob);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
-    ret = SDL_CDPlayTracks (cd, start_track, start_frame, n_tracks, n_frames);
+    ret = SDL_CDPlayTracks (cd, cstart_track, cstart_frame, cn_tracks, cn_frames);
 
   RETURN_TRUE_IF_0 (ret);
 #undef FUNC_NAME
@@ -337,26 +338,26 @@ GH_DEFPROC (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
 
 
 GH_DEFPROC (cd_play, "cd-play", 3, 0, 0,
-            (SCM cd_smob,
-             SCM s_start,
-             SCM s_length),
-            "Play a @var{cd} from @var{start} frame for\n"
+            (SCM cdrom,
+             SCM start,
+             SCM length),
+            "Play CD in drive @var{cdrom} from @var{start} frame for\n"
             "@var{length} frames.  Return #t if successful.")
 {
 #define FUNC_NAME s_cd_play
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  ASSERT_EXACT (s_start, ARGH2);
-  ASSERT_EXACT (s_length, ARGH3);
+  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_EXACT (start, ARGH2);
+  ASSERT_EXACT (length, ARGH3);
 
-  cd = UNPACK_CDROM (cd_smob);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     ret = SDL_CDPlay (cd,
-                      gh_scm2ulong (s_start),
-                      gh_scm2ulong (s_length));
+                      gh_scm2ulong (start),
+                      gh_scm2ulong (length));
 
   RETURN_TRUE_IF_0 (ret);
 #undef FUNC_NAME
@@ -364,15 +365,15 @@ GH_DEFPROC (cd_play, "cd-play", 3, 0, 0,
 
 
 GH_DEFPROC (cd_pause, "cd-pause", 1, 0, 0,
-            (SCM cd_smob),
-            "Pause a @var{cd}.  Return #t if successful.")
+            (SCM cdrom),
+            "Pause the CD in drive @var{cdrom}.  Return #t if successful.")
 {
 #define FUNC_NAME s_cd_pause
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     ret = SDL_CDPause (cd);
@@ -383,15 +384,16 @@ GH_DEFPROC (cd_pause, "cd-pause", 1, 0, 0,
 
 
 GH_DEFPROC (cd_resume, "cd-resume", 1, 0, 0,
-            (SCM cd_smob),
-            "Resume (unpause) a @var{cd}.  Return #t if successful.")
+            (SCM cdrom),
+            "Resume (unpause) the CD in drive @var{cdrom}.\n"
+            "Return #t if successful.")
 {
 #define FUNC_NAME s_cd_resume
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     ret = SDL_CDResume (cd);
@@ -402,15 +404,15 @@ GH_DEFPROC (cd_resume, "cd-resume", 1, 0, 0,
 
 
 GH_DEFPROC (cd_stop, "cd-stop", 1, 0, 0,
-            (SCM cd_smob),
-            "Stop a @var{cd}.  Return #t if successful.")
+            (SCM cdrom),
+            "Stop the CD in drive @var{cdrom}.  Return #t if successful.")
 {
 #define FUNC_NAME s_cd_stop
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     ret = SDL_CDStop (cd);
@@ -421,15 +423,15 @@ GH_DEFPROC (cd_stop, "cd-stop", 1, 0, 0,
 
 
 GH_DEFPROC (cd_eject, "cd-eject", 1, 0, 0,
-            (SCM cd_smob),
-            "Eject a @var{cd}.  Return #t if successful.")
+            (SCM cdrom),
+            "Eject the CD from drive @var{cdrom}.  Return #t if successful.")
 {
 #define FUNC_NAME s_cd_eject
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     ret = SDL_CDEject (cd);
@@ -440,19 +442,19 @@ GH_DEFPROC (cd_eject, "cd-eject", 1, 0, 0,
 
 
 GH_DEFPROC (cd_close, "cd-close", 1, 0, 0,
-            (SCM cd_smob),
-            "Close a @var{cd}.  The return value is unspecified.")
+            (SCM cdrom),
+            "Close the drive @var{cdrom}.  The return value is unspecified.")
 {
 #define FUNC_NAME s_cd_close
   SDL_CD *cd;
 
-  ASSERT_CDROM (cd_smob, ARGH1);
-  cd = UNPACK_CDROM (cd_smob);
+  ASSERT_CDROM (cdrom, ARGH1);
+  cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     {
       SDL_CDClose (cd);
-      SMOBSET (cd_smob, NULL);
+      SMOBSET (cdrom, NULL);
     }
 
   RETURN_UNSPECIFIED;
@@ -461,35 +463,35 @@ GH_DEFPROC (cd_close, "cd-close", 1, 0, 0,
 
 
 GH_DEFPROC (cd_msf_to_frames, "cd-msf->frames", 1, 2, 0,
-            (SCM s_m,
-             SCM s_s,
-             SCM s_f),
+            (SCM m,
+             SCM s,
+             SCM f),
             "Return frames (an integer) computed from"
             "@var{m}, second @var{s} and frame @var{f}.\n"
             "@var{s} and @var{f} are optional.")
 {
 #define FUNC_NAME s_cd_msf_to_frames
   int frames;
-  int m, s = 0, f = 0;
+  int cm, cs = 0, cf = 0;
 
-  ASSERT_EXACT (s_m, ARGH1);
-  m = gh_scm2ulong (s_m);
+  ASSERT_EXACT (m, ARGH1);
+  cm = gh_scm2ulong (m);
 
-  UNBOUND_MEANS_FALSE (s_s);
-  if (NOT_FALSEP (s_s))
+  UNBOUND_MEANS_FALSE (s);
+  if (NOT_FALSEP (s))
     {
-      ASSERT_EXACT (s_s, ARGH2);
-      s = gh_scm2ulong (s_s);
+      ASSERT_EXACT (s, ARGH2);
+      cs = gh_scm2ulong (s);
     }
 
-  UNBOUND_MEANS_FALSE (s_f);
-  if (NOT_FALSEP (s_f))
+  UNBOUND_MEANS_FALSE (f);
+  if (NOT_FALSEP (f))
     {
-      ASSERT_EXACT (s_f, ARGH3);
-      f = gh_scm2ulong (s_f);
+      ASSERT_EXACT (f, ARGH3);
+      cf = gh_scm2ulong (f);
     }
 
-  frames = MSF_TO_FRAMES (m, s, f);
+  frames = MSF_TO_FRAMES (cm, cs, cf);
   RETURN_INT (frames);
 #undef FUNC_NAME
 }
@@ -500,17 +502,17 @@ DECLARE_SIMPLE_SYM (s);
 DECLARE_SIMPLE_SYM (m);
 
 GH_DEFPROC (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
-            (SCM s_frames),
+            (SCM frames),
             "Return a minute/second/frames alist made from\n"
             "converting @var{frames} (a number).")
 {
 #define FUNC_NAME s_cd_frames_to_msf
-  int frames, m, s, f;
+  int cframes, m, s, f;
 
-  ASSERT_EXACT (s_frames, ARGH1);
-  frames = gh_scm2ulong (s_frames);
+  ASSERT_EXACT (frames, ARGH1);
+  cframes = gh_scm2ulong (frames);
 
-  FRAMES_TO_MSF (frames, &m , &s, &f);
+  FRAMES_TO_MSF (cframes, &m , &s, &f);
   RETURN_LIST3 (gh_cons (SYM (m), gh_ulong2scm (m)),
                 gh_cons (SYM (s), gh_ulong2scm (s)),
                 gh_cons (SYM (f), gh_ulong2scm (f)));
@@ -521,16 +523,16 @@ GH_DEFPROC (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
 
 static
 SCM
-mark_cd (SCM cd_smob)
+mark_cd (SCM cdrom)
 {
-  return cd_smob;
+  return cdrom;
 }
 
 static
 size_t
-free_cd (SCM cd_smob)
+free_cd (SCM cdrom)
 {
-  SDL_CD *cd = UNPACK_CDROM (cd_smob);
+  SDL_CD *cd = UNPACK_CDROM (cdrom);
 
   if (cd)
     SDL_CDClose (cd);
@@ -540,9 +542,9 @@ free_cd (SCM cd_smob)
 
 static
 int
-print_cd (SCM cd_smob, SCM port, scm_print_state *pstate)
+print_cd (SCM cdrom, SCM port, scm_print_state *pstate)
 {
-  SDL_CD *cd = UNPACK_CDROM (cd_smob);
+  SDL_CD *cd = UNPACK_CDROM (cdrom);
 
   /* Print the current status.  */
   if (cd)

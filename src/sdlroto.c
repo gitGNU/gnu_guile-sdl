@@ -31,33 +31,35 @@
 
 
 GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
-            (SCM surface_smob,
-             SCM s_angle,
-             SCM s_zoom,
-             SCM s_smooth),
-            "Returns a new rotated and zoomed copy of a surface.\n"
-            "Zoom defaults to 1.0, and smooth defaults to #f.")
+            (SCM surface,
+             SCM angle,
+             SCM zoom,
+             SCM smooth),
+            "Return a new surface made from rotating @var{surface}\n"
+            "by @var{angle} degrees.  Optional third arg @var{zoom}\n"
+            "(default value 1.0) changes the size as well.  Optional\n"
+            "fourth arg @var{smooth} turns on anti-aliasing.")
 {
 #define FUNC_NAME s_roto_zoom_surface
-  SDL_Surface *surface, *new_surface;
-  double angle = 0.0, zoom = 1.0;
+  SDL_Surface *csurface, *new_surface;
+  double cangle = 0.0, czoom = 1.0;
 
-  ASSERT_SURFACE (surface_smob, ARGH1);
-  surface = SMOBGET (surface_smob, SDL_Surface *);
+  ASSERT_SURFACE (surface, ARGH1);
+  csurface = SMOBGET (surface, SDL_Surface *);
 
-  ASSERT_NUMBER (s_angle, ARGH2);
-  angle = gh_scm2double (s_angle);
+  ASSERT_NUMBER (angle, ARGH2);
+  cangle = gh_scm2double (angle);
 
-  UNBOUND_MEANS_FALSE (s_zoom);
-  if (NOT_FALSEP (s_zoom))
+  UNBOUND_MEANS_FALSE (zoom);
+  if (NOT_FALSEP (zoom))
     {
-      ASSERT_NUMBER (s_zoom, ARGH3);
-      zoom = gh_scm2double (s_zoom);
+      ASSERT_NUMBER (zoom, ARGH3);
+      czoom = gh_scm2double (zoom);
     }
 
-  UNBOUND_MEANS_FALSE (s_smooth);
+  UNBOUND_MEANS_FALSE (smooth);
 
-  new_surface = rotozoomSurface (surface, angle, zoom, NOT_FALSEP (s_smooth));
+  new_surface = rotozoomSurface (csurface, cangle, czoom, NOT_FALSEP (smooth));
 
   RETURN_NEW_SURFACE (new_surface);
 #undef FUNC_NAME
@@ -65,37 +67,37 @@ GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
 
 
 GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
-            (SCM surface_smob,
-             SCM s_zoomx,
-             SCM s_zoomy,
-             SCM s_smooth),
+            (SCM surface,
+             SCM zoomx,
+             SCM zoomy,
+             SCM smooth),
             "Return a new scaled copy of @var{surface}.\n"
             "@var{zoomx} and @var{zoomy} specify the scaling factor.\n"
             "If omitted, @var{zoomy} defaults to @var{zoomx}.\n"
             "Optional fourth arg @var{smooth} turns on anti-aliasing.")
 {
 #define FUNC_NAME s_zoom_surface
-  SDL_Surface *surface, *new_surface;
-  double zoomx = 1.0, zoomy = 1.0;
+  SDL_Surface *csurface, *new_surface;
+  double czoomx = 1.0, czoomy = 1.0;
 
-  ASSERT_SURFACE (surface_smob, ARGH1);
-  surface = SMOBGET (surface_smob, SDL_Surface *);
+  ASSERT_SURFACE (surface, ARGH1);
+  csurface = SMOBGET (surface, SDL_Surface *);
 
-  ASSERT_NUMBER (s_zoomx, ARGH2);
-  zoomx = gh_scm2double (s_zoomx);
+  ASSERT_NUMBER (zoomx, ARGH2);
+  czoomx = gh_scm2double (zoomx);
 
-  UNBOUND_MEANS_FALSE (s_zoomy);
-  if (NOT_FALSEP (s_zoomy))
+  UNBOUND_MEANS_FALSE (zoomy);
+  if (NOT_FALSEP (zoomy))
     {
-      ASSERT_NUMBER (s_zoomy, ARGH3);
-      zoomy = gh_scm2double (s_zoomy);
+      ASSERT_NUMBER (zoomy, ARGH3);
+      czoomy = gh_scm2double (zoomy);
     }
   else
-    zoomy = zoomx;
+    czoomy = czoomx;
 
-  UNBOUND_MEANS_FALSE (s_smooth);
+  UNBOUND_MEANS_FALSE (smooth);
 
-  new_surface = zoomSurface (surface, zoomx, zoomy, NOT_FALSEP (s_smooth));
+  new_surface = zoomSurface (csurface, czoomx, czoomy, NOT_FALSEP (smooth));
 
   RETURN_NEW_SURFACE (new_surface);
 #undef FUNC_NAME
