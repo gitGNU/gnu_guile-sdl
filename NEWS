@@ -8,6 +8,11 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 - 0.3.1 | NOT YET RELEASED
 
+  - bugfix: `make-surface' and `create-rgb-surface' no longer ignore `flags'
+
+	These procs used to internally hardcode SDL_HWSURFACE instead of
+	using the `flags' argument.
+
   - dropped (sdl sdl) proc: scale-surface
 
 	This was never implemented.  Its advertized functionality was
