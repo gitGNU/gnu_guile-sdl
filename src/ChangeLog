@@ -144,6 +144,19 @@
 	Remove calls to `scm_c_define_gsubr'.
 	Remove call to `scm_c_export'.
 
+	* sdljoystick.c: Update copyright.
+	No longer include <libguile.h>.
+	No longer include "sdljoystick.h".
+	Include "config.h", "argcheck.h" and "sdlsmobs.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(joystick_tag): Rename from `sdl_joystick_tag'. Make static.
+	(ASSERT_JOYSTICK): New macro.
+	(gsdl_init_joystick): Rename from `sdl_init_joystick'.
+	Register func `mark_joy'.
+	Remove call to `scm_c_export'.
+
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"
