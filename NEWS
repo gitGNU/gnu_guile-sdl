@@ -6,6 +6,38 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
+- 0.2.6 | 2004-09-01
+
+  - docs cleanup
+
+	The documentation methodology extracts signatures from functions
+	in C source code and thus the variable name of the arguments are
+	the ones displayed (unless overridden).  Previously, the vars
+	were named w/ an "s_" prefix to indicate "scheme value", a mild
+	form of Hungarian notation.  A particularly striking example:
+
+	 - Scheme Procedure: create-rgb-surface s_flags s_width s_height
+		s_depth s_rmask s_gmask s_bmask s_amask
+
+	This has now been changed to read:
+
+	 - Scheme Procedure: create-rgb-surface flags width height depth
+		rmask gmask bmask amask
+
+	The signature still occupies two lines -- unavoidable w/ so many
+	arguments -- but the whole is less jarring to read (we hope).
+
+  - info entry now under category "Guile modules"
+
+	It used to be under "Guile".
+
+  - "basics" series finished
+
+	This release concludes the "basics" series which prioritized
+	general methodology refinement over features.  Next series, to
+	be numbered 0.3.x, is for "coverage" (see TODO).
+
+
 - 0.2.5 | 2004-07-23
 
   - backward-compatability installation bugfix: libFOO.la symlinks
