@@ -207,11 +207,11 @@ GH_DEFPROC (ttf_glyph_metrics, "font:glyph-metrics", 2, 0, 0,
                     (Uint16) gh_scm2long (s_ch),
                     &minx, &maxx, &miny, &maxy, &advance);
 
-  return SCM_LIST5 (gh_cons (SYM (minx), gh_long2scm (minx)),
-                    gh_cons (SYM (maxx), gh_long2scm (maxx)),
-                    gh_cons (SYM (miny), gh_long2scm (miny)),
-                    gh_cons (SYM (maxy), gh_long2scm (maxy)),
-                    gh_cons (SYM (advance), gh_long2scm (advance)));
+  RETURN_LIST5 (gh_cons (SYM (minx), gh_long2scm (minx)),
+                gh_cons (SYM (maxx), gh_long2scm (maxx)),
+                gh_cons (SYM (miny), gh_long2scm (miny)),
+                gh_cons (SYM (maxy), gh_long2scm (maxy)),
+                gh_cons (SYM (advance), gh_long2scm (advance)));
 }
 #undef FUNC_NAME
 
@@ -233,8 +233,8 @@ GH_DEFPROC (ttf_size_text, "font:size-text", 2, 0, 0,
   ASSERT_STRING (s_text, ARGH2);
 
   TTF_SizeText (UNPACK_TTFONT (s_font), SCM_CHARS (s_text), &w, &h);
-  return SCM_LIST2 (gh_cons (SYM (w), gh_long2scm (w)),
-                    gh_cons (SYM (h), gh_long2scm (h)));
+  RETURN_LIST2 (gh_cons (SYM (w), gh_long2scm (w)),
+                gh_cons (SYM (h), gh_long2scm (h)));
 }
 #undef FUNC_NAME
 
@@ -253,8 +253,8 @@ GH_DEFPROC (ttf_size_utf8, "font:size-utf8", 2, 0, 0,
   ASSERT_STRING (s_text, ARGH2);
 
   TTF_SizeUTF8 (UNPACK_TTFONT (s_font), SCM_CHARS (s_text), &w, &h);
-  return SCM_LIST2 (gh_cons (gsdl_sym_w, gh_long2scm (w)),
-                    gh_cons (gsdl_sym_h, gh_long2scm (h)));
+  RETURN_LIST2 (gh_cons (gsdl_sym_w, gh_long2scm (w)),
+                gh_cons (gsdl_sym_h, gh_long2scm (h)));
 }
 #undef FUNC_NAME
 
