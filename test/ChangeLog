@@ -1,3 +1,16 @@
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cursor.scm: Add #:renamer clause for SDL modules.
+	Throughout, update names to use "SDL:" prefix instead of "sdl-".
+	* gfx.scm: Likewise.
+	* mixer.scm: Likewise.
+	* rect.scm: Likewise.
+	* ttf.scm: Likewise.
+	* event.scm: Likewise.
+	* image.scm: Likewise.
+	* opengl.scm: Likewise.
+	* roto.scm: Likewise.
+
 2003-11-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* event.scm: Merge two `use-modules' forms

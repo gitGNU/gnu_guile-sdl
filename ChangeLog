@@ -1,3 +1,10 @@
+2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* alive.test: Add #:renamer clause to `use-modules' form.
+	Use prefix "SDL:" instead of "sdl-".
+	No longer check for `sdl-version' or `sdl-with-clip-rect'.
+	Check for `call-with-clip-rect' instead.
+
 2003-11-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* wily-guile.in (HAVE_TTF, HAVE_MIXER):
