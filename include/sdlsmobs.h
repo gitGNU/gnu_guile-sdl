@@ -31,7 +31,7 @@
 #define SMOBGET(smob,c_type)       ((c_type) SCM_SMOB_DATA (smob))
 #define SMOBSET(smob,val)          (SCM_SET_SMOB_DATA (smob, val))
 
-#define SMOBFIELD(c_type,c_field)  (SMOBGET (smob, c_type)->c_field)
+#define SMOBFIELD(c_type,c_field)  (SMOBGET (obj, c_type)->c_field)
 
 
 /* Most smob tags are static, but a few are required to be global
