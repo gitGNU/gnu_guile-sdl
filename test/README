@@ -1,5 +1,5 @@
-These are some simple tests for guile-sdl.  They are normally run from
-the top-level guile-sdl directory by "make check", but you can also
+These are some simple tests for Guile-SDL.  They are normally run from
+the top-level "guile-sdl" directory by "make check", but you can also
 run them standalone from this directory like so:
 
   ../wily-guile -l common -s TESTPROGRAM

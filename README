@@ -1,7 +1,7 @@
 Introduction
 ------------
 
-This directory contains guile-sdl, a set of modules that provide bindings
+This directory contains Guile-SDL, a set of modules that provide bindings
 for SDL (Simple DirectMedia Layer) to enable Guile programmers to do all
 the nice things you can do with SDL.
 
@@ -69,24 +69,24 @@ module catalogs there.
 Upgrading Tips
 --------------
 
-Starting with guile-sdl 0.2.x, the shared object libraries that implement
+Starting with Guile-SDL 0.2.x, the shared object libraries that implement
 the compiled modules are no longer installed in ${libdir}.  This means if
-you have installed previous versions of guile-sdl, there are undesirable
+you have installed previous versions of Guile-SDL, there are undesirable
 leftover files in ${libdir}.  There are three ways to remove them:
 
    (1) If you have the build tree from the previous version of
-       guile-sdl, you can do "make uninstall" there.
+       Guile-SDL, you can do "make uninstall" there.
 
    (2) You can do "rm -f ${libdir}/libguileSDL*" manually.  (You
        will also need to determine the value of ${libdir} manually.)
 
    (3) You can make use of an upgrade facility provided with this and
-       later versions of guile-sdl and do "make check-000-libdir" to
+       later versions of Guile-SDL and do "make check-000-libdir" to
        list the leftover files, and "make clean-000-libdir" to delete
        them (using the exact same command as in (2)).  This method is
        recommended over the others.
 
 Note that the "000" are all zeroes; it signifies the libtool version
-number and has nothing to do with either the guile-sdl package version or
+number and has nothing to do with either the Guile-SDL package version or
 the library "release" version.
 

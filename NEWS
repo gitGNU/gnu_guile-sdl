@@ -142,7 +142,7 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
   - upgrade facility: make {check,clean}-000-libdir
 
 	See README section "Upgrading Tips" for info on how to handle
-	old ${libdir}/libguileSDL* files (from guile-sdl-0.1.x).
+	old ${libdir}/libguileSDL* files (from Guile-SDL 0.1.x).
 
   - "sdl-" prefix dropped
 
@@ -162,7 +162,7 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 	A big thanks goes to Alex Shinn, Vikram Subramanian, and Joel
 	Smith, the original authors of the disparate packages that all
-	came together as guile-sdl in mid-to-late 2001, for (1) writing
+	came together as Guile-SDL in mid-to-late 2001, for (1) writing
 	the code; (2) pooling their efforts; and (3) passing it on.
 
 
@@ -174,7 +174,7 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 - 0.1.0
 
-	This is the very first version of guile-sdl.
+	This is the very first version of Guile-SDL.
 
 
 Copyright information:

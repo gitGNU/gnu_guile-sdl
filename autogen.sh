@@ -1,7 +1,7 @@
 #!/bin/sh
 # Usage: sh -x ./autogen.sh [--libtoolize]
 #
-# Building guile-sdl has been tested with the following toolset:
+# Building Guile-SDL has been tested with the following toolset:
 #  libtool 1.5.6
 #  autoconf 2.59
 #  automake 1.7.6

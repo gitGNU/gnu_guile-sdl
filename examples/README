@@ -1,5 +1,5 @@
-These are some basic examples of how to use guile-sdl.  You can either
-run them after installing guile-sdl, or after building guile-sdl by
+These are some basic examples of how to use Guile-SDL.  You can either
+run them after installing Guile-SDL, or after building Guile-SDL by
 setting the env var GUILE to be the absolute path to the ../wily-guile
 shell script, something like:
 
