@@ -29,12 +29,14 @@ fi
 # Invoke the auto* tools.
 
 aclocal -I `guile-config info datadir`/aclocal
+autoheader
 autoconf
 automake --add-missing
 
 ######################################################################
 # modsup.h
 
+cd include
 ln -sf `guile-config info includedir`/guile/modsup.h
 
 ######################################################################
