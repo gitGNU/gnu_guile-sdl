@@ -103,12 +103,9 @@ void
 sdl_init_rect (void)
 {
   /* smobs */
-  rect_tag = scm_make_smob_type_mfpe ("SDL-Rect",
-                                      sizeof(SDL_Rect),
-                                      NULL, 
-                                      free_rect, 
-                                      print_rect, 
-                                      NULL);
+  rect_tag = scm_make_smob_type ("SDL-Rect", sizeof(SDL_Rect));
+  scm_set_smob_free (rect_tag, free_rect);
+  scm_set_smob_print (rect_tag, print_rect);
 
   /* rect functions */
   scm_c_define_gsubr ("sdl-make-rect",          4, 0, 0, make_rect);

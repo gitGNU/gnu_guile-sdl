@@ -432,13 +432,9 @@ void
 sdl_init_joystick ()
 {  
   /* A SMOB for Joystick */
-  sdl_joystick_tag = scm_make_smob_type_mfpe ("SDL-Joystick",
-					      /* Hope it doesn't matter */
-					      sizeof(SDL_Joystick *),
-					      NULL, 
-					      free_joy, 
-					      print_joy, 
-					      NULL);
+  sdl_joystick_tag = scm_make_smob_type ("SDL-Joystick", sizeof(SDL_Joystick*));
+  scm_set_smob_free (sdl_joystick_tag, free_joy);
+  scm_set_smob_print (sdl_joystick_tag, print_joy);
   
 /*   /\* Check for NULL drive object *\/ */
 /*   scm_c_define_gsubr ("sdl-joystick-null?", 1, 0, 0, sdl_joystick_null_p);   */

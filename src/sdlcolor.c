@@ -97,12 +97,9 @@ void
 sdl_init_color (void)
 {
   /* smobs */
-  color_tag = scm_make_smob_type_mfpe ("SDL-Color",
-                                       sizeof(SDL_Color),
-                                       NULL, 
-                                       free_color, 
-                                       print_color, 
-                                       NULL);
+  color_tag = scm_make_smob_type ("SDL-Color", sizeof(SDL_Color));
+  scm_set_smob_free (color_tag, free_color);
+  scm_set_smob_print (color_tag, print_color);
 
   /* color functions */
   scm_c_define_gsubr ("sdl-make-color",         3, 0, 0, make_color);

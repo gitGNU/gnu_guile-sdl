@@ -488,12 +488,9 @@ void
 sdl_init_surface (void)
 {
   /* smobs */
-  surface_tag = scm_make_smob_type_mfpe ("SDL-Surface",
-                                         sizeof(SDL_Surface),
-                                         NULL, 
-                                         free_surface, 
-                                         print_surface, 
-                                         NULL);
+  surface_tag = scm_make_smob_type ("SDL-Surface", sizeof(SDL_Surface));
+  scm_set_smob_free (surface_tag, free_surface);
+  scm_set_smob_print (surface_tag, print_surface);
 
   /* surfaces */
   scm_c_define_gsubr ("sdl-surface:w",          1, 0, 0, surface_get_w);

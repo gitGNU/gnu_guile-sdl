@@ -537,12 +537,9 @@ void
 sdl_init_cdrom ()
 {  
   /* A SMOB for CD drive */
-  sdl_cdrom_tag = scm_make_smob_type_mfpe ("SDL-CD",
-					   sizeof(SDL_CD),
-					   NULL, 
-					   free_cd, 
-					   print_cd, 
-					   NULL);
+  sdl_cdrom_tag = scm_make_smob_type ("SDL-CD", sizeof(SDL_CD));
+  scm_set_smob_free (sdl_cdrom_tag, free_cd);
+  scm_set_smob_print (sdl_cdrom_tag, print_cd);
   
 /*   /\* Check for NULL drive object *\/ */
 /*   scm_c_define_gsubr ("sdl-cd-null?", 1, 0, 0, sdl_cd_null_p);   */
