@@ -11,8 +11,7 @@ haven't been included because of the problems with Guile code being run
 from more than one thread.  However audio programming can be done with the
 module `(sdl mixer)' that requires the SDL_mixer library.
 
-Also included are SDL_gfxPrimitives-1.5 and SDL_rotozoom-1.6
-(by A. Schiffler <aschiffler@home.com>) and bindings for them.
+Also included is SDL_gfx 2.0.13 (by Andreas Schiffler) and bindings for it.
 
 
 Requirements
