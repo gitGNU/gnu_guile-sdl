@@ -1,17 +1,23 @@
-#! /usr/local/bin/guile -s
+#!/bin/sh
+test x"$NONINTERACTIVE" = x || { echo "INFO: $0: INTERACTIVE" ; exit 77 ; }
+test x"$HAVE_TTF" = x && { echo "INFO: $0: TTF DISABLED" ; exit 77 ; }
+exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 !#
+(define debug? (getenv "DEBUG"))
+(and debug? (debug-enable 'debug 'backtrace))
 
 ;; simple event test
 
-(use-modules (sdl sdl)
-             (sdl ttf)
-             (ice-9 format))
+(use-modules (sdl sdl))                 ; fixme: these must be separate due
+(use-modules (sdl ttf))                 ;        to compiled modules weirdness
 
 ;; initialize the SDL video (and event) module
-(sdl-init '(SDL_INIT_VIDEO))
+(let ((res (sdl-init '(SDL_INIT_VIDEO))))
+  (and debug? (format #t "sdl-init: ~S\n" res)))
 
 ;; initialize the font lib
-(sdl-ttf-init)
+(let ((res (sdl-ttf-init)))
+  (and debug? (format #t "sdl-ttf-init: ~S\n" res)))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect (sdl-make-rect 0 0 600 200))
@@ -95,3 +101,4 @@
 ;; quit SDL
 (sdl-quit)
 
+;;; event.scm ends here
