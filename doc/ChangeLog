@@ -1,5 +1,10 @@
 2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* ref.twerp (Miscellaneous Utilities):
+	Add @twerpdoc for `poll-with-push-on-timeout-proc'.
+
+2004-07-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* guile-sdl.texi: Add @paragraphindent in header block.
 	Update package name.
 	(Top): Mention module (sdl misc-utils).
