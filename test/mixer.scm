@@ -4,7 +4,7 @@
 ;; simple mixer test
 ;; 
 ;; Created:    <2001-06-10 19:14:30 foof>
-;; Time-stamp: <2001-06-10 20:23:08 foof>
+;; Time-stamp: <2001-06-10 21:41:44 foof>
 ;; Author:     Alex Shinn <foof@debian.org>
 
 (use-modules ((sdl sdl)
@@ -30,15 +30,17 @@
 
 
 ;; load a wav file
-(define my-wav (sdl-load-wave (string-append datadir "test.wav")))
+(define background (sdl-load-music (string-append datadir "test.wav")))
+(define fx (sdl-load-wave (string-append datadir "noise.wav")))
 
 ;; play the wav
 (sdl-volume 128)
-(sdl-play-channel my-wav)
+(sdl-play-music background)
 
-;; loop until it's done
-(while (sdl-playing? 0)
-       (sdl-delay 100))
+;; loop until it's done, playing a sound effect every 500ms
+(while (sdl-playing-music?)
+       (sdl-play-channel fx)
+       (sdl-delay 500))
 
 ;; close the audio and quit SDL
 (sdl-close-audio)
