@@ -3,8 +3,8 @@
 (define debug? (getenv "DEBUG"))
 (and debug? (debug-enable 'debug 'backtrace))
 
-(use-modules (sdl sdl))                 ; fixme: these must be separate due
-(use-modules (sdl gfx))                 ;        to compiled modules weirdness
+(use-modules (sdl sdl)
+             (sdl gfx))
 
 ;; initialize SDL video
 (sdl-init '(SDL_INIT_VIDEO))
