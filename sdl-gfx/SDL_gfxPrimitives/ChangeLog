@@ -1,5 +1,15 @@
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* SDL_gfxPrimitives.h (filledPolygonColor): Change type of last
+	arg `color' from `int' to `Uint32'.
+
+	* SDL_gfxPrimitives.c (filledPolygonColor): Change type of last
+	arg `color' from `int' to `Uint32'.
+	(circleColor): Add cast to quieten gcc.
+	(filledCircleColor): Likewise.
+
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* SDL_gfxPrimitives.c (DXYC_ARGS): New macro.
 	(fastPixelColorNolock): New forward decl. Make static.
 	(fastPixelColor): Likewise.
