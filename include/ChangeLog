@@ -1,5 +1,11 @@
 2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlsmobs.h (UNPACK_COLOR, UNPACK_RECT, UNPACK_SURFACE,
+	UNPACK_PIXEL_FORMAT, RETURN_NEW_COLOR, RETURN_NEW_RECT,
+	RETURN_NEW_PIXEL_FORMAT): New macros.
+
+2003-11-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* argcheck.h (ASSERT_PAIR): New macro.
 
 2003-11-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
