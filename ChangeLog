@@ -1,0 +1,17 @@
+2001-06-30  Alex Shinn  <foof@debian.org>
+
+	* guile-sdl 0.1.3: more merging (rotozoom) and clean-up
+
+2001-06-25  Alex Shinn  <foof@debian.org>
+
+	* guile-sdl 0.1.2: merging the three independent versions
+
+2001-06-15  Vikram Subramanian  <vikrams@www.chennailug.org>
+
+	* Projector 0.1.1 : Added SMOB for SDL_Palette and added wrappers
+			    for SDL_SetColors and SDL_SetPalette
+
+2001-06-13  Vikram Subramanian  <vikrams@www.chennailug.org>
+
+	* Projector-0.1.0 : Initial Release
+	
