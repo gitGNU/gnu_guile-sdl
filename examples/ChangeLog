@@ -1,0 +1,5 @@
+2003-11-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* bustagnu.scm, imagebrowser.scm, scip-painter.scm:
+	Rewrite header in modern-sh-wrapper style.
+
