@@ -26,6 +26,26 @@
 	(scm_init_sdl_sdl_sup_module): New func, declared and
 	defined using macro `MDEFLINKFUNC'.
 
+	* sdlcdrom.c: Update copyright.
+	No longer include <libguile.h>.
+	Include <guile/gh.h>.
+	No longer include "sdlcdrom.h".
+	Include "config.h", "argcheck.h" and "sdlsmobs.h".
+	Throughout, replace `SCM_DEFINE' with `MDEFLOCEXP'.
+	Throughout, use gh_* funcs and other abstractions where possible.
+	Convert docstrings: "returns" -> "return", etc.
+	(cdrom_tag): Rename from `sdl_cdrom_tag'. Make static.
+	(ASSERT_CDROM): New macro.
+	(sdl_cd_get_nth_track): Make return value assoc list w/
+	one SCM_LISTn call instead of with multiple `scm_acons' calls.
+	(sdl_cd_frames_to_msf): Likewise.
+	(gsdl_sym_offset, gsdl_sym_length, gsdl_sym_type, gsdl_sym_id,
+	gsdl_sym_f, gsdl_sym_s, gsdl_sym_m): New static vars.
+	(mark_cd): New static func.
+	(free_cd, print_cd): Make static.
+	(sdl_init_cdrom): Register `mark_cd'.
+	Remove call to `scm_c_export'.
+
 2003-11-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (AM_CPPFLAGS): Add "-Ifoo"
