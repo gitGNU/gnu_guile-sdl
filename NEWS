@@ -6,6 +6,28 @@ See the end for copying conditions.
 Please send guile-sdl bug reports to <ttn@glug.org>.
 
 
+- 0.2.4 | 2004-06-28
+
+  - installation change: scheme wrappers eliminated
+
+	The module (sdl sdl) used to be a scheme wrapper for binary
+	module (sdl sdl-sup).  Now it is the binary module itself.
+	See README.  Also, (sdl sdl) no longer provides the procs
+	`call-with-clip-rect' and `rotate-square'.
+
+	On "make install" if file $(GUILE_SITE)/sdl/sdl.scm exists,
+	it is deleted.  If the dir $(GUILE_SITE)/sdl is empty as a
+	result, it is also deleted.
+
+  - new module: (sdl misc-utils)
+
+	Currently this contains the procs `call-with-clip-rect' and
+	`rotate-square', both of which used to be available in module
+	(sdl sdl).  The procs are documented in the info pages in a new
+	chapter: "Miscellaneous Utilities".
+
+
+
 - 0.2.3 | 2004-03-06
 
   - return value changes
