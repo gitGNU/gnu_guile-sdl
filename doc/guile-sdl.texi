@@ -13,7 +13,7 @@
 
 @dircategory Guile modules
 @direntry
-* Guile-SDL: (guile-sdl).     SDL for Guile
+* Guile-SDL: (guile-sdl).     SDL for Guile.
 @end direntry
 
 
