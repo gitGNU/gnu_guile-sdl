@@ -23,7 +23,7 @@
 
 (export-syntax sdl-with-clip-rect)
 
-(define sdl-version "0.1.0")
+(define sdl-version "0.1.7")
 
 (if (and (dynamic-object? (dynamic-link "libpthread"))
          (dynamic-object? (dynamic-link "libSDL"))
