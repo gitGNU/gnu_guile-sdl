@@ -34,6 +34,16 @@ static long joystick_tag;
 #define ASSERT_JOYSTICK(obj,which) \
   ASSERT_SMOB (obj, joystick_tag, which)
 
+#define UNPACK_JOYSTICK(smob) \
+  (SMOBGET (smob, SDL_Joystick *))
+
+#define RETURN_NEW_JOYSTICK(x) \
+  SCM_RETURN_NEWSMOB (joystick_tag, x)
+
+#define JOYSTICK_P(x) \
+  (SCM_SMOB_PREDICATE (joystick_tag, x))
+
+
 
 GH_DEFPROC (joystick_p, "joystick?", 1, 0, 0,
             (SCM obj),
@@ -41,7 +51,7 @@ GH_DEFPROC (joystick_p, "joystick?", 1, 0, 0,
 #define FUNC_NAME s_joystick_p
 {
   RETURN_BOOL
-    (SCM_SMOB_PREDICATE (joystick_tag, obj));
+    (JOYSTICK_P (obj));
 }
 #undef FUNC_NAME
 
@@ -54,7 +64,7 @@ GH_DEFPROC (joystick_null_p, "joystick-null?", 1, 0, 0,
   ASSERT_JOYSTICK (joy_smob, ARGH1);
 
   RETURN_BOOL
-    (NULL == SMOBGET (joy_smob, SDL_Joystick *));
+    (! UNPACK_JOYSTICK (joy_smob));
 }
 #undef FUNC_NAME
 
@@ -77,10 +87,11 @@ GH_DEFPROC (joystick_name, "joystick-name", 0, 1, 0,
 {
   int index = 0;
 
-  if (BOUNDP (s_index)) {
-    ASSERT_EXACT (s_index, ARGH1);
-    index = gh_scm2long (s_index);
-  }
+  if (BOUNDP (s_index))
+    {
+      ASSERT_EXACT (s_index, ARGH1);
+      index = gh_scm2long (s_index);
+    }
 
   RETURN_0STR (SDL_JoystickName (index));
 }
@@ -95,12 +106,13 @@ GH_DEFPROC (joystick_open, "joystick-open", 0, 1, 0,
 {
   int index = 0;
 
-  if (BOUNDP (s_index)) {
-    ASSERT_EXACT (s_index, ARGH1);
-    index = gh_scm2long (s_index);
-  }
+  if (BOUNDP (s_index))
+    {
+      ASSERT_EXACT (s_index, ARGH1);
+      index = gh_scm2long (s_index);
+    }
 
-  SCM_RETURN_NEWSMOB (joystick_tag, SDL_JoystickOpen (index));
+  RETURN_NEW_JOYSTICK (SDL_JoystickOpen (index));
 }
 #undef FUNC_NAME
 
@@ -113,10 +125,11 @@ GH_DEFPROC (joystick_opened_p, "joystick-opened?", 0, 1, 0,
 {
   int index = 0;
 
-  if (BOUNDP (s_index)) {
-    ASSERT_EXACT (s_index, ARGH1);
-    index = gh_scm2long (s_index);
-  }
+  if (BOUNDP (s_index))
+    {
+      ASSERT_EXACT (s_index, ARGH1);
+      index = gh_scm2long (s_index);
+    }
 
   RETURN_BOOL
     (SDL_JoystickOpened (index));
@@ -133,9 +146,9 @@ GH_DEFPROC (joystick_index, "joystick-index", 1, 0, 0,
 
   ASSERT_JOYSTICK (joy_smob, ARGH1);
 
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
+  joy = UNPACK_JOYSTICK (joy_smob);
 
-  RETURN_INT (joy != NULL
+  RETURN_INT (joy
               ? SDL_JoystickIndex (joy)
               : -1);
 }
@@ -151,9 +164,9 @@ GH_DEFPROC (joystick_num_axes, "joystick-num-axes", 1, 0, 0,
 
   ASSERT_JOYSTICK (joy_smob, ARGH1);
 
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
+  joy = UNPACK_JOYSTICK (joy_smob);
 
-  RETURN_INT (joy != NULL
+  RETURN_INT (joy
               ? SDL_JoystickNumAxes (joy)
               : -1);
 }
@@ -169,9 +182,9 @@ GH_DEFPROC (joystick_num_balls, "joystick-num-balls", 1, 0, 0,
 
   ASSERT_JOYSTICK (joy_smob, ARGH1);
 
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
+  joy = UNPACK_JOYSTICK (joy_smob);
 
-  RETURN_INT (joy != NULL
+  RETURN_INT (joy
               ? SDL_JoystickNumBalls (joy)
               : -1);
 }
@@ -187,9 +200,9 @@ GH_DEFPROC (joystick_num_hats, "joystick-num-hats", 1, 0, 0,
 
   ASSERT_JOYSTICK (joy_smob, ARGH1);
 
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
+  joy = UNPACK_JOYSTICK (joy_smob);
 
-  RETURN_INT (joy != NULL
+  RETURN_INT (joy
               ? SDL_JoystickNumHats (joy)
               : -1);
 }
@@ -205,9 +218,9 @@ GH_DEFPROC (joystick_num_buttons, "joystick-num-buttons", 1, 0, 0,
 
   ASSERT_JOYSTICK (joy_smob, ARGH1);
 
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
+  joy = UNPACK_JOYSTICK (joy_smob);
 
-  RETURN_INT (joy != NULL
+  RETURN_INT (joy
               ? SDL_JoystickNumButtons (joy)
               : -1);
 }
@@ -248,9 +261,9 @@ GH_DEFPROC (joystick_get_axis, "joystick-get-axis", 2, 0, 0,
   ASSERT_JOYSTICK (joy_smob, ARGH1);
   ASSERT_EXACT (s_index, ARGH2);
 
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
+  joy = UNPACK_JOYSTICK (joy_smob);
 
-  RETURN_INT (joy != NULL
+  RETURN_INT (joy
               ? SDL_JoystickGetAxis (joy, gh_scm2long (s_index))
               : -1);
 }
@@ -264,7 +277,8 @@ GH_DEFPROC (joystick_get_ball, "joystick-get-ball", 2, 0, 0,
             (SCM joy_smob,
              SCM s_index),
             "For @var{joystick}, return relative motion of trackball\n"
-            "@var{n}, as an alist with keys @code{dx} and @code{dy}.")
+            "@var{n}, as an alist with keys @code{dx} and @code{dy}.\n"
+            "On error, return #f.")
 #define FUNC_NAME s_joystick_get_ball
 {
   SDL_Joystick *joy;
@@ -273,20 +287,20 @@ GH_DEFPROC (joystick_get_ball, "joystick-get-ball", 2, 0, 0,
   ASSERT_JOYSTICK (joy_smob, ARGH1);
   ASSERT_EXACT (s_index, ARGH2);
 
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
+  joy = UNPACK_JOYSTICK (joy_smob);
 
-  if (joy != NULL) {
-    int ret;
+  if (joy)
+    {
+      int ret;
 
-    ret = SDL_JoystickGetBall (joy, gh_scm2long (s_index), &dx, &dy);
+      ret = SDL_JoystickGetBall (joy, gh_scm2long (s_index), &dx, &dy);
 
-    if (ret != -1) {
-      RETURN_LIST2 (gh_cons (SYM (dx), gh_long2scm (dx)),
-                    gh_cons (SYM (dy), gh_long2scm (dy)));
+      if (ret != -1)
+        RETURN_LIST2 (gh_cons (SYM (dx), gh_long2scm (dx)),
+                      gh_cons (SYM (dy), gh_long2scm (dy)));
     }
-  }
 
-  RETURN_LIST0;
+  RETURN_FALSE;
 }
 #undef FUNC_NAME
 
@@ -302,9 +316,9 @@ GH_DEFPROC (joystick_get_hat, "joystick-get-hat", 2, 0, 0,
   ASSERT_JOYSTICK (joy_smob, ARGH1);
   ASSERT_EXACT (s_index, ARGH2);
 
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
+  joy = UNPACK_JOYSTICK (joy_smob);
 
-  RETURN_INT (joy != NULL
+  RETURN_INT (joy
               ? SDL_JoystickGetHat (joy, gh_scm2long (s_index))
               : -1);
 }
@@ -322,9 +336,9 @@ GH_DEFPROC (joystick_get_button, "joystick-get-button", 2, 0, 0,
   ASSERT_JOYSTICK (joy_smob, ARGH1);
   ASSERT_EXACT (s_index, ARGH2);
 
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
+  joy = UNPACK_JOYSTICK (joy_smob);
 
-  RETURN_INT (joy != NULL
+  RETURN_INT (joy
               ? SDL_JoystickGetButton (joy, gh_scm2long (s_index))
               : -1);
 }
@@ -333,18 +347,20 @@ GH_DEFPROC (joystick_get_button, "joystick-get-button", 2, 0, 0,
 
 GH_DEFPROC (joystick_close, "joystick-close", 1, 0, 0,
             (SCM joy_smob),
-            "Close a previously opened @var{joystick}.")
+            "Close a previously opened @var{joystick}.\n"
+            "The return value is unspecified.")
 #define FUNC_NAME s_joystick_close
 {
   SDL_Joystick *joy;
 
   ASSERT_JOYSTICK (joy_smob, ARGH1);
-  joy = SMOBGET (joy_smob, SDL_Joystick *);
+  joy = UNPACK_JOYSTICK (joy_smob);
 
-  if (joy != NULL) {
-    SDL_JoystickClose (joy);
-    SMOBSET (joy_smob, NULL);
-  }
+  if (joy)
+    {
+      SDL_JoystickClose (joy);
+      SMOBSET (joy_smob, NULL);
+    }
 
   RETURN_UNSPECIFIED;
 }
@@ -364,9 +380,9 @@ static
 size_t
 free_joy (SCM joy_smob)
 {
-  SDL_Joystick *joy = SMOBGET (joy_smob, SDL_Joystick *);
+  SDL_Joystick *joy = UNPACK_JOYSTICK (joy_smob);
 
-  if (joy != NULL)
+  if (joy)
     SDL_JoystickClose (joy);
 
   return 0; /* No idea of how much is actually freed */
@@ -376,7 +392,7 @@ static
 int
 print_joy (SCM joy_smob, SCM port, scm_print_state *pstate)
 {
-  SDL_Joystick *joy = SMOBGET (joy_smob, SDL_Joystick *);
+  SDL_Joystick *joy = UNPACK_JOYSTICK (joy_smob);
 
   scm_puts                          ("#<SDL-Joystick ", port);
   if (joy)
