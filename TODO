@@ -1,0 +1,22 @@
+* guile-sdl TODO List    -*- Outline -*-
+* ======================================
+
+* General
+
+** Port to Windows/Mac OSX/BeOS
+** Look into a unified guile-gtk enum/flag method
+** Switch to an automated wrapper generater
+
+* Wrappers
+
+** Make all names/behaviour consistent
+** Provide better defaults
+** Consider low-level audio wrappers
+** Consider timer wrappers
+** Bugfixes
+
+* Docs
+
+** Add snarfer docs for all functions
+** Clean up and extend manual
+** Provide more interesting examples
