@@ -2,9 +2,6 @@
 
 AUTOMAKE_OPTIONS = gnu
 
-PACKAGE = @PACKAGE@
-VERSION = @VERSION@
-
 # User-definable stuff:
 CC=@CC@
 CFLAGS  = @CFLAGS@ -Wall

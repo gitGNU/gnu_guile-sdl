@@ -2,9 +2,6 @@
 
 AUTOMAKE_OPTIONS = gnu
 
-PACKAGE = @PACKAGE@
-VERSION = @VERSION@
-
 # User-definable stuff:
 INCLUDES = -I../include/ -ISDL_gfxPrimitives/ -ISDL_rotozoom/
 CC=@CC@
