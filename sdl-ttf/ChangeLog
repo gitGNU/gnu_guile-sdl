@@ -1,3 +1,8 @@
+2004-01-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.amm: Move everything except "include $(top_srcdir)/am/common"
+	inside "if HAVE_TTF".  Remove else-clause of "if HAVE_TTF".
+
 2004-01-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlttf.c: Update copyright.

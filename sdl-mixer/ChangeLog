@@ -1,3 +1,8 @@
+2004-01-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am: Move everything except "include $(top_srcdir)/am/common"
+	inside "if HAVE_MIXER".  Remove else-clause of "if HAVE_MIXER".
+
 2004-01-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlmixer.c: Update copyright.
