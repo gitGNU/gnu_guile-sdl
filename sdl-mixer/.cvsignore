@@ -1,5 +1,7 @@
 .libs
 Makefile
+Makefile.in
 dummy.info
+sdlmixer.lo
 sdlmixer.texi
 sdlmixer.x

@@ -1,6 +1,7 @@
 *.lo
 .libs
 Makefile
+Makefile.in
 dummy.info
 sdlttf.texi
 sdlttf.x
