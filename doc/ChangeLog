@@ -1,3 +1,11 @@
+2003-11-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* guile-sdl.texi (Top): Use "The (sdl *) Modules" for @top.
+	Rewrite introductory @ifinfo blurb.
+	Add @uref to SDL homepage in footnote.
+	(Introduction): Move blurb before menu.
+	Use "library" only for libraries, "modules" for guile-sdl.
+
 2003-11-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (BUILT_SOURCES): New directive.
