@@ -4,23 +4,16 @@ AUTOMAKE_OPTIONS = gnu
 
 include $(top_srcdir)/am/common
 
-AM_CPPFLAGS += \
-  -I$(top_srcdir)/sdl-gfx/SDL_gfxPrimitives \
-  -I$(srcdir)/SDL_rotozoom
-
-SUBDIRS = SDL_rotozoom
-
 cmod_LTLIBRARIES = sdl.la
 
 WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
-                  sdlenums.c sdlroto.c sdlgfx.c
+                  sdlenums.c sdlgfx.c
 FLAGSTASH       = initf.c kmodf.c videof.c palettef.c overlayf.c evmaskf.c
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH)
 
 sdl_la_SOURCES = $(FLAGSTASH) $(WRAPPER_SOURCES)
-sdl_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module \
-	-LSDL_rotozoom -lrotozoom
+sdl_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module
 
 install-data-hook:
 	rm -f $(cmoddir)/sdl-sup.*
