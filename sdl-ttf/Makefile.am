@@ -28,8 +28,10 @@ SUFFIXES = .x .texi .doc .fspec
 .c.x:
 	$(c2x) -o $@ $< $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS)
 
+fspec2c = guile-tools fspec2c
+
 .fspec.c:
-	guile-tools fspec2c -o $@ $<
+	$(fspec2c) -o $@ $<
 
 DISTCLEANFILES = *.x
 
