@@ -69,7 +69,8 @@ static
 SCM
 mark_event (SCM event)
 {
-  return event;
+  /* No internal scheme objects.  */
+  return SCM_BOOL_F;
 }
 
 static
@@ -77,8 +78,7 @@ size_t
 free_event (SCM event)
 {
   free (UNPACK_EVENT (event));
-  /* return sizeof (SDL_Event); */
-  return 0;
+  return sizeof (SDL_Event);
 }
 
 
@@ -97,15 +97,15 @@ static
 SCM
 mark_keysym (SCM keysym)
 {
-  return keysym;
+  /* No internal scheme objects.  */
+  return SCM_BOOL_F;
 }
 
 static
 size_t
 free_keysym (SCM keysym)
 {
-  SDL_keysym *k = UNPACK_KEYSYM (keysym);
-  free (k);
+  free (UNPACK_KEYSYM (keysym));
   return sizeof (SDL_keysym);
 }
 
