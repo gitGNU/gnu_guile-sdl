@@ -524,7 +524,8 @@ static
 SCM
 mark_cd (SCM cdrom)
 {
-  return cdrom;
+  /* No internal scheme objects.  */
+  return SCM_BOOL_F;
 }
 
 static
@@ -584,7 +585,7 @@ print_cd (SCM cdrom, SCM port, scm_print_state *pstate)
 void
 gsdl_init_cdrom (void)
 {
-  cdrom_tag = scm_make_smob_type ("SDL-CD", sizeof (SDL_CD));
+  cdrom_tag = scm_make_smob_type ("SDL-CD", sizeof (SDL_CD *));
   scm_set_smob_mark  (cdrom_tag, mark_cd);
   scm_set_smob_free  (cdrom_tag, free_cd);
   scm_set_smob_print (cdrom_tag, print_cd);
