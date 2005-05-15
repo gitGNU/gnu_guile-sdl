@@ -30,7 +30,8 @@ static
 SCM
 mark_color (SCM color)
 {
-  return color;
+  /* No internal scheme objects.  */
+  return SCM_BOOL_F;
 }
 
 static
@@ -38,8 +39,7 @@ size_t
 free_color (SCM color)
 {
   free (UNPACK_COLOR (color));
-  /* return sizeof (SDL_Color); */
-  return 0;
+  return sizeof (SDL_Color);
 }
 
 static
