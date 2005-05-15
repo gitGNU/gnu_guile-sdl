@@ -60,11 +60,8 @@ static
 size_t
 free_enum (SCM enumstash)
 {
-  enum_struct *enum_smob = UNPACK_ENUM (enumstash);
-
-  free (enum_smob);
-  /* return sizeof (enum_struct*); */
-  return 0;
+  free (UNPACK_ENUM (enumstash));
+  return sizeof (enum_struct);
 }
 
 
