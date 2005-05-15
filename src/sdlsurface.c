@@ -42,7 +42,8 @@ static
 SCM
 mark_surface (SCM surface)
 {
-  return surface;
+  /* No internal scheme objects.  */
+  return SCM_BOOL_F;
 }
 
 static
@@ -482,7 +483,7 @@ GH_DEFPROC (blit_surface, "blit-surface", 1, 3, 0,
 void
 gsdl_init_surface (void)
 {
-  surface_tag = scm_make_smob_type ("SDL-Surface", sizeof (SDL_Surface));
+  surface_tag = scm_make_smob_type ("SDL-Surface", sizeof (SDL_Surface *));
   scm_set_smob_mark  (surface_tag, mark_surface);
   scm_set_smob_free  (surface_tag, free_surface);
   scm_set_smob_print (surface_tag, print_surface);
