@@ -34,16 +34,16 @@ static
 SCM
 mark_rect (SCM rect)
 {
-  return rect;
+  /* No internal scheme objects.  */
+  return SCM_BOOL_F;
 }
 
 static
 size_t
 free_rect (SCM rect)
 {
-  free (SMOBGET (rect, SDL_Rect *));
-  /* return sizeof (SDL_Rect); */
-  return 0;
+  free (UNPACK_RECT (rect));
+  return sizeof (SDL_Rect);
 }
 
 static
