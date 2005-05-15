@@ -373,7 +373,8 @@ static
 SCM
 mark_joy (SCM joystick)
 {
-  return joystick;
+  /* No internal scheme objects.  */
+  return SCM_BOOL_F;
 }
 
 static
@@ -385,7 +386,7 @@ free_joy (SCM joystick)
   if (joy)
     SDL_JoystickClose (joy);
 
-  return 0; /* No idea of how much is actually freed */
+  return 0;
 }
 
 static
