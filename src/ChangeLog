@@ -1,3 +1,42 @@
+2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlenums.c (free_enum): Fix bug: return amount freed.
+
+2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlvideo.c (xSDL_Cursor): New struct typedef.
+	(MALLOC_XSDL_CURSOR): New macro.
+	(UNPACK_CURSOR): Use `xSDL_Cursor'.
+	(mark_cursor): Return SCM_BOOL_F.
+	(mark_yuv_overlay, mark_pixel_format): Likewise.
+	(free_cursor): Rewrite.
+	(create_cursor): Use `xSDL_Cursor'.
+	(set_cursor, get_cursor): Likewise.
+	(gsdl_init_video): For `cursor' smob, use `xSDL_Cursor'.
+
+2005-05-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlsurface.c (mark_surface): Return SCM_BOOL_F.
+	(gsdl_init_surface): Fix bug: For `surface' smob, arrange
+	to allocate space for `SDL_Surface *' only, not `SDL_Surface'.
+
+	* sdlrect.c (mark_rect): Return SCM_BOOL_F.
+	(free_rect): Fix bug: return amount freed.
+	Also, use `UNPACK_RECT'.
+
+	* sdlevent.c (mark_event, mark_keysym): Return SCM_BOOL_F.
+	(free_event): Fix bug: return amount freed.
+	(free_keysym): Elide auto var; nfc.
+
+	* sdlcolor.c (mark_color): Return SCM_BOOL_F.
+	(free_color): Fix bug: return amount freed.
+
+	* sdljoystick.c (mark_joy): Return SCM_BOOL_F.
+
+	* sdlcdrom.c (mark_cd): Return SCM_BOOL_F.
+	(gsdl_init_cdrom): Fix bug: For `cdrom' smob, arrange
+	to allocate space for `SDL_CD *' only, not `SDL_CD'.
+
 2005-04-02  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlenums.c (gsdl_flags2ulong):
