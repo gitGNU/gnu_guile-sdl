@@ -70,6 +70,18 @@ GH_DEFPROC (get_overlay_formats, "flagstash:overlay", 0, 0, 0, (),
 
 
 
+/* extended SDL_* structures */
+
+typedef struct {
+  int freeable;
+  SDL_Cursor *c;
+} xSDL_Cursor;
+
+#define MALLOC_XSDL_CURSOR(who) \
+  (xSDL_Cursor *) scm_must_malloc (sizeof (xSDL_Cursor), who)
+
+
+
 /* tags for SDL smobs */
 static long cursor_tag;
 static long overlay_tag;
@@ -77,7 +89,7 @@ static long overlay_tag;
 #define ASSERT_CURSOR(obj,which)   ASSERT_SMOB (obj, cursor_tag, which)
 #define ASSERT_OVERLAY(obj,which)  ASSERT_SMOB (obj, overlay_tag, which)
 
-#define UNPACK_CURSOR(smob)       (SMOBGET (smob, SDL_Cursor *))
+#define UNPACK_CURSOR(smob)       (SMOBGET (smob, xSDL_Cursor *))
 #define UNPACK_OVERLAY(smob)      (SMOBGET (smob, SDL_Overlay *))
 
 #define RETURN_NEW_CURSOR(x)    SCM_RETURN_NEWSMOB (cursor_tag, x)
@@ -89,23 +101,28 @@ static
 SCM
 mark_cursor (SCM cursor)
 {
-  return cursor;
+  /* No internal scheme objects.  */
+  return SCM_BOOL_F;
 }
 
 static
 size_t
 free_cursor (SCM cursor)
 {
-  SDL_FreeCursor (UNPACK_CURSOR (cursor));
-  /* return sizeof (SDL_Cursor); */
-  return 0;
+  xSDL_Cursor *ccursor = UNPACK_CURSOR (cursor);
+
+  if (ccursor->freeable)
+    SDL_FreeCursor (ccursor->c);
+  free (ccursor);
+  return sizeof (xSDL_Cursor);
 }
 
 static
 SCM
 mark_yuv_overlay (SCM overlay)
 {
-  return overlay;
+  /* No internal scheme objects.  */
+  return SCM_BOOL_F;
 }
 
 static
@@ -113,7 +130,6 @@ size_t
 free_yuv_overlay (SCM overlay)
 {
   SDL_FreeYUVOverlay (UNPACK_OVERLAY (overlay));
-  /* return sizeof (SDL_Overlay); */
   return 0;
 }
 
@@ -121,14 +137,15 @@ static
 SCM
 mark_pixel_format (SCM pixel_format)
 {
-  return pixel_format;
+  /* No internal scheme objects.  */
+  return SCM_BOOL_F;
 }
 
 static
 size_t
 free_pixel_format (SCM pixel_format)
 {
-  /* Always part of a surface, no need to free.  */
+  /* Always part of a surface.  */
   return 0;
 }
 
@@ -182,7 +199,7 @@ GH_DEFPROC (create_cursor, "create-cursor", 6, 0, 0,
             "and with hot pixel located at @var{x},@var{y}.")
 {
 #define FUNC_NAME s_create_cursor
-  SDL_Cursor *cursor;
+  xSDL_Cursor *cursor;
   Uint8 *cdata, *cmask;
 
   ASSERT_VECTOR (data, ARGH1);
@@ -197,11 +214,13 @@ GH_DEFPROC (create_cursor, "create-cursor", 6, 0, 0,
   cmask = (Uint8 *) gh_scm2chars (mask, NULL);
 
   /* Create the cursor.  */
-  cursor = SDL_CreateCursor (cdata, cmask,
-                             gh_scm2long (w),
-                             gh_scm2long (h),
-                             gh_scm2long (x),
-                             gh_scm2long (y));
+  cursor = MALLOC_XSDL_CURSOR (FUNC_NAME);
+  cursor->c = SDL_CreateCursor (cdata, cmask,
+                                gh_scm2long (w),
+                                gh_scm2long (h),
+                                gh_scm2long (x),
+                                gh_scm2long (y));
+  cursor->freeable = 1;
 
   /* Free the arrays.  */
   /*scm_must_*/free (cdata);
@@ -872,7 +891,7 @@ GH_DEFPROC (set_cursor, "set-cursor", 1, 0, 0,
 {
 #define FUNC_NAME s_set_cursor
   ASSERT_CURSOR (cursor, ARGH1);
-  SDL_SetCursor (UNPACK_CURSOR (cursor));
+  SDL_SetCursor (UNPACK_CURSOR (cursor)->c);
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
@@ -883,7 +902,12 @@ GH_DEFPROC (get_cursor, "get-cursor", 0, 0, 0,
             "Get the current mouse cursor.")
 {
 #define FUNC_NAME s_get_cursor
-  RETURN_NEW_CURSOR (SDL_GetCursor ());
+  xSDL_Cursor *cursor = MALLOC_XSDL_CURSOR (FUNC_NAME);
+
+  cursor->freeable = 0;
+  cursor->c = SDL_GetCursor ();
+
+  RETURN_NEW_CURSOR (cursor);
 #undef FUNC_NAME
 }
 
@@ -1116,7 +1140,7 @@ extern flagstash_t gsdl_overlay_flagstash;
 void
 gsdl_init_video (void)
 {
-  cursor_tag = scm_make_smob_type ("SDL-Cursor", sizeof (SDL_Cursor));
+  cursor_tag = scm_make_smob_type ("SDL-Cursor", sizeof (xSDL_Cursor));
   scm_set_smob_mark (cursor_tag, mark_cursor);
   scm_set_smob_free (cursor_tag, free_cursor);
 
