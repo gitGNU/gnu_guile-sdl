@@ -599,7 +599,7 @@ size_t
 free_fpsmgr (SCM fpsmgr)
 {
   free (UNPACK_FPSMGR (fpsmgr));
-  return 0;
+  return sizeof (FPSmanager);
 }
 
 static
