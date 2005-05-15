@@ -23,6 +23,7 @@ install-data-hook:
 
 # test suite
 TESTS = alive.test				\
+	test/leak.scm				\
 	test/rect.scm				\
 	test/image.scm				\
 	test/event.scm				\
