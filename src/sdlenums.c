@@ -262,13 +262,6 @@ static unsigned long int flagstash_tag;
   (SMOBGET (smob, flagstash_t *))
 
 static
-SCM
-mark_flagstash (SCM smob)
-{
-  return smob;
-}
-
-static
 size_t
 free_flagstash (SCM smob)
 {
@@ -458,7 +451,6 @@ gsdl_init_enums (void)
   scm_set_smob_free (enum_tag, free_enum);
 
   flagstash_tag = scm_make_smob_type ("flagstash", sizeof (flagstash_t *));
-  scm_set_smob_mark  (flagstash_tag, mark_flagstash);
   scm_set_smob_free  (flagstash_tag, free_flagstash);
   scm_set_smob_print (flagstash_tag, print_flagstash);
 
