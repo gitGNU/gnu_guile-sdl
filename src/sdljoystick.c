@@ -370,14 +370,6 @@ GH_DEFPROC (joystick_close, "joystick-close", 1, 0, 0,
 /*-------------------------------------------------------------*/
 
 static
-SCM
-mark_joy (SCM joystick)
-{
-  /* No internal scheme objects.  */
-  return SCM_BOOL_F;
-}
-
-static
 size_t
 free_joy (SCM joystick)
 {
@@ -411,7 +403,6 @@ void
 gsdl_init_joystick (void)
 {
   joystick_tag = scm_make_smob_type ("SDL-Joystick", sizeof (SDL_Joystick *));
-  scm_set_smob_mark  (joystick_tag, mark_joy);
   scm_set_smob_free  (joystick_tag, free_joy);
   scm_set_smob_print (joystick_tag, print_joy);
 
