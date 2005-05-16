@@ -98,14 +98,6 @@ static long overlay_tag;
 /* smob functions */
 
 static
-SCM
-mark_cursor (SCM cursor)
-{
-  /* No internal scheme objects.  */
-  return SCM_BOOL_F;
-}
-
-static
 size_t
 free_cursor (SCM cursor)
 {
@@ -118,27 +110,11 @@ free_cursor (SCM cursor)
 }
 
 static
-SCM
-mark_yuv_overlay (SCM overlay)
-{
-  /* No internal scheme objects.  */
-  return SCM_BOOL_F;
-}
-
-static
 size_t
 free_yuv_overlay (SCM overlay)
 {
   SDL_FreeYUVOverlay (UNPACK_OVERLAY (overlay));
   return 0;
-}
-
-static
-SCM
-mark_pixel_format (SCM pixel_format)
-{
-  /* No internal scheme objects.  */
-  return SCM_BOOL_F;
 }
 
 static
@@ -1141,17 +1117,14 @@ void
 gsdl_init_video (void)
 {
   cursor_tag = scm_make_smob_type ("SDL-Cursor", sizeof (xSDL_Cursor));
-  scm_set_smob_mark (cursor_tag, mark_cursor);
   scm_set_smob_free (cursor_tag, free_cursor);
 
   pixel_format_tag = scm_make_smob_type ("SDL-Pixel-Format",
                                          sizeof (SDL_PixelFormat));
-  scm_set_smob_mark (pixel_format_tag, mark_pixel_format);
   scm_set_smob_free (pixel_format_tag, free_pixel_format);
   scm_set_smob_print (pixel_format_tag, print_pixel_format);
 
   overlay_tag = scm_make_smob_type ("SDL-Overlay", sizeof (SDL_Overlay));
-  scm_set_smob_mark (overlay_tag, mark_yuv_overlay);
   scm_set_smob_free (overlay_tag, free_yuv_overlay);
 
   /* alpha constants */
