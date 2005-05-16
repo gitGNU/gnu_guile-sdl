@@ -12,31 +12,38 @@
 (let ((res (SDL:init '(SDL_INIT_VIDEO))))
   (and debug? (simple-format #t "SDL:init: ~S\n" res)))
 
-(define (stress count thunk)
+(define (malloced)
+  (gc)
+  (cdr (assq 'bytes-malloced (gc-stats))))
+
+(define (stress title count thunk)
   (or debug? (set! count 10000))
+  (and debug? (for-each display (list "stressing: " title
+                                      " (" (malloced) ")\n")))
+  (malloced)
   (do ((i 1 (1+ i)))
       ((> i count))
     (thunk)
-    (and (= 0 (remainder i 10000)) debug? (write-line i))))
+    (and (= 0 (remainder i 10000)) debug?
+         (write-line (list i (malloced))))))
 
-(stress 100000 (lambda () (SDL:make-surface 123 79 '())))
+(define stress-tests
+  `(("surface" 100000 ,(lambda () (SDL:make-surface 123 79 '())))
+    ("rect" 1000000 ,(lambda () (SDL:make-rect 0 0 123 79)))
+    ("event" 1000000 ,SDL:make-event)
+    ("keysym" 1000000 ,SDL:make-keysym)
+    ("color" 1000000 ,(lambda () (SDL:make-color #xaa #x88 #x55)))
+    ("joystick" 1000000 ,SDL:joystick-open)
+    ("cd" 1000000 ,SDL:cd-open)
+    ("cursor" 1000000 ,(let* ((data (make-vector 16 85))
+                              (mask data)
+                              (c (SDL:create-cursor data mask 8 16 0 0)))
+                         (lambda () (SDL:get-cursor) (SDL:set-cursor c))))))
 
-(stress 1000000 (lambda () (SDL:make-rect 0 0 123 79)))
-
-(stress 1000000 SDL:make-event)
-
-(stress 1000000 SDL:make-keysym)
-
-(stress 1000000 (lambda () (SDL:make-color #xaa #x88 #x55)))
-
-(stress 1000000 SDL:joystick-open)
-
-(stress 1000000 SDL:cd-open)
-
-(let* ((data #(85 85 85 85 85 85 85 85 85 85 85 85 85 85 85 85))
-       (mask data)
-       (cursor (SDL:create-cursor data mask 8 16 0 0)))
-  (stress 1000000 (lambda () (SDL:get-cursor) (SDL:set-cursor cursor))))
+;; do it!
+(for-each (lambda (args)
+            (apply stress args))
+          stress-tests)
 
 ;; quit SDL
 (SDL:quit)
