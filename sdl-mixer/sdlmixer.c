@@ -49,25 +49,11 @@ static long mix_audio_tag;
 #define RETURN_NEW_AUDIO(x)   SCM_RETURN_NEWSMOB (mix_audio_tag, x)
 
 static
-SCM
-mark_music (SCM music)
-{
-  return music;
-}
-
-static
 size_t
 free_music (SCM music)
 {
   Mix_FreeMusic (UNPACK_MUSIC (music));
   return sizeof (struct Mix_Music*);
-}
-
-static
-SCM
-mark_audio (SCM chunk)
-{
-  return chunk;
 }
 
 static
@@ -844,11 +830,9 @@ init_module (void)
 {
   /* smobs */
   mix_music_tag = scm_make_smob_type ("sdl-music", sizeof (struct Mix_Music*));
-  scm_set_smob_mark (mix_music_tag, mark_music);
   scm_set_smob_free (mix_music_tag, free_music);
 
   mix_audio_tag = scm_make_smob_type ("sdl-audio", sizeof (Mix_Chunk));
-  scm_set_smob_mark (mix_audio_tag, mark_audio);
   scm_set_smob_free (mix_audio_tag, free_audio);
 
   /* enums */
