@@ -27,14 +27,6 @@
 #include "wholefns.h"
 
 static
-SCM
-mark_color (SCM color)
-{
-  /* No internal scheme objects.  */
-  return SCM_BOOL_F;
-}
-
-static
 size_t
 free_color (SCM color)
 {
@@ -112,7 +104,6 @@ void
 gsdl_init_color (void)
 {
   color_tag = scm_make_smob_type ("SDL-Color", sizeof (SDL_Color));
-  scm_set_smob_mark  (color_tag, mark_color);
   scm_set_smob_free  (color_tag, free_color);
   scm_set_smob_print (color_tag, print_color);
 
