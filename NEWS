@@ -6,6 +6,20 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
+- 0.3.4 | NOT YET RELEASED
+
+  - bugfix: smob memory accounting
+
+	The rectangle, event, color, and cursor smobs used to either
+	fail to free their internal resources, or report an incorrect
+	number as the return value of their "free" function.  This would
+	causememory leaks (and eventual segfault) in the worst case, and
+	Guile to become confused in the best.
+
+	These errors have now been fixed.  The test for them is in file
+	test/leak.scm, which enabled only for "make check DEBUG=1".
+
+
 - 0.3.3 | 2005-04-03
 
   - bugfix: get-clip-rect no longer causes error

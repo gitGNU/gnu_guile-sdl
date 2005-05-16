@@ -1,5 +1,34 @@
 2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlcdrom.c (mark_cd): Delete func.
+	(gsdl_init_cdrom): Don't register a mark func for "SDL-CD".
+
+	* sdlcolor.c (mark_color): Delete func.
+	(gsdl_init_color): Don't register a mark func for "SDL-Color".
+
+	* sdlenums.c (mark_flagstash): Delete func.
+	(gsdl_init_enums): Don't register a mark func for "flagstash".
+
+	* sdlevent.c (mark_event, mark_keysym): Delete funcs.
+	(gsdl_init_event): Don't register mark
+	funcs for "SDL-Event" and "SDL-Keysym".
+
+	* sdljoystick.c (mark_joy): Delete func.
+	(gsdl_init_joystick): Don't register a mark func for "SDL-Joystick".
+
+	* sdlrect.c (mark_rect): Delete func.
+	(gsdl_init_rect): Don't register a mark func for "SDL-Rect".
+
+	* sdlsurface.c (mark_surface): Delete func.
+	(gsdl_init_surface): Don't register a mark func for "SDL-Surface".
+
+	* sdlvideo.c (mark_cursor, mark_yuv_overlay)
+	(mark_pixel_format): Delete funcs.
+	(gsdl_init_video): Don't register mark funcs
+	for "SDL-Cursor", "SDL-Pixel-Format" and "SDL-Overlay".
+
+2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlenums.c (free_enum): Fix bug: return amount freed.
 
 2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
