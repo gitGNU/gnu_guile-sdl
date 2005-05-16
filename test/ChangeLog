@@ -1,5 +1,14 @@
 2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* leak.scm (malloced): New proc.
+	(stress): Take arg TITLE.
+	Display title and malloc info as header.
+	Also, display malloc info w/ checkpoint output.
+	(stress-tests): New data structure.
+	Apply `stress' to each of its element at top-level.
+
+2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* leak.scm: New file.
 
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
