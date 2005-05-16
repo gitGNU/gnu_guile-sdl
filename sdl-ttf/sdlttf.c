@@ -1,6 +1,6 @@
 /* sdlttf.c --- SDL_ttf for Guile
  *
- * 	Copyright (C) 2003,2004 Thien-Thi Nguyen
+ * 	Copyright (C) 2003,2004,2005 Thien-Thi Nguyen
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -54,13 +54,6 @@ static long ttf_font_tag;
 
 #define RETURN_NEW_TTFONT(x) \
   SCM_RETURN_NEWSMOB (ttf_font_tag, x)
-
-static
-SCM
-mark_font (SCM font)
-{
-  return font;
-}
 
 static
 size_t
@@ -396,7 +389,6 @@ void
 init_module (void)
 {
   ttf_font_tag = scm_make_smob_type ("font", sizeof (struct TTF_Font*));
-  scm_set_smob_mark (ttf_font_tag, mark_font);
   scm_set_smob_free (ttf_font_tag, free_font);
 
   ttf_flags = gsdl_make_flagstash (&gsdl_ttf_flagstash);
