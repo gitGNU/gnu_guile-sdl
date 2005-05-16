@@ -1,51 +1,67 @@
 ;;; leak.scm --- check for memory leaks
 
-(or *interactive* (exit-77 "interactive"))
-
 (define debug? (getenv "DEBUG"))
+(or debug? (exit-77 "debug only"))
 (and debug? (debug-enable 'debug 'backtrace))
 
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
              ((sdl ttf) #:renamer (symbol-prefix-proc 'SDL:)))
 
+(define exit-value #t)
+
 ;; initialize SDL
 (let ((res (SDL:init '(SDL_INIT_VIDEO))))
   (and debug? (simple-format #t "SDL:init: ~S\n" res)))
+
+(define lots (make-vector 1000 #f))
 
 (define (malloced)
   (gc)
   (cdr (assq 'bytes-malloced (gc-stats))))
 
-(define (stress title count thunk)
-  (or debug? (set! count 10000))
-  (and debug? (for-each display (list "stressing: " title
-                                      " (" (malloced) ")\n")))
-  (malloced)
-  (do ((i 1 (1+ i)))
-      ((> i count))
-    (thunk)
-    (and (= 0 (remainder i 10000)) debug?
-         (write-line (list i (malloced))))))
+(define (check-alloc/dealloc title thunk)
+  (define (jam! x)
+    (do ((i 0 (1+ i)))
+        ((= i 1000))
+      (vector-set! lots i (and x (x)))))
+  (let* ((start #f) (fully #f) (final #f))
+    (jam! #f)
+    (set! start (malloced))
+    (jam! thunk)
+    (set! fully (malloced))
+    (jam! #f)
+    (set! final (malloced))
+    (simple-format #t "~A:~A\t~A\t+~A\t~A~A\n"
+                   title (make-string (- 12 (string-length title)) #\space)
+                   start (number->string (- fully start) 16)
+                   final (if (= start final)
+                             ""
+                             "\tDIFFERENT!"))
+    (set! exit-value (and exit-value (= start final)))
+    (malloced)))
 
-(define stress-tests
-  `(("surface" 100000 ,(lambda () (SDL:make-surface 123 79 '())))
-    ("rect" 1000000 ,(lambda () (SDL:make-rect 0 0 123 79)))
-    ("event" 1000000 ,SDL:make-event)
-    ("keysym" 1000000 ,SDL:make-keysym)
-    ("color" 1000000 ,(lambda () (SDL:make-color #xaa #x88 #x55)))
-    ("joystick" 1000000 ,SDL:joystick-open)
-    ("cd" 1000000 ,SDL:cd-open)
-    ("cursor" 1000000 ,(let* ((data (make-vector 16 85))
-                              (mask data)
-                              (c (SDL:create-cursor data mask 8 16 0 0)))
-                         (lambda () (SDL:get-cursor) (SDL:set-cursor c))))))
+(define alloc/dealloc-tests
+  `(("surface" ,(lambda () (SDL:make-surface 123 79 '())))
+    ("rectangle" ,(lambda () (SDL:make-rect 0 0 123 79)))
+    ("event" ,SDL:make-event)
+    ("keysym" ,SDL:make-keysym)
+    ("color" ,(lambda () (SDL:make-color #xaa #x88 #x55)))
+    ("joystick" ,SDL:joystick-open)
+    ("cd" ,SDL:cd-open)
+    ("cursor" ,(let* ((data (make-vector 16 85))
+                      (mask data))
+                 (lambda ()
+                   (SDL:get-cursor)
+                   (SDL:create-cursor data mask 8 16 0 0))))))
 
 ;; do it!
 (for-each (lambda (args)
-            (apply stress args))
-          stress-tests)
+            (apply check-alloc/dealloc args))
+          alloc/dealloc-tests)
 
 ;; quit SDL
 (SDL:quit)
+
+(exit exit-value)
 
 ;;; leak.scm ends here
