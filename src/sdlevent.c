@@ -66,14 +66,6 @@ static long event_tag;
   SCM_RETURN_NEWSMOB (event_tag, x)
 
 static
-SCM
-mark_event (SCM event)
-{
-  /* No internal scheme objects.  */
-  return SCM_BOOL_F;
-}
-
-static
 size_t
 free_event (SCM event)
 {
@@ -92,14 +84,6 @@ static long keysym_tag;
 
 #define RETURN_NEW_KEYSYM(x) \
   SCM_RETURN_NEWSMOB (keysym_tag, x)
-
-static
-SCM
-mark_keysym (SCM keysym)
-{
-  /* No internal scheme objects.  */
-  return SCM_BOOL_F;
-}
 
 static
 size_t
@@ -643,11 +627,9 @@ void
 gsdl_init_event (void)
 {
   event_tag = scm_make_smob_type ("SDL-Event", sizeof (SDL_Event));
-  scm_set_smob_mark (event_tag, mark_event);
   scm_set_smob_free (event_tag, free_event);
 
   keysym_tag = scm_make_smob_type ("SDL-Keysym", sizeof (SDL_keysym));
-  scm_set_smob_mark (keysym_tag, mark_keysym);
   scm_set_smob_free (keysym_tag, free_keysym);
 
   /* event type constants */
