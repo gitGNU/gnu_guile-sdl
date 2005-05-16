@@ -1,3 +1,9 @@
+2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlmixer.c (mark_music, mark_audio): Delete funcs.
+	(init_module): Don't register mark
+	funcs for "sdl-music" and "sdl-audio".
+
 2004-11-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (install-data-hook): Move outside `HAVE_MIXER'.

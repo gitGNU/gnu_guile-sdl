@@ -1,3 +1,8 @@
+2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlttf.c (mark_font): Delete func.
+	(init_module): Don't register a mark func for "font".
+
 2005-02-06  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlttf.c (ttf_glyph_metrics): Fix signedness bug: Use `gh_scm2ulong'.

@@ -1,5 +1,10 @@
 2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
+	* sdlgfx.c (mark_fpsmgr): Delete func.
+	(init_module): Don't register a mark func for "FPS-manager".
+
+2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
 	* sdlgfx.c (free_fpsmgr): Fix bug: return amount freed.
 
 2005-02-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
