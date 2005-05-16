@@ -31,14 +31,6 @@
 /* smob functions */
 
 static
-SCM
-mark_rect (SCM rect)
-{
-  /* No internal scheme objects.  */
-  return SCM_BOOL_F;
-}
-
-static
 size_t
 free_rect (SCM rect)
 {
@@ -119,7 +111,6 @@ void
 gsdl_init_rect (void)
 {
   rect_tag = scm_make_smob_type ("SDL-Rect", sizeof (SDL_Rect));
-  scm_set_smob_mark  (rect_tag, mark_rect);
   scm_set_smob_free  (rect_tag, free_rect);
   scm_set_smob_print (rect_tag, print_rect);
 
