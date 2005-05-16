@@ -521,14 +521,6 @@ GH_DEFPROC (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
 /*-------------------------------------------------------------*/
 
 static
-SCM
-mark_cd (SCM cdrom)
-{
-  /* No internal scheme objects.  */
-  return SCM_BOOL_F;
-}
-
-static
 size_t
 free_cd (SCM cdrom)
 {
@@ -586,7 +578,6 @@ void
 gsdl_init_cdrom (void)
 {
   cdrom_tag = scm_make_smob_type ("SDL-CD", sizeof (SDL_CD *));
-  scm_set_smob_mark  (cdrom_tag, mark_cd);
   scm_set_smob_free  (cdrom_tag, free_cd);
   scm_set_smob_print (cdrom_tag, print_cd);
 
