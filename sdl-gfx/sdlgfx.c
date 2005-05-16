@@ -588,13 +588,6 @@ static long fpsmgr_tag;
 #define UNPACK_FPSMGR(smob)   (SMOBGET (smob, FPSmanager *))
 
 static
-SCM
-mark_fpsmgr (SCM fpsmgr)
-{
-  return fpsmgr;
-}
-
-static
 size_t
 free_fpsmgr (SCM fpsmgr)
 {
@@ -698,7 +691,6 @@ void
 init_module (void)
 {
   fpsmgr_tag = scm_make_smob_type ("FPS-manager", sizeof (FPSmanager));
-  scm_set_smob_mark  (fpsmgr_tag, mark_fpsmgr);
   scm_set_smob_free  (fpsmgr_tag, free_fpsmgr);
   scm_set_smob_print (fpsmgr_tag, print_fpsmgr);
 
