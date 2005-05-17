@@ -78,8 +78,9 @@
 @twerpdoc (unlock-yuv-overlay)
 @twerpdoc (display-yuv-overlay)
 
-@section Window Manager
+@section Windowing System Interaction
 
+@twerpdoc (get-wm-info)
 @twerpdoc (set-caption)
 @twerpdoc (get-caption)
 @twerpdoc (set-icon)
