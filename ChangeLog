@@ -1,3 +1,7 @@
+2005-05-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Bump version to "0.3.4" for release.
+
 2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* Makefile.am (TESTS): Add test/leak.scm.
