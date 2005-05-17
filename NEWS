@@ -19,6 +19,8 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 	These errors have now been fixed.  The test for them is in file
 	test/leak.scm, which enabled only for "make check DEBUG=1".
 
+  - new (sdl sdl) proc: get-wm-info
+
 
 - 0.3.3 | 2005-04-03
 
