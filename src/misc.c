@@ -21,6 +21,7 @@
 #include <guile/gh.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_active.h>
+#include <SDL/SDL_syswm.h>
 
 #include "config.h"
 #include "sym.h"
@@ -43,6 +44,46 @@ GH_DEFPROC (get_app_state, "get-app-state", 0, 0, 0,
   if (state & SDL_APPACTIVE)     rv = gh_cons (SYM (active), rv);
 
   return rv;
+}
+
+
+DECLARE_SYM(x11, "x11");
+
+GH_DEFPROC (get_wm_info, "get-wm-info", 0, 0, 0,
+            (void),
+            "Return information on the window manager, as a list of the\n"
+            "form: (VERSION SUBSYSTEM DISPLAY WINDOW FSWINDOW WMWINDOW).\n"
+            "VERSION is a sub-list of form: (MAJOR MINOR PATCH), where\n"
+            "element is an integer.  SUBSYSTEM is either the symbol\n"
+            "@code{x11}, or #f.  DISPLAY is a pointer (machine address)\n"
+            "of the X11 Display structure, converted to an integer.\n"
+            "WINDOW, FSWINDOW and WMWINDOW are Window identifiers (also\n"
+            "integers).")
+{
+#define FUNC_NAME s_get_wm_info
+  SDL_SysWMinfo *info = (SDL_SysWMinfo *) malloc (sizeof (SDL_SysWMinfo));
+  int result = SDL_GetWMInfo (info);
+  SCM rv = SCM_BOOL_F;
+
+  if (result)
+    {
+#define PUSH(x)  rv = gh_cons (x, rv)
+      rv = SCM_EOL;
+      PUSH (gh_ulong2scm (info->info.x11.wmwindow));
+      PUSH (gh_ulong2scm (info->info.x11.fswindow));
+      PUSH (gh_ulong2scm (info->info.x11.window));
+      PUSH (gh_ulong2scm ((unsigned long) info->info.x11.display));
+      PUSH (SDL_SYSWM_X11 == info->subsystem ? SYM (x11) : SCM_BOOL_F);
+      PUSH (gh_list (gh_int2scm (info->version.major),
+                     gh_int2scm (info->version.minor),
+                     gh_int2scm (info->version.patch),
+                     SCM_UNDEFINED));
+#undef PUSH
+    }
+
+  free (info);
+  return rv;
+#undef FUNC_NAME
 }
 
 
