@@ -1,6 +1,6 @@
 /* sdlttf.c --- SDL_ttf for Guile
  *
- * 	Copyright (C) 2003,2004 Thien-Thi Nguyen
+ * 	Copyright (C) 2003,2004,2005 Thien-Thi Nguyen
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -14,8 +14,8 @@
  *
  * You should have received a copy of the GNU General Public
  * License along with this program; if not, write to the Free
- * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
- * MA 02111-1307 USA
+ * Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301  USA
  */
 
 #include <guile/gh.h>
