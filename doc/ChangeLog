@@ -1,3 +1,8 @@
+2005-05-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ref.twerp (General SDL): Add @twerpdoc for `get-wm-info'.
+	Also, rename its section to "Windowing System Interaction".
+
 2005-04-03  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* guile-sdl.texi: Include "excuse.texi".
