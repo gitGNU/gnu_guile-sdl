@@ -65,7 +65,10 @@ SDL_version.h sez:
 
  SDL_GetWMInfo ()
 
-looks pretty hairy
+return value for proc `get-wm-info' does not presently
+include the `lock_func' and `unlock_func' hooks.
+support for those will be added after i figure out
+how to "thunkify" them.
 
  SDL_FreeRW (rwops)
 
