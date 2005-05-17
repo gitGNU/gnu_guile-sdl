@@ -6,7 +6,7 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
-- 0.3.4 | NOT YET RELEASED
+- 0.3.4 | 2005-05-17
 
   - bugfix: smob memory accounting
 
@@ -20,6 +20,8 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 	test/leak.scm, which enabled only for "make check DEBUG=1".
 
   - new (sdl sdl) proc: get-wm-info
+
+  - FSF street address updated in copyright notices
 
 
 - 0.3.3 | 2005-04-03
