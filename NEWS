@@ -13,8 +13,8 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
 	The rectangle, event, color, and cursor smobs used to either
 	fail to free their internal resources, or report an incorrect
 	number as the return value of their "free" function.  This would
-	causememory leaks (and eventual segfault) in the worst case, and
-	Guile to become confused in the best.
+	cause Guile to become confused and, in the worst case, also leak
+	memory (and eventually segfault).
 
 	These errors have now been fixed.  The test for them is in file
 	test/leak.scm, which enabled only for "make check DEBUG=1".
