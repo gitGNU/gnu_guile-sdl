@@ -136,9 +136,6 @@ AC_DISABLE_STATIC	dnl module only
 AC_LIBTOOL_TAGS([])
 AC_PROG_LIBTOOL
 
-top_builddir_absolute=`pwd`
-AC_SUBST([top_builddir_absolute])
-
 ##----------------------------------------------------------------------------
 ##: write it out
 
