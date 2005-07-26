@@ -7,7 +7,7 @@ export HAVE_TTF
 HAVE_MIXER=${HAVE_MIXER-@HAVE_MIXER@}
 export HAVE_MIXER
 
-top=@top_builddir_absolute@
+top=@abs_top_builddir@
 GUILE_MERGED_MODULE_CATALOG=$top/pre-inst.merged-module-catalog
 export GUILE_MERGED_MODULE_CATALOG
 
