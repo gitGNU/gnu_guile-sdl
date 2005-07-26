@@ -20,9 +20,9 @@
 ;;; Code:
 
 (define-module (sdl simple)
-  #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc '|||-))
-  #:use-module ((sdl ttf) #:renamer (symbol-prefix-proc '|T|-))
-  #:use-module ((sdl gfx) #:renamer (symbol-prefix-proc '|G|-))
+  #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc '///-))
+  #:use-module ((sdl ttf) #:renamer (symbol-prefix-proc '/T/-))
+  #:use-module ((sdl gfx) #:renamer (symbol-prefix-proc '/G/-))
   #:export (simple-canvas
             simple-stylus
             simple-vpacked-image))
@@ -57,16 +57,16 @@
 ;;
 (define (simple-canvas init? w h bpp . flags)
   (or (not init?)
-      (= 0 (|||-init '(SDL_INIT_VIDEO)))
+      (= 0 (///-init '(SDL_INIT_VIDEO)))
       (error "could not init SDL"))
-  (let ((canvas (|||-set-video-mode
+  (let ((canvas (///-set-video-mode
                     w h bpp (if (null? flags)
                                '(SDL_HWSURFACE SDL_DOUBLEBUF)
                                flags)))
-        (rect (|||-make-rect 0 0 w h))
+        (rect (///-make-rect 0 0 w h))
         (bg #f))
     (define (set-bg! r g b)
-      (set! bg (|||-map-rgb (assq-ref (|||-get-video-info) 'vfmt) r g b)))
+      (set! bg (///-map-rgb (assq-ref (///-get-video-info) 'vfmt) r g b)))
     (set-bg! 0 0 0)
     ;; rv
     (lambda args
@@ -75,7 +75,7 @@
           (case (car args)
             ((#:rect) rect)
             ((#:set-bg!) (apply set-bg! (cdr args)))
-            ((#:clear!) (|||-fill-rect canvas rect bg))
+            ((#:clear!) (///-fill-rect canvas rect bg))
             ((#:w) w)
             ((#:h) h)
             ((#:w/h) (cons w h))
@@ -106,17 +106,17 @@
 ;;
 (define (simple-stylus init? filename size r g b)
   (or (not init?)
-      (|T|-ttf-init)
+      (/T/-ttf-init)
       (error "could not init font lib"))
   (let ((font #f) (color #f) (canvas #f))
     (define (set-font! filename size)
-      (set! font (|T|-load-font filename size)))
+      (set! font (/T/-load-font filename size)))
     (define (set-color! r g b)
-      (set! color (|||-make-color r g b)))
+      (set! color (///-make-color r g b)))
     (define (set-canvas! v)
       (set! canvas v))
     (define (render text)
-      (|T|-render-text font text color))
+      (/T/-render-text font text color))
     (set-font! filename size)
     (set-color! r g b)
     ;; rv
@@ -126,7 +126,7 @@
         ((#:set-color!) (apply set-color! (cdr args)))
         ((#:set-canvas!) (set-canvas! (cadr args)))
         ((#:render) (render (car args)))
-        ((#:write!) (|||-blit-surface (render (car args)) #f canvas))
+        ((#:write!) (///-blit-surface (render (car args)) #f canvas))
         (else (error "bad key:" key))))))
 
 ;; Return a @dfn{vpacked image closure} that accepts a few simple messages.
@@ -152,12 +152,12 @@
 ;;-sig: (filename [canvas])
 ;;
 (define (simple-vpacked-image filename . etc)
-  (let* ((image (|||-load-image filename))
-         (rects (let loop ((size (|||-surface:w image)) (offset 0) (acc '()))
+  (let* ((image (///-load-image filename))
+         (rects (let loop ((size (///-surface:w image)) (offset 0) (acc '()))
                   (if (= 0 size)
                       (list->vector (cons #f acc))
                       (loop (1- size) (+ offset size)
-                            (cons (|||-make-rect 0 offset size size) acc)))))
+                            (cons (///-make-rect 0 offset size size) acc)))))
          (canvas (and (not (null? etc)) (car etc))))
     (define (set-canvas! v)
       (set! canvas v))
@@ -166,7 +166,7 @@
       (case key
         ((#:set-canvas!) (set-canvas! (car args)))
         ((#:rects) rects)
-        ((#:blit!) (|||-blit-surface
+        ((#:blit!) (///-blit-surface
                        image (vector-ref rects (car args))
                        canvas (cadr args)))
         (else (error "bad key:" key))))))
