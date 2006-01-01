@@ -11,6 +11,10 @@ SUFFIXES = .texi .twerp
 TODO-excerpt: $(top_srcdir)/TODO
 	sed '1,/^_/!d;s/__*//' $< > $@
 
+# This causes (one hopes) Automake 1.8 and later to generate rules to
+# place the info file in the build tree instead of the source tree.
+DISTCLEANFILES = guile-sdl.info
+
 guile-sdl.info: $(BUILT_SOURCES)
 
 if HAVE_TTF
