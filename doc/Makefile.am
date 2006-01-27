@@ -5,6 +5,7 @@ AUTOMAKE_OPTIONS = gnu
 BUILT_SOURCES = ref.texi ef-ref.texi excuse.texi TODO-excerpt
 
 info_TEXINFOS = guile-sdl.texi
+guile_sdl_TEXINFOS = $(BUILT_SOURCES)
 
 SUFFIXES = .texi .twerp
 
@@ -14,8 +15,6 @@ TODO-excerpt: $(top_srcdir)/TODO
 # This causes (one hopes) Automake 1.8 and later to generate rules to
 # place the info file in the build tree instead of the source tree.
 DISTCLEANFILES = guile-sdl.info
-
-guile-sdl.info: $(BUILT_SOURCES)
 
 if HAVE_TTF
 minusIttfdocindex = -I ../sdl-ttf/.doc-index
