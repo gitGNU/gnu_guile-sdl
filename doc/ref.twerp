@@ -398,6 +398,7 @@ These are available in module @code{(sdl misc-utils)}.
 @twerpdoc (poll-with-push-on-timeout-proc)
 @twerpdoc (copy-surface)
 @twerpdoc (ignore-all-event-types-except)
+@twerpdoc (fade-loop!)
 
 @node Simple Closures
 @chapter Simple Closures
