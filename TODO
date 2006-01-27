@@ -11,7 +11,7 @@
     - set-event-filter
     - get-event-filter
     + event-state
-    - get-key-state
+    + get-key-state
     + scale-surface (deleted)
   - programming practice review
     - 0-means-success return values
