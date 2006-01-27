@@ -35,24 +35,34 @@
 ;; presize some stuff
 (define height (SDL:font:height font))
 (define top (quotient (- (SDL:rect:h test-rect) height) 2))
-(define text-rect (SDL:make-rect 0 top (SDL:rect:w test-rect) height))
 
 ;; color to write in
 (define white (SDL:make-color #xff #xff #xff))
 
+;; proc to write text centered on screen at a certain vertical position
+(define (display-centered-w/height-proc y)
+  (let ((text-rect (SDL:make-rect 0 y (SDL:rect:w test-rect) height)))
+    ;; rv
+    (lambda (fstr . args)
+      (let* ((text (apply simple-format #f fstr args))
+             (rendered (SDL:render-text font text white #t))
+             (dimensions (SDL:font:size-text font text))
+             (width (cdr (assq 'w dimensions)))
+             (screen (SDL:get-video-surface))
+             (left (quotient (- (SDL:rect:w test-rect) width) 2))
+             (dst-rect (SDL:make-rect left y width height))
+             (src-rect (SDL:make-rect 0 0 width height)))
+        (SDL:fill-rect screen text-rect 0)
+        (SDL:blit-surface rendered src-rect screen dst-rect)
+        (SDL:flip)))))
+
 ;; write text centered on screen
-(define (display-centered fstr . args)
-  (let* ((text (apply simple-format #f fstr args))
-         (rendered (SDL:render-text font text white #t))
-         (dimensions (SDL:font:size-text font text))
-         (width (cdr (assq 'w dimensions)))
-         (screen (SDL:get-video-surface))
-         (left (quotient (- (SDL:rect:w test-rect) width) 2))
-         (dst-rect (SDL:make-rect left top width height))
-         (src-rect (SDL:make-rect 0 0 width height)))
-    (SDL:fill-rect screen text-rect 0)
-    (SDL:blit-surface rendered src-rect screen dst-rect)
-    (SDL:flip)))
+(define display-centered
+  (display-centered-w/height-proc
+   (quotient (- (SDL:rect:h test-rect) height) 2)))
+(define display-centered/next-line
+  (display-centered-w/height-proc
+   (+ 3 height (quotient (- (SDL:rect:h test-rect) height) 2))))
 
 ;; event loop
 (define input-loop
@@ -64,17 +74,20 @@
          (let ((sym (SDL:event:key:keysym:sym e))
                (mods (SDL:event:key:keysym:mod e)))
            (display-centered "~A: ~A ~A" event-type sym mods)
+           (display-centered/next-line "~S" (SDL:get-key-state))
            (if (eq? sym 'SDLK_ESCAPE)
                #f
                (input-loop e))))
         ((SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP)
          (let ((button (SDL:event:button:button e)))
-           (display-centered "~A: ~A" event-type button))
+           (display-centered "~A: ~A" event-type button)
+           (display-centered/next-line "~S" (SDL:get-key-state)))
          (input-loop e))
         ((SDL_MOUSEMOTION)
          (let ((x (SDL:event:motion:x e))
                (y (SDL:event:motion:y e)))
-           (display-centered "~A: ~Ax~A" event-type x y))
+           (display-centered "~A: ~Ax~A" event-type x y)
+           (display-centered/next-line "~S" (SDL:get-key-state)))
          (input-loop e))
         (else
          (display-centered "~A" event-type)
@@ -88,18 +101,8 @@
           (SDL:enumstash-enums SDL:event-types))
 
 ;; display an explanatory message
-(let* ((text "(Press Escape to Quit)")
-       (rendered (SDL:render-text font text white #t))
-       (dimensions (SDL:font:size-text font text))
-       (width (cdr (assq 'w dimensions)))
-       (screen (SDL:get-video-surface))
-       (left (quotient (- (SDL:rect:w test-rect) width) 2))
-       (top (- (SDL:rect:h test-rect) height 5))
-       (dst-rect (SDL:make-rect left top width height))
-       (src-rect (SDL:make-rect 0 0 width height)))
-  (SDL:fill-rect screen text-rect 0)
-  (SDL:blit-surface rendered src-rect screen dst-rect)
-  (SDL:flip))
+((display-centered-w/height-proc (- (SDL:rect:h test-rect) height 5))
+ "(Press Escape to Quit)")
 
 ;; main loop
 (input-loop (SDL:make-event 0))
