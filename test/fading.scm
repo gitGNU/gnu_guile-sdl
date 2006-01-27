@@ -1,7 +1,7 @@
 ;;; fading.scm --- iterative alpha blending
 
 (use-modules
- ((sdl misc-utils) #:select (copy-surface))
+ ((sdl misc-utils) #:select (copy-surface fade-loop!))
  ((sdl simple) #:select (simple-canvas))
  ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
  ((sdl gfx) #:renamer (symbol-prefix-proc 'GFX:)))
@@ -23,40 +23,6 @@
     (move/blit! SDL:rect:set-x! 0)
     result))
 
-(define (fade! base image sec replacement)
-  (let* ((now (SDL:get-ticks))
-         (w (SDL:surface:w base))
-         (h (SDL:surface:h base))
-         (one (if (eq? base image)
-                  (copy-surface image)
-                  image))
-         (two (if (SDL:surface? replacement)
-                  (if (eq? base replacement)
-                      (copy-surface replacement)
-                      replacement)
-                  (let ((new (SDL:make-surface w h)))
-                    (SDL:fill-rect
-                     new
-                     (SDL:make-rect 0 0 w h)
-                     (SDL:map-rgb (SDL:surface-get-format base) 0 0 0))
-                    new)))
-         (msec (* 1000 sec))
-         (out? (->bool replacement))
-         (done? (if out?
-                    (lambda (x) (< 255 x))
-                    (lambda (x) (> 0 x))))
-         (adjust (if out? + -)))
-    (let loop ((bef (SDL:get-ticks)) (alpha (if out? 0.0 255.0)) (last? #f))
-      (SDL:blit-surface one #f base)
-      (SDL:set-alpha! two 'SDL_SRCALPHA (inexact->exact alpha))
-      (SDL:blit-surface two #f base)
-      (SDL:flip base)
-      (let* ((now (SDL:get-ticks))
-             (new-alpha (adjust alpha (* 256 (/ (- now bef) msec)))))
-        (if (done? new-alpha)
-            (or last? (loop now (if out? 255 0) #t))
-            (loop now new-alpha last?))))))
-
 ;; do it!
 (let* ((canvas (simple-canvas #t 200 153 24))
        (img1 (SDL:load-image (in-vicinity
@@ -66,14 +32,17 @@
                                   ".")
                               "gnu-goatee.jpg")))
        (img2 (as-four img1))
-       (img3 (as-four img2)))
+       (img3 (as-four img2))
+       (void (SDL:make-surface 200 153)))
   (define (fade/wait! bef aft)
-    (fade! (canvas) bef 2 aft)
+    (fade-loop! 2 (canvas) #f bef aft)
     (SDL:delay 1234))
+  (SDL:fill-rect void (SDL:make-rect 0 0 200 153)
+                 (SDL:map-rgb (SDL:surface-get-format (canvas)) 0 0 0))
   (SDL:blit-surface img1)
   (SDL:flip)
-  (fade/wait! img1 #t)                  ; out
-  (fade/wait! img1 #f)                  ; in
+  (fade/wait! img1 void)                ; out
+  (fade/wait! void img1)                ; in
   (fade/wait! img1 img2)                ; out w/ replacement (cross-fade)
   (fade/wait! img2 img3)                ; again!
   (fade/wait! img3 img2)                ; again!
