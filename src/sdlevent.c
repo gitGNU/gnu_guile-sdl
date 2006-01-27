@@ -536,17 +536,22 @@ GH_DEFPROC (enable_key_repeat, "enable-key-repeat", 2, 0, 0,
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (get_key_state, "get-key-state", 1, 0, 0,
-            (SCM numkeys),
-            "[not yet implemented]")
-#if 0
-            "Get a snapshot of the current state of the keyboard.\n"
-            "Return an array of keystates, indexed by the SDLK_* syms."
-#endif
+GH_DEFPROC (get_key_state, "get-key-state", 0, 0, 0,
+            (),
+            "Return a list of pressed keys (SDLK_* symbols).")
 {
 #define FUNC_NAME s_get_key_state
-  THROW_NOT_YET_IMPLEMENTED;
-  RETURN_UNSPECIFIED;
+  Uint8 *keystate;
+  int count, i;
+  SCM ls = SCM_EOL;
+
+  keystate = SDL_GetKeyState (&count);
+
+  for (i = 0; i < count; i++)
+    if (keystate[i])
+      ls = gh_cons (gsdl_long2enum (i, event_keysym_enum), ls);
+
+  return ls;
 #undef FUNC_NAME
 }
 
