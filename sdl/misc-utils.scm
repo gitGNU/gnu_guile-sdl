@@ -95,11 +95,25 @@
 ;; The new surface has the same pixel format as @var{surface}.
 ;; Return the new surface.
 ;;
-(define (copy-surface surface)
-  (SDL:convert-surface
-   surface
-   (SDL:surface-get-format surface)
-   (map string->symbol (SDL:surface:flags surface))))
+;; Optional second arg @var{clip} is a rectangle describing the
+;; portion of @var{surface} to copy (default is the entire surface).
+;;
+;;-sig: (surface [clip])
+;;
+(define (copy-surface surface . clip)
+  (define (conv new)
+    (SDL:convert-surface
+     new (SDL:surface-get-format surface)
+     (map string->symbol (SDL:surface:flags surface))))
+  (cond ((and (not (null? clip))
+              (car clip))
+         => (lambda (rect)
+              (let* ((rw (SDL:rect:w rect))
+                     (rh (SDL:rect:h rect))
+                     (s (conv (SDL:make-surface rw rh))))
+                (SDL:blit-surface surface rect s (SDL:make-rect 0 0 rw rh))
+                s)))
+        (else (conv surface))))
 
 ;; Arrange to ignore all event types except those in @var{ls} (zero or
 ;; more symbols from @code{event-types}).  As a special case, if @var{ls}
