@@ -122,19 +122,6 @@ how to "thunkify" them.
 
 why do we want to know the name of a key?
 
- SDL_GetKeyState ()
-
-arglist: (int *numkeys)
-
-SDL_keyboard.h sez:
-/*
- * Get a snapshot of the current state of the keyboard.
- * Returns an array of keystates, indexed by the SDLK_* syms.
- * Used:
- * 	Uint8 *keystate = SDL_GetKeyState(NULL);
- *	if ( keystate[SDLK_RETURN] ) ... <RETURN> is pressed.
- */
-
  SDL_getenv (probably-never)
 
  SDL_putenv (probably-never)
