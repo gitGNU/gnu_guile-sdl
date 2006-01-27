@@ -24,15 +24,13 @@
 (SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 8
                     '(SDL_HWSURFACE SDL_DOUBLEBUF))
 
-;; the directory to find the image in
-(define (datafile name)
-  (in-vicinity (or (and=> (getenv "srcdir")
-                          (lambda (d) (in-vicinity d "test")))
-                   ".")
-               name))
-
 ;; load a font file
-(define font (SDL:load-font (datafile "crystal.ttf") 16))
+(define font (SDL:load-font
+              (in-vicinity (or (and=> (getenv "srcdir")
+                                      (lambda (d) (in-vicinity d "test")))
+                               ".")
+                           "crystal.ttf")
+              16))
 
 ;; presize some stuff
 (define height (SDL:font:height font))
