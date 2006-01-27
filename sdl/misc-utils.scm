@@ -27,7 +27,8 @@
             rotate-square
             poll-with-push-on-timeout-proc
             copy-surface
-            ignore-all-event-types-except))
+            ignore-all-event-types-except
+            fade-loop!))
 
 ;; Set default clip rect to @var{rect}, call @var{thunk}, and restore it.
 ;; @var{thunk} is a procedure that takes no arguments.
@@ -127,5 +128,47 @@
                     (or (memq type ls)
                         (SDL:event-state type 'SDL_IGNORE))))))
     (for-each proc (SDL:enumstash-enums SDL:event-types))))
+
+;; Loop for @var{sec} seconds, iteratively blitting onto @var{realized} at
+;; @var{location} (a rectangle or #f to indicate the origin) the composition
+;; of @var{image} and its @var{replacement} (both surfaces), to effect a
+;; @dfn{fade-in} of @var{replacement} over @var{image}.
+;;
+;; @var{realized} may be either a surface, in which case at the end of each
+;; loop it is shown by calling @code{flip} on it; or a pair whose @sc{car} is
+;; a surface and whose @sc{cdr} is a thunk that should do the showing.
+;;
+;; Note that @var{location} is used for blitting, so its width and height
+;; should match those of @var{image} and @var{replacement}.
+;;
+(define (fade-loop! sec realized location image replacement)
+  (let* ((base (if (pair? realized)
+                   (car realized)
+                   realized))
+         (show (if (pair? realized)
+                   (cdr realized)
+                   (lambda () (SDL:flip base))))
+         (loc (or location (SDL:make-rect
+                            0 0
+                            (SDL:surface:w base)
+                            (SDL:surface:h base))))
+         (one (if (eq? base image)
+                  (copy-surface image)
+                  image))
+         (two (if (eq? base replacement)
+                  (copy-surface replacement)
+                  replacement))
+         (msec (* 1000 sec))
+         (now (SDL:get-ticks)))
+    (let loop ((bef (SDL:get-ticks)) (alpha 0.0) (last? #f))
+      (SDL:blit-surface one #f base loc)
+      (SDL:set-alpha! two 'SDL_SRCALPHA (inexact->exact alpha))
+      (SDL:blit-surface two #f base loc)
+      (show)
+      (let* ((now (SDL:get-ticks))
+             (new-alpha (+ alpha (* 256 (/ (- now bef) msec)))))
+        (if (< 255 new-alpha)
+            (or last? (loop now 255 #t))
+            (loop now new-alpha last?))))))
 
 ;;; misc-utils.scm ends here
