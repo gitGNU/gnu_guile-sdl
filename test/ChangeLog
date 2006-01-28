@@ -1,3 +1,27 @@
+2006-01-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* leak.scm (malloced): Do gc twice.
+
+2006-01-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* fading.scm: From module (sdl misc-utils), also select `fade-loop!'.
+	(fade!): Delete proc.  Update caller to use `fade-loop!'
+	passing in a surface unconditionally for REPLACEMENT.
+
+2006-01-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* event.scm (text-rect): Delete rect.
+	(display-centered-w/height-proc): New proc.
+	(display-centered): Use `display-centered-w/height-proc'.
+	(display-centered/next-line): New proc.
+	(input-loop): Also display `SDL:get-key-state' return value.
+	Also, use `display-centered-w/height-proc' for "Press Escape" message.
+
+2006-01-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* event.scm (datadir): Delete proc.
+	(font): Incorporate `datadir'.
+
 2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* leak.scm: New file.

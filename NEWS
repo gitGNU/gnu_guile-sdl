@@ -6,6 +6,21 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
+- 0.3.5 | NOT YET RELEASED
+
+  - change to (sdl misc-utils) proc: copy-surface
+
+	This now takes an optional second arg CLIP, a rectangle which
+	specifies the portion of the surface to copy.  By default (if
+	unspecified or #f), the entire surface is copied.
+
+  - implementation for (sdl sdl) proc: get-key-state
+
+  - new (sdl misc-utils) proc: fade-loop!
+
+  - maintenance uses GNU Automake 1.9.6
+
+
 - 0.3.4 | 2005-05-17
 
   - bugfix: smob memory accounting

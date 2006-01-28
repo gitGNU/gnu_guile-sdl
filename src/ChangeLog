@@ -1,3 +1,7 @@
+2006-01-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlevent.c (get_key_state): Write implementation.
+
 2005-05-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* misc.c: Include <SDL/SDL_syswm.h>.
