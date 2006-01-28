@@ -6,7 +6,7 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
-- 0.3.5 | NOT YET RELEASED
+- 0.3.5 | 2006-01-29
 
   - change to (sdl misc-utils) proc: copy-surface
 
