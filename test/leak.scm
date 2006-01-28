@@ -16,7 +16,8 @@
 (define lots (make-vector 1000 #f))
 
 (define (malloced)
-  (gc)
+  ;; prudence or superstition?  you be the judge!
+  (gc) (gc)
   (cdr (assq 'bytes-malloced (gc-stats))))
 
 (define (check-alloc/dealloc title thunk)
