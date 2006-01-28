@@ -1,3 +1,7 @@
+2006-01-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Bump version to "0.3.5" for release.
+
 2005-07-26  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* configure.in (top_builddir_absolute): Delete AC_SUBST var.
