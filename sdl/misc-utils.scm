@@ -26,6 +26,7 @@
   #:export (call-with-clip-rect
             rotate-square
             rectangle-closure
+            rectangle<-geometry-string
             poll-with-push-on-timeout-proc
             copy-surface
             ignore-all-event-types-except
@@ -85,6 +86,56 @@
                        ((#:y!) SDL:rect:set-y!))
                      rect val)
                     val))))))
+
+;; Return a rectangle made from parsing the @dfn{geometry string} @var{spec},
+;; which typically has the form @code{WxH+X+Y}, where @code{+X+Y} is optional
+;; (defaults to ``+0+0''), and @code{W}, @code{H}, @code{X} and @code{Y} are
+;; integers.  Actually, the @code{+} can also be a @code{-}.  If @var{spec}
+;; cannot be parsed, return @code{#f}.  Examples:
+;;
+;; @example
+;; (rectangle<-geometry-string "42x43+44+45")
+;; @result{} #<SDL-Rect 42x43+44+45>
+;;
+;; (rectangle<-geometry-string "42x43-10-20")
+;; @result{} #<SDL-Rect 42x43+-10+-20>
+;;
+;; (rectangle<-geometry-string "42x43")
+;; @result{} #<SDL-Rect 42x43+0+0>
+;;
+;; (rectangle<-geometry-string "42")
+;; @result{} #f
+;; @end example
+;;
+;; Note that the print representation of a rectangle always has ``+''.  The
+;; term ``geometry string'' derives from the X Window System, where many
+;; programs take a @code{--geometry} (or @code{-g} for short) command-line
+;; option.
+;;
+(define (rectangle<-geometry-string spec)
+  (define (->n b e)
+    (string->number (substring spec b e)))
+  (define (plus-or-minus b)
+    (let ((p (string-index spec #\+ b))
+          (m (string-index spec #\- b)))
+      (and (or p m) (min (or p 999999) (or m 999999)))))
+  (let ((len (string-length spec))
+        (x (string-index spec #\x))
+        (p/m (plus-or-minus 0))
+        (R (rectangle-closure)))
+    (and x
+         (not (= 0 x))
+         (< 0 (R #:w! (->n 0 x)))
+         (if p/m
+             (and (< x p/m)
+                  (< 0 (R #:h! (->n (1+ x) p/m)))
+                  (let ((p2 (plus-or-minus (1+ p/m))))
+                    (and p2
+                         (not (= p/m p2))
+                         (R #:x! (->n p/m p2))
+                         (R #:y! (->n p2 len)))))
+             (< 0 (R #:h! (->n (1+ x) len))))
+         (R))))
 
 ;; Return a procedure @code{P} that checks the event queue for @var{timeout} ms,
 ;; polling every @var{slice} ms.  If an event arrives during that time, return
