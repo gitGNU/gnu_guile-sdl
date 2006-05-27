@@ -2,3 +2,4 @@ Makefile
 Makefile.in
 guile-sdl.info
 stamp-vti
+version.texi
