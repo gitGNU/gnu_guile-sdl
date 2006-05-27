@@ -25,6 +25,7 @@
   #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
   #:export (call-with-clip-rect
             rotate-square
+            rectangle-closure
             poll-with-push-on-timeout-proc
             copy-surface
             ignore-all-event-types-except
@@ -58,6 +59,25 @@
          (dst-rect (SDL:make-rect 0 0 width height)))
     (SDL:blit-surface rotated src-rect dst dst-rect)
     dst))
+
+;; Return a closure that manages a single rectangle object.
+;; Calling the closure with no args returns the rectangle object.
+;; Otherwise, the messages @code{#:w!}, @code{#:h!}, @code{#:x!}
+;; and @code{#:y!}, followed by an integer, update the rectangle's
+;; width, height, horizontal offset and vertical offset, respectively.
+;;
+(define (rectangle-closure)
+  (let ((rect (SDL:make-rect 0 0 0 0)))
+    (lambda args
+      (cond ((null? args) rect)
+            (else (let ((val (cadr args)))
+                    ((case (car args)
+                       ((#:w!) SDL:rect:set-w!)
+                       ((#:h!) SDL:rect:set-h!)
+                       ((#:x!) SDL:rect:set-x!)
+                       ((#:y!) SDL:rect:set-y!))
+                     rect val)
+                    val))))))
 
 ;; Return a procedure @code{P} that checks the event queue for @var{timeout} ms,
 ;; polling every @var{slice} ms.  If an event arrives during that time, return
