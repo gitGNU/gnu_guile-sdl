@@ -396,6 +396,7 @@ These are available in module @code{(sdl misc-utils)}.
 @twerpdoc (call-with-clip-rect)
 @twerpdoc (rotate-square)
 @twerpdoc (rectangle-closure)
+@twerpdoc (rectangle<-geometry-string)
 @twerpdoc (poll-with-push-on-timeout-proc)
 @twerpdoc (copy-surface)
 @twerpdoc (ignore-all-event-types-except)
