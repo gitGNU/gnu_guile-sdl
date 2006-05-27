@@ -1,3 +1,16 @@
+2006-05-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* misc-utils.scm (rectangle<-geometry-string): New proc, exported.
+
+2006-05-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* misc-utils.scm (rectangle-closure): Take optional arg RECT.
+	If specified, use it instead of allocating a new rectangle.
+
+2006-05-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* misc-utils.scm (rectangle-closure): New proc, exported.
+
 2006-01-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* misc-utils.scm (fade-loop!): New proc, exported.
