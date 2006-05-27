@@ -66,8 +66,15 @@
 ;; and @code{#:y!}, followed by an integer, update the rectangle's
 ;; width, height, horizontal offset and vertical offset, respectively.
 ;;
-(define (rectangle-closure)
-  (let ((rect (SDL:make-rect 0 0 0 0)))
+;; Optional arg @var{rect} specifies a rectangle object to manage
+;; instead of allocating a new one.
+;;
+;;-sig: ([rect])
+;;
+(define (rectangle-closure . opt)
+  (let ((rect (if (null? opt)
+                  (SDL:make-rect 0 0 0 0)
+                  (car opt))))
     (lambda args
       (cond ((null? args) rect)
             (else (let ((val (cadr args)))
