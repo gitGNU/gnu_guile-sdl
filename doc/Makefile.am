@@ -24,7 +24,7 @@ if HAVE_MIXER
 minusImixerdocindex = -I ../sdl-mixer/.doc-index
 endif
 
-ref.texi: $(top_srcdir)/*/*.c
+ref.texi: $(top_srcdir)/*/*.c $(top_srcdir)/sdl/*.scm
 ef-ref.texi: $(top_srcdir)/*/*.c
 
 .twerp.texi:
