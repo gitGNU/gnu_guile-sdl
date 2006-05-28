@@ -190,4 +190,80 @@ SDL_audio.h sez:
 
 see note for `SDL_AudioQuit'
 
+ SDLNet_Init (net todo)
+
+ SDLNet_Quit (net todo)
+
+ SDLNet_ResolveHost (net todo)
+
+ SDLNet_ResolveIP (net todo)
+
+ SDLNet_TCP_Open (net todo)
+
+ SDLNet_TCP_Accept (net todo)
+
+ SDLNet_TCP_GetPeerAddress (net todo)
+
+ SDLNet_TCP_Send (net todo)
+
+ SDLNet_TCP_Recv (net todo)
+
+ SDLNet_TCP_Close (net todo)
+
+ SDLNet_AllocPacket (net todo)
+
+ SDLNet_ResizePacket (net todo)
+
+ SDLNet_FreePacket (net todo)
+
+ SDLNet_AllocPacketV (net todo)
+
+ SDLNet_FreePacketV (net todo)
+
+ SDLNet_UDP_Open (net todo)
+
+ SDLNet_UDP_Bind (net todo)
+
+ SDLNet_UDP_Unbind (net todo)
+
+ SDLNet_UDP_GetPeerAddress (net todo)
+
+ SDLNet_UDP_SendV (net todo)
+
+ SDLNet_UDP_Send (net todo)
+
+ SDLNet_UDP_RecvV (net todo)
+
+ SDLNet_UDP_Recv (net todo)
+
+ SDLNet_UDP_Close (net todo)
+
+ SDLNet_AllocSocketSet (net todo)
+
+ SDLNet_AddSocket (net todo)
+
+there are also:
+#define SDLNet_TCP_AddSocket
+#define SDLNet_UDP_AddSocket
+
+ SDLNet_DelSocket (net todo)
+
+there are also:
+#define SDLNet_TCP_DelSocket
+#define SDLNet_UDP_DelSocket
+
+ SDLNet_CheckSockets (net todo)
+
+ SDLNet_SocketReady (net todo)
+
+ SDLNet_FreeSocketSet (net todo)
+
+ SDLNet_Write16 (net todo)
+
+ SDLNet_Write32 (net todo)
+
+ SDLNet_Read16 (net todo)
+
+ SDLNet_Read32 (net todo)
+
 
