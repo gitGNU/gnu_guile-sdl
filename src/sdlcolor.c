@@ -55,6 +55,16 @@ print_color (SCM color, SCM port, scm_print_state *pstate)
 
 /* Functions */
 
+GH_DEFPROC (color_p, "color?", 1, 0, 0,
+            (SCM obj),
+            "Return #t iff @var{obj} is an SDL-color object.")
+{
+#define FUNC_NAME s_color_p
+  RETURN_BOOL
+    (SCM_SMOB_PREDICATE (color_tag, obj));
+#undef FUNC_NAME
+}
+
 GH_DEFPROC (make_color, "make-color", 3, 0, 0,
             (SCM r, SCM g, SCM b),
             "Return a color object with @var{r}, @var{g},\n"
