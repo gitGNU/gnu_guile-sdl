@@ -40,7 +40,10 @@ is not significant.
 ")
 
 (table "Categories"
-       "For brevity, we omit the @code{SDL_} prefix in the groupings."
+       (string-append
+        "For brevity, we omit the @code{SDL_} prefix in the groupings.\n"
+        "The @code{SDLNet_} prefix is a special case;\n"
+        "it is replaced w/ @code{(N)}.")
        (lambda ()
          (uniq (apply append (map (lambda (note)
                                     (assq-ref note #:attributes))
@@ -55,7 +58,9 @@ is not significant.
                             (let* ((n (assq-ref note #:name))
                                    (s (symbol->string n))
                                    (len (1+ (string-length s))))
-                              (fso "  ~A" (substring s 4))
+                              (if (char=? #\N (string-ref s 3))
+                                  (fso "  (N)~A" (substring s 7))
+                                  (fso "  ~A" (substring s 4)))
                               (set! col (if (> 30 col)
                                             (+ col len)
                                             (begin
