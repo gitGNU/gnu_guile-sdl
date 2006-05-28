@@ -18,7 +18,7 @@
 (define (malloced)
   ;; prudence or superstition?  you be the judge!
   (gc) (gc)
-  (cdr (assq 'bytes-malloced (gc-stats))))
+  (assq-ref (gc-stats) 'bytes-malloced))
 
 (define (check-alloc/dealloc title thunk)
   (define (jam! x)

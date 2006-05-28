@@ -47,7 +47,7 @@
       (let* ((text (apply simple-format #f fstr args))
              (rendered (SDL:render-text font text white #t))
              (dimensions (SDL:font:size-text font text))
-             (width (cdr (assq 'w dimensions)))
+             (width (assq-ref dimensions 'w))
              (screen (SDL:get-video-surface))
              (left (quotient (- (SDL:rect:w test-rect) width) 2))
              (dst-rect (SDL:make-rect left y width height))

@@ -35,8 +35,8 @@
 
 (define rand-rect
   (let* ((dimensions (SDL:font:size-text font sentence))
-         (w (cdr (assq 'w dimensions)))
-         (h (cdr (assq 'h dimensions))))
+         (w (assq-ref dimensions 'w))
+         (h (assq-ref dimensions 'h)))
     (lambda ()
       (SDL:make-rect (random (SDL:rect:w test-rect))
                      (random (SDL:rect:h test-rect))
