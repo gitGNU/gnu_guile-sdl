@@ -30,6 +30,7 @@
 
 @section Rectangles
 
+@twerpdoc (rect?)
 @twerpdoc (make-rect)
 @twerpdoc (rect:x)
 @twerpdoc (rect:y)
@@ -47,6 +48,7 @@
 
 @section Colors
 
+@twerpdoc (color?)
 @twerpdoc (make-color)
 @twerpdoc (color:r)
 @twerpdoc (color:g)
