@@ -63,7 +63,10 @@
 
 ;; Return a closure that manages a single rectangle object.
 ;; Calling the closure with no args returns the rectangle object.
-;; Otherwise, the messages @code{#:w!}, @code{#:h!}, @code{#:x!}
+;; Otherwise, the messages @code{#:w}, @code{#:h}, @code{#:x}
+;; and @code{#:y} return the rectangle's width, height, horizontal
+;; offset and vertical offset, respectively;
+;; and the messages @code{#:w!}, @code{#:h!}, @code{#:x!}
 ;; and @code{#:y!}, followed by an integer, update the rectangle's
 ;; width, height, horizontal offset and vertical offset, respectively.
 ;;
@@ -77,15 +80,24 @@
                   (SDL:make-rect 0 0 0 0)
                   (car opt))))
     (lambda args
-      (cond ((null? args) rect)
-            (else (let ((val (cadr args)))
-                    ((case (car args)
-                       ((#:w!) SDL:rect:set-w!)
-                       ((#:h!) SDL:rect:set-h!)
-                       ((#:x!) SDL:rect:set-x!)
-                       ((#:y!) SDL:rect:set-y!))
-                     rect val)
-                    val))))))
+      (if (null? args)
+          rect
+          (let ((head (car args))
+                (tail (cdr args)))
+            (cond ((null? tail) ((case head
+                                   ((#:w) SDL:rect:w)
+                                   ((#:h) SDL:rect:h)
+                                   ((#:x) SDL:rect:x)
+                                   ((#:y) SDL:rect:y))
+                                 rect))
+                  (else (set! tail (car tail))
+                        ((case head
+                           ((#:w!) SDL:rect:set-w!)
+                           ((#:h!) SDL:rect:set-h!)
+                           ((#:x!) SDL:rect:set-x!)
+                           ((#:y!) SDL:rect:set-y!))
+                         rect tail)
+                        tail)))))))
 
 ;; Return a rectangle made from parsing the @dfn{geometry string} @var{spec},
 ;; which typically has the form @code{WxH+X+Y}, where @code{+X+Y} is optional
