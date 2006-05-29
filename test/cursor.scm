@@ -1,5 +1,7 @@
 ;;; cursor.scm --- simple cursor test
 
+(or *interactive* (exit-77 "interactive"))
+
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
 
 ;; initialize the SDL video module
