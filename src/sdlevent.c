@@ -305,7 +305,7 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
             (SCM events, SCM numevents, SCM action, SCM mask),
             "Check the event queue for messages and perhaps return some.\n"
             "If @var{action} is @code{SDL_ADDEVENT} (a symbol), add up to\n"
-            "@var{numevents} (an integer) events from @code{events} (a list)\n"
+            "@var{numevents} (an integer) events from @var{events} (a list)\n"
             "to the back of the event queue.\n"
             "If it is @code{SDL_PEEKEVENT}, return a count (number less than\n"
             "or equal to @var{numevents}) of events at the front of the event\n"
