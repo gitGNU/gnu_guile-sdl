@@ -312,23 +312,19 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
             "queue that match @var{mask}, without changing the queue.\n"
             "If it is @code{SDL_GETEVENT}, act like for @code{SDL_PEEKEVENT}\n"
             "except return a list of matching events instead of a count,\n"
-            "removing them from the queue.\n"
-            "[incomplete: missing validation and error handling]")
+            "removing them from the queue.")
 {
 #define FUNC_NAME s_peep_events
   SDL_Event *cevents = NULL;
-  int cnumevents, caction, i, ret = -1;
+  SDL_eventaction caction;
+  int cnumevents, i, ret = -1;
   Uint32 cmask;
   SCM ls = SCM_BOOL_F;
 
+  ASSERT_EXACT (numevents, ARGH2);
+
   cnumevents = gh_scm2long (numevents);
   caction = GSDL_ENUM2LONG (action, event_action_enum, ARGH3);
-
-  switch (caction)
-    {
-    case SDL_ADDEVENT: case SDL_PEEKEVENT: case SDL_GETEVENT: break;
-    default: SCM_ASSERT (0, action, ARGH3, FUNC_NAME);
-    }
 
   switch (caction)
     {
@@ -371,6 +367,9 @@ GH_DEFPROC (peep_events, "peep-events", 4, 0, 0,
             }
         }
       break;
+
+    default:
+      scm_misc_error (FUNC_NAME, "bad action", SCM_EOL);
     }
 
   switch (caction)
