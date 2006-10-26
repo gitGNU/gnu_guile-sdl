@@ -661,7 +661,7 @@ GH_DEFPROC (map_rgb, "map-rgb", 2, 2, 0,
             "Map a RGB color value to the pixel @var{format}.\n"
             "The second arg can be an SDL-Color, otherwise the second\n"
             "through fourth args are red, green and blue values (numbers).\n"
-            "Return the mapped components as a number.")
+            "Return the mapped components as an unsigned integer.")
 {
 #define FUNC_NAME s_map_rgb
   Uint8 cr, cg, cb;
@@ -685,8 +685,8 @@ GH_DEFPROC (map_rgb, "map-rgb", 2, 2, 0,
       cb = gh_scm2ulong (b);
     }
 
-  RETURN_INT (SDL_MapRGB (UNPACK_PIXEL_FORMAT (format),
-                          cr, cg, cb));
+  RETURN_UINT (SDL_MapRGB (UNPACK_PIXEL_FORMAT (format),
+                           cr, cg, cb));
 #undef FUNC_NAME
 }
 
@@ -697,7 +697,7 @@ GH_DEFPROC (map_rgba, "map-rgba", 3, 2, 0,
             "If the second arg is an SDL-Color, the third is an alpha\n"
             "value (number).  Otherwise, the second through fifth args\n"
             "are red, green, blue and alpha values (numbers).\n"
-            "Return the mapped components as a number.")
+            "Return the mapped components as an unsigned integer.")
 {
 #define FUNC_NAME s_map_rgba
   Uint8 cr, cg, cb, ca;
@@ -725,8 +725,8 @@ GH_DEFPROC (map_rgba, "map-rgba", 3, 2, 0,
       ca = gh_scm2ulong (a);
     }
 
-  RETURN_INT (SDL_MapRGBA (UNPACK_PIXEL_FORMAT (format),
-                           cr, cg, cb, ca));
+  RETURN_UINT (SDL_MapRGBA (UNPACK_PIXEL_FORMAT (format),
+                            cr, cg, cb, ca));
 #undef FUNC_NAME
 }
 
