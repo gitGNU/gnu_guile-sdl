@@ -261,7 +261,7 @@ GH_DEFPROC (get_video_surface, "get-video-surface", 0, 0, 0,
 
 
 DECLARE_SYM (hw_available, "hw-available");
-DECLARE_SYM (ww_available, "ww-available");
+DECLARE_SYM (wm_available, "wm-available");
 DECLARE_SYM (blit_hw,      "blit-hw");
 DECLARE_SYM (blit_hw_CC,   "blit-hw-CC");
 DECLARE_SYM (blit_hw_A,    "blit-hw-A");
@@ -275,7 +275,7 @@ DECLARE_SIMPLE_SYM (vfmt);
 GH_DEFPROC (get_video_info, "get-video-info", 0, 0, 0,
             (void),
             "Return information about the video hardware as an alist.\n"
-            "Keys are: @code{hw-available}, @code{ww-available},\n"
+            "Keys are: @code{hw-available}, @code{wm-available},\n"
             "@code{bit-hw}, @code{blit-hw-CC}, @code{blit-hw-A},\n"
             "@code{blit-sw}, @code{blit-sw-CC}, @code{blit-sw-A},\n"
             "@code{blit-fill}, @code{video-mem} and @code{vfmt}.")
@@ -288,14 +288,14 @@ GH_DEFPROC (get_video_info, "get-video-info", 0, 0, 0,
 
   RETURN_LIST11
     (gh_cons (SYM (hw_available), gh_bool2scm (info->hw_available)),
-     gh_cons (SYM (ww_available), gh_bool2scm (info->wm_available)),
+     gh_cons (SYM (wm_available), gh_bool2scm (info->wm_available)),
      gh_cons (SYM (blit_hw),      gh_bool2scm (info->blit_hw)),
      gh_cons (SYM (blit_hw_CC),   gh_bool2scm (info->blit_hw_CC)),
      gh_cons (SYM (blit_hw_A),    gh_bool2scm (info->blit_hw_A)),
      gh_cons (SYM (blit_sw),      gh_bool2scm (info->blit_sw)),
      gh_cons (SYM (blit_sw_CC),   gh_bool2scm (info->blit_sw_CC)),
      gh_cons (SYM (blit_sw_A),    gh_bool2scm (info->blit_sw_A)),
-     gh_cons (SYM (blit_fill),    gh_ulong2scm (info->blit_fill)),
+     gh_cons (SYM (blit_fill),    gh_bool2scm (info->blit_fill)),
      gh_cons (SYM (video_mem),    gh_ulong2scm (info->video_mem)),
      gh_cons (SYM (vfmt),         format));
 #undef FUNC_NAME
