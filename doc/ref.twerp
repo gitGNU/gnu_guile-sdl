@@ -4,6 +4,13 @@
 @chapter General SDL
 
 @twerpdoc (flagstash:init)
+@example
+SDL_INIT_foo, where foo can be:
+VIDEO            CDROM            JOYSTICK
+EVERYTHING       EVENTTHREAD      AUDIO
+NOPARACHUTE
+@end example
+
 @twerpdoc (init)
 @twerpdoc (init-subsystem)
 @twerpdoc (quit)
@@ -17,8 +24,27 @@
 @chapter Video
 
 @twerpdoc (flagstash:video)
+@example
+SDL_foo, where foo can be:
+OPENGL       SRCALPHA     ASYNCBLIT
+OPENGLBLIT   NOFRAME      RLEACCEL
+HWPALETTE    RLEACCELOK   SRCCOLORKEY
+HWACCEL      PREALLOC     SWSURFACE
+HWSURFACE    ANYFORMAT    FULLSCREEN
+RESIZABLE    DOUBLEBUF
+@end example
+
 @twerpdoc (flagstash:palette)
+@example
+SDL_LOGPAL       SDL_PHYSPAL
+@end example
+
 @twerpdoc (flagstash:overlay)
+@example
+SDL_foo_OVERLAY, where foo can be:
+  YVYU  YUY2  IYUV  YV12  UYVY
+@end example
+
 @twerpdoc (create-cursor)
 @twerpdoc (create-yuv-overlay)
 @twerpdoc (get-video-surface)
@@ -124,7 +150,25 @@
 @chapter Events
 
 @twerpdoc (flagstash:event-mod)
+@example
+KMOD_foo, where foo can be:
+RALT        RMETA       RSHIFT      NUM
+LALT        LMETA       LSHIFT      RESERVED
+CAPS        RCTRL       MODE        LCTRL
+NONE
+@end example
+
 @twerpdoc (flagstash:event-mask)
+@example
+SDL_fooMASK, where foo can be:
+JOYEVENT         QUIT             MOUSEEVENT
+ACTIVEEVENT      JOYHATMOTION     JOYBALLMOTION
+SYSWMEVENT       MOUSEMOTION      MOUSEBUTTONUP
+MOUSEBUTTONDOWN  JOYBUTTONUP      KEYDOWN
+JOYBUTTONDOWN    KEYUP            VIDEOEXPOSE
+JOYAXISMOTION    VIDEORESIZE
+@end example
+
 @twerpdoc (make-event)
 @twerpdoc (make-keysym)
 @twerpdoc (event:type)
@@ -298,6 +342,11 @@
 @chapter TrueType
 
 @twerpdoc (flagstash:ttf)
+@example
+TTF_STYLE_foo, where foo can be:
+  BOLD  NORMAL  UNDERLINE  ITALIC
+@end example
+
 @twerpdoc (ttf-init)
 @twerpdoc (load-font)
 @twerpdoc (font:style)
