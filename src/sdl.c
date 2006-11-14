@@ -85,11 +85,12 @@ GH_DEFPROC (init_subsystem, "init-subsystem", 1, 0, 0,
 /* Termination */
 GH_DEFPROC (quit, "quit", 0, 0, 0,
             (void),
-            "Shut down all SDL subsystems.")
+            "Shut down all SDL subsystems.\n"
+            "Return #t.")
 {
 #define FUNC_NAME s_quit
   SDL_Quit ();
-  RETURN_UNSPECIFIED;
+  RETURN_TRUE;
 #undef FUNC_NAME
 }
 
@@ -98,11 +99,12 @@ GH_DEFPROC (quit_subsystem, "quit-subsystem", 1, 0, 0,
             (SCM sel),
             "Shut down the SDL subsystems represented by @var{sel}.\n"
             "@var{sel} is a list of flags (symbols)\n"
-            "from the same set useful for @code{init}.")
+            "from the same set useful for @code{init}.\n"
+            "Return #t.")
 {
 #define FUNC_NAME s_quit_subsystem
   SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1));
-  RETURN_UNSPECIFIED;
+  RETURN_TRUE;
 #undef FUNC_NAME
 }
 
