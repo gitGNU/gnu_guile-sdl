@@ -8,7 +8,7 @@
 (define *interactive* (env-1? "INTERACTIVE"))
 
 (define (exit-77 msg)
-  (format #t "INFO: ~A: ~A\n" (car (command-line)) (string-upcase msg))
+  (simple-format #t "INFO: ~A: ~A\n" (car (command-line)) (string-upcase msg))
   (exit 77))
 
 ;;; common ends here
