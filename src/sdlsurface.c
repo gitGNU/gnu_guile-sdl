@@ -89,15 +89,16 @@ GH_DEFPROC (make_surface, "make-surface", 2, 1, 0,
 #define FUNC_NAME s_make_surface
   Uint32 cflags;
   const SDL_PixelFormat *fmt;
+  const SDL_Surface *cur;
 
   ASSERT_EXACT (width,  ARGH1);
   ASSERT_EXACT (height, ARGH2);
 
+  cur = SDL_GetVideoSurface ();
+  fmt = cur ? cur->format : SDL_GetVideoInfo ()->vfmt;
   cflags = (UNBOUNDP (flags)
-            ? SDL_GetVideoSurface ()->flags
+            ? cur->flags
             : GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH3));
-
-  fmt = SDL_GetVideoInfo ()->vfmt;
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
