@@ -235,13 +235,13 @@
   (let* ((base (if (pair? realized)
                    (car realized)
                    realized))
-         (show (if (pair? realized)
-                   (cdr realized)
-                   (lambda () (SDL:flip base))))
          (loc (or location (SDL:make-rect
                             0 0
                             (SDL:surface:w base)
                             (SDL:surface:h base))))
+         (show (if (pair? realized)
+                   (cdr realized)
+                   (lambda () (SDL:update-rect base loc))))
          (one (if (eq? base image)
                   (copy-surface image)
                   image))
