@@ -17,9 +17,8 @@
 (define gnu-head (SDL:load-image (datafile "gnu-goatee.jpg")))
 
 ;; the size of our test image
-(let* ((w (SDL:surface:w gnu-head))
-       (h (SDL:surface:h gnu-head))
-       (gnu-rect (SDL:make-rect 0 0 w h)))
+(let ((w (SDL:surface:w gnu-head))
+      (h (SDL:surface:h gnu-head)))
   ;; set the video mode to the dimensions of our image
   (SDL:set-video-mode w h 16 '(SDL_HWSURFACE))
   ;; rotate the image 27 degrees at a time, reducing its magnitude by 10%
@@ -31,7 +30,7 @@
            (drect (SDL:make-rect (quotient (- w iw) 2)
                                  (quotient (- h ih) 2)
                                  iw ih)))
-      (SDL:fill-rect (SDL:get-video-surface) gnu-rect #xffff)
+      (SDL:fill-rect (SDL:get-video-surface) #f #xffff)
       (SDL:blit-surface image #f #f drect)
       (SDL:flip)
       (SDL:delay 100))))

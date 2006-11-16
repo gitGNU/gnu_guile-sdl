@@ -473,9 +473,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 ;; initialize screen
 (SDL:set-caption "Bust-A-GNU" "Bust-A-GNU")
 (define bgsurface (SDL:make-surface screen-width screen-height))
-(SDL:fill-rect bgsurface
-               (SDL:make-rect 0 0 screen-width screen-height)
-               bgcolor)
+(SDL:fill-rect bgsurface #f bgcolor)
 (redisplay-launcher)
 (SDL:blit-surface bgsurface)
 (SDL:flip)

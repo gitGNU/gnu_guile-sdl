@@ -10,13 +10,12 @@
 (SDL:init '(SDL_INIT_VIDEO))
 
 ;; initialize the video mode
-(define test-rect (SDL:make-rect 0 0 640 480))
-(SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 16)
+(SDL:set-video-mode 640 480 16)
 
 (set! *random-state* (seed->random-state (current-time)))
 
 ;; clear the screen
-(SDL:fill-rect (SDL:get-video-surface) test-rect #xffffff)
+(SDL:fill-rect (SDL:get-video-surface) #f #xffffff)
 (SDL:flip)
 
 ;; draw beziers
