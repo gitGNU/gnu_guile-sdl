@@ -478,7 +478,7 @@ GH_DEFPROC (update_rects, "update-rects", 2, 0, 0,
   SCM p;
 
   ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_PAIR (ls, ARGH2);
+  ASSERT_LIST (ls, ARGH2);
   for (p = ls; ! gh_null_p (p); p = gh_cdr (p))
     ASSERT_RECT (gh_car (p), ARGH2);
 
@@ -789,16 +789,23 @@ GH_DEFPROC (get_rgba, "get-rgba", 2, 0, 0,
 GH_DEFPROC (fill_rect, "fill-rect", 3, 0, 0,
             (SCM surface, SCM rect, SCM color),
             "Fill @var{surface} @var{rect} with @var{color} (a number).\n"
+            "If @var{rect} is #f, fill the entire surface.\n"
             "Return #t if successful.")
 {
 #define FUNC_NAME s_fill_rect
+  SDL_Rect *crect = NULL;
+
   ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_RECT (rect, ARGH2);
+  if (! EXACTLY_FALSEP (rect))
+    {
+      ASSERT_RECT (rect, ARGH2);
+      crect = UNPACK_RECT (rect);
+    }
   ASSERT_EXACT (color, ARGH3);
 
   RETURN_TRUE_IF_0
     (SDL_FillRect (UNPACK_SURFACE (surface),
-                   UNPACK_RECT (rect),
+                   crect,
                    gh_scm2ulong (color)));
 #undef FUNC_NAME
 }
