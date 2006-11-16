@@ -23,8 +23,8 @@
 #define ASSERT_CHAR(obj,n) \
   SCM_ASSERT (SCM_CHARP ((obj)), (obj), n, FUNC_NAME)
 
-#define ASSERT_PAIR(obj,n) \
-  SCM_ASSERT (gh_pair_p ((obj)), (obj), n, FUNC_NAME)
+#define ASSERT_LIST(obj,n) \
+  SCM_ASSERT (gh_null_p (obj) || gh_pair_p (obj), (obj), n, FUNC_NAME)
 
 
 #define ARGH1 SCM_ARG1
