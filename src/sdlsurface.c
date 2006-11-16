@@ -345,15 +345,15 @@ GH_DEFPROC (set_clip_rect, "set-clip-rect!", 1, 1, 0,
             (SCM surface,
              SCM rect),
             "Set @var{surface} clipping rectangle to the whole surface.\n"
-            "Optional arg @var{rect} specifies a particular rectangle\n"
-            "instead of using the whole surface.")
+            "Optional arg @var{rect}, if non-#f, specifies a particular\n"
+            "rectangle instead of using the whole surface.")
 {
 #define FUNC_NAME s_set_clip_rect
   SDL_Rect *crect = NULL;
 
   ASSERT_SURFACE (surface, ARGH1);
 
-  if (BOUNDP (rect))
+  if (BOUNDP (rect) && !EXACTLY_FALSEP (rect))
     {
       /* Rect defaults to NULL (the whole surface).  */
       ASSERT_RECT (rect, ARGH2);
