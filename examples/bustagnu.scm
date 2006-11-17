@@ -11,7 +11,6 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
              ((sdl gfx) #:renamer (symbol-prefix-proc 'GFX:))
              (srfi srfi-1)
              (srfi srfi-2)
-             (ice-9 format)
              (oop goops))
 
 ;; seed the RNG
@@ -160,12 +159,12 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
     (cond ((or (not frame-list) (null? frame-list))
            #f)
           ((pair? frame-list)
-           ;;(display (format #f "(pre-blit ~A)\n" (sprite:location sprite)))
+           ;;(simpmle-format #t "(pre-blit ~A)\n" (sprite:location sprite))
            (SDL:blit-surface (car frame-list) (sprite:dimensions sprite)
                              surface (SDL:copy-rect (sprite:location sprite)))
-           ;;(display (format #f "(post-blit ~A)\n" (sprite:location sprite)))
+           ;;(simple-format #t "(post-blit ~A)\n" (sprite:location sprite))
            (set! (sprite:frames sprite) (cdr frame-list))
-           ;;(display (format #f "(post-set! ~A)\n" (sprite:location sprite)))
+           ;;(simple-format #t "(post-set! ~A)\n" (sprite:location sprite))
            ))))
 
 (define (remove-sprite sprite)
@@ -188,13 +187,13 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
     (for-each
      (lambda (sprite)
        (and-let* ((move-proc (sprite:move-proc sprite)))
-                                        ;(display (format #f "(move-proc ~A)\n" (sprite:location sprite)))
+                                        ;(simple-format #t "(move-proc ~A)\n" (sprite:location sprite))
          (move-proc sprite)
          (let* ((loc (sprite:location sprite))
                 (x (SDL:rect:x loc))
                 (y (SDL:rect:y loc))
                 (grid-coords (xy->grid x y)))
-                                        ;(display (format #f "hit: (~A ~A) => ~A\n" x y grid-coords))
+                                        ;(simple-format #t "hit: (~A ~A) => ~A\n" x y grid-coords)
            (cond ((or (not (= (car grid-coords) (sprite:row sprite)))
                       (not (= (cadr grid-coords) (sprite:col sprite))))
                   (set! (sprite:row sprite) (car grid-coords))
@@ -210,14 +209,14 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
            (if (< (SDL:rect:y loc) 0)
                (SDL:rect:set-y! loc 0))
            ))
-                                        ;(display (format #f "(show-next-frame! ~A)\n" (sprite:location sprite)))
+                                        ;(simple-format #t "(show-next-frame! ~A)\n" (sprite:location sprite))
        (show-next-frame! sprite screen))
      active-sprites))
   ;; update the screen
   (let ((screen (SDL:get-video-surface)))
     (for-each
      (lambda (sprite)
-                                        ;(display (format #f "(update-rect ~A)\n" (sprite:location sprite)))
+                                        ;(simple-format #t "(update-rect ~A)\n" (sprite:location sprite))
        (SDL:update-rect screen (sprite:location sprite)))
      active-sprites)
     (for-each
@@ -306,8 +305,8 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
              (unit-y (- y (* grid-row/2 ball-size/2))))
         (cond ((and (even? grid-row/2) (even? grid-col/2))
                ;; y = -2x + 0.5
-               ;;(display (format #f "unit-x = ~A,  ball/4 = ~A\n" unit-x ball-size/4))
-               ;;(display (format #f "-2x+1/2 = ~A,  unit-y = ~A\n" (+ (* -2 unit-x) 0.5) unit-y))
+               ;;(simple-format #t "unit-x = ~A,  ball/4 = ~A\n" unit-x ball-size/4)
+               ;;(simple-format #t "-2x+1/2 = ~A,  unit-y = ~A\n" (+ (* -2 unit-x) 0.5) unit-y)
                (if (or (>= unit-x ball-size/4)
                        (<= (+ (* -2 unit-x) ball-size/2) unit-y))
                    (list grid-row (1+ grid-col))
@@ -448,7 +447,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
              (y (SDL:rect:y dst-rect))
              (new-x (+ x off-x))
              (new-y (- y off-y)))
-        ;;(display (format #f "(angle-mover ~A) ~A => " angle dst-rect))
+        ;;(simple-format #t "(angle-mover ~A) ~A => " angle dst-rect)
         (SDL:rect:set-x! dst-rect (inexact->exact new-x))
         (SDL:rect:set-y! dst-rect (inexact->exact new-y))))))
 
@@ -490,8 +489,8 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
               (x (cdr (assq 'x xy-coords)))
               (y (cdr (assq 'y xy-coords)))
               (grid-coords (xy->grid x y)))
-         (display (format #f "(xy->grid ~A ~A) => (~A ~A)\n" x y
-                          (car grid-coords) (cadr grid-coords)))))
+         (simple-format #t "(xy->grid ~A ~A) => (~A ~A)\n" x y
+                        (car grid-coords) (cadr grid-coords))))
       ((SDL_KEYDOWN)
        (case (SDL:event:key:keysym:sym e)
          ((SDLK_LEFT)
