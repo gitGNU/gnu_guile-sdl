@@ -53,8 +53,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
              :accessor sprite:move-proc)
   ;; grid position
   (row :init-keyword :row :accessor sprite:row)
-  (col :init-keyword :col :accessor sprite:col)
-  )
+  (col :init-keyword :col :accessor sprite:col))
 
 ;; overload initialize to take a surface frame list as an arg to the
 ;; :frames keyword, and make it into a circular list.
@@ -67,7 +66,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
            (rect (SDL:make-rect 0 0 width height)))
       (set! (sprite:dimensions sprite) rect)
       (if (not (memq :location initargs))
-        (set! (sprite:location sprite) (SDL:copy-rect rect)))))
+          (set! (sprite:location sprite) (SDL:copy-rect rect)))))
   (next-method))
 
 ;; the background space
@@ -120,7 +119,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
                (old-y (- y off-y))
                (slope (/ (- y old-y) (- x old-x)))
                (y-intercept (inexact->exact (- y (* slope x)))))
-                                        ;(display "left collision\n")
+          ;;(display "left collision\n")
           (SDL:rect:set-x! sprite-rect 0)
           (SDL:rect:set-y! sprite-rect y-intercept)
           (next-method)))))
@@ -129,8 +128,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
   (let ((angle (sprite:angle sprite)))
     ;; only bounce if we're moving towards the right
     (if (<= angle (/ pi 2))
-        (let* ((sprite-rect (sprite:location sprite))
-               )
+        (let ((sprite-rect (sprite:location sprite)))
           (SDL:rect:set-x! sprite-rect (- screen-width ball-size))
           (next-method)))))
 
@@ -187,36 +185,35 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
     (for-each
      (lambda (sprite)
        (and-let* ((move-proc (sprite:move-proc sprite)))
-                                        ;(simple-format #t "(move-proc ~A)\n" (sprite:location sprite))
+         ;;(simple-format #t "(move-proc ~A)\n" (sprite:location sprite))
          (move-proc sprite)
          (let* ((loc (sprite:location sprite))
                 (x (SDL:rect:x loc))
                 (y (SDL:rect:y loc))
                 (grid-coords (xy->grid x y)))
-                                        ;(simple-format #t "hit: (~A ~A) => ~A\n" x y grid-coords)
+           ;;(simple-format #t "hit: (~A ~A) => ~A\n" x y grid-coords)
            (cond ((or (not (= (car grid-coords) (sprite:row sprite)))
                       (not (= (cadr grid-coords) (sprite:col sprite))))
                   (set! (sprite:row sprite) (car grid-coords))
                   (set! (sprite:col sprite) (cadr grid-coords))
                   (and-let* ((obj (apply grid-ref grid-coords)))
                     ;; we've hit something!!
-                                        ;(display "we've hit something!!\n")
+                    ;;(display "we've hit something!!\n")
                     (collide sprite obj))))
            (if (< (SDL:rect:x loc) 0)
                (SDL:rect:set-x! loc 0)
                (if (> (SDL:rect:x loc) (- screen-width ball-size))
                    (SDL:rect:set-x! loc (- screen-width ball-size))))
            (if (< (SDL:rect:y loc) 0)
-               (SDL:rect:set-y! loc 0))
-           ))
-                                        ;(simple-format #t "(show-next-frame! ~A)\n" (sprite:location sprite))
+               (SDL:rect:set-y! loc 0))))
+       ;;(simple-format #t "(show-next-frame! ~A)\n" (sprite:location sprite))
        (show-next-frame! sprite screen))
      active-sprites))
   ;; update the screen
   (let ((screen (SDL:get-video-surface)))
     (for-each
      (lambda (sprite)
-                                        ;(simple-format #t "(update-rect ~A)\n" (sprite:location sprite))
+       ;;(simple-format #t "(update-rect ~A)\n" (sprite:location sprite))
        (SDL:update-rect screen (sprite:location sprite)))
      active-sprites)
     (for-each
@@ -290,7 +287,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
   (grid-set! 0 col (make <top-edge> :location (make-grid-rect 0 col)))
   (if (even? col) (grid-set! 1 col (make <top-edge> :location (make-grid-rect 1 col)))))
 
-;(display the-grid) (newline)
+;;(display the-grid) (newline)
 
 (define xy->grid
   (let ((ball-size*2 (* ball-size 2))
@@ -328,8 +325,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
                (if (or (<= unit-x ball-size/4)
                        (>= (+ (* -2 unit-x) (* 2.5 ball-size)) unit-y))
                    (list (- grid-row 1) grid-col)
-                   (list grid-row (1+ grid-col))))
-              )))))
+                   (list grid-row (1+ grid-col)))))))))
 
 (define colors `((red     . ,(SDL:make-color #xff #x00 #x00))
                  (green   . ,(SDL:make-color #x00 #xff #x00))
@@ -338,8 +334,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
                  (yellow  . ,(SDL:make-color #xff #xff #x00))
                  (magenta . ,(SDL:make-color #xff #x00 #xff))
                  (orange  . ,(SDL:make-color #xff #xbb #x00))
-                 (grey    . ,(SDL:make-color #x88 #x88 #x88))
-                 ))
+                 (grey    . ,(SDL:make-color #x88 #x88 #x88))))
 
 (define color-balls
   (let ((overlay (SDL:make-surface 32 32))
@@ -511,7 +506,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
           ;; space to shoot
           ;; (wait until they release the key)
           (while (not (eq? (SDL:event:type e) 'SDL_KEYUP))
-                 (SDL:poll-event e))
+            (SDL:poll-event e))
           ;; then launch
           (launch))
          ((SDLK_ESCAPE)
