@@ -68,14 +68,14 @@ exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
 
 ;; handler
 (let ((pause #f))
-  (format #t "blue: ~Ax~A (~A elements)\n"
-          (SDL:surface:w *blue-image*)
-          (SDL:surface:h *blue-image*)
-          (1- (vector-length *blue-rvect*)))
-  (format #t "red: ~Ax~A (~A elements)\n"
-          (SDL:surface:w *red-image*)
-          (SDL:surface:h *red-image*)
-          (1- (vector-length *red-rvect*)))
+  (simple-format #t "blue: ~Ax~A (~A elements)\n"
+                 (SDL:surface:w *blue-image*)
+                 (SDL:surface:h *blue-image*)
+                 (1- (vector-length *blue-rvect*)))
+  (simple-format #t "red: ~Ax~A (~A elements)\n"
+                 (SDL:surface:w *red-image*)
+                 (SDL:surface:h *red-image*)
+                 (1- (vector-length *red-rvect*)))
   (let handle ((e (SDL:make-event)))
     (if (SDL:poll-event e)
         (case (SDL:event:type e)
