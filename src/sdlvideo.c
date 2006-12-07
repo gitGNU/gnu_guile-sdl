@@ -1095,22 +1095,33 @@ GH_DEFPROC (wm_toggle_full_screen, "toggle-full-screen", 0, 1, 0,
 }
 
 
+DECLARE_SIMPLE_SYM (query);
+DECLARE_SIMPLE_SYM (off);
+DECLARE_SIMPLE_SYM (on);
+
 GH_DEFPROC (wm_grab_input, "grab-input", 0, 1, 0,
             (SCM mode),
-            "Grab mouse and keyboard input.\n"
-            "Optional arg @var{mode} (a number) specifies the kind\n"
-            "of grab (default SDL_GRAB_QUERY).")
+            "Grab mouse and keyboard input.  Return new grab state.\n"
+            "Optional arg @var{mode} (a symbol) specifies the kind\n"
+            "of grab, one of @code{query} (the default),\n"
+            "@code{off} or @code{on}.")
 {
 #define FUNC_NAME s_wm_grab_input
-  int cmode = SDL_GRAB_QUERY;
+  if (UNBOUNDP (mode))
+    mode = SYM (query); 
+  ASSERT_SYMBOL (mode, ARGH1);
+  if (! (gh_eq_p (mode, SYM (query)) ||
+         gh_eq_p (mode, SYM (off)) ||
+         gh_eq_p (mode, SYM (on))))
+    scm_misc_error (FUNC_NAME, "bad mode: ~S", gh_cons (mode, SCM_EOL));
 
-  if (BOUNDP (mode))
-    {
-      ASSERT_EXACT (mode, ARGH1);
-      cmode = gh_scm2long (mode);
-    }
-
-  RETURN_INT (SDL_WM_GrabInput (cmode));
+  return (SDL_GRAB_ON == SDL_WM_GrabInput (gh_eq_p (mode, SYM (query))
+                                           ? SDL_GRAB_QUERY
+                                           : (gh_eq_p (mode, SYM (on))
+                                              ? SDL_GRAB_ON
+                                              : SDL_GRAB_OFF))
+          ? SYM (on)
+          : SYM (off));
 #undef FUNC_NAME
 }
 
