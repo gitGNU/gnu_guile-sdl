@@ -1135,11 +1135,11 @@ gsdl_init_video (void)
   scm_set_smob_free (overlay_tag, free_yuv_overlay);
 
   /* alpha constants */
-  gsdl_alpha_enums = gsdl_define_enum (
-                                       "alpha-enums",
-                                       GSDL_CSCS (SDL_ALPHA_OPAQUE),
-                                       GSDL_CSCS (SDL_ALPHA_TRANSPARENT),
-                                       NULL);
+  gsdl_alpha_enums = gsdl_define_enum
+    ("alpha-enums",
+     GSDL_CSCS (SDL_ALPHA_OPAQUE),
+     GSDL_CSCS (SDL_ALPHA_TRANSPARENT),
+     NULL);
 
   /* video flags */
   gsdl_video_flags = gsdl_make_flagstash (&gsdl_video_flagstash);
