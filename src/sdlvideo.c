@@ -600,6 +600,7 @@ GH_DEFPROC (set_gamma, "set-gamma", 3, 0, 0,
 #undef FUNC_NAME
 }
 
+
 DECLARE_SIMPLE_SYM (redtable);
 DECLARE_SIMPLE_SYM (greentable);
 DECLARE_SIMPLE_SYM (bluetable);
@@ -1025,6 +1026,7 @@ GH_DEFPROC (wm_set_caption, "set-caption", 1, 1, 0,
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
+
 
 DECLARE_SIMPLE_SYM (title);
 DECLARE_SIMPLE_SYM (icon);
