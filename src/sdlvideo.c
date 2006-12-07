@@ -1106,11 +1106,25 @@ GH_DEFPROC (wm_grab_input, "grab-input", 0, 1, 0,
             "Grab mouse and keyboard input.  Return new grab state.\n"
             "Optional arg @var{mode} (a symbol) specifies the kind\n"
             "of grab, one of @code{query} (the default),\n"
-            "@code{off} or @code{on}.")
+            "@code{off} or @code{on}.\n\n"
+            "Compatibility Note: Presently, @var{mode} can also be an\n"
+            "integer, one of -1, 0 or 1.  Starting with Guile-SDL 0.5.0\n"
+            "an integer @var{mode} will result in a wrong-type-arg error.")
 {
 #define FUNC_NAME s_wm_grab_input
   if (UNBOUNDP (mode))
-    mode = SYM (query); 
+    mode = SYM (query);
+
+  if (NOT_FALSEP (scm_exact_p (mode)))
+    switch (gh_scm2long (mode))
+      {
+      case -1: mode = SYM (query); break;
+      case  0: mode = SYM (off);   break;
+      case  1: mode = SYM (on);    break;
+      default:
+        scm_misc_error (FUNC_NAME, "bad mode: ~S", gh_cons (mode, SCM_EOL));
+      }
+
   ASSERT_SYMBOL (mode, ARGH1);
   if (! (gh_eq_p (mode, SYM (query)) ||
          gh_eq_p (mode, SYM (off)) ||
