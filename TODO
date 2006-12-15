@@ -14,8 +14,10 @@
     + get-key-state
     + scale-surface (deleted)
   - programming practice review
-    - 0-means-success return values
-    - return value consistency
+    - return values
+      - smob safety
+      - 0-means-success
+      - consistency
     - use unsigned long for colors
   - /usr/include/SDL/*.h coverage
   - opengl?
