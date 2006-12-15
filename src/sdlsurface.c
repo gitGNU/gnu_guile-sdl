@@ -236,12 +236,19 @@ GH_DEFPROC (load_bmp, "load-bmp", 1, 0, 0,
 /* Load an image in one of many formats.  */
 GH_DEFPROC (load_image, "load-image", 1, 0, 0,
             (SCM file),
-            "Return a surface made by loading the image @var{file}.")
+            "Return a surface made by loading the image @var{file}.\n"
+            "If there are problems, return #f.")
 {
 #define FUNC_NAME s_load_bmp
+  SDL_Surface *s;
+
   ASSERT_STRING (file, ARGH1);
 
-  RETURN_NEW_SURFACE (IMG_Load (SCM_CHARS (file)));
+  s = IMG_Load (SCM_CHARS (file));
+  if (s)
+    RETURN_NEW_SURFACE (s);
+  else
+    RETURN_FALSE;
 #undef FUNC_NAME
 }
 
