@@ -74,11 +74,20 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
 
 ;; display an image given a filename
 (define (show file)
-  (and-let* ((image (SDL:load-image file)))
-    (SDL:set-video-mode (SDL:surface:w image) (SDL:surface:h image) 24)
-    (SDL:blit-surface image)
-    (display file) (newline)
-    (SDL:flip)))
+  (cond ((SDL:load-image file)
+         => (lambda (image)
+              (SDL:set-video-mode (SDL:surface:w image)
+                                  (SDL:surface:h image)
+                                  24)
+              (SDL:blit-surface image)
+              (display file) (newline)
+              (SDL:flip)))
+        (else
+         (display "discarding ") (display file) (newline)
+         (let ((orig (cdr image-ring)))
+           (while (not (equal? file (cadr orig)))
+             (set! orig (cdr orig)))
+           (set-cdr! orig (cddr orig))))))
 
 ;; show the first image
 (show (next-image))
