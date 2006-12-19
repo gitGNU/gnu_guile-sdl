@@ -63,7 +63,7 @@ static long event_tag;
   (SMOBGET (smob, SDL_Event *))
 
 #define RETURN_NEW_EVENT(x) \
-  SCM_RETURN_NEWSMOB (event_tag, x)
+  NEWSMOB_OR_FALSE (event_tag, x)
 
 static
 size_t
@@ -83,7 +83,7 @@ static long keysym_tag;
   (SMOBGET (smob, SDL_keysym *))
 
 #define RETURN_NEW_KEYSYM(x) \
-  SCM_RETURN_NEWSMOB (keysym_tag, x)
+  NEWSMOB_OR_FALSE (keysym_tag, x)
 
 static
 size_t
@@ -109,8 +109,8 @@ GH_DEFPROC (make_event, "make-event", 0, 1, 0,
   if (BOUNDP (type))
     ctype = GSDL_ENUM2LONG (type, event_type_enum, ARGH1);
 
-  event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME);
-  event->type = ctype;
+  if ((event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME)))
+    event->type = ctype;
 
   RETURN_NEW_EVENT (event);
 #undef FUNC_NAME
@@ -124,23 +124,23 @@ GH_DEFPROC (make_keysym, "make-keysym", 0, 2, 0,
 #define FUNC_NAME s_make_keysym
   SDL_keysym *keysym;
 
-  /* Alloc the keysym.  */
-  keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym), FUNC_NAME);
-
-  /* Set the sym if given.  */
-  UNBOUND_MEANS_FALSE (sym);
-  if (NOT_FALSEP (sym))
+  if ((keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym), FUNC_NAME)))
     {
-      ASSERT_EXACT (sym, ARGH1);
-      /* keysym->sym = (SDLKey) gh_scm2long (sym); */
-      keysym->sym = (SDLKey) GSDL_ENUM2LONG (sym, event_keysym_enum, ARGH1);
-    }
+      /* Set the sym if given.  */
+      UNBOUND_MEANS_FALSE (sym);
+      if (NOT_FALSEP (sym))
+        {
+          ASSERT_EXACT (sym, ARGH1);
+          /* keysym->sym = (SDLKey) gh_scm2long (sym); */
+          keysym->sym = (SDLKey) GSDL_ENUM2LONG (sym, event_keysym_enum, ARGH1);
+        }
 
-  /* Set the mod if given.  */
-  if (BOUNDP (mod))
-    {
-      ASSERT_EXACT (mod, ARGH2);
-      keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, ARGH2);
+      /* Set the mod if given.  */
+      if (BOUNDP (mod))
+        {
+          ASSERT_EXACT (mod, ARGH2);
+          keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, ARGH2);
+        }
     }
 
   /* Return the new smob.  */
