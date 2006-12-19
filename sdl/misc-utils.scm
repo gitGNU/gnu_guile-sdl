@@ -28,6 +28,8 @@
             rectangle-closure
             rectangle<-geometry-string
             poll-with-push-on-timeout-proc
+            rect<-surface
+            copy-rectangle
             copy-surface
             ignore-all-event-types-except
             fade-loop!))
@@ -181,6 +183,54 @@
               ((= 0 still)          (push! ev))
               (else                 (SDL:delay slice)
                                     (loop (max 0 (- still slice)))))))))
+
+;; Return a new rectangle with the same width and height as @var{surface}.
+;; Optional second and third arg (which must appear together or not at all)
+;; specifies the @var{x} and @var{y} components, respectively, to use instead
+;; of the default of 0 (zero).
+;;
+;;-sig: (surface [x y])
+;;
+(define (rect<-surface surface . xy)
+  (let ((x (if (null? xy) 0 (car  xy)))
+        (y (if (null? xy) 0 (cadr xy)))
+        (w (SDL:surface:w surface))
+        (h (SDL:surface:h surface)))
+    (SDL:make-rect x y  w h)))
+
+;; Return a new rectangle copied from @var{rect}.
+;;
+;; Optional second arg @var{modify} specifies which portions,
+;; if any, to modify using the values in the rest @var{args}.
+;; If @var{modify} is @code{#:xy}, the two @var{args} specify
+;; new @code{x} and @code{y} values.  If @var{modify} is
+;; @code{#:wh}, the two @var{args} specify new @code{w} and
+;; @code{h} values.
+;;
+;; @example
+;; rect
+;; @result{} #<SDL-Rect 3x4+1+2>
+;;
+;; (copy-rectangle rect)
+;; @result{} #<SDL-Rect 3x4+1+2>
+;;
+;; (copy-rectangle rect #:xy 11 22)
+;; @result{} #<SDL-Rect 3x4+11+22>
+;;
+;; (copy-rectangle rect #:wh 33 44)
+;; @result{} #<SDL-Rect 33x44+1+2>
+;; @end example
+;;
+;;-sig: (rect [modify args...])
+;;
+(define (copy-rectangle rect . opt)
+  (let* ((modify (and (not (null? opt)) (car opt)))
+         (args (and modify (cdr opt)))
+         (x (if (eq? #:xy modify) (car  args) (SDL:rect:x rect)))
+         (y (if (eq? #:xy modify) (cadr args) (SDL:rect:y rect)))
+         (w (if (eq? #:wh modify) (car  args) (SDL:rect:w rect)))
+         (h (if (eq? #:wh modify) (cadr args) (SDL:rect:h rect))))
+    (SDL:make-rect x y w h)))
 
 ;; Create a new surface and blit @var{surface} onto it.
 ;; The new surface has the same pixel format as @var{surface}.
