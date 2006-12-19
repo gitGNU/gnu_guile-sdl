@@ -53,7 +53,7 @@ static long ttf_font_tag;
   SMOBGET (smob, TTF_Font *)
 
 #define RETURN_NEW_TTFONT(x) \
-  SCM_RETURN_NEWSMOB (ttf_font_tag, x)
+  NEWSMOB_OR_FALSE (ttf_font_tag, x)
 
 static
 size_t
