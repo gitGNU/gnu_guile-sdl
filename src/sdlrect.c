@@ -82,11 +82,13 @@ GH_DEFPROC (make_rect, "make-rect", 4, 0, 0,
   ASSERT_EXACT (width, ARGH3);
   ASSERT_EXACT (height, ARGH4);
 
-  rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME);
-  rect->x = gh_scm2long (x);
-  rect->y = gh_scm2long (y);
-  rect->w = gh_scm2ulong (width);
-  rect->h = gh_scm2ulong (height);
+  if ((rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME)))
+    {
+      rect->x = gh_scm2long (x);
+      rect->y = gh_scm2long (y);
+      rect->w = gh_scm2ulong (width);
+      rect->h = gh_scm2ulong (height);
+    }
 
   RETURN_NEW_RECT (rect);
 #undef FUNC_NAME
