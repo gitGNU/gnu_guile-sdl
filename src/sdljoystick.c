@@ -37,7 +37,7 @@ static long joystick_tag;
   (SMOBGET (smob, SDL_Joystick *))
 
 #define RETURN_NEW_JOYSTICK(x) \
-  SCM_RETURN_NEWSMOB (joystick_tag, x)
+  NEWSMOB_OR_FALSE (joystick_tag, x)
 
 #define JOYSTICK_P(x) \
   (SCM_SMOB_PREDICATE (joystick_tag, x))
