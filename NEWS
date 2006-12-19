@@ -6,6 +6,29 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
+- 0.3.6 | NOT YET RELEASED
+
+  - bugfixes
+    - load-image now returns #f (instead of crashing) if there are problems
+    - get-video-info rv now has "wm-available" and bool "blit-fill"
+    - map-rgb and map-rgba now return unsigned integer
+    - make-surface now
+      - uses pixel format from current video surface, if available
+      - handles case: no current video surface and no flags specified
+
+  - return value specified: both quit and quit-subsystem now return #t
+  - more slackful: update-rects now accepts an empty list for second arg
+  - more slackful: set-clip-rect! now accepts #f for second arg
+
+  - changes with compatability note (see each proc's documentation)
+    - grab-input now takes and returns symbols, one of: query, off, on
+
+  - new (sdl sdl) proc: rect?
+  - new (sdl sdl) proc: color?
+  - new (sdl misc-utils) proc: rectangle-closure
+  - new (sdl misc-utils) proc: rectangle<-geometry-string
+
+
 - 0.3.5 | 2006-01-29
 
   - change to (sdl misc-utils) proc: copy-surface

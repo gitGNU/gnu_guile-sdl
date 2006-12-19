@@ -1,3 +1,11 @@
+2006-11-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* fading.scm, gfx.scm, roto.scm: Update call to `fill-rect'.
+
+2006-11-14  Thien-Thi Nguyen  <ttn@ambire>
+
+	* common (exit-77): Use `simple-format'.
+
 2006-07-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* cursor.scm: Use gnu-goatee.jpg for background.

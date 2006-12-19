@@ -1,3 +1,62 @@
+2006-12-15  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlsurface.c (load_image): Return #f if there are problems.
+
+2006-12-07  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlvideo.c (wm_grab_input): Handle MODE being -1, 0, 1.
+
+2006-12-07  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlvideo.c (query, off, on): New simple symbols.
+	(wm_grab_input): Rewrite.
+
+2006-11-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlsurface.c (make_surface): Fix bug: If there
+	is no current surface, don't try to get its flags.
+
+2006-11-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlsurface.c (make_surface): Fix bug: Get default
+	pixel-format info from current video surface, if available.
+
+2006-11-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlsurface.c (set_clip_rect):
+	If RECT is #f, clear the the clip rect.
+
+2006-11-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlvideo.c (update_rects): Use `ASSERT_LIST'.
+
+2006-11-14  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdl.c (quit, quit_subsystem): Return true.
+
+2006-10-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlvideo.c (get_video_info): Fix typo: "wm-available".
+	Also, use boolean for `blit-fill' alist element.
+
+2006-10-26  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlvideo.c (map_rgb, map_rgba): Fix bug: Return unsigned integer.
+
+2006-07-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlevent.c (peep_events): Typecheck NUMEVENTS.
+	Throw "bad action" error on unrecognized ACTION.
+
+2006-07-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlevent.c (peep_events): Doc fix.
+
+2006-05-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* sdlrect.c (rect_p): New GH_DEFPROC.
+	* sdlcolor.c (color_p): New GH_DEFPROC.
+
 2006-01-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlevent.c (get_key_state): Write implementation.

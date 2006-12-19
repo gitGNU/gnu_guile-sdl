@@ -1,3 +1,18 @@
+2006-12-15  Thien-Thi Nguyen  <ttn@ambire>
+
+	* imagebrowser.scm (show): If an image
+	cannot be loaded, discard it from the ring.
+
+2006-11-17  Thien-Thi Nguyen  <ttn@ambire>
+
+	* read-vpacked.scm: Use `simple-format'.
+	* bustagnu.scm: Likewise.
+	Also, no longer use module (ice-9 format).
+
+2006-11-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* bustagnu.scm: Update call to `fill-rect'.
+
 2005-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* bustagnu.scm: Use module (sdl gfx).

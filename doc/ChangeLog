@@ -1,3 +1,25 @@
+2006-12-19  Thien-Thi Nguyen  <ttn@ambire>
+
+	* ref.twerp (Miscellaneous Utilities): Add
+	@twerpdoc for `rect<-surface' and `copy-rectangle'.
+
+2006-10-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ref.twerp (General SDL): List flags for `flagstash:init'.
+	(Video): Likewise for `flagstash:video',
+	`flagstash:palette' and `flagstash:overlay'.
+	(Events): Likewise for `flagstash:event-mod'
+	and `flagstash:event-mask'.
+	(TrueType): Likewise for `flagstash:ttf'.
+
+2006-05-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* mkexcuse: Handle "SDLNet_" prefix specially.
+
+2006-05-28  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* ref.twerp (Video): Add @twerpdoc for `rect?' and `color?'.
+
 2006-05-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* ref.twerp (Miscellaneous Utilities):

@@ -1,3 +1,15 @@
+2006-12-19  Thien-Thi Nguyen  <ttn@ambire>
+
+	* misc-utils.scm (rect<-surface, copy-rectangle): New procs, exported.
+
+2006-11-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* misc-utils.scm (fade-loop!): For speed, update only at LOCATION.
+
+2006-05-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* misc-utils.scm (rectangle-closure): Also handle #:w, #:h, #:x, #:y.
+
 2006-05-27  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* misc-utils.scm (rectangle<-geometry-string): New proc, exported.
