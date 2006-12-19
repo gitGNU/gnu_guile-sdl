@@ -240,15 +240,9 @@ GH_DEFPROC (load_image, "load-image", 1, 0, 0,
             "If there are problems, return #f.")
 {
 #define FUNC_NAME s_load_bmp
-  SDL_Surface *s;
-
   ASSERT_STRING (file, ARGH1);
 
-  s = IMG_Load (SCM_CHARS (file));
-  if (s)
-    RETURN_NEW_SURFACE (s);
-  else
-    RETURN_FALSE;
+  RETURN_NEW_SURFACE (IMG_Load (SCM_CHARS (file)));
 #undef FUNC_NAME
 }
 
@@ -383,8 +377,8 @@ GH_DEFPROC (get_clip_rect, "get-clip-rect", 1, 0, 0,
 
   ASSERT_SURFACE (surface, ARGH1);
 
-  rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME);
-  SDL_GetClipRect (UNPACK_SURFACE (surface), rect);
+  if ((rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME)))
+    SDL_GetClipRect (UNPACK_SURFACE (surface), rect);
   RETURN_NEW_RECT (rect);
 #undef FUNC_NAME
 }
