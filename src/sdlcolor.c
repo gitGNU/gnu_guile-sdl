@@ -77,10 +77,12 @@ GH_DEFPROC (make_color, "make-color", 3, 0, 0,
   ASSERT_EXACT (g, ARGH2);
   ASSERT_EXACT (b, ARGH3);
 
-  color = (SDL_Color *) scm_must_malloc (sizeof (SDL_Color), FUNC_NAME);
-  color->r = gh_scm2int (r);
-  color->g = gh_scm2int (g);
-  color->b = gh_scm2int (b);
+  if ((color = (SDL_Color *) scm_must_malloc (sizeof (SDL_Color), FUNC_NAME)))
+    {
+      color->r = gh_scm2int (r);
+      color->g = gh_scm2int (g);
+      color->b = gh_scm2int (b);
+    }
 
   RETURN_NEW_COLOR (color);
 #undef FUNC_NAME
