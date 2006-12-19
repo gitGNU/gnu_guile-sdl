@@ -1,3 +1,26 @@
+2006-12-19  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlcdrom.c (RETURN_NEW_CDROM): Use `NEWSMOB_OR_FALSE'.
+
+	* sdlcolor.c (make_color): Don't init `color' if it is NULL.
+
+	* sdlevent.c (RETURN_NEW_EVENT)
+	(RETURN_NEW_KEYSYM): Use `NEWSMOB_OR_FALSE'.
+	(make_event): Don't init `event' if it is NULL.
+	(make_keysym): Likewise for `keysym'.
+
+	* sdljoystick.c (RETURN_NEW_JOYSTICK): Use `NEWSMOB_OR_FALSE'.
+
+	* sdlrect.c (make_rect): Don't init `rect' if it is NULL.
+
+	* sdlsurface.c (load_image): Use `RETURN_NEW_SURFACE'.
+	(get_clip_rect): Don't init `rect' if it is NULL;
+
+	* sdlvideo.c (RETURN_NEW_CURSOR)
+	(RETURN_NEW_OVERLAY): Use `NEWSMOB_OR_FALSE'.
+	(create_cursor, get_cursor): Don't init `cursor' if it is NULL.
+	(set_colors, set_palette): Likewise for `ccolors'.
+
 2006-12-15  Thien-Thi Nguyen  <ttn@ambire>
 
 	* sdlsurface.c (load_image): Return #f if there are problems.

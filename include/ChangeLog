@@ -1,3 +1,9 @@
+2006-12-19  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlsmobs.h (NEWSMOB_OR_FALSE): New macro.
+	(RETURN_NEW_COLOR, RETURN_NEW_RECT, RETURN_NEW_SURFACE)
+	(RETURN_NEW_PIXEL_FORMAT): Use `NEWSMOB_OR_FALSE'.
+
 2006-11-16  Thien-Thi Nguyen  <ttn@ambire>
 
 	* argcheck.h (ASSERT_PAIR): Delete macro.

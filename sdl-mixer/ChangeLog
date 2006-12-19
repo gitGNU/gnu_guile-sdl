@@ -1,3 +1,8 @@
+2006-12-19  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlmixer.c (RETURN_NEW_MUSIC)
+	(RETURN_NEW_AUDIO): Use `NEWSMOB_OR_FALSE'.
+
 2005-05-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* sdlmixer.c (mark_music, mark_audio): Delete funcs.
