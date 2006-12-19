@@ -67,10 +67,20 @@ extern long gsdl_smob_tags[GSTX_TOO_MUCH];
 #define UNPACK_SURFACE(smob)       (SMOBGET (smob, SDL_Surface *))
 #define UNPACK_PIXEL_FORMAT(smob)  (SMOBGET (smob, SDL_PixelFormat *))
 
-#define RETURN_NEW_COLOR(x)         SCM_RETURN_NEWSMOB (color_tag, x)
-#define RETURN_NEW_RECT(x)          SCM_RETURN_NEWSMOB (rect_tag, x)
-#define RETURN_NEW_SURFACE(x)       SCM_RETURN_NEWSMOB (surface_tag, x)
-#define RETURN_NEW_PIXEL_FORMAT(x)  SCM_RETURN_NEWSMOB (pixel_format_tag, x)
+#define NEWSMOB_OR_FALSE(tag,x)                 \
+  do {                                          \
+    void *__p;                                  \
+                                                \
+    if ((__p = (x)))                            \
+      SCM_RETURN_NEWSMOB (tag, __p);            \
+    else                                        \
+      RETURN_FALSE;                             \
+  } while (0)
+
+#define RETURN_NEW_COLOR(x)         NEWSMOB_OR_FALSE (color_tag, x)
+#define RETURN_NEW_RECT(x)          NEWSMOB_OR_FALSE (rect_tag, x)
+#define RETURN_NEW_SURFACE(x)       NEWSMOB_OR_FALSE (surface_tag, x)
+#define RETURN_NEW_PIXEL_FORMAT(x)  NEWSMOB_OR_FALSE (pixel_format_tag, x)
 
 #endif /* ! defined (GUILE_SDL_SMOBS_H) */
 
