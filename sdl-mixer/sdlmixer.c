@@ -45,8 +45,8 @@ static long mix_audio_tag;
 #define UNPACK_MUSIC(smob)   (SMOBGET (smob, Mix_Music *))
 #define UNPACK_AUDIO(smob)   (SMOBGET (smob, Mix_Chunk *))
 
-#define RETURN_NEW_MUSIC(x)   SCM_RETURN_NEWSMOB (mix_music_tag, x)
-#define RETURN_NEW_AUDIO(x)   SCM_RETURN_NEWSMOB (mix_audio_tag, x)
+#define RETURN_NEW_MUSIC(x)   NEWSMOB_OR_FALSE (mix_music_tag, x)
+#define RETURN_NEW_AUDIO(x)   NEWSMOB_OR_FALSE (mix_audio_tag, x)
 
 static
 size_t
