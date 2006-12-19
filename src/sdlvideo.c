@@ -92,8 +92,8 @@ static long overlay_tag;
 #define UNPACK_CURSOR(smob)       (SMOBGET (smob, xSDL_Cursor *))
 #define UNPACK_OVERLAY(smob)      (SMOBGET (smob, SDL_Overlay *))
 
-#define RETURN_NEW_CURSOR(x)    SCM_RETURN_NEWSMOB (cursor_tag, x)
-#define RETURN_NEW_OVERLAY(x)   SCM_RETURN_NEWSMOB (overlay_tag, x)
+#define RETURN_NEW_CURSOR(x)    NEWSMOB_OR_FALSE (cursor_tag, x)
+#define RETURN_NEW_OVERLAY(x)   NEWSMOB_OR_FALSE (overlay_tag, x)
 
 /* smob functions */
 
@@ -190,14 +190,15 @@ GH_DEFPROC (create_cursor, "create-cursor", 6, 0, 0,
   cmask = (Uint8 *) gh_scm2chars (mask, NULL);
 
   /* Create the cursor.  */
-  cursor = MALLOC_XSDL_CURSOR (FUNC_NAME);
-  cursor->c = SDL_CreateCursor (cdata, cmask,
-                                gh_scm2long (w),
-                                gh_scm2long (h),
-                                gh_scm2long (x),
-                                gh_scm2long (y));
-  cursor->freeable = 1;
-
+  if ((cursor = MALLOC_XSDL_CURSOR (FUNC_NAME)))
+    {
+      cursor->c = SDL_CreateCursor (cdata, cmask,
+                                    gh_scm2long (w),
+                                    gh_scm2long (h),
+                                    gh_scm2long (x),
+                                    gh_scm2long (y));
+      cursor->freeable = 1;
+    }
   /* Free the arrays.  */
   /*scm_must_*/free (cdata);
   /*scm_must_*/free (cmask);
@@ -524,23 +525,24 @@ GH_DEFPROC (set_colors, "set-colors!", 2, 0, 0,
 #define FUNC_NAME s_set_colors
   SDL_Color *ccolors;
   SDL_Color *color;
-  int i, length, result;
+  int i, length, result = 0;
 
   ASSERT_SURFACE (surface, ARGH1);
   ASSERT_VECTOR (colors, ARGH2);
 
   length = gh_vector_length (colors);
-  ccolors = (SDL_Color*) scm_must_malloc (length, FUNC_NAME);
-
-  for (i = 0; i < length; i++)
+  if ((ccolors = (SDL_Color*) scm_must_malloc (length, FUNC_NAME)))
     {
-      color = UNPACK_COLOR (gh_vector_ref (colors, gh_long2scm (i)));
-      ccolors[i] = *color;
-    }
+      for (i = 0; i < length; i++)
+        {
+          color = UNPACK_COLOR (gh_vector_ref (colors, gh_long2scm (i)));
+          ccolors[i] = *color;
+        }
 
-  result = SDL_SetColors (UNPACK_SURFACE (surface),
-                          ccolors, 0, length);
-  scm_must_free (ccolors);
+      result = SDL_SetColors (UNPACK_SURFACE (surface),
+                              ccolors, 0, length);
+      scm_must_free (ccolors);
+    }
 
   RETURN_BOOL
     (result);
@@ -557,24 +559,25 @@ GH_DEFPROC (set_palette, "set-palette", 3, 0, 0,
 #define FUNC_NAME s_set_palette
   SDL_Color *ccolors;
   SDL_Color *color;
-  int cflags, i, length, result;
+  int cflags, i, length, result = 0;
 
   ASSERT_SURFACE (surface, ARGH1);
   ASSERT_VECTOR (colors, ARGH3);
 
   cflags   = GSDL_FLAGS2ULONG (flags, gsdl_palette_flags, ARGH2);
   length  = gh_vector_length (colors);
-  ccolors  = (SDL_Color*) scm_must_malloc (length, FUNC_NAME);
-
-  for (i = 0; i < length; i++)
+  if ((ccolors  = (SDL_Color*) scm_must_malloc (length, FUNC_NAME)))
     {
-      color = UNPACK_COLOR (gh_vector_ref (colors, gh_long2scm (i)));
-      ccolors[i] = *color;
-    }
+      for (i = 0; i < length; i++)
+        {
+          color = UNPACK_COLOR (gh_vector_ref (colors, gh_long2scm (i)));
+          ccolors[i] = *color;
+        }
 
-  result = SDL_SetPalette (UNPACK_SURFACE (surface),
-                           cflags, ccolors, 0, length);
-  scm_must_free (ccolors);
+      result = SDL_SetPalette (UNPACK_SURFACE (surface),
+                               cflags, ccolors, 0, length);
+      scm_must_free (ccolors);
+    }
 
   RETURN_BOOL
     (result);
@@ -886,10 +889,13 @@ GH_DEFPROC (get_cursor, "get-cursor", 0, 0, 0,
             "Get the current mouse cursor.")
 {
 #define FUNC_NAME s_get_cursor
-  xSDL_Cursor *cursor = MALLOC_XSDL_CURSOR (FUNC_NAME);
+  xSDL_Cursor *cursor;
 
-  cursor->freeable = 0;
-  cursor->c = SDL_GetCursor ();
+  if ((cursor = MALLOC_XSDL_CURSOR (FUNC_NAME)))
+    {
+      cursor->freeable = 0;
+      cursor->c = SDL_GetCursor ();
+    }
 
   RETURN_NEW_CURSOR (cursor);
 #undef FUNC_NAME
