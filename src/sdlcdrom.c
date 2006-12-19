@@ -38,7 +38,7 @@ static long cdrom_tag;
   (SMOBGET (smob, SDL_CD *))
 
 #define RETURN_NEW_CDROM(x) \
-  SCM_RETURN_NEWSMOB (cdrom_tag, x)
+  NEWSMOB_OR_FALSE (cdrom_tag, x)
 
 #define CDROM_P(x) \
   (SCM_SMOB_PREDICATE (cdrom_tag, x))
