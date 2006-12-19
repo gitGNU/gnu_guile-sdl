@@ -623,15 +623,17 @@ GH_DEFPROC (make_fps_manager, "make-fps-manager", 0, 1, 0,
   FPSmanager *m;
 
   UNBOUND_MEANS_FALSE (n);
-  m = (FPSmanager *) malloc (sizeof (FPSmanager));
-  SDL_initFramerate (m);
-  if (NOT_FALSEP (n))
+  if ((m = (FPSmanager *) malloc (sizeof (FPSmanager))))
     {
-      ASSERT_EXACT (n, ARGH1);
-      SDL_setFramerate (m, gh_scm2int (n));
+      SDL_initFramerate (m);
+      if (NOT_FALSEP (n))
+        {
+          ASSERT_EXACT (n, ARGH1);
+          SDL_setFramerate (m, gh_scm2int (n));
+        }
     }
 
-  SCM_RETURN_NEWSMOB (fpsmgr_tag, m);
+  NEWSMOB_OR_FALSE (fpsmgr_tag, m);
 #undef FUNC_NAME
 }
 
