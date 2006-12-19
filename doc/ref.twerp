@@ -449,6 +449,8 @@ These are available in module @code{(sdl misc-utils)}.
 @twerpdoc (rectangle-closure)
 @twerpdoc (rectangle<-geometry-string)
 @twerpdoc (poll-with-push-on-timeout-proc)
+@twerpdoc (rect<-surface)
+@twerpdoc (copy-rectangle)
 @twerpdoc (copy-surface)
 @twerpdoc (ignore-all-event-types-except)
 @twerpdoc (fade-loop!)
