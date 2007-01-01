@@ -157,7 +157,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*-scheme-*-
     (cond ((or (not frame-list) (null? frame-list))
            #f)
           ((pair? frame-list)
-           ;;(simpmle-format #t "(pre-blit ~A)\n" (sprite:location sprite))
+           ;;(simple-format #t "(pre-blit ~A)\n" (sprite:location sprite))
            (SDL:blit-surface (car frame-list) (sprite:dimensions sprite)
                              surface (SDL:copy-rect (sprite:location sprite)))
            ;;(simple-format #t "(post-blit ~A)\n" (sprite:location sprite))
