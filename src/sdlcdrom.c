@@ -178,61 +178,46 @@ GH_DEFPROC (cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
 }
 
 
+#define GETCUR(field)                           \
+  do {                                          \
+    SDL_CD *cd;                                 \
+    int ret = -1;                               \
+                                                \
+    ASSERT_CDROM (cdrom, ARGH1);                \
+    if ((cd = UNPACK_CDROM (cdrom))             \
+        && CD_TRAYEMPTY != SDL_CDStatus (cd))   \
+      ret = cd->field;                          \
+    RETURN_INT (ret);                           \
+  } while (0)
+
 GH_DEFPROC (cd_get_num_tracks, "cd-get-num-tracks", 1, 0, 0,
             (SCM cdrom),
             "Return the number of tracks on the CD in drive @var{cdrom}.")
 {
 #define FUNC_NAME s_cd_get_num_tracks
-  SDL_CD *cd;
-  int ret = -1;
-
-  ASSERT_CDROM (cdrom, ARGH1);
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    ret = cd->numtracks;
-
-  RETURN_INT (ret);
+  GETCUR (numtracks);
 #undef FUNC_NAME
 }
-
 
 GH_DEFPROC (cd_get_cur_track, "cd-get-cur-track", 1, 0, 0,
             (SCM cdrom),
             "Return the current track on the CD in drive @var{cdrom}.")
 {
 #define FUNC_NAME s_cd_get_cur_track
-  SDL_CD *cd;
-  int ret = -1;
-
-  ASSERT_CDROM (cdrom, ARGH1);
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    ret = cd->cur_track;
-
-  RETURN_INT (ret);
+  GETCUR (cur_track);
 #undef FUNC_NAME
 }
-
 
 GH_DEFPROC (cd_get_cur_frame, "cd-get-cur-frame", 1, 0, 0,
             (SCM cdrom),
             "Return the current frame of the CD in drive @var{cdrom}.")
 {
 #define FUNC_NAME s_cd_get_cur_frame
-  SDL_CD *cd;
-  int ret = -1;
-
-  ASSERT_CDROM (cdrom, ARGH1);
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    ret = cd->cur_frame;
-
-  RETURN_INT (ret);
+  GETCUR (cur_frame);
 #undef FUNC_NAME
 }
+
+#undef GETCUR
 
 
 DECLARE_SIMPLE_SYM (offset);
