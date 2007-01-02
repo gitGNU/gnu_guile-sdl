@@ -12,7 +12,8 @@
 
 #define GSDL_NUMBER_GETTER(s_func, c_func, tag, c_type, c_field)        \
 GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM obj),                         \
-            "Get @code{" #c_field "} from @code{" #c_type "} object.")  \
+            "Get @code{" #c_field "} from the\n"                        \
+            "@code{" #c_type "} @var{obj}.")                            \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, tag, ARGH1);                                        \
@@ -21,7 +22,8 @@ GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM obj),                         \
 
 #define GSDL_NUMBER_SETTER(s_func, c_func, tag, c_type, c_field, conv)  \
 GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),              \
-            "Set @code{" #c_field "} in @code{" #c_type "} object\n"    \
+            "Set @code{" #c_field "} in the\n"                          \
+            "@code{" #c_type "} @var{obj}\n"                            \
             "to @var{value}.")                                          \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
