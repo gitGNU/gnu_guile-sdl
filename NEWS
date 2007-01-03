@@ -15,11 +15,11 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
     - make-surface now
       - uses pixel format from current video surface, if available
       - handles case: no current video surface and no flags specified
-    - cd-get-{num-tracks,cur-track,cur-frame} no longer return stale info
 
   - return value specified: both quit and quit-subsystem now return #t
   - more slackful: update-rects now accepts an empty list for second arg
   - more slackful: set-clip-rect! now accepts #f for second arg
+  - more slackful: cd-get-{num-tracks,cur-track,cur-frame} call cd-status
 
   - changes with compatability note (see each proc's documentation)
     - grab-input now takes and returns symbols, one of: query, off, on

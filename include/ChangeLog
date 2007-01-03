@@ -1,3 +1,8 @@
+2007-01-02  Thien-Thi Nguyen  <ttn@ambire>
+
+	* wholefuns.h (GSDL_NUMBER_GETTER, GSDL_NUMBER_SETTER):
+	Use `@var{obj}' in the docstring of the resulting generated func.
+
 2006-12-19  Thien-Thi Nguyen  <ttn@ambire>
 
 	* sdlsmobs.h (NEWSMOB_OR_FALSE): New macro.
