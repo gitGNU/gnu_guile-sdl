@@ -275,7 +275,7 @@
 ;; @dfn{fade-in} of @var{replacement} over @var{image}.
 ;;
 ;; @var{realized} may be either a surface, in which case at the end of each
-;; loop it is shown by calling @code{flip} on it; or a pair whose @sc{car} is
+;; loop it is shown via @code{update-rect}; or a pair whose @sc{car} is
 ;; a surface and whose @sc{cdr} is a thunk that should do the showing.
 ;;
 ;; Note that @var{location} is used for blitting, so its width and height
