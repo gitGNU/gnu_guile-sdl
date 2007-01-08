@@ -45,8 +45,9 @@
 ;; draw some rectangles filled with random colors
 (do ((i 0 (1+ i)))
     ((= i 20))
-  (SDL:fill-rect screen (rand-rect test-rect) (random #xffffff))
-  (SDL:flip)
+  (let ((sample (rand-rect test-rect)))
+    (SDL:fill-rect screen sample (random #xffffff))
+    (SDL:update-rect screen sample))
   (SDL:delay 100))
 
 ;; quit SDL
