@@ -31,11 +31,13 @@
 (define (rand-rect limit)
   (let* ((limit-w (SDL:rect:w limit))
          (limit-h (SDL:rect:h limit))
-         (w (random limit-w))
-         (h (random limit-h)))
-    (SDL:make-rect w h
-                   (+ (SDL:rect:x limit) (random (- limit-w w)))
-                   (+ (SDL:rect:y limit) (random (- limit-h h))))))
+         (two-x (list (random limit-w) (random limit-w)))
+         (two-y (list (random limit-h) (random limit-h)))
+         (x0 (apply min two-x))
+         (y0 (apply min two-y))
+         (x1 (apply max two-x))
+         (y1 (apply max two-y)))
+    (SDL:make-rect (- x1 x0 -1) (- y1 y0 -1) x0 y0)))
 
 ;; set the video mode to the dimensions of our rect
 (define screen (SDL:set-video-mode (SDL:rect:w test-rect)
