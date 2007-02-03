@@ -26,6 +26,16 @@ CPPFLAGS="$GUILE_CFLAGS"
 
 GUILE_C2X_METHOD([c2x])
 
+AC_MSG_CHECKING([whether twerp2texi can take option --scheme-implied])
+if guile-tools twerp2texi --help | grep -q scheme-implied ; then
+  TWERP2TEXIFLAGS=--scheme-implied
+  AC_MSG_RESULT([yes])
+else
+  TWERP2TEXIFLAGS=
+  AC_MSG_RESULT([no])
+fi
+AC_SUBST(TWERP2TEXIFLAGS)
+
 AC_CHECK_HEADERS([guile/modsup.h])
 
 AH_BOTTOM([
