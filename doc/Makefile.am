@@ -34,7 +34,7 @@ ef-ref.texi: $(top_srcdir)/*/*.c
 	  $(minusIttfdocindex) \
 	  -I ../sdl-gfx/.doc-index \
 	  $(minusImixerdocindex) \
-	  -o $@ $<
+	  -o $@ $(TWERP2TEXIFLAGS) $<
 
 excuse.texi: $(top_srcdir)/cov/notes.tdt
 	$(srcdir)/mkexcuse $< > $@
