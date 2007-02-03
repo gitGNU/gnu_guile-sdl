@@ -24,14 +24,7 @@ GUILE_FLAGS
 
 CPPFLAGS="$GUILE_CFLAGS"
 
-AC_MSG_CHECKING([c2x method])
-if guile-tools | grep -q c2x ; then
-  c2x="guile-tools c2x"
-else
-  c2x="guile-snarf"
-fi
-AC_SUBST(c2x)
-AC_MSG_RESULT([$c2x])
+GUILE_C2X_METHOD([c2x])
 
 AC_CHECK_HEADERS([guile/modsup.h])
 
