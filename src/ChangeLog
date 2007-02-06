@@ -1,3 +1,13 @@
+2007-01-02  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlevent.c (NUM2_GETTER, NUM2_SETTER, NUM3_GETTER, NUM3_SETTER):
+	Prettify docstrings; remove whitespace between C struct components.
+
+2007-01-01  Thien-Thi Nguyen  <ttn@ambire>
+
+	* sdlcdrom.c (GETCUR): New macro.
+	(cd_get_num_tracks, cd_get_cur_track, cd_get_cur_frame): Use it.
+
 2006-12-19  Thien-Thi Nguyen  <ttn@ambire>
 
 	* sdlcdrom.c (RETURN_NEW_CDROM): Use `NEWSMOB_OR_FALSE'.

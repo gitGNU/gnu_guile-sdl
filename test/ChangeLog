@@ -1,3 +1,11 @@
+2007-01-09  Thien-Thi Nguyen  <ttn@ambire>
+
+	* rect.scm (rand-rect): Rewrite.
+
+2007-01-08  Thien-Thi Nguyen  <ttn@ambire>
+
+	* rect.scm: Use `update-rect'.
+
 2006-11-16  Thien-Thi Nguyen  <ttn@ambire>
 
 	* fading.scm, gfx.scm, roto.scm: Update call to `fill-rect'.

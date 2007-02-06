@@ -1,3 +1,16 @@
+2007-02-06  Thien-Thi Nguyen  <ttn@ambire>
+
+	* configure.in (AC_INIT): Bump version to "0.3.6" for release.
+
+2007-02-03  Thien-Thi Nguyen  <ttn@ambire>
+
+	* configure.in: Check whether or not "guile-tools twerp2texi"
+	can take option `--scheme-implied'; AC_SUBST `TWERP2TEXIFLAGS'.
+
+2007-02-03  Thien-Thi Nguyen  <ttn@ambire>
+
+	* configure.in: Use `GUILE_C2X_METHOD'.
+
 2006-01-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* configure.in (AC_INIT): Bump version to "0.3.5" for release.

@@ -1,3 +1,7 @@
+2007-02-06  Thien-Thi Nguyen  <ttn@ambire>
+
+	* misc-utils.scm (toroidal-panner): New proc, exported.
+
 2007-01-03  Thien-Thi Nguyen  <ttn@ambire>
 
 	* misc-utils.scm (fade-loop!): Doc fix.

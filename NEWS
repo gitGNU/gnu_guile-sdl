@@ -6,7 +6,7 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@glug.org>.
 
 
-- 0.3.6 | NOT YET RELEASED
+- 0.3.6 | 2007-02-06
 
   - bugfixes
     - load-image now returns #f (instead of crashing) if there are problems
@@ -28,6 +28,9 @@ Please send Guile-SDL bug reports to <ttn@glug.org>.
   - new (sdl sdl) proc: color?
   - new (sdl misc-utils) proc: rectangle-closure
   - new (sdl misc-utils) proc: rectangle<-geometry-string
+  - new (sdl misc-utils) proc: rect<-surface
+  - new (sdl misc-utils) proc: copy-rectangle
+  - new (sdl misc-utils) proc: toroidal-panner
 
 
 - 0.3.5 | 2006-01-29
