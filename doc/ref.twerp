@@ -454,6 +454,7 @@ These are available in module @code{(sdl misc-utils)}.
 @twerpdoc (copy-surface)
 @twerpdoc (ignore-all-event-types-except)
 @twerpdoc (fade-loop!)
+@twerpdoc (toroidal-panner)
 
 @node Simple Closures
 @chapter Simple Closures
