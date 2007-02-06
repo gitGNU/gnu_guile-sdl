@@ -32,7 +32,8 @@
             copy-rectangle
             copy-surface
             ignore-all-event-types-except
-            fade-loop!))
+            fade-loop!
+            toroidal-panner))
 
 ;; Set default clip rect to @var{rect}, call @var{thunk}, and restore it.
 ;; @var{thunk} is a procedure that takes no arguments.
@@ -310,5 +311,92 @@
         (if (< 255 new-alpha)
             (or last? (loop now 255 #t))
             (loop now new-alpha last?))))))
+
+;; Return a procedure that can toroidally pan @var{surface}
+;; by @var{dx} and @var{dy} pixels.  This means that data
+;; disappearing from one side of the surface (left, right, top, bottom)
+;; is rotated to appear at the other side (right, left, bottom, top).
+;; The procedure takes one arg @var{count}, the number of pans to do.
+;;
+;; Positive @var{dx} moves surface data to the left (panning right),
+;; and likewise, positive @var{dy}, up (panning down).
+;;
+;; Optional third arg @var{sub} is a rectangle object specifying a subset
+;; of the surface.  The default is to pan the entire surface.
+;;
+;; Optional fourth arg @var{batch?} non-@code{#f} means to call
+;; @code{update-rect} on the (sub)surface after all the panning is done.
+;; The default is to update the surface after each pan.  Batch mode is
+;; useful for implementing variable-speed panning, for example:
+;;
+;; @example
+;; (define pan-away (toroidal-panner screen  21  12 #f #t))
+;; (define pan-back (toroidal-panner screen -21 -12 #f #t))
+;; (define ramp (map 1+ (append (make-list 21 0)
+;;                              (identity (iota 12))
+;;                              (reverse! (iota 12))
+;;                              (make-list 21 0))))
+;; (for-each pan-away ramp)
+;; (for-each pan-back ramp)
+;; @end example
+;;
+;;-sig: (surface dx dy [[sub] batch?])
+;;
+(define (toroidal-panner surface dx dy . opts)
+  (define (r/new-xy r new-x new-y)
+    (copy-rectangle r #:xy new-x new-y))
+
+  (let* ((bb (if (or (null? opts) (not (car opts)))
+                 (rect<-surface surface)
+                 (car opts)))
+         (w (SDL:rect:w bb))
+         (h (SDL:rect:h bb))
+         (x (SDL:rect:x bb))
+         (y (SDL:rect:y bb))
+         (dx (- dx))                    ; "pan right" on positive dx
+         (dy (- dy))                    ; "pan down" on positive dy
+         (L? (> 0 dx))
+         (U? (> 0 dy))
+         (LR (SDL:make-surface w (abs dy)))
+         (LR-all (rect<-surface LR))
+         (rd-LR (rect<-surface LR x (+ y (if U? 0 (- h dy)))))
+         (wr-LR (rect<-surface LR x (+ y (if U? (+ h dy) 0))))
+         (sh-rd-LR (SDL:make-rect x (+ y (if U? (- dy) 0))
+                                  w (- h (abs dy))))
+         (sh-wr-LR (r/new-xy sh-rd-LR x (+ (SDL:rect:y sh-rd-LR) dy)))
+         (UD (SDL:make-surface (abs dx) h))
+         (UD-all (rect<-surface UD))
+         (rd-UD (rect<-surface UD (+ x (if L? 0 (- w dx))) y))
+         (wr-UD (rect<-surface UD (+ x (if L? (+ w dx) 0)) y))
+         (sh-rd-UD (SDL:make-rect (+ x (if L? (- dx) 0)) y
+                                  (- w (abs dx)) h))
+         (sh-wr-UD (r/new-xy sh-rd-UD (+ (SDL:rect:x sh-rd-UD) dx) y)))
+
+    (define (do-blits!)
+      (SDL:blit-surface surface rd-LR LR LR-all)
+      (SDL:blit-surface surface sh-rd-LR surface sh-wr-LR)
+      (SDL:blit-surface LR #f surface wr-LR)
+      (SDL:blit-surface surface rd-UD UD UD-all)
+      (SDL:blit-surface surface sh-rd-UD surface sh-wr-UD)
+      (SDL:blit-surface UD #f surface wr-UD))
+
+    (define (do-nothing!)
+      #f)
+
+    (define (do-update!)
+      (SDL:update-rect surface bb))
+
+    (let* ((batch? (and (not (null? opts))
+                       (not (null? (cdr opts)))
+                       (cadr opts)))
+           (middle! (if batch? do-nothing! do-update!))
+           (finish! (if batch? do-update! do-nothing!)))
+      ;; rv
+      (lambda (count)
+        (do ((i 0 (1+ i)))
+            ((= i count))
+          (do-blits!)
+          (middle!))
+        (finish!)))))
 
 ;;; misc-utils.scm ends here
