@@ -1,6 +1,7 @@
 ;;; mixer.scm
 
 (or *have-mixer* (exit-77 "mixer disabled"))
+(or *interactive* (exit-77 "interactive"))
 
 ;; simple mixer test
 
