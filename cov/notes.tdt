@@ -74,7 +74,9 @@ how to "thunkify" them.
 
  SDL_AllocRW (rwops)
 
- SDL_RWFromFP (rwops)
+ SDL_RWFromMem (rwops)
+
+ SDL_RWFromConstMem (rwops)
 
  SDL_RWFromFile (rwops)
 
