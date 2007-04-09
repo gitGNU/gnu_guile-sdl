@@ -1,6 +1,6 @@
 (text-db-table-config
-  '(delim . "\f")
-  '(fields (#:name sexp) (#:attributes sexp) (#:notes rest-lines-trim)))
+  (delim . "\f")
+  (fields (#:name sexp) (#:attributes sexp) (#:notes rest-lines-trim)))
 
  SDL_SoftStretch (internal probably-never)
 
