@@ -35,8 +35,8 @@
 
 
 ;; load a wav file
-(define background (SDL:load-music (datafile "test.wav")))
-(define fx (SDL:load-wave (datafile "noise.wav")))
+(define background (SDL:load-music (datafile "background.ogg")))
+(define fx (SDL:load-wave (datafile "fx.ogg")))
 
 ;; play the wav
 (SDL:volume 128)
