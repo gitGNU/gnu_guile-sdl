@@ -34,15 +34,15 @@
          (exit-77 "no mixer specs available"))))
 
 
-;; load a wav file
+;; load the files
 (define background (SDL:load-music (datafile "background.ogg")))
 (define fx (SDL:load-wave (datafile "fx.ogg")))
 
-;; play the wav
+;; play background
 (SDL:volume 128)
 (SDL:play-music background)
 
-;; loop until it's done, playing a sound effect every 500ms
+;; loop until it's done, playing a sound effect every 1500ms
 (while (SDL:playing-music?)
        (SDL:play-channel fx)
        (SDL:delay 1500))
