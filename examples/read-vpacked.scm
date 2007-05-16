@@ -3,7 +3,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
 !#
 ;;; Read Vertically-Packed Image
 
-;;; Author: Thien-Thi Nguyen <ttn@glug.org>
+;;; Author: Thien-Thi Nguyen
 
 ;;; Commentary:
 
