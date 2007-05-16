@@ -19,7 +19,7 @@
 (SDL:init '(SDL_INIT_AUDIO))
 
 ;; initialize the audio device
-(SDL:open-audio)
+(SDL:open-audio 12048)
 
 ;; display audio device info
 (let ((specs (SDL:query-spec)))
@@ -45,7 +45,7 @@
 ;; loop until it's done, playing a sound effect every 500ms
 (while (SDL:playing-music?)
        (SDL:play-channel fx)
-       (SDL:delay 500))
+       (SDL:delay 1500))
 
 ;; close the audio and quit SDL
 (SDL:close-audio)
