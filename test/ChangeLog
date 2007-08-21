@@ -1,3 +1,18 @@
+2007-05-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* background.ogg, fx.ogg: New files.
+	* mixer.scm (background): Use background.ogg.
+	(fx): Use fx.ogg.
+	* noise.wav, test.wav: Delete files.
+
+2007-05-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* mixer.scm: Open audio at 12048 Hz; play `fx' every 1.5 sec.
+
+2007-03-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* mixer.scm: Arrange to skip unless INTERACTIVE=1.
+
 2007-01-09  Thien-Thi Nguyen  <ttn@ambire>
 
 	* rect.scm (rand-rect): Rewrite.
