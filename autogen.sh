@@ -32,6 +32,14 @@ autoheader
 autoconf
 automake --add-missing
 
+if grep -q "Version 2" COPYING ; then
+    v3='../.copyright/GPLv3'
+    if [ -f $v3 ]
+    then ln -sf $v3 COPYING
+    else echo WARNING: COPYING is v2
+    fi
+fi
+
 ######################################################################
 # modsup.h
 
