@@ -16,15 +16,10 @@
 
 set -e
 
-if [ x"$1" = x--libtoolize ]
-    then libtoolize_p=true ; shift
-    else libtoolize_p=false
-fi
-
 ######################################################################
 # Libtool setup.
 
-if $libtoolize_p || [ ! -f ltmain.sh ] ; then
+if [ x"$1" = x--libtoolize ] || [ ! -f ltmain.sh ] ; then
     libtoolize --force --automake
 fi
 
