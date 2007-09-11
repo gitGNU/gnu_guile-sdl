@@ -53,20 +53,31 @@
 ;; @itemx #:h
 ;; @itemx #:w/h
 ;; Return width, height, or a cons of width and height, respectively.
+;;
+;; @item #:resize new-width new-height
+;; Request that the canvas dimension be changed to @var{new-width} by
+;; @var{new-height}.  Return a rect that reflects the actual dimension.
 ;; @end table
 ;;
 (define (simple-canvas init? w h bpp . flags)
   (or (not init?)
       (= 0 (///-init '(SDL_INIT_VIDEO)))
       (error "could not init SDL"))
-  (let ((canvas (///-set-video-mode
-                    w h bpp (if (null? flags)
-                               '(SDL_HWSURFACE SDL_DOUBLEBUF)
-                               flags)))
-        (rect (///-make-rect 0 0 w h))
+  (let ((canvas #f)
+        (rect #f)
         (bg #f))
+    (define (setup! width height)
+      (set! w width)
+      (set! h height)
+      (set! canvas (///-set-video-mode
+                    width height bpp (if (null? flags)
+                                         '(SDL_HWSURFACE SDL_DOUBLEBUF)
+                                         flags)))
+      (set! rect (///-make-rect 0 0 width height))
+      rect)
     (define (set-bg! r g b)
       (set! bg (///-map-rgb (assq-ref (///-get-video-info) 'vfmt) r g b)))
+    (setup! w h)
     (set-bg! 0 0 0)
     ;; rv
     (lambda args
@@ -79,6 +90,7 @@
             ((#:w) w)
             ((#:h) h)
             ((#:w/h) (cons w h))
+            ((#:resize!) (apply setup! (cdr args)))
             (else (error "bad key:" (car args))))))))
 
 ;; Return a @dfn{stylus closure} that accepts a few simple messages.
