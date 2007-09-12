@@ -4,14 +4,18 @@ AUTOMAKE_OPTIONS = gnu
 
 SUBDIRS = src sdl sdl-mixer sdl-ttf sdl-gfx doc
 
-noinst_DATA = pre-inst.merged-module-catalog
+noinst_DATA = .module-catalog
 
-pre-inst.merged-module-catalog:
+.module-catalog:
 	if guile-tools | grep -q mkpimmc ; then			\
 	  guile-tools mkpimmc -d $(DEPDIR) $@ "$(srcdir)"	\
 	    -- -d in,lo,o					\
 	       -X '~$$' -X 'doc/' -X 'CVS/' -X '/test/' ;	\
 	else echo '()' > $@ ; fi
+
+CLEANFILES = .module-catalog
+clean-local:
+	./config.status module-catalog-clean-local
 
 install-data-hook:
 	if guile-tools | grep -q make-module-catalog ; then	\
