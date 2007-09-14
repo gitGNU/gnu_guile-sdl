@@ -2,6 +2,8 @@
 
 AUTOMAKE_OPTIONS = gnu
 
+ACLOCAL_AMFLAGS = -I am
+
 SUBDIRS = src sdl sdl-mixer sdl-ttf sdl-gfx doc
 
 noinst_DATA = .module-catalog
