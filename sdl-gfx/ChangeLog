@@ -1,5 +1,21 @@
 2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	* SDL_gfx/SDL_gfxPrimitives.c
+	(_texturedHLine): Fix typos: Use `result |='.
+	(texturedPolygon): Init `result' at top of function.
+	Fix bug: when returning early, return `result'.
+
+2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* SDL_gfx/SDL_framerate.h: Include <SDL/SDL.h> instead of "SDL.h".
+	* SDL_gfx/SDL_gfxPrimitives.h: Likewise.
+	* SDL_gfx/SDL_rotozoom.h: Likewise.
+
+	* SDL_gfx/SDL_gfxBlitFunc.h: Include <SDL/SDL.h> instead of <SDL.h>.
+	Include <SDL/SDL_video.h> instead of <SDL_video.h>.
+
+2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	* SDL_gfx/README: Sync with SDL_gfx 2.0.16.
 	* SDL_gfx/SDL_framerate.c: Likewise.
 	* SDL_gfx/SDL_framerate.h: Likewise.

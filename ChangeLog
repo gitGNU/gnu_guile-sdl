@@ -1,3 +1,15 @@
+2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* am/guile-sdl.m4: New file.
+	* acinclude.m4: Delete file.
+	* am/aclocal-suffix: New file, moved from...
+	* aclocal-suffix: Delete file, ...here.
+
+	* Makefile.am (ACLOCAL_AMFLAGS): New var.
+
+	* autogen.sh: Update ref to aclocal-suffix.
+	Also, specify `-I am' to aclocal.
+
 2007-09-12  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* configure.in (GUILE_MODULE_CATALOG_PREP): New macro call.
