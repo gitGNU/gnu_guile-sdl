@@ -1,3 +1,23 @@
+2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* SDL_gfx/README: Sync with SDL_gfx 2.0.16.
+	* SDL_gfx/SDL_framerate.c: Likewise.
+	* SDL_gfx/SDL_framerate.h: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives.c: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives.h: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives_font.h: Likewise.
+	* SDL_gfx/SDL_imageFilter.c: Likewise.
+	* SDL_gfx/SDL_imageFilter.h: Likewise.
+	* SDL_gfx/SDL_rotozoom.c: Likewise.
+	* SDL_gfx/SDL_rotozoom.h: Likewise.
+	* SDL_gfx/SDL_gfxBlitFunc.h: Initial revision from SDL_gfx 2.0.16.
+	* SDL_gfx/SDL_gfxBlitFunc.c: Likewise.
+
+2007-09-12  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* sdlgfx.c (modname): Delete static var.
+	In `GH_MODULE_LINK_FUNC' form, use string literal directly.
+
 2006-12-19  Thien-Thi Nguyen  <ttn@ambire>
 
 	* sdlgfx.c (make_fps_manager): Don't init `m' if it is NULL.

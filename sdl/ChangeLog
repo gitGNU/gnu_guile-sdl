@@ -1,3 +1,8 @@
+2007-09-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* simple.scm (simple-canvas setup!): New internal proc.
+	(simple-canvas): Handle `#:resize!'.
+
 2007-02-06  Thien-Thi Nguyen  <ttn@ambire>
 
 	* misc-utils.scm (toroidal-panner): New proc, exported.
