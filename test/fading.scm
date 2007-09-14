@@ -35,7 +35,7 @@
        (img3 (as-four img2))
        (void (SDL:make-surface 200 153)))
   (define (fade/wait! bef aft)
-    (fade-loop! 2 (canvas) #f bef aft)
+    (fade-loop! 1.42 (canvas) #f bef aft)
     (SDL:delay 1234))
   (SDL:fill-rect void #f
                  (SDL:map-rgb (SDL:surface-get-format (canvas)) 0 0 0))
