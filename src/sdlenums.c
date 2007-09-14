@@ -183,9 +183,11 @@ gsdl_long2enum (long value, SCM enumstash_type)
 
 /* Scheme level conversions */
 
-GH_DEFPROC (enumstash_enums, "enumstash-enums", 1, 0, 0,
-            (SCM enumstash_type),
-            "Return the list of symbols associated with @var{enum-type}.")
+GH_DEFPROC
+(enumstash_enums, "enumstash-enums", 1, 0, 0,
+ (SCM enumstash_type),
+ doc: /***********
+Return the list of symbols associated with @var{enum-type}.  */)
 {
 #define FUNC_NAME s_enumstash_enums
   SCM rv;
@@ -207,10 +209,12 @@ GH_DEFPROC (enumstash_enums, "enumstash-enums", 1, 0, 0,
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (enum_to_number, "enum->number", 2, 0, 0,
-            (SCM enumstash_type,
-             SCM symbol),
-            "Convert an enum number or symbol to a number.")
+GH_DEFPROC
+(enum_to_number, "enum->number", 2, 0, 0,
+ (SCM enumstash_type,
+  SCM symbol),
+ doc: /***********
+Convert an enum number or symbol to a number.  */)
 {
 #define FUNC_NAME s_enum_to_number
   SCM table;
@@ -228,9 +232,11 @@ GH_DEFPROC (enum_to_number, "enum->number", 2, 0, 0,
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (number_to_enum, "number->enum", 2, 0, 0,
-            (SCM enumstash_type, SCM number),
-            "Convert a number to an enum.")
+GH_DEFPROC
+(number_to_enum, "number->enum", 2, 0, 0,
+ (SCM enumstash_type, SCM number),
+ doc: /***********
+Convert a number to an enum.  */)
 {
 #define FUNC_NAME s_number_to_enum
   SCM vec;
@@ -398,10 +404,12 @@ gsdl_ulong2flags (unsigned long value, SCM stash)
 
 /* Scheme level conversions */
 
-GH_DEFPROC (flagstash_flags, "flagstash-flags", 1, 0, 0,
-            (SCM stash),
-            "Return a list of all the flags (symbols) in @var{stash},\n"
-            "a flagstash object, in unspecified order.")
+GH_DEFPROC
+(flagstash_flags, "flagstash-flags", 1, 0, 0,
+ (SCM stash),
+ doc: /***********
+Return a list of all the flags (symbols) in @var{stash},
+a flagstash object, in unspecified order.  */)
 {
 #define FUNC_NAME s_flagstash_flags
   int i;
@@ -417,10 +425,12 @@ GH_DEFPROC (flagstash_flags, "flagstash-flags", 1, 0, 0,
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (flags_to_number, "flags->number", 2, 0, 0,
-            (SCM stash, SCM flags),
-            "Use @var{stash} to convert @var{flags} to a number.\n"
-            "@var{flags} is a list of symbols.")
+GH_DEFPROC
+(flags_to_number, "flags->number", 2, 0, 0,
+ (SCM stash, SCM flags),
+ doc: /***********
+Use @var{stash} to convert @var{flags} to a number.
+@var{flags} is a list of symbols.  */)
 {
 #define FUNC_NAME s_flags_to_number
   ASSERT_FLAGSTASH (stash, ARGH1);
@@ -429,10 +439,11 @@ GH_DEFPROC (flags_to_number, "flags->number", 2, 0, 0,
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (number_to_flags, "number->flags", 2, 0, 0,
-            (SCM stash, SCM number),
-            "Use @var{stash} to convert @var{number} to a list\n"
-            "of symbols.")
+GH_DEFPROC
+(number_to_flags, "number->flags", 2, 0, 0,
+ (SCM stash, SCM number),
+ doc: /***********
+Use @var{stash} to convert @var{number} to a list of symbols.  */)
 {
 #define FUNC_NAME s_number_to_flags
   ASSERT_FLAGSTASH (stash, ARGH1);

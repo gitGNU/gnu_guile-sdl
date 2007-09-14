@@ -59,9 +59,11 @@ print_rect (SCM smob, SCM port, scm_print_state *pstate)
 }
 
 
-GH_DEFPROC (rect_p, "rect?", 1, 0, 0,
-            (SCM obj),
-            "Return #t iff @var{obj} is an SDL-rectangle object.")
+GH_DEFPROC
+(rect_p, "rect?", 1, 0, 0,
+ (SCM obj),
+ doc: /***********
+Return #t iff @var{obj} is an SDL-rectangle object.  */)
 {
 #define FUNC_NAME s_rect_p
   RETURN_BOOL
@@ -69,10 +71,12 @@ GH_DEFPROC (rect_p, "rect?", 1, 0, 0,
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (make_rect, "make-rect", 4, 0, 0,
-            (SCM x, SCM y, SCM width, SCM height),
-            "Return a rectangle object with location @var{x},@var{y}\n"
-            "and dimensions @var{width} by @var{height}.")
+GH_DEFPROC
+(make_rect, "make-rect", 4, 0, 0,
+ (SCM x, SCM y, SCM width, SCM height),
+ doc: /***********
+Return a rectangle object with location @var{x},@var{y}
+and dimensions @var{width} by @var{height}.  */)
 {
 #define FUNC_NAME s_make_rect
   SDL_Rect *rect;

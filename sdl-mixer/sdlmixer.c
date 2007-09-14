@@ -65,12 +65,14 @@ free_audio (SCM chunk)
 }
 
 
-GH_DEFPROC (mix_open_audio, "open-audio", 0, 4, 0,
-            (SCM freq, SCM format, SCM stereo, SCM chunksize),
-            "Open the mixer with a certain audio format.\n"
-            "Optional args @var{freq} (number), @var{format} (number),\n"
-            "@var{stereo} (boolean) and @var{chunksize} (number) specify\n"
-            "those aspects of the device.  Return #t if successful.")
+GH_DEFPROC
+(mix_open_audio, "open-audio", 0, 4, 0,
+ (SCM freq, SCM format, SCM stereo, SCM chunksize),
+ doc: /***********
+Open the mixer with a certain audio format.
+Optional args @var{freq} (number), @var{format} (number),
+@var{stereo} (boolean) and @var{chunksize} (number) specify
+those aspects of the device.  Return #t if successful.  */)
 {
 #define FUNC_NAME s_mix_open_audio
   int cfreq = MIX_DEFAULT_FREQUENCY;
@@ -108,12 +110,14 @@ GH_DEFPROC (mix_open_audio, "open-audio", 0, 4, 0,
 }
 
 
-GH_DEFPROC (mix_allocate_channels, "allocated-channels", 1, 0, 0,
-            (SCM numchans),
-            "Dynamically change the number of channels managed by\n"
-            "the mixer to @var{numchans}.  If decreasing the number\n"
-            "of channels, the upper channels are stopped.  Return the\n"
-            "new number of allocated channels.")
+GH_DEFPROC
+(mix_allocate_channels, "allocated-channels", 1, 0, 0,
+ (SCM numchans),
+ doc: /***********
+Dynamically change the number of channels managed by
+the mixer to @var{numchans}.  If decreasing the number
+of channels, the upper channels are stopped.  Return the
+new number of allocated channels.  */)
 {
 #define FUNC_NAME s_mix_allocate_channels
   ASSERT_EXACT (numchans, ARGH1);
@@ -126,12 +130,14 @@ DECLARE_SIMPLE_SYM (freq);
 DECLARE_SIMPLE_SYM (format);
 DECLARE_SIMPLE_SYM (channels);
 
-GH_DEFPROC (mix_query_spec, "query-spec", 0, 0, 0,
-            (void),
-            "Return audio device parameters as an alist, or #f\n"
-            "if the audio has not yet been opened.\n"
-            "Keys are @code{freq} (frequency), @code{format},\n"
-            "and @code{channels} (the number of allocated channels).")
+GH_DEFPROC
+(mix_query_spec, "query-spec", 0, 0, 0,
+ (void),
+ doc: /***********
+Return audio device parameters as an alist, or #f
+if the audio has not yet been opened.
+Keys are @code{freq} (frequency), @code{format},
+and @code{channels} (the number of allocated channels).  */)
 {
 #define FUNC_NAME s_mix_query_spec
   int freq, channels;
@@ -147,10 +153,12 @@ GH_DEFPROC (mix_query_spec, "query-spec", 0, 0, 0,
 }
 
 
-GH_DEFPROC (mix_load_music, "load-music", 1, 0, 0,
-            (SCM file),
-            "Load a wave or a music (.mod .s3m .it .xm) @var{file}.\n"
-            "Return a handle to it.")
+GH_DEFPROC
+(mix_load_music, "load-music", 1, 0, 0,
+ (SCM file),
+ doc: /***********
+Load a wave or a music (.mod .s3m .it .xm) @var{file}.
+Return a handle to it.  */)
 {
 #define FUNC_NAME s_mix_load_music
   ASSERT_STRING (file, ARGH1);
@@ -161,9 +169,11 @@ GH_DEFPROC (mix_load_music, "load-music", 1, 0, 0,
 }
 
 
-GH_DEFPROC (mix_load_wave, "load-wave", 1, 0, 0,
-            (SCM file),
-            "Load a wave @var{file}. Return a handle to it.")
+GH_DEFPROC
+(mix_load_wave, "load-wave", 1, 0, 0,
+ (SCM file),
+ doc: /***********
+Load a wave @var{file}. Return a handle to it.  */)
 {
 #define FUNC_NAME s_mix_load_wave
   ASSERT_STRING (file, ARGH1);
@@ -174,13 +184,15 @@ GH_DEFPROC (mix_load_wave, "load-wave", 1, 0, 0,
 }
 
 
-GH_DEFPROC (mix_reserve_channels, "reserve-channels", 1, 0, 0,
-            (SCM num),
-            "Reserve the first @var{num} channels (0 through @var{num}-1)\n"
-            "for the application.  In other words don't allocate them\n"
-            "dynamically to\n"
-            "the next sample if requested with a -1 value below.\n"
-            "Return the number of reserved channels.")
+GH_DEFPROC
+(mix_reserve_channels, "reserve-channels", 1, 0, 0,
+ (SCM num),
+ doc: /***********
+Reserve the first @var{num} channels (0 through @var{num}-1)
+for the application.  In other words don't allocate them
+dynamically to
+the next sample if requested with a -1 value below.
+Return the number of reserved channels.  */)
 {
 #define FUNC_NAME s_mix_reserve_channels
   ASSERT_EXACT (num, ARGH1);
@@ -190,14 +202,16 @@ GH_DEFPROC (mix_reserve_channels, "reserve-channels", 1, 0, 0,
 }
 
 
-GH_DEFPROC (mix_group_channel, "group-channel", 1, 1, 0,
-            (SCM channel, SCM tag),
-            "Attach to @var{channel} a @var{tag}.\n"
-            "A tag can be assigned to several mixer channels, to\n"
-            "form groups of channels.  If @var{tag} is not specified, or\n"
-            "is -1, the tag is removed (actually -1 is the tag used\n"
-            "to represent the group of all the channels).  Return\n"
-            "#t if successful.")
+GH_DEFPROC
+(mix_group_channel, "group-channel", 1, 1, 0,
+ (SCM channel, SCM tag),
+ doc: /***********
+Attach to @var{channel} a @var{tag}.
+A tag can be assigned to several mixer channels, to
+form groups of channels.  If @var{tag} is not specified, or
+is -1, the tag is removed (actually -1 is the tag used
+to represent the group of all the channels).  Return
+#t if successful.  */)
 {
 #define FUNC_NAME s_mix_group_channel
   int ctag = -1;
@@ -216,11 +230,13 @@ GH_DEFPROC (mix_group_channel, "group-channel", 1, 1, 0,
 }
 
 
-GH_DEFPROC (mix_group_channels, "group-channels", 2, 1, 0,
-            (SCM from, SCM to, SCM tag),
-            "Assign channels in the range @var{from} through @var{to}\n"
-            "to the default group.  Optional arg @var{tag} specifies\n"
-            "the group to use.  Return #t if successful.")
+GH_DEFPROC
+(mix_group_channels, "group-channels", 2, 1, 0,
+ (SCM from, SCM to, SCM tag),
+ doc: /***********
+Assign channels in the range @var{from} through @var{to}
+to the default group.  Optional arg @var{tag} specifies
+the group to use.  Return #t if successful.  */)
 {
 #define FUNC_NAME s_mix_group_channels
   int ctag = -1;
@@ -242,11 +258,13 @@ GH_DEFPROC (mix_group_channels, "group-channels", 2, 1, 0,
 }
 
 
-GH_DEFPROC (mix_group_available, "group-available", 0, 1, 0,
-            (SCM tag),
-            "Return the first available channel in the default\n"
-            "group of channels.\n"
-            "Optional arg @var{tag} specifies the group to check.")
+GH_DEFPROC
+(mix_group_available, "group-available", 0, 1, 0,
+ (SCM tag),
+ doc: /***********
+Return the first available channel in the default
+group of channels.
+Optional arg @var{tag} specifies the group to check.  */)
 {
 #define FUNC_NAME s_mix_group_available
   int ctag = -1;
@@ -262,10 +280,12 @@ GH_DEFPROC (mix_group_available, "group-available", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_group_count, "group-count", 0, 1, 0,
-            (SCM tag),
-            "Return the number of channels in the default group.\n"
-            "Optional arg @var{tag} specifies the group to check.")
+GH_DEFPROC
+(mix_group_count, "group-count", 0, 1, 0,
+ (SCM tag),
+ doc: /***********
+Return the number of channels in the default group.
+Optional arg @var{tag} specifies the group to check.  */)
 {
 #define FUNC_NAME s_mix_group_count
   int ctag = -1;
@@ -281,11 +301,13 @@ GH_DEFPROC (mix_group_count, "group-count", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_group_oldest, "group-oldest", 0, 1, 0,
-            (SCM tag),
-            "Return the \"oldest\" sample playing in the default\n"
-            "group of channels.\n"
-            "Optional arg @var{tag} specifies the group to check.")
+GH_DEFPROC
+(mix_group_oldest, "group-oldest", 0, 1, 0,
+ (SCM tag),
+ doc: /***********
+Return the "oldest" sample playing in the default
+group of channels.
+Optional arg @var{tag} specifies the group to check.  */)
 {
 #define FUNC_NAME s_mix_group_oldest
   int ctag = -1;
@@ -301,11 +323,13 @@ GH_DEFPROC (mix_group_oldest, "group-oldest", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_group_newer, "group-newer", 0, 1, 0,
-            (SCM tag),
-            "Return the \"most recent\" (i.e. last) sample playing\n"
-            "in the default group of channels.\n"
-            "Optional arg @var{tag} specifies the group to check.")
+GH_DEFPROC
+(mix_group_newer, "group-newer", 0, 1, 0,
+ (SCM tag),
+ doc: /***********
+Return the "most recent" (i.e. last) sample playing
+in the default group of channels.
+Optional arg @var{tag} specifies the group to check.  */)
 {
 #define FUNC_NAME s_mix_group_newer
   int ctag = -1;
@@ -321,17 +345,19 @@ GH_DEFPROC (mix_group_newer, "group-newer", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
-            (SCM chunk, SCM channel, SCM loops, SCM ticks, SCM fade),
-            "Play an audio @var{chunk} on a specific @var{channel}.\n"
-            "If the channel is unspecified or is -1, play on the\n"
-            "first free channel.  If @var{loops} is specified and\n"
-            "greater than zero, loop the sound that many times.  If\n"
-            "@var{loops} is -1, loop infinitely (~65000 times).  If\n"
-            "@var{ticks} is specified, stop after that number of ticks.\n"
-            "If @var{fade} is specified, fade in over that number of\n"
-            "milliseconds.  Return which channel was used to play\n"
-            "the sound.")
+GH_DEFPROC
+(mix_play_channel, "play-channel", 1, 4, 0,
+ (SCM chunk, SCM channel, SCM loops, SCM ticks, SCM fade),
+ doc: /***********
+Play an audio @var{chunk} on a specific @var{channel}.
+If the channel is unspecified or is -1, play on the
+first free channel.  If @var{loops} is specified and
+greater than zero, loop the sound that many times.  If
+@var{loops} is -1, loop infinitely (~65000 times).  If
+@var{ticks} is specified, stop after that number of ticks.
+If @var{fade} is specified, fade in over that number of
+milliseconds.  Return which channel was used to play
+the sound.  */)
 {
 #define FUNC_NAME s_mix_play_channel
   int cchannel = -1;
@@ -380,11 +406,13 @@ GH_DEFPROC (mix_play_channel, "play-channel", 1, 4, 0,
 }
 
 
-GH_DEFPROC (mix_play_music, "play-music", 1, 2, 0,
-            (SCM music, SCM loops, SCM fade),
-            "Play a @var{music} track.\n"
-            "Optional args @var{loops} and @var{fade}\n"
-            "are as in @code{play-channel}.")
+GH_DEFPROC
+(mix_play_music, "play-music", 1, 2, 0,
+ (SCM music, SCM loops, SCM fade),
+ doc: /***********
+Play a @var{music} track.
+Optional args @var{loops} and @var{fade}
+are as in @code{play-channel}.  */)
 {
 #define FUNC_NAME s_mix_play_music
   Mix_Music *cmusic;
@@ -415,20 +443,24 @@ GH_DEFPROC (mix_play_music, "play-music", 1, 2, 0,
 }
 
 
-GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
-            (SCM volume, SCM which),
-            "Return the current volume on the default channel.\n"
-            "Optional arg @var{volume} (a number in the range 0-128) means\n"
-            "set the volume to @var{volume} and return the original volume.\n"
-            "Optional second arg @var{which} specifies a chunk or\n"
-            "channel to check (or modify) instead of the default.\n"
-            "If @var{volume} is non-#f and @var{which} is #f, modify all\n"
-            "channels.\n\n"
-            "[Here is the original (perhaps clearer) docstring. ---ttn]\n\n"
-            "Set the volume in the range of 0-128 of a specific channel\n"
-            "or chunk.  If the channel is unspecified or is -1, set volume\n"
-            "for all channels.  Return the original volume.  If the volume\n"
-            "is unspecified or is -1, just return the current volume.")
+GH_DEFPROC
+(mix_volume, "volume", 0, 2, 0,
+ (SCM volume, SCM which),
+ doc: /***********
+Return the current volume on the default channel.
+Optional arg @var{volume} (a number in the range 0-128) means
+set the volume to @var{volume} and return the original volume.
+Optional second arg @var{which} specifies a chunk or
+channel to check (or modify) instead of the default.
+If @var{volume} is non-#f and @var{which} is #f, modify all
+channels.
+
+[Here is the original (perhaps clearer) docstring. ---ttn]
+
+Set the volume in the range of 0-128 of a specific channel
+or chunk.  If the channel is unspecified or is -1, set volume
+for all channels.  Return the original volume.  If the volume
+is unspecified or is -1, just return the current volume.  */)
 {
 #define FUNC_NAME s_mix_volume
   int cvolume = -1;
@@ -458,11 +490,13 @@ GH_DEFPROC (mix_volume, "volume", 0, 2, 0,
 }
 
 
-GH_DEFPROC (mix_volume_music, "music-volume", 0, 1, 0,
-            (SCM volume),
-            "Return the current volume.\n"
-            "Optional arg @var{volume} (a number in the range 0-128)\n"
-            "means set the volume to @var{volume}.")
+GH_DEFPROC
+(mix_volume_music, "music-volume", 0, 1, 0,
+ (SCM volume),
+ doc: /***********
+Return the current volume.
+Optional arg @var{volume} (a number in the range 0-128)
+means set the volume to @var{volume}.  */)
 {
 #define FUNC_NAME s_mix_volume_music
   int cvolume = -1;
@@ -478,10 +512,12 @@ GH_DEFPROC (mix_volume_music, "music-volume", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_halt_channel, "halt-channel", 0, 1, 0,
-            (SCM channel),
-            "Halt playing of the default channel.\n"
-            "Optional arg @var{channel} specifies a channel to halt.")
+GH_DEFPROC
+(mix_halt_channel, "halt-channel", 0, 1, 0,
+ (SCM channel),
+ doc: /***********
+Halt playing of the default channel.
+Optional arg @var{channel} specifies a channel to halt.  */)
 {
 #define FUNC_NAME s_mix_halt_channel
   int cchannel = -1;
@@ -497,10 +533,12 @@ GH_DEFPROC (mix_halt_channel, "halt-channel", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_halt_group, "halt-group", 0, 1, 0,
-            (SCM tag),
-            "Halt playing of the default group.\n"
-            "Optional arg @var{tag} specifies the group to halt.")
+GH_DEFPROC
+(mix_halt_group, "halt-group", 0, 1, 0,
+ (SCM tag),
+ doc: /***********
+Halt playing of the default group.
+Optional arg @var{tag} specifies the group to halt.  */)
 {
 #define FUNC_NAME s_mix_halt_group
   int ctag = -1;
@@ -516,9 +554,11 @@ GH_DEFPROC (mix_halt_group, "halt-group", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_halt_music, "halt-music", 0, 0, 0,
-            (void),
-            "Halt playing of the music.")
+GH_DEFPROC
+(mix_halt_music, "halt-music", 0, 0, 0,
+ (void),
+ doc: /***********
+Halt playing of the music.  */)
 {
 #define FUNC_NAME s_mix_halt_music
   RETURN_INT (Mix_HaltMusic ());
@@ -526,12 +566,14 @@ GH_DEFPROC (mix_halt_music, "halt-music", 0, 0, 0,
 }
 
 
-GH_DEFPROC (mix_expire_channel, "expire-channel", 0, 2, 0,
-            (SCM channel, SCM ticks),
-            "Turn off expiration for the default channel.\n"
-            "Optional arg @var{channel} specifies a channel to change.\n"
-            "Optional arg @var{ticks} (a number) means set the expiration\n"
-            "delay to that many milliseconds, rather than turning it off.")
+GH_DEFPROC
+(mix_expire_channel, "expire-channel", 0, 2, 0,
+ (SCM channel, SCM ticks),
+ doc: /***********
+Turn off expiration for the default channel.
+Optional arg @var{channel} specifies a channel to change.
+Optional arg @var{ticks} (a number) means set the expiration
+delay to that many milliseconds, rather than turning it off.  */)
 {
 #define FUNC_NAME s_mix_expire_channel
   int cchannel = -1;
@@ -555,12 +597,14 @@ GH_DEFPROC (mix_expire_channel, "expire-channel", 0, 2, 0,
 }
 
 
-GH_DEFPROC (mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
-            (SCM which, SCM ms),
-            "Halt a channel, fading it out progressively until silent.\n"
-            "Optional arg @var{which} specifies a channel to halt.\n"
-            "Second optional arg @var{ms} specifies the number of\n"
-            "milliseconds the fading will take (default 0).")
+GH_DEFPROC
+(mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
+ (SCM which, SCM ms),
+ doc: /***********
+Halt a channel, fading it out progressively until silent.
+Optional arg @var{which} specifies a channel to halt.
+Second optional arg @var{ms} specifies the number of
+milliseconds the fading will take (default 0).  */)
 {
 #define FUNC_NAME s_mix_fade_out_channel
   int cchannel = -1;
@@ -584,12 +628,14 @@ GH_DEFPROC (mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
 }
 
 
-GH_DEFPROC (mix_fade_out_group, "fade-out-group", 0, 2, 0,
-            (SCM tag, SCM ms),
-            "Halt a group, fading it out progressively until silent.\n"
-            "Optional arg @var{tag} specifies a group to halt.\n"
-            "Second optional arg @var{ms} specifies the number of\n"
-            "milliseconds the fading will take (default 0).")
+GH_DEFPROC
+(mix_fade_out_group, "fade-out-group", 0, 2, 0,
+ (SCM tag, SCM ms),
+ doc: /***********
+Halt a group, fading it out progressively until silent.
+Optional arg @var{tag} specifies a group to halt.
+Second optional arg @var{ms} specifies the number of
+milliseconds the fading will take (default 0).  */)
 {
 #define FUNC_NAME s_mix_fade_out_group
   int ctag = -1;
@@ -613,11 +659,13 @@ GH_DEFPROC (mix_fade_out_group, "fade-out-group", 0, 2, 0,
 }
 
 
-GH_DEFPROC (mix_fade_out_music, "fade-out-music", 0, 1, 0,
-            (SCM ms),
-            "Halt the music, fading it out progressively until silent.\n"
-            "Optional arg @var{ms} specifies the number of milliseconds\n"
-            "the fading will take (default 0).")
+GH_DEFPROC
+(mix_fade_out_music, "fade-out-music", 0, 1, 0,
+ (SCM ms),
+ doc: /***********
+Halt the music, fading it out progressively until silent.
+Optional arg @var{ms} specifies the number of milliseconds
+the fading will take (default 0).  */)
 {
 #define FUNC_NAME s_mix_fade_out_music
   int cms = 0;
@@ -633,9 +681,11 @@ GH_DEFPROC (mix_fade_out_music, "fade-out-music", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_fading_music, "fading-music", 0, 0, 0,
-            (void),
-            "Return the fading status of the music.")
+GH_DEFPROC
+(mix_fading_music, "fading-music", 0, 0, 0,
+ (void),
+ doc: /***********
+Return the fading status of the music.  */)
 {
 #define FUNC_NAME s_mix_fading_music
   RETURN_FADINGSTATUS (Mix_FadingMusic ());
@@ -643,10 +693,12 @@ GH_DEFPROC (mix_fading_music, "fading-music", 0, 0, 0,
 }
 
 
-GH_DEFPROC (mix_fading_channel, "fading-channel", 0, 1, 0,
-            (SCM which),
-            "Return the fading status of a the default channel."
-            "Optional arg @var{which} selects which channel to check.")
+GH_DEFPROC
+(mix_fading_channel, "fading-channel", 0, 1, 0,
+ (SCM which),
+ doc: /***********
+Return the fading status of a the default channe
+Optional arg @var{which} selects which channel to check.  */)
 {
 #define FUNC_NAME s_mix_fading_channel
   int cwhich = -1;
@@ -662,11 +714,13 @@ GH_DEFPROC (mix_fading_channel, "fading-channel", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_pause, "pause", 0, 1, 0,
-            (SCM channel),
-            "Pause the default channel."
-            "Optional arg @var{channel} selects which channel to pause.\n"
-            "Return value unspecified.")
+GH_DEFPROC
+(mix_pause, "pause", 0, 1, 0,
+ (SCM channel),
+ doc: /***********
+Pause the default channe
+Optional arg @var{channel} selects which channel to pause.
+Return value unspecified.  */)
 {
 #define FUNC_NAME s_mix_pause
   int cchannel = -1;
@@ -683,11 +737,13 @@ GH_DEFPROC (mix_pause, "pause", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_resume, "resume", 0, 1, 0,
-            (SCM channel),
-            "Resume (unpause) the default channel.\n"
-            "Optional arg @var{channel} selects which channel to resume.\n"
-            "Return value unspecified.")
+GH_DEFPROC
+(mix_resume, "resume", 0, 1, 0,
+ (SCM channel),
+ doc: /***********
+Resume (unpause) the default channel.
+Optional arg @var{channel} selects which channel to resume.
+Return value unspecified.  */)
 {
 #define FUNC_NAME s_mix_resume
   int cchannel = -1;
@@ -704,10 +760,12 @@ GH_DEFPROC (mix_resume, "resume", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_paused, "paused?", 0, 1, 0,
-            (SCM channel),
-            "Return #t if the default channel is paused.\n"
-            "Optional arg @var{channel} selects a which channel to check.")
+GH_DEFPROC
+(mix_paused, "paused?", 0, 1, 0,
+ (SCM channel),
+ doc: /***********
+Return #t if the default channel is paused.
+Optional arg @var{channel} selects a which channel to check.  */)
 {
 #define FUNC_NAME s_mix_resume
   int cchannel = -1;
@@ -724,9 +782,11 @@ GH_DEFPROC (mix_paused, "paused?", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_pause_music, "pause-music", 0, 0, 0,
-            (void),
-            "Pause the music.  Return value unspecified.")
+GH_DEFPROC
+(mix_pause_music, "pause-music", 0, 0, 0,
+ (void),
+ doc: /***********
+Pause the music.  Return value unspecified.  */)
 {
 #define FUNC_NAME s_mix_pause_music
   Mix_PauseMusic ();
@@ -735,9 +795,11 @@ GH_DEFPROC (mix_pause_music, "pause-music", 0, 0, 0,
 }
 
 
-GH_DEFPROC (mix_resume_music, "resume-music", 0, 0, 0,
-            (void),
-            "Resume (unpause) the music.  Return value unspecified.")
+GH_DEFPROC
+(mix_resume_music, "resume-music", 0, 0, 0,
+ (void),
+ doc: /***********
+Resume (unpause) the music.  Return value unspecified.  */)
 {
 #define FUNC_NAME s_mix_resume_music
   Mix_ResumeMusic ();
@@ -746,9 +808,11 @@ GH_DEFPROC (mix_resume_music, "resume-music", 0, 0, 0,
 }
 
 
-GH_DEFPROC (mix_rewind_music, "rewind-music", 0, 0, 0,
-            (void),
-            "Rewind the music.  Return value unspecified.")
+GH_DEFPROC
+(mix_rewind_music, "rewind-music", 0, 0, 0,
+ (void),
+ doc: /***********
+Rewind the music.  Return value unspecified.  */)
 {
 #define FUNC_NAME s_mix_rewind_music
   Mix_RewindMusic ();
@@ -757,9 +821,11 @@ GH_DEFPROC (mix_rewind_music, "rewind-music", 0, 0, 0,
 }
 
 
-GH_DEFPROC (mix_paused_music, "paused-music?", 0, 0, 0,
-            (void),
-            "Return #t if the music is currently paused.")
+GH_DEFPROC
+(mix_paused_music, "paused-music?", 0, 0, 0,
+ (void),
+ doc: /***********
+Return #t if the music is currently paused.  */)
 {
 #define FUNC_NAME s_mix_paused_music
   RETURN_BOOL
@@ -768,10 +834,12 @@ GH_DEFPROC (mix_paused_music, "paused-music?", 0, 0, 0,
 }
 
 
-GH_DEFPROC (mix_playing, "playing?", 0, 1, 0,
-            (SCM channel),
-            "Return #t iff the default channel is playing.\n"
-            "Optional arg @var{channel} selects which channel to check.")
+GH_DEFPROC
+(mix_playing, "playing?", 0, 1, 0,
+ (SCM channel),
+ doc: /***********
+Return #t iff the default channel is playing.
+Optional arg @var{channel} selects which channel to check.  */)
 {
 #define FUNC_NAME s_mix_playing
   int cchannel = -1;
@@ -788,9 +856,11 @@ GH_DEFPROC (mix_playing, "playing?", 0, 1, 0,
 }
 
 
-GH_DEFPROC (mix_playing_music, "playing-music?", 0, 0, 0,
-            (void),
-            "Return #t iff the music is currently playing.")
+GH_DEFPROC
+(mix_playing_music, "playing-music?", 0, 0, 0,
+ (void),
+ doc: /***********
+Return #t iff the music is currently playing.  */)
 {
 #define FUNC_NAME s_mix_playing_music
   RETURN_BOOL
@@ -799,10 +869,12 @@ GH_DEFPROC (mix_playing_music, "playing-music?", 0, 0, 0,
 }
 
 
-GH_DEFPROC (mix_set_music_cmd, "set-music-command", 1, 0, 0,
-            (SCM command),
-            "Stop music and set external music playback command\n"
-            "to @var{command}, a string.")
+GH_DEFPROC
+(mix_set_music_cmd, "set-music-command", 1, 0, 0,
+ (SCM command),
+ doc: /***********
+Stop music and set external music playback command
+to @var{command}, a string.  */)
 {
 #define FUNC_NAME s_mix_set_music_cmd
   ASSERT_STRING (command, ARGH1);
@@ -811,9 +883,11 @@ GH_DEFPROC (mix_set_music_cmd, "set-music-command", 1, 0, 0,
 }
 
 
-GH_DEFPROC (mix_close_audio, "close-audio", 0, 0, 0,
-            (void),
-            "Close the mixer, halting all playing audio.")
+GH_DEFPROC
+(mix_close_audio, "close-audio", 0, 0, 0,
+ (void),
+ doc: /***********
+Close the mixer, halting all playing audio.  */)
 {
 #define FUNC_NAME s_mix_close_audio
   Mix_CloseAudio ();

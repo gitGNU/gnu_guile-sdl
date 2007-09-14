@@ -36,10 +36,12 @@ GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
 #include "SDL_gfxPrimitives.h"
 
 
-GH_DEFPROC (draw_point, "draw-point", 4, 0, 0,
-            (SCM surface, SCM x, SCM y, SCM color),
-            "On @var{surface}, draw a point at location\n"
-            "@var{x},@var{y} with color @var{color}.")
+GH_DEFPROC
+(draw_point, "draw-point", 4, 0, 0,
+ (SCM surface, SCM x, SCM y, SCM color),
+ doc: /***********
+On @var{surface}, draw a point at location
+@var{x},@var{y} with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_point
   ASSERT_SURFACE (surface, ARGH1);
@@ -55,11 +57,13 @@ GH_DEFPROC (draw_point, "draw-point", 4, 0, 0,
 }
 
 
-GH_DEFPROC (draw_hline, "draw-hline", 5, 0, 0,
-            (SCM surface, SCM x1, SCM x2, SCM y, SCM color),
-            "On @var{surface}, draw a horizontal line segment\n"
-            "from @var{x1},@var{y} to @var{x2},@var{y},\n"
-            "with color @var{color}.")
+GH_DEFPROC
+(draw_hline, "draw-hline", 5, 0, 0,
+ (SCM surface, SCM x1, SCM x2, SCM y, SCM color),
+ doc: /***********
+On @var{surface}, draw a horizontal line segment
+from @var{x1},@var{y} to @var{x2},@var{y},
+with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_hline
   ASSERT_SURFACE (surface, ARGH1);
@@ -76,11 +80,13 @@ GH_DEFPROC (draw_hline, "draw-hline", 5, 0, 0,
 }
 
 
-GH_DEFPROC (draw_vline, "draw-vline", 5, 0, 0,
-            (SCM surface, SCM x, SCM y1, SCM y2, SCM color),
-            "On @var{surface}, draw a vertical line segment\n"
-            "from @var{x},@var{y1} to @var{x},@var{y2},\n"
-            "with color @var{color}.")
+GH_DEFPROC
+(draw_vline, "draw-vline", 5, 0, 0,
+ (SCM surface, SCM x, SCM y1, SCM y2, SCM color),
+ doc: /***********
+On @var{surface}, draw a vertical line segment
+from @var{x},@var{y1} to @var{x},@var{y2},
+with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_vline
   ASSERT_SURFACE (surface, ARGH1);
@@ -97,13 +103,15 @@ GH_DEFPROC (draw_vline, "draw-vline", 5, 0, 0,
 }
 
 
-GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
-            (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
-             SCM color, SCM fill),
-            "On @var{surface}, draw a rectangle with opposite points\n"
-            "@var{x1},@var{y1} and @var{x2},@var{y2},\n"
-            "with color @var{color}.\n"
-            "Optional arg @var{fill} means to fill the rectangle as well.")
+GH_DEFPROC
+(draw_rectangle, "draw-rectangle", 6, 1, 0,
+ (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
+  SCM color, SCM fill),
+ doc: /***********
+On @var{surface}, draw a rectangle with opposite points
+@var{x1},@var{y1} and @var{x2},@var{y2},
+with color @var{color}.
+Optional arg @var{fill} means to fill the rectangle as well.  */)
 {
 #define FUNC_NAME s_draw_rectangle
   ASSERT_SURFACE (surface, ARGH1);
@@ -125,12 +133,14 @@ GH_DEFPROC (draw_rectangle, "draw-rectangle", 6, 1, 0,
 }
 
 
-GH_DEFPROC (draw_line, "draw-line", 6, 0, 0,
-            (SCM surface, SCM x1, SCM y1,
-             SCM x2, SCM y2, SCM color),
-            "On @var{surface}, draw a line segment from\n"
-            "@var{x1},@var{y1} to @var{x2},@var{y2},\n"
-            "with color @var{color}.")
+GH_DEFPROC
+(draw_line, "draw-line", 6, 0, 0,
+ (SCM surface, SCM x1, SCM y1,
+  SCM x2, SCM y2, SCM color),
+ doc: /***********
+On @var{surface}, draw a line segment from
+@var{x1},@var{y1} to @var{x2},@var{y2},
+with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_line
   ASSERT_SURFACE (surface, ARGH1);
@@ -149,12 +159,14 @@ GH_DEFPROC (draw_line, "draw-line", 6, 0, 0,
 }
 
 
-GH_DEFPROC (draw_aa_line, "draw-aa-line", 6, 0, 0,
-            (SCM surface, SCM x1, SCM y1,
-             SCM x2, SCM y2, SCM color),
-            "On @var{surface}, draw an anti-aliased line segment from\n"
-            "@var{x1},@var{y1} to @var{x2},@var{y2},\n"
-            "with color @var{color}.")
+GH_DEFPROC
+(draw_aa_line, "draw-aa-line", 6, 0, 0,
+ (SCM surface, SCM x1, SCM y1,
+  SCM x2, SCM y2, SCM color),
+ doc: /***********
+On @var{surface}, draw an anti-aliased line segment from
+@var{x1},@var{y1} to @var{x2},@var{y2},
+with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_line
   ASSERT_SURFACE (surface, ARGH1);
@@ -173,12 +185,14 @@ GH_DEFPROC (draw_aa_line, "draw-aa-line", 6, 0, 0,
 }
 
 
-GH_DEFPROC (draw_circle, "draw-circle", 5, 1, 0,
-            (SCM surface, SCM x, SCM y, SCM r,
-             SCM color, SCM fill),
-            "On @var{surface}, draw a circle with center @var{x},@var{y}\n"
-            "and radius @var{r}, with color @var{color}.\n"
-            "Optional arg @var{fill} means to fill the circle as well.")
+GH_DEFPROC
+(draw_circle, "draw-circle", 5, 1, 0,
+ (SCM surface, SCM x, SCM y, SCM r,
+  SCM color, SCM fill),
+ doc: /***********
+On @var{surface}, draw a circle with center @var{x},@var{y}
+and radius @var{r}, with color @var{color}.
+Optional arg @var{fill} means to fill the circle as well.  */)
 {
 #define FUNC_NAME s_draw_circle
   ASSERT_SURFACE (surface, ARGH1);
@@ -199,10 +213,12 @@ GH_DEFPROC (draw_circle, "draw-circle", 5, 1, 0,
 }
 
 
-GH_DEFPROC (draw_aa_circle, "draw-aa-circle", 5, 0, 0,
-            (SCM surface, SCM x, SCM y, SCM r, SCM color),
-            "On @var{surface}, draw an anti-aliased circle with center\n"
-            "@var{x},@var{y} and radius @var{r}, with color @var{color}.")
+GH_DEFPROC
+(draw_aa_circle, "draw-aa-circle", 5, 0, 0,
+ (SCM surface, SCM x, SCM y, SCM r, SCM color),
+ doc: /***********
+On @var{surface}, draw an anti-aliased circle with center
+@var{x},@var{y} and radius @var{r}, with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_circle
   ASSERT_SURFACE (surface, ARGH1);
@@ -220,12 +236,14 @@ GH_DEFPROC (draw_aa_circle, "draw-aa-circle", 5, 0, 0,
 }
 
 
-GH_DEFPROC (draw_ellipse, "draw-ellipse", 6, 1, 0,
-            (SCM surface, SCM x, SCM y, SCM rx, SCM ry,
-             SCM color, SCM fill),
-            "On @var{surface}, draw an ellipse with center @var{x},@var{y}\n"
-            "x-radius @var{rx}, y-radius @var{ry}, with color @var{color}.\n"
-            "Optional arg @var{fill} means to fill the ellipse as well.")
+GH_DEFPROC
+(draw_ellipse, "draw-ellipse", 6, 1, 0,
+ (SCM surface, SCM x, SCM y, SCM rx, SCM ry,
+  SCM color, SCM fill),
+ doc: /***********
+On @var{surface}, draw an ellipse with center @var{x},@var{y}
+x-radius @var{rx}, y-radius @var{ry}, with color @var{color}.
+Optional arg @var{fill} means to fill the ellipse as well.  */)
 {
 #define FUNC_NAME s_draw_ellipse
   ASSERT_SURFACE (surface, ARGH1);
@@ -247,11 +265,13 @@ GH_DEFPROC (draw_ellipse, "draw-ellipse", 6, 1, 0,
 }
 
 
-GH_DEFPROC (draw_aa_ellipse, "draw-aa-ellipse", 6, 0, 0,
-            (SCM surface, SCM x, SCM y, SCM rx, SCM ry, SCM color),
-            "On @var{surface}, draw an anti-aliased ellipse with center\n"
-            "@var{x},@var{y}, x-radius @var{rx}, y-radius @var{ry}, with\n"
-            "color @var{color}.")
+GH_DEFPROC
+(draw_aa_ellipse, "draw-aa-ellipse", 6, 0, 0,
+ (SCM surface, SCM x, SCM y, SCM rx, SCM ry, SCM color),
+ doc: /***********
+On @var{surface}, draw an anti-aliased ellipse with center
+@var{x},@var{y}, x-radius @var{rx}, y-radius @var{ry}, with
+color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_ellipse
   ASSERT_SURFACE (surface, ARGH1);
@@ -270,13 +290,15 @@ GH_DEFPROC (draw_aa_ellipse, "draw-aa-ellipse", 6, 0, 0,
 }
 
 
-GH_DEFPROC (draw_pie_slice, "draw-pie-slice", 7, 1, 0,
-            (SCM surface, SCM x, SCM y, SCM rad,
-             SCM start, SCM end, SCM color, SCM fill),
-            "On @var{surface}, draw a pie slice with center\n"
-            "@var{x},@var{y} and radius @var{rad}, going from\n"
-            "@var{start} to @var{end} (degrees), with color @var{color}.\n"
-            "Optional arg @var{fill} means to fill the slice as well.")
+GH_DEFPROC
+(draw_pie_slice, "draw-pie-slice", 7, 1, 0,
+ (SCM surface, SCM x, SCM y, SCM rad,
+  SCM start, SCM end, SCM color, SCM fill),
+ doc: /***********
+On @var{surface}, draw a pie slice with center
+@var{x},@var{y} and radius @var{rad}, going from
+@var{start} to @var{end} (degrees), with color @var{color}.
+Optional arg @var{fill} means to fill the slice as well.  */)
 {
 #define FUNC_NAME s_draw_pie_slice
   ASSERT_SURFACE (surface, ARGH1);
@@ -300,13 +322,15 @@ GH_DEFPROC (draw_pie_slice, "draw-pie-slice", 7, 1, 0,
 }
 
 
-GH_DEFPROC (draw_trigon, "draw-trigon", 8, 1, 0,
-            (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
-             SCM x3, SCM y3, SCM color, SCM fill),
-            "On @var{surface}, draw a triangle with vertices at\n"
-            "@var{x1},@var{y1}, @var{x2},@var{y2} and @var{x3},@var{y3},\n"
-            "with color @var{color}.  Optional arg @var{fill} means to\n"
-            "fill the triangle as well.")
+GH_DEFPROC
+(draw_trigon, "draw-trigon", 8, 1, 0,
+ (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
+  SCM x3, SCM y3, SCM color, SCM fill),
+ doc: /***********
+On @var{surface}, draw a triangle with vertices at
+@var{x1},@var{y1}, @var{x2},@var{y2} and @var{x3},@var{y3},
+with color @var{color}.  Optional arg @var{fill} means to
+fill the triangle as well.  */)
 {
 #define FUNC_NAME s_draw_trigon
   ASSERT_SURFACE (surface, ARGH1);
@@ -332,12 +356,14 @@ GH_DEFPROC (draw_trigon, "draw-trigon", 8, 1, 0,
 }
 
 
-GH_DEFPROC (draw_aa_trigon, "draw-aa-trigon", 8, 0, 0,
-            (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
-             SCM x3, SCM y3, SCM color),
-            "On @var{surface}, draw an anti-aliased triangle with vertices at\n"
-            "@var{x1},@var{y1}, @var{x2},@var{y2} and @var{x3},@var{y3},\n"
-            "with color @var{color}.")
+GH_DEFPROC
+(draw_aa_trigon, "draw-aa-trigon", 8, 0, 0,
+ (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
+  SCM x3, SCM y3, SCM color),
+ doc: /***********
+On @var{surface}, draw an anti-aliased triangle with vertices at
+@var{x1},@var{y1}, @var{x2},@var{y2} and @var{x3},@var{y3},
+with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_trigon
   ASSERT_SURFACE (surface, ARGH1);
@@ -359,12 +385,14 @@ GH_DEFPROC (draw_aa_trigon, "draw-aa-trigon", 8, 0, 0,
 }
 
 
-GH_DEFPROC (draw_polygon, "draw-polygon", 4, 1, 0,
-            (SCM surface, SCM vx, SCM vy, SCM color, SCM fill),
-            "On @var{surface}, draw a polygon whose points are specified\n"
-            "by corresponding pairs from the uniform vectors\n"
-            "@var{vx} and @var{vy}, in color @var{color}.  Optional\n"
-            "arg @var{fill} means to fill the polygon as well.")
+GH_DEFPROC
+(draw_polygon, "draw-polygon", 4, 1, 0,
+ (SCM surface, SCM vx, SCM vy, SCM color, SCM fill),
+ doc: /***********
+On @var{surface}, draw a polygon whose points are specified
+by corresponding pairs from the uniform vectors
+@var{vx} and @var{vy}, in color @var{color}.  Optional
+arg @var{fill} means to fill the polygon as well.  */)
 {
 #define FUNC_NAME s_draw_polygon
   int ret;
@@ -392,11 +420,13 @@ GH_DEFPROC (draw_polygon, "draw-polygon", 4, 1, 0,
 }
 
 
-GH_DEFPROC (draw_aa_polygon, "draw-aa-polygon", 4, 0, 0,
-            (SCM surface, SCM vx, SCM vy, SCM color),
-            "On @var{surface}, draw an anti-aliased polygon whose points\n"
-            "are specified by corresponding pairs from the uniform vectors\n"
-            "@var{vx} and @var{vy}, in color @var{color}.")
+GH_DEFPROC
+(draw_aa_polygon, "draw-aa-polygon", 4, 0, 0,
+ (SCM surface, SCM vx, SCM vy, SCM color),
+ doc: /***********
+On @var{surface}, draw an anti-aliased polygon whose points
+are specified by corresponding pairs from the uniform vectors
+@var{vx} and @var{vy}, in color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_polygon
   int ret;
@@ -421,11 +451,13 @@ GH_DEFPROC (draw_aa_polygon, "draw-aa-polygon", 4, 0, 0,
 }
 
 
-GH_DEFPROC (draw_bezier, "draw-bezier", 5, 0, 0,
-            (SCM surface, SCM vx, SCM vy, SCM s, SCM color),
-            "On @var{surface}, draw a bezier curve whose points are\n"
-            "specified by corresponding pairs from the uniform vectors\n"
-            "@var{vx} and @var{vy}, with @var{s} steps in color @var{color}.")
+GH_DEFPROC
+(draw_bezier, "draw-bezier", 5, 0, 0,
+ (SCM surface, SCM vx, SCM vy, SCM s, SCM color),
+ doc: /***********
+On @var{surface}, draw a bezier curve whose points are
+specified by corresponding pairs from the uniform vectors
+@var{vx} and @var{vy}, with @var{s} steps in color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_bezier
   int ret;
@@ -452,10 +484,12 @@ GH_DEFPROC (draw_bezier, "draw-bezier", 5, 0, 0,
 }
 
 
-GH_DEFPROC (draw_character, "draw-character", 5, 0, 0,
-            (SCM surface, SCM x, SCM y, SCM c, SCM color),
-            "On @var{surface} at position @var{x},@var{y},\n"
-            "draw char @var{c} with @var{color} (a number).")
+GH_DEFPROC
+(draw_character, "draw-character", 5, 0, 0,
+ (SCM surface, SCM x, SCM y, SCM c, SCM color),
+ doc: /***********
+On @var{surface} at position @var{x},@var{y},
+draw char @var{c} with @var{color} (a number).  */)
 {
 #define FUNC_NAME s_draw_character
   ASSERT_SURFACE (surface, ARGH1);
@@ -472,10 +506,12 @@ GH_DEFPROC (draw_character, "draw-character", 5, 0, 0,
 }
 
 
-GH_DEFPROC (draw_string, "draw-string", 5, 0, 0,
-            (SCM surface, SCM x, SCM y, SCM text, SCM color),
-            "On @var{surface} at position @var{x},@var{y},\n"
-            "draw string @var{text} with @var{color} (a number).")
+GH_DEFPROC
+(draw_string, "draw-string", 5, 0, 0,
+ (SCM surface, SCM x, SCM y, SCM text, SCM color),
+ doc: /***********
+On @var{surface} at position @var{x},@var{y},
+draw string @var{text} with @var{color} (a number).  */)
 {
 #define FUNC_NAME s_draw_string
   ASSERT_SURFACE (surface, ARGH1);
@@ -501,15 +537,17 @@ GH_DEFPROC (draw_string, "draw-string", 5, 0, 0,
 #include "SDL_rotozoom.h"
 
 
-GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
-            (SCM surface,
-             SCM angle,
-             SCM zoom,
-             SCM smooth),
-            "Return a new surface made from rotating @var{surface}\n"
-            "by @var{angle} degrees.  Optional third arg @var{zoom}\n"
-            "(default value 1.0) changes the size as well.  Optional\n"
-            "fourth arg @var{smooth} turns on anti-aliasing.")
+GH_DEFPROC
+(roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
+ (SCM surface,
+  SCM angle,
+  SCM zoom,
+  SCM smooth),
+ doc: /***********
+Return a new surface made from rotating @var{surface}
+by @var{angle} degrees.  Optional third arg @var{zoom}
+(default value 1.0) changes the size as well.  Optional
+fourth arg @var{smooth} turns on anti-aliasing.  */)
 {
 #define FUNC_NAME s_roto_zoom_surface
   SDL_Surface *csurface, *new_surface;
@@ -537,15 +575,17 @@ GH_DEFPROC (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
 }
 
 
-GH_DEFPROC (zoom_surface, "zoom-surface", 2, 2, 0,
-            (SCM surface,
-             SCM zoomx,
-             SCM zoomy,
-             SCM smooth),
-            "Return a new scaled copy of @var{surface}.\n"
-            "@var{zoomx} and @var{zoomy} specify the scaling factor.\n"
-            "If omitted, @var{zoomy} defaults to @var{zoomx}.\n"
-            "Optional fourth arg @var{smooth} turns on anti-aliasing.")
+GH_DEFPROC
+(zoom_surface, "zoom-surface", 2, 2, 0,
+ (SCM surface,
+  SCM zoomx,
+  SCM zoomy,
+  SCM smooth),
+ doc: /***********
+Return a new scaled copy of @var{surface}.
+@var{zoomx} and @var{zoomy} specify the scaling factor.
+If omitted, @var{zoomy} defaults to @var{zoomx}.
+Optional fourth arg @var{smooth} turns on anti-aliasing.  */)
 {
 #define FUNC_NAME s_zoom_surface
   SDL_Surface *csurface, *new_surface;
@@ -611,13 +651,15 @@ print_fpsmgr (SCM fpsmgr, SCM port, scm_print_state *pstate)
 }
 
 
-GH_DEFPROC (make_fps_manager, "make-fps-manager", 0, 1, 0,
-            (SCM n),
-            "Return a FPS manager object to be passed as the first\n"
-            "arg to @code{fps-manager-set!}, @code{fps-manager-get} and\n"
-            "@code{fps-manager-delay!}.\n"
-            "Optional arg @var{n} specifies the value in Hz to\n"
-            "initialize the object (default 30 if not specified).")
+GH_DEFPROC
+(make_fps_manager, "make-fps-manager", 0, 1, 0,
+ (SCM n),
+ doc: /***********
+Return a FPS manager object to be passed as the first
+arg to @code{fps-manager-set!}, @code{fps-manager-get} and
+@code{fps-manager-delay!}.
+Optional arg @var{n} specifies the value in Hz to
+initialize the object (default 30 if not specified).  */)
 {
 #define FUNC_NAME s_make_fps_manager
   FPSmanager *m;
@@ -638,10 +680,12 @@ GH_DEFPROC (make_fps_manager, "make-fps-manager", 0, 1, 0,
 }
 
 
-GH_DEFPROC (fps_manager_set_x, "fps-manager-set!", 2, 0, 0,
-            (SCM mgr, SCM n),
-            "Arrange for FPS manager @var{mgr} to try to maintain a\n"
-            "frame rate of @var{n} Hz.  Return #f if not successful.")
+GH_DEFPROC
+(fps_manager_set_x, "fps-manager-set!", 2, 0, 0,
+ (SCM mgr, SCM n),
+ doc: /***********
+Arrange for FPS manager @var{mgr} to try to maintain a
+frame rate of @var{n} Hz.  Return #f if not successful.  */)
 {
 #define FUNC_NAME s_fps_manager_set_x
   ASSERT_FPSMGR (mgr, ARGH1);
@@ -653,10 +697,12 @@ GH_DEFPROC (fps_manager_set_x, "fps-manager-set!", 2, 0, 0,
 }
 
 
-GH_DEFPROC (fps_manager_get, "fps-manager-get", 1, 0, 0,
-            (SCM mgr),
-            "Return the frame rate of FPS manager @var{mgr} in Hz,\n"
-            "or #f if unsuccessful.")
+GH_DEFPROC
+(fps_manager_get, "fps-manager-get", 1, 0, 0,
+ (SCM mgr),
+ doc: /***********
+Return the frame rate of FPS manager @var{mgr} in Hz,
+or #f if unsuccessful.  */)
 {
 #define FUNC_NAME s_fps_manager_get
   int ret;
@@ -671,9 +717,11 @@ GH_DEFPROC (fps_manager_get, "fps-manager-get", 1, 0, 0,
 }
 
 
-GH_DEFPROC (fps_manager_delay_x, "fps-manager-delay!", 1, 0, 0,
-            (SCM mgr),
-            "Request an appropriate delay from FPS manager @var{mgr}.")
+GH_DEFPROC
+(fps_manager_delay_x, "fps-manager-delay!", 1, 0, 0,
+ (SCM mgr),
+ doc: /***********
+Request an appropriate delay from FPS manager @var{mgr}.  */)
 {
 #define FUNC_NAME s_fps_manager_delay_x
   ASSERT_FPSMGR (mgr, ARGH1);

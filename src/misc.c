@@ -31,10 +31,12 @@ DECLARE_SYM(mousefocus, "mousefocus");
 DECLARE_SYM(inputfocus, "inputfocus");
 DECLARE_SYM(active, "active");
 
-GH_DEFPROC (get_app_state, "get-app-state", 0, 0, 0,
-            (void),
-            "Return the current state of the application, a list of symbols.\n"
-            "The list may include: `mousefocus', `inputfocus', `active'.")
+GH_DEFPROC
+(get_app_state, "get-app-state", 0, 0, 0,
+ (void),
+ doc: /***********
+Return the current state of the application, a list of symbols.
+The list may include: `mousefocus', `inputfocus', `active'.  */)
 {
   Uint8 state = SDL_GetAppState ();
   SCM rv = SCM_EOL;
@@ -49,16 +51,18 @@ GH_DEFPROC (get_app_state, "get-app-state", 0, 0, 0,
 
 DECLARE_SYM(x11, "x11");
 
-GH_DEFPROC (get_wm_info, "get-wm-info", 0, 0, 0,
-            (void),
-            "Return information on the window manager, as a list of the\n"
-            "form: (VERSION SUBSYSTEM DISPLAY WINDOW FSWINDOW WMWINDOW).\n"
-            "VERSION is a sub-list of form: (MAJOR MINOR PATCH), where\n"
-            "element is an integer.  SUBSYSTEM is either the symbol\n"
-            "@code{x11}, or #f.  DISPLAY is a pointer (machine address)\n"
-            "of the X11 Display structure, converted to an integer.\n"
-            "WINDOW, FSWINDOW and WMWINDOW are Window identifiers (also\n"
-            "integers).")
+GH_DEFPROC
+(get_wm_info, "get-wm-info", 0, 0, 0,
+ (void),
+ doc: /***********
+Return information on the window manager, as a list of the
+form: (VERSION SUBSYSTEM DISPLAY WINDOW FSWINDOW WMWINDOW).
+VERSION is a sub-list of form: (MAJOR MINOR PATCH), where
+element is an integer.  SUBSYSTEM is either the symbol
+@code{x11}, or #f.  DISPLAY is a pointer (machine address)
+of the X11 Display structure, converted to an integer.
+WINDOW, FSWINDOW and WMWINDOW are Window identifiers (also
+integers).  */)
 {
 #define FUNC_NAME s_get_wm_info
   SDL_SysWMinfo *info = (SDL_SysWMinfo *) malloc (sizeof (SDL_SysWMinfo));

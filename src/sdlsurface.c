@@ -77,14 +77,16 @@ print_surface (SCM surface_smob, SCM port, scm_print_state *pstate)
 
 /* constructors */
 
-GH_DEFPROC (make_surface, "make-surface", 2, 1, 0,
-            (SCM width,
-             SCM height,
-             SCM flags),
-            "Return a new surface of dimensions @var{width} by @var{height}.\n"
-            "Optional third arg @var{flags} (see @code{flagstash:video})\n"
-            "further specifies the surface.  Color depth and masks\n"
-            "are those for the current video surface.")
+GH_DEFPROC
+(make_surface, "make-surface", 2, 1, 0,
+ (SCM width,
+  SCM height,
+  SCM flags),
+ doc: /***********
+Return a new surface of dimensions @var{width} by @var{height}.
+Optional third arg @var{flags} (see @code{flagstash:video})
+further specifies the surface.  Color depth and masks
+are those for the current video surface.  */)
 {
 #define FUNC_NAME s_make_surface
   Uint32 cflags;
@@ -114,17 +116,19 @@ GH_DEFPROC (make_surface, "make-surface", 2, 1, 0,
 }
 
 
-GH_DEFPROC (create_rgb_surface, "create-rgb-surface", 8, 0, 0,
-            (SCM flags,
-             SCM width, SCM height, SCM depth,
-             SCM rmask, SCM gmask, SCM bmask, SCM amask),
-            "Return an empty surface.\n"
-            "The eight arguments, directly analagous to those\n"
-            "for SDL_CreateRGBSurface, are: @var{flags}\n"
-            "(list of symbols, see @code{flagstash:video}),\n"
-            "@var{width}, @var{height}, @var{depth}, @var{rmask},\n"
-            "@var{gmask}, @var{bmask}, @var{amask}\n"
-            "(all numbers).")
+GH_DEFPROC
+(create_rgb_surface, "create-rgb-surface", 8, 0, 0,
+ (SCM flags,
+  SCM width, SCM height, SCM depth,
+  SCM rmask, SCM gmask, SCM bmask, SCM amask),
+ doc: /***********
+Return an empty surface.
+The eight arguments, directly analagous to those
+for SDL_CreateRGBSurface, are: @var{flags}
+(list of symbols, see @code{flagstash:video}),
+@var{width}, @var{height}, @var{depth}, @var{rmask},
+@var{gmask}, @var{bmask}, @var{amask}
+(all numbers).  */)
 {
 #define FUNC_NAME s_create_rgb_surface
   Uint32 cflags;
@@ -168,9 +172,11 @@ GSDL_FLAG_GETTER ("surface:flags", surface_get_flags,
                   flags, gsdl_video_flags)
 
 
-GH_DEFPROC (surface_get_format, "surface-get-format", 1, 0, 0,
-            (SCM surface),
-            "Return a new pixel format, the same used by @var{surface}.")
+GH_DEFPROC
+(surface_get_format, "surface-get-format", 1, 0, 0,
+ (SCM surface),
+ doc: /***********
+Return a new pixel format, the same used by @var{surface}.  */)
 {
 #define FUNC_NAME s_surface_get_format
   ASSERT_SURFACE (surface, ARGH1);
@@ -182,9 +188,11 @@ GH_DEFPROC (surface_get_format, "surface-get-format", 1, 0, 0,
 
 /* utilities */
 
-GH_DEFPROC (surface_p, "surface?", 1, 0, 0,
-            (SCM obj),
-            "Return true iff @var{obj} is a surface.")
+GH_DEFPROC
+(surface_p, "surface?", 1, 0, 0,
+ (SCM obj),
+ doc: /***********
+Return true iff @var{obj} is a surface.  */)
 {
 #define FUNC_NAME s_surface_p
   RETURN_BOOL
@@ -193,10 +201,12 @@ GH_DEFPROC (surface_p, "surface?", 1, 0, 0,
 }
 
 
-GH_DEFPROC (lock_surface, "lock-surface", 1, 0, 0,
-            (SCM surface),
-            "Lock @var{surface} for direct access.\n"
-            "Return #t if successful.")
+GH_DEFPROC
+(lock_surface, "lock-surface", 1, 0, 0,
+ (SCM surface),
+ doc: /***********
+Lock @var{surface} for direct access.
+Return #t if successful.  */)
 {
 #define FUNC_NAME s_lock_surface
   ASSERT_SURFACE (surface, ARGH1);
@@ -207,10 +217,12 @@ GH_DEFPROC (lock_surface, "lock-surface", 1, 0, 0,
 }
 
 
-GH_DEFPROC (unlock_surface, "unlock-surface", 1, 0, 0,
-            (SCM surface),
-            "Unlock previously locked @var{surface}.\n"
-            "The return value is unspecified.")
+GH_DEFPROC
+(unlock_surface, "unlock-surface", 1, 0, 0,
+ (SCM surface),
+ doc: /***********
+Unlock previously locked @var{surface}.
+The return value is unspecified.  */)
 {
 #define FUNC_NAME s_unlock_surface
   ASSERT_SURFACE (surface, ARGH1);
@@ -221,9 +233,11 @@ GH_DEFPROC (unlock_surface, "unlock-surface", 1, 0, 0,
 }
 
 
-GH_DEFPROC (load_bmp, "load-bmp", 1, 0, 0,
-            (SCM file),
-            "Return a surface made by loading the bitmap @var{file}.")
+GH_DEFPROC
+(load_bmp, "load-bmp", 1, 0, 0,
+ (SCM file),
+ doc: /***********
+Return a surface made by loading the bitmap @var{file}.  */)
 {
 #define FUNC_NAME s_load_bmp
   ASSERT_STRING (file, ARGH1);
@@ -234,10 +248,12 @@ GH_DEFPROC (load_bmp, "load-bmp", 1, 0, 0,
 
 
 /* Load an image in one of many formats.  */
-GH_DEFPROC (load_image, "load-image", 1, 0, 0,
-            (SCM file),
-            "Return a surface made by loading the image @var{file}.\n"
-            "If there are problems, return #f.")
+GH_DEFPROC
+(load_image, "load-image", 1, 0, 0,
+ (SCM file),
+ doc: /***********
+Return a surface made by loading the image @var{file}.
+If there are problems, return #f.  */)
 {
 #define FUNC_NAME s_load_bmp
   ASSERT_STRING (file, ARGH1);
@@ -248,10 +264,12 @@ GH_DEFPROC (load_image, "load-image", 1, 0, 0,
 
 
 /* Experimental: Load an image in one of many formats from a string.  */
-GH_DEFPROC (string_to_image, "string->image", 1, 0, 0,
-            (SCM s),
-            "Return a surface made by loading image data from string\n"
-            "@var{s}.  [WARNING: This procedure is experimental!]")
+GH_DEFPROC
+(string_to_image, "string->image", 1, 0, 0,
+ (SCM s),
+ doc: /***********
+Return a surface made by loading image data from string
+@var{s}.  [WARNING: This procedure is experimental!]  */)
 {
 #define FUNC_NAME s_string_to_image
   void *mem; int size;
@@ -265,11 +283,13 @@ GH_DEFPROC (string_to_image, "string->image", 1, 0, 0,
 }
 
 
-GH_DEFPROC (save_bmp, "save-bmp", 2, 0, 0,
-            (SCM surface,
-             SCM file),
-            "Save @var{surface} to @var{file} in Windows BMP format.\n"
-            "Return #t if successful.")
+GH_DEFPROC
+(save_bmp, "save-bmp", 2, 0, 0,
+ (SCM surface,
+  SCM file),
+ doc: /***********
+Save @var{surface} to @var{file} in Windows BMP format.
+Return #t if successful.  */)
 {
 #define FUNC_NAME s_save_bmp
   ASSERT_SURFACE (surface,  ARGH1);
@@ -282,12 +302,14 @@ GH_DEFPROC (save_bmp, "save-bmp", 2, 0, 0,
 }
 
 
-GH_DEFPROC (set_color_key, "set-color-key!", 3, 0, 0,
-            (SCM surface,
-             SCM flag,
-             SCM key),
-            "Set @var{surface} color key as specified by @var{flag}\n"
-            "(see @code{flagstash:video}) and @var{key}.")
+GH_DEFPROC
+(set_color_key, "set-color-key!", 3, 0, 0,
+ (SCM surface,
+  SCM flag,
+  SCM key),
+ doc: /***********
+Set @var{surface} color key as specified by @var{flag}
+(see @code{flagstash:video}) and @var{key}.  */)
 {
 #define FUNC_NAME s_set_color_key
   Uint32 cflag;
@@ -305,15 +327,17 @@ GH_DEFPROC (set_color_key, "set-color-key!", 3, 0, 0,
 }
 
 
-GH_DEFPROC (set_alpha, "set-alpha!", 2, 1, 0,
-            (SCM surface,
-             SCM flag,
-             SCM alpha),
-            "Adjust @var{surface} alpha properties as specified by\n"
-            "@var{flag} (see @code{flagstash:video}) and @var{alpha}\n"
-            "(one of the symbols @code{SDL_ALPHA_OPAQUE} or\n"
-            "@code{SDL_ALPHA_TRANSPARENT}, or a number 0-255).\n"
-            "If @var{flag} is #f, ignore @var{alpha} completely.")
+GH_DEFPROC
+(set_alpha, "set-alpha!", 2, 1, 0,
+ (SCM surface,
+  SCM flag,
+  SCM alpha),
+ doc: /***********
+Adjust @var{surface} alpha properties as specified by
+@var{flag} (see @code{flagstash:video}) and @var{alpha}
+(one of the symbols @code{SDL_ALPHA_OPAQUE} or
+@code{SDL_ALPHA_TRANSPARENT}, or a number 0-255).
+If @var{flag} is #f, ignore @var{alpha} completely.  */)
 {
 #define FUNC_NAME s_set_alpha
   Uint32 cflag;
@@ -343,12 +367,14 @@ GH_DEFPROC (set_alpha, "set-alpha!", 2, 1, 0,
 }
 
 
-GH_DEFPROC (set_clip_rect, "set-clip-rect!", 1, 1, 0,
-            (SCM surface,
-             SCM rect),
-            "Set @var{surface} clipping rectangle to the whole surface.\n"
-            "Optional arg @var{rect}, if non-#f, specifies a particular\n"
-            "rectangle instead of using the whole surface.")
+GH_DEFPROC
+(set_clip_rect, "set-clip-rect!", 1, 1, 0,
+ (SCM surface,
+  SCM rect),
+ doc: /***********
+Set @var{surface} clipping rectangle to the whole surface.
+Optional arg @var{rect}, if non-#f, specifies a particular
+rectangle instead of using the whole surface.  */)
 {
 #define FUNC_NAME s_set_clip_rect
   SDL_Rect *crect = NULL;
@@ -368,9 +394,11 @@ GH_DEFPROC (set_clip_rect, "set-clip-rect!", 1, 1, 0,
 }
 
 
-GH_DEFPROC (get_clip_rect, "get-clip-rect", 1, 0, 0,
-            (SCM surface),
-            "Return the clipping rectangle for @var{surface}.")
+GH_DEFPROC
+(get_clip_rect, "get-clip-rect", 1, 0, 0,
+ (SCM surface),
+ doc: /***********
+Return the clipping rectangle for @var{surface}.  */)
 {
 #define FUNC_NAME s_get_clip_rect
   SDL_Rect *rect = NULL;
@@ -384,13 +412,15 @@ GH_DEFPROC (get_clip_rect, "get-clip-rect", 1, 0, 0,
 }
 
 
-GH_DEFPROC (convert_surface, "convert-surface", 2, 1, 0,
-            (SCM surface,
-             SCM format,
-             SCM flags),
-            "Convert @var{surface} to the same @var{format} as another\n"
-            "surface.  Optional third arg @var{flags} is a list of flags\n"
-            "(symbols) from the set returned by @code{flagstash:video}.")
+GH_DEFPROC
+(convert_surface, "convert-surface", 2, 1, 0,
+ (SCM surface,
+  SCM format,
+  SCM flags),
+ doc: /***********
+Convert @var{surface} to the same @var{format} as another
+surface.  Optional third arg @var{flags} is a list of flags
+(symbols) from the set returned by @code{flagstash:video}.  */)
 {
 #define FUNC_NAME s_convert_surface
   Uint32 cflags = 0;
@@ -409,18 +439,20 @@ GH_DEFPROC (convert_surface, "convert-surface", 2, 1, 0,
 }
 
 
-GH_DEFPROC (blit_surface, "blit-surface", 1, 3, 0,
-            (SCM src,
-             SCM srcrect,
-             SCM dst,
-             SCM dstrect),
-            "Perform a fast blit from the\n"
-            "@var{src} surface @var{srcrect} to the\n"
-            "@var{dst} surface @var{dstrect}.\n"
-            "@var{srcrect} defaults to x=0, y=0, @var{src} surface\n"
-            "dimensions.  If unspecified @var{dst} is taken as\n"
-            "the default video surface.  @var{dstrect} likewise defaults\n"
-            "to x=0, y=0, @var{dst} surface dimensions.")
+GH_DEFPROC
+(blit_surface, "blit-surface", 1, 3, 0,
+ (SCM src,
+  SCM srcrect,
+  SCM dst,
+  SCM dstrect),
+ doc: /***********
+Perform a fast blit from the
+@var{src} surface @var{srcrect} to the
+@var{dst} surface @var{dstrect}.
+@var{srcrect} defaults to x=0, y=0, @var{src} surface
+dimensions.  If unspecified @var{dst} is taken as
+the default video surface.  @var{dstrect} likewise defaults
+to x=0, y=0, @var{dst} surface dimensions.  */)
 {
 #define FUNC_NAME s_blit_surface
   SDL_Surface *csrc;

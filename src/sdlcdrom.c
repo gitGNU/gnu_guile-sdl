@@ -45,9 +45,11 @@ static long cdrom_tag;
 
 
 
-GH_DEFPROC (cd_p, "cd?", 1, 0, 0,
-            (SCM obj),
-            "Return #t iff @var{obj} is a CDROM drive object.")
+GH_DEFPROC
+(cd_p, "cd?", 1, 0, 0,
+ (SCM obj),
+ doc: /***********
+Return #t iff @var{obj} is a CDROM drive object.  */)
 {
 #define FUNC_NAME s_cd_p
   RETURN_BOOL
@@ -56,10 +58,12 @@ GH_DEFPROC (cd_p, "cd?", 1, 0, 0,
 }
 
 
-GH_DEFPROC (cd_null_p, "cd-null?", 1, 0, 0,
-            (SCM cdrom),
-            "Return #t iff @var{cdrom} is a null pointer.\n"
-            "[What does that mean? --ttn]")
+GH_DEFPROC
+(cd_null_p, "cd-null?", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Return #t iff @var{cdrom} is a null pointer.
+[What does that mean? --ttn]  */)
 {
 #define FUNC_NAME s_cd_null_p
   ASSERT_CDROM (cdrom, ARGH1);
@@ -70,9 +74,11 @@ GH_DEFPROC (cd_null_p, "cd-null?", 1, 0, 0,
 }
 
 
-GH_DEFPROC (cd_num_drives, "cd-num-drives", 0, 0, 0,
-            (),
-            "Return the number of CDROM drives.")
+GH_DEFPROC
+(cd_num_drives, "cd-num-drives", 0, 0, 0,
+ (),
+ doc: /***********
+Return the number of CDROM drives.  */)
 {
 #define FUNC_NAME s_cd_num_drives
   RETURN_INT (SDL_CDNumDrives ());
@@ -80,11 +86,13 @@ GH_DEFPROC (cd_num_drives, "cd-num-drives", 0, 0, 0,
 }
 
 
-GH_DEFPROC (cd_name, "cd-name", 0, 1, 0,
-            (SCM drive),
-            "Return a human-readable, system-dependent\n"
-            "identifier (a string) for the CDROM.\n"
-            "Optional arg @var{drive} is a number specifying which drive.")
+GH_DEFPROC
+(cd_name, "cd-name", 0, 1, 0,
+ (SCM drive),
+ doc: /***********
+Return a human-readable, system-dependent
+identifier (a string) for the CDROM.
+Optional arg @var{drive} is a number specifying which drive.  */)
 {
 #define FUNC_NAME s_cd_name
   const char *name;
@@ -101,11 +109,13 @@ GH_DEFPROC (cd_name, "cd-name", 0, 1, 0,
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (cd_open, "cd-open", 0, 1, 0,
-            (SCM drive),
-            "Open the CDROM drive for access and return its handle.\n"
-            "If the drive is unavailable, return #f.\n"
-            "Optional arg @var{drive} is a number specifying which drive.")
+GH_DEFPROC
+(cd_open, "cd-open", 0, 1, 0,
+ (SCM drive),
+ doc: /***********
+Open the CDROM drive for access and return its handle.
+If the drive is unavailable, return #f.
+Optional arg @var{drive} is a number specifying which drive.  */)
 {
 #define FUNC_NAME s_cd_open
   SDL_CD *cd;
@@ -132,11 +142,13 @@ DECLARE_SIMPLE_SYM (PLAYING);
 DECLARE_SIMPLE_SYM (PAUSED);
 DECLARE_SIMPLE_SYM (ERROR);
 
-GH_DEFPROC (cd_status, "cd-status", 1, 0, 0,
-            (SCM cdrom),
-            "Return the current status of the drive @var{cdrom}\n"
-            "as a symbol, one of: @code{TRAYEMTPY}, @code{STOPPED},\n"
-            "@code{PLAYING}, @code{PAUSED} or @code{ERROR}.")
+GH_DEFPROC
+(cd_status, "cd-status", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Return the current status of the drive @var{cdrom}
+as a symbol, one of: @code{TRAYEMTPY}, @code{STOPPED},
+@code{PLAYING}, @code{PAUSED} or @code{ERROR}.  */)
 {
 #define FUNC_NAME s_cd_status
   SDL_CD *cd;
@@ -160,9 +172,11 @@ GH_DEFPROC (cd_status, "cd-status", 1, 0, 0,
 }
 
 
-GH_DEFPROC (cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
-            (SCM cdrom),
-            "Return #t iff there is a CD in drive @var{cdrom}.")
+GH_DEFPROC
+(cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Return #t iff there is a CD in drive @var{cdrom}.  */)
 {
 #define FUNC_NAME s_cd_in_drive_p
   SDL_CD *cd;
@@ -190,27 +204,33 @@ GH_DEFPROC (cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
     RETURN_INT (ret);                           \
   } while (0)
 
-GH_DEFPROC (cd_get_num_tracks, "cd-get-num-tracks", 1, 0, 0,
-            (SCM cdrom),
-            "Return the number of tracks on the CD in drive @var{cdrom}.")
+GH_DEFPROC
+(cd_get_num_tracks, "cd-get-num-tracks", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Return the number of tracks on the CD in drive @var{cdrom}.  */)
 {
 #define FUNC_NAME s_cd_get_num_tracks
   GETCUR (numtracks);
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (cd_get_cur_track, "cd-get-cur-track", 1, 0, 0,
-            (SCM cdrom),
-            "Return the current track on the CD in drive @var{cdrom}.")
+GH_DEFPROC
+(cd_get_cur_track, "cd-get-cur-track", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Return the current track on the CD in drive @var{cdrom}.  */)
 {
 #define FUNC_NAME s_cd_get_cur_track
   GETCUR (cur_track);
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (cd_get_cur_frame, "cd-get-cur-frame", 1, 0, 0,
-            (SCM cdrom),
-            "Return the current frame of the CD in drive @var{cdrom}.")
+GH_DEFPROC
+(cd_get_cur_frame, "cd-get-cur-frame", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Return the current frame of the CD in drive @var{cdrom}.  */)
 {
 #define FUNC_NAME s_cd_get_cur_frame
   GETCUR (cur_frame);
@@ -225,10 +245,12 @@ DECLARE_SIMPLE_SYM (length);
 DECLARE_SIMPLE_SYM (type);
 DECLARE_SIMPLE_SYM (id);
 
-GH_DEFPROC (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
-            (SCM cdrom, SCM n),
-            "For CD in drive @var{cdrom}, return info on track @var{n}\n"
-            "as an alist or #f if there were problems.")
+GH_DEFPROC
+(cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
+ (SCM cdrom, SCM n),
+ doc: /***********
+For CD in drive @var{cdrom}, return info on track @var{n}
+as an alist or #f if there were problems.  */)
 {
 #define FUNC_NAME s_cd_get_nth_track
   SDL_CD *cd;
@@ -256,20 +278,22 @@ GH_DEFPROC (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
 }
 
 
-GH_DEFPROC (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
-            (SCM cdrom,
-             SCM start_track,
-             SCM start_frame,
-             SCM n_tracks,
-             SCM n_frames),
-            "Play the given CD tracks in drive @var{cdrom}.\n"
-            "Play the CD starting at @var{start-track} and\n"
-            "@var{start-frame} for @var{ntracks} tracks and @var{nframes}\n"
-            "frames.  If both @var{ntrack} and @var{nframe} are 0, play\n"
-            "until the end of the CD.  This procedure will skip data\n"
-            "tracks, and should only be called after calling\n"
-            "@code{cd-status} to get track information about the CD.\n"
-            "Return #t if successful.")
+GH_DEFPROC
+(cd_play_tracks, "cd-play-tracks", 1, 4, 0,
+ (SCM cdrom,
+  SCM start_track,
+  SCM start_frame,
+  SCM n_tracks,
+  SCM n_frames),
+ doc: /***********
+Play the given CD tracks in drive @var{cdrom}.
+Play the CD starting at @var{start-track} and
+@var{start-frame} for @var{ntracks} tracks and @var{nframes}
+frames.  If both @var{ntrack} and @var{nframe} are 0, play
+until the end of the CD.  This procedure will skip data
+tracks, and should only be called after calling
+@code{cd-status} to get track information about the CD.
+Return #t if successful.  */)
 {
 #define FUNC_NAME s_cd_play_tracks
   SDL_CD *cd;
@@ -321,12 +345,14 @@ GH_DEFPROC (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
 }
 
 
-GH_DEFPROC (cd_play, "cd-play", 3, 0, 0,
-            (SCM cdrom,
-             SCM start,
-             SCM length),
-            "Play CD in drive @var{cdrom} from @var{start} frame for\n"
-            "@var{length} frames.  Return #t if successful.")
+GH_DEFPROC
+(cd_play, "cd-play", 3, 0, 0,
+ (SCM cdrom,
+  SCM start,
+  SCM length),
+ doc: /***********
+Play CD in drive @var{cdrom} from @var{start} frame for
+@var{length} frames.  Return #t if successful.  */)
 {
 #define FUNC_NAME s_cd_play
   SDL_CD *cd;
@@ -348,9 +374,11 @@ GH_DEFPROC (cd_play, "cd-play", 3, 0, 0,
 }
 
 
-GH_DEFPROC (cd_pause, "cd-pause", 1, 0, 0,
-            (SCM cdrom),
-            "Pause the CD in drive @var{cdrom}.  Return #t if successful.")
+GH_DEFPROC
+(cd_pause, "cd-pause", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Pause the CD in drive @var{cdrom}.  Return #t if successful.  */)
 {
 #define FUNC_NAME s_cd_pause
   SDL_CD *cd;
@@ -367,10 +395,12 @@ GH_DEFPROC (cd_pause, "cd-pause", 1, 0, 0,
 }
 
 
-GH_DEFPROC (cd_resume, "cd-resume", 1, 0, 0,
-            (SCM cdrom),
-            "Resume (unpause) the CD in drive @var{cdrom}.\n"
-            "Return #t if successful.")
+GH_DEFPROC
+(cd_resume, "cd-resume", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Resume (unpause) the CD in drive @var{cdrom}.
+Return #t if successful.  */)
 {
 #define FUNC_NAME s_cd_resume
   SDL_CD *cd;
@@ -387,9 +417,11 @@ GH_DEFPROC (cd_resume, "cd-resume", 1, 0, 0,
 }
 
 
-GH_DEFPROC (cd_stop, "cd-stop", 1, 0, 0,
-            (SCM cdrom),
-            "Stop the CD in drive @var{cdrom}.  Return #t if successful.")
+GH_DEFPROC
+(cd_stop, "cd-stop", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Stop the CD in drive @var{cdrom}.  Return #t if successful.  */)
 {
 #define FUNC_NAME s_cd_stop
   SDL_CD *cd;
@@ -406,9 +438,11 @@ GH_DEFPROC (cd_stop, "cd-stop", 1, 0, 0,
 }
 
 
-GH_DEFPROC (cd_eject, "cd-eject", 1, 0, 0,
-            (SCM cdrom),
-            "Eject the CD from drive @var{cdrom}.  Return #t if successful.")
+GH_DEFPROC
+(cd_eject, "cd-eject", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Eject the CD from drive @var{cdrom}.  Return #t if successful.  */)
 {
 #define FUNC_NAME s_cd_eject
   SDL_CD *cd;
@@ -425,9 +459,11 @@ GH_DEFPROC (cd_eject, "cd-eject", 1, 0, 0,
 }
 
 
-GH_DEFPROC (cd_close, "cd-close", 1, 0, 0,
-            (SCM cdrom),
-            "Close the drive @var{cdrom}.  The return value is unspecified.")
+GH_DEFPROC
+(cd_close, "cd-close", 1, 0, 0,
+ (SCM cdrom),
+ doc: /***********
+Close the drive @var{cdrom}.  The return value is unspecified.  */)
 {
 #define FUNC_NAME s_cd_close
   SDL_CD *cd;
@@ -446,13 +482,15 @@ GH_DEFPROC (cd_close, "cd-close", 1, 0, 0,
 }
 
 
-GH_DEFPROC (cd_msf_to_frames, "cd-msf->frames", 1, 2, 0,
-            (SCM m,
-             SCM s,
-             SCM f),
-            "Return frames (an integer) computed from"
-            "@var{m}, second @var{s} and frame @var{f}.\n"
-            "@var{s} and @var{f} are optional.")
+GH_DEFPROC
+(cd_msf_to_frames, "cd-msf->frames", 1, 2, 0,
+ (SCM m,
+  SCM s,
+  SCM f),
+ doc: /***********
+Return frames (an integer) computed fr
+@var{m}, second @var{s} and frame @var{f}.
+@var{s} and @var{f} are optional.  */)
 {
 #define FUNC_NAME s_cd_msf_to_frames
   int frames;
@@ -485,10 +523,12 @@ DECLARE_SIMPLE_SYM (f);
 DECLARE_SIMPLE_SYM (s);
 DECLARE_SIMPLE_SYM (m);
 
-GH_DEFPROC (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
-            (SCM frames),
-            "Return a minute/second/frames alist made from\n"
-            "converting @var{frames} (a number).")
+GH_DEFPROC
+(cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
+ (SCM frames),
+ doc: /***********
+Return a minute/second/frames alist made from
+converting @var{frames} (a number).  */)
 {
 #define FUNC_NAME s_cd_frames_to_msf
   int cframes, m, s, f;

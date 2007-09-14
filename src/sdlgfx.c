@@ -27,9 +27,11 @@
 #include "retval.h"
 
 
-GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
-            (SCM surface),
-            "Return a new surface created by flipping @var{surface} vertically.")
+GH_DEFPROC
+(vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
+ (SCM surface),
+ doc: /***********
+Return a new surface created by flipping @var{surface} vertically.  */)
 {
 #define FUNC_NAME s_vertical_flip_surface
   int i, w, h;
@@ -64,9 +66,11 @@ GH_DEFPROC (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
-            (SCM surface),
-            "Return a new surface created by flipping @var{surface} horizontally.")
+GH_DEFPROC
+(horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
+ (SCM surface),
+ doc: /***********
+Return a new surface created by flipping @var{surface} horizontally.  */)
 {
 #define FUNC_NAME s_horizontal_flip_surface
   int i, w, h;
@@ -101,10 +105,12 @@ GH_DEFPROC (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
 #undef FUNC_NAME
 }
 
-GH_DEFPROC (vh_flip_surface, "vh-flip-surface", 1, 0, 0,
-            (SCM surface),
-            "Return a new surface created by flipping @var{surface}\n"
-            "both vertically and horizontally.")
+GH_DEFPROC
+(vh_flip_surface, "vh-flip-surface", 1, 0, 0,
+ (SCM surface),
+ doc: /***********
+Return a new surface created by flipping @var{surface}
+both vertically and horizontally.  */)
 {
 #define FUNC_NAME s_vh_flip_surface
   SCM temp = vertical_flip_surface (surface);
