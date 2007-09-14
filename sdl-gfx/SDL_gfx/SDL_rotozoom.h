@@ -21,7 +21,7 @@ extern "C" {
 #define M_PI	3.141592654
 #endif
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 /* ---- Defines */
 
@@ -96,6 +96,18 @@ extern "C" {
 
     DLLINTERFACE void zoomSurfaceSize(int width, int height, double zoomx, double zoomy, int *dstwidth, int *dstheight);
 
+
+/* 
+    shrinkSurface()
+
+    Shrinks a 32bit or 8bit 'src' surface ti a newly created 'dst' surface.
+    'factorx' and 'factory' are the shrinking ratios (i.e. 2=1/2 the size,
+    3=1/3 the size, etc.) The destination surface is antialiased by averaging
+    the source box RGBA or Y information. If the surface is not 8bit
+    or 32bit RGBA/ABGR it will be converted into a 32bit RGBA format on the fly.
+*/     
+    
+    DLLINTERFACE SDL_Surface *shrinkSurface(SDL_Surface * src, int factorx, int factory);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

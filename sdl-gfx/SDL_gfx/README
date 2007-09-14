@@ -2,7 +2,7 @@
 SDL_gfx - SDL graphics drawing primitives and other support functions
 =============================================================================
 
-Email aschiffler@appwares.ca to contact the author or better check
+Email aschiffler at ferzkopp.net to contact the author or better check
 author's homepage at http://www.ferzkopp.net for the most up-to-date
 contact information.
 
@@ -22,6 +22,7 @@ The current components of the SDL_gfx library are:
 - Rotozoomer (SDL_rotozoom.h)
 - Framerate control (SDL_framerate.h)
 - MMX image filters (SDL_imageFilter.h)
+- Custom Blit functions (SDL_gfxBlitFunc.h)
 
 See ./Docs directory for a longer HTML version of this document.
 
@@ -30,16 +31,19 @@ Supported Platforms
 -------------------
 
 The library compiles and is tested for a Linux target (gcc compiler) and 
-a Win32 target (VisualC6/7, xmingw32 cross-compiler). MacOS X target is 
-reported to work (Project Builder). QNX is reported to build well (see diff).
+a Win32 target (VisualC6/7, mingw32, xmingw32 cross-compiler). MacOS X 
+target is reported to work (10.3+ native and Project Builder). 
+QNX is reported to build well (see .diff in "Other Builds").
 
-When using the cross-compiler (available on the author's homepage), 
-the build process generates .DLLs. You can use the command line 'LIB.EXE' 
-tool to generate VC6 compatible .LIB files for linking purposes. 
+When using the cross-compiler (available on the author's homepage, slightly
+out of date), the build process generates .DLLs. You can use the command 
+line 'LIB.EXE' tool to generate VC6 compatible .LIB files for linking 
+purposes. 
 
 Other platforms might work but have not been tested by the author.
+Please check the file "INSTALL" as well as the folder "Other Builds".
 
-See below for build instructions.
+See section "Installation and Test" below for more build instructions.
 
 
 Notes on Graphics Primitives
@@ -206,6 +210,15 @@ for optimized compilation:
 	make install
 	ldconfig
 
+
+Other Builds
+------------
+
+Check the folder "Other Builds" for alternative makefiles.
+
+Windows
+-------
+
 To create a Windows DLL using VisualC:
 	unzip -a VisualC6.zip
 	vcvars32.bat
@@ -215,22 +228,37 @@ or
 	unzip -a VisualC7.zip
 and open the project file.
 
+To build using mingw32 on Win32, check the makefile contained in mingw.zip
 
 To create a Windows DLL using the xmingw32 cross-compiler:
 	cross-configure
 	cross-make
 	cross-make install
 
+Make sure the -DBUILD_DLL is used (and only then) when creating a DLL.
+Make sure -DWIN32 is used when compiling the sources.
 
-To build without MMX code enabled (i.e. PPC architecture):
+
+No-MMX
+------
+
+To build without MMX code enabled (i.e. PPC or for AMD64 architecture):
 	./configure --disable-mmx
 	make
 	make install
+i.e. to build on MacOSX 10.3+ use:
+	./configure --disable-mmx && make
 
+
+QNX
+---
 
 To build on QNX6, patch first using:
 	patch -p0 <QNX.diff
 
+
+OSX
+---
 
 To build on MacOS X with Project Builder, follow these steps:
     * Update your developer tools to the lastest version (December 2002 as
@@ -245,6 +273,10 @@ To build on MacOS X with Project Builder, follow these steps:
 	programs. All can be built using the 'deployment' or 'development' build
 	styles. 
 
+A newer version for MaxOS X is included in the OSX-PB-XCode.zip archive. The 
+updated version uses relative pathnames where appropriate, and pointers to 
+the standard  installation location of SDL. However, it may require XCode in 
+order to be used.
 
 
 Test Programs
@@ -257,14 +289,7 @@ to create several test programs for the libraries functions. This requires
 the library to be compiled and installed.
 
 
-See the source code .c files for sample code.
-
-
-Thanks
-------
-
-Thanks to 'AppWares Development Group' for supporting this project - please 
-visit http://www.appwares.com for more information.
+See the source code .c files for some sample code and implementation hints.
 
 
 Contributors
@@ -318,3 +343,19 @@ Contributors
 
 * gcc3.4 build fixes by Dries Verachtert, 
   dries at ulyssis.org - Thanks Dries.
+
+* Updated OSX build by Brian Rice,
+  water451 at gmail.com - Thanks Brian.
+
+* aaellipse issues pointed out by Marco Wertz,
+  marco.wertz at gmx.de - Thanks Marco.
+
+* texturedPolygon idea and code by Kees Jongenburger,
+  kees.jongenburger at gmail.com - Thanks Kees.
+ 
+* Several bugfixes contributed by Sigborn Skjaeret, 
+  cisc at broadpark.no - Thanks CISC.
+
+* Syntax error for C++ found by Olivier Boudeville,
+  olivier.boudeville at online.fr - Thanks Olivier.
+

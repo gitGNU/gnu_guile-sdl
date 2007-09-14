@@ -14,7 +14,7 @@
 #define M_PI	3.141592654
 #endif
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
@@ -25,7 +25,7 @@ extern "C" {
 
 #define SDL_GFXPRIMITIVES_MAJOR	2
 #define SDL_GFXPRIMITIVES_MINOR	0
-#define SDL_GFXPRIMITIVES_MICRO	13
+#define SDL_GFXPRIMITIVES_MICRO	16
 
 /* ----- W32 DLL interface */
 
@@ -167,7 +167,7 @@ extern "C" {
     DLLINTERFACE int filledPolygonColor(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, Uint32 color);
     DLLINTERFACE int filledPolygonRGBA(SDL_Surface * dst, const Sint16 * vx,
 				       const Sint16 * vy, int n, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-
+    DLLINTERFACE int texturedPolygon(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, SDL_Surface * texture,int texture_dx,int texture_dy);
 /* Bezier */
 /* s = number of steps */
 
@@ -187,7 +187,7 @@ extern "C" {
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif				/* _SDL_gfxPrimitives_h */
