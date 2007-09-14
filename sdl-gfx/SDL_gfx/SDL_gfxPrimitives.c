@@ -3494,14 +3494,14 @@ int _texturedHLine(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y,SDL_Surface
       source_rect.w = w;
       source_rect.x = texture_x_walker;
       dst_rect.x= x1;
-      result != SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect) ;
+      result |= SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect) ;
     } else {//we need to draw multiple times
       //draw the first segment
       pixels_written = texture->w  -texture_x_walker;
       source_rect.w = pixels_written;
       source_rect.x = texture_x_walker;
       dst_rect.x= x1;
-      result != SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect);
+      result |= SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect);
       write_width = texture->w;
 
       //now draw the rest
@@ -3513,7 +3513,7 @@ int _texturedHLine(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y,SDL_Surface
         }
         source_rect.w = write_width;
         dst_rect.x = x1 + pixels_written;
-        result  != SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect) ;
+        result |= SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect) ;
         pixels_written += write_width;
       }
   }
@@ -3537,7 +3537,7 @@ int _texturedHLine(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y,SDL_Surface
  **/
 int texturedPolygon(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, SDL_Surface * texture,int texture_dx,int texture_dy)
 {
-    int result;
+    int result = 0;
     int i;
     int y, xa, xb;
     int minx,maxx,miny, maxy;
@@ -3583,16 +3583,15 @@ int texturedPolygon(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int
         }
     }
     if (maxx <0 || minx > dst->w){
-      return;
+      return result;
     }
     if (maxy <0 || miny > dst->h){
-      return;
+      return result;
     }
     
     /*
      * Draw, scanning y 
      */
-    result = 0;
     for (y = miny; (y <= maxy); y++) {
 	ints = 0;
 	for (i = 0; (i < n); i++) {
