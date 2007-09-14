@@ -45,7 +45,10 @@ TESTS_ENVIRONMENT = ./wily-guile -l $(srcdir)/test/common -s
 # distribution
 as_is_dirs = examples test include cov
 
-EXTRA_DIST = aclocal-suffix alive.test $(as_is_dirs)
+EXTRA_DIST = \
+	am/aclocal-suffix \
+	am/guile-sdl.m4 \
+	alive.test $(as_is_dirs)
 
 dist-hook:
 	for d in $(as_is_dirs) ; do \
