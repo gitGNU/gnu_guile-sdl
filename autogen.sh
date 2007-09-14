@@ -26,8 +26,8 @@ fi
 ######################################################################
 # Invoke the auto* tools.
 
-aclocal -I `guile-config info datadir`/aclocal --output=- \
-   | sed '$raclocal-suffix' > aclocal.m4
+aclocal -I `guile-config info datadir`/aclocal -I am --output=- \
+   | sed '$ram/aclocal-suffix' > aclocal.m4
 autoheader
 autoconf
 automake --add-missing
