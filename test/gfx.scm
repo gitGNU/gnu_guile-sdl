@@ -139,6 +139,20 @@
                       #t))
   (SDL:flip))
 
+;; draw textured polygons
+(do ((poly 0 (1+ poly)))
+    ((= 10 poly))
+  (let* ((n (+ 3 (random 5)))
+         (x-uv (make-vector n 0))
+         (y-uv (make-vector n 0)))
+    (do ((i 0 (1+ i)))
+        ((= i n))
+      (vector-set! x-uv i (random 640))
+      (vector-set! y-uv i (random 480)))
+    (SDL:draw-textured-polygon SCREEN x-uv y-uv
+                               SCREEN (random 640) (random 480)))
+  (SDL:flip))
+
 ;; clean up
 (SDL:delay 2000)
 (SDL:quit)
