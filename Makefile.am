@@ -62,15 +62,4 @@ clean-000-libdir:
 	@echo 'deleting $(libdir)/libguileSDL* files'
 	rm -f $(libdir)/libguileSDL*
 
-## maintenance
-
-if MAINTAINER_MODE
-
-cvs-state-summary:
-	cd $(top_srcdir) ;			\
-	ttn-do display-cvs-state-summary	\
-	  `find . -name CVS -printf ' %h'`
-
-endif # MAINTAINER_MODE
-
 ## Makefile.am ends here
