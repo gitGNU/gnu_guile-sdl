@@ -452,6 +452,41 @@ are specified by corresponding pairs from the uniform vectors
 
 
 GH_DEFPROC
+(draw_textured_polygon, "draw-textured-polygon", 6, 0, 0,
+ (SCM surface, SCM vx, SCM vy, SCM texture, SCM tdx, SCM tdy),
+ doc: /***********
+On @var{surface}, draw a polygon whose points are specified
+by corresponding pairs from the uniform vectors @var{vx}
+and @var{vy}, filling from @var{texture} (a surface) with
+offset @var{tdx}, @var{tdy}.  */)
+{
+#define FUNC_NAME s_draw_textured_polygon
+  int ret;
+  Sint16 *cvx, *cvy;
+
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_VECTOR (vx, ARGH2);
+  ASSERT_VECTOR (vy, ARGH3);
+  ASSERT_SURFACE (texture, ARGH4);
+  ASSERT_EXACT (tdx, ARGH5);
+  ASSERT_EXACT (tdy, ARGH6);
+
+  cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
+  cvy = (Sint16 *) gh_scm2shorts (vy, NULL);
+
+  ret = texturedPolygon (UNPACK_SURFACE (surface),
+                         cvx, cvy,
+                         gh_uniform_vector_length (vx),
+                         UNPACK_SURFACE (texture),
+                         gh_scm2int (tdx), gh_scm2int (tdy));
+  free (cvx);
+  free (cvy);
+  RETURN_INT (ret);
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
 (draw_bezier, "draw-bezier", 5, 0, 0,
  (SCM surface, SCM vx, SCM vy, SCM s, SCM color),
  doc: /***********
