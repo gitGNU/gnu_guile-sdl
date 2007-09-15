@@ -23,8 +23,6 @@ install-data-hook:
 	if guile-tools | grep -q make-module-catalog ; then	\
 	   guile-tools make-module-catalog -t "$(DESTDIR)"	\
 	     $(DESTDIR)$(GUILE_LIBSITE) ;			\
-	   guile-tools make-module-catalog -t "$(DESTDIR)"	\
-	     $(DESTDIR)$(GUILE_SITE) ;				\
 	fi
 
 # test suite
