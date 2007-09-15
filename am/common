@@ -12,6 +12,12 @@ DISTCLEANFILES =
 
 noinst_DATA =
 
+SOFIXFLAGS = no-la,no-symlinks
+
+do-sofix:
+	$(top_srcdir)/am/sofix $(SOFIXFLAGS) \
+	  $(DESTDIR)$(cmoddir) $(cmod_LTLIBRARIES)
+
 ## Local variables:
 ## mode: makefile
 ## End:
