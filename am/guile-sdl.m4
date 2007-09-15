@@ -31,21 +31,27 @@
 # - set its value to 1 and AC_SUBST it.
 #
 AC_DEFUN([GUILE_SDL_OPTLIB],[
+m4_pushdef([ENABLE],  [enable_]$1)
+m4_pushdef([ENABLED], [test $[]ENABLE = yes])
+m4_pushdef([COND],    [AS_TR_CPP([HAVE_]$1)])
 
 AC_ARG_ENABLE([$1],[AC_HELP_STRING([--disable-$1],
-[Omit bindings for SDL_$1 (default=enabled)])],:,[enable_$1=yes])
-if test x"$enable_$1" = xyes ; then
+[omit bindings for SDL_$1 (default=enabled)])],:,[ENABLE=yes])
+if ENABLED ; then
   dnl Use ":" to avoid prepending to $LIBS.
-  AC_CHECK_LIB([SDL_$1], $2, :, enable_$1=no)
+  AC_CHECK_LIB([SDL_$1], $2, :, ENABLE=no)
 fi
 
-AM_CONDITIONAL(m4_toupper([HAVE_$1]), test x$enable_$1 = xyes)
+AM_CONDITIONAL(COND, ENABLED)
 
-if test x$enable_$1 = xyes ; then
-  m4_toupper([HAVE_$1])=1
-  AC_SUBST(m4_toupper([HAVE_$1]))
+if ENABLED ; then
+  COND=1
+  AC_SUBST(COND)
 fi
 
+m4_popdef([COND])
+m4_popdef([ENABLED])
+m4_popdef([ENABLE])
 ])dnl GUILE_SDL_OPTLIB
 
 ##----------------------------------------------------------------------------
