@@ -71,35 +71,9 @@ AC_CHECK_LIB(SDL_image, IMG_Load,
  	     LIBS="$LIBS -lSDL_image",
  	     AC_MSG_ERROR([*** SDL_image library not found!]))
 
-dnl SDL_mixer is optional
-AC_ARG_ENABLE([mixer],
-  AC_HELP_STRING([--disable-mixer],
-                 [Omit bindings for SDL_mixer (default=enabled)]),
-  , enable_mixer=yes)
-if test x$enable_mixer = xyes ; then
-  dnl We use ":" to avoid prepending to $LIBS (see sdl-mixer/Makefile.am).
-  AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, :, enable_mixer=no)
-fi
-AM_CONDITIONAL([HAVE_MIXER], test x$enable_mixer = xyes)
-if test x$enable_mixer = xyes ; then
-  HAVE_MIXER=1
-  AC_SUBST([HAVE_MIXER])
-fi
-
-dnl SDL_ttf is optional
-AC_ARG_ENABLE([ttf],
-  AC_HELP_STRING([--disable-ttf],
-                 [Omit bindings for SDL_ttf (default=enabled)]),
- , enable_ttf=yes)
-if test x$enable_ttf = xyes ; then
-  dnl We use ":" to avoid prepending to $LIBS (see sdl-ttf/Makefile.am).
-  AC_CHECK_LIB(SDL_ttf, TTF_Init, :, enable_ttf=no)
-fi
-AM_CONDITIONAL([HAVE_TTF], test x$enable_ttf = xyes)
-if test x$enable_ttf = xyes ; then
-  HAVE_TTF=1
-  AC_SUBST([HAVE_TTF])
-fi
+dnl Bindings for optional libs.
+GUILE_SDL_OPTLIB([mixer],[Mix_OpenAudio])
+GUILE_SDL_OPTLIB([ttf],[TTF_Init])
 
 ##----------------------------------------------------------------------------
 ##: misc
