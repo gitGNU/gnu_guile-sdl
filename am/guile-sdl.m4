@@ -17,6 +17,8 @@
 # Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 # Boston, MA  02110-1301  USA
 
+##----------------------------------------------------------------------------
+
 # GUILE_SDL_OPTLIB --- Handle --disable-FOO for optional libraries
 #
 # $1 is a component, one of: mixer, ttf.
