@@ -58,8 +58,7 @@ esac
 ##----------------------------------------------------------------------------
 ##: SDL
 
-SDL_VERSION=1.2.0
-AM_PATH_SDL($SDL_VERSION, :,
+AM_PATH_SDL([1.2.0], :,
             AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 
 CFLAGS="$CFLAGS $SDL_CFLAGS"
