@@ -423,6 +423,7 @@ TTF_STYLE_foo, where foo can be:
 @twerpdoc (draw-aa-trigon)
 @twerpdoc (draw-polygon)
 @twerpdoc (draw-aa-polygon)
+@twerpdoc (draw-textured-polygon)
 @twerpdoc (draw-bezier)
 @twerpdoc (draw-character)
 @twerpdoc (draw-string)
