@@ -21,12 +21,6 @@ include $(top_srcdir)/am/snarfing
 
 endif # HAVE_TTF
 
-install-data-hook:
-if HAVE_TTF
-	cd $(cmoddir) ; for f in $(cmod_LTLIBRARIES) ; do \
-	   test -f lib$$f && rm -f lib$$f ; $(LN_S) $$f lib$$f ; done
-else
-	@echo '(nothing to do for "$@")'
-endif # not HAVE_TTF
+install-data-hook: do-sofix
 
 ## Makefile.am ends here

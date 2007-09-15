@@ -15,10 +15,8 @@ BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH)
 sdl_la_SOURCES = $(FLAGSTASH) $(WRAPPER_SOURCES)
 sdl_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module
 
-install-data-hook:
+install-data-hook: do-sofix
 	rm -f $(cmoddir)/sdl-sup.*
-	cd $(cmoddir) ; for f in $(cmod_LTLIBRARIES) ; do \
-	   test -f lib$$f && rm -f lib$$f ; $(LN_S) $$f lib$$f ; done
 
 ## empty directive for $(top_srcdir)/am/fspec support
 EXTRA_DIST =

@@ -17,13 +17,6 @@ include $(top_srcdir)/am/snarfing
 
 endif # HAVE_MIXER
 
-install-data-hook:
-if HAVE_MIXER
-	cd $(cmoddir) ; for f in $(cmod_LTLIBRARIES) ; do \
-	   test -f lib$$f && rm -f lib$$f ; $(LN_S) $$f lib$$f ; done
-else
-	@echo '(nothing to do for "$@")'
-endif # not HAVE_MIXER
-
+install-data-hook: do-sofix
 
 ## Makefile.am ends here
