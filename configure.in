@@ -56,34 +56,6 @@ case "$GUILE_LIBSITE" in
 esac
 
 ##----------------------------------------------------------------------------
-##: MATHLIB
-
-dnl Figure out which math library to use - taken from SDL_gfx
-case "$target" in
-    *-*-cygwin* | *-*-mingw32*)
-        MATHLIB=""
-        ;;
-    *-*-beos*)
-        MATHLIB=""
-        ;;
-    *-*-darwin*)
-        MATHLIB=""
-        ;;
-    *-*-aix*)
-	MATHLIB="-lm"
-        if test x$ac_cv_prog_gcc = xyes; then
-            CFLAGS="-mthreads"
-	fi
-        ;;
-    *)
-        MATHLIB="-lm"
-        AC_PATH_X
-        AC_PATH_XTRA
-        ;;
-esac
-AC_SUBST(MATHLIB)
-
-##----------------------------------------------------------------------------
 ##: SDL
 
 SDL_VERSION=1.2.0
