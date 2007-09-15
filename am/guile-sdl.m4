@@ -49,4 +49,9 @@ fi
 ])dnl GUILE_SDL_OPTLIB
 
 ##----------------------------------------------------------------------------
+
+# Override libtool's attempt to support C++, Fortran, etc.
+AC_DEFUN([_LT_AC_TAGCONFIG],[:])
+
+##----------------------------------------------------------------------------
 ## guile-sdl.m4 ends here
