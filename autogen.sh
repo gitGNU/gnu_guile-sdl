@@ -16,6 +16,9 @@
 
 set -e
 
+( cd am ; ln -sf ../../.common/sofix )
+test -f am/sofix || echo WARNING: am/sofix points nowhere
+
 ######################################################################
 # Libtool setup.
 
