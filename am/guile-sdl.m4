@@ -169,4 +169,4 @@ int main (int argc, char *argv[])
 ])
 
 ##----------------------------------------------------------------------------
-## acinclude.m4 ends here
+## guile-sdl.m4 ends here
