@@ -611,6 +611,52 @@ fourth arg @var{smooth} turns on anti-aliasing.  */)
 
 
 GH_DEFPROC
+(roto_zoom_surface_xy, "roto-zoom-surface-xy", 2, 3, 0,
+ (SCM surface,
+  SCM angle,
+  SCM zoomx, SCM zoomy,
+  SCM smooth),
+ doc: /***********
+Return a new surface made from rotating @var{surface}
+by @var{angle} degrees.  Optional third and fourth args
+@var{zoomx} and @var{zoomy} (default value 1.0 for both)
+changes the size as well.  Optional fifth arg @var{smooth}
+turns on anti-aliasing.  */)
+{
+#define FUNC_NAME s_roto_zoom_surface_xy
+  SDL_Surface *csurface, *new_surface;
+  double cangle = 0.0, czoomx = 1.0, czoomy = 1.0;
+
+  ASSERT_SURFACE (surface, ARGH1);
+  csurface = SMOBGET (surface, SDL_Surface *);
+
+  ASSERT_NUMBER (angle, ARGH2);
+  cangle = gh_scm2double (angle);
+
+  UNBOUND_MEANS_FALSE (zoomx);
+  if (NOT_FALSEP (zoomx))
+    {
+      ASSERT_NUMBER (zoomx, ARGH3);
+      czoomx = gh_scm2double (zoomx);
+    }
+  UNBOUND_MEANS_FALSE (zoomy);
+  if (NOT_FALSEP (zoomy))
+    {
+      ASSERT_NUMBER (zoomy, ARGH3);
+      czoomy = gh_scm2double (zoomy);
+    }
+
+  UNBOUND_MEANS_FALSE (smooth);
+
+  new_surface = rotozoomSurfaceXY (csurface, cangle, czoomx, czoomy,
+                                   NOT_FALSEP (smooth));
+
+  RETURN_NEW_SURFACE (new_surface);
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
 (zoom_surface, "zoom-surface", 2, 2, 0,
  (SCM surface,
   SCM zoomx,
