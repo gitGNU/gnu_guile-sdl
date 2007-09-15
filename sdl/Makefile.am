@@ -27,12 +27,3 @@ if MAINTAINER_MODE
 noinst_DATA	+= .doc-index
 endif ## MAINTAINER_MODE
 # end doc snarfing for scheme code
-
-retired = $(GUILE_SITE)/sdl
-
-install-data-hook:
-	if [ -f $(retired)/sdl.scm ] ; then \
-	  rm -f $(retired)/sdl.scm ; fi
-	if [ -d $(retired) ] ; then \
-	  if [ "`ls $(retired)`" = "" ] ; then \
-	    rmdir $(retired) ; fi ; fi
