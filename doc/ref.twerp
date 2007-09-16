@@ -433,6 +433,7 @@ TTF_STYLE_foo, where foo can be:
 @twerpdoc (roto-zoom-surface)
 @twerpdoc (roto-zoom-surface-xy)
 @twerpdoc (zoom-surface)
+@twerpdoc (shrink-surface)
 
 @section Managing Frame Rate
 
