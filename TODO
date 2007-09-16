@@ -1,6 +1,5 @@
 - 0.3 "coverage"
   - (sdl gfx)
-    - shrinkSurface
     - SDL_gfxBlitRGBA
     - SDL_gfxSetAlpha
     - SDL_imageFilter* (many funcs)
