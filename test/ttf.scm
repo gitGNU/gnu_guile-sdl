@@ -22,10 +22,21 @@
                name))
 
 ;; the text to display
-(define sentence "The quick brown fox jumped over the lazy sleeping dog.")
+(define sentence (let ((ls (map symbol->string
+                                '(The quick brown fox
+                                      jumped over the
+                                      lazy sleeping dog
+                                      !!!))))
+                   (set-cdr! (last-pair ls) ls)
+                   ls))
 
 ;; load a font file
-(define font (SDL:load-font (datafile "crystal.ttf") 16))
+(define fonts (let* ((filename (datafile "crystal.ttf"))
+                     (ls (map (lambda (size)
+                                (SDL:load-font filename size))
+                              '(16 32 64 128))))
+                (set-cdr! (last-pair ls) ls)
+                ls))
 
 ;; initialize the video mode
 (define test-rect (SDL:make-rect 0 0 640 480))
@@ -33,14 +44,13 @@
 
 (set! *random-state* (seed->random-state (current-time)))
 
-(define rand-rect
-  (let* ((dimensions (SDL:font:size-text font sentence))
+(define (rand-rect font word)
+  (let* ((dimensions (SDL:font:size-text font word))
          (w (assq-ref dimensions 'w))
          (h (assq-ref dimensions 'h)))
-    (lambda ()
-      (SDL:make-rect (random (- (SDL:rect:w test-rect) w))
-                     (random (- (SDL:rect:h test-rect) h))
-                     w h))))
+    (SDL:make-rect (random (- (SDL:rect:w test-rect) w))
+                   (random (- (SDL:rect:h test-rect) h))
+                   w h)))
 
 (define rand-color
   (lambda ()
@@ -56,8 +66,16 @@
       (screen (SDL:get-video-surface)))
   (do ((i 0 (1+ i)))
       ((> i 50))
-    (let ((text (SDL:render-text font sentence (rand-color) #t))
-          (dst-rect (rand-rect)))
+    (let* ((word (return-it (car sentence)
+                   (set! sentence (cdr sentence))))
+           (font (return-it (car fonts)
+                   (set! fonts (cdr fonts))))
+           (text (SDL:render-text font word (rand-color)
+                                  (case (random 3)
+                                    ((0) #t)
+                                    ((1) #f)
+                                    ((2) (rand-color)))))
+           (dst-rect (rand-rect font word)))
       (SDL:blit-surface text test-rect screen dst-rect)
       (SDL:update-rect screen dst-rect))))
 
