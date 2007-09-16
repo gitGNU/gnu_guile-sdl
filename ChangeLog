@@ -4,6 +4,10 @@
 
 2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	* Makefile.am (EXTRA_DIST): Remove am/aclocal-suffix.
+
+2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	* Makefile.am (TESTS_ENVIRONMENT): Expand to include HAVE_foo
 	vars and $(GUILE) -L "@abs_top_builddir@" directly.
 

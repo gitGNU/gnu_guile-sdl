@@ -47,7 +47,6 @@ TESTS_ENVIRONMENT = \
 as_is_dirs = examples test include cov
 
 EXTRA_DIST = \
-	am/aclocal-suffix \
 	am/guile-sdl.m4 \
 	am/sofix \
 	alive.test $(as_is_dirs)
