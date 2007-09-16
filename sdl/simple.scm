@@ -107,13 +107,17 @@
 ;; @item #:set-canvas! surface
 ;; Set the surface on which the @code{#:write!} command renders.
 ;;
-;; @item #:render text
+;; @item #:render text [color [bg]]
 ;; Return a surface of @var{text} rendered using the default
-;; font, size, color and size.
+;; font, size, color and size.  Optional second arg @var{color}
+;; specifies another color to use.  Optional third arg @var{bg}
+;; specifies a background mode: @code{#f} (default) for ``solid'';
+;; @code{#t} for ``blended''; a color to use that color.
 ;;
-;; @item #:write! text x y
+;; @item #:write! where text [color [bg]]
 ;; Similar to #:render, but also blit the surface onto the canvas
-;; at the position specified by @var{x} and @var{y}.
+;; at the rectangle position specified by @var{where}.  The width
+;; and height components of @var{where} are updated by side effect.
 ;; @end table
 ;;
 (define (simple-stylus init? filename size r g b)
@@ -127,8 +131,16 @@
       (set! color (///-make-color r g b)))
     (define (set-canvas! v)
       (set! canvas v))
-    (define (render text)
-      (/T/-render-text font text color))
+    (define (render text . opts)
+      (let* ((opt? (not (null? opts)))
+             (color (or (and opt? (car opts))
+                        color))
+             (bg (and opt?
+                      (not (null? (cdr opts)))
+                      (cadr opts))))
+        (/T/-render-text font text color bg)))
+    (define (write! where . rest)
+      (///-blit-surface (apply render rest) #f canvas where))
     (set-font! filename size)
     (set-color! r g b)
     ;; rv
@@ -137,8 +149,8 @@
         ((#:set-font!) (apply set-font! (cdr args)))
         ((#:set-color!) (apply set-color! (cdr args)))
         ((#:set-canvas!) (set-canvas! (cadr args)))
-        ((#:render) (render (car args)))
-        ((#:write!) (///-blit-surface (render (car args)) #f canvas))
+        ((#:render) (apply render args))
+        ((#:write!) (apply write! args))
         (else (error "bad key:" key))))))
 
 ;; Return a @dfn{vpacked image closure} that accepts a few simple messages.
