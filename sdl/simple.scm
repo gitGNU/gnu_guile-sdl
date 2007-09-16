@@ -54,7 +54,7 @@
 ;; @itemx #:w/h
 ;; Return width, height, or a cons of width and height, respectively.
 ;;
-;; @item #:resize new-width new-height
+;; @item #:resize! new-width new-height
 ;; Request that the canvas dimension be changed to @var{new-width} by
 ;; @var{new-height}.  Return a rect that reflects the actual dimension.
 ;; @end table
