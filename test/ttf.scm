@@ -38,8 +38,8 @@
          (w (assq-ref dimensions 'w))
          (h (assq-ref dimensions 'h)))
     (lambda ()
-      (SDL:make-rect (random (SDL:rect:w test-rect))
-                     (random (SDL:rect:h test-rect))
+      (SDL:make-rect (random (- (SDL:rect:w test-rect) w))
+                     (random (- (SDL:rect:h test-rect) h))
                      w h))))
 
 (define rand-color
