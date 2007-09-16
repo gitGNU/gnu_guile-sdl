@@ -1,3 +1,23 @@
+2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* sdlgfx.c (shrink_surface): New GH_DEFPROC.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* sdlgfx.c (roto_zoom_surface_xy): New GH_DEFPROC.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* sdlgfx.c (draw_textured_polygon): New GH_DEFPROC.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am (install-data-hook): Rewrite.
+
+2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* sdlgfx.c: Convert docstrings into doc: comments.
+
 2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* SDL_gfx/SDL_gfxPrimitives.c

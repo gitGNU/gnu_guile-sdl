@@ -1,3 +1,14 @@
+2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* simple.scm (simple-stylus render): Take optional args
+	COLOR and BG; pass them to underlying `render-text'.
+	(simple-stylus write!): New internal proc, for #:write!.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am (retired): Delete var.
+	(install-data-hook): Delete target.
+
 2007-09-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* simple.scm (simple-canvas setup!): New internal proc.

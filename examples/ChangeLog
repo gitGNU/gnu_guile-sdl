@@ -66,10 +66,6 @@
 	(image-ring): Only add files w/ png or xpm extension.
 	(handle): Also display filename to stdout.
 
-2004-02-08  Thien-Thi Nguyen  <ttn@surf.glug.org>
-
-	* README: Mention ../wily-guile.
-
 2003-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
 
 	* bustagnu.scm, imagebrowser.scm, sicp-painter.scm:

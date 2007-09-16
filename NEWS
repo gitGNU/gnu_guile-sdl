@@ -6,11 +6,25 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
 
-- 0.3.7 | NOT YET RELEASED
+- 0.3.7 | 2007-09-16
 
   - license now GPLv3+ (see COPYING)
 
+  - installation changes
+    - no longer created: libFOO.so symlink to FOO.so
+    - deleted: .la file, libFOO.so and other symlinks
+
   - embedded library upgraded: libSDL_gfx 2.0.16
+    - new proc: draw-textured-polygon
+    - new proc: roto-zoom-surface-xy
+    - new proc: shrink-surface
+
+  - changes to (sdl simple) procs
+    - new simple-canvas command: #:resize! NEW-WIDTH NEW-HEIGHT
+    - simple-stylus #:render can take optional args: COLOR, BG
+    - simple-stylus #:write! has new INCOMPATIBLE interface; see manual
+
+  - maintenance now uses libtool 1.5.24 and autoconf 2.61
 
 
 - 0.3.6 | 2007-02-06

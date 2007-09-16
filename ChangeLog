@@ -1,3 +1,73 @@
+2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* configure.in (AC_INIT): Bump version to "0.3.7" for release.
+
+2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am (TESTS_ENVIRONMENT): Expand to include HAVE_foo
+	vars and $(GUILE) -L "@abs_top_builddir@" directly.
+
+	* configure.in (wily-guile): Remove AC_CONFIG_FILES block.
+
+	* wily-guile.in: Delete file.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* am/common (SOFIXFLAGS): New var.
+	(do-sofix): New target.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* autogen.sh: Symlink am/sofix.
+	* Makefile.am (EXTRA_DIST): Add am/sofix.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am (cvs-state-summary): Delete target.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am (install-data-hook):
+	No longer update the module catalog in $(GUILE_SITE).
+
+	* configure.in (GUILE_SITE_DIR): Delete macro call.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* configure.in: Remove workaround for GUILE_LIBSITE bug.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* am/guile-sdl.m4 (GUILE_SDL_OPTLIB): Use m4_pushdef and m4_popdef.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* am/guile-sdl.m4 (_LT_AC_TAGCONFIG): New AC_DEFUN.
+	* am/aclocal-suffix: Delete file.
+	* configure.in (AC_LIBTOOL_TAGS): Delete macro call.
+	* autogen.sh: For aclocal invocation,
+	arrange to not include GUILE-DATADIR/aclocal
+	if that directory is the same as aclocal's.
+	Also, no longer append am/aclocal-suffix.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* am/guile-sdl.m4 (AM_PATH_SDL): Delete AC_DEFUN.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* configure.in (SDL_VERSION): Delete var.
+	(AM_PATH_SDL): Use SDL version directly.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* am/guile-sdl.m4 (GUILE_SDL_OPTLIB): New AC_DEFUN.
+	* configure.in: Use macro GUILE_SDL_OPTLIB.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* configure.in (MATHLIB): Delete AC_SUBST var.
+
 2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* am/guile-sdl.m4: New file.
@@ -6,6 +76,8 @@
 	* aclocal-suffix: Delete file, ...here.
 
 	* Makefile.am (ACLOCAL_AMFLAGS): New var.
+	(EXTRA_DIST): Remove aclocal-suffix.
+	Add am/aclocal-suffix and am/guile-sdl.m4.
 
 	* autogen.sh: Update ref to aclocal-suffix.
 	Also, specify `-I am' to aclocal.

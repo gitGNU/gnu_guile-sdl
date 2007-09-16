@@ -1,3 +1,33 @@
+2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* ttf.scm (rand-rect): Make sure entire rect fits in the screen.
+	(sentence): Make into a circular list of strings.
+	(font): Delete.
+	(fonts): New data structure.
+	(rand-rect): Take FONT and WORD; compute
+	both size and dimension of returned rectangle.
+	[main]: Cycle through `sentence' and `fonts'
+	and mix up background color arg to `render-text'.
+
+2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* fading.scm (as-four): Use `(sdl gfx) shrink-surface'.
+
+2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* roto.scm (spin): New macro.
+	Use it to re-implement the `roto-zoom-surface'
+	test and to add a test for `roto-zoom-surface-xy'.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* gfx.scm: Add textured-polygon drawing.
+
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* gfx.scm (SCREEN): New var.  Throughout,
+	use it instead of `(SDL:get-video-surface)'.
+
 2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* fading.scm (fade/wait!): Wait a little less.

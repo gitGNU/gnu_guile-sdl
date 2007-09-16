@@ -1,3 +1,11 @@
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am (install-data-hook): Rewrite.
+
+2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* sdlmixer.c: Convert docstrings into doc: comments.
+
 2006-12-19  Thien-Thi Nguyen  <ttn@ambire>
 
 	* sdlmixer.c (RETURN_NEW_MUSIC)

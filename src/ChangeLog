@@ -1,3 +1,13 @@
+2007-09-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am (install-data-hook): Rewrite.
+
+2007-09-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* misc.c, sdl.c, sdlcdrom.c, sdlcolor.c, sdlenums.c, sdlevent.c
+	* sdlgfx.c, sdljoystick.c, sdlrect.c, sdlsurface.c, sdlvideo.c:
+	Convert docstrings into doc: comments.
+
 2007-01-02  Thien-Thi Nguyen  <ttn@ambire>
 
 	* sdlevent.c (NUM2_GETTER, NUM2_SETTER, NUM3_GETTER, NUM3_SETTER):
