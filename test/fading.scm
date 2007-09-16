@@ -11,7 +11,7 @@
          (h (SDL:surface:h surface))
          (w/2 (quotient w 2))
          (h/2 (quotient h 2))
-         (hoh (GFX:zoom-surface surface 1/2 1/2 #t)) ; half-of-half
+         (hoh (GFX:shrink-surface surface 2 2)) ; half-of-half
          (result (SDL:display-format (SDL:make-surface w h)))
          (drect (SDL:make-rect 0 0 w/2 h/2)))
     (define (move/blit! munge value)
