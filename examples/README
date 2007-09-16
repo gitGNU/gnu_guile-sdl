@@ -1,7 +1,7 @@
 These are some basic examples of how to use Guile-SDL.  You can either
 run them after installing Guile-SDL, or after building Guile-SDL by
-setting the env var GUILE to be the absolute path to the ../wily-guile
-shell script, something like:
+setting the env var GUILE to include "-L DIR", where DIR is the absolute
+name of the parent directory, something like:
 
-	GUILE=`cd .. ; pwd`/wily-guile
+	GUILE="guile -L `cd .. ; pwd`"
 	export GUILE
