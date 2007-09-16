@@ -11,7 +11,7 @@ haven't been included because of the problems with Guile code being run
 from more than one thread.  However audio programming can be done with the
 module `(sdl mixer)' that requires the SDL_mixer library.
 
-Also included is SDL_gfx 2.0.13 (by Andreas Schiffler) and bindings for it.
+Also included is SDL_gfx 2.0.16 (by Andreas Schiffler) and bindings for it.
 
 
 Requirements
@@ -19,8 +19,7 @@ Requirements
 
 * Guile that
   can load binary module (a b c)
-         either from file a/b/c.so on %load-path
-             or from file a/b/libc.so on %load-path
+        from library file a/b/c.so on %load-path
 * SDL-1.2
 * SDL_image
 * SDL_mixer (optional, required if audio support is needed)
@@ -45,14 +44,14 @@ By default, "make check" runs only tests which do not require user
 interaction.  You can specify `INTERACTIVE=1' to enable running these
 particular tests.  If there are problems, add `DEBUG=1' and send the
 output to the maintainer along w/ a precise description of observations
-and expectations (i.e., file a bug report).
+and expectations (i.e. file a bug report).
 
 
 Installation Result
 -------------------
 
 Doing "make install" copies four compiled modules (machine-dependent
-shared object libraries), one scheme module (human readable text), and an
+shared object libraries), two scheme modules (human readable text), and an
 info file to various directories under ${prefix} and ${exec_prefix}.  See
 the file INSTALL if you wish to choose different values for the ${} vars.
 
@@ -62,6 +61,7 @@ the file INSTALL if you wish to choose different values for the ${} vars.
                                         (sdl ttf)
                                         (sdl gfx)
                                         (sdl misc-utils)
+                                        (sdl simple)
 
 Additionally, if your system supports "guile-tools make-module-catalog",
 that program is run in both "site" directories to create and/or update the
