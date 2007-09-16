@@ -696,6 +696,40 @@ Optional fourth arg @var{smooth} turns on anti-aliasing.  */)
 }
 
 
+GH_DEFPROC
+(shrink_surface, "shrink-surface", 3, 0, 0,
+ (SCM surface,
+  SCM factorx,
+  SCM factory),
+ doc: /***********
+Return a new shrunken copy of @var{surface}.
+@var{factorx} and @var{factory} are positive integers specifying
+the inverse scaling factor.  For example, 2 means half size,
+3 means one-third size, etc.
+
+The returned surface is antialiased by ``averaging the source
+box RGBA or Y information'' and is in 32-bit RGBA format.  */)
+{
+#define FUNC_NAME s_shrink_surface
+  SDL_Surface *csurface, *new_surface;
+  unsigned int cfactorx, cfactory;
+
+  ASSERT_SURFACE (surface, ARGH1);
+  csurface = SMOBGET (surface, SDL_Surface *);
+
+  ASSERT_EXACT (factorx, ARGH2);
+  cfactorx = gh_scm2ulong (factorx);
+
+  ASSERT_NUMBER (factory, ARGH3);
+  cfactory = gh_scm2ulong (factory);
+
+  new_surface = shrinkSurface (csurface, cfactorx, cfactory);
+
+  RETURN_NEW_SURFACE (new_surface);
+#undef FUNC_NAME
+}
+
+
 
 /*
  * framerate
