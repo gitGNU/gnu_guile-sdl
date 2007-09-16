@@ -38,7 +38,10 @@ TESTS = alive.test				\
 	test/gfx.scm				\
 	test/fading.scm
 
-TESTS_ENVIRONMENT = ./wily-guile -l $(srcdir)/test/common -s
+TESTS_ENVIRONMENT = \
+	HAVE_TTF=$(HAVE_TTF) \
+	HAVE_MIXER=$(HAVE_MIXER) \
+	$(GUILE) -L "@abs_top_builddir@" -l $(srcdir)/test/common -s
 
 # distribution
 as_is_dirs = examples test include cov
