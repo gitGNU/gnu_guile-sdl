@@ -94,8 +94,6 @@ AC_CONFIG_FILES([
   doc/Makefile
 ])
 
-AC_CONFIG_FILES([wily-guile],[chmod +x wily-guile])
-
 AC_OUTPUT
 
 dnl configure.in ends here
