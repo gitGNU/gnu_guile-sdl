@@ -16,6 +16,13 @@
 * Guile-SDL: (guile-sdl).     SDL for Guile.
 @end direntry
 
+@copying
+Copyright @copyright{} 2003-2007 Thien-Thi Nguyen
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+@end copying
 
 @c --- title page starts here ---
 
@@ -29,11 +36,7 @@
 @c  start the copyright page.
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 2003,2004,2005,2006,2007 Thien-Thi Nguyen
-
-Permission is granted to make and distribute verbatim copies of
-this manual provided the copyright notice and this permission notice
-are preserved on all copies.
+@insertcopying
 @end titlepage
 
 @c --- title page ends here ---
@@ -45,7 +48,7 @@ are preserved on all copies.
 @top The (sdl *) Modules
 
 @ifinfo
-This file documents Guile-SDL @value{VERSION},
+This manual documents Guile-SDL @value{VERSION},
 a package which provides the modules
 @code{(sdl sdl)}, @code{(sdl gfx)}, @code{(sdl ttf)} and @code{(sdl mixer)}
 for use in Guile Scheme programs.  These modules wrap the Simple Direct Media
@@ -53,6 +56,9 @@ Layer@footnote{The SDL homepage is @uref{http://www.libsdl.org}.} libraries on
 your system.  Additionally, experimental abstractions and convenience
 procedures are provided in the modules @code{(sdl misc-utils)} and
 @code{(sdl simple)}.
+
+This manual is
+@insertcopying
 @end ifinfo
 
 @menu
