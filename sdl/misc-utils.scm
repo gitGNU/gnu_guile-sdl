@@ -260,6 +260,7 @@
 ;; Arrange to ignore all event types except those in @var{ls} (zero or
 ;; more symbols from @code{event-types}).  As a special case, if @var{ls}
 ;; is #f, arrange to not ignore any event types (all are enabled).
+;; @xref{Enums and Constants}.
 ;;
 (define (ignore-all-event-types-except . ls)
   (let ((proc (if (and (not (null? ls)) (not (car ls)))

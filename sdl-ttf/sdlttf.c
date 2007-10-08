@@ -39,7 +39,7 @@ GH_DEFPROC
  doc: /***********
 Return the flagstash object for ttf flags.
 You can pass this object to proc @code{flagstash-flags}
-to get a list of its flags.  */)
+to get a list of its flags.  @xref{Enums and Constants}.  */)
 {
   return ttf_flags;
 }

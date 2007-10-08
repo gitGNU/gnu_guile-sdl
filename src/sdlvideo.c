@@ -52,7 +52,8 @@ static SCM gsdl_overlay_formats;
 GH_DEFPROC
 (get_video_flags, "flagstash:video", 0, 0, 0, (),
  doc: /***********
-Return the flagstash object for video flags.  */)
+Return the flagstash object for video flags.
+@xref{Enums and Constants}.  */)
 {
   return gsdl_video_flags;
 }
@@ -60,7 +61,8 @@ Return the flagstash object for video flags.  */)
 GH_DEFPROC
 (get_palette_flags, "flagstash:palette", 0, 0, 0, (),
  doc: /***********
-Return the flagstash object for palette flags.  */)
+Return the flagstash object for palette flags.
+@xref{Enums and Constants}.  */)
 {
   return gsdl_palette_flags;
 }
@@ -69,7 +71,8 @@ GH_DEFPROC
 (get_overlay_formats, "flagstash:overlay", 0, 0, 0, (),
  doc: /***********
 Return the flagstash object for overlay flags.
-(Actually, these are "common overlay formats", not flags.)  */)
+(Actually, these are "common overlay formats", not flags.)
+@xref{Enums and Constants}.  */)
 {
   return gsdl_overlay_formats;
 }

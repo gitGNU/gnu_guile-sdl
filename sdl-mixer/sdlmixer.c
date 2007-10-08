@@ -685,7 +685,8 @@ GH_DEFPROC
 (mix_fading_music, "fading-music", 0, 0, 0,
  (void),
  doc: /***********
-Return the fading status of the music.  */)
+Return the fading status of the music.
+@xref{Enums and Constants}.  */)
 {
 #define FUNC_NAME s_mix_fading_music
   RETURN_FADINGSTATUS (Mix_FadingMusic ());
@@ -698,7 +699,8 @@ GH_DEFPROC
  (SCM which),
  doc: /***********
 Return the fading status of a the default channe
-Optional arg @var{which} selects which channel to check.  */)
+Optional arg @var{which} selects which channel to check.
+@xref{Enums and Constants}.  */)
 {
 #define FUNC_NAME s_mix_fading_channel
   int cwhich = -1;

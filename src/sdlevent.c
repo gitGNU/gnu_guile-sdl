@@ -43,7 +43,8 @@ GH_DEFPROC
 (get_event_mod_flags, "flagstash:event-mod", 0, 0, 0,
  (void),
  doc: /***********
-Return the flagstash object for event mod flags.  */)
+Return the flagstash object for event mod flags.
+@xref{Enums and Constants}.  */)
 {
   return event_mod_flags;
 }
@@ -52,7 +53,8 @@ GH_DEFPROC
 (get_event_mask_flags, "flagstash:event-mask", 0, 0, 0,
  (void),
  doc: /***********
-Return the flagstash object for event mask flags.  */)
+Return the flagstash object for event mask flags.
+@xref{Enums and Constants}.  */)
 {
   return event_mask_flags;
 }
@@ -106,7 +108,9 @@ GH_DEFPROC
  doc: /***********
 Return a new SDL event.
 Optional arg @var{type} is one of the symbols
-enumerated in the variable @code{event-types}.  */)
+enumerated in the variable @code{event-types}.
+If omitted, the default is @code{SDL_NOEVENT}.
+@xref{Enums and Constants}.  */)
 {
 #define FUNC_NAME s_make_event
   SDL_Event *event;
@@ -127,7 +131,8 @@ GH_DEFPROC
  (SCM sym, SCM mod),
  doc: /***********
 Return a new keysym.  Optional args @var{sym} and @var{mod}
-specify a particular symbol and modifier, respectively.  */)
+specify one of the @code{event-keys} (@pxref{Enums and Constants})
+and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
 {
 #define FUNC_NAME s_make_keysym
   SDL_keysym *keysym;
@@ -501,6 +506,7 @@ GH_DEFPROC
 Query or set event @var{type} to @var{state}.
 @var{type} should be one elements from @code{event-types},
 and likewise @var{state} from @code{event-states}.
+@xref{Enums and Constants}.
 If @var{state} is @code{SDL_QUERY}, return the current
 processing state of the specified event.  */)
 {

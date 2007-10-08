@@ -335,8 +335,8 @@ GH_DEFPROC
  doc: /***********
 Adjust @var{surface} alpha properties as specified by
 @var{flag} (see @code{flagstash:video}) and @var{alpha}
-(one of the symbols @code{SDL_ALPHA_OPAQUE} or
-@code{SDL_ALPHA_TRANSPARENT}, or a number 0-255).
+(one of the @code{alpha-enums}, or a number 0-255).
+@xref{Enums and Constants}.
 If @var{flag} is #f, ignore @var{alpha} completely.  */)
 {
 #define FUNC_NAME s_set_alpha
