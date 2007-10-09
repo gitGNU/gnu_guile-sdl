@@ -388,8 +388,8 @@
       (SDL:update-rect surface bb))
 
     (let* ((batch? (and (not (null? opts))
-                       (not (null? (cdr opts)))
-                       (cadr opts)))
+                        (not (null? (cdr opts)))
+                        (cadr opts)))
            (middle! (if batch? do-nothing! do-update!))
            (finish! (if batch? do-update! do-nothing!)))
       ;; rv
