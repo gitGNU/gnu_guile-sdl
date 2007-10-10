@@ -32,7 +32,9 @@
             copy-rectangle
             copy-surface
             ignore-all-event-types-except
+            fader/3p
             fade-loop!
+            toroidal-panner/3p
             toroidal-panner))
 
 ;; Set default clip rect to @var{rect}, call @var{thunk}, and restore it.
@@ -271,10 +273,13 @@
                         (SDL:event-state type 'SDL_IGNORE))))))
     (for-each proc (SDL:enumstash-enums SDL:event-types))))
 
-;; Loop for @var{sec} seconds, iteratively blitting onto @var{realized} at
-;; @var{location} (a rectangle or #f to indicate the origin) the composition
-;; of @var{image} and its @var{replacement} (both surfaces), to effect a
-;; @dfn{fade-in} of @var{replacement} over @var{image}.
+;; Return three values, each a thunk, that can be used to loop for
+;; @var{sec} seconds, blitting onto @var{realized} at @var{location} (a
+;; rectangle or #f to indicate the origin) the alpha-composition of
+;; @var{image} and its @var{replacement} (both surfaces), to effect a
+;; @dfn{fade-in} of @var{replacement} over @var{image}.  The alpha value
+;; is directly proportional to the time between the ``next!'' phase call
+;; and the ``init!''  phase call.
 ;;
 ;; @var{realized} may be either a surface, in which case at the end of each
 ;; loop it is shown via @code{update-rect}; or a pair whose @sc{car} is
@@ -283,7 +288,7 @@
 ;; Note that @var{location} is used for blitting, so its width and height
 ;; should match those of @var{image} and @var{replacement}.
 ;;
-(define (fade-loop! sec realized location image replacement)
+(define (fader/3p sec realized location image replacement)
   (let* ((base (if (pair? realized)
                    (car realized)
                    realized))
@@ -300,24 +305,63 @@
          (two (if (eq? base replacement)
                   (copy-surface replacement)
                   replacement))
-         (msec (* 1000 sec))
-         (now (SDL:get-ticks)))
-    (let loop ((bef (SDL:get-ticks)) (alpha 0.0) (last? #f))
-      (SDL:blit-surface one #f base loc)
-      (SDL:set-alpha! two 'SDL_SRCALPHA (inexact->exact alpha))
-      (SDL:blit-surface two #f base loc)
-      (show)
-      (let* ((now (SDL:get-ticks))
-             (new-alpha (+ alpha (* 256 (/ (- now bef) msec)))))
-        (if (< 255 new-alpha)
-            (or last? (loop now 255 #t))
-            (loop now new-alpha last?))))))
+         (scale (/ 256.0 (* 1000 sec)))
+         (beg #f)
+         (bef #f) (now #f)
+         (alpha 0) (new-a #f)
+         (live? #f))
 
-;; Return a procedure that can toroidally pan @var{surface}
-;; by @var{dx} and @var{dy} pixels.  This means that data
-;; disappearing from one side of the surface (left, right, top, bottom)
-;; is rotated to appear at the other side (right, left, bottom, top).
-;; The procedure takes one arg @var{count}, the number of pans to do.
+    (values
+
+     ;; init!
+     (lambda ()
+       (set! beg (SDL:get-ticks))
+       (set! bef beg)
+       (set! live? #t)
+       #t)
+
+     ;; next!
+     (lambda ()
+       (and live?
+            (or (begin (set! now (SDL:get-ticks))
+                       (= bef now))
+                (begin (set! bef now)
+                       (set! new-a (min 255 (inexact->exact
+                                             (* scale (- now beg)))))
+                       (= alpha new-a))
+                (begin (set! alpha new-a)
+                       (SDL:blit-surface one #f base loc)
+                       (SDL:set-alpha! two 'SDL_SRCALPHA alpha)
+                       (SDL:blit-surface two #f base loc)
+                       (show)
+                       (or (< alpha 255)
+                           (begin (set! live? #f)
+                                  live?))))))
+
+     ;; done!
+     (lambda ()
+       #f))))
+
+;; Call @code{fader/3p} with args and loop until done.
+;;
+;; NOTE: This proc is scheduled for removal by 2008-01-01.@*
+;; @emph{DO NOT RELY ON IT.}  (Use @code{fader/3p} directly.)
+;;
+(define (fade-loop! sec realized location image replacement)
+  (call-with-values (lambda ()
+                      (fader/3p sec realized location image replacement))
+    (lambda (init! fade! done!)
+      (init!)
+      (let loop ((continue? (fade!)))
+        (and continue? (loop (fade!))))
+      (done!))))
+
+;; Return three values, the first a procedure of one arg, the other two
+;; thunks, that can be used to toroidally pan @var{surface} by @var{dx}
+;; and @var{dy} pixels.  This means that data disappearing from one side
+;; of the surface (left, right, top, bottom) is rotated to appear at the
+;; other side (right, left, bottom, top).  The @code{init!} procedure takes
+;; one arg @var{count}, the number of pans to do.
 ;;
 ;; Positive @var{dx} moves surface data to the left (panning right),
 ;; and likewise, positive @var{dy}, up (panning down).
@@ -331,8 +375,21 @@
 ;; useful for implementing variable-speed panning, for example:
 ;;
 ;; @example
-;; (define pan-away (toroidal-panner screen  21  12 #f #t))
-;; (define pan-back (toroidal-panner screen -21 -12 #f #t))
+;; (define (pan dir)
+;;   (call-with-values (lambda ()
+;;                       (toroidal-panner/3p screen
+;;                                           (* dir 21)
+;;                                           (* dir 12)
+;;                                           #f #t))
+;;     (lambda (init! next! done!)
+;;       (lambda (count)
+;;         (init! count)
+;;         (let loop ((continue? (next!)))
+;;           (and continue? (loop (next!))))
+;;         (done!)))))
+;;
+;; (define pan-away (pan  1))
+;; (define pan-back (pan -1))
 ;; (define ramp (map 1+ (append (make-list 21 0)
 ;;                              (identity (iota 12))
 ;;                              (reverse! (iota 12))
@@ -343,7 +400,7 @@
 ;;
 ;;-sig: (surface dx dy [[sub] batch?])
 ;;
-(define (toroidal-panner surface dx dy . opts)
+(define (toroidal-panner/3p surface dx dy . opts)
   (define (r/new-xy r new-x new-y)
     (copy-rectangle r #:xy new-x new-y))
 
@@ -373,14 +430,6 @@
                                   (- w (abs dx)) h))
          (sh-wr-UD (r/new-xy sh-rd-UD (+ (SDL:rect:x sh-rd-UD) dx) y)))
 
-    (define (do-blits!)
-      (SDL:blit-surface surface rd-LR LR LR-all)
-      (SDL:blit-surface surface sh-rd-LR surface sh-wr-LR)
-      (SDL:blit-surface LR #f surface wr-LR)
-      (SDL:blit-surface surface rd-UD UD UD-all)
-      (SDL:blit-surface surface sh-rd-UD surface sh-wr-UD)
-      (SDL:blit-surface UD #f surface wr-UD))
-
     (define (do-nothing!)
       #f)
 
@@ -390,14 +439,60 @@
     (let* ((batch? (and (not (null? opts))
                         (not (null? (cdr opts)))
                         (cadr opts)))
+           (stop? (or (and (not (null? opts))
+                           (not (null? (cdr opts)))
+                           (not (null? (cddr opts)))
+                           (caddr opts))
+                      (lambda () #f)))
            (middle! (if batch? do-nothing! do-update!))
-           (finish! (if batch? do-update! do-nothing!)))
-      ;; rv
+           (finish! (if batch? do-update! do-nothing!))
+           (count 0)
+           (live? #f))
+
+      (values
+
+       ;; init!
+       (lambda (newcount)
+         (set! count newcount)
+         (set! live? #t)
+         #t)
+
+       ;; next!
+       (lambda ()
+         (cond ((not live?) live?)
+               ((= 0 count)
+                (set! live? #f)
+                live?)
+               (else
+                (SDL:blit-surface surface rd-LR LR LR-all)
+                (SDL:blit-surface surface sh-rd-LR surface sh-wr-LR)
+                (SDL:blit-surface LR #f surface wr-LR)
+                (SDL:blit-surface surface rd-UD UD UD-all)
+                (SDL:blit-surface surface sh-rd-UD surface sh-wr-UD)
+                (SDL:blit-surface UD #f surface wr-UD)
+                (middle!)
+                (set! count (1- count))
+                #t)))
+
+       ;; done!
+       (lambda ()
+         (finish!)
+         #f)))))
+
+;; Call @code{toroidal-panner/3p} with args and return a proc
+;; that takes one arg, @var{count}, which pans that many times.
+;;
+;; NOTE: This proc is scheduled for removal by 2008-01-01.@*
+;; @emph{DO NOT RELY ON IT.}  (Use @code{toroidal-panner/3p} directly.)
+;;
+(define (toroidal-panner surface dx dy . opts)
+  (call-with-values (lambda ()
+                      (apply toroidal-panner/3p surface dx dy opts))
+    (lambda (init! next! done!)
       (lambda (count)
-        (do ((i 0 (1+ i)))
-            ((= i count))
-          (do-blits!)
-          (middle!))
-        (finish!)))))
+        (init! count)
+        (let loop ((continue? (next!)))
+          (and continue? (loop (next!))))
+        (done!)))))
 
 ;;; misc-utils.scm ends here
