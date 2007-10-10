@@ -1,7 +1,7 @@
 ;;; fading.scm --- iterative alpha blending
 
 (use-modules
- ((sdl misc-utils) #:select (copy-surface fade-loop!))
+ ((sdl misc-utils) #:select (copy-surface fader/3p))
  ((sdl simple) #:select (simple-canvas))
  ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
  ((sdl gfx) #:renamer (symbol-prefix-proc 'GFX:)))
@@ -35,7 +35,13 @@
        (img3 (as-four img2))
        (void (SDL:make-surface 200 153)))
   (define (fade/wait! bef aft)
-    (fade-loop! 1.42 (canvas) #f bef aft)
+    (call-with-values (lambda ()
+                        (fader/3p 1.42 (canvas) #f bef aft))
+      (lambda (init! fade! done!)
+        (init!)
+        (let loop ((continue? (fade!)))
+          (and continue? (loop (fade!))))
+        (done!)))
     (SDL:delay 1234))
   (SDL:fill-rect void #f
                  (SDL:map-rgb (SDL:surface-get-format (canvas)) 0 0 0))
