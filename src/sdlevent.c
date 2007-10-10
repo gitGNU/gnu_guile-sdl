@@ -320,16 +320,22 @@ GH_DEFPROC
 (peep_events, "peep-events", 4, 0, 0,
  (SCM events, SCM numevents, SCM action, SCM mask),
  doc: /***********
-Check the event queue for messages and perhaps return some.
-If @var{action} is @code{SDL_ADDEVENT} (a symbol), add up to
-@var{numevents} (an integer) events from @var{events} (a list)
-to the back of the event queue.
-If it is @code{SDL_PEEKEVENT}, return a count (number less than
-or equal to @var{numevents}) of events at the front of the event
-queue that match @var{mask}, without changing the queue.
-If it is @code{SDL_GETEVENT}, act like for @code{SDL_PEEKEVENT}
-except return a list of matching events instead of a count,
-removing them from the queue.  */)
+Manage the event queue, depending on @var{action}:
+
+@table @code
+@item SDL_ADDEVENT
+Add up to @var{numevents} (an integer) events from
+@var{events} (a list) to the back of the event queue.
+
+@item SDL_PEEKEVENT
+Return a count (number less than or equal to @var{numevents})
+of events at the front of the event queue that match @var{mask}
+(see @code{flagstash:event-mask}), without changing the queue.
+
+@item SDL_GETEVENT
+Act like for @code{SDL_PEEKEVENT} except return a list of
+matching events instead of a count, removing them from the queue.
+@end table  */)
 {
 #define FUNC_NAME s_peep_events
   SDL_Event *cevents = NULL;
