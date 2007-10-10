@@ -465,7 +465,27 @@ These are available in module @code{(sdl misc-utils)}.
 @twerpdoc (copy-rectangle)
 @twerpdoc (copy-surface)
 @twerpdoc (ignore-all-event-types-except)
+
+In the following procs, those named ending with @code{/3p} return
+three values, each a thunk (unless specified otherwise) handling the
+three-phase calling convention, namely @dfn{init}, @dfn{next}, and
+@dfn{done}.
+
+@lisp
+(call-with-values (lambda () (foo/3p ...))
+  (lambda (init! foo! done!)
+    (init!)
+    (let loop ((continue? (foo!)))
+      (and continue? (loop (foo!))))
+    (done!)))
+@end lisp
+
+Note that @code{foo!} returns non-@code{#f} to indicate that the
+looping is not yet complete.
+
+@twerpdoc (fader/3p)
 @twerpdoc (fade-loop!)
+@twerpdoc (toroidal-panner/3p)
 @twerpdoc (toroidal-panner)
 
 @node Simple Closures
