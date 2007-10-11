@@ -876,6 +876,32 @@ Otherwise, do nothing and return @code{#f}.  */)
 }
 
 
+GH_DEFPROC
+(blit_rgba, "blit-rgba", 4, 0, 0,
+ (SCM src, SCM srect, SCM dst, SCM drect),
+ doc: /***********
+Blit from 32-bit surface @var{src} rectangle @var{srect}
+to 32-bit surface @var{dst} rectangle @var{drect}.
+Return @code{#t} if there are no problems.
+
+Note that unlike @code{blit-surface} (@pxref{Video}),
+all arguments must be fully specified.  This restriction
+may be relaxed in the future.  */)
+{
+#define FUNC_NAME s_blit_rgba
+  ASSERT_SURFACE (src, ARGH1);
+  ASSERT_RECT (srect, ARGH2);
+  ASSERT_SURFACE (dst, ARGH3);
+  ASSERT_RECT (drect, ARGH4);
+
+  RETURN_TRUE_IF_0 (SDL_gfxBlitRGBA (UNPACK_SURFACE (src),
+                                     UNPACK_RECT (srect),
+                                     UNPACK_SURFACE (dst),
+                                     UNPACK_RECT (drect)));
+#undef FUNC_NAME
+}
+
+
 
 /* dispatch */
 
