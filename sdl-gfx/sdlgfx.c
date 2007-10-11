@@ -849,6 +849,33 @@ Request an appropriate delay from FPS manager @var{mgr}.  */)
 
 
 
+/*
+ * RGBA extras
+ */
+
+#include "SDL_gfxBlitFunc.h"
+
+GH_DEFPROC
+(set_pixel_alpha_x, "set-pixel-alpha!", 2, 0, 0,
+ (SCM surface, SCM alpha),
+ doc: /***********
+If @var{surface} is 32-bit, set each pixel's alpha value to
+@var{alpha}, an integer 0-255, inclusive, and return @code{#t}.
+Otherwise, do nothing and return @code{#f}.  */)
+{
+#define FUNC_NAME s_set_pixel_alpha_x
+  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_EXACT (alpha, ARGH2);
+
+  return (1 == SDL_gfxSetAlpha (UNPACK_SURFACE (surface),
+                                (Uint8) gh_scm2ulong (alpha))
+          ? SCM_BOOL_T
+          : SCM_BOOL_F);
+#undef FUNC_NAME
+}
+
+
+
 /* dispatch */
 
 static
