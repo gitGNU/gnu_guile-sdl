@@ -1,6 +1,6 @@
 - 0.3 "coverage"
   - (sdl gfx)
-    - SDL_gfxBlitRGBA
+    + SDL_gfxBlitRGBA
     + SDL_gfxSetAlpha
     - SDL_imageFilter* (many funcs)
   - interface present but "not yet implemented"
