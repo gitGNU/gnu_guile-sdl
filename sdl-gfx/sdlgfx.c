@@ -855,6 +855,7 @@ Request an appropriate delay from FPS manager @var{mgr}.  */)
 
 #include "SDL_gfxBlitFunc.h"
 
+
 GH_DEFPROC
 (set_pixel_alpha_x, "set-pixel-alpha!", 2, 0, 0,
  (SCM surface, SCM alpha),
