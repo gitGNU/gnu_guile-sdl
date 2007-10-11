@@ -2,6 +2,7 @@ AM_CPPFLAGS = -I. -I$(srcdir)
 
 EXTRA_DIST = SDL_gfxPrimitives.h \
 	     SDL_gfxPrimitives_font.h \
+	     SDL_gfxBlitFunc.h \
 	     SDL_rotozoom.h \
 	     SDL_framerate.h \
 	     SDL_imageFilter.h
