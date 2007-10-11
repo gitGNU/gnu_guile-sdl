@@ -454,6 +454,7 @@ TTF_STYLE_foo, where foo can be:
 @section RGBA Extras
 
 @twerpdoc (set-pixel-alpha!)
+@twerpdoc (blit-rgba)
 
 @node Miscellaneous Utilities
 @chapter Miscellaneous Utilities
