@@ -9,6 +9,7 @@ EXTRA_DIST = SDL_gfxPrimitives.h \
 noinst_LTLIBRARIES = libSDL_gfx.la
 
 libSDL_gfx_la_SOURCES = SDL_gfxPrimitives.c \
+			SDL_gfxBlitFunc.c \
 			SDL_rotozoom.c \
 			SDL_framerate.c \
 			SDL_imageFilter.c
