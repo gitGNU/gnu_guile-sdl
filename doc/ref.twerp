@@ -451,6 +451,10 @@ TTF_STYLE_foo, where foo can be:
 @twerpdoc (fps-manager-get)
 @twerpdoc (fps-manager-delay!)
 
+@section RGBA Extras
+
+@twerpdoc (set-pixel-alpha!)
+
 @node Miscellaneous Utilities
 @chapter Miscellaneous Utilities
 
