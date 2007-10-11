@@ -1,3 +1,22 @@
+2007-10-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* sdlgfx.c (blit_rgba): New GH_DEFPROC.
+
+2007-10-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* sdlgfx.c: Include "SDL_gfxBlitFunc.h".
+	(set_pixel_alpha_x): New GH_DEFPROC.
+
+2007-10-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* SDL_gfx/Makefile.am (libSDL_gfx_la_SOURCES): Add SDL_gfxBlitFunc.c.
+
+2007-10-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* SDL_gfx/SDL_gfxBlitFunc.h, SDL_gfx/SDL_gfxBlitFunc.c
+	(GFX_ALPHA_ADJUST): Fix bug: Move from
+	SDL_gfxBlitFunc.h to SDL_gfxBlitFunc.c.
+
 2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* sdlgfx.c (shrink_surface): New GH_DEFPROC.

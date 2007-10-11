@@ -1,3 +1,25 @@
+2007-10-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* ref.twerp (SDL_gfx): Add @twerpdoc for `blit-rgba'.
+
+2007-10-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* ref.twerp (SDL_gfx): Add section "RGBA Extras".
+	Also, add @twerpdoc for `set-pixel-alpha!'.
+
+2007-10-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* ref.twerp (Miscellaneous Utilities): Add blurb about "/3p" procs.
+	Also, add @twerpdoc for `fader/3p' and `toroidal-panner/3p'.
+
+2007-10-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* guile-sdl.texi (Enums and Constants): List each enumstash's values.
+
+2007-10-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* ref.twerp (Events): Clarify list of `flagstash:event-mask' values.
+
 2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* guile-sdl.texi: Add @copying section and two @insertcopying calls.

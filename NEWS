@@ -6,6 +6,35 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
 
+- 0.3.8 | NOT YET RELEASED
+
+  - new (sdl misc-utils) proc: fader/3p
+  - new (sdl misc-utils) proc: toroidal-panner/3p
+
+	These are three-phase exposing variants of `fade-loop!' and
+	`toroidal-panner', respectively.  (In fact, the old procs have
+	been rewritten to use the new.)  Three-phase procs return three
+	values, one for each phase of "init", "next" and "done".  This
+	lets caller maintain control for fine(r)-grained scheduling.
+	See manual for an example of the stylized call sequence.
+
+	NOTE: Both `fade-loop!' and `toroidal-panner' are scheduled for
+	removal by 2008-01-01.  DO NOT RELY ON THEM.
+
+  - new (sdl gfx) proc: blit-rgba
+  - new (sdl gfx) proc: set-pixel-alpha!
+
+	The latter wraps `SDL_gfxSetAlpha' in the underlying (SDL_gfx)
+	library, but the natural schemified name would clash w/ SDL's,
+	so this was chosen for uniqueness as well as to emphasize its
+	per-pixel nature.
+
+  - docs have more info
+
+	The manual now lists valid values for flagstash:* and *-enums,
+	mined using `flagstash-flags' and `enumstash-enums', respectively.
+
+
 - 0.3.7 | 2007-09-16
 
   - license now GPLv3+ (see COPYING)

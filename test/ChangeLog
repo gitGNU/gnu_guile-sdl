@@ -1,3 +1,17 @@
+2007-10-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* gfx.scm: Also exercise `blit-rgba'.
+
+2007-10-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* gfx.scm: Add section to exercise `set-pixel-alpha!'.
+
+2007-10-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* fading.scm: From module (sdl misc-utils), no longer
+	select `fade-loop!'.  Instead, select `fader/3p'.
+	(fade/wait!): Use `fader/3p'.
+
 2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* ttf.scm (rand-rect): Make sure entire rect fits in the screen.

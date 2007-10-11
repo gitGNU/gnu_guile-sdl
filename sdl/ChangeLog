@@ -1,3 +1,9 @@
+2007-10-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* misc-utils.scm (fader/3p, toroidal-panner/3p): New procs, exported.
+	(fade-loop!): Use `fader/3p'.
+	(toroidal-panner): Use `toroidal-panner/3p'.
+
 2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* simple.scm (simple-stylus render): Take optional args
