@@ -6,7 +6,7 @@ See the end for copying conditions.
 Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
 
-- 0.3.8 | NOT YET RELEASED
+- 0.3.8 | 2007-10-11
 
   - new (sdl misc-utils) proc: fader/3p
   - new (sdl misc-utils) proc: toroidal-panner/3p
