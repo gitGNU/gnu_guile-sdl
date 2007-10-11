@@ -153,6 +153,27 @@
                                SCREEN (random 640) (random 480)))
   (SDL:flip))
 
+;; mess w/ alpha
+(let ((blot (SDL:create-rgb-surface #f 10 10 32
+                                    #xFF000000
+                                    #x00FF0000
+                                    #x0000FF00
+                                    #x000000FF))
+      (brect (SDL:make-rect 0 0 10 10))
+      (srect (SDL:make-rect 0 0 10 10)))
+  (do ((i 0 (1+ i)))
+      ((= 20 i))
+    (do ((x 0 (+ x 10)))
+        ((= 640 x))
+      (do ((y 0 (+ y 10)))
+          ((= 480 y))
+        (SDL:rect:set-x! srect x)
+        (SDL:rect:set-y! srect y)
+        (SDL:blit-surface SCREEN srect blot brect)
+        (SDL:set-pixel-alpha! blot (random 192))
+        (SDL:blit-surface blot brect SCREEN srect)))
+    (SDL:flip)))
+
 ;; clean up
 (SDL:delay 2000)
 (SDL:quit)
