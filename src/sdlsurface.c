@@ -333,7 +333,7 @@ GH_DEFPROC
   SCM flag,
   SCM alpha),
  doc: /***********
-Adjust @var{surface} alpha properties as specified by
+Adjust whole-@var{surface} alpha as specified by
 @var{flag} (see @code{flagstash:video}) and @var{alpha}
 (one of the @code{alpha-enums}, or a number 0-255).
 @xref{Enums and Constants}.
