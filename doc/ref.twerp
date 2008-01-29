@@ -489,9 +489,7 @@ Note that @code{foo!} returns non-@code{#f} to indicate that the
 looping is not yet complete.
 
 @twerpdoc (fader/3p)
-@twerpdoc (fade-loop!)
 @twerpdoc (toroidal-panner/3p)
-@twerpdoc (toroidal-panner)
 
 @node Simple Closures
 @chapter Simple Closures

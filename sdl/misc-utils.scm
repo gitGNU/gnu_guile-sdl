@@ -33,9 +33,7 @@
             copy-surface
             ignore-all-event-types-except
             fader/3p
-            fade-loop!
-            toroidal-panner/3p
-            toroidal-panner))
+            toroidal-panner/3p))
 
 ;; Set default clip rect to @var{rect}, call @var{thunk}, and restore it.
 ;; @var{thunk} is a procedure that takes no arguments.
@@ -342,20 +340,6 @@
      (lambda ()
        #f))))
 
-;; Call @code{fader/3p} with args and loop until done.
-;;
-;; NOTE: This proc is scheduled for removal by 2008-01-01.@*
-;; @emph{DO NOT RELY ON IT.}  (Use @code{fader/3p} directly.)
-;;
-(define (fade-loop! sec realized location image replacement)
-  (call-with-values (lambda ()
-                      (fader/3p sec realized location image replacement))
-    (lambda (init! fade! done!)
-      (init!)
-      (let loop ((continue? (fade!)))
-        (and continue? (loop (fade!))))
-      (done!))))
-
 ;; Return three values, the first a procedure of one arg, the other two
 ;; thunks, that can be used to toroidally pan @var{surface} by @var{dx}
 ;; and @var{dy} pixels.  This means that data disappearing from one side
@@ -478,21 +462,5 @@
        (lambda ()
          (finish!)
          #f)))))
-
-;; Call @code{toroidal-panner/3p} with args and return a proc
-;; that takes one arg, @var{count}, which pans that many times.
-;;
-;; NOTE: This proc is scheduled for removal by 2008-01-01.@*
-;; @emph{DO NOT RELY ON IT.}  (Use @code{toroidal-panner/3p} directly.)
-;;
-(define (toroidal-panner surface dx dy . opts)
-  (call-with-values (lambda ()
-                      (apply toroidal-panner/3p surface dx dy opts))
-    (lambda (init! next! done!)
-      (lambda (count)
-        (init! count)
-        (let loop ((continue? (next!)))
-          (and continue? (loop (next!))))
-        (done!)))))
 
 ;;; misc-utils.scm ends here
