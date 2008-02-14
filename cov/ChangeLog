@@ -1,3 +1,11 @@
+2008-02-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Replace CVS-isms w/ Git-isms.
+
+	* .cvsignore: Delete file.
+	* scan (implementation-files recurse):
+	Don't bother ignoring non-existent CVS subdirectories.
+
 2007-09-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* scan (write-api, write-coverage): Omit superflous

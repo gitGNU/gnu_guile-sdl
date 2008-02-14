@@ -1,3 +1,9 @@
+2008-02-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Replace CVS-isms w/ Git-isms.
+
+	* .cvsignore: Delete file.
+
 2006-12-15  Thien-Thi Nguyen  <ttn@ambire>
 
 	* imagebrowser.scm (show): If an image

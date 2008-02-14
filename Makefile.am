@@ -11,8 +11,8 @@ noinst_DATA = .module-catalog
 .module-catalog:
 	if guile-tools | grep -q mkpimmc ; then			\
 	  guile-tools mkpimmc -d $(DEPDIR) $@ "$(srcdir)"	\
-	    -- -d in,lo,o					\
-	       -X '~$$' -X 'doc/' -X 'CVS/' -X '/test/' ;	\
+	    -- -d in,lo,o,git					\
+	       -X '~$$' -X 'doc/' -X '/test/' ;			\
 	else echo '()' > $@ ; fi
 
 CLEANFILES = .module-catalog
@@ -50,10 +50,6 @@ EXTRA_DIST = \
 	am/guile-sdl.m4 \
 	am/sofix \
 	alive.test $(as_is_dirs)
-
-dist-hook:
-	for d in $(as_is_dirs) ; do \
-	  rm -rf `find $(distdir)/$$d -name CVS` ; done
 
 ## these are to support upgrading from 0:0:0 ltlib: see README
 
