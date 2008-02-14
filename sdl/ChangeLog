@@ -1,3 +1,7 @@
+2008-01-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* misc-utils.scm (fade-loop!, toroidal-panner): Delete procs.
+
 2007-10-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* misc-utils.scm (fader/3p, toroidal-panner/3p): New procs, exported.

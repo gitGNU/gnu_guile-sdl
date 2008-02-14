@@ -1,3 +1,8 @@
+2008-01-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* ref.twerp (Miscellaneous Utilities): Remove
+	@twerpdoc for `fade-loop!' and `toroidal-panner'.
+
 2007-10-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	* ref.twerp (SDL_gfx): Add @twerpdoc for `blit-rgba'.
