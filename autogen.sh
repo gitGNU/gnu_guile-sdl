@@ -37,7 +37,7 @@ autoconf
 automake --add-missing
 
 if grep -q "Version 2" COPYING ; then
-    v3='../.copyright/GPLv3'
+    v3='../.common/GPLv3'
     if [ -f $v3 ]
     then ln -sf $v3 COPYING
     else echo WARNING: COPYING is v2
