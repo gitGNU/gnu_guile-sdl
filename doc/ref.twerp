@@ -494,6 +494,8 @@ looping is not yet complete.
 @node Simple Closures
 @chapter Simple Closures
 
+This chapter documents module @code{(sdl simple)}.
+
 This module provides some simple abstractions to introduce common
 Guile-SDL programming idioms.  Although the interfaces are documented,
 they are @dfn{permanently alpha}, that is, subject to change w/o
