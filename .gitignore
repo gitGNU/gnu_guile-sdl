@@ -4,6 +4,8 @@
 .last-release
 .libs
 .ttn.*
+COPYING
+INSTALL
 Makefile
 Makefile.in
 aclocal.m4
@@ -16,6 +18,17 @@ config.status
 configure
 libtool
 
+am/compile
+am/config.guess
+am/config.sub
+am/depcomp
+am/install-sh
+am/ltmain.sh
+am/mdate-sh
+am/missing
+am/sofix
+am/texinfo.tex
+
 cov/*.tdt
 
 doc/Makefile
@@ -23,6 +36,8 @@ doc/Makefile.in
 doc/guile-sdl.info
 doc/stamp-vti
 doc/version.texi
+
+include/modsup.h
 
 sdl-gfx/Makefile
 sdl-gfx/Makefile.in
