@@ -1,3 +1,10 @@
+2008-03-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Avoid (ttn foo) modules.
+
+	* scan: Don't use module (ttn read-text-db-table).
+	Instead, use module (ttn-do zzz various-db).
+
 2008-02-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Replace CVS-isms w/ Git-isms.

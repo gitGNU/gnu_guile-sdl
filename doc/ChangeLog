@@ -1,3 +1,10 @@
+2008-03-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Avoid (ttn foo) modules.
+
+	* mkexcuse: Don't use module (ttn read-text-db-table).
+	Instead, use module (ttn-do zzz various-db).
+
 2008-03-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Include module name in (sdl simple) documentation.

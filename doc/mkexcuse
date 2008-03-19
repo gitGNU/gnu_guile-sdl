@@ -3,7 +3,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
 !#
 ;;; usage: mkexcuse NOTES-TDT
 
-(use-modules ((ttn read-text-db-table) #:select (read-text-db-table))
+(use-modules ((ttn-do zzz various-db) #:select (read-text-db-table))
              ((ice-9 common-list) #:select (uniq)))
 
 (define *notes* (read-text-db-table (open-input-file (cadr (command-line)))))
