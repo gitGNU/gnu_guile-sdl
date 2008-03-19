@@ -25,5 +25,6 @@ SUFFIXES	+= .x .doc
 DISTCLEANFILES	+= *.x
 if MAINTAINER_MODE
 noinst_DATA	+= .doc-index
+MAINTAINERCLEANFILES = .doc-index *.doc
 endif ## MAINTAINER_MODE
 # end doc snarfing for scheme code
