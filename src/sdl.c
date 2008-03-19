@@ -98,6 +98,7 @@ Shut down all SDL subsystems.
 Return #t.  */)
 {
 #define FUNC_NAME s_quit
+  scm_gc ();
   SDL_Quit ();
   RETURN_TRUE;
 #undef FUNC_NAME
@@ -114,6 +115,7 @@ from the same set useful for @code{init}.
 Return #t.  */)
 {
 #define FUNC_NAME s_quit_subsystem
+  scm_gc ();
   SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1));
   RETURN_TRUE;
 #undef FUNC_NAME
