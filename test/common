@@ -7,8 +7,11 @@
 (define *have-mixer*  (env-1? "HAVE_MIXER"))
 (define *interactive* (env-1? "INTERACTIVE"))
 
+(define (fso s . args)
+  (apply simple-format #t s args))
+
 (define (exit-77 msg)
-  (simple-format #t "INFO: ~A: ~A\n" (car (command-line)) (string-upcase msg))
+  (fso "INFO: ~A: ~A\n" (car (command-line)) (string-upcase msg))
   (exit 77))
 
 ;;; common ends here

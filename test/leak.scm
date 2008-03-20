@@ -11,7 +11,7 @@
 
 ;; initialize SDL
 (let ((res (SDL:init '(SDL_INIT_VIDEO))))
-  (and debug? (simple-format #t "SDL:init: ~S\n" res)))
+  (and debug? (fso "SDL:init: ~S\n" res)))
 
 (define lots (make-vector 1000 #f))
 
@@ -32,12 +32,12 @@
     (set! fully (malloced))
     (jam! #f)
     (set! final (malloced))
-    (simple-format #t "~A:~A\t~A\t+~A\t~A~A\n"
-                   title (make-string (- 12 (string-length title)) #\space)
-                   start (number->string (- fully start) 16)
-                   final (if (= start final)
-                             ""
-                             "\tDIFFERENT!"))
+    (fso "~A:~A\t~A\t+~A\t~A~A\n"
+         title (make-string (- 12 (string-length title)) #\space)
+         start (number->string (- fully start) 16)
+         final (if (= start final)
+                   ""
+                   "\tDIFFERENT!"))
     (set! exit-value (and exit-value (= start final)))
     (malloced)))
 
