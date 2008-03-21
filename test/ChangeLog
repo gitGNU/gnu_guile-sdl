@@ -1,5 +1,21 @@
 2008-03-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	For testing, factor common procs, values.
+
+	* common (datafile): New proc.
+	(debug?): New boolan;
+	if true enable debug evaluator and backtraces.
+	* event.scm: Delete `datafile' and `debug?' definitions.
+	* gfx.scm: Likewise.
+	* image.scm: Likewise.
+	* leak.scm: Likewise.
+	* mixer.scm: Likewise.
+	* rect.scm: Likewise.
+	* roto.scm: Likewise.
+	* ttf.scm: Likewise.
+
+2008-03-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Add image filter bindings to module (sdl gfx).
 
 	* gfx.scm: Add section to exercise `imfi-FOO' procs.

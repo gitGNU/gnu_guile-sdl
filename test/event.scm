@@ -3,9 +3,6 @@
 (or *interactive* (exit-77 "interactive"))
 (or *have-ttf* (exit-77 "ttf disabled"))
 
-(define debug? (getenv "DEBUG"))
-(and debug? (debug-enable 'debug 'backtrace))
-
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
              ((sdl ttf) #:renamer (symbol-prefix-proc 'SDL:)))
 

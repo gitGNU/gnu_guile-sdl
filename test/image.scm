@@ -2,13 +2,6 @@
 
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
 
-;; the directory to find the image in
-(define (datafile name)
-  (in-vicinity (or (and=> (getenv "srcdir")
-                          (lambda (d) (in-vicinity d "test")))
-                   ".")
-               name))
-
 ;; the size of our test image
 (define gnu-rect (SDL:make-rect 0 0 200 153))
 

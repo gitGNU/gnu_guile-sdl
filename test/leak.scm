@@ -1,8 +1,6 @@
 ;;; leak.scm --- check for memory leaks
 
-(define debug? (getenv "DEBUG"))
 (or debug? (exit-77 "debug only"))
-(and debug? (debug-enable 'debug 'backtrace))
 
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
              ((sdl ttf) #:renamer (symbol-prefix-proc 'SDL:)))

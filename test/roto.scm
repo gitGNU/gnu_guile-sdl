@@ -3,13 +3,6 @@
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
              ((sdl gfx) #:renamer (symbol-prefix-proc 'GFX:)))
 
-;; the directory to find the image in
-(define (datafile name)
-  (in-vicinity (or (and=> (getenv "srcdir")
-                          (lambda (d) (in-vicinity d "test")))
-                   ".")
-               name))
-
 ;; initialize the SDL video module
 (SDL:init '(SDL_INIT_VIDEO))
 

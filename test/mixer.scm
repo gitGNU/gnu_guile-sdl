@@ -8,13 +8,6 @@
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
              ((sdl mixer) #:renamer (symbol-prefix-proc 'SDL:)))
 
-;; the directory to find the image in
-(define (datafile name)
-  (in-vicinity (or (and=> (getenv "srcdir")
-                          (lambda (d) (in-vicinity d "test")))
-                   ".")
-               name))
-
 ;; initialize the SDL mixer module
 (SDL:init '(SDL_INIT_AUDIO))
 

@@ -2,9 +2,6 @@
 
 (or *have-ttf* (exit-77 "ttf disabled"))
 
-(define debug? (getenv "DEBUG"))
-(and debug? (debug-enable 'debug 'backtrace))
-
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
              ((sdl ttf) #:renamer (symbol-prefix-proc 'SDL:)))
 
@@ -13,13 +10,6 @@
 
 ;; initialize the font lib
 (or (= 0 (SDL:ttf-init)) (error "could not init font lib"))
-
-;; the directory to find the image in
-(define (datafile name)
-  (in-vicinity (or (and=> (getenv "srcdir")
-                          (lambda (d) (in-vicinity d "test")))
-                   ".")
-               name))
 
 ;; the text to display
 (define sentence (let ((ls (map symbol->string

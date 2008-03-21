@@ -1,8 +1,5 @@
 ;;; rect.scm --- simple rectangle test
 
-(define debug? (getenv "DEBUG"))
-(and debug? (debug-enable 'debug 'backtrace))
-
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
 
 ;; initialize the SDL video module

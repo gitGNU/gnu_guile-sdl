@@ -14,4 +14,13 @@
   (fso "INFO: ~A: ~A\n" (car (command-line)) (string-upcase msg))
   (exit 77))
 
+(define (datafile name)
+  (in-vicinity (or (and=> (getenv "srcdir")
+                          (lambda (d) (in-vicinity d "test")))
+                   ".")
+               name))
+
+(define debug? (env-1? "DEBUG"))
+(and debug? (debug-enable 'debug 'backtrace))
+
 ;;; common ends here

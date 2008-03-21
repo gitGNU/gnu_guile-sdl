@@ -1,8 +1,5 @@
 ;;; gfx.scm --- simple graphics primitives test
 
-(define debug? (getenv "DEBUG"))
-(and debug? (debug-enable 'debug 'backtrace))
-
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
              ((sdl gfx) #:renamer (symbol-prefix-proc 'SDL:)))
 
@@ -22,12 +19,6 @@
 
 (define mmx? (SDL:imfi-mmx?))
 (and debug? (fso "mmx: ~A\n" (if mmx? 'yes 'no)))
-
-(define (datafile name)
-  (in-vicinity (or (and=> (getenv "srcdir")
-                          (lambda (d) (in-vicinity d "test")))
-                   ".")
-               name))
 
 (let* ((screen (SDL:get-video-surface))
        (head-file (datafile "gnu-goatee.jpg"))
