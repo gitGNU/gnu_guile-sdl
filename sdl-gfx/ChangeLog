@@ -1,3 +1,18 @@
+2008-03-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Add image filter bindings to module (sdl gfx).
+
+	* sdlgfx.c: Include "SDL_imageFilter.h".
+	(imfi_mmx_p): New GH_DEFPROC.
+	(check_3_surfaces, check_2_surfaces): New static funcs.
+	(S1S2D_DECL_AND_CHECK, SD_DECL_AND_CHECK): New macros.
+	(imfi_add, imfi_mean, imfi_sub, imfi_absdiff, imfi_mult)
+	(imfi_mulnor, imfi_muldiv2, imfi_muldiv4, imfi_lofgand)
+	(imfi_logior, imfi_div, imfi_not, imfi_add_c, imfi_add_c_to_half)
+	(imfi_sub_c, imfi_ashr, imfi_lshr, imfi_mul_c, imfi_ashr_mul_c)
+	(imfi_bshl, imfi_lshl, imfi_ashl, imfi_binarize, imfi_clip)
+	(imfi_normalize_linear): New GH_DEFPROCs.
+
 2008-02-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Replace CVS-isms w/ Git-isms.

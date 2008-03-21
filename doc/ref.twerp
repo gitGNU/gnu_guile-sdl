@@ -456,6 +456,35 @@ TTF_STYLE_foo, where foo can be:
 @twerpdoc (set-pixel-alpha!)
 @twerpdoc (blit-rgba)
 
+@section Image Filtering
+
+@twerpdoc (imfi-mmx?)
+@twerpdoc (imfi-add)
+@twerpdoc (imfi-mean)
+@twerpdoc (imfi-sub)
+@twerpdoc (imfi-abs-diff)
+@twerpdoc (imfi-mult)
+@twerpdoc (imfi-mulnor)
+@twerpdoc (imfi-muldiv2)
+@twerpdoc (imfi-muldiv4)
+@twerpdoc (imfi-logand)
+@twerpdoc (imfi-logior)
+@twerpdoc (imfi-div)
+@twerpdoc (imfi-not)
+@twerpdoc (imfi-add-c)
+@twerpdoc (imfi-add-c-to-half)
+@twerpdoc (imfi-sub-c)
+@twerpdoc (imfi-ashr)
+@twerpdoc (imfi-lshr)
+@twerpdoc (imfi-mul-c)
+@twerpdoc (imfi-ashr-mul-c)
+@twerpdoc (imfi-bshl)
+@twerpdoc (imfi-lshl)
+@twerpdoc (imfi-ashl)
+@twerpdoc (imfi-binarize)
+@twerpdoc (imfi-clip)
+@twerpdoc (imfi-normalize-linear)
+
 @node Miscellaneous Utilities
 @chapter Miscellaneous Utilities
 

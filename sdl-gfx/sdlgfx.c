@@ -903,6 +903,484 @@ may be relaxed in the future.  */)
 
 
 
+/*
+ * image filter
+ */
+
+#include "SDL_imageFilter.h"
+
+GH_DEFPROC
+(imfi_mmx_p, "imfi-mmx?", 0, 0, 0,
+ (void),
+ doc: /***********
+Return @code{#t} iff @code{imfi-} procs use MMX instructions.  */)
+{
+  return SDL_imageFilterMMXdetect () ? SCM_BOOL_T : SCM_BOOL_F;
+}
+
+
+static int
+check_3_surfaces (unsigned char **pa, SDL_Surface *a,
+                  unsigned char **pb, SDL_Surface *b,
+                  unsigned char **pc, SDL_Surface *c,
+                  int *len)
+{
+  if (a->format != b->format || a->format != c->format ||
+      a->w      != b->w      || a->w      != c->w      ||
+      a->h      != b->h      || a->h      != c->h)
+    return -1;
+  else
+    {
+      *pa = (unsigned char *) a->pixels;
+      *pb = (unsigned char *) b->pixels;
+      *pc = (unsigned char *) c->pixels;
+
+      *len = a->format->BytesPerPixel * a->w * a->h;
+      return 0;
+    }
+}
+
+#define S1S2D_DECL_AND_CHECK()                          \
+  unsigned char *s1, *s2, *d;                           \
+  int len;                                              \
+                                                        \
+  ASSERT_SURFACE (src1, ARGH1);                         \
+  ASSERT_SURFACE (src2, ARGH2);                         \
+  ASSERT_SURFACE (dst,  ARGH3);                         \
+  if (0 > check_3_surfaces (&s1, UNPACK_SURFACE (src1), \
+                            &s2, UNPACK_SURFACE (src2), \
+                            &d,  UNPACK_SURFACE (dst),  \
+                            &len))                      \
+    RETURN_FALSE
+
+static int
+check_2_surfaces (unsigned char **pa, SDL_Surface *a,
+                  unsigned char **pb, SDL_Surface *b,
+                  int *len)
+{
+  if (a->format != b->format ||
+      a->w      != b->w      ||
+      a->h      != b->h)
+    return -1;
+  else
+    {
+      *pa = (unsigned char *) a->pixels;
+      *pb = (unsigned char *) b->pixels;
+
+      *len = a->format->BytesPerPixel * a->w * a->h;
+      return 0;
+    }
+}
+
+#define SD_DECL_AND_CHECK()                          \
+  unsigned char *s, *d;                                 \
+  int len;                                              \
+                                                        \
+  ASSERT_SURFACE (src, ARGH1);                          \
+  ASSERT_SURFACE (dst, ARGH2);                          \
+  if (0 > check_2_surfaces (&s, UNPACK_SURFACE (src),   \
+                            &d, UNPACK_SURFACE (dst),   \
+                            &len))                      \
+    RETURN_FALSE
+
+GH_DEFPROC
+(imfi_add, "imfi-add", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = saturation255 (S1 + S2).  */)
+{
+#define FUNC_NAME s_imfi_add
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterAdd (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_mean, "imfi-mean", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = S1/2 + S2/2.  */)
+{
+#define FUNC_NAME s_imfi_mean
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterMean (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_sub, "imfi-sub", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = saturation0 (S1 - S2).  */)
+{
+#define FUNC_NAME s_imfi_sub
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterSub (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_absdiff, "imfi-abs-diff", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = | S1 - S2 |.  */)
+{
+#define FUNC_NAME s_imfi_absdiff
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterAbsDiff (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_mult, "imfi-mult", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = saturation (S1 * S2).  */)
+{
+#define FUNC_NAME s_imfi_mult
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterMult (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_mulnor, "imfi-mulnor", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = S1 * S2 (non-MMX).  */)
+{
+#define FUNC_NAME s_imfi_mulnor
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterMultNor (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_muldiv2, "imfi-muldiv2", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = saturation255 (S1/2 * S2).  */)
+{
+#define FUNC_NAME s_imfi_muldiv2
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterMultDivby2 (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_muldiv4, "imfi-muldiv4", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = saturation255 (S1/2 * S2/2).  */)
+{
+#define FUNC_NAME s_imfi_muldiv4
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterMultDivby4 (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_logand, "imfi-logand", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = S1 & S2.  */)
+{
+#define FUNC_NAME s_imfi_logand
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterBitAnd (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_logior, "imfi-logior", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = S1 | S2.  */)
+{
+#define FUNC_NAME s_imfi_logior
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterBitOr (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_div, "imfi-div", 3, 0, 0,
+ (SCM src1, SCM src2, SCM dst),
+ doc: /***********
+D = S1 / S2 (non-MMX).  */)
+{
+#define FUNC_NAME s_imfi_div
+  S1S2D_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterDiv (s1, s2, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_not, "imfi-not", 2, 0, 0,
+ (SCM src, SCM dst),
+ doc: /***********
+D = !S.  */)
+{
+#define FUNC_NAME s_imfi_not
+  SD_DECL_AND_CHECK ();
+  RETURN_TRUE_IF_0 (SDL_imageFilterBitNegation (s, d, len));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_add_c, "imfi-add-c", 3, 0, 0,
+ (SCM src, SCM dst, SCM c),
+ doc: /***********
+D = saturation255 (S + C).  */)
+{
+#define FUNC_NAME s_imfi_add_c
+  unsigned int cc;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (c, ARGH3);
+  cc = gh_scm2int (c);
+  RETURN_TRUE_IF_0 (~0xffUL & cc
+                    ? SDL_imageFilterAddUint (s, d, len, cc)
+                    : SDL_imageFilterAddByte (s, d, len, cc));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_add_c_to_half, "imfi-add-c-to-half", 3, 0, 0,
+ (SCM src, SCM dst, SCM c),
+ doc: /***********
+D = saturation255 (S/2 + C).  */)
+{
+#define FUNC_NAME s_imfi_add_c_to_half
+  unsigned int cc;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (c, ARGH3);
+  cc = gh_scm2int (c);
+  RETURN_TRUE_IF_0 (SDL_imageFilterAddByteToHalf (s, d, len, cc));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_sub_c, "imfi-sub-c", 3, 0, 0,
+ (SCM src, SCM dst, SCM c),
+ doc: /***********
+D = saturation0 (S - C).  */)
+{
+#define FUNC_NAME s_imfi_sub_c
+  unsigned int cc;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (c, ARGH3);
+  cc = gh_scm2int (c);
+  RETURN_TRUE_IF_0 (~0xffUL & cc
+                    ? SDL_imageFilterSubUint (s, d, len, cc)
+                    : SDL_imageFilterSubByte (s, d, len, cc));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_ashr, "imfi-ashr", 3, 0, 0,
+ (SCM src, SCM dst, SCM n),
+ doc: /***********
+D = saturation0 (S >> N).  */)
+{
+#define FUNC_NAME s_imfi_ashr
+  unsigned int cn;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (n, ARGH3);
+  cn = gh_scm2int (n);
+  RETURN_TRUE_IF_0 (SDL_imageFilterShiftRight (s, d, len, cn));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_lshr, "imfi-lshr", 3, 0, 0,
+ (SCM src, SCM dst, SCM n),
+ doc: /***********
+D = saturation0 ((uint) S >> N).  */)
+{
+#define FUNC_NAME s_imfi_lshr
+  unsigned int cn;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (n, ARGH3);
+  cn = gh_scm2int (n);
+  RETURN_TRUE_IF_0 (SDL_imageFilterShiftRightUint (s, d, len, cn));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_mul_c, "imfi-mul-c", 3, 0, 0,
+ (SCM src, SCM dst, SCM c),
+ doc: /***********
+D = saturation255 (S * C).  */)
+{
+#define FUNC_NAME s_imfi_mul_c
+  unsigned int cc;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (c, ARGH3);
+  cc = gh_scm2int (c);
+  RETURN_TRUE_IF_0 (SDL_imageFilterMultByByte (s, d, len, cc));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_ashr_mul_c, "imfi-ashr-mul-c", 4, 0, 0,
+ (SCM src, SCM dst, SCM n, SCM c),
+ doc: /***********
+D = saturation255 ((S >> N) * C).  */)
+{
+#define FUNC_NAME s_imfi_ashr_mul_c
+  unsigned int cn, cc;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (n, ARGH3);
+  ASSERT_NUMBER (c, ARGH4);
+  cn = gh_scm2int (n);
+  cc = gh_scm2int (c);
+  RETURN_TRUE_IF_0
+    (SDL_imageFilterShiftRightAndMultByByte (s, d, len, cn, cc));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_bshl, "imfi-bshl", 3, 0, 0,
+ (SCM src, SCM dst, SCM n),
+ doc: /***********
+D = (S << N).  */)
+{
+#define FUNC_NAME s_imfi_bshl
+  unsigned int cn;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (n, ARGH3);
+  cn = gh_scm2int (n);
+  RETURN_TRUE_IF_0 (SDL_imageFilterShiftLeftByte (s, d, len, cn));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_lshl, "imfi-lshl", 3, 0, 0,
+ (SCM src, SCM dst, SCM n),
+ doc: /***********
+D = ((uint) S << N).  */)
+{
+#define FUNC_NAME s_imfi_lshl
+  unsigned int cn;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (n, ARGH3);
+  cn = gh_scm2int (n);
+  RETURN_TRUE_IF_0 (SDL_imageFilterShiftLeftUint (s, d, len, cn));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_ashl, "imfi-ashl", 3, 0, 0,
+ (SCM src, SCM dst, SCM n),
+ doc: /***********
+D = saturation255 (S << N).  */)
+{
+#define FUNC_NAME s_imfi_ashl
+  unsigned int cn;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (n, ARGH3);
+  cn = gh_scm2int (n);
+  RETURN_TRUE_IF_0 (SDL_imageFilterShiftLeft (s, d, len, cn));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_binarize, "imfi-binarize", 3, 0, 0,
+ (SCM src, SCM dst, SCM t),
+ doc: /***********
+D = (S < T ? 0 : 255).  */)
+{
+#define FUNC_NAME s_imfi_binarize
+  unsigned int ct;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (t, ARGH3);
+  ct = gh_scm2int (t);
+  RETURN_TRUE_IF_0 (SDL_imageFilterBinarizeUsingThreshold (s, d, len, ct));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_clip, "imfi-clip", 4, 0, 0,
+ (SCM src, SCM dst, SCM tmin, SCM tmax),
+ doc: /***********
+D = (Tmin <= S <= Tmax) ? 255 : 0.  */)
+{
+#define FUNC_NAME s_imfi_clip
+  unsigned int ctmin, ctmax;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (tmin, ARGH3);
+  ASSERT_NUMBER (tmax, ARGH4);
+  ctmin = gh_scm2int (tmin);
+  ctmax = gh_scm2int (tmax);
+  RETURN_TRUE_IF_0 (SDL_imageFilterClipToRange (s, d, len, ctmin, ctmax));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(imfi_normalize_linear, "imfi-normalize-linear", 6, 0, 0,
+ (SCM src, SCM dst, SCM cmin, SCM cmax, SCM nmin, SCM nmax),
+ doc: /***********
+D = saturation255 ((Nmax - Nmin) / (Cmax - Cmin) * (S - Cmin) + Nmin).  */)
+{
+#define FUNC_NAME s_imfi_normalize_linear
+  unsigned int ccmin, ccmax, cnmin, cnmax;
+  SD_DECL_AND_CHECK ();
+  ASSERT_NUMBER (cmin, ARGH3);
+  ASSERT_NUMBER (cmax, ARGH4);
+  ASSERT_NUMBER (nmin, ARGH5);
+  ASSERT_NUMBER (nmax, ARGH6);
+  ccmin = gh_scm2int (cmin);
+  ccmax = gh_scm2int (cmax);
+  cnmin = gh_scm2int (nmin);
+  cnmax = gh_scm2int (nmax);
+  RETURN_TRUE_IF_0
+    (SDL_imageFilterNormalizeLinear (s, d, len, ccmin, ccmax, cnmin, cnmax));
+#undef FUNC_NAME
+}
+
+
+/* Funcs for which there is no C implementation.
+ *
+ * ConvolveKernel3x3Divide
+ * ConvolveKernel5x5Divide
+ * ConvolveKernel7x7Divide
+ * ConvolveKernel9x9Divide
+ * ConvolveKernel3x3ShiftRight
+ * ConvolveKernel5x5ShiftRight
+ * ConvolveKernel7x7ShiftRight
+ * ConvolveKernel9x9ShiftRight
+ * SobelX
+ * SobelXShiftRight
+ * AlignStack
+ * RestoreStack
+ */
+
+
+
 /* dispatch */
 
 static

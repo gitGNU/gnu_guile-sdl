@@ -1,3 +1,16 @@
+2008-03-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Add image filter bindings to module (sdl gfx).
+
+	* ref.twerp (SDL_gfx): Add section "Image Filtering" and @twerpdoc
+	entries for `imfi-mmx?', `imfi-add', `imfi-mean', `imfi-sub',
+	`imfi-abs-diff', `imfi-mult', `imfi-mulnor', `imfi-muldiv2',
+	`imfi-muldiv4', `imfi-logand', `imfi-logior', `imfi-div', `imfi-not',
+	`imfi-add-c', `imfi-add-c-to-half', `imfi-sub-c', `imfi-ashr',
+	`imfi-lshr', `imfi-mul-c', `imfi-ashr-mul-c', `imfi-bshl',
+	`imfi-lshl', `imfi-ashl', `imfi-binarize', `imfi-clip',
+	`imfi-normalize-linear'.
+
 2008-03-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Avoid (ttn foo) modules.
