@@ -34,15 +34,8 @@ test "$loc" = "-I `aclocal --print-ac-dir`" && loc=
 aclocal $loc -I am
 autoheader
 autoconf
+ln -sf ../.common/GPLv3 COPYING
 automake --add-missing
-
-if grep -q "Version 2" COPYING ; then
-    v3='../.common/GPLv3'
-    if [ -f $v3 ]
-    then ln -sf $v3 COPYING
-    else echo WARNING: COPYING is v2
-    fi
-fi
 
 ######################################################################
 # modsup.h
