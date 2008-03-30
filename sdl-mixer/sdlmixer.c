@@ -698,7 +698,7 @@ GH_DEFPROC
 (mix_fading_channel, "fading-channel", 0, 1, 0,
  (SCM which),
  doc: /***********
-Return the fading status of a the default channe
+Return the fading status of the default channel.
 Optional arg @var{which} selects which channel to check.
 @xref{Enums and Constants}.  */)
 {
@@ -720,7 +720,7 @@ GH_DEFPROC
 (mix_pause, "pause", 0, 1, 0,
  (SCM channel),
  doc: /***********
-Pause the default channe
+Pause the default channel.
 Optional arg @var{channel} selects which channel to pause.
 Return value unspecified.  */)
 {
