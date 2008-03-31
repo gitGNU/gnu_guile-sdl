@@ -12,7 +12,7 @@
 (SDL:init '(SDL_INIT_AUDIO))
 
 ;; initialize the audio device
-(SDL:open-audio 12048)
+(SDL:open-audio)
 
 ;; display audio device info
 (let ((specs (SDL:query-spec)))

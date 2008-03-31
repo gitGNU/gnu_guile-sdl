@@ -1,3 +1,10 @@
+2008-03-31  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Use default frequency for testing mixer.
+
+	* background.ogg: Re-encode at 44100 Hz.
+	* mixer.scm: Open audio w/ default frequency.
+
 2008-03-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	For testing, factor common procs, values.
