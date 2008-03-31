@@ -1,5 +1,16 @@
 2008-03-31  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Improve leak testing.
+
+	* fx.wav: New file.
+	* leak.scm (LOTS): New var.
+	(lots): Use `LOTS'.
+	(check-alloc/dealloc jam!): Use `LOTS'.
+	(alloc/dealloc-tests): If TTF is available, arrange to check
+	`load-font'.  Likewise for MIXER and `load-music' and `load-wave'.
+
+2008-03-31  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Use default frequency for testing mixer.
 
 	* background.ogg: Re-encode at 44100 Hz.

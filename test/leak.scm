@@ -11,7 +11,10 @@
 (let ((res (SDL:init '(SDL_INIT_VIDEO))))
   (and debug? (fso "SDL:init: ~S\n" res)))
 
-(define lots (make-vector 1000 #f))
+(define LOTS (cond ((getenv "LEAK_LOTS") => string->number)
+                   (else #x1000)))
+
+(define lots (make-vector LOTS #f))
 
 (define (malloced)
   ;; prudence or superstition?  you be the judge!
@@ -21,7 +24,7 @@
 (define (check-alloc/dealloc title thunk)
   (define (jam! x)
     (do ((i 0 (1+ i)))
-        ((= i 1000))
+        ((= i LOTS))
       (vector-set! lots i (and x (x)))))
   (let* ((start #f) (fully #f) (final #f))
     (jam! #f)
@@ -52,6 +55,24 @@
                  (lambda ()
                    (SDL:get-cursor)
                    (SDL:create-cursor data mask 8 16 0 0))))))
+
+(and *have-ttf*
+     (begin
+       (use-modules (sdl ttf))
+       (ttf-init)
+       (append! alloc/dealloc-tests
+                `(("ttf" ,(let ((f (datafile "crystal.ttf")))
+                            (lambda () (load-font f 24))))))))
+
+(and *have-mixer*
+     (begin
+       (use-modules (sdl mixer))
+       (open-audio)
+       (append! alloc/dealloc-tests
+                `(("music" ,(let ((f (datafile "fx.ogg")))
+                              (lambda () (load-music f))))
+                  ("wave" ,(let ((f (datafile "fx.wav")))
+                             (lambda () (load-wave f))))))))
 
 ;; do it!
 (for-each (lambda (args)
