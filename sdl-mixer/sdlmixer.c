@@ -53,7 +53,7 @@ size_t
 free_music (SCM music)
 {
   Mix_FreeMusic (UNPACK_MUSIC (music));
-  return sizeof (struct Mix_Music*);
+  return 0;
 }
 
 static
@@ -61,7 +61,7 @@ size_t
 free_audio (SCM chunk)
 {
   Mix_FreeChunk (UNPACK_AUDIO (chunk));
-  return sizeof (Mix_Chunk);
+  return 0;
 }
 
 

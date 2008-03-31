@@ -62,7 +62,7 @@ size_t
 free_font (SCM font)
 {
   TTF_CloseFont (UNPACK_TTFONT (font));
-  return sizeof (TTF_Font *);
+  return 0;
 }
 
 
