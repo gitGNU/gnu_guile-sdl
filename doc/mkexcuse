@@ -3,7 +3,8 @@ exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
 !#
 ;;; usage: mkexcuse NOTES-TDT
 
-(use-modules ((ttn-do zzz various-db) #:select (read-text-db-table))
+(use-modules ((ttn-do zzz various-db) #:select (read-text-db-table
+                                                text-db-table-meta))
              ((ice-9 common-list) #:select (uniq)))
 
 (define *notes* (read-text-db-table (open-input-file (cadr (command-line)))))
@@ -42,8 +43,8 @@ is not significant.
 (table "Categories"
        (string-append
         "For brevity, we omit the @code{SDL_} prefix in the groupings.\n"
-        "The @code{SDLNet_} prefix is a special case;\n"
-        "it is replaced w/ @code{(N)}.")
+        "There are two speical cases: @code{(N)} stands for @code{SDLNet_},\n"
+        "and @code{(M)} stands for @code{Mix_}.")
        (lambda ()
          (uniq (apply append (map (lambda (note)
                                     (assq-ref note #:attributes))
@@ -51,6 +52,11 @@ is not significant.
        (lambda (attr)
          (newline)
          (fln "@item ~A" attr)
+         (newline)
+         (for-each (lambda (s)
+                     (fln "~A" s))
+                   (assq-ref (text-db-table-meta *notes*) attr))
+         (newline)
          (fln "@verbatim")
          (let ((col 0))
            (for-each (lambda (note)
@@ -58,9 +64,12 @@ is not significant.
                             (let* ((n (assq-ref note #:name))
                                    (s (symbol->string n))
                                    (len (1+ (string-length s))))
-                              (if (char=? #\N (string-ref s 3))
-                                  (fso "  (N)~A" (substring s 7))
-                                  (fso "  ~A" (substring s 4)))
+                              (cond ((char=? #\M (string-ref s 0))
+                                     (fso "  (M)~A" (substring s 4)))
+                                    ((char=? #\N (string-ref s 3))
+                                     (fso "  (N)~A" (substring s 7)))
+                                    (else
+                                     (fso "  ~A" (substring s 4))))
                               (set! col (if (> 30 col)
                                             (+ col len)
                                             (begin

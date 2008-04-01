@@ -3,6 +3,8 @@
     + SDL_gfxBlitRGBA
     + SDL_gfxSetAlpha
     - SDL_imageFilter* (many funcs)
+      + with C fallback
+      - assembler only
   - interface present but "not yet implemented"
     + peep-event
     - set-event-filter
@@ -17,12 +19,17 @@
       - consistency
     - use unsigned long for colors
   - /usr/include/SDL/*.h coverage
+    - mixer
+      - hooks
+      - effects
+      - panning / position / distance
   - opengl?
 
 - 0.4 "control"
   - threading system
   - signals
   - interop w/ other event loops?
+    - fastevents
 
 - 0.5 "glitches"
   - review/revise interfaces (WARNING: disruptive)

@@ -1,6 +1,40 @@
 (text-db-table-config
   (delim . "\f")
+  (meta
+   (todo
+    "To be completed by Guile-SDL 1.0 (that is, if All Goes Well).")
+   (internal
+    "These interface elements are exposed in the C header"
+    "but should not be exposed to Scheme, for reasons of"
+    "either safety or inutility.")
+   (probably-never
+    "Don't expect to see these exposed to Scheme, ever!")
+   (doze
+    "Windoze support, blech.")
+   (macos
+    "Macintosh support, meh.")
+   (threading-implications
+    "Will (any :--) ttn ever be ready for parallelism?")
+   (rwops
+    "Read-write operations.")
+   (endian
+    "These concern little- vs. big-endian i/o."
+    "Perhaps Guile already provides decent alternatives.")
+   (use-mixer-instead
+    "These elements are obsoleted by the module @code{(sdl mixer)}.")
+   (hook
+    "Callback from SDL to Scheme code.  Can be tricky to get right..."))
   (fields (#:name sexp) (#:attributes sexp) (#:notes rest-lines-trim)))
+
+ SDL_SetEventFilter (todo hook)
+
+This already has Scheme interface `(sdl sdl) set-event-filter',
+but calling that throws "not yet implemented".
+
+ SDL_GetEventFilter (todo hook)
+
+This already has Scheme interface `(sdl sdl) get-event-filter',
+but calling that throws "not yet implemented".
 
  SDL_SoftStretch (internal probably-never)
 
@@ -156,31 +190,31 @@ why do we want to know the name of a key?
 
  SDL_ReadLE16 (endian probably-never)
 
- SDL_CloseAudio (todo)
+ SDL_CloseAudio (use-mixer-instead probably-never)
 
- SDL_UnlockAudio (todo)
+ SDL_UnlockAudio (use-mixer-instead probably-never)
 
- SDL_LockAudio (todo)
+ SDL_LockAudio (use-mixer-instead probably-never)
 
- SDL_MixAudio (todo)
+ SDL_MixAudio (use-mixer-instead probably-never)
 
- SDL_ConvertAudio (todo)
+ SDL_ConvertAudio (use-mixer-instead probably-never)
 
- SDL_BuildAudioCVT (todo)
+ SDL_BuildAudioCVT (use-mixer-instead probably-never)
 
- SDL_FreeWAV (todo)
+ SDL_FreeWAV (use-mixer-instead probably-never)
 
- SDL_LoadWAV_RW (todo)
+ SDL_LoadWAV_RW (use-mixer-instead probably-never)
 
- SDL_PauseAudio (todo)
+ SDL_PauseAudio (use-mixer-instead probably-never)
 
- SDL_GetAudioStatus (todo)
+ SDL_GetAudioStatus (use-mixer-instead probably-never)
 
- SDL_OpenAudio (todo)
+ SDL_OpenAudio (use-mixer-instead probably-never)
 
- SDL_AudioDriverName (todo)
+ SDL_AudioDriverName (use-mixer-instead probably-never)
 
- SDL_AudioQuit (internal probably-never)
+ SDL_AudioQuit (internal use-mixer-instead probably-never)
 
 SDL_audio.h sez:
 /* These functions are used internally, and should not be used unless you
@@ -188,84 +222,123 @@ SDL_audio.h sez:
  * You should normally use SDL_Init() or SDL_InitSubSystem().
  */
 
- SDL_AudioInit (internal probably-never)
+ SDL_AudioInit (internal use-mixer-instead probably-never)
 
 see note for `SDL_AudioQuit'
 
- SDLNet_Init (net todo)
+ SDLNet_Init (todo)
 
- SDLNet_Quit (net todo)
+ SDLNet_Quit (todo)
 
- SDLNet_ResolveHost (net todo)
+ SDLNet_ResolveHost (todo)
 
- SDLNet_ResolveIP (net todo)
+ SDLNet_ResolveIP (todo)
 
- SDLNet_TCP_Open (net todo)
+ SDLNet_TCP_Open (todo)
 
- SDLNet_TCP_Accept (net todo)
+ SDLNet_TCP_Accept (todo)
 
- SDLNet_TCP_GetPeerAddress (net todo)
+ SDLNet_TCP_GetPeerAddress (todo)
 
- SDLNet_TCP_Send (net todo)
+ SDLNet_TCP_Send (todo)
 
- SDLNet_TCP_Recv (net todo)
+ SDLNet_TCP_Recv (todo)
 
- SDLNet_TCP_Close (net todo)
+ SDLNet_TCP_Close (todo)
 
- SDLNet_AllocPacket (net todo)
+ SDLNet_AllocPacket (todo)
 
- SDLNet_ResizePacket (net todo)
+ SDLNet_ResizePacket (todo)
 
- SDLNet_FreePacket (net todo)
+ SDLNet_FreePacket (todo)
 
- SDLNet_AllocPacketV (net todo)
+ SDLNet_AllocPacketV (todo)
 
- SDLNet_FreePacketV (net todo)
+ SDLNet_FreePacketV (todo)
 
- SDLNet_UDP_Open (net todo)
+ SDLNet_UDP_Open (todo)
 
- SDLNet_UDP_Bind (net todo)
+ SDLNet_UDP_Bind (todo)
 
- SDLNet_UDP_Unbind (net todo)
+ SDLNet_UDP_Unbind (todo)
 
- SDLNet_UDP_GetPeerAddress (net todo)
+ SDLNet_UDP_GetPeerAddress (todo)
 
- SDLNet_UDP_SendV (net todo)
+ SDLNet_UDP_SendV (todo)
 
- SDLNet_UDP_Send (net todo)
+ SDLNet_UDP_Send (todo)
 
- SDLNet_UDP_RecvV (net todo)
+ SDLNet_UDP_RecvV (todo)
 
- SDLNet_UDP_Recv (net todo)
+ SDLNet_UDP_Recv (todo)
 
- SDLNet_UDP_Close (net todo)
+ SDLNet_UDP_Close (todo)
 
- SDLNet_AllocSocketSet (net todo)
+ SDLNet_AllocSocketSet (todo)
 
- SDLNet_AddSocket (net todo)
+ SDLNet_AddSocket (todo)
 
 there are also:
 #define SDLNet_TCP_AddSocket
 #define SDLNet_UDP_AddSocket
 
- SDLNet_DelSocket (net todo)
+ SDLNet_DelSocket (todo)
 
 there are also:
 #define SDLNet_TCP_DelSocket
 #define SDLNet_UDP_DelSocket
 
- SDLNet_CheckSockets (net todo)
+ SDLNet_CheckSockets (todo)
 
- SDLNet_SocketReady (net todo)
+ SDLNet_SocketReady (todo)
 
- SDLNet_FreeSocketSet (net todo)
+ SDLNet_FreeSocketSet (todo)
 
- SDLNet_Write16 (net todo)
+ SDLNet_Write16 (todo)
 
- SDLNet_Write32 (net todo)
+ SDLNet_Write32 (todo)
 
- SDLNet_Read16 (net todo)
+ SDLNet_Read16 (todo)
 
- SDLNet_Read32 (net todo)
+ SDLNet_Read32 (todo)
+
+ Mix_SetPostMix (todo hook)
+
+ Mix_HookMusic (todo hook)
+
+ Mix_GetMusicHookData (probably-never)
+
+If (when) `Mix_HookMusic' is added, it will not support "user data".
+It's better to use object properties for that.
+
+ Mix_HookMusicFinished (todo hook)
+
+ Mix_ChannelFinished (todo hook)
+
+ Mix_RegisterEffect (todo hook)
+
+ Mix_UnregisterEffect (todo hook)
+
+ Mix_UnregisterAllEffects (todo hook)
+
+ Mix_SetPanning (todo)
+
+ Mix_SetPosition (todo)
+
+ Mix_SetDistance (todo)
+
+ Mix_SetReverb (todo)
+
+ Mix_SetReverseStereo (todo)
+
+ Mix_SetMusicPosition (todo)
+
+ Mix_SetMusicCMD (todo threading-implications)
+
+ Mix_SetSynchroValue (todo)
+
+ Mix_GetSynchroValue (todo)
+
+ Mix_GetChunk (internal probably-never)
 
 
