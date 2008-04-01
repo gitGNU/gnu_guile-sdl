@@ -37,9 +37,6 @@ doc/guile-sdl.info
 doc/stamp-vti
 doc/version.texi
 
-sdl/Makefile
-sdl/Makefile.in
-
 src/*.la
 src/*.lo
 src/*.texi

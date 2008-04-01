@@ -9,7 +9,7 @@
 #  GNU gperf 3.0.2
 #  GNU texinfo 4.8
 
-[ -f sdl/misc-utils.scm ] || {
+[ -f src/misc-utils.scm ] || {
   echo "autogen.sh: run this command only in the guile-sdl directory."
   exit 1
 }

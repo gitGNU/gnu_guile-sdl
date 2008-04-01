@@ -1,5 +1,20 @@
 2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Consolidate Scheme source into src/.
+
+	* OLD.scm.ChangeLog: Rename from ../sdl/ChangeLog.
+	* misc-utils.scm: Rename from ../sdl/misc-utils.scm.
+	* simple.scm: Rename from ../sdl/simple.scm.
+	* Makefile.am: No longer include $(top_srcdir)/am/common.
+	(cmmoddir, scheme, cmod_DATA): New vars.
+	(SUFFIXES): Convert from appending-var to var.
+	(scm2doc): New var.
+	(dotdocfiles): Add $(scheme:.scm=.doc).
+	(.scm.doc): New pattern rule.
+	(DISTCLEANFILES, noinst_DATA): Convert from appending-var to var.
+
+2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Consolidate C source into src/.
 
 	* OLD.gfx.ChangeLog: Rename from ../sdl-gfx/ChangeLog.

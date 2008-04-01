@@ -16,12 +16,11 @@ TODO-excerpt: $(top_srcdir)/TODO
 # place the info file in the build tree instead of the source tree.
 DISTCLEANFILES = guile-sdl.info
 
-ref.texi: $(top_srcdir)/*/*.c $(top_srcdir)/sdl/*.scm
+ref.texi: $(top_srcdir)/src/*.c $(top_srcdir)/src/*.scm
 ef-ref.texi: $(top_srcdir)/*/*.c
 
 .twerp.texi:
 	guile-tools twerp2texi \
-	  -I ../sdl/.doc-index \
 	  -I ../src/.doc-index \
 	  -o $@ $(TWERP2TEXIFLAGS) $<
 

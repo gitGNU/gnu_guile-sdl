@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS = gnu
 
 SUBDIRS = SDL_gfx
 
-include $(top_srcdir)/am/common
+cmoddir = $(GUILE_LIBSITE)/sdl
 
 cmod_LTLIBRARIES = sdl.la gfx.la
 
@@ -12,9 +12,13 @@ WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
                   sdlenums.c misc.c
 FLAGSTASH       = initf.c kmodf.c videof.c palettef.c overlayf.c evmaskf.c
+scheme          = misc-utils.scm simple.scm
+
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH) sdlgfx.x
 
-EXTRA_DIST = $(FLAGSTASH:.c=.fspec)		\
+cmod_DATA = $(scheme)
+
+EXTRA_DIST = $(FLAGSTASH:.c=.fspec) $(scheme)	\
  argcheck.h					\
  bool.h						\
  gperfsup.h					\
@@ -33,12 +37,13 @@ gfx_la_SOURCES  = sdlgfx.c
 gfx_la_LDFLAGS  = -version-info 0:0:0 -export-dynamic -module \
    -LSDL_gfx -lSDL_gfx
 
-SUFFIXES += .c .fspec .x .doc
+SUFFIXES = .c .fspec .x .doc
 
 snarfcppopts	= $(DEFS) -I. -I.. $(AM_CPPFLAGS) $(CPPFLAGS)
 c2doc		= guile-tools c2doc
+scm2doc		= guile-tools doc-snarf -D
 mkdocindex	= guile-tools make-twerp2texi-index
-dotdocfiles	= $(WRAPPER_SOURCES:.c=.doc) sdlgfx.doc
+dotdocfiles	= $(WRAPPER_SOURCES:.c=.doc) sdlgfx.doc $(scheme:.scm=.doc)
 
 .c.x:
 	$(c2x) -o $@ $< $(snarfcppopts)
@@ -46,10 +51,13 @@ dotdocfiles	= $(WRAPPER_SOURCES:.c=.doc) sdlgfx.doc
 .c.doc:
 	$(c2doc) -o $@ $< -- $(snarfcppopts)
 
+.scm.doc:
+	$(scm2doc) -o $@ $<
+
 .doc-index: $(dotdocfiles)
 	$(mkdocindex) -o $@ $(dotdocfiles)
 
-DISTCLEANFILES	+= *.x
+DISTCLEANFILES = *.x
 if MAINTAINER_MODE
 
 fspec2c = guile-tools fspec2c
@@ -57,7 +65,7 @@ fspec2c = guile-tools fspec2c
 .fspec.c:
 	$(fspec2c) -o $@ $<
 
-noinst_DATA	+= .doc-index
+noinst_DATA	= .doc-index
 MAINTAINERCLEANFILES = .doc-index *.doc
 endif ## MAINTAINER_MODE
 

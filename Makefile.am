@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS = gnu
 
 ACLOCAL_AMFLAGS = -I am
 
-SUBDIRS = src sdl doc
+SUBDIRS = src doc
 
 noinst_DATA = .module-catalog
 

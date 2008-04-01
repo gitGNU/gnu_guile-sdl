@@ -1,5 +1,14 @@
 2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Consolidate Scheme source into src/.
+
+	* am/common: Delete file.
+	* sdl: Delete directory.
+	* autogen.sh: Update cwd check.
+	* configure.in (AC_CONFIG_FILES): Remove sdl/Makefile.
+
+2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Consolidate C source into src/.
 
 	* include: Delete directory

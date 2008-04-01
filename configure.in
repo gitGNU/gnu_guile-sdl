@@ -87,7 +87,6 @@ AC_CONFIG_FILES([
   Makefile
   src/Makefile
   src/SDL_gfx/Makefile
-  sdl/Makefile
   doc/Makefile
 ])
 

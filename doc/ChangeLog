@@ -1,5 +1,12 @@
 2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Consolidate Scheme source into src/.
+
+	* Makefile.am (ref.texi): Update dependency list.
+	(.twerp.texi): Update target actions.
+
+2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Consolidate C source into src/.
 
 	* Makefile.am [HAVE_TTF] (minusIttfdocindex): Delete var.
