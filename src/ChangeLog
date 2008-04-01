@@ -1,3 +1,15 @@
+2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Move flip funcs into sdlsurface.c.
+
+	* sdlsurface.c (vertical_flip_surface): New GH_DEFPROC.
+	(horizontal_flip_surface): Likewise.
+	(vh_flip_surface): Likewise.
+	* sdlgfx.c: Delete file.
+	* sdl.c (gsdl_init_gfx): Delete extern decl.
+	(init_module): No longer call `gsdl_init_gfx'.
+	* Makefile.am (WRAPPER_SOURCES): Remove sdlgfx.c.
+
 2008-03-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Clean up (a little) before quitting.

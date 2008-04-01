@@ -505,6 +505,103 @@ to x=0, y=0, @var{dst} surface dimensions.  */)
 #undef FUNC_NAME
 }
 
+
+/* flipping */
+
+GH_DEFPROC
+(vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
+ (SCM surface),
+ doc: /***********
+Return a new surface created by flipping @var{surface} vertically.  */)
+{
+#define FUNC_NAME s_vertical_flip_surface
+  int i, w, h;
+  SDL_Surface *src, *dst;
+  SDL_Rect srcrect, dstrect;
+
+  /* Verify args.  */
+  ASSERT_SURFACE (surface, ARGH1);
+
+  /* Get source and dimensions.  */
+  src = SMOBGET (surface, SDL_Surface *);
+  w = src->w;
+  h = src->h;
+
+  /* Create a new surface.  */
+  dst = SDL_CreateRGBSurface (src->flags, w, h, 16, 0, 0, 0, 0);
+
+  /* Initialize the rects.  */
+  srcrect.x = 0;  srcrect.y = 0;    srcrect.w = w;  srcrect.h = 1;
+  dstrect.x = 0;  dstrect.y = h-1;  dstrect.w = w;  dstrect.h = 1;
+
+  /* Loop through, copying lines from top to bottom.  */
+  for (i = h; i >= 0; i--)
+    {
+      SDL_BlitSurface (src, &srcrect, dst, &dstrect);
+      srcrect.y++;
+      dstrect.y--;
+    }
+
+  /* Return the surface.  */
+  RETURN_NEW_SURFACE (dst);
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
+ (SCM surface),
+ doc: /***********
+Return a new surface created by flipping @var{surface} horizontally.  */)
+{
+#define FUNC_NAME s_horizontal_flip_surface
+  int i, w, h;
+  SDL_Surface *src, *dst;
+  SDL_Rect srcrect, dstrect;
+
+  /* Verify args.  */
+  ASSERT_SURFACE (surface, ARGH1);
+
+  /* Get source and dimensions.  */
+  src = SMOBGET (surface, SDL_Surface *);
+  w = src->w;
+  h = src->h;
+
+  /* Create a new surface.  */
+  dst = SDL_CreateRGBSurface (src->flags, w, h, 16, 0, 0, 0, 0);
+
+  /* Initialize the rects.  */
+  srcrect.x = 0;    srcrect.y = 0;  srcrect.w = 1;  srcrect.h = h;
+  dstrect.x = w-1;  dstrect.y = 0;  dstrect.w = 1;  dstrect.h = h;
+
+  /* Loop through, copying lines from left to right.  */
+  for (i = w; i >= 0; i--)
+    {
+      SDL_BlitSurface (src, &srcrect, dst, &dstrect);
+      srcrect.x++;
+      dstrect.x--;
+    }
+
+  /* Return the surface.  */
+  RETURN_NEW_SURFACE (dst);
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(vh_flip_surface, "vh-flip-surface", 1, 0, 0,
+ (SCM surface),
+ doc: /***********
+Return a new surface created by flipping @var{surface}
+both vertically and horizontally.  */)
+{
+#define FUNC_NAME s_vh_flip_surface
+  SCM temp = vertical_flip_surface (surface);
+  return horizontal_flip_surface (temp);
+#undef FUNC_NAME
+}
+
+
 
 void
 gsdl_init_surface (void)
