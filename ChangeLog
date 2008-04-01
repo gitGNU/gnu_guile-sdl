@@ -1,5 +1,12 @@
 2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Move config.h to src/.
+
+	* configure.in (AC_CONFIG_SRCDIR): Delete.
+	(AC_CONFIG_HEADERS): Specify src/config.h.
+
+2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Consolidate Scheme source into src/.
 
 	* am/common: Delete file.

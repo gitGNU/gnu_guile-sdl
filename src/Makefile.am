@@ -39,7 +39,7 @@ gfx_la_LDFLAGS  = -version-info 0:0:0 -export-dynamic -module \
 
 SUFFIXES = .c .fspec .x .doc
 
-snarfcppopts	= $(DEFS) -I. -I.. $(AM_CPPFLAGS) $(CPPFLAGS)
+snarfcppopts	= $(DEFS) -I. $(AM_CPPFLAGS) $(CPPFLAGS)
 c2doc		= guile-tools c2doc
 scm2doc		= guile-tools doc-snarf -D
 mkdocindex	= guile-tools make-twerp2texi-index

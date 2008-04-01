@@ -1,5 +1,11 @@
 2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Move config.h to src/.
+
+	* Makefile.am (snarfcppopts): No longer specify `-I..'.
+
+2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Consolidate Scheme source into src/.
 
 	* OLD.scm.ChangeLog: Rename from ../sdl/ChangeLog.
