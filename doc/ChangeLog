@@ -1,3 +1,11 @@
+2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Consolidate C source into src/.
+
+	* Makefile.am [HAVE_TTF] (minusIttfdocindex): Delete var.
+	[HAVE_MIXER] (minusImixerdocindex): Delete var.
+	(.twerp.texi): Update.
+
 2008-03-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Add image filter bindings to module (sdl gfx).

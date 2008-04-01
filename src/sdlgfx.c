@@ -33,7 +33,7 @@ GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
  * gfxPrimitives
  */
 
-#include "SDL_gfxPrimitives.h"
+#include "SDL_gfx/SDL_gfxPrimitives.h"
 
 
 GH_DEFPROC
@@ -569,7 +569,7 @@ draw string @var{text} with @var{color} (a number).  */)
  * rotozoom
  */
 
-#include "SDL_rotozoom.h"
+#include "SDL_gfx/SDL_rotozoom.h"
 
 
 GH_DEFPROC
@@ -735,7 +735,7 @@ box RGBA or Y information'' and is in 32-bit RGBA format.  */)
  * framerate
  */
 
-#include "SDL_framerate.h"
+#include "SDL_gfx/SDL_framerate.h"
 
 static long fpsmgr_tag;
 
@@ -853,7 +853,7 @@ Request an appropriate delay from FPS manager @var{mgr}.  */)
  * RGBA extras
  */
 
-#include "SDL_gfxBlitFunc.h"
+#include "SDL_gfx/SDL_gfxBlitFunc.h"
 
 
 GH_DEFPROC
@@ -907,7 +907,7 @@ may be relaxed in the future.  */)
  * image filter
  */
 
-#include "SDL_imageFilter.h"
+#include "SDL_gfx/SDL_imageFilter.h"
 
 GH_DEFPROC
 (imfi_mmx_p, "imfi-mmx?", 0, 0, 0,

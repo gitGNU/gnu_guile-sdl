@@ -86,11 +86,8 @@ GUILE_MODULE_CATALOG_PREP
 AC_CONFIG_FILES([
   Makefile
   src/Makefile
+  src/SDL_gfx/Makefile
   sdl/Makefile
-  sdl-mixer/Makefile
-  sdl-ttf/Makefile
-  sdl-gfx/Makefile
-  sdl-gfx/SDL_gfx/Makefile
   doc/Makefile
 ])
 

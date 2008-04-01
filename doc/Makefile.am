@@ -16,14 +16,6 @@ TODO-excerpt: $(top_srcdir)/TODO
 # place the info file in the build tree instead of the source tree.
 DISTCLEANFILES = guile-sdl.info
 
-if HAVE_TTF
-minusIttfdocindex = -I ../sdl-ttf/.doc-index
-endif
-
-if HAVE_MIXER
-minusImixerdocindex = -I ../sdl-mixer/.doc-index
-endif
-
 ref.texi: $(top_srcdir)/*/*.c $(top_srcdir)/sdl/*.scm
 ef-ref.texi: $(top_srcdir)/*/*.c
 
@@ -31,9 +23,6 @@ ef-ref.texi: $(top_srcdir)/*/*.c
 	guile-tools twerp2texi \
 	  -I ../sdl/.doc-index \
 	  -I ../src/.doc-index \
-	  $(minusIttfdocindex) \
-	  -I ../sdl-gfx/.doc-index \
-	  $(minusImixerdocindex) \
 	  -o $@ $(TWERP2TEXIFLAGS) $<
 
 excuse.texi: $(top_srcdir)/cov/notes.tdt

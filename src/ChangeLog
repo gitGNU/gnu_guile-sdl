@@ -1,5 +1,54 @@
 2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Consolidate C source into src/.
+
+	* OLD.gfx.ChangeLog: Rename from ../sdl-gfx/ChangeLog.
+	* OLD.include.ChangeLog: Rename from ../include/ChangeLog.
+	* OLD.mixer.ChangeLog: Rename from ../sdl-mixer/ChangeLog.
+	* OLD.ttf.ChangeLog: Rename from ../sdl-ttf/ChangeLog.
+	* SDL_gfx: Rename from ../sdl-gfx/SDL_gfx.
+	* argcheck.h: Rename from ../include/argcheck.h.
+	* bool.h: Rename from ../include/bool.h.
+	* gperfsup.h: Rename from ../include/gperfsup.h.
+	* retval.h: Rename from ../include/retval.h.
+	* sdlenums.h: Rename from ../include/sdlenums.h.
+	* sdlsmobs.h: Rename from ../include/sdlsmobs.h.
+	* sdlvideo.h: Rename from ../include/sdlvideo.h.
+	* sym.h: Rename from ../include/sym.h.
+	* wholefns.h: Rename from ../include/wholefns.h.
+	* sdlgfx.c: Rename from ../sdl-gfx/sdlgfx.c.
+	Also, use `#include "SDL_gfx/foo"' explicitly.
+	* sdlmixer.c: Rename from ../sdl-mixer/sdlmixer.c.
+	* sdlttf.c: Rename from ../sdl-ttf/sdlttf.c.
+	* ttff.fspec: Rename from ../sdl-ttf/ttff.fspec.
+
+	* Makefile.am: No longer include $(top_srcdir)/am/fspec.
+	No longer include $(top_srcdir)/am/snarfing.
+	(SUBDIRS): New var.
+	(cmod_LTLIBRARIES): Add gfx.la.
+	(BUILT_SOURCES): Add sdlgfx.x.
+	(EXTRA_DIST): Init to *.fspec and *.h files.
+	(gfx_la_SOURCES, gfx_la_LDFLAGS): New vars.
+	(SUFFIXES): New appending-var.
+	(snarfcppopts, c2doc, mkdocindex, dotdocfiles): New vars.
+	(.c.x, .c.doc): New pattern rules.
+	(.doc-index): New target.
+	(DISTCLEANFILES): New appending-var.
+	[MAINTAINER_MODE] (fspec2c): New var.
+	[MAINTAINER_MODE] (.fpsec.c): New pattern rule.
+	[MAINTAINER_MODE] (noinst_DATA): New appending-var.
+	[MAINTAINER_MODE] (MAINTAINERCLEANFILES): New appending-var.
+	(SOFIXFLAGS): New var.
+	(install-data-hook): Add command to "sofix" installed modules.
+	[HAVE_MIXER] (BUILT_SOURCES): New appending-var.
+	[HAVE_MIXER] (dotdocfiles, cmod_LTLIBRARIES): Likewise.
+	[HAVE_MIXER] (mixer_la_SOURCES, mixer_la_LDFLAGS): New vars.
+	[HAVE_TTF] (BUILT_SOURCES): New appending-var.
+	[HAVE_TTF] (EXTRA_DIST, dotdocfiles, cmod_LTLIBRARIES): Likewise.
+	[HAVE_TTF] (ttf_la_SOURCES, ttf_la_LDFLAGS): New vars.
+
+2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Move flip funcs into sdlsurface.c.
 
 	* sdlsurface.c (vertical_flip_surface): New GH_DEFPROC.

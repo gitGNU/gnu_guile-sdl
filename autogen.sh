@@ -40,7 +40,7 @@ automake --add-missing
 ######################################################################
 # modsup.h
 
-cd include
+cd src
 ln -sf `guile-config info includedir`/guile/modsup.h
 
 ######################################################################

@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS = gnu
 
 ACLOCAL_AMFLAGS = -I am
 
-SUBDIRS = src sdl sdl-mixer sdl-ttf sdl-gfx doc
+SUBDIRS = src sdl doc
 
 noinst_DATA = .module-catalog
 
@@ -44,7 +44,7 @@ TESTS_ENVIRONMENT = \
 	$(GUILE) -L "@abs_top_builddir@" -l $(srcdir)/test/common -s
 
 # distribution
-as_is_dirs = examples test include cov
+as_is_dirs = examples test cov
 
 EXTRA_DIST = \
 	am/guile-sdl.m4 \
