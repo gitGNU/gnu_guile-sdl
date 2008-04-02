@@ -2,12 +2,12 @@
 # Usage: sh -x ./autogen.sh [--libtoolize]
 #
 # Building Guile-SDL has been tested with the following toolset:
-#  GNU Libtool 1.5.24
+#  GNU Libtool 1.5.26
 #  GNU Autoconf 2.61
-#  GNU Automake 1.9.6
-#  Guile 1.4.1.109
+#  GNU Automake 1.10.1
+#  Guile 1.4.1.114
 #  GNU gperf 3.0.2
-#  GNU texinfo 4.8
+#  GNU texinfo 4.11.94
 
 [ -f src/misc-utils.scm ] || {
   echo "autogen.sh: run this command only in the guile-sdl directory."

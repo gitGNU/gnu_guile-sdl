@@ -17,7 +17,7 @@
 @end direntry
 
 @copying
-Copyright @copyright{} 2003-2007 Thien-Thi Nguyen
+Copyright @copyright{} 2003--2008 Thien-Thi Nguyen
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice

@@ -1,9 +1,39 @@
 Guile-SDL NEWS
-Copyright (C) 2003,2004,2005,2006,2007 Thien-Thi Nguyen
+Copyright (C) 2003,2004,2005,2006,2007,2008 Thien-Thi Nguyen
 
 See the end for copying conditions.
 
 Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
+
+
+- 0.3.9 | 2008-04-02
+
+  - bugfix for "make uninstall"
+
+	Previously, this left some files in $(GUILE_LIBSITE)/sdl.
+	Now, those files (and that directory) are properly deleted.
+
+  - new (sdl gfx) procs
+
+	These 26 are the image-filter functions that have a C
+	implementation: imfi-mmx?, imfi-add, imfi-mean, imfi-sub,
+	imfi-abs-diff, imfi-mult, imfi-mulnor, imfi-muldiv2,
+	imfi-muldiv4, imfi-logand, imfi-logior, imfi-div, imfi-not,
+	imfi-add-c, imfi-add-c-to-half, imfi-sub-c, imfi-ashr,
+	imfi-lshr, imfi-mul-c, imfi-ashr-mul-c, imfi-bshl, imfi-lshl,
+	imfi-ashl, imfi-binarize, imfi-clip, imfi-normalize-linear.
+
+	On ttn's computer, (imfi-mmx?) => #f, so the MMX side of things
+	has not been tested.
+
+  - new (sdl mixer) procs: set-panning, set-distance, set-position
+
+	Move the sound 'round and 'round;
+	all that's missing is up and down.
+
+  - public repo: http://www.gnuvola.org/wip/  (guile-sdl)
+
+  - maintenance now uses libtool 1.5.24 and autoconf 1.10.1
 
 
 - 0.3.8 | 2007-10-11
