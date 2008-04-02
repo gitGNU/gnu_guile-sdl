@@ -1,5 +1,12 @@
 2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	New (sdl mixer) procs: set-panning, set-distance, set-position
+
+	* ref.twerp (Audio): Add common blurb and @twerpdoc for
+	`set-panning', `set-distance' and `set-position'.
+
+2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	No longer distribute examples/.
 
 	* guile-sdl.texi (Quick Start): Don't mention examples/.

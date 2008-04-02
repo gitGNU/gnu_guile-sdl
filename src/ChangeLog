@@ -1,3 +1,10 @@
+2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (sdl mixer) procs: set-panning, set-distance, set-position
+
+	* sdlmixer.c (mix_set_panning): New GH_DEFPROC.
+	(mix_set_distance, mix_set_position): Likewise.
+
 2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Move config.h to src/.

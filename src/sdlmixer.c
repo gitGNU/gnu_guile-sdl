@@ -886,6 +886,95 @@ to @var{command}, a string.  */)
 
 
 GH_DEFPROC
+(mix_set_panning, "set-panning", 3, 0, 0,
+ (SCM channel, SCM l, SCM r),
+ doc: /***********
+Set panning for (stereo) @var{channel} with @var{l} and @var{r}.
+Both @var{l} and @var{r} are integers 0--255, inclusive, where
+0 is quietest and 255 is loudest.
+
+To get ``true'' panning, use @code{(set-panning CH N (- 255 N))}.  */)
+{
+#define FUNC_NAME s_mix_set_panning
+  ASSERT_EXACT (channel, ARGH1);
+  ASSERT_EXACT (l, ARGH2);
+  ASSERT_EXACT (r, ARGH3);
+
+  RETURN_INT (Mix_SetPanning (gh_scm2long (channel),
+                              gh_scm2ulong (l),
+                              gh_scm2ulong (r)));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(mix_set_distance, "set-distance", 2, 0, 0,
+ (SCM channel, SCM distance),
+ doc: /***********
+Set the ``distance'' of @var{channel} to @var{distance} (integer, 0--255).
+This controls the location of the sound with respect to the listener.
+
+Distance 0 is overlapping the listener, and 255 is as far away as possible.
+A distance of 255 does not guarantee silence; in such a case, you might
+want to try changing the chunk's volume, or just cull the sample from the
+mixing process with @code{halt-channel}.
+
+For efficiency, the precision of this effect may be limited (distances 1
+through 7 might all produce the same effect, 8 through 15 are equal, etc).
+
+Setting (distance) to 0 unregisters this effect, since the data would be
+unchanged.  */)
+{
+#define FUNC_NAME s_mix_set_distance
+  ASSERT_EXACT (channel, ARGH1);
+  ASSERT_EXACT (distance, ARGH2);
+
+  RETURN_INT (Mix_SetDistance (gh_scm2long (channel),
+                               gh_scm2ulong (distance)));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
+(mix_set_position, "set-position", 2, 0, 0,
+ (SCM channel, SCM angle, SCM distance),
+ doc: /***********
+Set the ``position'' of @var{channel} to @var{angle}, @var{distance}.
+In this polar coordinate, @var{angle} is in degrees (integer modulo 360),
+and @var{distance} is an integer 0--255 (and is treated as in proc
+@code{set-distance} -- see notes there).
+
+Angle 0 is due north, and rotates clockwise as the value increases.
+For efficiency, the precision of this effect may be limited (angles 1
+through 7 might all produce the same effect, 8 through 15 are equal, etc).
+
+Setting @var{angle} and @var{distance} to 0 unregisters this effect,
+since the data would be unchanged.
+
+Additionally, the C header says:
+@quotation
+If the audio device is configured for mono output, then you won't get
+any effectiveness from the angle; however, distance attenuation on the
+channel will still occur. While this effect will function with stereo
+voices, it makes more sense to use voices with only one channel of sound,
+so when they are mixed through this effect, the positioning will sound
+correct. You can convert them to mono through SDL before giving them to
+the mixer in the first place if you like.
+@end quotation  */)
+{
+#define FUNC_NAME s_mix_set_position
+  ASSERT_EXACT (channel, ARGH1);
+  ASSERT_EXACT (angle, ARGH2);
+  ASSERT_EXACT (distance, ARGH3);
+
+  RETURN_INT (Mix_SetPosition (gh_scm2long (channel),
+                               gh_scm2long (angle),
+                               gh_scm2ulong (distance)));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
 (mix_close_audio, "close-audio", 0, 0, 0,
  (void),
  doc: /***********

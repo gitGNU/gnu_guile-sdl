@@ -321,19 +321,11 @@ It's better to use object properties for that.
 
  Mix_UnregisterAllEffects (todo hook)
 
- Mix_SetPanning (todo)
-
- Mix_SetPosition (todo)
-
- Mix_SetDistance (todo)
-
  Mix_SetReverb (todo)
 
  Mix_SetReverseStereo (todo)
 
  Mix_SetMusicPosition (todo)
-
- Mix_SetMusicCMD (todo threading-implications)
 
  Mix_SetSynchroValue (todo)
 

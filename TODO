@@ -22,7 +22,7 @@
     - mixer
       - hooks
       - effects
-      - panning / position / distance
+      + panning / position / distance
   - opengl?
 
 - 0.4 "control"

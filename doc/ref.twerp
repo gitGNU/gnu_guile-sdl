@@ -410,6 +410,20 @@ TTF_STYLE_foo, where foo can be:
 @twerpdoc (playing?)
 @twerpdoc (playing-music?)
 @twerpdoc (set-music-command)
+
+FWIW, the C header file for the following panning, distance and
+position procs says:
+
+@quotation
+Setting (channel) to MIX_CHANNEL_POST registers this as a posteffect, and
+the panning will be done to the final mixed stream before passing it on
+to the audio device.
+@end quotation
+
+@twerpdoc (set-panning)
+@twerpdoc (set-distance)
+@twerpdoc (set-position)
+
 @twerpdoc (close-audio)
 
 @node SDL_gfx
