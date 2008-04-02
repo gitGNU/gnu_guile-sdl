@@ -1,5 +1,12 @@
 2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	No longer distribute examples/.
+
+	* examples: Delete directory.
+	* Makefile.am (as_is_dirs): Remove examples.
+
+2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Move alive.test into test/.
 
 	* Makefile.am (TESTS): Update.

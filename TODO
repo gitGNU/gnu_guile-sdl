@@ -56,7 +56,7 @@
   - user-alloc alternatives (less consing) for event procs
 
 - 0.9 "air"
-  - contrib/ and examples/
+  - you/
 
 - 1.0
 

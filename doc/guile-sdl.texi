@@ -109,8 +109,8 @@ low-level 2D graphics primitives have been provided.
 
 To whet your appetite, and hopefully get you excited about the ease
 and flexibility of programming with Guile-SDL, we begin with a simple
-example.  The following program, which can be found in the examples
-directory, is a simple image browser.  You can cycle through images by
+example.  The following program is a simple image browser.
+You can cycle through images by
 using space, n or right to go forward, backspace, p or left to go
 backwards, and escape or q to quit.
 

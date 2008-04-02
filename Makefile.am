@@ -44,7 +44,7 @@ TESTS_ENVIRONMENT = \
 	$(GUILE) -L "@abs_top_builddir@" -l $(srcdir)/test/common -s
 
 # distribution
-as_is_dirs = examples test cov
+as_is_dirs = test cov
 
 EXTRA_DIST = \
 	am/guile-sdl.m4 \
