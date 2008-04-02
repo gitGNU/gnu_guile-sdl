@@ -1,5 +1,11 @@
 2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Make "make uninstall" DTRT.
+
+	* Makefile.am (uninstall-hook): New target.
+
+2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	New (sdl mixer) procs: set-panning, set-distance, set-position
 
 	* sdlmixer.c (mix_set_panning): New GH_DEFPROC.

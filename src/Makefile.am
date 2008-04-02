@@ -76,6 +76,9 @@ install-data-hook:
 	  $(DESTDIR)$(cmoddir) $(cmod_LTLIBRARIES)
 	rm -f $(cmoddir)/sdl-sup.*
 
+uninstall-hook:
+	rm -rf $(DESTDIR)$(cmoddir)
+
 ############################################################ begin optional
 
 if HAVE_MIXER

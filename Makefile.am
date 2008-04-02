@@ -19,10 +19,13 @@ CLEANFILES = .module-catalog
 clean-local:
 	./config.status module-catalog-clean-local
 
-install-data-hook:
+install-data-hook: update-libsite-module-catalog
+uninstall-hook:    update-libsite-module-catalog
+
+update-libsite-module-catalog:
 	if guile-tools | grep -q make-module-catalog ; then	\
 	   guile-tools make-module-catalog -t "$(DESTDIR)"	\
-	     $(DESTDIR)$(GUILE_LIBSITE) ;			\
+	     "$(DESTDIR)$(GUILE_LIBSITE)" ;			\
 	fi
 
 # test suite

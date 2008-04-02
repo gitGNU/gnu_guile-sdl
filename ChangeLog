@@ -1,5 +1,13 @@
 2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Make "make uninstall" DTRT.
+
+	* Makefile.am (update-libsite-module-catalog): New target.
+	(install-data-hook): Use it.
+	(uninstall-hook): New target.
+
+2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	No longer distribute examples/.
 
 	* examples: Delete directory.
