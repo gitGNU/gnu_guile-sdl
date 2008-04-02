@@ -1,3 +1,9 @@
+2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Move alive.test into test/.
+
+	* Makefile.am (TESTS): Update.
+
 2008-04-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Move config.h to src/.

@@ -26,7 +26,7 @@ install-data-hook:
 	fi
 
 # test suite
-TESTS = alive.test				\
+TESTS = test/alive.test				\
 	test/leak.scm				\
 	test/rect.scm				\
 	test/image.scm				\
@@ -49,7 +49,7 @@ as_is_dirs = examples test cov
 EXTRA_DIST = \
 	am/guile-sdl.m4 \
 	am/sofix \
-	alive.test $(as_is_dirs)
+	$(as_is_dirs)
 
 ## these are to support upgrading from 0:0:0 ltlib: see README
 
