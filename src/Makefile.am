@@ -14,6 +14,8 @@ headers         = argcheck.h bool.h gperfsup.h modsup.h retval.h \
                   sdlenums.h sdlsmobs.h sdlvideo.h sym.h wholefns.h
 scheme          = misc-utils.scm simple.scm
 
+modflags        = -avoid-version -export-dynamic -module
+
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH) sdlgfx.x
 
 cmod_DATA = $(scheme)
@@ -21,11 +23,10 @@ cmod_DATA = $(scheme)
 EXTRA_DIST = $(FLAGSTASH:.c=.fspec) $(scheme)
 
 sdl_la_SOURCES = $(FLAGSTASH) $(WRAPPER_SOURCES) $(headers)
-sdl_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module
+sdl_la_LDFLAGS = $(modflags)
 
 gfx_la_SOURCES  = sdlgfx.c $(headers)
-gfx_la_LDFLAGS  = -version-info 0:0:0 -export-dynamic -module \
-   -LSDL_gfx -lSDL_gfx
+gfx_la_LDFLAGS  = $(modflags) -LSDL_gfx -lSDL_gfx
 
 SUFFIXES = .c .fspec .x .doc
 
@@ -62,9 +63,9 @@ endif ## MAINTAINER_MODE
 SOFIXFLAGS = no-la,no-symlinks
 
 install-data-hook:
+	cd "$(DESTDIR)$(cmoddir)" ; rm -f sdl-sup.* *.0.0.0
 	$(top_srcdir)/am/sofix $(SOFIXFLAGS) \
 	  $(DESTDIR)$(cmoddir) $(cmod_LTLIBRARIES)
-	rm -f $(cmoddir)/sdl-sup.*
 
 uninstall-hook:
 	rm -rf $(DESTDIR)$(cmoddir)
@@ -78,7 +79,7 @@ dotdocfiles      += sdlmixer.doc
 cmod_LTLIBRARIES += mixer.la
 
 mixer_la_SOURCES = sdlmixer.c
-mixer_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module -lSDL_mixer
+mixer_la_LDFLAGS = $(modflags) -lSDL_mixer
 
 endif # HAVE_MIXER
 
@@ -90,7 +91,7 @@ dotdocfiles      += sdlttf.doc
 cmod_LTLIBRARIES += ttf.la
 
 ttf_la_SOURCES = sdlttf.c ttff.c
-ttf_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module -lSDL_ttf
+ttf_la_LDFLAGS = $(modflags) -lSDL_ttf
 
 endif # HAVE_TTF
 

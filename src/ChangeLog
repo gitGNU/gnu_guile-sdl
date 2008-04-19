@@ -1,5 +1,15 @@
 2008-04-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Install foo.so instead of foo.so.0.0.0; delete .0.0.0 if found.
+
+	* Makefile.am (modflags): New var.
+	(sdl_la_LDFLAGS, gfx_la_LDFLAGS): Use $(modflags).
+	(install-data-hook): Delete "$(DESTDIR)$(cmoddir)/*.0.0.0", as well.
+	[HAVE_MIXER] (mixer_la_LDFLAGS): Use $(modflags).
+	[HAVE_TTF] (ttf_la_LDFLAGS): Use $(modflags).
+
+2008-04-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Clean up Makefile.am files.
 
 	* SDL_gfx/Makefile.am (AM_CPPFLAGS): Delete var.
