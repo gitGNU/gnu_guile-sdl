@@ -1,9 +1,4 @@
-*.la
-*.lo
 .deps
-.last-release
-.libs
-.ttn.*
 COPYING
 INSTALL
 Makefile
@@ -21,7 +16,12 @@ am/config.guess
 am/config.sub
 am/depcomp
 am/install-sh
+am/libtool.m4
 am/ltmain.sh
+am/ltoptions.m4
+am/ltsugar.m4
+am/ltversion.m4
+am/lt~obsolete.m4
 am/mdate-sh
 am/missing
 am/sofix
