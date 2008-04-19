@@ -1,3 +1,9 @@
+2008-04-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Clean up Makefile.am files.
+
+	* Makefile.am (AUTOMAKE_OPTIONS): Delete var.
+
 2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	New (sdl mixer) procs: set-panning, set-distance, set-position

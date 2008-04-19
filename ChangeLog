@@ -1,3 +1,10 @@
+2008-04-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Clean up Makefile.am files.
+
+	* Makefile.am (AUTOMAKE_OPTIONS): Delete var.
+	* configure.in (AM_INIT_AUTOMAKE): Specify options here.
+
 2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.3.9

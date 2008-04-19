@@ -1,7 +1,5 @@
 ## Process this file with Automake to create Makefile.in
 
-AUTOMAKE_OPTIONS = gnu
-
 ACLOCAL_AMFLAGS = -I am
 
 SUBDIRS = src doc

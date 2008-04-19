@@ -1,7 +1,5 @@
 ## Process this file with Automake to create Makefile.in
 
-AUTOMAKE_OPTIONS = gnu
-
 SUBDIRS = SDL_gfx
 
 cmoddir = $(GUILE_LIBSITE)/sdl
@@ -12,28 +10,20 @@ WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
                   sdlenums.c misc.c
 FLAGSTASH       = initf.c kmodf.c videof.c palettef.c overlayf.c evmaskf.c
+headers         = argcheck.h bool.h gperfsup.h modsup.h retval.h \
+                  sdlenums.h sdlsmobs.h sdlvideo.h sym.h wholefns.h
 scheme          = misc-utils.scm simple.scm
 
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH) sdlgfx.x
 
 cmod_DATA = $(scheme)
 
-EXTRA_DIST = $(FLAGSTASH:.c=.fspec) $(scheme)	\
- argcheck.h					\
- bool.h						\
- gperfsup.h					\
- modsup.h					\
- retval.h					\
- sdlenums.h					\
- sdlsmobs.h					\
- sdlvideo.h					\
- sym.h						\
- wholefns.h
+EXTRA_DIST = $(FLAGSTASH:.c=.fspec) $(scheme)
 
-sdl_la_SOURCES = $(FLAGSTASH) $(WRAPPER_SOURCES)
+sdl_la_SOURCES = $(FLAGSTASH) $(WRAPPER_SOURCES) $(headers)
 sdl_la_LDFLAGS = -version-info 0:0:0 -export-dynamic -module
 
-gfx_la_SOURCES  = sdlgfx.c
+gfx_la_SOURCES  = sdlgfx.c $(headers)
 gfx_la_LDFLAGS  = -version-info 0:0:0 -export-dynamic -module \
    -LSDL_gfx -lSDL_gfx
 

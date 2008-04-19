@@ -1,3 +1,20 @@
+2008-04-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Clean up Makefile.am files.
+
+	* SDL_gfx/Makefile.am (AM_CPPFLAGS): Delete var.
+	(EXTRA_DIST): Delete var.
+	(libSDL_gfx_la_SOURCES): Add SDL_framerate.h, SDL_gfxBlitFunc.h,
+	SDL_gfxPrimitives.h, SDL_imageFilter.h, SDL_rotozoom.h.
+	(libSDL_gfx_la_CFLAGS, libSDL_gfx_la_LIBADD): Delete vars.
+
+	* Makefile.am (AUTOMAKE_OPTIONS): Delete var.
+	(headers): New var.
+	(EXTRA_DIST): Remove argcheck.h, bool.h, gperfsup.h, modsup.h,
+	retval.h, sdlenums.h, sdlsmobs.h, sdlvideo.h, sym.h, wholefuns.h.
+	(sdl_la_SOURCES): Add $(headers).
+	(gfx_la_SOURCES): Add $(headers).
+
 2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Make "make uninstall" DTRT.
