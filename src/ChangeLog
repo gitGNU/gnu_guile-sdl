@@ -1,3 +1,11 @@
+2008-05-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Fix bug introduced in Guile-SDL 0.3.9 (2008-04-02):
+	New (sdl mixer) procs: set-panning, set-distance, set-position:
+	Specify correct number of args for `set-position'.
+
+	* mix_set_position (mix_set_position): Fix bug: Specify 3 args.
+
 2008-04-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Install foo.so instead of foo.so.0.0.0; delete .0.0.0 if found.

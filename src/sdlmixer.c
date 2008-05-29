@@ -936,7 +936,7 @@ unchanged.  */)
 
 
 GH_DEFPROC
-(mix_set_position, "set-position", 2, 0, 0,
+(mix_set_position, "set-position", 3, 0, 0,
  (SCM channel, SCM angle, SCM distance),
  doc: /***********
 Set the ``position'' of @var{channel} to @var{angle}, @var{distance}.
