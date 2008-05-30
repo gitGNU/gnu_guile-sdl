@@ -227,7 +227,7 @@ Returned by @code{fading-music} and @code{fading-channel}.
 @xref{Audio}.
 Values are @code{MIX_@var{foo}}, where @var{foo} can be:
 @example
-FADING@{IN,OUT@}
+FADING_@{IN,OUT@}
 NO_FADING
 @end example
 @end defvr

@@ -1,3 +1,9 @@
+2008-05-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Docfix for MIX_FADING_{IN,OUT} enums.
+
+	* guile-sdl.texi (Enums and Constants): Fix typo.
+
 2008-04-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Clean up Makefile.am files.
