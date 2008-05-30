@@ -35,9 +35,13 @@
 (SDL:volume 128)
 (SDL:play-music background)
 
+(define angle 90)
+
 ;; loop until it's done, playing a sound effect every 1500ms
 (while (SDL:playing-music?)
-       (SDL:play-channel fx)
+       (let ((ch (SDL:play-channel fx)))
+         (SDL:set-position ch angle 0))
+       (set! angle (- angle))
        (SDL:delay 1500))
 
 ;; close the audio and quit SDL

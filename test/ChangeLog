@@ -1,3 +1,9 @@
+2008-05-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Test set-position (mixer).
+
+	* mixer.scm: Use `set-position'.
+
 2008-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Move alive.test into test/.
