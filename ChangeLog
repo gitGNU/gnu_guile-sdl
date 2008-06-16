@@ -1,3 +1,12 @@
+2008-06-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Detect MMX availability at configure-time.
+
+	* am/ax_check_compiler_flags.m4: New file.
+	* am/ax_gcc_x86_cpuid.m4: New file.
+	* configure.in (AX_GCC_X86_CPUID): New macro call.
+	(USE_MMX): New AC_DEFINE, set to 1 if mmx is available.
+
 2008-04-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Clean up Makefile.am files.

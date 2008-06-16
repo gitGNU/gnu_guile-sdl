@@ -67,6 +67,20 @@ dnl Bindings for optional libs.
 GUILE_SDL_OPTLIB([mixer],[Mix_OpenAudio])
 GUILE_SDL_OPTLIB([ttf],[TTF_Init])
 
+dnl Arch-specific checks.
+AX_GCC_X86_CPUID([0x00000001])
+edx=`echo $ax_cv_gcc_x86_cpuid_0x00000001 | cut -d ":" -f 4`
+
+AC_CACHE_CHECK([whether mmx is supported],[ax_cv_have_mmx_ext],[
+  ax_cv_have_mmx_ext=no
+  if test "$((0x$edx>>23&0x01))" = 1; then
+    ax_cv_have_mmx_ext=yes
+  fi
+])
+if test $ax_cv_have_mmx_ext = yes ; then
+  AC_DEFINE([USE_MMX],1,[Define if the arch supports MMX instructions.])
+fi
+
 ##----------------------------------------------------------------------------
 ##: misc
 

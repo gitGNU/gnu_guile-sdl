@@ -1,3 +1,9 @@
+2008-06-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Detect MMX availability at configure-time.
+
+	* SDL_gfx/SDL_imageFilter.c: #include "config.h".
+
 2008-05-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Fix bug introduced in Guile-SDL 0.3.9 (2008-04-02):

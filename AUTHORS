@@ -19,3 +19,8 @@ in directory sdl-gfx/SDL_gfx/, wrote:
   SDL_rotozoom.c
   SDL_rotozoom.h
   nodebug.sh
+
+
+Steven G. Johnson and Matteo Frigo wrote:
+  am/ax_check_compiler_flags.m4
+  am/ax_gcc_x86_cpuid.m4
