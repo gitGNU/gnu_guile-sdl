@@ -1,3 +1,10 @@
+2008-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Make MMX detection code more portable.
+
+	* configure.in (edx): Use sed to compute this var.
+	(ax_cv_have_mmx_ext): Use sed and `case' to compute this var.
+
 2008-06-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Detect MMX availability at configure-time.
