@@ -1,0 +1,6 @@
+Around 2000 or 2001, each of Alex Shinn, Vikram Subramanian, and Joel Smith
+either independently or loosely collaboratively, started writing Guile bindings
+for the SDL library.  I asked Alex Shinn, who was starting to hack more with
+Gauche than with Guile, for project maintenance duties and he agreed.  I have
+not contacted the others, but instead fished their names out of the various
+files found in the CVS repository tarball I received from Alex.
