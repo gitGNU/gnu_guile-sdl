@@ -1,10 +1,10 @@
 - 0.3 "coverage"
-  - (sdl gfx)
+  + (sdl gfx)
     + SDL_gfxBlitRGBA
     + SDL_gfxSetAlpha
-    - SDL_imageFilter* (many funcs)
+    + SDL_imageFilter* (many funcs)
       + with C fallback
-      - assembler only
+      + assembler only
   - interface present but "not yet implemented"
     + peep-event
     - set-event-filter
