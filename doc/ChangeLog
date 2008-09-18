@@ -1,3 +1,9 @@
+2008-09-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Use `(string-null? foo)' instead of `(string=? "" foo)'.
+
+	* mkexcuse ("Specific Notes"): Use `string-null?'.
+
 2008-05-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Docfix for MIX_FADING_{IN,OUT} enums.

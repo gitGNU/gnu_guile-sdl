@@ -84,7 +84,7 @@ is not significant.
 (table "Specific Notes" #f #f
        (lambda (note)
          (let ((s (assq-ref note #:notes)))
-           (or (string=? "" s)
+           (or (string-null? s)
                (begin
                  (newline)
                  (fln "@item ~A" (assq-ref note #:name))
