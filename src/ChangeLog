@@ -1,3 +1,10 @@
+2009-01-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Decruft: Use 1..7 instead of SCM_ARG1..SCM_ARG7.
+
+	* argcheck.h (ARGH1, ARGH2, ARGH3)
+	(ARGH4, ARGH5, ARGH6, ARGH7): Use 1..7 directly.
+
 2008-06-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Detect MMX availability at configure-time.
