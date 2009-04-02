@@ -14,7 +14,10 @@ AC_PROG_CC
 ## If using GCC, ask for warnings and possibly a bit of quickness.
 if test x"$GCC" = xyes ; then
   CFLAGS="$CFLAGS -Wall -Wno-long-long -pipe"
+  keepinside='--visibility=hidden'
 fi
+
+AC_SUBST([keepinside])
 
 ##----------------------------------------------------------------------------
 ##: GUILE

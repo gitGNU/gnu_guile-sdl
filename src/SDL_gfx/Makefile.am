@@ -12,3 +12,5 @@ libSDL_gfx_la_SOURCES = \
   SDL_imageFilter.h \
   SDL_rotozoom.c \
   SDL_rotozoom.h
+
+libSDL_gfx_la_CFLAGS = $(keepinside)

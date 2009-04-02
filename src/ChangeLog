@@ -1,5 +1,11 @@
 2009-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Hide symbols of embedded libSDL_gfx, if compiling w/ GCC.
+
+	* SDL_gfx/Makefile.am (libSDL_gfx_la_CFLAGS): New var.
+
+2009-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Decruft: Use 1..8 instead of ARGH1..ARGH8.
 
 	* argcheck.h (ARGH1, ARGH2, ARGH3, ARGH4, ARGH5, ARGH6)
