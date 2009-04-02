@@ -44,10 +44,10 @@ On @var{surface}, draw a point at location
 @var{x},@var{y} with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_point
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x, ARGH2);
-  ASSERT_EXACT (y, ARGH3);
-  ASSERT_EXACT (color, ARGH4);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x, 2);
+  ASSERT_EXACT (y, 3);
+  ASSERT_EXACT (color, 4);
 
   RETURN_INT
     (pixelColor (UNPACK_SURFACE (surface),
@@ -66,11 +66,11 @@ from @var{x1},@var{y} to @var{x2},@var{y},
 with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_hline
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x1, ARGH2);
-  ASSERT_EXACT (x2, ARGH3);
-  ASSERT_EXACT (y, ARGH4);
-  ASSERT_EXACT (color, ARGH5);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x1, 2);
+  ASSERT_EXACT (x2, 3);
+  ASSERT_EXACT (y, 4);
+  ASSERT_EXACT (color, 5);
 
   RETURN_INT
     (hlineColor (UNPACK_SURFACE (surface),
@@ -89,11 +89,11 @@ from @var{x},@var{y1} to @var{x},@var{y2},
 with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_vline
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x, ARGH2);
-  ASSERT_EXACT (y1, ARGH3);
-  ASSERT_EXACT (y2, ARGH4);
-  ASSERT_EXACT (color, ARGH5);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x, 2);
+  ASSERT_EXACT (y1, 3);
+  ASSERT_EXACT (y2, 4);
+  ASSERT_EXACT (color, 5);
 
   RETURN_INT
     (vlineColor (UNPACK_SURFACE (surface),
@@ -114,12 +114,12 @@ with color @var{color}.
 Optional arg @var{fill} means to fill the rectangle as well.  */)
 {
 #define FUNC_NAME s_draw_rectangle
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x1, ARGH2);
-  ASSERT_EXACT (y1, ARGH3);
-  ASSERT_EXACT (x2, ARGH4);
-  ASSERT_EXACT (y2, ARGH5);
-  ASSERT_EXACT (color, ARGH6);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x1, 2);
+  ASSERT_EXACT (y1, 3);
+  ASSERT_EXACT (x2, 4);
+  ASSERT_EXACT (y2, 5);
+  ASSERT_EXACT (color, 6);
   UNBOUND_MEANS_FALSE (fill);
 
   RETURN_INT
@@ -143,12 +143,12 @@ On @var{surface}, draw a line segment from
 with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_line
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x1, ARGH2);
-  ASSERT_EXACT (y1, ARGH3);
-  ASSERT_EXACT (x2, ARGH4);
-  ASSERT_EXACT (y2, ARGH5);
-  ASSERT_EXACT (color, ARGH6);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x1, 2);
+  ASSERT_EXACT (y1, 3);
+  ASSERT_EXACT (x2, 4);
+  ASSERT_EXACT (y2, 5);
+  ASSERT_EXACT (color, 6);
 
   RETURN_INT
     (lineColor (UNPACK_SURFACE (surface),
@@ -169,12 +169,12 @@ On @var{surface}, draw an anti-aliased line segment from
 with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_line
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x1, ARGH2);
-  ASSERT_EXACT (y1, ARGH3);
-  ASSERT_EXACT (x2, ARGH4);
-  ASSERT_EXACT (y2, ARGH5);
-  ASSERT_EXACT (color, ARGH6);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x1, 2);
+  ASSERT_EXACT (y1, 3);
+  ASSERT_EXACT (x2, 4);
+  ASSERT_EXACT (y2, 5);
+  ASSERT_EXACT (color, 6);
 
   RETURN_INT
     (aalineColor (UNPACK_SURFACE (surface),
@@ -195,11 +195,11 @@ and radius @var{r}, with color @var{color}.
 Optional arg @var{fill} means to fill the circle as well.  */)
 {
 #define FUNC_NAME s_draw_circle
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x, ARGH2);
-  ASSERT_EXACT (y, ARGH3);
-  ASSERT_EXACT (r, ARGH4);
-  ASSERT_EXACT (color, ARGH5);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x, 2);
+  ASSERT_EXACT (y, 3);
+  ASSERT_EXACT (r, 4);
+  ASSERT_EXACT (color, 5);
   UNBOUND_MEANS_FALSE (fill);
 
   RETURN_INT
@@ -221,11 +221,11 @@ On @var{surface}, draw an anti-aliased circle with center
 @var{x},@var{y} and radius @var{r}, with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_circle
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x, ARGH2);
-  ASSERT_EXACT (y, ARGH3);
-  ASSERT_EXACT (r, ARGH4);
-  ASSERT_EXACT (color, ARGH5);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x, 2);
+  ASSERT_EXACT (y, 3);
+  ASSERT_EXACT (r, 4);
+  ASSERT_EXACT (color, 5);
 
   RETURN_INT
     (aacircleColor (UNPACK_SURFACE (surface),
@@ -246,12 +246,12 @@ x-radius @var{rx}, y-radius @var{ry}, with color @var{color}.
 Optional arg @var{fill} means to fill the ellipse as well.  */)
 {
 #define FUNC_NAME s_draw_ellipse
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x, ARGH2);
-  ASSERT_EXACT (y, ARGH3);
-  ASSERT_EXACT (rx, ARGH4);
-  ASSERT_EXACT (ry, ARGH5);
-  ASSERT_EXACT (color, ARGH6);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x, 2);
+  ASSERT_EXACT (y, 3);
+  ASSERT_EXACT (rx, 4);
+  ASSERT_EXACT (ry, 5);
+  ASSERT_EXACT (color, 6);
   UNBOUND_MEANS_FALSE (fill);
 
   RETURN_INT
@@ -274,12 +274,12 @@ On @var{surface}, draw an anti-aliased ellipse with center
 color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_ellipse
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x, ARGH2);
-  ASSERT_EXACT (y, ARGH3);
-  ASSERT_EXACT (rx, ARGH4);
-  ASSERT_EXACT (ry, ARGH5);
-  ASSERT_EXACT (color, ARGH6);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x, 2);
+  ASSERT_EXACT (y, 3);
+  ASSERT_EXACT (rx, 4);
+  ASSERT_EXACT (ry, 5);
+  ASSERT_EXACT (color, 6);
 
   RETURN_INT
     (aaellipseColor (UNPACK_SURFACE (surface),
@@ -301,13 +301,13 @@ On @var{surface}, draw a pie slice with center
 Optional arg @var{fill} means to fill the slice as well.  */)
 {
 #define FUNC_NAME s_draw_pie_slice
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x, ARGH2);
-  ASSERT_EXACT (y, ARGH3);
-  ASSERT_EXACT (rad, ARGH4);
-  ASSERT_EXACT (start, ARGH5);
-  ASSERT_EXACT (end, ARGH6);
-  ASSERT_EXACT (color, ARGH7);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x, 2);
+  ASSERT_EXACT (y, 3);
+  ASSERT_EXACT (rad, 4);
+  ASSERT_EXACT (start, 5);
+  ASSERT_EXACT (end, 6);
+  ASSERT_EXACT (color, 7);
 
   UNBOUND_MEANS_FALSE (fill);
 
@@ -333,14 +333,14 @@ with color @var{color}.  Optional arg @var{fill} means to
 fill the triangle as well.  */)
 {
 #define FUNC_NAME s_draw_trigon
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x1, ARGH2);
-  ASSERT_EXACT (y1, ARGH3);
-  ASSERT_EXACT (x2, ARGH4);
-  ASSERT_EXACT (y2, ARGH5);
-  ASSERT_EXACT (x3, ARGH6);
-  ASSERT_EXACT (y3, ARGH7);
-  ASSERT_EXACT (color, ARGH8);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x1, 2);
+  ASSERT_EXACT (y1, 3);
+  ASSERT_EXACT (x2, 4);
+  ASSERT_EXACT (y2, 5);
+  ASSERT_EXACT (x3, 6);
+  ASSERT_EXACT (y3, 7);
+  ASSERT_EXACT (color, 8);
 
   UNBOUND_MEANS_FALSE (fill);
 
@@ -366,14 +366,14 @@ On @var{surface}, draw an anti-aliased triangle with vertices at
 with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_trigon
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x1, ARGH2);
-  ASSERT_EXACT (y1, ARGH3);
-  ASSERT_EXACT (x2, ARGH4);
-  ASSERT_EXACT (y2, ARGH5);
-  ASSERT_EXACT (x3, ARGH6);
-  ASSERT_EXACT (y3, ARGH7);
-  ASSERT_EXACT (color, ARGH8);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x1, 2);
+  ASSERT_EXACT (y1, 3);
+  ASSERT_EXACT (x2, 4);
+  ASSERT_EXACT (y2, 5);
+  ASSERT_EXACT (x3, 6);
+  ASSERT_EXACT (y3, 7);
+  ASSERT_EXACT (color, 8);
 
   RETURN_INT
     (aatrigonColor (UNPACK_SURFACE (surface),
@@ -398,10 +398,10 @@ arg @var{fill} means to fill the polygon as well.  */)
   int ret;
   Sint16 *cvx, *cvy;
 
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_VECTOR (vx, ARGH2);
-  ASSERT_VECTOR (vy, ARGH3);
-  ASSERT_EXACT (color, ARGH4);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_VECTOR (vx, 2);
+  ASSERT_VECTOR (vy, 3);
+  ASSERT_EXACT (color, 4);
   UNBOUND_MEANS_FALSE (fill);
 
   cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
@@ -432,10 +432,10 @@ are specified by corresponding pairs from the uniform vectors
   int ret;
   Sint16 *cvx, *cvy;
 
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_VECTOR (vx, ARGH2);
-  ASSERT_VECTOR (vy, ARGH3);
-  ASSERT_EXACT (color, ARGH4);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_VECTOR (vx, 2);
+  ASSERT_VECTOR (vy, 3);
+  ASSERT_EXACT (color, 4);
 
   cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
   cvy = (Sint16 *) gh_scm2shorts (vy, NULL);
@@ -464,12 +464,12 @@ offset @var{tdx}, @var{tdy}.  */)
   int ret;
   Sint16 *cvx, *cvy;
 
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_VECTOR (vx, ARGH2);
-  ASSERT_VECTOR (vy, ARGH3);
-  ASSERT_SURFACE (texture, ARGH4);
-  ASSERT_EXACT (tdx, ARGH5);
-  ASSERT_EXACT (tdy, ARGH6);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_VECTOR (vx, 2);
+  ASSERT_VECTOR (vy, 3);
+  ASSERT_SURFACE (texture, 4);
+  ASSERT_EXACT (tdx, 5);
+  ASSERT_EXACT (tdy, 6);
 
   cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
   cvy = (Sint16 *) gh_scm2shorts (vy, NULL);
@@ -498,11 +498,11 @@ specified by corresponding pairs from the uniform vectors
   int ret;
   Sint16 *cvx, *cvy;
 
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_VECTOR (vx, ARGH2);
-  ASSERT_VECTOR (vy, ARGH3);
-  ASSERT_EXACT (s, ARGH4);
-  ASSERT_EXACT (color, ARGH5);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_VECTOR (vx, 2);
+  ASSERT_VECTOR (vy, 3);
+  ASSERT_EXACT (s, 4);
+  ASSERT_EXACT (color, 5);
 
   cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
   cvy = (Sint16 *) gh_scm2shorts (vy, NULL);
@@ -527,11 +527,11 @@ On @var{surface} at position @var{x},@var{y},
 draw char @var{c} with @var{color} (a number).  */)
 {
 #define FUNC_NAME s_draw_character
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x, ARGH2);
-  ASSERT_EXACT (y, ARGH3);
-  ASSERT_CHAR (c, ARGH4);
-  ASSERT_EXACT (color, ARGH5);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x, 2);
+  ASSERT_EXACT (y, 3);
+  ASSERT_CHAR (c, 4);
+  ASSERT_EXACT (color, 5);
 
   RETURN_INT
     (characterColor (UNPACK_SURFACE (surface),
@@ -549,11 +549,11 @@ On @var{surface} at position @var{x},@var{y},
 draw string @var{text} with @var{color} (a number).  */)
 {
 #define FUNC_NAME s_draw_string
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (x, ARGH2);
-  ASSERT_EXACT (y, ARGH3);
-  ASSERT_STRING (text, ARGH4);
-  ASSERT_EXACT (color, ARGH5);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x, 2);
+  ASSERT_EXACT (y, 3);
+  ASSERT_STRING (text, 4);
+  ASSERT_EXACT (color, 5);
 
   RETURN_INT
     (stringColor (UNPACK_SURFACE (surface),
@@ -588,16 +588,16 @@ fourth arg @var{smooth} turns on anti-aliasing.  */)
   SDL_Surface *csurface, *new_surface;
   double cangle = 0.0, czoom = 1.0;
 
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
   csurface = SMOBGET (surface, SDL_Surface *);
 
-  ASSERT_NUMBER (angle, ARGH2);
+  ASSERT_NUMBER (angle, 2);
   cangle = gh_scm2double (angle);
 
   UNBOUND_MEANS_FALSE (zoom);
   if (NOT_FALSEP (zoom))
     {
-      ASSERT_NUMBER (zoom, ARGH3);
+      ASSERT_NUMBER (zoom, 3);
       czoom = gh_scm2double (zoom);
     }
 
@@ -627,22 +627,22 @@ turns on anti-aliasing.  */)
   SDL_Surface *csurface, *new_surface;
   double cangle = 0.0, czoomx = 1.0, czoomy = 1.0;
 
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
   csurface = SMOBGET (surface, SDL_Surface *);
 
-  ASSERT_NUMBER (angle, ARGH2);
+  ASSERT_NUMBER (angle, 2);
   cangle = gh_scm2double (angle);
 
   UNBOUND_MEANS_FALSE (zoomx);
   if (NOT_FALSEP (zoomx))
     {
-      ASSERT_NUMBER (zoomx, ARGH3);
+      ASSERT_NUMBER (zoomx, 3);
       czoomx = gh_scm2double (zoomx);
     }
   UNBOUND_MEANS_FALSE (zoomy);
   if (NOT_FALSEP (zoomy))
     {
-      ASSERT_NUMBER (zoomy, ARGH3);
+      ASSERT_NUMBER (zoomy, 3);
       czoomy = gh_scm2double (zoomy);
     }
 
@@ -672,16 +672,16 @@ Optional fourth arg @var{smooth} turns on anti-aliasing.  */)
   SDL_Surface *csurface, *new_surface;
   double czoomx = 1.0, czoomy = 1.0;
 
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
   csurface = SMOBGET (surface, SDL_Surface *);
 
-  ASSERT_NUMBER (zoomx, ARGH2);
+  ASSERT_NUMBER (zoomx, 2);
   czoomx = gh_scm2double (zoomx);
 
   UNBOUND_MEANS_FALSE (zoomy);
   if (NOT_FALSEP (zoomy))
     {
-      ASSERT_NUMBER (zoomy, ARGH3);
+      ASSERT_NUMBER (zoomy, 3);
       czoomy = gh_scm2double (zoomy);
     }
   else
@@ -714,13 +714,13 @@ box RGBA or Y information'' and is in 32-bit RGBA format.  */)
   SDL_Surface *csurface, *new_surface;
   unsigned int cfactorx, cfactory;
 
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
   csurface = SMOBGET (surface, SDL_Surface *);
 
-  ASSERT_EXACT (factorx, ARGH2);
+  ASSERT_EXACT (factorx, 2);
   cfactorx = gh_scm2ulong (factorx);
 
-  ASSERT_NUMBER (factory, ARGH3);
+  ASSERT_NUMBER (factory, 3);
   cfactory = gh_scm2ulong (factory);
 
   new_surface = shrinkSurface (csurface, cfactorx, cfactory);
@@ -785,7 +785,7 @@ initialize the object (default 30 if not specified).  */)
       SDL_initFramerate (m);
       if (NOT_FALSEP (n))
         {
-          ASSERT_EXACT (n, ARGH1);
+          ASSERT_EXACT (n, 1);
           SDL_setFramerate (m, gh_scm2int (n));
         }
     }
@@ -803,8 +803,8 @@ Arrange for FPS manager @var{mgr} to try to maintain a
 frame rate of @var{n} Hz.  Return #f if not successful.  */)
 {
 #define FUNC_NAME s_fps_manager_set_x
-  ASSERT_FPSMGR (mgr, ARGH1);
-  ASSERT_EXACT (n, ARGH2);
+  ASSERT_FPSMGR (mgr, 1);
+  ASSERT_EXACT (n, 2);
 
   RETURN_TRUE_IF_0
     (SDL_setFramerate (UNPACK_FPSMGR (mgr), gh_scm2int (n)));
@@ -822,7 +822,7 @@ or #f if unsuccessful.  */)
 #define FUNC_NAME s_fps_manager_get
   int ret;
 
-  ASSERT_FPSMGR (mgr, ARGH1);
+  ASSERT_FPSMGR (mgr, 1);
 
   ret = SDL_getFramerate (UNPACK_FPSMGR (mgr));
   return (0 > ret
@@ -839,7 +839,7 @@ GH_DEFPROC
 Request an appropriate delay from FPS manager @var{mgr}.  */)
 {
 #define FUNC_NAME s_fps_manager_delay_x
-  ASSERT_FPSMGR (mgr, ARGH1);
+  ASSERT_FPSMGR (mgr, 1);
 
   SDL_framerateDelay (UNPACK_FPSMGR (mgr));
 
@@ -865,8 +865,8 @@ If @var{surface} is 32-bit, set each pixel's alpha value to
 Otherwise, do nothing and return @code{#f}.  */)
 {
 #define FUNC_NAME s_set_pixel_alpha_x
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (alpha, ARGH2);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (alpha, 2);
 
   return (1 == SDL_gfxSetAlpha (UNPACK_SURFACE (surface),
                                 (Uint8) gh_scm2ulong (alpha))
@@ -889,10 +889,10 @@ all arguments must be fully specified.  This restriction
 may be relaxed in the future.  */)
 {
 #define FUNC_NAME s_blit_rgba
-  ASSERT_SURFACE (src, ARGH1);
-  ASSERT_RECT (srect, ARGH2);
-  ASSERT_SURFACE (dst, ARGH3);
-  ASSERT_RECT (drect, ARGH4);
+  ASSERT_SURFACE (src, 1);
+  ASSERT_RECT (srect, 2);
+  ASSERT_SURFACE (dst, 3);
+  ASSERT_RECT (drect, 4);
 
   RETURN_TRUE_IF_0 (SDL_gfxBlitRGBA (UNPACK_SURFACE (src),
                                      UNPACK_RECT (srect),
@@ -944,9 +944,9 @@ check_3_surfaces (unsigned char **pa, SDL_Surface *a,
   unsigned char *s1, *s2, *d;                           \
   int len;                                              \
                                                         \
-  ASSERT_SURFACE (src1, ARGH1);                         \
-  ASSERT_SURFACE (src2, ARGH2);                         \
-  ASSERT_SURFACE (dst,  ARGH3);                         \
+  ASSERT_SURFACE (src1, 1);                             \
+  ASSERT_SURFACE (src2, 2);                             \
+  ASSERT_SURFACE (dst,  3);                             \
   if (0 > check_3_surfaces (&s1, UNPACK_SURFACE (src1), \
                             &s2, UNPACK_SURFACE (src2), \
                             &d,  UNPACK_SURFACE (dst),  \
@@ -972,12 +972,12 @@ check_2_surfaces (unsigned char **pa, SDL_Surface *a,
     }
 }
 
-#define SD_DECL_AND_CHECK()                          \
+#define SD_DECL_AND_CHECK()                             \
   unsigned char *s, *d;                                 \
   int len;                                              \
                                                         \
-  ASSERT_SURFACE (src, ARGH1);                          \
-  ASSERT_SURFACE (dst, ARGH2);                          \
+  ASSERT_SURFACE (src, 1);                              \
+  ASSERT_SURFACE (dst, 2);                              \
   if (0 > check_2_surfaces (&s, UNPACK_SURFACE (src),   \
                             &d, UNPACK_SURFACE (dst),   \
                             &len))                      \
@@ -1148,7 +1148,7 @@ D = saturation255 (S + C).  */)
 #define FUNC_NAME s_imfi_add_c
   unsigned int cc;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (c, ARGH3);
+  ASSERT_NUMBER (c, 3);
   cc = gh_scm2int (c);
   RETURN_TRUE_IF_0 (~0xffUL & cc
                     ? SDL_imageFilterAddUint (s, d, len, cc)
@@ -1166,7 +1166,7 @@ D = saturation255 (S/2 + C).  */)
 #define FUNC_NAME s_imfi_add_c_to_half
   unsigned int cc;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (c, ARGH3);
+  ASSERT_NUMBER (c, 3);
   cc = gh_scm2int (c);
   RETURN_TRUE_IF_0 (SDL_imageFilterAddByteToHalf (s, d, len, cc));
 #undef FUNC_NAME
@@ -1182,7 +1182,7 @@ D = saturation0 (S - C).  */)
 #define FUNC_NAME s_imfi_sub_c
   unsigned int cc;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (c, ARGH3);
+  ASSERT_NUMBER (c, 3);
   cc = gh_scm2int (c);
   RETURN_TRUE_IF_0 (~0xffUL & cc
                     ? SDL_imageFilterSubUint (s, d, len, cc)
@@ -1200,7 +1200,7 @@ D = saturation0 (S >> N).  */)
 #define FUNC_NAME s_imfi_ashr
   unsigned int cn;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (n, ARGH3);
+  ASSERT_NUMBER (n, 3);
   cn = gh_scm2int (n);
   RETURN_TRUE_IF_0 (SDL_imageFilterShiftRight (s, d, len, cn));
 #undef FUNC_NAME
@@ -1216,7 +1216,7 @@ D = saturation0 ((uint) S >> N).  */)
 #define FUNC_NAME s_imfi_lshr
   unsigned int cn;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (n, ARGH3);
+  ASSERT_NUMBER (n, 3);
   cn = gh_scm2int (n);
   RETURN_TRUE_IF_0 (SDL_imageFilterShiftRightUint (s, d, len, cn));
 #undef FUNC_NAME
@@ -1232,7 +1232,7 @@ D = saturation255 (S * C).  */)
 #define FUNC_NAME s_imfi_mul_c
   unsigned int cc;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (c, ARGH3);
+  ASSERT_NUMBER (c, 3);
   cc = gh_scm2int (c);
   RETURN_TRUE_IF_0 (SDL_imageFilterMultByByte (s, d, len, cc));
 #undef FUNC_NAME
@@ -1248,8 +1248,8 @@ D = saturation255 ((S >> N) * C).  */)
 #define FUNC_NAME s_imfi_ashr_mul_c
   unsigned int cn, cc;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (n, ARGH3);
-  ASSERT_NUMBER (c, ARGH4);
+  ASSERT_NUMBER (n, 3);
+  ASSERT_NUMBER (c, 4);
   cn = gh_scm2int (n);
   cc = gh_scm2int (c);
   RETURN_TRUE_IF_0
@@ -1267,7 +1267,7 @@ D = (S << N).  */)
 #define FUNC_NAME s_imfi_bshl
   unsigned int cn;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (n, ARGH3);
+  ASSERT_NUMBER (n, 3);
   cn = gh_scm2int (n);
   RETURN_TRUE_IF_0 (SDL_imageFilterShiftLeftByte (s, d, len, cn));
 #undef FUNC_NAME
@@ -1283,7 +1283,7 @@ D = ((uint) S << N).  */)
 #define FUNC_NAME s_imfi_lshl
   unsigned int cn;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (n, ARGH3);
+  ASSERT_NUMBER (n, 3);
   cn = gh_scm2int (n);
   RETURN_TRUE_IF_0 (SDL_imageFilterShiftLeftUint (s, d, len, cn));
 #undef FUNC_NAME
@@ -1299,7 +1299,7 @@ D = saturation255 (S << N).  */)
 #define FUNC_NAME s_imfi_ashl
   unsigned int cn;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (n, ARGH3);
+  ASSERT_NUMBER (n, 3);
   cn = gh_scm2int (n);
   RETURN_TRUE_IF_0 (SDL_imageFilterShiftLeft (s, d, len, cn));
 #undef FUNC_NAME
@@ -1315,7 +1315,7 @@ D = (S < T ? 0 : 255).  */)
 #define FUNC_NAME s_imfi_binarize
   unsigned int ct;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (t, ARGH3);
+  ASSERT_NUMBER (t, 3);
   ct = gh_scm2int (t);
   RETURN_TRUE_IF_0 (SDL_imageFilterBinarizeUsingThreshold (s, d, len, ct));
 #undef FUNC_NAME
@@ -1331,8 +1331,8 @@ D = (Tmin <= S <= Tmax) ? 255 : 0.  */)
 #define FUNC_NAME s_imfi_clip
   unsigned int ctmin, ctmax;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (tmin, ARGH3);
-  ASSERT_NUMBER (tmax, ARGH4);
+  ASSERT_NUMBER (tmin, 3);
+  ASSERT_NUMBER (tmax, 4);
   ctmin = gh_scm2int (tmin);
   ctmax = gh_scm2int (tmax);
   RETURN_TRUE_IF_0 (SDL_imageFilterClipToRange (s, d, len, ctmin, ctmax));
@@ -1349,10 +1349,10 @@ D = saturation255 ((Nmax - Nmin) / (Cmax - Cmin) * (S - Cmin) + Nmin).  */)
 #define FUNC_NAME s_imfi_normalize_linear
   unsigned int ccmin, ccmax, cnmin, cnmax;
   SD_DECL_AND_CHECK ();
-  ASSERT_NUMBER (cmin, ARGH3);
-  ASSERT_NUMBER (cmax, ARGH4);
-  ASSERT_NUMBER (nmin, ARGH5);
-  ASSERT_NUMBER (nmax, ARGH6);
+  ASSERT_NUMBER (cmin, 3);
+  ASSERT_NUMBER (cmax, 4);
+  ASSERT_NUMBER (nmin, 5);
+  ASSERT_NUMBER (nmax, 6);
   ccmin = gh_scm2int (cmin);
   ccmax = gh_scm2int (cmax);
   cnmin = gh_scm2int (nmin);

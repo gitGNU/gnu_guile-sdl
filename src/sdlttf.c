@@ -86,8 +86,8 @@ Load a font from @var{file} with point size @var{ptsize}.
 Return a handle.  */)
 {
 #define FUNC_NAME s_ttf_load_font
-  ASSERT_STRING (file, ARGH1);
-  ASSERT_EXACT (ptsize, ARGH2);
+  ASSERT_STRING (file, 1);
+  ASSERT_EXACT (ptsize, 2);
 
   RETURN_NEW_TTFONT
     (TTF_OpenFont (SCM_CHARS (file),
@@ -105,7 +105,7 @@ This font style is implemented by modifying the font glyphs, and
 doesn't reflect any inherent properties of the truetype font file.  */)
 {
 #define FUNC_NAME s_ttf_get_font_style
-  ASSERT_TTFONT (font, ARGH1);
+  ASSERT_TTFONT (font, 1);
 
   return gsdl_ulong2flags (TTF_GetFontStyle (UNPACK_TTFONT (font)),
                            ttf_flags);
@@ -124,9 +124,9 @@ doesn't reflect any inherent properties of the truetype font file.  */)
 #define FUNC_NAME s_ttf_set_font_style
   int cstyle;
 
-  ASSERT_TTFONT (font, ARGH1);
+  ASSERT_TTFONT (font, 1);
 
-  cstyle = GSDL_FLAGS2ULONG (style, ttf_flags, ARGH2);
+  cstyle = GSDL_FLAGS2ULONG (style, ttf_flags, 2);
 
   TTF_SetFontStyle (UNPACK_TTFONT (font), cstyle);
   RETURN_UNSPECIFIED;
@@ -142,7 +142,7 @@ Return the total height of @var{font},
 usually equal to point size.  */)
 {
 #define FUNC_NAME s_ttf_font_height
-  ASSERT_TTFONT (font, ARGH1);
+  ASSERT_TTFONT (font, 1);
 
   RETURN_INT (TTF_FontHeight (UNPACK_TTFONT (font)));
 #undef FUNC_NAME
@@ -157,7 +157,7 @@ Return the offset from the baseline to the top of
 @var{font}.  This is a positive number.  */)
 {
 #define FUNC_NAME s_ttf_font_ascent
-  ASSERT_TTFONT (font, ARGH1);
+  ASSERT_TTFONT (font, 1);
 
   RETURN_INT (TTF_FontAscent (UNPACK_TTFONT (font)));
 #undef FUNC_NAME
@@ -172,7 +172,7 @@ Return the offset from the baseline to the bottom of
 @var{font}.  This is a negative number.  */)
 {
 #define FUNC_NAME s_ttf_font_descent
-  ASSERT_TTFONT (font, ARGH1);
+  ASSERT_TTFONT (font, 1);
 
   RETURN_INT (TTF_FontDescent (UNPACK_TTFONT (font)));
 #undef FUNC_NAME
@@ -187,7 +187,7 @@ Return the recommended spacing between lines of
 text for @var{font}.  */)
 {
 #define FUNC_NAME s_ttf_font_line_skip
-  ASSERT_TTFONT (font, ARGH1);
+  ASSERT_TTFONT (font, 1);
 
   RETURN_INT (TTF_FontLineSkip (UNPACK_TTFONT (font)));
 #undef FUNC_NAME
@@ -212,8 +212,8 @@ Alist keys are: @code{minx}, @code{maxx}, @code{miny},
 #define FUNC_NAME s_ttf_glyph_metrics
   int minx, maxx, miny, maxy, advance;
 
-  ASSERT_TTFONT (font, ARGH1);
-  ASSERT_CHAR (ch, ARGH2);
+  ASSERT_TTFONT (font, 1);
+  ASSERT_CHAR (ch, 2);
 
   TTF_GlyphMetrics (UNPACK_TTFONT (font),
                     gh_scm2ulong (ch),
@@ -243,8 +243,8 @@ the string @var{text}.  */)
 #define FUNC_NAME s_ttf_size_text
   int w, h;
 
-  ASSERT_TTFONT (font, ARGH1);
-  ASSERT_STRING (text, ARGH2);
+  ASSERT_TTFONT (font, 1);
+  ASSERT_STRING (text, 2);
 
   TTF_SizeText (UNPACK_TTFONT (font), SCM_CHARS (text), &w, &h);
   RETURN_LIST2 (gh_cons (SYM (w), gh_long2scm (w)),
@@ -265,8 +265,8 @@ the utf8 string @var{text}.  */)
 #define FUNC_NAME s_ttf_size_utf8
   int w, h;
 
-  ASSERT_TTFONT (font, ARGH1);
-  ASSERT_STRING (text, ARGH2);
+  ASSERT_TTFONT (font, 1);
+  ASSERT_STRING (text, 2);
 
   TTF_SizeUTF8 (UNPACK_TTFONT (font), SCM_CHARS (text), &w, &h);
   RETURN_LIST2 (gh_cons (gsdl_sym_w, gh_long2scm (w)),
@@ -291,9 +291,9 @@ or #t if the text is to be blended.  */)
   SDL_Surface *surface;
   char *ctext;
 
-  ASSERT_TTFONT (font, ARGH1);
-  ASSERT_STRING (text, ARGH2);
-  ASSERT_COLOR (fg, ARGH3);
+  ASSERT_TTFONT (font, 1);
+  ASSERT_STRING (text, 2);
+  ASSERT_COLOR (fg, 3);
 
   cfont = UNPACK_TTFONT (font);
   ctext = SCM_CHARS (text);
@@ -307,7 +307,7 @@ or #t if the text is to be blended.  */)
     surface = TTF_RenderText_Blended (cfont, ctext, *cfg);
   else
     {
-      ASSERT_COLOR (bg, ARGH4);
+      ASSERT_COLOR (bg, 4);
       surface = TTF_RenderText_Shaded (cfont, ctext, *cfg, *(UNPACK_COLOR (bg)));
     }
 
@@ -332,9 +332,9 @@ or #t if the text is to be blended.  */)
   SDL_Surface *surface;
   char *ctext;
 
-  ASSERT_TTFONT (font, ARGH1);
-  ASSERT_STRING (text, ARGH2);
-  ASSERT_COLOR (fg, ARGH3);
+  ASSERT_TTFONT (font, 1);
+  ASSERT_STRING (text, 2);
+  ASSERT_COLOR (fg, 3);
 
   cfont = UNPACK_TTFONT (font);
   ctext = SCM_CHARS (text);
@@ -348,7 +348,7 @@ or #t if the text is to be blended.  */)
     surface = TTF_RenderUTF8_Blended (cfont, ctext, *cfg);
   else
     {
-      ASSERT_COLOR (bg, ARGH4);
+      ASSERT_COLOR (bg, 4);
       surface = TTF_RenderUTF8_Shaded (cfont, ctext, *cfg, *(UNPACK_COLOR (bg)));
     }
 
@@ -373,9 +373,9 @@ or #t if the text is to be blended.  */)
   SDL_Surface *surface;
   char cch;
 
-  ASSERT_TTFONT (font, ARGH1);
-  ASSERT_CHAR (ch, ARGH2);
-  ASSERT_COLOR (fg, ARGH3);
+  ASSERT_TTFONT (font, 1);
+  ASSERT_CHAR (ch, 2);
+  ASSERT_COLOR (fg, 3);
 
   cfont = UNPACK_TTFONT (font);
   cch = gh_scm2char (ch);
@@ -389,7 +389,7 @@ or #t if the text is to be blended.  */)
     surface = TTF_RenderGlyph_Blended (cfont, cch, *cfg);
   else
     {
-      ASSERT_COLOR (bg, ARGH4);
+      ASSERT_COLOR (bg, 4);
       surface = TTF_RenderGlyph_Shaded (cfont, cch, *cfg, *(UNPACK_COLOR (bg)));
     }
 

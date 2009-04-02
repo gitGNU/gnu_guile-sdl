@@ -66,7 +66,7 @@ Return #t iff @var{cdrom} is a null pointer.
 [What does that mean? --ttn]  */)
 {
 #define FUNC_NAME s_cd_null_p
-  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_CDROM (cdrom, 1);
 
   RETURN_BOOL
     (! UNPACK_CDROM (cdrom));
@@ -100,7 +100,7 @@ Optional arg @var{drive} is a number specifying which drive.  */)
 
   if (BOUNDP (drive))
     {
-      ASSERT_EXACT (drive, ARGH1);
+      ASSERT_EXACT (drive, 1);
       cdrive = gh_scm2int (drive);
     }
 
@@ -123,7 +123,7 @@ Optional arg @var{drive} is a number specifying which drive.  */)
 
   if (BOUNDP (drive))
     {
-      ASSERT_EXACT (drive, ARGH1);
+      ASSERT_EXACT (drive, 1);
       cdrive = gh_scm2int (drive);
     }
 
@@ -154,7 +154,7 @@ as a symbol, one of: @code{TRAYEMTPY}, @code{STOPPED},
   SDL_CD *cd;
   int ret = CD_ERROR;
 
-  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_CDROM (cdrom, 1);
   cd = UNPACK_CDROM (cdrom);
 
   if (cd)
@@ -181,7 +181,7 @@ Return #t iff there is a CD in drive @var{cdrom}.  */)
 #define FUNC_NAME s_cd_in_drive_p
   SDL_CD *cd;
 
-  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_CDROM (cdrom, 1);
   cd = UNPACK_CDROM (cdrom);
 
   if (cd)
@@ -197,7 +197,7 @@ Return #t iff there is a CD in drive @var{cdrom}.  */)
     SDL_CD *cd;                                 \
     int ret = -1;                               \
                                                 \
-    ASSERT_CDROM (cdrom, ARGH1);                \
+    ASSERT_CDROM (cdrom, 1);                    \
     if ((cd = UNPACK_CDROM (cdrom))             \
         && CD_TRAYEMPTY != SDL_CDStatus (cd))   \
       ret = cd->field;                          \
@@ -256,12 +256,12 @@ as an alist or #f if there were problems.  */)
   SDL_CD *cd;
   int cn = 0;
 
-  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_CDROM (cdrom, 1);
   cd = UNPACK_CDROM (cdrom);
 
   if (BOUNDP (n))
     {
-      ASSERT_EXACT (n, ARGH2);
+      ASSERT_EXACT (n, 2);
       cn = gh_scm2ulong (n);
     }
 
@@ -300,33 +300,33 @@ Return #t if successful.  */)
   int cstart_track = 0, cstart_frame = 0, cn_tracks = 1, cn_frames = 1;
   int ret = -1;
 
-  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_CDROM (cdrom, 1);
 
   UNBOUND_MEANS_FALSE (start_track);
   if (NOT_FALSEP (start_track))
     {
-      ASSERT_EXACT (start_track, ARGH2);
+      ASSERT_EXACT (start_track, 2);
       cstart_track = gh_scm2ulong (start_track);
     }
 
   UNBOUND_MEANS_FALSE (start_frame);
   if (NOT_FALSEP (start_frame))
     {
-      ASSERT_EXACT (start_frame, ARGH3);
+      ASSERT_EXACT (start_frame, 3);
       cstart_frame = gh_scm2ulong (start_frame);
     }
 
   UNBOUND_MEANS_FALSE (n_tracks);
   if (NOT_FALSEP (n_tracks))
     {
-      ASSERT_EXACT (n_tracks, ARGH4);
+      ASSERT_EXACT (n_tracks, 4);
       cn_tracks = gh_scm2ulong (n_tracks);;
     }
 
   UNBOUND_MEANS_FALSE (n_frames);
   if (NOT_FALSEP (n_frames))
     {
-      ASSERT_EXACT (n_frames, ARGH5);
+      ASSERT_EXACT (n_frames, 5);
       cn_frames = gh_scm2ulong (n_frames);
     }
   else
@@ -358,9 +358,9 @@ Play CD in drive @var{cdrom} from @var{start} frame for
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cdrom, ARGH1);
-  ASSERT_EXACT (start, ARGH2);
-  ASSERT_EXACT (length, ARGH3);
+  ASSERT_CDROM (cdrom, 1);
+  ASSERT_EXACT (start, 2);
+  ASSERT_EXACT (length, 3);
 
   cd = UNPACK_CDROM (cdrom);
 
@@ -384,7 +384,7 @@ Pause the CD in drive @var{cdrom}.  Return #t if successful.  */)
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_CDROM (cdrom, 1);
   cd = UNPACK_CDROM (cdrom);
 
   if (cd)
@@ -406,7 +406,7 @@ Return #t if successful.  */)
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_CDROM (cdrom, 1);
   cd = UNPACK_CDROM (cdrom);
 
   if (cd)
@@ -427,7 +427,7 @@ Stop the CD in drive @var{cdrom}.  Return #t if successful.  */)
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_CDROM (cdrom, 1);
   cd = UNPACK_CDROM (cdrom);
 
   if (cd)
@@ -448,7 +448,7 @@ Eject the CD from drive @var{cdrom}.  Return #t if successful.  */)
   SDL_CD *cd;
   int ret = -1;
 
-  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_CDROM (cdrom, 1);
   cd = UNPACK_CDROM (cdrom);
 
   if (cd)
@@ -468,7 +468,7 @@ Close the drive @var{cdrom}.  The return value is unspecified.  */)
 #define FUNC_NAME s_cd_close
   SDL_CD *cd;
 
-  ASSERT_CDROM (cdrom, ARGH1);
+  ASSERT_CDROM (cdrom, 1);
   cd = UNPACK_CDROM (cdrom);
 
   if (cd)
@@ -496,20 +496,20 @@ Return frames (an integer) computed fr
   int frames;
   int cm, cs = 0, cf = 0;
 
-  ASSERT_EXACT (m, ARGH1);
+  ASSERT_EXACT (m, 1);
   cm = gh_scm2ulong (m);
 
   UNBOUND_MEANS_FALSE (s);
   if (NOT_FALSEP (s))
     {
-      ASSERT_EXACT (s, ARGH2);
+      ASSERT_EXACT (s, 2);
       cs = gh_scm2ulong (s);
     }
 
   UNBOUND_MEANS_FALSE (f);
   if (NOT_FALSEP (f))
     {
-      ASSERT_EXACT (f, ARGH3);
+      ASSERT_EXACT (f, 3);
       cf = gh_scm2ulong (f);
     }
 
@@ -533,7 +533,7 @@ converting @var{frames} (a number).  */)
 #define FUNC_NAME s_cd_frames_to_msf
   int cframes, m, s, f;
 
-  ASSERT_EXACT (frames, ARGH1);
+  ASSERT_EXACT (frames, 1);
   cframes = gh_scm2ulong (frames);
 
   FRAMES_TO_MSF (cframes, &m , &s, &f);

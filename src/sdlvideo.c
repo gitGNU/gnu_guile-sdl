@@ -189,12 +189,12 @@ and with hot pixel located at @var{x},@var{y}.  */)
   xSDL_Cursor *cursor;
   Uint8 *cdata, *cmask;
 
-  ASSERT_VECTOR (data, ARGH1);
-  ASSERT_VECTOR (mask, ARGH2);
-  ASSERT_EXACT (w, ARGH3);
-  ASSERT_EXACT (h, ARGH4);
-  ASSERT_EXACT (x, ARGH5);
-  ASSERT_EXACT (y, ARGH6);
+  ASSERT_VECTOR (data, 1);
+  ASSERT_VECTOR (mask, 2);
+  ASSERT_EXACT (w, 3);
+  ASSERT_EXACT (h, 4);
+  ASSERT_EXACT (x, 5);
+  ASSERT_EXACT (y, 6);
 
   /* Build the arrays.  */
   cdata = (Uint8 *) gh_scm2chars (data, NULL);
@@ -236,14 +236,14 @@ instead of creating a new one.  */)
   Uint32 cformat;
   SDL_Surface *cdisplay;
 
-  ASSERT_EXACT (width, ARGH1);
-  ASSERT_EXACT (height, ARGH2);
+  ASSERT_EXACT (width, 1);
+  ASSERT_EXACT (height, 2);
 
   if (gh_symbol_p (format))
     cformat = GSDL_FLAG2ULONG (format, gsdl_overlay_formats);
   else
     {
-      ASSERT_EXACT (format, ARGH3);
+      ASSERT_EXACT (format, 3);
       cformat = gh_scm2ulong (format);
     }
 
@@ -251,7 +251,7 @@ instead of creating a new one.  */)
     cdisplay = SDL_GetVideoSurface ();
   else
     {
-      ASSERT_SURFACE (display, ARGH4);
+      ASSERT_SURFACE (display, 4);
       cdisplay = UNPACK_SURFACE (display);
     }
 
@@ -353,15 +353,15 @@ Return #f if no modes are available, #t if all are available.  */)
   UNBOUND_MEANS_FALSE (format);
   if (NOT_FALSEP (format))
     {
-      ASSERT_PIXEL_FORMAT (format, ARGH1);
+      ASSERT_PIXEL_FORMAT (format, 1);
       cformat = UNPACK_PIXEL_FORMAT (format);
     }
 
   UNBOUND_MEANS_FALSE (flags);
   if (NOT_FALSEP (flags))
     {
-      ASSERT_EXACT (flags, ARGH2);
-      cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH2);
+      ASSERT_EXACT (flags, 2);
+      cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 2);
     }
 
   modes = SDL_ListModes (cformat, cflags);
@@ -406,12 +406,12 @@ mode supporting @var{width} and @var{height}.  */)
   Uint32 cflags = 0;
   int result;
 
-  ASSERT_EXACT (width,  ARGH1);
-  ASSERT_EXACT (height, ARGH2);
-  ASSERT_EXACT (bpp,    ARGH3);
+  ASSERT_EXACT (width,  1);
+  ASSERT_EXACT (height, 2);
+  ASSERT_EXACT (bpp,    3);
 
   if (BOUNDP (flags))
-    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH4);
+    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 4);
 
   result = SDL_VideoModeOK (gh_scm2long (width),
                             gh_scm2long (height),
@@ -434,12 +434,12 @@ Return a new surface.  */)
 #define FUNC_NAME s_set_video_mode
   Uint32 cflags = 0;
 
-  ASSERT_EXACT (width,  ARGH1);
-  ASSERT_EXACT (height, ARGH2);
-  ASSERT_EXACT (bpp,    ARGH3);
+  ASSERT_EXACT (width,  1);
+  ASSERT_EXACT (height, 2);
+  ASSERT_EXACT (bpp,    3);
 
   if (BOUNDP (flags))
-    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH4);
+    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 4);
 
   RETURN_NEW_SURFACE
     (SDL_SetVideoMode (gh_scm2long (width),
@@ -465,7 +465,7 @@ The return value is unspecified.  */)
   Sint32 cx, cy, cw, ch;
 
   /* First arg is a surface.  */
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
 
   /* Remaining args are a single rect, or 4 coords.  */
   if (RECT_P (x))
@@ -478,10 +478,10 @@ The return value is unspecified.  */)
     }
   else
     {
-      ASSERT_EXACT (x, ARGH2);
-      ASSERT_EXACT (y, ARGH3);
-      ASSERT_EXACT (w, ARGH4);
-      ASSERT_EXACT (h, ARGH5);
+      ASSERT_EXACT (x, 2);
+      ASSERT_EXACT (y, 3);
+      ASSERT_EXACT (w, 4);
+      ASSERT_EXACT (h, 5);
       cx = gh_scm2long (x);
       cy = gh_scm2long (y);
       cw = gh_scm2long (w);
@@ -507,10 +507,10 @@ The return value is unspecified.  */)
   SDL_Rect *rect;
   SCM p;
 
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_LIST (ls, ARGH2);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_LIST (ls, 2);
   for (p = ls; ! gh_null_p (p); p = gh_cdr (p))
-    ASSERT_RECT (gh_car (p), ARGH2);
+    ASSERT_RECT (gh_car (p), 2);
 
   csurface = UNPACK_SURFACE (surface);
   for (p = ls; ! gh_null_p (p); p = gh_cdr (p))
@@ -536,7 +536,7 @@ The return value is unspecified.  */)
 
   if (BOUNDP (surface))
     {
-      ASSERT_SURFACE (surface, ARGH1);
+      ASSERT_SURFACE (surface, 1);
       csurface = UNPACK_SURFACE (surface);
     }
   else
@@ -560,8 +560,8 @@ using @var{colors}, a vector of SDL-Colors.  */)
   SDL_Color *color;
   int i, length, result = 0;
 
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_VECTOR (colors, ARGH2);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_VECTOR (colors, 2);
 
   length = gh_vector_length (colors);
   if ((ccolors = (SDL_Color*) scm_must_malloc (length, FUNC_NAME)))
@@ -596,10 +596,10 @@ using @var{flags} (see @code{flagstash:palette}) and
   SDL_Color *color;
   int cflags, i, length, result = 0;
 
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_VECTOR (colors, ARGH3);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_VECTOR (colors, 3);
 
-  cflags   = GSDL_FLAGS2ULONG (flags, gsdl_palette_flags, ARGH2);
+  cflags   = GSDL_FLAGS2ULONG (flags, gsdl_palette_flags, 2);
   length  = gh_vector_length (colors);
   if ((ccolors  = (SDL_Color*) scm_must_malloc (length, FUNC_NAME)))
     {
@@ -629,9 +629,9 @@ using real numbers @var{redgamma}, @var{greengamma}
 and @var{bluegamma}.  */)
 {
 #define FUNC_NAME s_set_gamma
-  ASSERT_NUMBER (redgamma,   ARGH1);
-  ASSERT_NUMBER (greengamma, ARGH2);
-  ASSERT_NUMBER (bluegamma,  ARGH3);
+  ASSERT_NUMBER (redgamma,   1);
+  ASSERT_NUMBER (greengamma, 2);
+  ASSERT_NUMBER (bluegamma,  3);
 
   RETURN_TRUE_IF_0
     (SDL_SetGamma ((float) SCM_REAL_VALUE (redgamma),
@@ -687,9 +687,9 @@ integer values.  Return #t if successful.  */)
 #define FUNC_NAME s_get_gamma_ramp
   Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
 
-  ASSERT_VSZFIT (redtable,   ARGH1);
-  ASSERT_VSZFIT (greentable, ARGH2);
-  ASSERT_VSZFIT (bluetable,  ARGH3);
+  ASSERT_VSZFIT (redtable,   1);
+  ASSERT_VSZFIT (greentable, 2);
+  ASSERT_VSZFIT (bluetable,  3);
 
   gh_scm2shorts (redtable,   (short *) rt);
   gh_scm2shorts (greentable, (short *) gt);
@@ -713,7 +713,7 @@ Return the mapped components as an unsigned integer.  */)
 #define FUNC_NAME s_map_rgb
   Uint8 cr, cg, cb;
 
-  ASSERT_PIXEL_FORMAT (format, ARGH1);
+  ASSERT_PIXEL_FORMAT (format, 1);
 
   if (COLOR_P (r))
     {
@@ -724,9 +724,9 @@ Return the mapped components as an unsigned integer.  */)
     }
   else
     {
-      ASSERT_EXACT (r, ARGH2);
-      ASSERT_EXACT (g, ARGH3);
-      ASSERT_EXACT (b, ARGH4);
+      ASSERT_EXACT (r, 2);
+      ASSERT_EXACT (g, 3);
+      ASSERT_EXACT (b, 4);
       cr = gh_scm2ulong (r);
       cg = gh_scm2ulong (g);
       cb = gh_scm2ulong (b);
@@ -751,7 +751,7 @@ Return the mapped components as an unsigned integer.  */)
 #define FUNC_NAME s_map_rgba
   Uint8 cr, cg, cb, ca;
 
-  ASSERT_PIXEL_FORMAT (format, ARGH1);
+  ASSERT_PIXEL_FORMAT (format, 1);
 
   if (COLOR_P (r))
     {
@@ -759,15 +759,15 @@ Return the mapped components as an unsigned integer.  */)
       cr = color->r;
       cg = color->g;
       cb = color->b;
-      ASSERT_EXACT (g, ARGH3);
+      ASSERT_EXACT (g, 3);
       ca = gh_scm2ulong (g);
     }
   else
     {
-      ASSERT_EXACT (r, ARGH2);
-      ASSERT_EXACT (g, ARGH3);
-      ASSERT_EXACT (b, ARGH4);
-      ASSERT_EXACT (a, ARGH5);
+      ASSERT_EXACT (r, 2);
+      ASSERT_EXACT (g, 3);
+      ASSERT_EXACT (b, 4);
+      ASSERT_EXACT (a, 5);
       cr = gh_scm2ulong (r);
       cg = gh_scm2ulong (g);
       cb = gh_scm2ulong (b);
@@ -798,8 +798,8 @@ respectively.  */)
 #define FUNC_NAME s_get_rgb
   Uint8 r, g, b;
 
-  ASSERT_EXACT (pixel, ARGH1);
-  ASSERT_PIXEL_FORMAT (format, ARGH2);
+  ASSERT_EXACT (pixel, 1);
+  ASSERT_PIXEL_FORMAT (format, 2);
 
   SDL_GetRGB (gh_scm2ulong (pixel),
               UNPACK_PIXEL_FORMAT (format),
@@ -824,8 +824,8 @@ Get RGBA values from @var{pixel} in the specified pixel
 #define FUNC_NAME s_get_rgba
   Uint8 r, g, b, a;
 
-  ASSERT_EXACT (pixel, ARGH1);
-  ASSERT_PIXEL_FORMAT (format, ARGH2);
+  ASSERT_EXACT (pixel, 1);
+  ASSERT_PIXEL_FORMAT (format, 2);
 
   SDL_GetRGBA (gh_scm2ulong (pixel),
                UNPACK_PIXEL_FORMAT (format),
@@ -850,13 +850,13 @@ Return #t if successful.  */)
 #define FUNC_NAME s_fill_rect
   SDL_Rect *crect = NULL;
 
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
   if (! EXACTLY_FALSEP (rect))
     {
-      ASSERT_RECT (rect, ARGH2);
+      ASSERT_RECT (rect, 2);
       crect = UNPACK_RECT (rect);
     }
-  ASSERT_EXACT (color, ARGH3);
+  ASSERT_EXACT (color, 3);
 
   RETURN_TRUE_IF_0
     (SDL_FillRect (UNPACK_SURFACE (surface),
@@ -876,7 +876,7 @@ to the display format.  Return #f if not successful.  */)
 #define FUNC_NAME s_display_format
   SDL_Surface *csurface;
 
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
 
   csurface = SDL_DisplayFormat (UNPACK_SURFACE (surface));
 
@@ -899,7 +899,7 @@ if not successful.  */)
 #define FUNC_NAME s_display_format_alpha
   SDL_Surface *csurface;
 
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
 
   csurface = SDL_DisplayFormatAlpha (UNPACK_SURFACE (surface));
 
@@ -919,8 +919,8 @@ Set the position of the mouse cursor to @var{x},@var{y}.
 The return value is unspecified.  */)
 {
 #define FUNC_NAME s_warp_mouse
-  ASSERT_EXACT (x, ARGH1);
-  ASSERT_EXACT (y, ARGH2);
+  ASSERT_EXACT (x, 1);
+  ASSERT_EXACT (y, 2);
 
   SDL_WarpMouse (gh_scm2ulong (x), gh_scm2ulong (y));
   RETURN_UNSPECIFIED;
@@ -936,7 +936,7 @@ Set the current mouse cursor to @var{cursor}.
 The return value is unspecified.  */)
 {
 #define FUNC_NAME s_set_cursor
-  ASSERT_CURSOR (cursor, ARGH1);
+  ASSERT_CURSOR (cursor, 1);
   SDL_SetCursor (UNPACK_CURSOR (cursor)->c);
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
@@ -988,7 +988,7 @@ Return the value of a special SDL/OpenGL @var{attribute}.  */)
 #define FUNC_NAME s_gl_get_attribute
   int value;
 
-  ASSERT_EXACT (attribute, ARGH1);
+  ASSERT_EXACT (attribute, 1);
 
   SDL_GL_GetAttribute ((SDL_GLattr) gh_scm2long (attribute), &value);
   RETURN_INT (value);
@@ -1005,8 +1005,8 @@ Set the special SDL/OpenGL @var{attribute} to @var{value}.
 Both args are numbers.  The return value is unspecified.  */)
 {
 #define FUNC_NAME s_gl_set_attribute
-  ASSERT_EXACT (attribute, ARGH1);
-  ASSERT_EXACT (value, ARGH2);
+  ASSERT_EXACT (attribute, 1);
+  ASSERT_EXACT (value, 2);
 
   SDL_GL_SetAttribute ((SDL_GLattr) gh_scm2long (attribute),
                        (int) gh_scm2long (value));
@@ -1037,7 +1037,7 @@ Lock the given YUV @var{overlay}.
 Return #f if successful.  */)
 {
 #define FUNC_NAME s_lock_yuv_overlay
-  ASSERT_OVERLAY (overlay, ARGH1);
+  ASSERT_OVERLAY (overlay, 1);
 
   RETURN_TRUE_IF_0
     (SDL_LockYUVOverlay (UNPACK_OVERLAY (overlay)));
@@ -1053,7 +1053,7 @@ Unlock the previously locked YUV @var{overlay}.
 The return value is unspecified.  */)
 {
 #define FUNC_NAME s_unlock_yuv_overlay
-  ASSERT_OVERLAY (overlay, ARGH1);
+  ASSERT_OVERLAY (overlay, 1);
 
   SDL_UnlockYUVOverlay (UNPACK_OVERLAY (overlay));
   RETURN_UNSPECIFIED;
@@ -1069,8 +1069,8 @@ Blit the YUV @var{overlay} to the display @var{dstrect}
 over which it was created.  Return #t if successful.  */)
 {
 #define FUNC_NAME s_display_yuv_overlay
-  ASSERT_OVERLAY (overlay, ARGH1);
-  ASSERT_RECT (dstrect, ARGH2);
+  ASSERT_OVERLAY (overlay, 1);
+  ASSERT_RECT (dstrect, 2);
 
   RETURN_TRUE_IF_0
     (SDL_DisplayYUVOverlay (UNPACK_OVERLAY (overlay),
@@ -1092,7 +1092,7 @@ If @var{icon} is not specified, use @var{title} by default.  */)
 #define FUNC_NAME s_wm_set_caption
   char *ctitle, *cicon;
 
-  ASSERT_STRING (title, ARGH1);
+  ASSERT_STRING (title, 1);
 
   ctitle = SCM_CHARS (title);
 
@@ -1100,7 +1100,7 @@ If @var{icon} is not specified, use @var{title} by default.  */)
     cicon = ctitle;
   else
     {
-      ASSERT_STRING (icon, ARGH2);
+      ASSERT_STRING (icon, 2);
       cicon = SCM_CHARS (icon);
     }
 
@@ -1139,7 +1139,7 @@ GH_DEFPROC
 Set @var{icon} for the display window.  */)
 {
 #define FUNC_NAME s_wm_set_icon
-  ASSERT_SURFACE (icon, ARGH1);
+  ASSERT_SURFACE (icon, 1);
 
   /* Set w/ a NULL mask for now.  */
   SDL_WM_SetIcon (UNPACK_SURFACE (icon), NULL);
@@ -1178,7 +1178,7 @@ Return #t if successful.  */)
     csurface = SDL_GetVideoSurface ();
   else
     {
-      ASSERT_SURFACE (surface, ARGH1);
+      ASSERT_SURFACE (surface, 1);
       csurface = UNPACK_SURFACE (surface);
     }
 
@@ -1219,7 +1219,7 @@ an integer @var{mode} will result in a wrong-type-arg error.  */)
         scm_misc_error (FUNC_NAME, "bad mode: ~S", gh_cons (mode, SCM_EOL));
       }
 
-  ASSERT_SYMBOL (mode, ARGH1);
+  ASSERT_SYMBOL (mode, 1);
   if (! (gh_eq_p (mode, SYM (query)) ||
          gh_eq_p (mode, SYM (off)) ||
          gh_eq_p (mode, SYM (on))))

@@ -1,3 +1,23 @@
+2009-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Decruft: Use 1..8 instead of ARGH1..ARGH8.
+
+	* argcheck.h (ARGH1, ARGH2, ARGH3, ARGH4, ARGH5, ARGH6)
+	(ARGH7, ARGH8, ARGHn): Delete macros.
+	* sdl.c: Throughout, use 1..8 instead of ARGH1..ARGH8.
+	* sdlcdrom.c: Likewise.
+	* sdlcolor.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+	* wholefns.h: Likewise.
+
 2009-01-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Decruft: Use 1..7 instead of SCM_ARG1..SCM_ARG7.

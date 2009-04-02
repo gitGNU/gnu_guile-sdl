@@ -65,7 +65,7 @@ Return #t iff @var{joystick} is a NULL joystick.
 [What does that mean? --ttn]  */)
 {
 #define FUNC_NAME s_joystick_null_p
-  ASSERT_JOYSTICK (joystick, ARGH1);
+  ASSERT_JOYSTICK (joystick, 1);
 
   RETURN_BOOL
     (! UNPACK_JOYSTICK (joystick));
@@ -97,7 +97,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
 
   if (BOUNDP (n))
     {
-      ASSERT_EXACT (n, ARGH1);
+      ASSERT_EXACT (n, 1);
       cn = gh_scm2long (n);
     }
 
@@ -118,7 +118,7 @@ Optional arg @var{n} specifies which joystick to open.  */)
 
   if (BOUNDP (n))
     {
-      ASSERT_EXACT (n, ARGH1);
+      ASSERT_EXACT (n, 1);
       cn = gh_scm2long (n);
     }
 
@@ -139,7 +139,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
 
   if (BOUNDP (n))
     {
-      ASSERT_EXACT (n, ARGH1);
+      ASSERT_EXACT (n, 1);
       cn = gh_scm2long (n);
     }
 
@@ -158,7 +158,7 @@ Return the index of @var{joystick}.  */)
 #define FUNC_NAME s_joystick_index
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joystick, ARGH1);
+  ASSERT_JOYSTICK (joystick, 1);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -178,7 +178,7 @@ Return the number of axes for @var{joystick}.  */)
 #define FUNC_NAME s_joystick_num_axes
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joystick, ARGH1);
+  ASSERT_JOYSTICK (joystick, 1);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -198,7 +198,7 @@ Return the number trackballs for @var{joystick}.  */)
 #define FUNC_NAME s_joystick_num_balls
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joystick, ARGH1);
+  ASSERT_JOYSTICK (joystick, 1);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -218,7 +218,7 @@ Return the number of hats for @var{joystick}.  */)
 #define FUNC_NAME s_joystick_num_hats
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joystick, ARGH1);
+  ASSERT_JOYSTICK (joystick, 1);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -238,7 +238,7 @@ Return number of buttons for @var{joystick}.  */)
 #define FUNC_NAME s_joystick_num_buttons
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joystick, ARGH1);
+  ASSERT_JOYSTICK (joystick, 1);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -269,7 +269,7 @@ GH_DEFPROC
 Set the Joystick event processing model to @var{state}.  */)
 {
 #define FUNC_NAME s_joystick_event_state
-  ASSERT_EXACT (state, ARGH1);
+  ASSERT_EXACT (state, 1);
 
   RETURN_INT (SDL_JoystickEventState (gh_scm2long (state)));
 #undef FUNC_NAME
@@ -286,8 +286,8 @@ For @var{joystick}, return state of @var{axis}.  */)
 #define FUNC_NAME s_joystick_get_axis
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joystick, ARGH1);
-  ASSERT_EXACT (axis, ARGH2);
+  ASSERT_JOYSTICK (joystick, 1);
+  ASSERT_EXACT (axis, 2);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -314,8 +314,8 @@ On error, return #f.  */)
   SDL_Joystick *joy;
   int dx, dy;
 
-  ASSERT_JOYSTICK (joystick, ARGH1);
-  ASSERT_EXACT (n, ARGH2);
+  ASSERT_JOYSTICK (joystick, 1);
+  ASSERT_EXACT (n, 2);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -345,8 +345,8 @@ For @var{joystick}, return state of hat @var{n}.  */)
 #define FUNC_NAME s_joystick_get_hat
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joystick, ARGH1);
-  ASSERT_EXACT (n, ARGH2);
+  ASSERT_JOYSTICK (joystick, 1);
+  ASSERT_EXACT (n, 2);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -367,8 +367,8 @@ For @var{joystick}, return state of button @var{n}.  */)
 #define FUNC_NAME s_joystick_get_button
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joystick, ARGH1);
-  ASSERT_EXACT (n, ARGH2);
+  ASSERT_JOYSTICK (joystick, 1);
+  ASSERT_EXACT (n, 2);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -389,7 +389,7 @@ The return value is unspecified.  */)
 #define FUNC_NAME s_joystick_close
   SDL_Joystick *joy;
 
-  ASSERT_JOYSTICK (joystick, ARGH1);
+  ASSERT_JOYSTICK (joystick, 1);
   joy = UNPACK_JOYSTICK (joystick);
 
   if (joy)

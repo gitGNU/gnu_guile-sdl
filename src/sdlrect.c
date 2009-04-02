@@ -81,10 +81,10 @@ and dimensions @var{width} by @var{height}.  */)
 #define FUNC_NAME s_make_rect
   SDL_Rect *rect;
 
-  ASSERT_EXACT (x, ARGH1);
-  ASSERT_EXACT (y, ARGH2);
-  ASSERT_EXACT (width, ARGH3);
-  ASSERT_EXACT (height, ARGH4);
+  ASSERT_EXACT (x, 1);
+  ASSERT_EXACT (y, 2);
+  ASSERT_EXACT (width, 3);
+  ASSERT_EXACT (height, 4);
 
   if ((rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME)))
     {

@@ -193,7 +193,7 @@ Return the list of symbols associated with @var{enum-type}.  */)
   SCM rv;
   enum_struct *enum_type;
 
-  ASSERT_ENUM (enumstash_type, ARGH1);
+  ASSERT_ENUM (enumstash_type, 1);
 
   enum_type = UNPACK_ENUM (enumstash_type);
   rv = gh_call3 (hfold, acons, SCM_EOL, enum_type->table);
@@ -220,12 +220,12 @@ Convert an enum number or symbol to a number.  */)
   SCM table;
   enum_struct *enum_type;
 
-  ASSERT_ENUM (enumstash_type, ARGH1);
+  ASSERT_ENUM (enumstash_type, 1);
 
   enum_type = UNPACK_ENUM (enumstash_type);
   table = enum_type->table;
 
-  ASSERT_SYMBOL (symbol, ARGH2);
+  ASSERT_SYMBOL (symbol, 2);
 
   /* Lookup and return the number in the pair.  */
   return scm_hashq_ref (table, symbol, BOOL_FALSE);
@@ -243,12 +243,12 @@ Convert a number to an enum.  */)
   long index;
   enum_struct *enum_type;
 
-  ASSERT_ENUM (enumstash_type, ARGH1);
+  ASSERT_ENUM (enumstash_type, 1);
 
   enum_type = UNPACK_ENUM (enumstash_type);
   vec = enum_type->vec;
 
-  ASSERT_EXACT (number, ARGH2);
+  ASSERT_EXACT (number, 2);
   index = gh_scm2long (number) - enum_type->min;
 
   /* Return the numbered index into the vector.  */
@@ -416,7 +416,7 @@ a flagstash object, in unspecified order.  */)
   flagstash_t *cstash;
   SCM rv = SCM_EOL;
 
-  ASSERT_FLAGSTASH (stash, ARGH1);
+  ASSERT_FLAGSTASH (stash, 1);
   cstash = UNPACK_FLAGSTASH (stash);
 
   for (i = 0; i < cstash->total; i++)
@@ -433,9 +433,9 @@ Use @var{stash} to convert @var{flags} to a number.
 @var{flags} is a list of symbols.  */)
 {
 #define FUNC_NAME s_flags_to_number
-  ASSERT_FLAGSTASH (stash, ARGH1);
+  ASSERT_FLAGSTASH (stash, 1);
 
-  RETURN_UINT (GSDL_FLAGS2ULONG (flags, stash, ARGH2));
+  RETURN_UINT (GSDL_FLAGS2ULONG (flags, stash, 2));
 #undef FUNC_NAME
 }
 
@@ -446,8 +446,8 @@ GH_DEFPROC
 Use @var{stash} to convert @var{number} to a list of symbols.  */)
 {
 #define FUNC_NAME s_number_to_flags
-  ASSERT_FLAGSTASH (stash, ARGH1);
-  ASSERT_EXACT (number, ARGH2);
+  ASSERT_FLAGSTASH (stash, 1);
+  ASSERT_EXACT (number, 2);
 
   return gsdl_ulong2flags (gh_scm2ulong (number), stash);
 #undef FUNC_NAME

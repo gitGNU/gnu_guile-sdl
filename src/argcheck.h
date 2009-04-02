@@ -27,17 +27,6 @@
   SCM_ASSERT (gh_null_p (obj) || gh_pair_p (obj), (obj), n, FUNC_NAME)
 
 
-#define ARGH1 1
-#define ARGH2 2
-#define ARGH3 3
-#define ARGH4 4
-#define ARGH5 5
-#define ARGH6 6
-#define ARGH7 7
-#define ARGH8 8
-#define ARGHn SCM_ARGn
-
-
 #define BOUNDP(x)    (! SCM_EQ_P (x, SCM_UNDEFINED))
 #define UNBOUNDP(x)    (SCM_EQ_P (x, SCM_UNDEFINED))
 

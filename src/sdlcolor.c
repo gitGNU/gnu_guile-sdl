@@ -77,9 +77,9 @@ and @var{b} components.  */)
 #define FUNC_NAME s_make_color
   SDL_Color *color;
 
-  ASSERT_EXACT (r, ARGH1);
-  ASSERT_EXACT (g, ARGH2);
-  ASSERT_EXACT (b, ARGH3);
+  ASSERT_EXACT (r, 1);
+  ASSERT_EXACT (g, 2);
+  ASSERT_EXACT (b, 3);
 
   if ((color = (SDL_Color *) scm_must_malloc (sizeof (SDL_Color), FUNC_NAME)))
     {

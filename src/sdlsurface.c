@@ -93,14 +93,14 @@ are those for the current video surface.  */)
   const SDL_PixelFormat *fmt;
   const SDL_Surface *cur;
 
-  ASSERT_EXACT (width,  ARGH1);
-  ASSERT_EXACT (height, ARGH2);
+  ASSERT_EXACT (width,  1);
+  ASSERT_EXACT (height, 2);
 
   cur = SDL_GetVideoSurface ();
   fmt = cur ? cur->format : SDL_GetVideoInfo ()->vfmt;
   cflags = (UNBOUNDP (flags)
             ? (cur ? cur->flags : 0)
-            : GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH3));
+            : GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 3));
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
@@ -133,15 +133,15 @@ for SDL_CreateRGBSurface, are: @var{flags}
 #define FUNC_NAME s_create_rgb_surface
   Uint32 cflags;
 
-  ASSERT_EXACT (width,  ARGH2);
-  ASSERT_EXACT (height, ARGH3);
-  ASSERT_EXACT (depth,  ARGH4);
-  ASSERT_EXACT (rmask,  ARGH5);
-  ASSERT_EXACT (gmask,  ARGH6);
-  ASSERT_EXACT (bmask,  ARGH7);
-  ASSERT_EXACT (amask,  ARGHn);
+  ASSERT_EXACT (width,  2);
+  ASSERT_EXACT (height, 3);
+  ASSERT_EXACT (depth,  4);
+  ASSERT_EXACT (rmask,  5);
+  ASSERT_EXACT (gmask,  6);
+  ASSERT_EXACT (bmask,  7);
+  ASSERT_EXACT (amask,  8);
 
-  cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH1);
+  cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 1);
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
@@ -179,7 +179,7 @@ GH_DEFPROC
 Return a new pixel format, the same used by @var{surface}.  */)
 {
 #define FUNC_NAME s_surface_get_format
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
 
   RETURN_NEW_PIXEL_FORMAT (UNPACK_SURFACE (surface)->format);
 #undef FUNC_NAME
@@ -209,7 +209,7 @@ Lock @var{surface} for direct access.
 Return #t if successful.  */)
 {
 #define FUNC_NAME s_lock_surface
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
 
   RETURN_TRUE_IF_0
     (SDL_LockSurface (UNPACK_SURFACE (surface)));
@@ -225,7 +225,7 @@ Unlock previously locked @var{surface}.
 The return value is unspecified.  */)
 {
 #define FUNC_NAME s_unlock_surface
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
 
   SDL_UnlockSurface (UNPACK_SURFACE (surface));
   RETURN_UNSPECIFIED;
@@ -240,7 +240,7 @@ GH_DEFPROC
 Return a surface made by loading the bitmap @var{file}.  */)
 {
 #define FUNC_NAME s_load_bmp
-  ASSERT_STRING (file, ARGH1);
+  ASSERT_STRING (file, 1);
 
   RETURN_NEW_SURFACE (SDL_LoadBMP (SCM_CHARS (file)));
 #undef FUNC_NAME
@@ -256,7 +256,7 @@ Return a surface made by loading the image @var{file}.
 If there are problems, return #f.  */)
 {
 #define FUNC_NAME s_load_bmp
-  ASSERT_STRING (file, ARGH1);
+  ASSERT_STRING (file, 1);
 
   RETURN_NEW_SURFACE (IMG_Load (SCM_CHARS (file)));
 #undef FUNC_NAME
@@ -274,7 +274,7 @@ Return a surface made by loading image data from string
 #define FUNC_NAME s_string_to_image
   void *mem; int size;
 
-  ASSERT_STRING (s, ARGH1);
+  ASSERT_STRING (s, 1);
   mem = SCM_CHARS (s);
   size = SCM_ROLENGTH (s);
 
@@ -292,8 +292,8 @@ Save @var{surface} to @var{file} in Windows BMP format.
 Return #t if successful.  */)
 {
 #define FUNC_NAME s_save_bmp
-  ASSERT_SURFACE (surface,  ARGH1);
-  ASSERT_STRING (file, ARGH2);
+  ASSERT_SURFACE (surface,  1);
+  ASSERT_STRING (file, 2);
 
   RETURN_TRUE_IF_0
     (SDL_SaveBMP (UNPACK_SURFACE (surface),
@@ -314,10 +314,10 @@ Set @var{surface} color key as specified by @var{flag}
 #define FUNC_NAME s_set_color_key
   Uint32 cflag;
 
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_EXACT (key, ARGH3);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (key, 3);
 
-  cflag = GSDL_FLAGS2ULONG (flag, gsdl_video_flags, ARGH2);
+  cflag = GSDL_FLAGS2ULONG (flag, gsdl_video_flags, 2);
 
   RETURN_TRUE_IF_0
     (SDL_SetColorKey (UNPACK_SURFACE (surface),
@@ -343,7 +343,7 @@ If @var{flag} is #f, ignore @var{alpha} completely.  */)
   Uint32 cflag;
   Uint8 calpha;
 
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
   if (EXACTLY_FALSEP (flag) || gh_null_p (flag))
     {
       flag = SCM_BOOL_F;
@@ -352,12 +352,12 @@ If @var{flag} is #f, ignore @var{alpha} completely.  */)
   if (UNBOUNDP (alpha))
     alpha = SCM_INUM0;
   else
-    ASSERT_EXACT (alpha, ARGH3);
+    ASSERT_EXACT (alpha, 3);
 
   cflag = (EXACTLY_FALSEP (flag)
            ? 0
-           : GSDL_FLAGS2ULONG (flag, gsdl_video_flags, ARGH2));
-  calpha = (Uint8) GSDL_ENUM2LONG (alpha, gsdl_alpha_enums, ARGH3);
+           : GSDL_FLAGS2ULONG (flag, gsdl_video_flags, 2));
+  calpha = (Uint8) GSDL_ENUM2LONG (alpha, gsdl_alpha_enums, 3);
 
   RETURN_TRUE_IF_0
     (SDL_SetAlpha (UNPACK_SURFACE (surface),
@@ -379,12 +379,12 @@ rectangle instead of using the whole surface.  */)
 #define FUNC_NAME s_set_clip_rect
   SDL_Rect *crect = NULL;
 
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
 
   if (BOUNDP (rect) && !EXACTLY_FALSEP (rect))
     {
       /* Rect defaults to NULL (the whole surface).  */
-      ASSERT_RECT (rect, ARGH2);
+      ASSERT_RECT (rect, 2);
       crect = UNPACK_RECT (rect);
     }
 
@@ -403,7 +403,7 @@ Return the clipping rectangle for @var{surface}.  */)
 #define FUNC_NAME s_get_clip_rect
   SDL_Rect *rect = NULL;
 
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
 
   if ((rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME)))
     SDL_GetClipRect (UNPACK_SURFACE (surface), rect);
@@ -425,11 +425,11 @@ surface.  Optional third arg @var{flags} is a list of flags
 #define FUNC_NAME s_convert_surface
   Uint32 cflags = 0;
 
-  ASSERT_SURFACE (surface, ARGH1);
-  ASSERT_PIXEL_FORMAT (format, ARGH2);
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_PIXEL_FORMAT (format, 2);
 
   if (BOUNDP (flags))
-    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, ARGH3);
+    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 3);
 
   RETURN_NEW_SURFACE
     (SDL_ConvertSurface (UNPACK_SURFACE (surface),
@@ -462,14 +462,14 @@ to x=0, y=0, @var{dst} surface dimensions.  */)
   SDL_Rect default_rect;
 
   /* 1st arg, source surface.  */
-  ASSERT_SURFACE (src, ARGH1);
+  ASSERT_SURFACE (src, 1);
   csrc = UNPACK_SURFACE (src);
 
   /* 2nd arg, source rect, default (0,0) by source dimensions.  */
   UNBOUND_MEANS_FALSE (srcrect);
   if (NOT_FALSEP (srcrect))
     {
-      ASSERT_RECT (srcrect, ARGH2);
+      ASSERT_RECT (srcrect, 2);
       csrcrect = UNPACK_RECT (srcrect);
     }
   else
@@ -485,7 +485,7 @@ to x=0, y=0, @var{dst} surface dimensions.  */)
   UNBOUND_MEANS_FALSE (dst);
   if (NOT_FALSEP (dst))
     {
-      ASSERT_SURFACE (dst, ARGH3);
+      ASSERT_SURFACE (dst, 3);
       cdst = UNPACK_SURFACE (dst);
     }
   else
@@ -495,7 +495,7 @@ to x=0, y=0, @var{dst} surface dimensions.  */)
   UNBOUND_MEANS_FALSE (dstrect);
   if (NOT_FALSEP (dstrect))
     {
-      ASSERT_RECT (dstrect, ARGH4);
+      ASSERT_RECT (dstrect, 4);
       cdstrect = UNPACK_RECT (dstrect);
     }
   else
@@ -520,7 +520,7 @@ Return a new surface created by flipping @var{surface} vertically.  */)
   SDL_Rect srcrect, dstrect;
 
   /* Verify args.  */
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
 
   /* Get source and dimensions.  */
   src = SMOBGET (surface, SDL_Surface *);
@@ -560,7 +560,7 @@ Return a new surface created by flipping @var{surface} horizontally.  */)
   SDL_Rect srcrect, dstrect;
 
   /* Verify args.  */
-  ASSERT_SURFACE (surface, ARGH1);
+  ASSERT_SURFACE (surface, 1);
 
   /* Get source and dimensions.  */
   src = SMOBGET (surface, SDL_Surface *);

@@ -69,7 +69,7 @@ Initialize SDL based on configuration flags @var{sel}.
 with @code{SDL_INIT_}.  */)
 {
 #define FUNC_NAME s_init
-  RETURN_INT (SDL_Init (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1)));
+  RETURN_INT (SDL_Init (GSDL_FLAGS2ULONG (sel, init_flags, 1)));
 #undef FUNC_NAME
 }
 
@@ -83,7 +83,7 @@ Initialize the SDL subsystems represented by @var{sel}.
 from the same set useful for @code{init}.  */)
 {
 #define FUNC_NAME s_init_subsystem
-  RETURN_INT (SDL_InitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1)));
+  RETURN_INT (SDL_InitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, 1)));
 #undef FUNC_NAME
 }
 
@@ -115,7 +115,7 @@ Return #t.  */)
 {
 #define FUNC_NAME s_quit_subsystem
   scm_gc ();
-  SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, ARGH1));
+  SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, 1));
   RETURN_TRUE;
 #undef FUNC_NAME
 }
@@ -133,7 +133,7 @@ likewise composed.  */)
 {
 #define FUNC_NAME s_was_init
   return gsdl_ulong2flags (SDL_WasInit (GSDL_FLAGS2ULONG
-                                        (sel, init_flags, ARGH1)),
+                                        (sel, init_flags, 1)),
                            init_flags);
 #undef FUNC_NAME
 }
@@ -162,7 +162,7 @@ Wait @var{ms} milliseconds.
 The return value is unspecified.  */)
 {
 #define FUNC_NAME s_delay
-  ASSERT_EXACT (ms, ARGH1);
+  ASSERT_EXACT (ms, 1);
   SDL_Delay (gh_scm2ulong (ms));
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME

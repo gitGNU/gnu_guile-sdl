@@ -117,7 +117,7 @@ If omitted, the default is @code{SDL_NOEVENT}.
   int ctype = SDL_NOEVENT;
 
   if (BOUNDP (type))
-    ctype = GSDL_ENUM2LONG (type, event_type_enum, ARGH1);
+    ctype = GSDL_ENUM2LONG (type, event_type_enum, 1);
 
   if ((event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME)))
     event->type = ctype;
@@ -143,16 +143,16 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
       UNBOUND_MEANS_FALSE (sym);
       if (NOT_FALSEP (sym))
         {
-          ASSERT_EXACT (sym, ARGH1);
+          ASSERT_EXACT (sym, 1);
           /* keysym->sym = (SDLKey) gh_scm2long (sym); */
-          keysym->sym = (SDLKey) GSDL_ENUM2LONG (sym, event_keysym_enum, ARGH1);
+          keysym->sym = (SDLKey) GSDL_ENUM2LONG (sym, event_keysym_enum, 1);
         }
 
       /* Set the mod if given.  */
       if (BOUNDP (mod))
         {
-          ASSERT_EXACT (mod, ARGH2);
-          keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, ARGH2);
+          ASSERT_EXACT (mod, 2);
+          keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, 2);
         }
     }
 
@@ -344,10 +344,10 @@ matching events instead of a count, removing them from the queue.
   Uint32 cmask;
   SCM ls = SCM_BOOL_F;
 
-  ASSERT_EXACT (numevents, ARGH2);
+  ASSERT_EXACT (numevents, 2);
 
   cnumevents = gh_scm2long (numevents);
-  caction = GSDL_ENUM2LONG (action, event_action_enum, ARGH3);
+  caction = GSDL_ENUM2LONG (action, event_action_enum, 3);
 
   switch (caction)
     {
@@ -358,7 +358,7 @@ matching events instead of a count, removing them from the queue.
       for (i = cnumevents, ls = events;
            i && !gh_null_p (ls);
            i--, ls = gh_cdr (ls));
-      SCM_ASSERT (!i, numevents, ARGH2, FUNC_NAME);
+      SCM_ASSERT (!i, numevents, 2, FUNC_NAME);
       cevents = alloca (cnumevents * sizeof (SDL_Event));
       for (i = 0, ls = events;
            i < cnumevents;
@@ -372,7 +372,7 @@ matching events instead of a count, removing them from the queue.
       /* fallthrough */
 
     case SDL_PEEKEVENT:
-      cmask = gsdl_flags2ulong (mask, event_mask_flags, ARGH4, FUNC_NAME);
+      cmask = gsdl_flags2ulong (mask, event_mask_flags, 4, FUNC_NAME);
       ret = SDL_PeepEvents (cevents, cnumevents, caction, cmask);
       if (0 > ret)
         scm_misc_error (FUNC_NAME, "badness", SCM_EOL);
@@ -426,7 +426,7 @@ the queue (if available).  */)
   else
     {
       /* We're given an event smob - fill it.  */
-      ASSERT_EVENT (event, ARGH1);
+      ASSERT_EVENT (event, 1);
       result = SDL_PollEvent (UNPACK_EVENT (event));
     }
 
@@ -453,7 +453,7 @@ the queue.  */)
   else
     {
       /* We're given an event smob - fill it.  */
-      ASSERT_EVENT (event, ARGH1);
+      ASSERT_EVENT (event, 1);
       result = SDL_WaitEvent (UNPACK_EVENT (event));
     }
 
@@ -472,7 +472,7 @@ Push @var{event} onto the queue.  Return 1 for success,
 #define FUNC_NAME s_push_event
   int result;
 
-  ASSERT_EVENT (event, ARGH1);
+  ASSERT_EVENT (event, 1);
 
   result = SDL_PushEvent (UNPACK_EVENT (event));
   RETURN_INT (result);
@@ -519,8 +519,8 @@ processing state of the specified event.  */)
 #define FUNC_NAME s_event_state
   int ctype, cstate, ret;
 
-  ctype = GSDL_ENUM2LONG (type, event_type_enum, ARGH1);
-  cstate = GSDL_ENUM2LONG (state, event_state_enum, ARGH2);
+  ctype = GSDL_ENUM2LONG (type, event_type_enum, 1);
+  cstate = GSDL_ENUM2LONG (state, event_state_enum, 2);
 
   ret = SDL_EventState (ctype, cstate);
   if (SDL_QUERY == cstate)
@@ -565,8 +565,8 @@ Return #t on success.  */)
 #define FUNC_NAME s_enable_key_repeat
   int cinterval, cdelay;
 
-  ASSERT_EXACT (delay, ARGH1);
-  ASSERT_EXACT (interval, ARGH2);
+  ASSERT_EXACT (delay, 1);
+  ASSERT_EXACT (interval, 2);
 
   cdelay    = gh_scm2long (delay);
   cinterval = gh_scm2long (interval);
@@ -616,8 +616,8 @@ a list of symbols.  This does not change the keyboard state,
 only the key modifier flags.  The return value is unspecified.  */)
 {
 #define FUNC_NAME s_set_mod_state
-  ASSERT_EXACT (modstate, ARGH1);
-  SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, ARGH1));
+  ASSERT_EXACT (modstate, 1);
+  SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, 1));
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
@@ -668,7 +668,7 @@ combined with @code{logior}, to form @var{mask}.  For example,
 a value of 5 specifies both left and right buttons.  */)
 {
 #define FUNC_NAME s_button_p
-  ASSERT_EXACT (mask, ARGH1);
+  ASSERT_EXACT (mask, 1);
   RETURN_BOOL
     (SDL_BUTTON (gh_scm2long (mask)));
 #undef FUNC_NAME
