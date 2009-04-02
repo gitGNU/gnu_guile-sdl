@@ -1,9 +1,9 @@
-/* 
+/*
 
  SDL_gfxBlitFunc: custom blitters (part of SDL_gfx library)
 
  LGPL (c) A. Schiffler
- 
+
 */
 
 #ifndef _SDL_gfxBlitFunc_h

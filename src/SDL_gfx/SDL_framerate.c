@@ -4,19 +4,19 @@
  SDL_framerate: framerate manager
 
  LGPL (c) A. Schiffler
- 
+
  */
 
 #include "SDL_framerate.h"
 
-/* 
+/*
    Initialize the framerate manager
 */
 
 void SDL_initFramerate(FPSmanager * manager)
 {
     /*
-     * Store some sane values 
+     * Store some sane values
      */
     manager->framecount = 0;
     manager->rate = FPS_DEFAULT;
@@ -24,8 +24,8 @@ void SDL_initFramerate(FPSmanager * manager)
     manager->lastticks = SDL_GetTicks();
 }
 
-/* 
-   Set the framerate in Hz 
+/*
+   Set the framerate in Hz
 */
 
 int SDL_setFramerate(FPSmanager * manager, int rate)
@@ -40,8 +40,8 @@ int SDL_setFramerate(FPSmanager * manager, int rate)
     }
 }
 
-/* 
-  Return the current target framerate in Hz 
+/*
+  Return the current target framerate in Hz
 */
 
 int SDL_getFramerate(FPSmanager * manager)
@@ -53,7 +53,7 @@ int SDL_getFramerate(FPSmanager * manager)
     }
 }
 
-/* 
+/*
   Delay execution to maintain a constant framerate. Calculate fps.
 */
 
@@ -64,12 +64,12 @@ void SDL_framerateDelay(FPSmanager * manager)
     Uint32 the_delay;
 
     /*
-     * Next frame 
+     * Next frame
      */
     manager->framecount++;
 
     /*
-     * Get/calc ticks 
+     * Get/calc ticks
      */
     current_ticks = SDL_GetTicks();
     target_ticks = manager->lastticks + (Uint32) ((float) manager->framecount * manager->rateticks);

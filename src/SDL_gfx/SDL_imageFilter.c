@@ -1,12 +1,12 @@
 /*
- 
- SDL_imageFilter - bytes-image "filter" routines 
+
+ SDL_imageFilter - bytes-image "filter" routines
  (uses inline x86 MMX optimizations if available)
- 
+
  LGPL (c) A. Schiffler
 
- Note: Most MMX code is based on published routines 
- by Vladimir Kravtchenko at vk@cs.ubc.ca - credits to 
+ Note: Most MMX code is based on published routines
+ by Vladimir Kravtchenko at vk@cs.ubc.ca - credits to
  him for his work.
 
 */
@@ -159,7 +159,7 @@ int SDL_imageFilterMeanMMX(unsigned char *Src1, unsigned char *Src2, unsigned ch
        "mov          %3, %%ecx \n\t"	/* load loop counter (SIZE) into ecx */
       "shr          $3, %%ecx \n\t"	/* counter/8 (MMX loads 8 bytes at a time) */
        ".align 16              \n\t"	/* 16 byte allignment of the loop entry */
-      ".L21011:                \n\t" 
+      ".L21011:                \n\t"
       "movq    (%%eax), %%mm1 \n\t"	/* load 8 bytes from Src1 into mm1 */
       "movq    (%%ebx), %%mm2 \n\t"	/* load 8 bytes from Src2 into mm2 */
       /* --- Byte shift via Word shift --- */
@@ -168,12 +168,12 @@ int SDL_imageFilterMeanMMX(unsigned char *Src1, unsigned char *Src2, unsigned ch
 /*      "pand      %%mm0, %%mm1 \n\t"    // apply Mask to 8 BYTES of mm1 */
       ".byte     0x0f, 0xdb, 0xc8 \n\t"
 /*      "pand      %%mm0, %%mm2 \n\t"    // apply Mask to 8 BYTES of mm2 */
-      ".byte     0x0f, 0xdb, 0xd0 \n\t" 
+      ".byte     0x0f, 0xdb, 0xd0 \n\t"
       "paddusb   %%mm2, %%mm1 \n\t"	/* mm1=mm1+mm2 (add 8 bytes with saturation) */
       "movq    %%mm1, (%%edi) \n\t"	/* store result in Dest */
        "add          $8, %%eax \n\t"	/* increase Src1, Src2 and Dest  */
       "add          $8, %%ebx \n\t"	/* register pointers by 8 */
-      "add          $8, %%edi \n\t" 
+      "add          $8, %%edi \n\t"
       "dec              %%ecx \n\t"	/* decrease loop counter */
       "jnz             .L21011 \n\t"	/* check loop termination, proceed if required */
        "emms                   \n\t"	/* exit MMX state */
@@ -1013,7 +1013,7 @@ int SDL_imageFilterAddByteMMX(unsigned char *Src1, unsigned char *Dest, int leng
       "mov          %2, %%ecx \n\t"	/* load loop counter (SIZE) into ecx */
       "shr          $3, %%ecx \n\t"	/* counter/8 (MMX loads 8 bytes at a time) */
        ".align 16              \n\t"	/* 16 byte allignment of the loop entry */
-      ".L1021:                \n\t" 
+      ".L1021:                \n\t"
       "movq    (%%eax), %%mm0 \n\t"	/* load 8 bytes from Src1 into MM0 */
       "paddusb   %%mm1, %%mm0 \n\t"	/* MM0=SrcDest+C (add 8 bytes with saturation) */
       "movq    %%mm0, (%%edi) \n\t"	/* store result in Dest */
@@ -1092,7 +1092,7 @@ int SDL_imageFilterAddUintMMX(unsigned char *Src1, unsigned char *Dest, int leng
       "mov          %2, %%ecx \n\t"	/* load loop counter (SIZE) into ecx */
       "shr          $3, %%ecx \n\t"	/* counter/8 (MMX loads 8 bytes at a time) */
        ".align 16              \n\t"	/* 16 byte allignment of the loop entry */
-      ".L11023:                \n\t" 
+      ".L11023:                \n\t"
       "movq    (%%eax), %%mm0 \n\t"	/* load 8 bytes from SrcDest into MM0 */
       "paddusb   %%mm1, %%mm0 \n\t"	/* MM0=SrcDest+C (add 8 bytes with saturation) */
       "movq    %%mm0, (%%edi) \n\t"	/* store result in SrcDest */
@@ -1187,11 +1187,11 @@ int SDL_imageFilterAddByteToHalfMMX(unsigned char *Src1, unsigned char *Dest, in
       "mov          %2, %%ecx \n\t"	/* load loop counter (SIZE) into ecx */
       "shr          $3, %%ecx \n\t"	/* counter/8 (MMX loads 8 bytes at a time) */
        ".align 16              \n\t"	/* 16 byte allignment of the loop entry */
-      ".L1022:                \n\t" 
+      ".L1022:                \n\t"
       "movq    (%%eax), %%mm2 \n\t"	/* load 8 bytes from Src1 into MM2 */
       "psrlw        $1, %%mm2 \n\t"	/* shift 4 WORDS of MM2 1 bit to the right */
       /*    "pand      %%mm0, %%mm2 \n\t"    // apply Mask to 8 BYTES of MM2 */
-      ".byte     0x0f, 0xdb, 0xd0 \n\t" 
+      ".byte     0x0f, 0xdb, 0xd0 \n\t"
       "paddusb   %%mm1, %%mm2 \n\t"	/* MM2=SrcDest+C (add 8 bytes with saturation) */
       "movq    %%mm2, (%%edi) \n\t"	/* store result in Dest */
        "add          $8, %%eax \n\t"	/* increase Src1 register pointer by 8 */
@@ -1441,7 +1441,7 @@ int SDL_imageFilterShiftRightMMX(unsigned char *Src1, unsigned char *Dest, int l
        ".L10240:               \n\t"	/* ** Prepare proper bit-Mask in MM1 ** */
        "psrlw        $1, %%mm1 \n\t"	/* shift 4 WORDS of MM1 1 bit to the right */
       /*    "pand      %%mm0, %%mm1 \n\t"    // apply Mask to 8 BYTES of MM1 */
-      ".byte     0x0f, 0xdb, 0xc8 \n\t" 
+      ".byte     0x0f, 0xdb, 0xc8 \n\t"
       "dec               %%cl \n\t"	/* decrease loop counter */
       "jnz            .L10240 \n\t"	/* check loop termination, proceed if required */
       /* ** Shift all bytes of the image ** */
@@ -1450,11 +1450,11 @@ int SDL_imageFilterShiftRightMMX(unsigned char *Src1, unsigned char *Dest, int l
       "mov          %2, %%ecx \n\t"	/* load loop counter (SIZE) into ecx */
       "shr          $3, %%ecx \n\t"	/* counter/8 (MMX loads 8 bytes at a time) */
        ".align 16              \n\t"	/* 16 byte allignment of the loop entry */
-      ".L10241:               \n\t" 
+      ".L10241:               \n\t"
       "movq    (%%eax), %%mm0 \n\t"	/* load 8 bytes from SrcDest into MM0 */
       "psrlw     %%mm3, %%mm0 \n\t"	/* shift 4 WORDS of MM0 (N) bits to the right */
       /*    "pand      %%mm1, %%mm0 \n\t"    // apply proper bit-Mask to 8 BYTES of MM0 */
-      ".byte     0x0f, 0xdb, 0xc1 \n\t" 
+      ".byte     0x0f, 0xdb, 0xc1 \n\t"
       "movq    %%mm0, (%%edi) \n\t"	/* store result in SrcDest */
       "add          $8, %%eax \n\t"	/* increase Src1 register pointer by 8 */
       "add          $8, %%edi \n\t"	/* increase Dest register pointer by 8 */
@@ -2096,7 +2096,7 @@ int SDL_imageFilterBinarizeUsingThresholdMMX(unsigned char *Src1, unsigned char 
       "mov          %2, %%ecx \n\t"	/* load loop counter (SIZE) into ecx */
       "shr          $3, %%ecx \n\t"	/* counter/8 (MMX loads 8 bytes at a time) */
        ".align 16              \n\t"	/* 16 byte alignment of the loop entry */
-      ".L1029:                \n\t" 
+      ".L1029:                \n\t"
       "movq    (%%eax), %%mm0 \n\t"	/* load 8 bytes from SrcDest into MM0 */
       "paddusb   %%mm2, %%mm0 \n\t"	/* MM0=SrcDest+(0xFF-T) (add 8 bytes with saturation) */
       "pcmpeqb   %%mm1, %%mm0 \n\t"	/* binarize 255:0, comparing to 255 */
@@ -2187,7 +2187,7 @@ int SDL_imageFilterClipToRangeMMX(unsigned char *Src1, unsigned char *Dest, int 
       "mov          %2, %%ecx \n\t"	/* load loop counter (SIZE) into ecx */
       "shr          $3, %%ecx \n\t"	/* counter/8 (MMX loads 8 bytes at a time) */
        ".align 16              \n\t"	/* 16 byte allignment of the loop entry */
-      ".L1030:                \n\t" 
+      ".L1030:                \n\t"
       "movq    (%%eax), %%mm0 \n\t"	/* load 8 bytes from Src1 into MM0 */
       "paddusb   %%mm1, %%mm0 \n\t"	/* MM0=SrcDest+(0xFF-Tmax) */
       "psubusb   %%mm7, %%mm0 \n\t"	/* MM0=MM0-(0xFF-Tmax+Tmin) */
@@ -2297,7 +2297,7 @@ int SDL_imageFilterNormalizeLinearMMX(unsigned char *Src1, unsigned char *Dest, 
       "mov          %2, %%ecx \n\t"	/* load loop counter (SIZE) into ecx */
       "shr          $3, %%ecx \n\t"	/* counter/8 (MMX loads 8 bytes at a time) */
        ".align 16              \n\t"	/* 16 byte allignment of the loop entry */
-      ".L1031:                \n\t" 
+      ".L1031:                \n\t"
       "movq    (%%eax), %%mm3 \n\t"	/* load 8 bytes from Src1 into MM3 */
       "movq      %%mm3, %%mm4 \n\t"	/* copy MM3 into MM4  */
       "punpcklbw %%mm7, %%mm3 \n\t"	/* unpack low  bytes of SrcDest into words */

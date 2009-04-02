@@ -54,8 +54,8 @@ extern "C" {
 #define DLLINTERFACE
 #endif
 
-/* 
- 
+/*
+
  rotozoomSurface()
 
  Rotates and zoomes a 32bit or 8bit 'src' surface to newly created 'dst' surface.
@@ -76,11 +76,11 @@ extern "C" {
 					  int *dstheight);
 
     DLLINTERFACE void rotozoomSurfaceSizeXY
-    (int width, int height, double angle, double zoomx, double zoomy, 
+    (int width, int height, double angle, double zoomx, double zoomy,
      int *dstwidth, int *dstheight);
 
-/* 
- 
+/*
+
  zoomSurface()
 
  Zoomes a 32bit or 8bit 'src' surface to newly created 'dst' surface.
@@ -97,7 +97,7 @@ extern "C" {
     DLLINTERFACE void zoomSurfaceSize(int width, int height, double zoomx, double zoomy, int *dstwidth, int *dstheight);
 
 
-/* 
+/*
     shrinkSurface()
 
     Shrinks a 32bit or 8bit 'src' surface ti a newly created 'dst' surface.
@@ -105,8 +105,8 @@ extern "C" {
     3=1/3 the size, etc.) The destination surface is antialiased by averaging
     the source box RGBA or Y information. If the surface is not 8bit
     or 32bit RGBA/ABGR it will be converted into a 32bit RGBA format on the fly.
-*/     
-    
+*/
+
     DLLINTERFACE SDL_Surface *shrinkSurface(SDL_Surface * src, int factorx, int factory);
 
 /* Ends C function definitions when using C++ */

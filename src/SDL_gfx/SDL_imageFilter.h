@@ -1,8 +1,8 @@
 /*
- 
- SDL_imageFilter - bytes-image "filter" routines 
+
+ SDL_imageFilter - bytes-image "filter" routines
  (uses inline x86 MMX optimizations if available)
- 
+
  LGPL (c) A. Schiffler
 
 */
