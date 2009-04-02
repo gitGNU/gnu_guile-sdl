@@ -1,5 +1,13 @@
 2009-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Allocate `gh_scm2shorts' dest on the stack (use `alloca').
+
+	* sdlgfx.c: #include <alloca.h>.
+	(draw_polygon, draw_aa_polygon, draw_textured_polygon)
+	(draw_bezier): Use `alloca' for `cvx', `cvy'.
+
+2009-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Hide symbols of embedded libSDL_gfx, if compiling w/ GCC.
 
 	* SDL_gfx/Makefile.am (libSDL_gfx_la_CFLAGS): New var.

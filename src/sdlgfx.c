@@ -19,6 +19,7 @@
  */
 
 #include <guile/gh.h>
+#include <alloca.h>
 
 #include "config.h"
 #include "argcheck.h"
@@ -395,8 +396,8 @@ by corresponding pairs from the uniform vectors
 arg @var{fill} means to fill the polygon as well.  */)
 {
 #define FUNC_NAME s_draw_polygon
-  int ret;
   Sint16 *cvx, *cvy;
+  unsigned int len;
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_VECTOR (vx, 2);
@@ -404,18 +405,15 @@ arg @var{fill} means to fill the polygon as well.  */)
   ASSERT_EXACT (color, 4);
   UNBOUND_MEANS_FALSE (fill);
 
-  cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
-  cvy = (Sint16 *) gh_scm2shorts (vy, NULL);
-
-  ret = (EXACTLY_FALSEP (fill)
-         ? polygonColor
-         : filledPolygonColor) (UNPACK_SURFACE (surface),
-                                cvx, cvy,
-                                gh_uniform_vector_length (vx),
-                                gh_scm2ulong (color));
-  free (cvx);
-  free (cvy);
-  RETURN_INT (ret);
+  len = gh_uniform_vector_length (vx);
+  cvx = alloca (sizeof (Sint16) * len);
+  cvy = alloca (sizeof (Sint16) * len);
+  RETURN_INT ((EXACTLY_FALSEP (fill)
+               ? polygonColor
+               : filledPolygonColor) (UNPACK_SURFACE (surface),
+                                      gh_scm2shorts (vx, cvx),
+                                      gh_scm2shorts (vy, cvy),
+                                      len, gh_scm2ulong (color)));
 #undef FUNC_NAME
 }
 
@@ -429,24 +427,21 @@ are specified by corresponding pairs from the uniform vectors
 @var{vx} and @var{vy}, in color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_polygon
-  int ret;
   Sint16 *cvx, *cvy;
+  unsigned long len;
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_VECTOR (vx, 2);
   ASSERT_VECTOR (vy, 3);
   ASSERT_EXACT (color, 4);
 
-  cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
-  cvy = (Sint16 *) gh_scm2shorts (vy, NULL);
-
-  ret = aapolygonColor (UNPACK_SURFACE (surface),
-                        cvx, cvy,
-                        gh_uniform_vector_length (vx),
-                        gh_scm2ulong (color));
-  free (cvx);
-  free (cvy);
-  RETURN_INT (ret);
+  len = gh_uniform_vector_length (vx);
+  cvx = alloca (sizeof (Sint16) * len);
+  cvy = alloca (sizeof (Sint16) * len);
+  RETURN_INT (aapolygonColor (UNPACK_SURFACE (surface),
+                              gh_scm2shorts (vx, cvx),
+                              gh_scm2shorts (vy, cvy),
+                              len, gh_scm2ulong (color)));
 #undef FUNC_NAME
 }
 
@@ -461,8 +456,8 @@ and @var{vy}, filling from @var{texture} (a surface) with
 offset @var{tdx}, @var{tdy}.  */)
 {
 #define FUNC_NAME s_draw_textured_polygon
-  int ret;
   Sint16 *cvx, *cvy;
+  unsigned int len;
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_VECTOR (vx, 2);
@@ -471,17 +466,14 @@ offset @var{tdx}, @var{tdy}.  */)
   ASSERT_EXACT (tdx, 5);
   ASSERT_EXACT (tdy, 6);
 
-  cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
-  cvy = (Sint16 *) gh_scm2shorts (vy, NULL);
-
-  ret = texturedPolygon (UNPACK_SURFACE (surface),
-                         cvx, cvy,
-                         gh_uniform_vector_length (vx),
-                         UNPACK_SURFACE (texture),
-                         gh_scm2int (tdx), gh_scm2int (tdy));
-  free (cvx);
-  free (cvy);
-  RETURN_INT (ret);
+  len = gh_uniform_vector_length (vx);
+  cvx = alloca (sizeof (Sint16) * len);
+  cvy = alloca (sizeof (Sint16) * len);
+  RETURN_INT (texturedPolygon (UNPACK_SURFACE (surface),
+                               gh_scm2shorts (vx, cvx),
+                               gh_scm2shorts (vy, cvy),
+                               len, UNPACK_SURFACE (texture),
+                               gh_scm2int (tdx), gh_scm2int (tdy)));
 #undef FUNC_NAME
 }
 
@@ -495,8 +487,8 @@ specified by corresponding pairs from the uniform vectors
 @var{vx} and @var{vy}, with @var{s} steps in color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_bezier
-  int ret;
   Sint16 *cvx, *cvy;
+  unsigned int len;
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_VECTOR (vx, 2);
@@ -504,17 +496,14 @@ specified by corresponding pairs from the uniform vectors
   ASSERT_EXACT (s, 4);
   ASSERT_EXACT (color, 5);
 
-  cvx = (Sint16 *) gh_scm2shorts (vx, NULL);
-  cvy = (Sint16 *) gh_scm2shorts (vy, NULL);
-
-  ret = bezierColor (UNPACK_SURFACE (surface),
-                     cvx, cvy,
-                     gh_uniform_vector_length (vx),
-                     gh_scm2long (s),
-                     gh_scm2ulong (color));
-  free (cvx);
-  free (cvy);
-  RETURN_INT (ret);
+  len = gh_uniform_vector_length (vx);
+  cvx = alloca (sizeof (Sint16) * len);
+  cvy = alloca (sizeof (Sint16) * len);
+  RETURN_INT (bezierColor (UNPACK_SURFACE (surface),
+                           gh_scm2shorts (vx, cvx),
+                           gh_scm2shorts (vy, cvy),
+                           len, gh_scm2long (s),
+                           gh_scm2ulong (color)));
 #undef FUNC_NAME
 }
 
