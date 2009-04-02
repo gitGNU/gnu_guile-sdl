@@ -17,9 +17,21 @@
 (SDL:fill-rect SCREEN #f #xffffff)
 (SDL:flip)
 
+;; character (font) stuff prep
+(define draw-characters!
+  (let ((max-x (- 640 8))
+        (max-y (- 480 8))
+        (all (map integer->char (iota 256))))
+    (define (one char)
+      (SDL:draw-character SCREEN (random max-x) (random max-y) char
+                          (+ #xff (ash (random #x1000000) 8))))
+    (lambda ()
+      (for-each one (list-tail all (random (- 256 (random 256))))))))
+
 (define mmx? (SDL:imfi-mmx?))
 (and debug? (fso "mmx: ~A\n" (if mmx? 'yes 'no)))
 
+;; character (font) stuff and blitting
 (let* ((screen (SDL:get-video-surface))
        (head-file (datafile "gnu-goatee.jpg"))
        (head (SDL:load-image head-file))
@@ -33,6 +45,7 @@
   (define (draw! n)
     (SDL:rect:set-x! place (if (zero? (logand n 1)) lox hix))
     (SDL:rect:set-y! place (if (zero? (logand n 2)) loy hiy))
+    (draw-characters!)
     (SDL:blit-surface head #f screen place))
   (define (two-op op)
     (op head head))
