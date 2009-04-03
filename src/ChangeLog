@@ -1,3 +1,12 @@
+2009-04-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Update SDL_gfx to 2.0.18.
+
+	* SDL_gfx/SDL_gfxPrimitives.c: Update.
+	* SDL_gfx/SDL_gfxPrimitives.h: Likewise.
+	* SDL_gfx/SDL_rotozoom.c: Likewise.
+	* SDL_gfx/SDL_rotozoom.h: Likewise.
+
 2009-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Allocate `gh_scm2shorts' dest on the stack (use `alloca').

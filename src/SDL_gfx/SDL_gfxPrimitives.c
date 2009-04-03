@@ -16,6 +16,8 @@
 
 /* -===================- */
 
+#define DEFAULT_ALPHA_PIXEL_ROUTINE
+
 /* ----- Defines for pixel clipping tests */
 
 #define clip_xmin(surface) surface->clip_rect.x
@@ -179,7 +181,7 @@ int _putPixelAlpha(SDL_Surface * surface, Sint16 x, Sint16 y, Uint32 color, Uint
 {
     Uint32 Rmask = surface->format->Rmask, Gmask =
 	surface->format->Gmask, Bmask = surface->format->Bmask, Amask = surface->format->Amask;
-    Uint32 R, G, B, A = 0;
+    Uint32 R = 0, G = 0, B = 0, A = 0;
 
     if (x >= clip_xmin(surface) && x <= clip_xmax(surface)
 	&& y >= clip_ymin(surface) && y <= clip_ymax(surface)) {
@@ -267,7 +269,9 @@ int _putPixelAlpha(SDL_Surface * surface, Sint16 x, Sint16 y, Uint32 color, Uint
 	    }
 	    break;
 
-	case 4:{		/* Probably 32-bpp */
+#ifdef DEFAULT_ALPHA_PIXEL_ROUTINE
+
+	case 4:{		/* Probably :-) 32-bpp */
 		if (alpha == 255) {
 		    *((Uint32 *) surface->pixels + y * surface->pitch / 4 + x) = color;
 		} else {
@@ -290,6 +294,44 @@ int _putPixelAlpha(SDL_Surface * surface, Sint16 x, Sint16 y, Uint32 color, Uint
 		}
 	    }
 	    break;
+#endif
+
+#ifdef EXPERIMENTAL_ALPHA_PIXEL_ROUTINE
+
+	case 4:{		/* Probably :-) 32-bpp */
+		if (alpha == 255) {
+		    *((Uint32 *) surface->pixels + y * surface->pitch / 4 + x) = color;
+		} else {
+		    Uint32 Rshift, Gshift, Bshift, Ashift;
+		    Uint32 *pixel = (Uint32 *) surface->pixels + y * surface->pitch / 4 + x;
+		    Uint32 dc = *pixel;
+		    Uint32 dR = (color & Rmask), dG = (color & Gmask), dB = (color & Bmask), dA = (color & Amask);
+		    Uint32 surfaceAlpha, preMultR, preMultG, preMultB;
+		    Uint32 aTmp;
+
+		    Rshift = surface->format->Rshift;
+		    Gshift = surface->format->Gshift;
+		    Bshift = surface->format->Bshift;
+		    Ashift = surface->format->Ashift;
+
+                    preMultR = (alpha * (dR>>Rshift));
+                    preMultG = (alpha * (dG>>Gshift));
+                    preMultB = (alpha * (dB>>Bshift));
+
+                    surfaceAlpha = ((dc & Amask) >> Ashift);
+                    aTmp = (255 - alpha);
+                    if (A = 255 - ((aTmp * (255 - surfaceAlpha)) >> 8 )) {
+                      aTmp *= surfaceAlpha;
+                      R = (preMultR + ((aTmp * ((dc & Rmask) >> Rshift)) >> 8)) / A << Rshift & Rmask;
+                      G = (preMultG + ((aTmp * ((dc & Gmask) >> Gshift)) >> 8)) / A << Gshift & Gmask;
+                      B = (preMultB + ((aTmp * ((dc & Bmask) >> Bshift)) >> 8)) / A << Bshift & Bmask;
+                    }
+		    *pixel = R | G | B | (A << Ashift & Amask);
+
+		}
+	    }
+	    break;
+#endif
 	}
     }
 
@@ -455,7 +497,8 @@ int _filledRectAlpha(SDL_Surface * surface, Sint16 x1, Sint16 y1, Sint16 x2, Sin
 	}
 	break;
 
-    case 4:{			/* Probably 32-bpp */
+#ifdef DEFAULT_ALPHA_PIXEL_ROUTINE
+    case 4:{			/* Probably :-) 32-bpp */
 	    Uint32 Rshift, Gshift, Bshift, Ashift;
 	    Uint32 *row, *pixel;
 	    Uint32 dR = (color & Rmask), dG = (color & Gmask), dB = (color & Bmask), dA = (color & Amask);
@@ -481,6 +524,48 @@ int _filledRectAlpha(SDL_Surface * surface, Sint16 x1, Sint16 y1, Sint16 x2, Sin
 	    }
 	}
 	break;
+#endif
+
+#ifdef EXPERIMENTAL_ALPHA_PIXEL_ROUTINE
+    case 4:{			/* Probably :-) 32-bpp */
+	    Uint32 Rshift, Gshift, Bshift, Ashift;
+	    Uint32 *row, *pixel;
+	    Uint32 dR = (color & Rmask), dG = (color & Gmask), dB = (color & Bmask), dA = (color & Amask);
+            Uint32 dc;
+            Uint32 surfaceAlpha, preMultR, preMultG, preMultB;
+            Uint32 aTmp;
+
+	    Rshift = surface->format->Rshift;
+	    Gshift = surface->format->Gshift;
+	    Bshift = surface->format->Bshift;
+	    Ashift = surface->format->Ashift;
+
+            preMultR = (alpha * (dR>>Rshift));
+            preMultG = (alpha * (dG>>Gshift));
+            preMultB = (alpha * (dB>>Bshift));
+
+	    for (y = y1; y <= y2; y++) {
+		row = (Uint32 *) surface->pixels + y * surface->pitch / 4;
+		for (x = x1; x <= x2; x++) {
+		    pixel = row + x;
+		    dc = *pixel;
+
+                    surfaceAlpha = ((dc & Amask) >> Ashift);
+                    aTmp = (255 - alpha);
+                    if (A = 255 - ((aTmp * (255 - surfaceAlpha)) >> 8 )) {
+                      aTmp *= surfaceAlpha;
+                      R = (preMultR + ((aTmp * ((dc & Rmask) >> Rshift)) >> 8)) / A << Rshift & Rmask;
+                      G = (preMultG + ((aTmp * ((dc & Gmask) >> Gshift)) >> 8)) / A << Gshift & Gmask;
+                      B = (preMultB + ((aTmp * ((dc & Bmask) >> Bshift)) >> 8)) / A << Bshift & Bmask;
+                    }
+		    *pixel = R | G | B | (A << Ashift & Amask);
+
+		}
+	    }
+	}
+	break;
+#endif
+
     }
 
     return (0);
@@ -625,22 +710,35 @@ int hlineColorStore(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y, Uint32 co
     int result = -1;
 
     /*
-     * Get clipping boundary
+     * Check visibility of clipping rectangle
      */
-    left = dst->clip_rect.x;
-    right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
 
     /*
-     * Check visibility of hline
+     * Swap x1, x2 if required to ensure x1<=x2
      */
-    if ((x1<left) && (x2<left)) {
+    if (x1 > x2) {
+	xtmp = x1;
+	x1 = x2;
+	x2 = xtmp;
+    }
+
+    /*
+     * Get clipping boundary and
+     * check visibility of hline
+     */
+    left = dst->clip_rect.x;
+    if (x2<left) {
      return(0);
     }
-    if ((x1>right) && (x2>right)) {
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
      return(0);
     }
+    top = dst->clip_rect.y;
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
     if ((y<top) || (y>bottom)) {
      return (0);
     }
@@ -656,25 +754,9 @@ int hlineColorStore(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y, Uint32 co
     }
 
     /*
-     * Swap x1, x2 if required
-     */
-    if (x1 > x2) {
-	xtmp = x1;
-	x1 = x2;
-	x2 = xtmp;
-    }
-
-    /*
      * Calculate width
      */
     w = x2 - x1;
-
-    /*
-     * Sanity check on width
-     */
-    if (w < 0) {
-	return (0);
-    }
 
     /*
      * Lock surface
@@ -758,22 +840,35 @@ int hlineColor(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y, Uint32 color)
     Uint8 *colorptr;
 
     /*
-     * Get clipping boundary
+     * Check visibility of clipping rectangle
      */
-    left = dst->clip_rect.x;
-    right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
 
     /*
-     * Check visibility of hline
+     * Swap x1, x2 if required to ensure x1<=x2
      */
-    if ((x1<left) && (x2<left)) {
+    if (x1 > x2) {
+	xtmp = x1;
+	x1 = x2;
+	x2 = xtmp;
+    }
+
+    /*
+     * Get clipping boundary and
+     * check visibility of hline
+     */
+    left = dst->clip_rect.x;
+    if (x2<left) {
      return(0);
     }
-    if ((x1>right) && (x2>right)) {
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
      return(0);
     }
+    top = dst->clip_rect.y;
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
     if ((y<top) || (y>bottom)) {
      return (0);
     }
@@ -789,25 +884,9 @@ int hlineColor(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y, Uint32 color)
     }
 
     /*
-     * Swap x1, x2 if required
-     */
-    if (x1 > x2) {
-	xtmp = x1;
-	x1 = x2;
-	x2 = xtmp;
-    }
-
-    /*
      * Calculate width
      */
     w = x2 - x1;
-
-    /*
-     * Sanity check on width
-     */
-    if (w < 0) {
-	return (0);
-    }
 
     /*
      * Alpha check
@@ -922,28 +1001,41 @@ int vlineColor(SDL_Surface * dst, Sint16 x, Sint16 y1, Sint16 y2, Uint32 color)
     Uint8 *colorptr;
 
     /*
-     * Get clipping boundary
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
+     * Swap y1, y2 if required to ensure y1<=y2
+     */
+    if (y1 > y2) {
+	ytmp = y1;
+	y1 = y2;
+	y2 = ytmp;
+    }
+
+    /*
+     * Get clipping boundary and
+     * check visibility of vline
      */
     left = dst->clip_rect.x;
     right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
-
-    /*
-     * Check visibility of vline
-     */
     if ((x<left) || (x>right)) {
      return (0);
     }
-    if ((y1<top) && (y2<top)) {
+    top = dst->clip_rect.y;
+    if (y2<top) {
      return(0);
     }
-    if ((y1>bottom) && (y2>bottom)) {
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if (y1>bottom) {
      return(0);
     }
 
     /*
-     * Clip y
+     * Clip x
      */
     if (y1 < top) {
 	y1 = top;
@@ -953,25 +1045,9 @@ int vlineColor(SDL_Surface * dst, Sint16 x, Sint16 y1, Sint16 y2, Uint32 color)
     }
 
     /*
-     * Swap y1, y2 if required
-     */
-    if (y1 > y2) {
-	ytmp = y1;
-	y1 = y2;
-	y2 = ytmp;
-    }
-
-    /*
      * Calculate height
      */
     h = y2 - y1;
-
-    /*
-     * Sanity check on height
-     */
-    if (h < 0) {
-	return (0);
-    }
 
     /*
      * Alpha check
@@ -1077,6 +1153,13 @@ int rectangleColor(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2
 {
     int result;
     Sint16 w, h, xtmp, ytmp;
+
+    /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
 
     /*
      * Swap x1, x2 if required
@@ -1257,24 +1340,45 @@ int boxColor(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Uint
     Uint8 *colorptr;
 
     /*
-     * Get clipping boundary
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
+     * Order coordinates to ensure that
+     * x1<=x2 and y1<=y2
+     */
+    if (x1 > x2) {
+	tmp = x1;
+	x1 = x2;
+	x2 = tmp;
+    }
+    if (y1 > y2) {
+	tmp = y1;
+	y1 = y2;
+	y2 = tmp;
+    }
+
+    /*
+     * Get clipping boundary and
+     * check visibility
      */
     left = dst->clip_rect.x;
+    if (x2<left) {
+     return(0);
+    }
     right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
+     return(0);
+    }
     top = dst->clip_rect.y;
+    if (y2<top) {
+     return(0);
+    }
     bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
-
-    /* Check visibility */
-    if ((x1<left) && (x2<left)) {
-     return(0);
-    }
-    if ((x1>right) && (x2>right)) {
-     return(0);
-    }
-    if ((y1<top) && (y2<top)) {
-     return(0);
-    }
-    if ((y1>bottom) && (y2>bottom)) {
+    if (y1>bottom) {
      return(0);
     }
 
@@ -1301,20 +1405,6 @@ int boxColor(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Uint
     }
 
     /*
-     * Order coordinates
-     */
-    if (x1 > x2) {
-	tmp = x1;
-	x1 = x2;
-	x2 = tmp;
-    }
-    if (y1 > y2) {
-	tmp = y1;
-	y1 = y2;
-	y2 = tmp;
-    }
-
-    /*
      * Test for special cases of straight line or single point
      */
     if (x1 == x2) {
@@ -1327,7 +1417,6 @@ int boxColor(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Uint
     if (y1 == y2) {
 	return (hlineColor(dst, x1, x2, y1, color));
     }
-
 
     /*
      * Calculate width&height
@@ -1383,7 +1472,7 @@ int boxColor(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Uint
 	    pixy -= (pixx * dx);
 	    for (; pixel <= pixellast; pixel += pixy) {
 		for (x = 0; x < dx; x++) {
-		    *(Uint16 *) pixel = color;
+		    *(Uint16*) pixel = color;
 		    pixel += pixx;
 		}
 	    }
@@ -1673,6 +1762,13 @@ int aalineColorInt(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2
     int dx, dy, tmp, xdir, y0p1, x0pxdir;
 
     /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
      * Clip line and test if we have to draw
      */
     if (!(clipLine(dst, &x1, &y1, &x2, &y2))) {
@@ -1899,6 +1995,13 @@ int circleColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 r, Uint32 color)
     Uint8 *colorptr;
 
     /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
      * Sanity check radius
      */
     if (r < 0) {
@@ -1913,30 +2016,27 @@ int circleColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 r, Uint32 color)
     }
 
     /*
-     * Get clipping boundary
+     * Get circle and clipping boundary and
+     * test if bounding box of circle is visible
      */
-    left = dst->clip_rect.x;
-    right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
-
-    /*
-     * Test if bounding box of circle is visible
-     */
-    x1 = x - r;
     x2 = x + r;
-    y1 = y - r;
+    left = dst->clip_rect.x;
+    if (x2<left) {
+     return(0);
+    }
+    x1 = x - r;
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
+     return(0);
+    }
     y2 = y + r;
-    if ((x1<left) && (x2<left)) {
+    top = dst->clip_rect.y;
+    if (y2<top) {
      return(0);
     }
-    if ((x1>right) && (x2>right)) {
-     return(0);
-    }
-    if ((y1<top) && (y2<top)) {
-     return(0);
-    }
-    if ((y1>bottom) && (y2>bottom)) {
+    y1 = y - r;
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if (y1>bottom) {
      return(0);
     }
 
@@ -1975,36 +2075,32 @@ int circleColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 r, Uint32 color)
 	 * Draw
 	 */
 	do {
-	    if ((ocy != cy) || (ocx != cx)) {
-		xpcx = x + cx;
-		xmcx = x - cx;
-		if (cy > 0) {
-		    ypcy = y + cy;
-		    ymcy = y - cy;
+		ypcy = y + cy;
+		ymcy = y - cy;
+		if (cx > 0) {
+		    xpcx = x + cx;
+		    xmcx = x - cx;
 		    result |= fastPixelColorNolock(dst, xmcx, ypcy, color);
 		    result |= fastPixelColorNolock(dst, xpcx, ypcy, color);
 		    result |= fastPixelColorNolock(dst, xmcx, ymcy, color);
 		    result |= fastPixelColorNolock(dst, xpcx, ymcy, color);
 		} else {
-		    result |= fastPixelColorNolock(dst, xmcx, y, color);
-		    result |= fastPixelColorNolock(dst, xpcx, y, color);
+		    result |= fastPixelColorNolock(dst, x, ymcy, color);
+		    result |= fastPixelColorNolock(dst, x, ypcy, color);
 		}
-		ocy = cy;
 		xpcy = x + cy;
 		xmcy = x - cy;
-		if (cx > 0) {
+		if ((cx > 0) && (cx != cy)) {
 		    ypcx = y + cx;
 		    ymcx = y - cx;
 		    result |= fastPixelColorNolock(dst, xmcy, ypcx, color);
 		    result |= fastPixelColorNolock(dst, xpcy, ypcx, color);
 		    result |= fastPixelColorNolock(dst, xmcy, ymcx, color);
 		    result |= fastPixelColorNolock(dst, xpcy, ymcx, color);
-		} else {
+		} else if (cx == 0) {
 		    result |= fastPixelColorNolock(dst, xmcy, y, color);
 		    result |= fastPixelColorNolock(dst, xpcy, y, color);
 		}
-		ocx = cx;
-	    }
 	    /*
 	     * Update
 	     */
@@ -2036,36 +2132,32 @@ int circleColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 r, Uint32 color)
 	    /*
 	     * Draw
 	     */
-	    if ((ocy != cy) || (ocx != cx)) {
-		xpcx = x + cx;
-		xmcx = x - cx;
-		if (cy > 0) {
-		    ypcy = y + cy;
-		    ymcy = y - cy;
+		ypcy = y + cy;
+		ymcy = y - cy;
+		if (cx > 0) {
+		    xpcx = x + cx;
+		    xmcx = x - cx;
 		    result |= pixelColorNolock (dst, xmcx, ypcy, color);
 		    result |= pixelColorNolock (dst, xpcx, ypcy, color);
 		    result |= pixelColorNolock (dst, xmcx, ymcy, color);
 		    result |= pixelColorNolock (dst, xpcx, ymcy, color);
 		} else {
-		    result |= pixelColorNolock (dst, xmcx, y, color);
-		    result |= pixelColorNolock (dst, xpcx, y, color);
+		    result |= pixelColorNolock (dst, x, ymcy, color);
+		    result |= pixelColorNolock (dst, x, ypcy, color);
 		}
-		ocy = cy;
 		xpcy = x + cy;
 		xmcy = x - cy;
-		if (cx > 0) {
+		if ((cx > 0) && (cx != cy)) {
 		    ypcx = y + cx;
 		    ymcx = y - cx;
 		    result |= pixelColorNolock (dst, xmcy, ypcx, color);
 		    result |= pixelColorNolock (dst, xpcy, ypcx, color);
 		    result |= pixelColorNolock (dst, xmcy, ymcx, color);
 		    result |= pixelColorNolock (dst, xpcy, ymcx, color);
-		} else {
+		} else if (cx == 0) {
 		    result |= pixelColorNolock (dst, xmcy, y, color);
 		    result |= pixelColorNolock (dst, xpcy, y, color);
 		}
-		ocx = cx;
-	    }
 	    /*
 	     * Update
 	     */
@@ -2098,6 +2190,377 @@ int circleRGBA(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rad, Uint8 r, Uint8
      * Draw
      */
     return (circleColor(dst, x, y, rad, ((Uint32) r << 24) | ((Uint32) g << 16) | ((Uint32) b << 8) | (Uint32) a));
+}
+
+/* ----- Arc */
+
+/* Note: Based on above circle algorithm by A. Schiffler below.  Written by D. Raber */
+/* Calculates which octants arc goes through and renders accordingly */
+
+int arcColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 r, Sint16 start, Sint16 end, Uint32 color)
+{
+    Sint16 left, right, top, bottom;
+    int result;
+    Sint16 x1, y1, x2, y2;
+    Sint16 cx = 0;
+    Sint16 cy = r;
+    Sint16 ocx = (Sint16) 0xffff;
+    Sint16 ocy = (Sint16) 0xffff;
+    Sint16 df = 1 - r;
+    Sint16 d_e = 3;
+    Sint16 d_se = -2 * r + 5;
+    Sint16 xpcx, xmcx, xpcy, xmcy;
+    Sint16 ypcy, ymcy, ypcx, ymcx;
+    Uint8 *colorptr;
+    Uint8 drawoct;
+    int startoct, endoct, oct, stopval_start, stopval_end;
+    double temp;
+
+    /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
+     * Sanity check radius
+     */
+    if (r < 0) {
+	return (-1);
+    }
+
+    /*
+     * Special case for r=0 - draw a point
+     */
+    if (r == 0) {
+	return (pixelColor(dst, x, y, color));
+    }
+
+    /*
+     * Fixup angles
+     */
+    start = start % 360;
+    end = end % 360;
+
+    /*
+     * Get arc's circle and clipping boundary and
+     * test if bounding box of circle is visible
+     */
+    x2 = x + r;
+    left = dst->clip_rect.x;
+    if (x2<left) {
+     return(0);
+    }
+    x1 = x - r;
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
+     return(0);
+    }
+    y2 = y + r;
+    top = dst->clip_rect.y;
+    if (y2<top) {
+     return(0);
+    }
+    y1 = y - r;
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if (y1>bottom) {
+     return(0);
+    }
+
+    /*
+     * Draw arc
+     */
+    result = 0;
+
+    /* Lock surface */
+    if (SDL_MUSTLOCK(dst)) {
+	if (SDL_LockSurface(dst) < 0) {
+	    return (-1);
+	}
+    }
+
+    // Octant labelling
+    //
+    //  \ 5 | 6 /
+    //   \  |  /
+    //  4 \ | / 7
+    //     \|/
+    //------+------ +x
+    //     /|\
+    //  3 / | \ 0
+    //   /  |  \
+    //  / 2 | 1 \
+    //      +y
+
+	drawoct = 0; // 0x00000000
+					   // whether or not to keep drawing a given octant.
+					   // For example: 0x00111100 means we're drawing in octants 2-5
+
+	// 0 <= start & end < 360; note that sometimes start > end - if so, arc goes back through 0.
+	while (start < 0) start += 360;
+	while (end < 0) end += 360;
+	start %= 360;
+	end %= 360;
+
+	// now, we find which octants we're drawing in.
+	startoct = start / 45;
+	endoct = end / 45;
+	oct = startoct - 1; // we increment as first step in loop
+
+	//stopval_start, stopval_end; // what values of cx to stop at.
+
+	do {
+		oct = (oct + 1) % 8;
+
+		if (oct == startoct) {
+			// need to compute stopval_start for this octant.  Look at picture above if this is unclear
+			switch (oct)
+			{
+			case 0:
+			case 3:
+				temp = sin(start * M_PI / 180);
+				break;
+			case 1:
+			case 6:
+				temp = cos(start * M_PI / 180);
+				break;
+			case 2:
+			case 5:
+				temp = -cos(start * M_PI / 180);
+				break;
+			case 4:
+			case 7:
+				temp = -sin(start * M_PI / 180);
+				break;
+			}
+			temp *= r;
+			stopval_start = (int)temp; // always round down.
+									   // This isn't arbitrary, but requires graph paper to explain well.
+									   // The basic idea is that we're always changing drawoct after we draw, so we
+									   // stop immediately after we render the last sensible pixel at x = ((int)temp).
+
+			// and whether to draw in this octant initially
+			if (oct % 2) drawoct |= (1 << oct); // this is basically like saying drawoct[oct] = true, if drawoct were a bool array
+			else		 drawoct &= 255 - (1 << oct); // this is basically like saying drawoct[oct] = false
+		}
+		if (oct == endoct) {
+			// need to compute stopval_end for this octant
+			switch (oct)
+			{
+			case 0:
+			case 3:
+				temp = sin(end * M_PI / 180);
+				break;
+			case 1:
+			case 6:
+				temp = cos(end * M_PI / 180);
+				break;
+			case 2:
+			case 5:
+				temp = -cos(end * M_PI / 180);
+				break;
+			case 4:
+			case 7:
+				temp = -sin(end * M_PI / 180);
+				break;
+			}
+			temp *= r;
+			stopval_end = (int)temp;
+
+			// and whether to draw in this octant initially
+			if (startoct == endoct)	{
+				// note:      we start drawing, stop, then start again in this case
+				// otherwise: we only draw in this octant, so initialize it to false, it will get set back to true
+				if (start > end) {
+					// unfortunately, if we're in the same octant and need to draw over the whole circle,
+					// we need to set the rest to true, because the while loop will end at the bottom.
+					drawoct = 255;
+				} else {
+					drawoct &= 255 - (1 << oct);
+				}
+			}
+			else if (oct % 2) drawoct &= 255 - (1 << oct);
+			else			  drawoct |= (1 << oct);
+		} else if (oct != startoct) { // already verified that it's != endoct
+			drawoct |= (1 << oct); // draw this entire segment
+		}
+	} while (oct != endoct);
+
+	// so now we have what octants to draw and when to draw them.  all that's left is the actual raster code.
+
+
+    /*
+     * Alpha Check
+     */
+    if ((color & 255) == 255) {
+
+	/*
+	 * No Alpha - direct memory writes
+	 */
+
+	/*
+	 * Setup color
+	 */
+	colorptr = (Uint8 *) & color;
+	if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+	    color = SDL_MapRGBA(dst->format, colorptr[0], colorptr[1], colorptr[2], colorptr[3]);
+	} else {
+	    color = SDL_MapRGBA(dst->format, colorptr[3], colorptr[2], colorptr[1], colorptr[0]);
+	}
+
+	/*
+	 * Draw
+	 */
+	do {
+		ypcy = y + cy;
+		ymcy = y - cy;
+		if (cx > 0) {
+			xpcx = x + cx;
+			xmcx = x - cx;
+			// always check if we're drawing a certain octant before adding a pixel to that octant.
+			if (drawoct & 4)  result |= fastPixelColorNolock(dst, xmcx, ypcy, color); // drawoct & 4 = 22; drawoct[2]
+			if (drawoct & 2)  result |= fastPixelColorNolock(dst, xpcx, ypcy, color);
+			if (drawoct & 32) result |= fastPixelColorNolock(dst, xmcx, ymcy, color);
+			if (drawoct & 64) result |= fastPixelColorNolock(dst, xpcx, ymcy, color);
+		} else {
+			if (drawoct & 6)  result |= fastPixelColorNolock(dst, x, ypcy, color); // 4 + 2; drawoct[2] || drawoct[1]
+			if (drawoct & 96) result |= fastPixelColorNolock(dst, x, ymcy, color); // 32 + 64
+		}
+
+		xpcy = x + cy;
+		xmcy = x - cy;
+		if (cx > 0 && cx != cy) {
+			ypcx = y + cx;
+			ymcx = y - cx;
+			if (drawoct & 8)   result |= fastPixelColorNolock(dst, xmcy, ypcx, color);
+			if (drawoct & 1)   result |= fastPixelColorNolock(dst, xpcy, ypcx, color);
+			if (drawoct & 16)  result |= fastPixelColorNolock(dst, xmcy, ymcx, color);
+			if (drawoct & 128) result |= fastPixelColorNolock(dst, xpcy, ymcx, color);
+		} else if (cx == 0) {
+			if (drawoct & 24)  result |= fastPixelColorNolock(dst, xmcy, y, color); // 8 + 16
+			if (drawoct & 129) result |= fastPixelColorNolock(dst, xpcy, y, color); // 1 + 128
+		}
+
+
+	    /*
+	     * Update whether we're drawing an octant
+	     */
+		if (stopval_start == cx) {
+			// works like an on-off switch because start & end may be in the same octant.
+			if (drawoct & (1 << startoct)) drawoct &= 255 - (1 << startoct);
+			else drawoct |= (1 << startoct);
+		}
+		if (stopval_end == cx) {
+			if (drawoct & (1 << endoct)) drawoct &= 255 - (1 << endoct);
+			else drawoct |= (1 << endoct);
+		}
+
+		/*
+	     * Update pixels
+	     */
+	    if (df < 0) {
+			df += d_e;
+			d_e += 2;
+			d_se += 2;
+	    } else {
+			df += d_se;
+			d_e += 2;
+			d_se += 4;
+			cy--;
+	    }
+	    cx++;
+	} while (cx <= cy);
+
+	/*
+	 * Unlock surface
+	 */
+	SDL_UnlockSurface(dst);
+
+    } else {
+
+	/*
+	 * Using Alpha - blended pixel blits
+	 */
+
+	do {
+		ypcy = y + cy;
+		ymcy = y - cy;
+		if (cx > 0) {
+			xpcx = x + cx;
+			xmcx = x - cx;
+
+			// always check if we're drawing a certain octant before adding a pixel to that octant.
+			if (drawoct & 4)  result |= pixelColorNolock(dst, xmcx, ypcy, color);
+			if (drawoct & 2)  result |= pixelColorNolock(dst, xpcx, ypcy, color);
+			if (drawoct & 32) result |= pixelColorNolock(dst, xmcx, ymcy, color);
+			if (drawoct & 64) result |= pixelColorNolock(dst, xpcx, ymcy, color);
+		} else {
+			if (drawoct & 96) result |= pixelColorNolock(dst, x, ymcy, color);
+			if (drawoct & 6)  result |= pixelColorNolock(dst, x, ypcy, color);
+		}
+
+		xpcy = x + cy;
+		xmcy = x - cy;
+		if (cx > 0 && cx != cy) {
+			ypcx = y + cx;
+			ymcx = y - cx;
+			if (drawoct & 8)   result |= pixelColorNolock(dst, xmcy, ypcx, color);
+			if (drawoct & 1)   result |= pixelColorNolock(dst, xpcy, ypcx, color);
+			if (drawoct & 16)  result |= pixelColorNolock(dst, xmcy, ymcx, color);
+			if (drawoct & 128) result |= pixelColorNolock(dst, xpcy, ymcx, color);
+		} else if (cx == 0) {
+			if (drawoct & 24)  result |= pixelColorNolock(dst, xmcy, y, color);
+			if (drawoct & 129) result |= pixelColorNolock(dst, xpcy, y, color);
+		}
+
+
+	    /*
+	     * Update whether we're drawing an octant
+	     */
+		if (stopval_start == cx) {
+			// works like an on-off switch.
+			// This is just in case start & end are in the same octant.
+			if (drawoct & (1 << startoct)) drawoct &= 255 - (1 << startoct);
+			else						   drawoct |= (1 << startoct);
+		}
+		if (stopval_end == cx) {
+			if (drawoct & (1 << endoct)) drawoct &= 255 - (1 << endoct);
+			else						 drawoct |= (1 << endoct);
+		}
+
+		/*
+	     * Update pixels
+	     */
+	    if (df < 0) {
+			df += d_e;
+			d_e += 2;
+			d_se += 2;
+	    } else {
+			df += d_se;
+			d_e += 2;
+			d_se += 4;
+			cy--;
+	    }
+	    cx++;
+	} while (cx <= cy);
+
+    }				/* Alpha check */
+
+    /* Unlock surface */
+    if (SDL_MUSTLOCK(dst)) {
+	SDL_UnlockSurface(dst);
+    }
+
+    return (result);
+}
+
+int arcRGBA(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rad, Sint16 start, Sint16 end, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+    /*
+     * Draw
+     */
+    return (arcColor(dst, x, y, rad, start, end, ((Uint32) r << 24) | ((Uint32) g << 16) | ((Uint32) b << 8) | (Uint32) a));
 }
 
 /* ----- AA Circle */
@@ -2140,6 +2603,13 @@ int filledCircleColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 r, Uint32 co
     Sint16 ypcy, ymcy, ypcx, ymcx;
 
     /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
      * Sanity check radius
      */
     if (r < 0) {
@@ -2154,30 +2624,27 @@ int filledCircleColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 r, Uint32 co
     }
 
     /*
-     * Get clipping boundary
+     * Get circle and clipping boundary and
+     * test if bounding box of circle is visible
      */
-    left = dst->clip_rect.x;
-    right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
-
-    /*
-     * Test if bounding box of circle is visible
-     */
-    x1 = x - r;
     x2 = x + r;
-    y1 = y - r;
+    left = dst->clip_rect.x;
+    if (x2<left) {
+     return(0);
+    }
+    x1 = x - r;
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
+     return(0);
+    }
     y2 = y + r;
-    if ((x1<left) && (x2<left)) {
+    top = dst->clip_rect.y;
+    if (y2<top) {
      return(0);
     }
-    if ((x1>right) && (x2>right)) {
-     return(0);
-    }
-    if ((y1<top) && (y2<top)) {
-     return(0);
-    }
-    if ((y1>bottom) && (y2>bottom)) {
+    y1 = y - r;
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if (y1>bottom) {
      return(0);
     }
 
@@ -2263,6 +2730,13 @@ int ellipseColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rx, Sint16 ry, Ui
     Uint8 *colorptr;
 
     /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
      * Sanity check radii
      */
     if ((rx < 0) || (ry < 0)) {
@@ -2283,30 +2757,27 @@ int ellipseColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rx, Sint16 ry, Ui
     }
 
     /*
-     * Get clipping boundary
+     * Get circle and clipping boundary and
+     * test if bounding box of circle is visible
      */
-    left = dst->clip_rect.x;
-    right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
-
-    /*
-     * Test if bounding box of ellipse is visible
-     */
-    x1 = x - rx;
     x2 = x + rx;
-    y1 = y - ry;
+    left = dst->clip_rect.x;
+    if (x2<left) {
+     return(0);
+    }
+    x1 = x - rx;
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
+     return(0);
+    }
     y2 = y + ry;
-    if ((x1<left) && (x2<left)) {
+    top = dst->clip_rect.y;
+    if (y2<top) {
      return(0);
     }
-    if ((x1>right) && (x2>right)) {
-     return(0);
-    }
-    if ((y1<top) && (y2<top)) {
-     return(0);
-    }
-    if ((y1>bottom) && (y2>bottom)) {
+    y1 = y - ry;
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if (y1>bottom) {
      return(0);
     }
 
@@ -2553,6 +3024,25 @@ int ellipseRGBA(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rx, Sint16 ry, Uin
 
 /* ----- AA Ellipse */
 
+/* Win32 does not have lrint, so provide a local inline version */
+/* sweetlilmre: added hack to detect MinGW and avoid function */
+
+#if defined(WIN32) && !defined(__MINGW_H)
+
+__inline long int
+lrint (double flt)
+{
+  int intgr;
+  _asm
+  {
+    fld flt
+    fistp intgr
+  };
+  return intgr;
+}
+
+#endif
+
 /* Based on code from Anders Lindstroem, based on code from SGE, based on code from TwinLib */
 
 int aaellipseColor(SDL_Surface * dst, Sint16 xc, Sint16 yc, Sint16 rx, Sint16 ry, Uint32 color)
@@ -2566,6 +3056,13 @@ int aaellipseColor(SDL_Surface * dst, Sint16 xc, Sint16 yc, Sint16 rx, Sint16 ry
     double sab;
     Uint8 weight, iweight;
     int result;
+
+    /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
 
     /*
      * Sanity check radii
@@ -2588,30 +3085,27 @@ int aaellipseColor(SDL_Surface * dst, Sint16 xc, Sint16 yc, Sint16 rx, Sint16 ry
     }
 
     /*
-     * Get clipping boundary
+     * Get circle and clipping boundary and
+     * test if bounding box of circle is visible
      */
-    left = dst->clip_rect.x;
-    right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
-
-    /*
-     * Test if bounding box of ellipse is visible
-     */
-    x1 = xc - rx;
     x2 = xc + rx;
-    y1 = yc - ry;
+    left = dst->clip_rect.x;
+    if (x2<left) {
+     return(0);
+    }
+    x1 = xc - rx;
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
+     return(0);
+    }
     y2 = yc + ry;
-    if ((x1<left) && (x2<left)) {
+    top = dst->clip_rect.y;
+    if (y2<top) {
      return(0);
     }
-    if ((x1>right) && (x2>right)) {
-     return(0);
-    }
-    if ((y1<top) && (y2<top)) {
-     return(0);
-    }
-    if ((y1>bottom) && (y2>bottom)) {
+    y1 = yc - ry;
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if (y1>bottom) {
      return(0);
     }
 
@@ -2805,6 +3299,13 @@ int filledEllipseColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rx, Sint16 
     int xmk, xpk;
 
     /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
      * Sanity check radii
      */
     if ((rx < 0) || (ry < 0)) {
@@ -2825,30 +3326,27 @@ int filledEllipseColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rx, Sint16 
     }
 
     /*
-     * Get clipping boundary
+     * Get circle and clipping boundary and
+     * test if bounding box of circle is visible
      */
-    left = dst->clip_rect.x;
-    right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
-
-    /*
-     * Test if bounding box of ellipse is visible
-     */
-    x1 = x - rx;
     x2 = x + rx;
-    y1 = y - ry;
+    left = dst->clip_rect.x;
+    if (x2<left) {
+     return(0);
+    }
+    x1 = x - rx;
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
+     return(0);
+    }
     y2 = y + ry;
-    if ((x1<left) && (x2<left)) {
+    top = dst->clip_rect.y;
+    if (y2<top) {
      return(0);
     }
-    if ((x1>right) && (x2>right)) {
-     return(0);
-    }
-    if ((y1<top) && (y2<top)) {
-     return(0);
-    }
-    if ((y1>bottom) && (y2>bottom)) {
+    y1 = y - ry;
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if (y1>bottom) {
      return(0);
     }
 
@@ -2967,6 +3465,13 @@ int doPieColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rad, Sint16 start, 
     Sint16 *vx, *vy;
 
     /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
      * Sanity check radii
      */
     if (rad < 0) {
@@ -2987,30 +3492,28 @@ int doPieColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rad, Sint16 start, 
     }
 
     /*
-     * Get clipping boundary
+     * Clip against circle, not pie (not 100% optimal).
+     * Get pie's circle and clipping boundary and
+     * test if bounding box of circle is visible
      */
-    left = dst->clip_rect.x;
-    right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
-
-    /*
-     * Test if bounding box of pie's circle is visible
-     */
-    x1 = x - rad;
     x2 = x + rad;
-    y1 = y - rad;
+    left = dst->clip_rect.x;
+    if (x2<left) {
+     return(0);
+    }
+    x1 = x - rad;
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
+     return(0);
+    }
     y2 = y + rad;
-    if ((x1<left) && (x2<left)) {
+    top = dst->clip_rect.y;
+    if (y2<top) {
      return(0);
     }
-    if ((x1>right) && (x2>right)) {
-     return(0);
-    }
-    if ((y1<top) && (y2<top)) {
-     return(0);
-    }
-    if ((y1>bottom) && (y2>bottom)) {
+    y1 = y - rad;
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if (y1>bottom) {
      return(0);
     }
 
@@ -3211,6 +3714,13 @@ int polygonColor(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n,
     const Sint16 *x1, *y1, *x2, *y2;
 
     /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
      * Sanity check
      */
     if (n < 3) {
@@ -3258,6 +3768,13 @@ int aapolygonColor(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int 
     const Sint16 *x1, *y1, *x2, *y2;
 
     /*
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
      * Sanity check
      */
     if (n < 3) {
@@ -3300,10 +3817,13 @@ int aapolygonRGBA(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n
 
 int gfxPrimitivesCompareInt(const void *a, const void *b);
 
-static int *gfxPrimitivesPolyInts = NULL;
-static int gfxPrimitivesPolyAllocated = 0;
+/* Global vertex array to use if optional parameters are not given in polygon calls. */
+static int *gfxPrimitivesPolyIntsGlobal = NULL;
+static int gfxPrimitivesPolyAllocatedGlobal = 0;
 
-int filledPolygonColor(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, Uint32 color)
+/* (Note: The last two parameters are optional; but required for multithreaded operation.) */
+
+int filledPolygonColorMT(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, Uint32 color, int **polyInts, int *polyAllocated)
 {
     int result;
     int i;
@@ -3313,12 +3833,34 @@ int filledPolygonColor(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, 
     int x2, y2;
     int ind1, ind2;
     int ints;
+    int *gfxPrimitivesPolyInts = NULL;
+    int gfxPrimitivesPolyAllocated = 0;
 
     /*
-     * Sanity check
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
+     * Sanity check number of edges
      */
     if (n < 3) {
 	return -1;
+    }
+
+    /*
+     * Map polygon cache
+     */
+    if ((polyInts==NULL) || (polyAllocated==NULL)) {
+       /* Use global cache */
+       gfxPrimitivesPolyInts = gfxPrimitivesPolyIntsGlobal;
+       gfxPrimitivesPolyAllocated = gfxPrimitivesPolyAllocatedGlobal;
+    } else {
+       /* Use local cache */
+       gfxPrimitivesPolyInts = *polyInts;
+       gfxPrimitivesPolyAllocated = *polyAllocated;
     }
 
     /*
@@ -3332,6 +3874,31 @@ int filledPolygonColor(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, 
 	    gfxPrimitivesPolyInts = (int *) realloc(gfxPrimitivesPolyInts, sizeof(int) * n);
 	    gfxPrimitivesPolyAllocated = n;
 	}
+    }
+
+    /*
+     * Check temp array
+     */
+    if (gfxPrimitivesPolyInts==NULL) {
+      gfxPrimitivesPolyAllocated = 0;
+    }
+
+    /*
+     * Update cache variables
+     */
+    if ((polyInts==NULL) || (polyAllocated==NULL)) {
+     gfxPrimitivesPolyIntsGlobal =  gfxPrimitivesPolyInts;
+     gfxPrimitivesPolyAllocatedGlobal = gfxPrimitivesPolyAllocated;
+    } else {
+     *polyInts = gfxPrimitivesPolyInts;
+     *polyAllocated = gfxPrimitivesPolyAllocated;
+    }
+
+    /*
+     * Check temp array again
+     */
+    if (gfxPrimitivesPolyInts==NULL) {
+	return(-1);
     }
 
     /*
@@ -3377,7 +3944,6 @@ int filledPolygonColor(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, 
 	    if ( ((y >= y1) && (y < y2)) || ((y == maxy) && (y > y1) && (y <= y2)) ) {
 		gfxPrimitivesPolyInts[ints++] = ((65536 * (y - y1)) / (y2 - y1)) * (x2 - x1) + (65536 * x1);
 	    }
-
 	}
 
 	qsort(gfxPrimitivesPolyInts, ints, sizeof(int), gfxPrimitivesCompareInt);
@@ -3394,13 +3960,30 @@ int filledPolygonColor(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, 
     return (result);
 }
 
+int filledPolygonRGBAMT(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, Uint8 r, Uint8 g, Uint8 b, Uint8 a, int **polyInts, int *polyAllocated)
+{
+    /*
+     * Draw
+     */
+    return (filledPolygonColorMT(dst, vx, vy, n, ((Uint32) r << 24) | ((Uint32) g << 16) | ((Uint32) b << 8) | (Uint32) a, polyInts, polyAllocated));
+}
+
+/* Standard versions are calling multithreaded versions with NULL cache parameters */
+
+int filledPolygonColor(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, Uint32 color)
+{
+    /*
+     * Draw
+     */
+    return (filledPolygonColorMT(dst, vx, vy, n, color, NULL, NULL));
+}
+
 int filledPolygonRGBA(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
     /*
      * Draw
      */
-    return (filledPolygonColor
-	    (dst, vx, vy, n, ((Uint32) r << 24) | ((Uint32) g << 16) | ((Uint32) b << 8) | (Uint32) a));
+    return (filledPolygonColorMT(dst, vx, vy, n, ((Uint32) r << 24) | ((Uint32) g << 16) | ((Uint32) b << 8) | (Uint32) a, NULL, NULL));
 }
 
 int _texturedHLine(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y,SDL_Surface *texture,int texture_dx,int texture_dy)
@@ -3415,35 +3998,39 @@ int _texturedHLine(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y,SDL_Surface
     int pixels_written,write_width;
 
     /*
-     * Get clipping boundary
+     * Check visibility of clipping rectangle
      */
-    left = dst->clip_rect.x;
-    right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
-
-    /*
-     * Check visibility of hline
-     */
-    if ((x1<left) && (x2<left)) {
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
      return(0);
     }
-    if ((x1>right) && (x2>right)) {
-     return(0);
-    }
-    if ((y<top) || (y>bottom)) {
-     return (0);
-    }
-
 
     /*
-     * Swap x1, x2 if required
+     * Swap x1, x2 if required to ensure x1<=x2
      */
     if (x1 > x2) {
 	xtmp = x1;
 	x1 = x2;
 	x2 = xtmp;
     }
+
+    /*
+     * Get clipping boundary and
+     * check visibility of hline
+     */
+    left = dst->clip_rect.x;
+    if (x2<left) {
+     return(0);
+    }
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    if (x1>right) {
+     return(0);
+    }
+    top = dst->clip_rect.y;
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if ((y<top) || (y>bottom)) {
+     return (0);
+    }
+
 
     /*
      * Clip x
@@ -3455,18 +4042,10 @@ int _texturedHLine(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y,SDL_Surface
 	x2 = right;
     }
 
-
     /*
      * Calculate width
      */
     w = x2 - x1;
-
-    /*
-     * Sanity check on width
-     */
-    if (w < 0) {
-	return (0);
-    }
 
     /*
      * Determint where in the texture we start drawing
@@ -3494,14 +4073,14 @@ int _texturedHLine(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y,SDL_Surface
       source_rect.w = w;
       source_rect.x = texture_x_walker;
       dst_rect.x= x1;
-      result |= SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect) ;
+      result = (SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect) == 0);
     } else {//we need to draw multiple times
       //draw the first segment
       pixels_written = texture->w  -texture_x_walker;
       source_rect.w = pixels_written;
       source_rect.x = texture_x_walker;
       dst_rect.x= x1;
-      result |= SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect);
+      result = (SDL_BlitSurface (texture,&source_rect , dst, &dst_rect) == 0);
       write_width = texture->w;
 
       //now draw the rest
@@ -3513,7 +4092,7 @@ int _texturedHLine(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y,SDL_Surface
         }
         source_rect.w = write_width;
         dst_rect.x = x1 + pixels_written;
-        result |= SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect) ;
+        result  = (SDL_BlitSurface  (texture,&source_rect , dst, &dst_rect) == 0);
         pixels_written += write_width;
       }
   }
@@ -3534,10 +4113,12 @@ int _texturedHLine(SDL_Surface * dst, Sint16 x1, Sint16 x2, Sint16 y,SDL_Surface
  * texture_dx the offset of the texture relative to the screeen. if you move the polygon 10 pixels
  * to the left and want the texture to apear the same you need to increase the texture_dx value
  * texture_dy see texture_dx
+ *
+ * (Note: The last two parameters are optional, but required for multithreaded operation.)
  **/
-int texturedPolygon(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, SDL_Surface * texture,int texture_dx,int texture_dy)
+int texturedPolygonMT(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, SDL_Surface * texture,int texture_dx,int texture_dy, int **polyInts, int *polyAllocated)
 {
-    int result = 0;
+    int result;
     int i;
     int y, xa, xb;
     int minx,maxx,miny, maxy;
@@ -3545,11 +4126,34 @@ int texturedPolygon(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int
     int x2, y2;
     int ind1, ind2;
     int ints;
+    int *gfxPrimitivesPolyInts = NULL;
+    int gfxPrimitivesPolyAllocated = 0;
+
     /*
-     * Sanity check
+     * Check visibility of clipping rectangle
+     */
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
+
+    /*
+     * Sanity check number of edges
      */
     if (n < 3) {
 	return -1;
+    }
+
+    /*
+     * Map polygon cache
+     */
+    if ((polyInts==NULL) || (polyAllocated==NULL)) {
+       /* Use global cache */
+       gfxPrimitivesPolyInts = gfxPrimitivesPolyIntsGlobal;
+       gfxPrimitivesPolyAllocated = gfxPrimitivesPolyAllocatedGlobal;
+    } else {
+       /* Use local cache */
+       gfxPrimitivesPolyInts = *polyInts;
+       gfxPrimitivesPolyAllocated = *polyAllocated;
     }
 
     /*
@@ -3565,7 +4169,34 @@ int texturedPolygon(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int
 	}
     }
 
+    /*
+     * Check temp array
+     */
+    if (gfxPrimitivesPolyInts==NULL) {
+      gfxPrimitivesPolyAllocated = 0;
+    }
 
+    /*
+     * Update cache variables
+     */
+    if ((polyInts==NULL) || (polyAllocated==NULL)) {
+     gfxPrimitivesPolyIntsGlobal =  gfxPrimitivesPolyInts;
+     gfxPrimitivesPolyAllocatedGlobal = gfxPrimitivesPolyAllocated;
+    } else {
+     *polyInts = gfxPrimitivesPolyInts;
+     *polyAllocated = gfxPrimitivesPolyAllocated;
+    }
+
+    /*
+     * Check temp array again
+     */
+    if (gfxPrimitivesPolyInts==NULL) {
+	return(-1);
+    }
+
+    /*
+     * Determine X,Y minima,maxima
+     */
     miny = vy[0];
     maxy = vy[0];
     minx = vx[0];
@@ -3583,15 +4214,16 @@ int texturedPolygon(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int
         }
     }
     if (maxx <0 || minx > dst->w){
-      return result;
+      return -1;
     }
     if (maxy <0 || miny > dst->h){
-      return result;
+      return -1;
     }
 
     /*
      * Draw, scanning y
      */
+    result = 0;
     for (y = miny; (y <= maxy); y++) {
 	ints = 0;
 	for (i = 0; (i < n); i++) {
@@ -3632,14 +4264,27 @@ int texturedPolygon(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int
 	}
     }
 
-
     return (result);
 }
+
+/* Standard version is calling multithreaded versions with NULL cache parameters. */
+
+int texturedPolygon(SDL_Surface * dst, const Sint16 * vx, const Sint16 * vy, int n, SDL_Surface *texture, int texture_dx, int texture_dy)
+{
+ /*
+  * Draw
+  */
+   return (texturedPolygonMT(dst, vx, vy, n, texture, texture_dx, texture_dy, NULL, NULL));
+}
+
+/* Helper qsort callback for polygon drawing */
 
 int gfxPrimitivesCompareInt(const void *a, const void *b)
 {
     return (*(const int *) a) - (*(const int *) b);
 }
+
+
 
 /* ---- Character */
 
@@ -3694,30 +4339,35 @@ int characterColor(SDL_Surface * dst, Sint16 x, Sint16 y, char c, Uint32 color)
     int pitch;
 
     /*
-     * Get clipping boundary
+     * Check visibility of clipping rectangle
      */
-    left = dst->clip_rect.x;
-    right = dst->clip_rect.x + dst->clip_rect.w - 1;
-    top = dst->clip_rect.y;
-    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    if ((dst->clip_rect.w==0) || (dst->clip_rect.h==0)) {
+     return(0);
+    }
 
     /*
-     * Test if bounding box of character is visible
+     * Get text and clipping boundary and
+     * test if bounding box of character is visible
      */
-    x1 = x;
+
+    left = dst->clip_rect.x;
     x2 = x + charWidth;
-    y1 = y;
+    if (x2<left) {
+     return(0);
+    }
+    right = dst->clip_rect.x + dst->clip_rect.w - 1;
+    x1 = x;
+    if (x1>right) {
+     return(0);
+    }
+    top = dst->clip_rect.y;
     y2 = y + charHeight;
-    if ((x1<left) && (x2<left)) {
+    if (y2<top) {
      return(0);
     }
-    if ((x1>right) && (x2>right)) {
-     return(0);
-    }
-    if ((y1<top) && (y2<top)) {
-     return(0);
-    }
-    if ((y1>bottom) && (y2>bottom)) {
+    bottom = dst->clip_rect.y + dst->clip_rect.h - 1;
+    y1 = y;
+    if (y1>bottom) {
      return(0);
     }
 
