@@ -215,6 +215,37 @@ Optional arg @var{fill} means to fill the circle as well.  */)
 
 
 GH_DEFPROC
+(draw_arc, "draw-arc", 7, 0, 0,
+ (SCM surface, SCM x, SCM y, SCM r,
+  SCM start, SCM end, SCM color),
+ doc: /***********
+On @var{surface}, draw arc with center @var{x},@var{y}
+and radius @var{r}, going from @var{start} to @var{end} (degrees),
+with color @var{color}.
+
+If @var{start} is greater than @var{end}, the effective range of
+the arc is taken to be @var{end} to @var{start} (that is, these
+arguments are internally reversed).  */)
+{
+#define FUNC_NAME s_draw_arc
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x, 2);
+  ASSERT_EXACT (y, 3);
+  ASSERT_EXACT (r, 4);
+  ASSERT_EXACT (start, 5);
+  ASSERT_EXACT (end, 6);
+  ASSERT_EXACT (color, 7);
+
+  RETURN_INT
+    (arcColor (UNPACK_SURFACE (surface),
+               gh_scm2long (x), gh_scm2long (y), gh_scm2long (r),
+               gh_scm2long (start), gh_scm2long (end),
+               gh_scm2ulong (color)));
+#undef FUNC_NAME
+}
+
+
+GH_DEFPROC
 (draw_aa_circle, "draw-aa-circle", 5, 0, 0,
  (SCM surface, SCM x, SCM y, SCM r, SCM color),
  doc: /***********

@@ -437,6 +437,7 @@ to the audio device.
 @twerpdoc (draw-rectangle)
 @twerpdoc (draw-line)
 @twerpdoc (draw-aa-line)
+@twerpdoc (draw-arc)
 @twerpdoc (draw-circle)
 @twerpdoc (draw-aa-circle)
 @twerpdoc (draw-ellipse)

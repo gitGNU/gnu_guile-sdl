@@ -178,23 +178,32 @@
     (c! 540 100))
   (SDL:flip))
 
-;; draw pie slices
+;; draw pie slices and arcs
 (let ((w (SDL:surface:w SCREEN))
       (h (SDL:surface:h SCREEN)))
   (do ((slice 0 (1+ slice)))
       ((= 42 slice))
     (let* ((x (random w))
            (y (random h))
+           (r (min x (- w x) y (- h y)))
            (color (ash (random #xffffff) 8))
            (beg (random 360))
            (sub (quotient (- (+ beg (random 360)) beg) 16)))
       (do ((i 0 (1+ i)))
           ((= i 16))
         (SDL:draw-pie-slice SCREEN
-                            x y (min x (- w x) y (- h y))
+                            x y r
                             (+ beg (* sub i)) (+ beg (* sub (1+ i)))
                             (+ (* 9 i) color)
-                            #t))
+                            #t)
+        (SDL:draw-arc SCREEN
+                      x y (- r (quotient (* r i) 16))
+                      (+ beg (* sub i)) (+ beg (* sub (1+ i)))
+                      (logior color #xff)))
+      (SDL:draw-arc SCREEN
+                    x y r
+                    beg (+ beg (* sub 16))
+                    (logior color #xff))
       (SDL:flip))))
 
 ;; draw polygons

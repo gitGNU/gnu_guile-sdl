@@ -1,5 +1,11 @@
 2009-04-04  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	New (sdl gfx) proc: draw-arc
+
+	* sdlgfx.c (draw_arc): New GH_DEFPROC.
+
+2009-04-04  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Clean up some SDL_gfx warnings.
 
 	* SDL_gfx/SDL_gfxPrimitives.c (circleColor):
