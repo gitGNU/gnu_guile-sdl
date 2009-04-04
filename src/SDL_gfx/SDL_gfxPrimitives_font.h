@@ -8,7 +8,7 @@
 static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
 
     /*
-     * 0 0x00 '^@'
+     * 0 0x00 '^@' (null)
      */
     0x00,			/* 00000000 */
     0x00,			/* 00000000 */
@@ -20,7 +20,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 1 0x01 '^A'
+     * 1 0x01 ''
      */
     0x7e,			/* 01111110 */
     0x81,			/* 10000001 */
@@ -32,7 +32,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x7e,			/* 01111110 */
 
     /*
-     * 2 0x02 '^B'
+     * 2 0x02 ''
      */
     0x7e,			/* 01111110 */
     0xff,			/* 11111111 */
@@ -44,7 +44,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x7e,			/* 01111110 */
 
     /*
-     * 3 0x03 '^C'
+     * 3 0x03 ''
      */
     0x6c,			/* 01101100 */
     0xfe,			/* 11111110 */
@@ -56,7 +56,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 4 0x04 '^D'
+     * 4 0x04 ''
      */
     0x10,			/* 00010000 */
     0x38,			/* 00111000 */
@@ -68,7 +68,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 5 0x05 '^E'
+     * 5 0x05 ''
      */
     0x38,			/* 00111000 */
     0x7c,			/* 01111100 */
@@ -80,7 +80,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x38,			/* 00111000 */
 
     /*
-     * 6 0x06 '^F'
+     * 6 0x06 ''
      */
     0x10,			/* 00010000 */
     0x38,			/* 00111000 */
@@ -92,7 +92,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x38,			/* 00111000 */
 
     /*
-     * 7 0x07 '^G'
+     * 7 0x07 ''
      */
     0x00,			/* 00000000 */
     0x00,			/* 00000000 */
@@ -104,7 +104,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 8 0x08 '^H'
+     * 8 0x08 ''
      */
     0xff,			/* 11111111 */
     0xff,			/* 11111111 */
@@ -116,7 +116,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0xff,			/* 11111111 */
 
     /*
-     * 9 0x09 '^I'
+     * 9 0x09 '^I' (tab)
      */
     0x00,			/* 00000000 */
     0x3c,			/* 00111100 */
@@ -128,7 +128,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 10 0x0a '^J'
+     * 10 0x0a '^J' (newline)
      */
     0xff,			/* 11111111 */
     0xc3,			/* 11000011 */
@@ -140,7 +140,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0xff,			/* 11111111 */
 
     /*
-     * 11 0x0b '^K'
+     * 11 0x0b ''
      */
     0x0f,			/* 00001111 */
     0x07,			/* 00000111 */
@@ -152,7 +152,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x78,			/* 01111000 */
 
     /*
-     * 12 0x0c '^L'
+     * 12 0x0c ''
      */
     0x3c,			/* 00111100 */
     0x66,			/* 01100110 */
@@ -164,7 +164,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x18,			/* 00011000 */
 
     /*
-     * 13 0x0d '^M'
+     * 13 0x0d ''
      */
     0x3f,			/* 00111111 */
     0x33,			/* 00110011 */
@@ -176,7 +176,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0xe0,			/* 11100000 */
 
     /*
-     * 14 0x0e '^N'
+     * 14 0x0e ''
      */
     0x7f,			/* 01111111 */
     0x63,			/* 01100011 */
@@ -188,7 +188,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0xc0,			/* 11000000 */
 
     /*
-     * 15 0x0f '^O'
+     * 15 0x0f ''
      */
     0x18,			/* 00011000 */
     0xdb,			/* 11011011 */
@@ -200,7 +200,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x18,			/* 00011000 */
 
     /*
-     * 16 0x10 '^P'
+     * 16 0x10 ''
      */
     0x80,			/* 10000000 */
     0xe0,			/* 11100000 */
@@ -212,7 +212,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 17 0x11 '^Q'
+     * 17 0x11 ''
      */
     0x02,			/* 00000010 */
     0x0e,			/* 00001110 */
@@ -224,7 +224,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 18 0x12 '^R'
+     * 18 0x12 ''
      */
     0x18,			/* 00011000 */
     0x3c,			/* 00111100 */
@@ -236,7 +236,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x18,			/* 00011000 */
 
     /*
-     * 19 0x13 '^S'
+     * 19 0x13 ''
      */
     0x66,			/* 01100110 */
     0x66,			/* 01100110 */
@@ -248,7 +248,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 20 0x14 '^T'
+     * 20 0x14 ''
      */
     0x7f,			/* 01111111 */
     0xdb,			/* 11011011 */
@@ -260,7 +260,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 21 0x15 '^U'
+     * 21 0x15 ''
      */
     0x3e,			/* 00111110 */
     0x61,			/* 01100001 */
@@ -272,7 +272,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x7c,			/* 01111100 */
 
     /*
-     * 22 0x16 '^V'
+     * 22 0x16 ''
      */
     0x00,			/* 00000000 */
     0x00,			/* 00000000 */
@@ -284,7 +284,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 23 0x17 '^W'
+     * 23 0x17 ''
      */
     0x18,			/* 00011000 */
     0x3c,			/* 00111100 */
@@ -296,7 +296,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0xff,			/* 11111111 */
 
     /*
-     * 24 0x18 '^X'
+     * 24 0x18 ''
      */
     0x18,			/* 00011000 */
     0x3c,			/* 00111100 */
@@ -308,7 +308,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 25 0x19 '^Y'
+     * 25 0x19 ''
      */
     0x18,			/* 00011000 */
     0x18,			/* 00011000 */
@@ -320,7 +320,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 26 0x1a '^Z'
+     * 26 0x1a ''
      */
     0x00,			/* 00000000 */
     0x18,			/* 00011000 */
@@ -332,7 +332,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 27 0x1b '^['
+     * 27 0x1b ''
      */
     0x00,			/* 00000000 */
     0x30,			/* 00110000 */
@@ -344,7 +344,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 28 0x1c '^\'
+     * 28 0x1c ''
      */
     0x00,			/* 00000000 */
     0x00,			/* 00000000 */
@@ -356,7 +356,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 29 0x1d '^]'
+     * 29 0x1d ''
      */
     0x00,			/* 00000000 */
     0x24,			/* 00100100 */
@@ -368,7 +368,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 30 0x1e '^^'
+     * 30 0x1e ''
      */
     0x00,			/* 00000000 */
     0x18,			/* 00011000 */
@@ -380,7 +380,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 31 0x1f '^_'
+     * 31 0x1f ''
      */
     0x00,			/* 00000000 */
     0xff,			/* 11111111 */
@@ -392,7 +392,7 @@ static unsigned char gfxPrimitivesFontdata[GFX_FONTDATAMAX] = {
     0x00,			/* 00000000 */
 
     /*
-     * 32 0x20 ' '
+     * 32 0x20 ' ' (space)
      */
     0x00,			/* 00000000 */
     0x00,			/* 00000000 */
