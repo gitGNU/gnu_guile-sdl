@@ -1,3 +1,14 @@
+2009-04-04  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Clean up some SDL_gfx warnings.
+
+	* SDL_gfx/SDL_gfxPrimitives.c (circleColor):
+	Delete unused local variables `ocx', `ocy'.
+	(arcColor): Likewise.  Also, init `stopval_start', `temp'.
+	* SDL_gfx/SDL_rotozoom.c (transformSurfaceRGBA):
+	Init `c00', `c01', `c10', `c11'.
+	(rotozoomSurfaceXY): Init `colorkey'.
+
 2009-04-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Update SDL_gfx to 2.0.18.

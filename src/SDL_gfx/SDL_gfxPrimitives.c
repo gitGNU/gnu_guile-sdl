@@ -1985,8 +1985,6 @@ int circleColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 r, Uint32 color)
     Sint16 x1, y1, x2, y2;
     Sint16 cx = 0;
     Sint16 cy = r;
-    Sint16 ocx = (Sint16) 0xffff;
-    Sint16 ocy = (Sint16) 0xffff;
     Sint16 df = 1 - r;
     Sint16 d_e = 3;
     Sint16 d_se = -2 * r + 5;
@@ -2204,8 +2202,6 @@ int arcColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 r, Sint16 start, Sint
     Sint16 x1, y1, x2, y2;
     Sint16 cx = 0;
     Sint16 cy = r;
-    Sint16 ocx = (Sint16) 0xffff;
-    Sint16 ocy = (Sint16) 0xffff;
     Sint16 df = 1 - r;
     Sint16 d_e = 3;
     Sint16 d_se = -2 * r + 5;
@@ -2213,8 +2209,8 @@ int arcColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 r, Sint16 start, Sint
     Sint16 ypcy, ymcy, ypcx, ymcx;
     Uint8 *colorptr;
     Uint8 drawoct;
-    int startoct, endoct, oct, stopval_start, stopval_end;
-    double temp;
+    int startoct, endoct, oct, stopval_start = 0, stopval_end;
+    double temp = 0;
 
     /*
      * Check visibility of clipping rectangle

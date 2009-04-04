@@ -485,7 +485,7 @@ int zoomSurfaceY(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy)
 void transformSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int isin, int icos, int flipx, int flipy, int smooth)
 {
     int x, y, t1, t2, dx, dy, xd, yd, sdx, sdy, ax, ay, ex, ey, sw, sh;
-    tColorRGBA c00, c01, c10, c11;
+    tColorRGBA c00 = {}, c01 = {}, c10 = {}, c11 = {};
     tColorRGBA *pc, *sp;
     int gap;
 
@@ -871,7 +871,7 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
     int i, src_converted;
     int flipx,flipy;
     Uint8 r,g,b;
-    Uint32 colorkey;
+    Uint32 colorkey = 0;
     int colorKeyAvailable = 0;
 
     /*
