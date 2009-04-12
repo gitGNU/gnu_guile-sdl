@@ -22,7 +22,6 @@
 ;;; Code:
 
 (define-module (sdl misc-utils)
-  #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
   #:export (call-with-clip-rect
             rotate-square
             rectangle-closure
@@ -33,7 +32,8 @@
             copy-surface
             ignore-all-event-types-except
             fader/3p
-            toroidal-panner/3p))
+            toroidal-panner/3p)
+  #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
 
 ;; Set default clip rect to @var{rect}, call @var{thunk}, and restore it.
 ;; @var{thunk} is a procedure that takes no arguments.

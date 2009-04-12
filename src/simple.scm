@@ -20,12 +20,12 @@
 ;;; Code:
 
 (define-module (sdl simple)
-  #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc '///-))
-  #:use-module ((sdl ttf) #:renamer (symbol-prefix-proc '/T/-))
-  #:use-module ((sdl gfx) #:renamer (symbol-prefix-proc '/G/-))
   #:export (simple-canvas
             simple-stylus
-            simple-vpacked-image))
+            simple-vpacked-image)
+  #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc '///-))
+  #:use-module ((sdl ttf) #:renamer (symbol-prefix-proc '/T/-))
+  #:use-module ((sdl gfx) #:renamer (symbol-prefix-proc '/G/-)))
 
 ;; Return a @dfn{canvas closure} that accepts a few simple messages.
 ;; If @var{init?} is non-#f, initalize the SDL video subsystem first.
