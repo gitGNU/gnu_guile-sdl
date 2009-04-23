@@ -61,6 +61,13 @@
   (display-centered-w/height-proc
    (+ 3 height (quotient (- (SDL:rect:h test-rect) height) 2))))
 
+;; set the event filter: ignore the mouse every other second
+(define (ignore-maybe event-type)
+  (not (and (eq? 'SDL_MOUSEMOTION event-type)
+            (zero? (remainder (car (gettimeofday)) 2)))))
+(SDL:set-event-filter ignore-maybe #f)
+(and debug? (fso "event-filter: ~S~%" (SDL:get-event-filter)))
+
 ;; event loop
 (define input-loop
   (lambda (e)
@@ -72,6 +79,10 @@
                (mods (SDL:event:key:keysym:mod e)))
            (display-centered "~A: ~A ~A" event-type sym mods)
            (display-centered/next-line "~S" (SDL:get-key-state))
+           (and (eq? sym 'SDLK_SPACE)
+                (if (SDL:get-event-filter)
+                    (SDL:set-event-filter #f #f)
+                    (SDL:set-event-filter ignore-maybe #f)))
            (if (eq? sym 'SDLK_ESCAPE)
                #f
                (input-loop e))))
@@ -99,7 +110,7 @@
 
 ;; display an explanatory message
 ((display-centered-w/height-proc (- (SDL:rect:h test-rect) height 5))
- "(Press Escape to Quit)")
+ "(Press Escape to Quit, Space to Toggle Filter)")
 
 ;; main loop
 (input-loop (SDL:make-event 0))

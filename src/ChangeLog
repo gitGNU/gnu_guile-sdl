@@ -1,3 +1,13 @@
+2009-04-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Implement `set-event-filter', `get-event-filter'.
+
+	* sdlevent.c (event_filter_info): New struct.
+	(efi): New static `struct event_filter_info'.
+	(the_event_filter): New static func.
+	(set_event_filter, get_event_filter): Implement.
+	(gsdl_init_event): Init `efi.proc'.
+
 2009-04-04  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	New (sdl gfx) proc: draw-arc

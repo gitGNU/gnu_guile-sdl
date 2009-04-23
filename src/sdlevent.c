@@ -479,29 +479,82 @@ Push @var{event} onto the queue.  Return 1 for success,
 #undef FUNC_NAME
 }
 
+struct event_filter_info {
+  enum {
+    EF_TYPE_ONLY,
+    EF_FULL_EVENT
+  }                type;
+  SCM              proc;
+};
+
+static struct event_filter_info efi;
+
+static int
+the_event_filter (const SDL_Event *event)
+{
+  SCM arg = BOOL_FALSE;
+
+  switch (efi.type)
+    {
+    case EF_TYPE_ONLY:
+      arg = gsdl_long2enum (event->type, event_type_enum);
+      break;
+    case EF_FULL_EVENT:
+      {
+        SDL_Event *copy;
+
+        copy = scm_must_malloc (sizeof (SDL_Event), __func__);
+        *copy = *event;
+        SCM_NEWSMOB (arg, event_tag, copy);
+      }
+      break;
+    }
+  return NOT_FALSEP (gh_call1 (efi.proc, arg));
+}
+
 GH_DEFPROC
-(set_event_filter, "set-event-filter", 1, 0, 0,
- (SCM filter),
+(set_event_filter, "set-event-filter", 2, 0, 0,
+ (SCM filter, SCM fullp),
  doc: /***********
-[not yet implemented]  */)
+Set the event filter to @var{filter}, or clear it if @var{filter}
+is @code{#f}.  This is a procedure called with one arg, and whose
+return value, if non-@code{#f}, means to keep the event, otherwise
+discard it.  If @var{full?} is @code{#f}, the arg the event type (a
+symbol), otherwise it is an event object.
+
+-sig: (filter full?)  */)
 {
 #define FUNC_NAME s_set_event_filter
-  THROW_NOT_YET_IMPLEMENTED;
-  /* extern DECLSPEC void SDL_SetEventFilter (SDL_EventFilter filter); */
+  if (NOT_FALSEP (filter))
+    SCM_VALIDATE_PROC (1, filter);
+
+  efi.proc = filter;
+  efi.type = EXACTLY_FALSEP (fullp)
+    ? EF_TYPE_ONLY
+    : EF_FULL_EVENT;
+
+  SDL_SetEventFilter (EXACTLY_FALSEP (filter)
+                      ? NULL
+                      : the_event_filter);
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
 
 GH_DEFPROC
-(get_event_filter, "get-event-filter", 1, 0, 0,
- (SCM filter),
+(get_event_filter, "get-event-filter", 0, 0, 0,
+ (void),
  doc: /***********
-[not yet implemented]  */)
+Return information on the current event filter, or @code{#f}
+if none is set.  If there is a filter, the value is a pair
+with car the filter proc, and cdr @code{#f} if the proc takes
+an event type, or @code{#t} if the proc takes an event object.  */)
 {
 #define FUNC_NAME s_get_event_filter
-  THROW_NOT_YET_IMPLEMENTED;
-  /* extern DECLSPEC SDL_EventFilter SDL_GetEventFilter (void); */
-  RETURN_UNSPECIFIED;
+  return EXACTLY_FALSEP (efi.proc)
+    ? BOOL_FALSE
+    : gh_cons (efi.proc, (EF_FULL_EVENT == efi.type
+                          ? BOOL_TRUE
+                          : BOOL_FALSE));
 #undef FUNC_NAME
 }
 
@@ -867,6 +920,8 @@ gsdl_init_event (void)
      /* GSDL_CSCS (SDL_DISABLE), */
      GSDL_CSCS (SDL_ENABLE),
      NULL);
+
+  efi.proc = SCM_BOOL_F;
 
 #include "sdlevent.x"
 }
