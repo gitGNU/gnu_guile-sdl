@@ -47,7 +47,7 @@ TESTS_ENVIRONMENT = \
 # distribution
 as_is_dirs = test
 
-EXTRA_DIST = \
+EXTRA_DIST = HISTORY \
 	am/guile-sdl.m4 \
 	am/sofix \
 	$(as_is_dirs)

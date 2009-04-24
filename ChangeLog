@@ -1,5 +1,11 @@
 2009-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[maint] Distribute HISTORY, as well.
+
+	* Makefile.am (EXTRA_DIST): Add HISTORY.
+
+2009-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[maint] Consolidate cov/ into doc/.
 
 	* Makefile.am (as_is_dirs): Remove cov.
