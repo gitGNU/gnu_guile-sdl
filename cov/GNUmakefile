@@ -11,6 +11,6 @@ api.tdt: $(INCDIR)/SDL/*.h
 	./scan -o $@ --api $^
 
 clean:
-	rm -f *.tdt
+	rm -f api.tdt coverage.tdt
 
 # GNUmakefile ends here
