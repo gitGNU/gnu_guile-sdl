@@ -72,7 +72,9 @@ exec ${GUILE-guile} -e "(cov scan)" -s $0 "$@" # -*-scheme-*-
                 (apply simple-format #t "~S ~S\n" x))
               interface)))
 
-(define *implementation-root* "..")
+(define *implementation-root*
+  ;; This is another way to say `top-srcdir', but it must be maintained.
+  (dirname (dirname (car (command-line)))))
 (define *implementation-subdirs* '("src"))
 
 (define (implementation-files)

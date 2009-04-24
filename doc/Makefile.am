@@ -22,14 +22,26 @@ ef-ref.texi: $(top_srcdir)/*/*.c
 	  -I ../src/.doc-index \
 	  -o $@ $(TWERP2TEXIFLAGS) $<
 
-excuse.texi: $(top_srcdir)/cov/notes.tdt
+excuse.texi: $(srcdir)/notes.tdt
 	$(srcdir)/mkexcuse $< > $@
 
-EXTRA_DIST = ref.twerp ef-ref.twerp cov mkexcuse $(BUILT_SOURCES)
+EXTRA_DIST = ref.twerp ef-ref.twerp \
+ ChangeLog-cov scan notes.tdt \
+ cov mkexcuse $(BUILT_SOURCES)
 
 if MAINTAINER_MODE
 TESTS_ENVIRONMENT = srcdir=$(srcdir)
 TESTS = cov
 endif ## MAINTAINER_MODE
+
+coverage.tdt: api.tdt
+	$(srcdir)/scan -o $@ --coverage $<
+
+INCDIR = /usr/include
+
+api.tdt: $(INCDIR)/SDL/*.h
+	$(srcdir)/scan -o $@ --api $^
+
+CLEANFILES = api.tdt coverage.tdt
 
 ## Makefile.am ends here

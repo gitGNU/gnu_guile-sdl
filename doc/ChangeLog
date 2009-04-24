@@ -1,3 +1,14 @@
+2009-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[maint] Consolidate cov/ into doc/.
+
+	* notes.tdt: Move from ../cov.
+	* scan: Likewise; also, compute `*implementation-root*'.
+	* Makefile.am (excuse.texi): Update dependency list.
+	(EXTRA_DIST): Add ChangeLog-cov, scan, notes.tdt.
+	(coverage.tdt, api.tdt): New targets.
+	(INCDIR, CLEANFILES): New vars.
+
 2009-04-04  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	New (sdl gfx) proc: draw-arc

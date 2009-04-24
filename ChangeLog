@@ -1,3 +1,9 @@
+2009-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[maint] Consolidate cov/ into doc/.
+
+	* Makefile.am (as_is_dirs): Remove cov.
+
 2009-04-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Hide symbols of embedded libSDL_gfx, if compiling w/ GCC.
