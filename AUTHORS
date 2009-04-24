@@ -7,7 +7,7 @@ public release around the weekend of June 15, 2001.
 
 
 Andreas Schiffler <aschiffler@appwares.com>
-in directory sdl-gfx/SDL_gfx/, wrote:
+in directory src/SDL_gfx/, wrote:
   README
   SDL_framerate.c
   SDL_framerate.h
@@ -24,3 +24,6 @@ in directory sdl-gfx/SDL_gfx/, wrote:
 Steven G. Johnson and Matteo Frigo wrote:
   am/ax_check_compiler_flags.m4
   am/ax_gcc_x86_cpuid.m4
+
+
+Thien-Thi Nguyen modified everything, and wrote the rest.

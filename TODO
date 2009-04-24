@@ -5,10 +5,10 @@
     + SDL_imageFilter* (many funcs)
       + with C fallback
       + assembler only
-  - interface present but "not yet implemented"
+  + interface present but "not yet implemented"
     + peep-event
-    - set-event-filter
-    - get-event-filter
+    + set-event-filter
+    + get-event-filter
     + event-state
     + get-key-state
     + scale-surface (deleted)

@@ -26,16 +26,6 @@
     "Callback from SDL to Scheme code.  Can be tricky to get right..."))
   (fields (#:name sexp) (#:attributes sexp) (#:notes rest-lines-trim)))
 
- SDL_SetEventFilter (todo hook)
-
-This already has Scheme interface `(sdl sdl) set-event-filter',
-but calling that throws "not yet implemented".
-
- SDL_GetEventFilter (todo hook)
-
-This already has Scheme interface `(sdl sdl) get-event-filter',
-but calling that throws "not yet implemented".
-
  SDL_SoftStretch (internal probably-never)
 
 SDL_video.h sez:

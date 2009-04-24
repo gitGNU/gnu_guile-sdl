@@ -11,7 +11,7 @@ haven't been included because of the problems with Guile code being run
 from more than one thread.  However audio programming can be done with the
 module `(sdl mixer)' that requires the SDL_mixer library.
 
-Also included is SDL_gfx 2.0.16 (by Andreas Schiffler) and bindings for it.
+Also included is SDL_gfx 2.0.18 (by Andreas Schiffler) and bindings for it.
 
 
 Requirements
@@ -39,6 +39,10 @@ See file INSTALL for generic installation instructions.  Briefly:
 By default, configuration tries to find the libSDL_mixer and libSDL_ttf
 libs and headers to build modules (sdl mixer) and (sdl ttf), respectively.
 If they are not found, these modules will not be installed.
+
+Note: The output of "./configure --help" includes the line:
+  --disable-sdltest       Do not try to compile and run a test SDL program
+However, that option, an artifact of SDL's autoconf support, is ignored.
 
 By default, "make check" runs only tests which do not require user
 interaction.  You can specify `INTERACTIVE=1' to enable running these
