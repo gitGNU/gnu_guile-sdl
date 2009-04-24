@@ -17,7 +17,7 @@ dnl License along with this program; if not, write to the Free
 dnl Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 dnl Boston, MA  02110-1301  USA
 
-AC_INIT([guile-sdl],[0.3.9],[ttn@gnuvola.org])
+AC_INIT([guile-sdl],[0.3.10],[ttn@gnuvola.org])
 AC_CONFIG_AUX_DIR([am])
 AC_CONFIG_HEADERS([src/config.h])
 AM_INIT_AUTOMAKE([gnu 1.10.1])

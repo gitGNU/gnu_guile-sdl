@@ -1,9 +1,35 @@
 Guile-SDL NEWS
-Copyright (C) 2003,2004,2005,2006,2007,2008 Thien-Thi Nguyen
 
+Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009 Thien-Thi Nguyen
 See the end for copying conditions.
 
 Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
+
+
+- 0.3.10 | 2009-04-24
+
+  - bugfix: set-position now usable
+
+	This (sdl mixer) proc, introduced in Guile-SDL 0.3.9, now
+	correctly accepts three args, as documented.
+
+  - MMX detection
+
+	The configure script now detects whether or not the CPU supports
+	MMX instructions and automatically builds with USE_MMX=1 if so.
+
+  - (sdl sdl) procs implemented: set-event-filter, get-event-filter
+
+	Previously, these would throw an error saying "not yet
+	implemented (sorry)".  Note that the interface for
+	`set-event-filter' is different from before.  This is not a
+	problem since the proc was not useful before, anyway.
+
+  - new (sdl gfx) proc: draw-arc
+
+	This is because the embedded libSDL_gfx is now at version 2.0.18.
+
+  - maintenance uses autoconf 2.63 and libtool 2.2.6
 
 
 - 0.3.9 | 2008-04-02
@@ -33,7 +59,7 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
   - public repo: http://www.gnuvola.org/wip/  (guile-sdl)
 
-  - maintenance now uses libtool 1.5.24 and autoconf 1.10.1
+  - maintenance now uses libtool 1.5.24 and automake 1.10.1
 
 
 - 0.3.8 | 2007-10-11

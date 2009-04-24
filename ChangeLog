@@ -1,5 +1,11 @@
 2009-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Release: 0.3.10
+
+	* configure.in (AC_INIT): Bump version to "0.3.10" for release.
+
+2009-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[maint] Distribute HISTORY, as well.
 
 	* Makefile.am (EXTRA_DIST): Add HISTORY.
