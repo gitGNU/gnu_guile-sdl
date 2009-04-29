@@ -41,6 +41,8 @@ are preserved on all copies.
 
 @c --- title page ends here ---
 
+@contents
+
 @syncodeindex vr cp
 @syncodeindex fn cp
 
@@ -406,7 +408,5 @@ incompatible with SDL 1.2?
 @unnumbered Index
 
 @printindex cp
-
-@contents
 
 @bye
