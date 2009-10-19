@@ -22,8 +22,8 @@ in directory src/SDL_gfx/, wrote:
 
 
 Steven G. Johnson and Matteo Frigo wrote:
-  am/ax_check_compiler_flags.m4
-  am/ax_gcc_x86_cpuid.m4
+  build-aux/ax_check_compiler_flags.m4
+  builx-aux/ax_gcc_x86_cpuid.m4
 
 
 Thien-Thi Nguyen modified everything, and wrote the rest.

@@ -11,21 +11,21 @@ config.status
 configure
 libtool
 
-am/compile
-am/config.guess
-am/config.sub
-am/depcomp
-am/install-sh
-am/libtool.m4
-am/ltmain.sh
-am/ltoptions.m4
-am/ltsugar.m4
-am/ltversion.m4
-am/lt~obsolete.m4
-am/mdate-sh
-am/missing
-am/sofix
-am/texinfo.tex
+build-aux/compile
+build-aux/config.guess
+build-aux/config.sub
+build-aux/depcomp
+build-aux/install-sh
+build-aux/libtool.m4
+build-aux/ltmain.sh
+build-aux/ltoptions.m4
+build-aux/ltsugar.m4
+build-aux/ltversion.m4
+build-aux/lt~obsolete.m4
+build-aux/mdate-sh
+build-aux/missing
+build-aux/sofix
+build-aux/texinfo.tex
 
 cov/*.tdt
 

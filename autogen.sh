@@ -16,8 +16,8 @@
 
 set -e
 
-( cd am ; ln -sf ../../.common/sofix )
-test -f am/sofix || echo WARNING: am/sofix points nowhere
+( cd build-aux ; ln -sf ../../.common/sofix )
+test -f build-aux/sofix || echo WARNING: build-aux/sofix points nowhere
 
 ######################################################################
 # Libtool setup.
@@ -31,7 +31,7 @@ fi
 
 loc="-I `guile-config info datadir`/aclocal"
 test "$loc" = "-I `aclocal --print-ac-dir`" && loc=
-aclocal $loc -I am
+aclocal $loc -I build-aux
 autoheader
 autoconf
 ln -sf ../.common/GPLv3 COPYING

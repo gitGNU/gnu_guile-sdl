@@ -17,7 +17,7 @@
 ## Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ## Boston, MA  02110-1301  USA
 
-ACLOCAL_AMFLAGS = -I am
+ACLOCAL_AMFLAGS = -I build-aux
 
 SUBDIRS = src doc
 
@@ -65,8 +65,8 @@ TESTS_ENVIRONMENT = \
 as_is_dirs = test
 
 EXTRA_DIST = HISTORY \
-	am/guile-sdl.m4 \
-	am/sofix \
+	build-aux/guile-sdl.m4 \
+	build-aux/sofix \
 	$(as_is_dirs)
 
 ## these are to support upgrading from 0:0:0 ltlib: see README

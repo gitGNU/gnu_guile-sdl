@@ -1,3 +1,14 @@
+2009-10-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[maint] Rename aux dir to conventional `build-aux'.
+
+	* build-aux/ax_check_compiler_flags.m4: Rename from am/.
+	* build-aux/ax_gcc_x86_cpuid.m4: Likewise.
+	* build-aux/guile-sdl.m4: Likewise.
+	* autogen.sh: Update to use build-aux/.
+	* Makefile.am (ACLOCAL_AMFLAGS, EXTRA_DIST): Likewise.
+	* configure.in (AC_CONFIG_AUX_DIR): Likewise.
+
 2009-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.3.10
