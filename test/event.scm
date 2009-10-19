@@ -39,12 +39,7 @@
                     '(SDL_HWSURFACE SDL_DOUBLEBUF))
 
 ;; load a font file
-(define font (SDL:load-font
-              (in-vicinity (or (and=> (getenv "srcdir")
-                                      (lambda (d) (in-vicinity d "test")))
-                               ".")
-                           "crystal.ttf")
-              16))
+(define font (SDL:load-font (datafile "crystal.ttf") 16))
 
 ;; presize some stuff
 (define height (SDL:font:height font))

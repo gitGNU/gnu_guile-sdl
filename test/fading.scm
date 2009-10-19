@@ -42,12 +42,7 @@
 
 ;; do it!
 (let* ((canvas (simple-canvas #t 200 153 24))
-       (img1 (SDL:load-image (in-vicinity
-                              (or (and=> (getenv "srcdir")
-                                         (lambda (d)
-                                           (in-vicinity d "test")))
-                                  ".")
-                              "gnu-goatee.jpg")))
+       (img1 (SDL:load-image (datafile "gnu-goatee.jpg")))
        (img2 (as-four img1))
        (img3 (as-four img2))
        (void (SDL:make-surface 200 153)))

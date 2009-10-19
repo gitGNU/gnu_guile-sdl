@@ -39,11 +39,8 @@
 ;; set the video mode to the dimensions of our rect
 (SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 16
                     '(SDL_HWSURFACE))
-(let* ((datadir (or (and=> (getenv "srcdir")
-                           (lambda (d) (in-vicinity d "test")))
-                    "."))
-       (gnu-head (SDL:load-image (in-vicinity datadir "gnu-goatee.jpg")))
-       (rect (SDL:make-rect 0 0 200 153)))
+(let ((gnu-head (SDL:load-image (datafile "gnu-goatee.jpg")))
+      (rect (SDL:make-rect 0 0 200 153)))
   (do ((x 0 (1+ x)))
       ((= 2 x))
     (do ((y 0 (1+ y)))
