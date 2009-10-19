@@ -18,10 +18,10 @@
  * Boston, MA  02110-1301  USA
  */
 
+#include "config.h"
 #include <guile/gh.h>
 #include <stdarg.h>
 
-#include "config.h"
 #include "argcheck.h"
 #include "sdlenums.h"
 #include "sdlsmobs.h"

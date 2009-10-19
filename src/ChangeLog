@@ -1,3 +1,22 @@
+2009-10-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Ensure "config.h" is first to be #include:d.
+
+	* SDL_gfx/SDL_imageFilter.c: Move #include "config.h" first.
+	* misc.c: Likewise.
+	* sdl.c: Likewise.
+	* sdlcdrom.c: Likewise.
+	* sdlcolor.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+
 2009-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.3.10

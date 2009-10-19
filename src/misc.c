@@ -18,12 +18,12 @@
  * Boston, MA  02110-1301  USA
  */
 
+#include "config.h"
 #include <guile/gh.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_active.h>
 #include <SDL/SDL_syswm.h>
 
-#include "config.h"
 #include "sym.h"
 
 

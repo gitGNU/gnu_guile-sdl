@@ -11,11 +11,11 @@
 
 */
 
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "SDL_imageFilter.h"
-#include "config.h"
 
 #define swap_32(x) (((x) >> 24) | (((x) & 0x00ff0000) >> 8)  | (((x) & 0x0000ff00) << 8)  | ((x) << 24))
 
