@@ -34,7 +34,6 @@ test "$loc" = "-I `aclocal --print-ac-dir`" && loc=
 aclocal $loc -I build-aux
 autoheader
 autoconf
-ln -sf ../.common/GPLv3 COPYING
 automake --add-missing
 
 ######################################################################
