@@ -1,5 +1,11 @@
 2009-10-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[test] Avoid `return-it'.
+
+	* ttf.scm: Rephrase main loop to use named-let.
+
+2009-10-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[test int] Use `datafile' more.
 
 	* cursor.scm: Use `datafile'.
