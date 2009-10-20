@@ -19,15 +19,8 @@
  */
 
 #include "config.h"
-#include <guile/gh.h>
+#include "guile-sdl.h"
 #include <stdarg.h>
-
-#include "argcheck.h"
-#include "sdlenums.h"
-#include "sdlsmobs.h"
-#include "retval.h"
-#include "bool.h"
-
 
 static SCM hfold;
 static SCM acons;

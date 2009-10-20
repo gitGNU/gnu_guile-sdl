@@ -19,13 +19,8 @@
  */
 
 #include "config.h"
-#include <guile/gh.h>
+#include "guile-sdl.h"
 #include <alloca.h>
-
-#include "argcheck.h"
-#include "sdlsmobs.h"
-#include "retval.h"
-#include "bool.h"
 
 GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
 

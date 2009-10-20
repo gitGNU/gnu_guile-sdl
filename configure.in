@@ -56,15 +56,7 @@ else
 fi
 AC_SUBST(TWERP2TEXIFLAGS)
 
-AC_CHECK_HEADERS([guile/modsup.h])
-
-AH_BOTTOM([
-#ifdef HAVE_GUILE_MODSUP_H
-#include <guile/modsup.h>
-#else
-#include "modsup.h"
-#endif
-])
+AC_CHECK_HEADERS([guile/gh.h guile/modsup.h])
 
 GUILE_LIBSITE_DIR
 

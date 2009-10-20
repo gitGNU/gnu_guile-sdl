@@ -23,7 +23,7 @@
 #define GUILE_SDL_GPERFSUP_H 1
 
 #include <libguile/tags.h>
-#include "sdlenums.h"
+#include "guile-sdl.h"
 
 #define GPERFSUP_PRE_BOILERPLATE \
 static struct val_and_name * \

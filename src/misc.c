@@ -19,12 +19,10 @@
  */
 
 #include "config.h"
-#include <guile/gh.h>
+#include "guile-sdl.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_active.h>
 #include <SDL/SDL_syswm.h>
-
-#include "sym.h"
 
 
 DECLARE_SYM(mousefocus, "mousefocus");

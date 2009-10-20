@@ -19,15 +19,8 @@
  */
 
 #include "config.h"
-#include <guile/gh.h>
+#include "guile-sdl.h"
 #include <SDL/SDL_ttf.h>
-
-#include "argcheck.h"
-#include "sdlsmobs.h"
-#include "sdlenums.h"
-#include "retval.h"
-#include "sym.h"
-#include "bool.h"
 
 GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
 

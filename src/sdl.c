@@ -19,13 +19,8 @@
  */
 
 #include "config.h"
-#include <guile/gh.h>
+#include "guile-sdl.h"
 #include <SDL/SDL.h>
-
-#include "argcheck.h"
-#include "sdlenums.h"
-#include "sdlsmobs.h"
-#include "retval.h"
 
 
 /* Forward declarations on this page.  */

@@ -19,16 +19,8 @@
  */
 
 #include "config.h"
-#include <guile/gh.h>
+#include "guile-sdl.h"
 #include <SDL/SDL_events.h>
-
-#include "argcheck.h"
-#include "sdlsmobs.h"
-#include "sdlenums.h"
-#include "wholefns.h"
-#include "retval.h"
-#include "sym.h"
-#include "sym.h"
 
 /* enum/flag types */
 SCM event_type_enum;

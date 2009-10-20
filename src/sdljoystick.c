@@ -19,14 +19,8 @@
  */
 
 #include "config.h"
-#include <guile/gh.h>
+#include "guile-sdl.h"
 #include <SDL/SDL.h>
-
-#include "argcheck.h"
-#include "sdlsmobs.h"
-#include "retval.h"
-#include "sym.h"
-
 
 static long joystick_tag;
 

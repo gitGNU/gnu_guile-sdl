@@ -1,3 +1,10 @@
+2009-10-20  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Consolidate headers; nfc.
+
+	* configure.in (AC_CHECK_HEADERS): Check for guile/gh.h, too.
+	(AH_BOTTOM): Delete call.
+
 2009-10-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[maint] Rename aux dir to conventional `build-aux'.

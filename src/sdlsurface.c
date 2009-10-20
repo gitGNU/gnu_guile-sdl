@@ -19,18 +19,9 @@
  */
 
 #include "config.h"
-#include <guile/gh.h>
+#include "guile-sdl.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
-
-#include "argcheck.h"
-#include "wholefns.h"
-
-#include "sdlenums.h"
-#include "sdlsmobs.h"
-#include "sdlvideo.h"
-#include "retval.h"
-#include "bool.h"
 
 
 /* smob functions */

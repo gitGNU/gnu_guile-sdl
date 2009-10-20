@@ -19,17 +19,9 @@
  */
 
 #include "config.h"
-#include <guile/gh.h>
+#include "guile-sdl.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
-
-#include "argcheck.h"
-#include "sdlenums.h"
-#include "sdlsmobs.h"
-#include "retval.h"
-#include "sym.h"
-#include "bool.h"
-
 
 #define MAX_DRIVER_LEN    100
 #define GAMMA_TABLE_SIZE  256

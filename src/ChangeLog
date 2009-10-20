@@ -1,3 +1,34 @@
+2009-10-20  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Consolidate headers; nfc.
+
+	Implicit for each *.c is: don't #include <guile/gh.h>;
+	#include "guile-sdl.h"; dont't #include FOO.
+
+	* guile-sdl.h: New file.
+	* Makefile.am (headers): Add guile-sdl.h; delete argcheck.h,
+	bool,h, retval.h, sdlenums.h, sdlsmobs.h, sdlvideo.h, sym.h, wholefuns.h.
+	* gperfsup.h: Don't #include "sdlenums.h"; #include "guile-sdl.h".
+	* misc.c: "sym.h".
+	* sdl.c: "argcheck.h", "sdlenums.h", "sdlsmobs.h", "retval.h".
+	* sdlcdrom.c: "argcheck.h", "sdlsmobs.h", "retval.h", "sym.h", "bool.h".
+	* sdlcolor.c: "argcheck.h", "sdlsmobs.h", "wholefns.h".
+	* sdlenums.c: "argcheck.h", "sdlenums.h",
+	"sdlsmobs.h", "retval.h", "bool.h".
+	* sdlevent.c: "argcheck.h", "sdlsmobs.h",
+	"sdlenums.h", "wholefns.h", "retval.h", "sym.h".
+	* sdlgfx.c: "argcheck.h", "sdlsmobs.h", "retval.h", "bool.h".
+	* sdljoystick.c: "argcheck.h", "sdlsmobs.h", "retval.h", "sym.h".
+	* sdlmixer.c: "argcheck.h", "sdlenums.h"
+	"sdlsmobs.h", "retval.h", "sym.h", "bool.h".
+	* sdlrect.c: "argcheck.h", "sdlsmobs.h", "wholefns.h".
+	* sdlsurface.c: "argcheck.h", "wholefns.h",
+	"sdlenums.h", "sdlsmobs.h", "sdlvideo.h", "retval.h", "bool.h".
+	* sdlttf.c: "argcheck.h", "sdlsmobs.h",
+	"sdlenums.h", "retval.h", "sym.h", "bool.h".
+	* sdlvideo.c: "argcheck.h", "sdlenums.h",
+	"sdlsmobs.h", "retval.h", "sym.h", "bool.h".
+
 2009-10-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build] Ensure "config.h" is first to be #include:d.

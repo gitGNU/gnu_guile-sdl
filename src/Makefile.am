@@ -27,8 +27,7 @@ WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
                   sdlenums.c misc.c
 FLAGSTASH       = initf.c kmodf.c videof.c palettef.c overlayf.c evmaskf.c
-headers         = argcheck.h bool.h gperfsup.h modsup.h retval.h \
-                  sdlenums.h sdlsmobs.h sdlvideo.h sym.h wholefns.h
+headers         = guile-sdl.h gperfsup.h modsup.h
 scheme          = misc-utils.scm simple.scm
 
 modflags        = -avoid-version -export-dynamic -module
