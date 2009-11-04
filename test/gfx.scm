@@ -143,10 +143,12 @@
       (SDL:draw-line SCREEN x1 y1 x2 y2 color)))
 
   (define (span-points beg end steps)
+    (define (integer<- x)
+      (inexact->exact (round x)))
     (let ((inc (/ (- end beg) steps)))
       (let loop ((ls (list end)))
         (if (<= (inexact->exact (car ls)) beg)
-            (map inexact->exact ls)
+            (map integer<- ls)
             (loop (cons (- (car ls) inc) ls))))))
 
   (define (mesh l r t b steps)
