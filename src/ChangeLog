@@ -1253,3 +1253,8 @@
 
 	* Makefile.am: Merge multiple `SUFFIXES' directives into one.
 
+
+Copyright (C) 2010 Thien-Thi Nguyen
+
+Copying and distribution of this file, with or without modification,
+are permitted provided the copyright notice and this notice are preserved.

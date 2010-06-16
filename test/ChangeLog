@@ -368,3 +368,9 @@
 	Split one `use-modules' into two for `(sdl sdl)' and `(sdl mixer)'.
 	In the case where `sdl-query-spec' returns #f,
 	display informative message before doing exit 77.
+
+
+Copyright (C) 2010 Thien-Thi Nguyen
+
+Copying and distribution of this file, with or without modification,
+are permitted provided the copyright notice and this notice are preserved.
