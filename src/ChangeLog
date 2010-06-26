@@ -1,5 +1,21 @@
 2010-06-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[dist] Add copyright notice to SDL_gfx source files.
+
+	* SDL_gfx/SDL_framerate.c: Add copyright notice.
+	* SDL_gfx/SDL_framerate.h: Likewise.
+	* SDL_gfx/SDL_gfxBlitFunc.c: Likewise.
+	* SDL_gfx/SDL_gfxBlitFunc.h: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives.c: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives.h: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives_font.h: Likewise.
+	* SDL_gfx/SDL_imageFilter.c: Likewise.
+	* SDL_gfx/SDL_imageFilter.h: Likewise.
+	* SDL_gfx/SDL_rotozoom.c: Likewise.
+	* SDL_gfx/SDL_rotozoom.h: Likewise.
+
+2010-06-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[dist] Fix omission bug: Also distribute SDL_gfx LICENSE.
 
 	* SDL_gfx/Makefile.am: Add copyright notice.
