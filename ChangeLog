@@ -1,3 +1,10 @@
+2010-06-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Make sure to #include <libguile> for guile/{gh,modsup}.h checks.
+
+	* configure.in (AC_CHECK_HEADERS): Use 4-arg form;
+	in 4th arg, #include <libguile.h> unconditionally.
+
 2009-10-20  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Consolidate headers; nfc.
