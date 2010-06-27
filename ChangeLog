@@ -1,3 +1,9 @@
+2010-06-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[maint] Rename configure.in to configure.ac.
+
+	* configure.ac: Rename from configure.in.
+
 2010-06-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build] Make sure to #include <libguile> for guile/{gh,modsup}.h checks.

@@ -1,4 +1,4 @@
-dnl Process this file with autoconf to produce configure.
+dnl configure.ac
 
 dnl Copyright (C) 2003, 2004, 2005, 2007, 2008, 2009 Thien-Thi Nguyen
 dnl
@@ -121,4 +121,4 @@ AC_CONFIG_FILES([
 
 AC_OUTPUT
 
-dnl configure.in ends here
+dnl configure.ac ends here
