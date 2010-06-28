@@ -43,6 +43,7 @@ excuse.texi: $(srcdir)/notes.tdt
 	$(srcdir)/mkexcuse $< > $@
 
 EXTRA_DIST = ref.twerp ef-ref.twerp \
+ fdl.texi \
  ChangeLog-cov scan notes.tdt \
  cov mkexcuse $(BUILT_SOURCES)
 
