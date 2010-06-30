@@ -1,0 +1,53 @@
+HACKING Guile-SDL                                               -*- org -*-
+
+This file is both a guide for newcomers and a todo list for oldstayers.
+It lives in the repo but is not included in the distribution.
+
+* 0.3.11
+*** upgrade to SDL_gfx 2.0.21
+*** remove ‘@node TODO’ from manual
+
+* ongoing (some of which may go into the next release)
+*** use pre-installed SDL_gfx if sufficiently functional
+*** comment code (audience: intermediate scheme programmer)
+*** transition maintenance support from ttn-fu to Guile-fu
+***** doc extraction / mogrification
+***** compilation
+***** linking
+*** obsolete "maintainer mode"
+*** see also [[file:TODO][TODO]]
+
+* portability
+  | guile version | bootstrap | build | run |
+  |     1.4.1.118 | yes       | yes   | yes |
+  |     1.4.1.119 | yes       | yes   | yes |
+
+* coding standards
+*** C code: indent -nut
+*** indent with emacs (don't like the result? fix emacs!)
+*** (setq indent-tabs-mode nil)
+*** (add-hook 'before-save-hook 'delete-trailing-whitespace)
+*** everything UTF-8
+*** ChangeLog
+***** ttn-style: TITLE LF LF {BLURB LF LF}* BODY
+***** exclude titles suffixed "; nfc." (no functional change)
+
+* copyright update policy
+*** individual files only on change
+*** individual years
+
+* repository branches
+*** no ‘master’ -- do not panic!
+*** a -- "anchor", "asis", "already", "argh-just-leave-me-alone"
+    This branch is for what was already released.  It will never be rebased.
+    Its tip will always have a commit title starting with "Release".
+*** p -- "perhaps", "probably"
+    This branch is where largely-stable changes intended for the next release
+    live.  It's very unlikely to undergo rebase, but not entirely impossible.
+    Guile-SDL hackers probably want to start here.
+*** q/TOPIC -- "questionably", "querulously"
+    These are experimental, exploring the particular TOPIC.  They are intended
+    to be ephemeral, undergoing rebase, amendment, and ultimately removal.
+*** zzz -- "zleeping, znoring, zoftly"
+    This branch is where changes that will never be part of a release are
+    archived.  It is rebased every once in a while for exercise.
