@@ -1,5 +1,12 @@
 2011-04-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[gfx] Extend ‘imfi-mmx?’ to also wrap SDL_imageFilterMMX{on,off}.
+
+	* sdlgfx.c (imfi_mmx_p): Take optional arg SETTING;
+	enable MMX if ‘#t’; disable if ‘#f’; do nothing otherwise.
+
+2011-04-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[gfx] Upgrade to SDL_gfx 2.0.22.
 
 	* SDL_gfx/README: Update

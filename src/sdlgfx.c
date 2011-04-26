@@ -925,14 +925,24 @@ may be relaxed in the future.  */)
 #include "SDL_gfx/SDL_imageFilter.h"
 
 GH_DEFPROC
-(imfi_mmx_p, "imfi-mmx?", 0, 0, 0,
- (void),
+(imfi_mmx_p, "imfi-mmx?", 0, 1, 0,
+ (SCM setting),
  doc: /***********
-Return @code{#t} iff @code{imfi-} procs use MMX instructions.  */)
+If @var{setting} is @code{#t}, enable @sc{mmx} instructions
+for the image filter procs (if possible); if @code{#f}, disable;
+otherwise do nothing.  Return the (boolean) value of the setting
+afterwards.  */)
 {
-  return SDL_imageFilterMMXdetect () ? SCM_BOOL_T : SCM_BOOL_F;
-}
+  if (BOUNDP (setting))
+    {
+      if (EXACTLY_TRUEP (setting))
+        SDL_imageFilterMMXon ();
+      if (EXACTLY_FALSEP (setting))
+        SDL_imageFilterMMXoff ();
+    }
 
+  RETURN_BOOL (SDL_imageFilterMMXdetect ());
+}
 
 static int
 check_3_surfaces (unsigned char **pa, SDL_Surface *a,
