@@ -42,7 +42,8 @@ sdl_la_SOURCES = $(FLAGSTASH) $(WRAPPER_SOURCES) $(headers)
 sdl_la_LDFLAGS = $(modflags)
 
 gfx_la_SOURCES  = sdlgfx.c $(headers)
-gfx_la_LDFLAGS  = $(modflags) -LSDL_gfx -lSDL_gfx
+gfx_la_LDFLAGS  = $(modflags)
+gfx_la_LIBADD   = SDL_gfx/libSDL_gfx.la
 
 SUFFIXES = .c .fspec .x .doc
 

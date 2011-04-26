@@ -1,5 +1,12 @@
 2011-04-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build] Use _LIBADD instead of _LDFLAGS to embed SDL_gfx.
+
+	* Makefile.am (gfx_la_LDFLAGS): Remove ‘-L’ and ‘-l’ args.
+	(gfx_La_LIBADD): New var.
+
+2011-04-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Make ‘free’ decl available to sdlenums.c.
 
 	* sdlenums.c: #include <stdlib.h>.
