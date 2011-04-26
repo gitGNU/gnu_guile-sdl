@@ -1,20 +1,10 @@
-/* SDL_framerate: framerate manager
 
-   Copyright (C) 2008 Andreas Schiffler
+/*
 
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
+SDL_framerate: framerate manager
 
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
+LGPL (c) A. Schiffler
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #ifndef _SDL_framerate_h
@@ -25,49 +15,63 @@
 extern "C" {
 #endif
 
-/* --- */
+	/* --- */
 
 #include <SDL/SDL.h>
 
-/* --------- Definitions */
+	/* --------- Definitions */
 
-/* Some rates in Hz */
-
+/*!
+\brief Highest possible rate supported by framerate controller in Hz (1/s).
+*/
 #define FPS_UPPER_LIMIT		200
+
+/*!
+\brief Lowest possible rate supported by framerate controller in Hz (1/s).
+*/
 #define FPS_LOWER_LIMIT		1
+
+/*!
+\brief Default rate of framerate controller in Hz (1/s).
+*/
 #define FPS_DEFAULT		30
 
-/* --------- Structure variables */
+/*!
+\brief Structure holding the state and timing information of the framerate controller.
+*/
+	typedef struct {
+		Uint32 framecount;
+		float rateticks;
+		Uint32 lastticks;
+		Uint32 rate;
+	} FPSmanager;
 
-    typedef struct {
-	Uint32 framecount;
-	float rateticks;
-	Uint32 lastticks;
-	Uint32 rate;
-    } FPSmanager;
+	/* ---- Function Prototypes */
 
-/* --------- Function prototypes */
-
-#ifdef WIN32
-#ifdef BUILD_DLL
-#define DLLINTERFACE __declspec(dllexport)
-#else
-#define DLLINTERFACE __declspec(dllimport)
+#if defined(WIN32) || defined(WIN64)
+#  if defined(DLL_EXPORT) && !defined(LIBSDL_GFX_DLL_IMPORT)
+#    define SDL_FRAMERATE_SCOPE __declspec(dllexport)
+#  else
+#    ifdef LIBSDL_GFX_DLL_IMPORT
+#      define SDL_FRAMERATE_SCOPE __declspec(dllimport)
+#    endif
+#  endif
 #endif
-#else
-#define DLLINTERFACE
+#ifndef SDL_FRAMERATE_SCOPE
+#  define SDL_FRAMERATE_SCOPE extern
 #endif
 
-/* Functions return 0 or value for sucess and -1 for error */
+	/* Functions return 0 or value for sucess and -1 for error */
 
-    DLLINTERFACE void SDL_initFramerate(FPSmanager * manager);
-    DLLINTERFACE int SDL_setFramerate(FPSmanager * manager, int rate);
-    DLLINTERFACE int SDL_getFramerate(FPSmanager * manager);
-    DLLINTERFACE void SDL_framerateDelay(FPSmanager * manager);
+	SDL_FRAMERATE_SCOPE void SDL_initFramerate(FPSmanager * manager);
+	SDL_FRAMERATE_SCOPE int SDL_setFramerate(FPSmanager * manager, int rate);
+	SDL_FRAMERATE_SCOPE int SDL_getFramerate(FPSmanager * manager);
+	SDL_FRAMERATE_SCOPE int SDL_getFramecount(FPSmanager * manager);
+	SDL_FRAMERATE_SCOPE void SDL_framerateDelay(FPSmanager * manager);
 
-/* --- */
+	/* --- */
 
-/* Ends C function definitions when using C++ */
+	/* Ends C function definitions when using C++ */
 #ifdef __cplusplus
 }
 #endif

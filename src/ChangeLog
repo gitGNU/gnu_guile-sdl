@@ -1,5 +1,23 @@
 2011-04-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[gfx] Upgrade to SDL_gfx 2.0.22.
+
+	* SDL_gfx/README: Update
+	* SDL_gfx/SDL_framerate.h: Update; plus use #include
+	<SDL/foo.h> instead of #include <foo.h> or "foo.h".
+	* SDL_gfx/SDL_gfxBlitFunc.h: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives.h: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives_font.h: Likewise.
+	* SDL_gfx/SDL_imageFilter.h: Likewise.
+	* SDL_gfx/SDL_rotozoom.h: Likewise.
+	* SDL_gfx/SDL_framerate.c: Update; plus #include "config.h".
+	* SDL_gfx/SDL_gfxBlitFunc.c: Likewise.
+	* SDL_gfx/SDL_gfxPrimitives.c: Likewise.
+	* SDL_gfx/SDL_imageFilter.c: Likewise.
+	* SDL_gfx/SDL_rotozoom.c: Likewise.
+
+2011-04-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build] Use _LIBADD instead of _LDFLAGS to embed SDL_gfx.
 
 	* Makefile.am (gfx_la_LDFLAGS): Remove ‘-L’ and ‘-l’ args.
