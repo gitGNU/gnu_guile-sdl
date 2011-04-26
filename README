@@ -72,28 +72,3 @@ the file INSTALL if you wish to choose different values for the ${} vars.
 Additionally, if your system supports "guile-tools make-module-catalog",
 that program is run in both "site" directories to create and/or update the
 module catalogs there.
-
-
-Upgrading Tips
---------------
-
-Starting with Guile-SDL 0.2.x, the shared object libraries that implement
-the compiled modules are no longer installed in ${libdir}.  This means if
-you have installed previous versions of Guile-SDL, there are undesirable
-leftover files in ${libdir}.  There are three ways to remove them:
-
-   (1) If you have the build tree from the previous version of
-       Guile-SDL, you can do "make uninstall" there.
-
-   (2) You can do "rm -f ${libdir}/libguileSDL*" manually.  (You
-       will also need to determine the value of ${libdir} manually.)
-
-   (3) You can make use of an upgrade facility provided with this and
-       later versions of Guile-SDL and do "make check-000-libdir" to
-       list the leftover files, and "make clean-000-libdir" to delete
-       them (using the exact same command as in (2)).  This method is
-       recommended over the others.
-
-Note that the "000" are all zeroes; it signifies the libtool version
-number and has nothing to do with either the Guile-SDL package version or
-the library "release" version.

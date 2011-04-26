@@ -69,14 +69,4 @@ EXTRA_DIST = HISTORY \
 	build-aux/sofix \
 	$(as_is_dirs)
 
-## these are to support upgrading from 0:0:0 ltlib: see README
-
-check-000-libdir:
-	@echo 'files in $(libdir) matching "libguileSDL*":'
-	@ls $(libdir)/libguileSDL* | sed 's/^/ /g'
-
-clean-000-libdir:
-	@echo 'deleting $(libdir)/libguileSDL* files'
-	rm -f $(libdir)/libguileSDL*
-
 ## Makefile.am ends here
