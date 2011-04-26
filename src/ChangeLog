@@ -1,3 +1,9 @@
+2011-04-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Make ‘free’ decl available to sdlenums.c.
+
+	* sdlenums.c: #include <stdlib.h>.
+
 2010-06-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[dist] Add copyright notice to SDL_gfx source files.

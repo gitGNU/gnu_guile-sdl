@@ -19,6 +19,7 @@
  */
 
 #include "config.h"
+#include <stdlib.h>
 #include "guile-sdl.h"
 #include <stdarg.h>
 
