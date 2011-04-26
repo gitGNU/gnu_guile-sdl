@@ -47,6 +47,7 @@
 
 (define mmx? (SDL:imfi-mmx?))
 (and debug? (fso "mmx: ~A\n" (if mmx? 'yes 'no)))
+(and (getenv "NOMMX") (SDL:imfi-mmx? #f))
 
 ;; character (font) stuff and blitting
 (let* ((screen (SDL:get-video-surface))

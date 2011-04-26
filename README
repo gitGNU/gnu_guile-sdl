@@ -33,7 +33,7 @@ See file INSTALL for generic installation instructions.  Briefly:
 
   ./configure [--disable-mixer] [--disable-ttf]
   make
-  make check [INTERACTIVE=1] [DEBUG=1]
+  make check [INTERACTIVE=1] [DEBUG=1] [NOMMX=1]
   make install
 
 By default, configuration tries to find the libSDL_mixer and libSDL_ttf
@@ -49,6 +49,8 @@ interaction.  You can specify `INTERACTIVE=1' to enable running these
 particular tests.  If there are problems, add `DEBUG=1' and send the
 output to the maintainer along w/ a precise description of observations
 and expectations (i.e. file a bug report).
+
+If the gfx test segfaults, try running it with `NOMMX=1'.
 
 
 Installation Result
