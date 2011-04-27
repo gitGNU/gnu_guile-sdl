@@ -1,5 +1,13 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: BOOLEAN
+
+	* guile-sdl.h (BOOLEAN): New macro.
+	(RETURN_BOOL): Use it.
+	* sdlvideo.c (get_video_info): Likewise.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Use ‘scm_vector_ref’ more.
 
 	* sdlvideo.c (set_colors, set_palette): Use ‘scm_vector_ref’.

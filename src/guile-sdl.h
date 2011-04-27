@@ -47,6 +47,7 @@
 #define PAIRP(obj)        (gh_pair_p (obj))
 #define EXACTP(obj)       (gh_exact_p (obj))
 #define SYMBOLP(obj)      (gh_symbol_p (obj))
+#define BOOLEAN            gh_bool2scm
 #define NUM_INT            gh_int2scm
 #define NUM_LONG           gh_long2scm
 #define NUM_ULONG          gh_ulong2scm
@@ -67,6 +68,7 @@
 #define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
 #define EXACTP(obj)       (scm_is_true (scm_exact_p (obj)))
 #define SYMBOLP(obj)      (scm_is_symbol (obj))
+#define BOOLEAN            scm_from_bool
 #define NUM_INT            scm_from_int
 #define NUM_LONG           scm_from_long
 #define NUM_ULONG          scm_from_ulong
@@ -287,7 +289,7 @@ extern long gsdl_smob_tags[GSTX_TOO_MUCH];
 
 /* Return a converted boolean.  */
 #define RETURN_BOOL(exp) \
-  return gh_bool2scm (exp)
+  return BOOLEAN (exp)
 
 /* Return a converted 0-terminated string.  */
 #define RETURN_0STR(exp) \

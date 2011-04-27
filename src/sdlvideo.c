@@ -296,15 +296,15 @@ Keys are: @code{hw-available}, @code{wm-available},
   SCM_NEWSMOB (format, pixel_format_tag, info->vfmt);
 
   RETURN_LIST11
-    (CONS (SYM (hw_available), gh_bool2scm (info->hw_available)),
-     CONS (SYM (wm_available), gh_bool2scm (info->wm_available)),
-     CONS (SYM (blit_hw),      gh_bool2scm (info->blit_hw)),
-     CONS (SYM (blit_hw_CC),   gh_bool2scm (info->blit_hw_CC)),
-     CONS (SYM (blit_hw_A),    gh_bool2scm (info->blit_hw_A)),
-     CONS (SYM (blit_sw),      gh_bool2scm (info->blit_sw)),
-     CONS (SYM (blit_sw_CC),   gh_bool2scm (info->blit_sw_CC)),
-     CONS (SYM (blit_sw_A),    gh_bool2scm (info->blit_sw_A)),
-     CONS (SYM (blit_fill),    gh_bool2scm (info->blit_fill)),
+    (CONS (SYM (hw_available), BOOLEAN (info->hw_available)),
+     CONS (SYM (wm_available), BOOLEAN (info->wm_available)),
+     CONS (SYM (blit_hw),      BOOLEAN (info->blit_hw)),
+     CONS (SYM (blit_hw_CC),   BOOLEAN (info->blit_hw_CC)),
+     CONS (SYM (blit_hw_A),    BOOLEAN (info->blit_hw_A)),
+     CONS (SYM (blit_sw),      BOOLEAN (info->blit_sw)),
+     CONS (SYM (blit_sw_CC),   BOOLEAN (info->blit_sw_CC)),
+     CONS (SYM (blit_sw_A),    BOOLEAN (info->blit_sw_A)),
+     CONS (SYM (blit_fill),    BOOLEAN (info->blit_fill)),
      CONS (SYM (video_mem),    NUM_ULONG (info->video_mem)),
      CONS (SYM (vfmt),         format));
 #undef FUNC_NAME
