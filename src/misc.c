@@ -49,6 +49,8 @@ The list may include: `mousefocus', `inputfocus', `active'.  */)
 
 DECLARE_SYM(x11, "x11");
 
+#define LIST3(a,b,c)  CONS (a, CONS (b, CONS (c, SCM_EOL)))
+
 PRIMPROC
 (get_wm_info, "get-wm-info", 0, 0, 0,
  (void),
@@ -76,10 +78,9 @@ integers).  */)
       PUSH (gh_ulong2scm (info->info.x11.window));
       PUSH (gh_ulong2scm ((unsigned long) info->info.x11.display));
       PUSH (SDL_SYSWM_X11 == info->subsystem ? SYM (x11) : SCM_BOOL_F);
-      PUSH (gh_list (gh_int2scm (info->version.major),
-                     gh_int2scm (info->version.minor),
-                     gh_int2scm (info->version.patch),
-                     SCM_UNDEFINED));
+      PUSH (LIST3 (gh_int2scm (info->version.major),
+                   gh_int2scm (info->version.minor),
+                   gh_int2scm (info->version.patch)));
 #undef PUSH
     }
 

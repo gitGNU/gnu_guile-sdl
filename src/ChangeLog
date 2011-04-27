@@ -1,5 +1,12 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Avoid ‘gh_list’.
+
+	* misc.c (LIST3): New macro.
+	(get_wm_info): Use it.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: DEFINE_PUBLIC
 
 	Suggested by Brian Templeton.
