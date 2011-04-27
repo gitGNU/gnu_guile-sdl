@@ -48,7 +48,7 @@ gfx_la_LIBADD   = SDL_gfx/libSDL_gfx.la
 
 SUFFIXES = .c .fspec .x .doc
 
-snarfcppopts	= $(DEFS) -I. $(AM_CPPFLAGS) $(CPPFLAGS)
+snarfcppopts	= $(DEFS) $(DEFAULT_INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS)
 c2doc		= guile-tools c2doc
 scm2doc		= guile-tools doc-snarf -D
 mkdocindex	= guile-tools make-twerp2texi-index

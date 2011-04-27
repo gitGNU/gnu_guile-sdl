@@ -1,5 +1,11 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build] Make sure snarfing looks in $(srcdir).
+
+	* Makefile.am (snarfcppopts): Use $(DEFAULT_INCLUDES).
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstractions: C_{BOOL,CHAR,INT,LONG,ULONG,DOUBLE}
 
 	* guile-sdl.h (C_BOOL, C_CHAR, C_INT)
