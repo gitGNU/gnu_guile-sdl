@@ -68,7 +68,7 @@ print_surface (SCM surface_smob, SCM port, scm_print_state *pstate)
 
 /* constructors */
 
-GH_DEFPROC
+PRIMPROC
 (make_surface, "make-surface", 2, 1, 0,
  (SCM width,
   SCM height,
@@ -107,7 +107,7 @@ are those for the current video surface.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (create_rgb_surface, "create-rgb-surface", 8, 0, 0,
  (SCM flags,
   SCM width, SCM height, SCM depth,
@@ -163,7 +163,7 @@ GSDL_FLAG_GETTER ("surface:flags", surface_get_flags,
                   flags, gsdl_video_flags)
 
 
-GH_DEFPROC
+PRIMPROC
 (surface_get_format, "surface-get-format", 1, 0, 0,
  (SCM surface),
  doc: /***********
@@ -179,7 +179,7 @@ Return a new pixel format, the same used by @var{surface}.  */)
 
 /* utilities */
 
-GH_DEFPROC
+PRIMPROC
 (surface_p, "surface?", 1, 0, 0,
  (SCM obj),
  doc: /***********
@@ -192,7 +192,7 @@ Return true iff @var{obj} is a surface.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (lock_surface, "lock-surface", 1, 0, 0,
  (SCM surface),
  doc: /***********
@@ -208,7 +208,7 @@ Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (unlock_surface, "unlock-surface", 1, 0, 0,
  (SCM surface),
  doc: /***********
@@ -224,7 +224,7 @@ The return value is unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (load_bmp, "load-bmp", 1, 0, 0,
  (SCM file),
  doc: /***********
@@ -239,7 +239,7 @@ Return a surface made by loading the bitmap @var{file}.  */)
 
 
 /* Load an image in one of many formats.  */
-GH_DEFPROC
+PRIMPROC
 (load_image, "load-image", 1, 0, 0,
  (SCM file),
  doc: /***********
@@ -255,7 +255,7 @@ If there are problems, return #f.  */)
 
 
 /* Experimental: Load an image in one of many formats from a string.  */
-GH_DEFPROC
+PRIMPROC
 (string_to_image, "string->image", 1, 0, 0,
  (SCM s),
  doc: /***********
@@ -274,7 +274,7 @@ Return a surface made by loading image data from string
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (save_bmp, "save-bmp", 2, 0, 0,
  (SCM surface,
   SCM file),
@@ -293,7 +293,7 @@ Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (set_color_key, "set-color-key!", 3, 0, 0,
  (SCM surface,
   SCM flag,
@@ -318,7 +318,7 @@ Set @var{surface} color key as specified by @var{flag}
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (set_alpha, "set-alpha!", 2, 1, 0,
  (SCM surface,
   SCM flag,
@@ -358,7 +358,7 @@ If @var{flag} is #f, ignore @var{alpha} completely.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (set_clip_rect, "set-clip-rect!", 1, 1, 0,
  (SCM surface,
   SCM rect),
@@ -385,7 +385,7 @@ rectangle instead of using the whole surface.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (get_clip_rect, "get-clip-rect", 1, 0, 0,
  (SCM surface),
  doc: /***********
@@ -403,7 +403,7 @@ Return the clipping rectangle for @var{surface}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (convert_surface, "convert-surface", 2, 1, 0,
  (SCM surface,
   SCM format,
@@ -430,7 +430,7 @@ surface.  Optional third arg @var{flags} is a list of flags
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (blit_surface, "blit-surface", 1, 3, 0,
  (SCM src,
   SCM srcrect,
@@ -499,7 +499,7 @@ to x=0, y=0, @var{dst} surface dimensions.  */)
 
 /* flipping */
 
-GH_DEFPROC
+PRIMPROC
 (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
  (SCM surface),
  doc: /***********
@@ -539,7 +539,7 @@ Return a new surface created by flipping @var{surface} vertically.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (horizontal_flip_surface, "horizontal-flip-surface", 1, 0, 0,
  (SCM surface),
  doc: /***********
@@ -579,7 +579,7 @@ Return a new surface created by flipping @var{surface} horizontally.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (vh_flip_surface, "vh-flip-surface", 1, 0, 0,
  (SCM surface),
  doc: /***********

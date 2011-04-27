@@ -44,7 +44,7 @@ long gsdl_smob_tags[GSTX_TOO_MUCH] = {0x50feeb1e,};
 
 static SCM init_flags;
 
-GH_DEFPROC
+PRIMPROC
 (get_init_flags, "flagstash:init", 0, 0, 0, (),
  doc: /***********
 Return the flagstash object for @code{init} flags.
@@ -55,7 +55,7 @@ Return the flagstash object for @code{init} flags.
 
 
 /* Initialization */
-GH_DEFPROC
+PRIMPROC
 (init, "init", 1, 0, 0,
  (SCM sel),
  doc: /***********
@@ -69,7 +69,7 @@ with @code{SDL_INIT_}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (init_subsystem, "init-subsystem", 1, 0, 0,
  (SCM sel),
  doc: /***********
@@ -84,7 +84,7 @@ from the same set useful for @code{init}.  */)
 
 
 /* Termination */
-GH_DEFPROC
+PRIMPROC
 (quit, "quit", 0, 0, 0,
  (void),
  doc: /***********
@@ -99,7 +99,7 @@ Return #t.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (quit_subsystem, "quit-subsystem", 1, 0, 0,
  (SCM sel),
  doc: /***********
@@ -117,7 +117,7 @@ Return #t.  */)
 
 
 /* Information */
-GH_DEFPROC
+PRIMPROC
 (was_init, "was-init", 1, 0, 0,
  (SCM sel),
  doc: /***********
@@ -136,7 +136,7 @@ likewise composed.  */)
 
 /* time functions */
 
-GH_DEFPROC
+PRIMPROC
 (get_ticks, "get-ticks", 0, 0, 0,
  (void),
  doc: /***********
@@ -149,7 +149,7 @@ the SDL library initialization.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (delay, "delay", 1, 0, 0,
  (SCM ms),
  doc: /***********
@@ -166,7 +166,7 @@ The return value is unspecified.  */)
 
 /* error handling */
 
-GH_DEFPROC
+PRIMPROC
 (get_error, "get-error", 0, 0, 0,
  (void),
  doc: /***********

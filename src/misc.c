@@ -29,7 +29,7 @@ DECLARE_SYM(mousefocus, "mousefocus");
 DECLARE_SYM(inputfocus, "inputfocus");
 DECLARE_SYM(active, "active");
 
-GH_DEFPROC
+PRIMPROC
 (get_app_state, "get-app-state", 0, 0, 0,
  (void),
  doc: /***********
@@ -49,7 +49,7 @@ The list may include: `mousefocus', `inputfocus', `active'.  */)
 
 DECLARE_SYM(x11, "x11");
 
-GH_DEFPROC
+PRIMPROC
 (get_wm_info, "get-wm-info", 0, 0, 0,
  (void),
  doc: /***********

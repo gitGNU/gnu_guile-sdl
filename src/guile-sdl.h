@@ -51,6 +51,16 @@
 #include "modsup.h"
 #endif
 
+#if      defined GH_DEFPROC
+#define PRIMPROC GH_DEFPROC
+#elif    defined SCM_DEFINE_PUBLIC
+#define PRIMPROC SCM_DEFINE_PUBLIC
+#elif    defined SCM_DEFINE
+#define PRIMPROC SCM_DEFINE
+#else
+#error "guile deficient: not even SCM_DEFINE available!"
+#endif
+
 /* Booleans.  */
 
 #define BOOL_FALSE (SCM_BOOL_F)
@@ -312,9 +322,9 @@ extern long gsdl_smob_tags[GSTX_TOO_MUCH];
 /* number getter and setter */
 
 #define GSDL_NUMBER_GETTER(s_func, c_func, tag, c_type, c_field)        \
-GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM obj),                         \
-            "Get @code{" #c_field "} from the\n"                        \
-            "@code{" #c_type "} @var{obj}.")                            \
+PRIMPROC (c_func, s_func, 1, 0, 0, (SCM obj),                           \
+          "Get @code{" #c_field "} from the\n"                          \
+          "@code{" #c_type "} @var{obj}.")                              \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, tag, 1);                                            \
@@ -322,10 +332,10 @@ GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM obj),                         \
 }
 
 #define GSDL_NUMBER_SETTER(s_func, c_func, tag, c_type, c_field, conv)  \
-GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),              \
-            "Set @code{" #c_field "} in the\n"                          \
-            "@code{" #c_type "} @var{obj}\n"                            \
-            "to @var{value}.")                                          \
+PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),                \
+          "Set @code{" #c_field "} in the\n"                            \
+          "@code{" #c_type "} @var{obj}\n"                              \
+          "to @var{value}.")                                            \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, tag, 1);                                            \
@@ -337,8 +347,7 @@ GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),              \
 /* enum getter and setter */
 
 #define GSDL_ENUM_GETTER(s_func, c_func, tag, c_type, c_field, etype)   \
-GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM obj),                         \
-            "")                                                         \
+PRIMPROC (c_func, s_func, 1, 0, 0, (SCM obj), "")                       \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, tag, 1);                                            \
@@ -346,8 +355,7 @@ GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM obj),                         \
 }
 
 #define GSDL_ENUM_SETTER(s_func, c_func, tag, c_type, c_field, etype)   \
-GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),              \
-            "")                                                         \
+PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value), "")            \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, tag, 1);                                            \
@@ -358,8 +366,7 @@ GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),              \
 /* flag getter and setter*/
 
 #define GSDL_FLAG_GETTER(s_func, c_func, c_tag, c_type, c_field, stash) \
-GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM obj),                         \
-            "")                                                         \
+PRIMPROC (c_func, s_func, 1, 0, 0, (SCM obj), "")                       \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, c_tag, 1);                                          \
@@ -367,8 +374,7 @@ GH_DEFPROC (c_func, s_func, 1, 0, 0, (SCM obj),                         \
 }
 
 #define GSDL_FLAG_SETTER(s_func, c_func, c_tag, c_type, c_field, stash) \
-GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),              \
-            "")                                                         \
+PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value), "")            \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, c_tag, 1);                                          \

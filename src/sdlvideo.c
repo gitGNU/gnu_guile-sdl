@@ -42,7 +42,7 @@ SCM gsdl_video_flags;
 SCM gsdl_palette_flags;
 static SCM gsdl_overlay_formats;
 
-GH_DEFPROC
+PRIMPROC
 (get_video_flags, "flagstash:video", 0, 0, 0, (),
  doc: /***********
 Return the flagstash object for video flags.
@@ -51,7 +51,7 @@ Return the flagstash object for video flags.
   return gsdl_video_flags;
 }
 
-GH_DEFPROC
+PRIMPROC
 (get_palette_flags, "flagstash:palette", 0, 0, 0, (),
  doc: /***********
 Return the flagstash object for palette flags.
@@ -60,7 +60,7 @@ Return the flagstash object for palette flags.
   return gsdl_palette_flags;
 }
 
-GH_DEFPROC
+PRIMPROC
 (get_overlay_formats, "flagstash:overlay", 0, 0, 0, (),
  doc: /***********
 Return the flagstash object for overlay flags.
@@ -168,7 +168,7 @@ print_pixel_format (SCM pixel_format, SCM port, scm_print_state *pstate)
 
 /* scheme callable functions */
 
-GH_DEFPROC
+PRIMPROC
 (create_cursor, "create-cursor", 6, 0, 0,
  (SCM data, SCM mask,
   SCM w, SCM h,
@@ -214,7 +214,7 @@ and with hot pixel located at @var{x},@var{y}.  */)
 #define GSDL_FLAG2ULONG(flag,table) \
   gsdl_flags2ulong ((flag), (table), 0, NULL) /* DWR! */
 
-GH_DEFPROC
+PRIMPROC
 (create_yuv_overlay, "create-yuv-overlay", 3, 1, 0,
  (SCM width, SCM height, SCM format, SCM display),
  doc: /***********
@@ -255,7 +255,7 @@ instead of creating a new one.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (get_video_surface, "get-video-surface", 0, 0, 0,
  (void),
  doc: /***********
@@ -279,7 +279,7 @@ DECLARE_SYM (blit_fill,    "blit-fill");
 DECLARE_SYM (video_mem,    "video-mem");
 DECLARE_SIMPLE_SYM (vfmt);
 
-GH_DEFPROC
+PRIMPROC
 (get_video_info, "get-video-info", 0, 0, 0,
  (void),
  doc: /***********
@@ -311,7 +311,7 @@ Keys are: @code{hw-available}, @code{wm-available},
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (video_driver_name, "video-driver-name", 0, 0, 0,
  (void),
  doc: /***********
@@ -325,7 +325,7 @@ Return the name of the video driver.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (list_modes, "list-modes", 0, 2, 0,
  (SCM format, SCM flags),
  doc: /***********
@@ -382,7 +382,7 @@ Return #f if no modes are available, #t if all are available.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (video_mode_ok, "video-mode-ok", 3, 1, 0,
  (SCM width, SCM height, SCM bpp, SCM flags),
  doc: /***********
@@ -413,7 +413,7 @@ mode supporting @var{width} and @var{height}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (set_video_mode, "set-video-mode", 3, 1, 0,
  (SCM width, SCM height, SCM bpp, SCM flags),
  doc: /***********
@@ -441,7 +441,7 @@ Return a new surface.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (update_rect, "update-rect", 2, 3, 0,
  (SCM surface, SCM x, SCM y, SCM w, SCM h),
  doc: /***********
@@ -485,7 +485,7 @@ The return value is unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (update_rects, "update-rects", 2, 0, 0,
  (SCM surface, SCM ls),
  doc: /***********
@@ -514,7 +514,7 @@ The return value is unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (flip, "flip", 0, 1, 0,
  (SCM surface),
  doc: /***********
@@ -539,7 +539,7 @@ The return value is unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (set_colors, "set-colors!", 2, 0, 0,
  (SCM surface, SCM colors),
  doc: /***********
@@ -574,7 +574,7 @@ using @var{colors}, a vector of SDL-Colors.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (set_palette, "set-palette", 3, 0, 0,
  (SCM surface, SCM flags, SCM colors),
  doc: /***********
@@ -611,7 +611,7 @@ using @var{flags} (see @code{flagstash:palette}) and
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (set_gamma, "set-gamma", 3, 0, 0,
  (SCM redgamma, SCM greengamma, SCM bluegamma),
  doc: /***********
@@ -638,7 +638,7 @@ DECLARE_SIMPLE_SYM (bluetable);
 
 #define GAMMAVEC(x)  (gsdl_scm_from_uint16s (x, GAMMA_TABLE_SIZE))
 
-GH_DEFPROC
+PRIMPROC
 (get_gamma_ramp, "get-gamma-ramp", 0, 0, 0,
  (void),
  doc: /***********
@@ -666,7 +666,7 @@ Return #f if unsuccessful.  */)
   SCM_ASSERT (gh_vector_length (v) == GAMMA_TABLE_SIZE, \
               v, which, FUNC_NAME)
 
-GH_DEFPROC
+PRIMPROC
 (set_gamma_ramp, "set-gamma-ramp", 3, 0, 0,
  (SCM redtable, SCM greentable, SCM bluetable),
  doc: /***********
@@ -690,7 +690,7 @@ integer values.  Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (map_rgb, "map-rgb", 2, 2, 0,
  (SCM format, SCM r, SCM g, SCM b),
  doc: /***********
@@ -727,7 +727,7 @@ Return the mapped components as an unsigned integer.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (map_rgba, "map-rgba", 3, 2, 0,
  (SCM format, SCM r, SCM g, SCM b, SCM a),
  doc: /***********
@@ -774,7 +774,7 @@ DECLARE_SIMPLE_SYM (g);
 DECLARE_SIMPLE_SYM (b);
 DECLARE_SIMPLE_SYM (a);
 
-GH_DEFPROC
+PRIMPROC
 (get_rgb, "get-rgb", 2, 0, 0,
  (SCM pixel,
   SCM format),
@@ -801,7 +801,7 @@ respectively.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (get_rgba, "get-rgba", 2, 0, 0,
  (SCM pixel, SCM format),
  doc: /***********
@@ -828,7 +828,7 @@ Get RGBA values from @var{pixel} in the specified pixel
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (fill_rect, "fill-rect", 3, 0, 0,
  (SCM surface, SCM rect, SCM color),
  doc: /***********
@@ -855,7 +855,7 @@ Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (display_format, "display-format", 1, 0, 0,
  (SCM surface),
  doc: /***********
@@ -877,7 +877,7 @@ to the display format.  Return #f if not successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (display_format_alpha, "display-format-alpha", 1, 0, 0,
  (SCM surface),
  doc: /***********
@@ -900,7 +900,7 @@ if not successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (warp_mouse, "warp-mouse", 2, 0, 0,
  (SCM x, SCM y),
  doc: /***********
@@ -917,7 +917,7 @@ The return value is unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (set_cursor, "set-cursor", 1, 0, 0,
  (SCM cursor),
  doc: /***********
@@ -932,7 +932,7 @@ The return value is unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (get_cursor, "get-cursor", 0, 0, 0,
  (void),
  doc: /***********
@@ -952,7 +952,7 @@ Get the current mouse cursor.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (show_cursor, "show-cursor", 0, 1, 0,
  (SCM query),
  doc: /***********
@@ -968,7 +968,7 @@ means to return the current state without toggling.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (gl_get_attribute, "gl-get-attribute", 1, 0, 0,
  (SCM attribute),
  doc: /***********
@@ -985,7 +985,7 @@ Return the value of a special SDL/OpenGL @var{attribute}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (gl_set_attribute, "gl-set-attribute", 2, 0, 0,
  (SCM attribute,
   SCM value),
@@ -1004,7 +1004,7 @@ Both args are numbers.  The return value is unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (gl_swap_buffers, "gl-swap-buffers", 0, 0, 0,
  (void),
  doc: /***********
@@ -1018,7 +1018,7 @@ The return value is unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (lock_yuv_overlay, "lock-yuv-overlay", 1, 0, 0,
  (SCM overlay),
  doc: /***********
@@ -1034,7 +1034,7 @@ Return #f if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (unlock_yuv_overlay, "unlock-yuv-overlay", 1, 0, 0,
  (SCM overlay),
  doc: /***********
@@ -1050,7 +1050,7 @@ The return value is unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (display_yuv_overlay, "display-yuv-overlay", 2, 0, 0,
  (SCM overlay, SCM dstrect),
  doc: /***********
@@ -1070,7 +1070,7 @@ over which it was created.  Return #t if successful.  */)
 
 /* window manager functions */
 
-GH_DEFPROC
+PRIMPROC
 (wm_set_caption, "set-caption", 1, 1, 0,
  (SCM title, SCM icon),
  doc: /***********
@@ -1103,7 +1103,7 @@ If @var{icon} is not specified, use @var{title} by default.  */)
 DECLARE_SIMPLE_SYM (title);
 DECLARE_SIMPLE_SYM (icon);
 
-GH_DEFPROC
+PRIMPROC
 (wm_get_caption, "get-caption", 0, 0, 0,
  (void),
  doc: /***********
@@ -1121,7 +1121,7 @@ window, respectively.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (wm_set_icon, "set-icon", 1, 0, 0,
  (SCM icon),
  doc: /***********
@@ -1137,7 +1137,7 @@ Set @var{icon} for the display window.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (wm_iconify_window, "iconify-window", 0, 0, 0,
  (void),
  doc: /***********
@@ -1151,7 +1151,7 @@ Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (wm_toggle_full_screen, "toggle-full-screen", 0, 1, 0,
  (SCM surface),
  doc: /***********
@@ -1181,7 +1181,7 @@ DECLARE_SIMPLE_SYM (query);
 DECLARE_SIMPLE_SYM (off);
 DECLARE_SIMPLE_SYM (on);
 
-GH_DEFPROC
+PRIMPROC
 (wm_grab_input, "grab-input", 0, 1, 0,
  (SCM mode),
  doc: /***********

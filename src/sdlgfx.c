@@ -32,7 +32,7 @@ GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
 #include "SDL_gfx/SDL_gfxPrimitives.h"
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_point, "draw-point", 4, 0, 0,
  (SCM surface, SCM x, SCM y, SCM color),
  doc: /***********
@@ -53,7 +53,7 @@ On @var{surface}, draw a point at location
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_hline, "draw-hline", 5, 0, 0,
  (SCM surface, SCM x1, SCM x2, SCM y, SCM color),
  doc: /***********
@@ -76,7 +76,7 @@ with color @var{color}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_vline, "draw-vline", 5, 0, 0,
  (SCM surface, SCM x, SCM y1, SCM y2, SCM color),
  doc: /***********
@@ -99,7 +99,7 @@ with color @var{color}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_rectangle, "draw-rectangle", 6, 1, 0,
  (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
   SCM color, SCM fill),
@@ -129,7 +129,7 @@ Optional arg @var{fill} means to fill the rectangle as well.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_line, "draw-line", 6, 0, 0,
  (SCM surface, SCM x1, SCM y1,
   SCM x2, SCM y2, SCM color),
@@ -155,7 +155,7 @@ with color @var{color}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_aa_line, "draw-aa-line", 6, 0, 0,
  (SCM surface, SCM x1, SCM y1,
   SCM x2, SCM y2, SCM color),
@@ -181,7 +181,7 @@ with color @var{color}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_circle, "draw-circle", 5, 1, 0,
  (SCM surface, SCM x, SCM y, SCM r,
   SCM color, SCM fill),
@@ -209,7 +209,7 @@ Optional arg @var{fill} means to fill the circle as well.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_arc, "draw-arc", 7, 0, 0,
  (SCM surface, SCM x, SCM y, SCM r,
   SCM start, SCM end, SCM color),
@@ -240,7 +240,7 @@ arguments are internally reversed).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_aa_circle, "draw-aa-circle", 5, 0, 0,
  (SCM surface, SCM x, SCM y, SCM r, SCM color),
  doc: /***********
@@ -263,7 +263,7 @@ On @var{surface}, draw an anti-aliased circle with center
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_ellipse, "draw-ellipse", 6, 1, 0,
  (SCM surface, SCM x, SCM y, SCM rx, SCM ry,
   SCM color, SCM fill),
@@ -292,7 +292,7 @@ Optional arg @var{fill} means to fill the ellipse as well.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_aa_ellipse, "draw-aa-ellipse", 6, 0, 0,
  (SCM surface, SCM x, SCM y, SCM rx, SCM ry, SCM color),
  doc: /***********
@@ -317,7 +317,7 @@ color @var{color}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_pie_slice, "draw-pie-slice", 7, 1, 0,
  (SCM surface, SCM x, SCM y, SCM rad,
   SCM start, SCM end, SCM color, SCM fill),
@@ -349,7 +349,7 @@ Optional arg @var{fill} means to fill the slice as well.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_trigon, "draw-trigon", 8, 1, 0,
  (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
   SCM x3, SCM y3, SCM color, SCM fill),
@@ -383,7 +383,7 @@ fill the triangle as well.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_aa_trigon, "draw-aa-trigon", 8, 0, 0,
  (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
   SCM x3, SCM y3, SCM color),
@@ -412,7 +412,7 @@ with color @var{color}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_polygon, "draw-polygon", 4, 1, 0,
  (SCM surface, SCM vx, SCM vy, SCM color, SCM fill),
  doc: /***********
@@ -444,7 +444,7 @@ arg @var{fill} means to fill the polygon as well.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_aa_polygon, "draw-aa-polygon", 4, 0, 0,
  (SCM surface, SCM vx, SCM vy, SCM color),
  doc: /***********
@@ -472,7 +472,7 @@ are specified by corresponding pairs from the uniform vectors
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_textured_polygon, "draw-textured-polygon", 6, 0, 0,
  (SCM surface, SCM vx, SCM vy, SCM texture, SCM tdx, SCM tdy),
  doc: /***********
@@ -504,7 +504,7 @@ offset @var{tdx}, @var{tdy}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_bezier, "draw-bezier", 5, 0, 0,
  (SCM surface, SCM vx, SCM vy, SCM s, SCM color),
  doc: /***********
@@ -534,7 +534,7 @@ specified by corresponding pairs from the uniform vectors
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_character, "draw-character", 5, 0, 0,
  (SCM surface, SCM x, SCM y, SCM c, SCM color),
  doc: /***********
@@ -556,7 +556,7 @@ draw char @var{c} with @var{color} (a number).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (draw_string, "draw-string", 5, 0, 0,
  (SCM surface, SCM x, SCM y, SCM text, SCM color),
  doc: /***********
@@ -587,7 +587,7 @@ draw string @var{text} with @var{color} (a number).  */)
 #include "SDL_gfx/SDL_rotozoom.h"
 
 
-GH_DEFPROC
+PRIMPROC
 (roto_zoom_surface, "roto-zoom-surface", 2, 2, 0,
  (SCM surface,
   SCM angle,
@@ -625,7 +625,7 @@ fourth arg @var{smooth} turns on anti-aliasing.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (roto_zoom_surface_xy, "roto-zoom-surface-xy", 2, 3, 0,
  (SCM surface,
   SCM angle,
@@ -671,7 +671,7 @@ turns on anti-aliasing.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (zoom_surface, "zoom-surface", 2, 2, 0,
  (SCM surface,
   SCM zoomx,
@@ -711,7 +711,7 @@ Optional fourth arg @var{smooth} turns on anti-aliasing.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (shrink_surface, "shrink-surface", 3, 0, 0,
  (SCM surface,
   SCM factorx,
@@ -781,7 +781,7 @@ print_fpsmgr (SCM fpsmgr, SCM port, scm_print_state *pstate)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (make_fps_manager, "make-fps-manager", 0, 1, 0,
  (SCM n),
  doc: /***********
@@ -810,7 +810,7 @@ initialize the object (default 30 if not specified).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (fps_manager_set_x, "fps-manager-set!", 2, 0, 0,
  (SCM mgr, SCM n),
  doc: /***********
@@ -827,7 +827,7 @@ frame rate of @var{n} Hz.  Return #f if not successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (fps_manager_get, "fps-manager-get", 1, 0, 0,
  (SCM mgr),
  doc: /***********
@@ -847,7 +847,7 @@ or #f if unsuccessful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (fps_manager_delay_x, "fps-manager-delay!", 1, 0, 0,
  (SCM mgr),
  doc: /***********
@@ -871,7 +871,7 @@ Request an appropriate delay from FPS manager @var{mgr}.  */)
 #include "SDL_gfx/SDL_gfxBlitFunc.h"
 
 
-GH_DEFPROC
+PRIMPROC
 (set_pixel_alpha_x, "set-pixel-alpha!", 2, 0, 0,
  (SCM surface, SCM alpha),
  doc: /***********
@@ -891,7 +891,7 @@ Otherwise, do nothing and return @code{#f}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (blit_rgba, "blit-rgba", 4, 0, 0,
  (SCM src, SCM srect, SCM dst, SCM drect),
  doc: /***********
@@ -924,7 +924,7 @@ may be relaxed in the future.  */)
 
 #include "SDL_gfx/SDL_imageFilter.h"
 
-GH_DEFPROC
+PRIMPROC
 (imfi_mmx_p, "imfi-mmx?", 0, 1, 0,
  (SCM setting),
  doc: /***********
@@ -1008,7 +1008,7 @@ check_2_surfaces (unsigned char **pa, SDL_Surface *a,
                             &len))                      \
     RETURN_FALSE
 
-GH_DEFPROC
+PRIMPROC
 (imfi_add, "imfi-add", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1021,7 +1021,7 @@ D = saturation255 (S1 + S2).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_mean, "imfi-mean", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1034,7 +1034,7 @@ D = S1/2 + S2/2.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_sub, "imfi-sub", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1047,7 +1047,7 @@ D = saturation0 (S1 - S2).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_absdiff, "imfi-abs-diff", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1060,7 +1060,7 @@ D = | S1 - S2 |.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_mult, "imfi-mult", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1073,7 +1073,7 @@ D = saturation (S1 * S2).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_mulnor, "imfi-mulnor", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1086,7 +1086,7 @@ D = S1 * S2 (non-MMX).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_muldiv2, "imfi-muldiv2", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1099,7 +1099,7 @@ D = saturation255 (S1/2 * S2).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_muldiv4, "imfi-muldiv4", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1112,7 +1112,7 @@ D = saturation255 (S1/2 * S2/2).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_logand, "imfi-logand", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1125,7 +1125,7 @@ D = S1 & S2.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_logior, "imfi-logior", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1138,7 +1138,7 @@ D = S1 | S2.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_div, "imfi-div", 3, 0, 0,
  (SCM src1, SCM src2, SCM dst),
  doc: /***********
@@ -1151,7 +1151,7 @@ D = S1 / S2 (non-MMX).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_not, "imfi-not", 2, 0, 0,
  (SCM src, SCM dst),
  doc: /***********
@@ -1164,7 +1164,7 @@ D = !S.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_add_c, "imfi-add-c", 3, 0, 0,
  (SCM src, SCM dst, SCM c),
  doc: /***********
@@ -1182,7 +1182,7 @@ D = saturation255 (S + C).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_add_c_to_half, "imfi-add-c-to-half", 3, 0, 0,
  (SCM src, SCM dst, SCM c),
  doc: /***********
@@ -1198,7 +1198,7 @@ D = saturation255 (S/2 + C).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_sub_c, "imfi-sub-c", 3, 0, 0,
  (SCM src, SCM dst, SCM c),
  doc: /***********
@@ -1216,7 +1216,7 @@ D = saturation0 (S - C).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_ashr, "imfi-ashr", 3, 0, 0,
  (SCM src, SCM dst, SCM n),
  doc: /***********
@@ -1232,7 +1232,7 @@ D = saturation0 (S >> N).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_lshr, "imfi-lshr", 3, 0, 0,
  (SCM src, SCM dst, SCM n),
  doc: /***********
@@ -1248,7 +1248,7 @@ D = saturation0 ((uint) S >> N).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_mul_c, "imfi-mul-c", 3, 0, 0,
  (SCM src, SCM dst, SCM c),
  doc: /***********
@@ -1264,7 +1264,7 @@ D = saturation255 (S * C).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_ashr_mul_c, "imfi-ashr-mul-c", 4, 0, 0,
  (SCM src, SCM dst, SCM n, SCM c),
  doc: /***********
@@ -1283,7 +1283,7 @@ D = saturation255 ((S >> N) * C).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_bshl, "imfi-bshl", 3, 0, 0,
  (SCM src, SCM dst, SCM n),
  doc: /***********
@@ -1299,7 +1299,7 @@ D = (S << N).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_lshl, "imfi-lshl", 3, 0, 0,
  (SCM src, SCM dst, SCM n),
  doc: /***********
@@ -1315,7 +1315,7 @@ D = ((uint) S << N).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_ashl, "imfi-ashl", 3, 0, 0,
  (SCM src, SCM dst, SCM n),
  doc: /***********
@@ -1331,7 +1331,7 @@ D = saturation255 (S << N).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_binarize, "imfi-binarize", 3, 0, 0,
  (SCM src, SCM dst, SCM t),
  doc: /***********
@@ -1347,7 +1347,7 @@ D = (S < T ? 0 : 255).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_clip, "imfi-clip", 4, 0, 0,
  (SCM src, SCM dst, SCM tmin, SCM tmax),
  doc: /***********
@@ -1365,7 +1365,7 @@ D = (Tmin <= S <= Tmax) ? 255 : 0.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (imfi_normalize_linear, "imfi-normalize-linear", 6, 0, 0,
  (SCM src, SCM dst, SCM cmin, SCM cmax, SCM nmin, SCM nmax),
  doc: /***********

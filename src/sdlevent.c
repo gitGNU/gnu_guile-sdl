@@ -31,7 +31,7 @@ SCM event_action_enum;
 static SCM event_mod_flags;
 static SCM event_mask_flags;
 
-GH_DEFPROC
+PRIMPROC
 (get_event_mod_flags, "flagstash:event-mod", 0, 0, 0,
  (void),
  doc: /***********
@@ -41,7 +41,7 @@ Return the flagstash object for event mod flags.
   return event_mod_flags;
 }
 
-GH_DEFPROC
+PRIMPROC
 (get_event_mask_flags, "flagstash:event-mask", 0, 0, 0,
  (void),
  doc: /***********
@@ -94,7 +94,7 @@ free_keysym (SCM keysym)
 
 /* Constructors */
 
-GH_DEFPROC
+PRIMPROC
 (make_event, "make-event", 0, 1, 0,
  (SCM type),
  doc: /***********
@@ -118,7 +118,7 @@ If omitted, the default is @code{SDL_NOEVENT}.
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (make_keysym, "make-keysym", 0, 2, 0,
  (SCM sym, SCM mod),
  doc: /***********
@@ -295,7 +295,7 @@ NUM2_GETSET (user, data2)
 
 /* SDL event functions */
 
-GH_DEFPROC
+PRIMPROC
 (pump_events, "pump-events", 0, 0, 0,
  (void),
  doc: /***********
@@ -308,7 +308,7 @@ queue.  The return value is unspecified.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (peep_events, "peep-events", 4, 0, 0,
  (SCM events, SCM numevents, SCM action, SCM mask),
  doc: /***********
@@ -400,7 +400,7 @@ matching events instead of a count, removing them from the queue.
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (poll_event, "poll-event", 0, 1, 0,
  (SCM event),
  doc: /***********
@@ -427,7 +427,7 @@ the queue (if available).  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (wait_event, "wait-event", 0, 1, 0,
  (SCM event),
  doc: /***********
@@ -454,7 +454,7 @@ the queue.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (push_event, "push-event", 1, 0, 0,
  (SCM event),
  doc: /***********
@@ -504,7 +504,7 @@ the_event_filter (const SDL_Event *event)
   return NOT_FALSEP (gh_call1 (efi.proc, arg));
 }
 
-GH_DEFPROC
+PRIMPROC
 (set_event_filter, "set-event-filter", 2, 0, 0,
  (SCM filter, SCM fullp),
  doc: /***********
@@ -532,7 +532,7 @@ symbol), otherwise it is an event object.
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (get_event_filter, "get-event-filter", 0, 0, 0,
  (void),
  doc: /***********
@@ -550,7 +550,7 @@ an event type, or @code{#t} if the proc takes an event object.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (event_state, "event-state", 2, 0, 0,
  (SCM type, SCM state),
  doc: /***********
@@ -576,7 +576,7 @@ processing state of the specified event.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (enable_unicode, "enable-unicode", 0, 1, 0,
  (SCM enable_p),
  doc: /***********
@@ -596,7 +596,7 @@ keyboard translation, or disables it if #f.  */)
  * If 'delay' is set to 0, keyboard repeat is disabled.
  */
 
-GH_DEFPROC
+PRIMPROC
 (enable_key_repeat, "enable-key-repeat", 2, 0, 0,
  (SCM delay, SCM interval),
  doc: /***********
@@ -620,7 +620,7 @@ Return #t on success.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (get_key_state, "get-key-state", 0, 0, 0,
  (),
  doc: /***********
@@ -641,7 +641,7 @@ Return a list of pressed keys (SDLK_* symbols).  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (get_mod_state, "get-mod-state", 0, 0, 0,
  (void),
  doc: /***********
@@ -652,7 +652,7 @@ Return the current key modifier state as a list of symbols.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (set_mod_state, "set-mod-state", 1, 0, 0,
  (SCM modstate),
  doc: /***********
@@ -671,7 +671,7 @@ DECLARE_SIMPLE_SYM (state);
 DECLARE_SIMPLE_SYM (x);
 DECLARE_SIMPLE_SYM (y);
 
-GH_DEFPROC
+PRIMPROC
 (get_mouse_state, "get-mouse-state", 0, 0, 0,
  (void),
  doc: /***********
@@ -687,7 +687,7 @@ symbolic keys: @code{state}, @code{x} and @code{y}.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (get_relative_mouse_state, "get-mouse-relative-state", 0, 0, 0,
  (void),
  doc: /***********
@@ -703,7 +703,7 @@ symbolic keys: @code{state}, @code{x} and @code{y}.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (button_p, "button?", 1, 0, 0,
  (SCM mask),
  doc: /***********

@@ -27,7 +27,7 @@ GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
 
 static SCM ttf_flags;
 
-GH_DEFPROC
+PRIMPROC
 (get_ttf_flags, "flagstash:ttf", 0, 0, 0, (void),
  doc: /***********
 Return the flagstash object for ttf flags.
@@ -59,7 +59,7 @@ free_font (SCM font)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_init, "ttf-init", 0, 0, 0,
  (void),
  doc: /***********
@@ -71,7 +71,7 @@ Initialize the SDL_ttf subsystem.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_load_font, "load-font", 2, 0, 0,
  (SCM file, SCM ptsize),
  doc: /***********
@@ -89,7 +89,7 @@ Return a handle.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_get_font_style, "font:style", 1, 0, 0,
  (SCM font),
  doc: /***********
@@ -106,7 +106,7 @@ doesn't reflect any inherent properties of the truetype font file.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_set_font_style, "font:set-style!", 2, 0, 0,
  (SCM font, SCM style),
  doc: /***********
@@ -127,7 +127,7 @@ doesn't reflect any inherent properties of the truetype font file.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_font_height, "font:height", 1, 0, 0,
  (SCM font),
  doc: /***********
@@ -142,7 +142,7 @@ usually equal to point size.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_font_ascent, "font:ascent", 1, 0, 0,
  (SCM font),
  doc: /***********
@@ -157,7 +157,7 @@ Return the offset from the baseline to the top of
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_font_descent, "font:descent", 1, 0, 0,
  (SCM font),
  doc: /***********
@@ -172,7 +172,7 @@ Return the offset from the baseline to the bottom of
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_font_line_skip, "font:line-skip", 1, 0, 0,
  (SCM font),
  doc: /***********
@@ -193,7 +193,7 @@ DECLARE_SIMPLE_SYM (miny);
 DECLARE_SIMPLE_SYM (maxy);
 DECLARE_SIMPLE_SYM (advance);
 
-GH_DEFPROC
+PRIMPROC
 (ttf_glyph_metrics, "font:glyph-metrics", 2, 0, 0,
  (SCM font, SCM ch),
  doc: /***********
@@ -224,7 +224,7 @@ Alist keys are: @code{minx}, @code{maxx}, @code{miny},
 DECLARE_SIMPLE_SYM (w);
 DECLARE_SIMPLE_SYM (h);
 
-GH_DEFPROC
+PRIMPROC
 (ttf_size_text, "font:size-text", 2, 0, 0,
  (SCM font, SCM text),
  doc: /***********
@@ -246,7 +246,7 @@ the string @var{text}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_size_utf8, "font:size-utf8", 2, 0, 0,
  (SCM font, SCM text),
  doc: /***********
@@ -268,7 +268,7 @@ the utf8 string @var{text}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_render_text, "render-text", 3, 1, 0,
  (SCM font, SCM text, SCM fg, SCM bg),
  doc: /***********
@@ -309,7 +309,7 @@ or #t if the text is to be blended.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_render_utf8, "render-utf8", 3, 1, 0,
  (SCM font, SCM text, SCM fg, SCM bg),
  doc: /***********
@@ -350,7 +350,7 @@ or #t if the text is to be blended.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_render_glyph, "render-glyph", 3, 1, 0,
  (SCM font, SCM ch, SCM fg, SCM bg),
  doc: /***********
@@ -391,7 +391,7 @@ or #t if the text is to be blended.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (ttf_quit, "ttf-quit", 0, 0, 0,
  (void),
  doc: /***********

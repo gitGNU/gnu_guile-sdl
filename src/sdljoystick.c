@@ -38,7 +38,7 @@ static long joystick_tag;
 
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_p, "joystick?", 1, 0, 0,
  (SCM obj),
  doc: /***********
@@ -51,7 +51,7 @@ Return #t iff @var{obj} is a joystick object.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_null_p, "joystick-null?", 1, 0, 0,
  (SCM joystick),
  doc: /***********
@@ -67,7 +67,7 @@ Return #t iff @var{joystick} is a NULL joystick.
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (num_joysticks, "num-joysticks", 0, 0, 0,
  (void),
  doc: /***********
@@ -79,7 +79,7 @@ Return the number of joysticks.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_name, "joystick-name", 0, 1, 0,
  (SCM n),
  doc: /***********
@@ -100,7 +100,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_open, "joystick-open", 0, 1, 0,
  (SCM n),
  doc: /***********
@@ -121,7 +121,7 @@ Optional arg @var{n} specifies which joystick to open.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_opened_p, "joystick-opened?", 0, 1, 0,
  (SCM n),
  doc: /***********
@@ -143,7 +143,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_index, "joystick-index", 1, 0, 0,
  (SCM joystick),
  doc: /***********
@@ -163,7 +163,7 @@ Return the index of @var{joystick}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_num_axes, "joystick-num-axes", 1, 0, 0,
  (SCM joystick),
  doc: /***********
@@ -183,7 +183,7 @@ Return the number of axes for @var{joystick}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_num_balls, "joystick-num-balls", 1, 0, 0,
  (SCM joystick),
  doc: /***********
@@ -203,7 +203,7 @@ Return the number trackballs for @var{joystick}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_num_hats, "joystick-num-hats", 1, 0, 0,
  (SCM joystick),
  doc: /***********
@@ -223,7 +223,7 @@ Return the number of hats for @var{joystick}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_num_buttons, "joystick-num-buttons", 1, 0, 0,
  (SCM joystick),
  doc: /***********
@@ -243,7 +243,7 @@ Return number of buttons for @var{joystick}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_update, "joystick-update", 0, 0, 0,
  (void),
  doc: /***********
@@ -256,7 +256,7 @@ Update the state of all Joysticks.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_event_state, "joystick-event-state", 1, 0, 0,
  (SCM state),
  doc: /***********
@@ -270,7 +270,7 @@ Set the Joystick event processing model to @var{state}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_get_axis, "joystick-get-axis", 2, 0, 0,
  (SCM joystick,
   SCM axis),
@@ -295,7 +295,7 @@ For @var{joystick}, return state of @var{axis}.  */)
 DECLARE_SIMPLE_SYM (dx);
 DECLARE_SIMPLE_SYM (dy);
 
-GH_DEFPROC
+PRIMPROC
 (joystick_get_ball, "joystick-get-ball", 2, 0, 0,
  (SCM joystick,
   SCM n),
@@ -329,7 +329,7 @@ On error, return #f.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_get_hat, "joystick-get-hat", 2, 0, 0,
  (SCM joystick,
   SCM n),
@@ -351,7 +351,7 @@ For @var{joystick}, return state of hat @var{n}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_get_button, "joystick-get-button", 2, 0, 0,
  (SCM joystick,
   SCM n),
@@ -373,7 +373,7 @@ For @var{joystick}, return state of button @var{n}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (joystick_close, "joystick-close", 1, 0, 0,
  (SCM joystick),
  doc: /***********

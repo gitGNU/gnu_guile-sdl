@@ -1,5 +1,28 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: PRIMPROC
+
+	Suggested by Brian Templeton.
+
+	* guile-sdl.h (PRIMPROC): New macro.
+	(GSDL_NUMBER_GETTER, GSDL_NUMBER_SETTER, GSDL_ENUM_GETTER)
+	(GSDL_ENUM_SETTER, GSDL_FLAG_GETTER, GSDL_FLAG_SETTER): Use it.
+	* misc.c: Do s/GH_DEFPROC/PRIMPROC/g.
+	* sdl.c: Likewise.
+	* sdlcdrom.c: Likewise.
+	* sdlcolor.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add/use vector conversion funcs by Brian Templeton.
 
 	* convert.c: New file.

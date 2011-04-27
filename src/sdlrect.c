@@ -54,7 +54,7 @@ print_rect (SCM smob, SCM port, scm_print_state *pstate)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (rect_p, "rect?", 1, 0, 0,
  (SCM obj),
  doc: /***********
@@ -66,7 +66,7 @@ Return #t iff @var{obj} is an SDL-rectangle object.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (make_rect, "make-rect", 4, 0, 0,
  (SCM x, SCM y, SCM width, SCM height),
  doc: /***********

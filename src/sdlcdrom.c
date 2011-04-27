@@ -38,7 +38,7 @@ static long cdrom_tag;
 
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_p, "cd?", 1, 0, 0,
  (SCM obj),
  doc: /***********
@@ -51,7 +51,7 @@ Return #t iff @var{obj} is a CDROM drive object.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_null_p, "cd-null?", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -67,7 +67,7 @@ Return #t iff @var{cdrom} is a null pointer.
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_num_drives, "cd-num-drives", 0, 0, 0,
  (),
  doc: /***********
@@ -79,7 +79,7 @@ Return the number of CDROM drives.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_name, "cd-name", 0, 1, 0,
  (SCM drive),
  doc: /***********
@@ -102,7 +102,7 @@ Optional arg @var{drive} is a number specifying which drive.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (cd_open, "cd-open", 0, 1, 0,
  (SCM drive),
  doc: /***********
@@ -135,7 +135,7 @@ DECLARE_SIMPLE_SYM (PLAYING);
 DECLARE_SIMPLE_SYM (PAUSED);
 DECLARE_SIMPLE_SYM (ERROR);
 
-GH_DEFPROC
+PRIMPROC
 (cd_status, "cd-status", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -165,7 +165,7 @@ as a symbol, one of: @code{TRAYEMTPY}, @code{STOPPED},
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -197,7 +197,7 @@ Return #t iff there is a CD in drive @var{cdrom}.  */)
     RETURN_INT (ret);                           \
   } while (0)
 
-GH_DEFPROC
+PRIMPROC
 (cd_get_num_tracks, "cd-get-num-tracks", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -208,7 +208,7 @@ Return the number of tracks on the CD in drive @var{cdrom}.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (cd_get_cur_track, "cd-get-cur-track", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -219,7 +219,7 @@ Return the current track on the CD in drive @var{cdrom}.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (cd_get_cur_frame, "cd-get-cur-frame", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -238,7 +238,7 @@ DECLARE_SIMPLE_SYM (length);
 DECLARE_SIMPLE_SYM (type);
 DECLARE_SIMPLE_SYM (id);
 
-GH_DEFPROC
+PRIMPROC
 (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
  (SCM cdrom, SCM n),
  doc: /***********
@@ -271,7 +271,7 @@ as an alist or #f if there were problems.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
  (SCM cdrom,
   SCM start_track,
@@ -338,7 +338,7 @@ Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_play, "cd-play", 3, 0, 0,
  (SCM cdrom,
   SCM start,
@@ -367,7 +367,7 @@ Play CD in drive @var{cdrom} from @var{start} frame for
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_pause, "cd-pause", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -388,7 +388,7 @@ Pause the CD in drive @var{cdrom}.  Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_resume, "cd-resume", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -410,7 +410,7 @@ Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_stop, "cd-stop", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -431,7 +431,7 @@ Stop the CD in drive @var{cdrom}.  Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_eject, "cd-eject", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -452,7 +452,7 @@ Eject the CD from drive @var{cdrom}.  Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_close, "cd-close", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
@@ -475,7 +475,7 @@ Close the drive @var{cdrom}.  The return value is unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (cd_msf_to_frames, "cd-msf->frames", 1, 2, 0,
  (SCM m,
   SCM s,
@@ -516,7 +516,7 @@ DECLARE_SIMPLE_SYM (f);
 DECLARE_SIMPLE_SYM (s);
 DECLARE_SIMPLE_SYM (m);
 
-GH_DEFPROC
+PRIMPROC
 (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
  (SCM frames),
  doc: /***********

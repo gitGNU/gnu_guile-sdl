@@ -177,7 +177,7 @@ gsdl_long2enum (long value, SCM enumstash_type)
 
 /* Scheme level conversions */
 
-GH_DEFPROC
+PRIMPROC
 (enumstash_enums, "enumstash-enums", 1, 0, 0,
  (SCM enumstash_type),
  doc: /***********
@@ -203,7 +203,7 @@ Return the list of symbols associated with @var{enum-type}.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (enum_to_number, "enum->number", 2, 0, 0,
  (SCM enumstash_type,
   SCM symbol),
@@ -226,7 +226,7 @@ Convert an enum number or symbol to a number.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (number_to_enum, "number->enum", 2, 0, 0,
  (SCM enumstash_type, SCM number),
  doc: /***********
@@ -398,7 +398,7 @@ gsdl_ulong2flags (unsigned long value, SCM stash)
 
 /* Scheme level conversions */
 
-GH_DEFPROC
+PRIMPROC
 (flagstash_flags, "flagstash-flags", 1, 0, 0,
  (SCM stash),
  doc: /***********
@@ -419,7 +419,7 @@ a flagstash object, in unspecified order.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (flags_to_number, "flags->number", 2, 0, 0,
  (SCM stash, SCM flags),
  doc: /***********
@@ -433,7 +433,7 @@ Use @var{stash} to convert @var{flags} to a number.
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (number_to_flags, "number->flags", 2, 0, 0,
  (SCM stash, SCM number),
  doc: /***********

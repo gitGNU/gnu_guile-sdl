@@ -51,7 +51,7 @@ print_color (SCM color, SCM port, scm_print_state *pstate)
 
 /* Functions */
 
-GH_DEFPROC
+PRIMPROC
 (color_p, "color?", 1, 0, 0,
  (SCM obj),
  doc: /***********
@@ -63,7 +63,7 @@ Return #t iff @var{obj} is an SDL-color object.  */)
 #undef FUNC_NAME
 }
 
-GH_DEFPROC
+PRIMPROC
 (make_color, "make-color", 3, 0, 0,
  (SCM r, SCM g, SCM b),
  doc: /***********

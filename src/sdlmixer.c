@@ -58,7 +58,7 @@ free_audio (SCM chunk)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_open_audio, "open-audio", 0, 4, 0,
  (SCM freq, SCM format, SCM stereo, SCM chunksize),
  doc: /***********
@@ -103,7 +103,7 @@ those aspects of the device.  Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_allocate_channels, "allocated-channels", 1, 0, 0,
  (SCM numchans),
  doc: /***********
@@ -123,7 +123,7 @@ DECLARE_SIMPLE_SYM (freq);
 DECLARE_SIMPLE_SYM (format);
 DECLARE_SIMPLE_SYM (channels);
 
-GH_DEFPROC
+PRIMPROC
 (mix_query_spec, "query-spec", 0, 0, 0,
  (void),
  doc: /***********
@@ -146,7 +146,7 @@ and @code{channels} (the number of allocated channels).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_load_music, "load-music", 1, 0, 0,
  (SCM file),
  doc: /***********
@@ -162,7 +162,7 @@ Return a handle to it.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_load_wave, "load-wave", 1, 0, 0,
  (SCM file),
  doc: /***********
@@ -177,7 +177,7 @@ Load a wave @var{file}. Return a handle to it.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_reserve_channels, "reserve-channels", 1, 0, 0,
  (SCM num),
  doc: /***********
@@ -195,7 +195,7 @@ Return the number of reserved channels.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_group_channel, "group-channel", 1, 1, 0,
  (SCM channel, SCM tag),
  doc: /***********
@@ -223,7 +223,7 @@ to represent the group of all the channels).  Return
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_group_channels, "group-channels", 2, 1, 0,
  (SCM from, SCM to, SCM tag),
  doc: /***********
@@ -251,7 +251,7 @@ the group to use.  Return #t if successful.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_group_available, "group-available", 0, 1, 0,
  (SCM tag),
  doc: /***********
@@ -273,7 +273,7 @@ Optional arg @var{tag} specifies the group to check.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_group_count, "group-count", 0, 1, 0,
  (SCM tag),
  doc: /***********
@@ -294,7 +294,7 @@ Optional arg @var{tag} specifies the group to check.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_group_oldest, "group-oldest", 0, 1, 0,
  (SCM tag),
  doc: /***********
@@ -316,7 +316,7 @@ Optional arg @var{tag} specifies the group to check.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_group_newer, "group-newer", 0, 1, 0,
  (SCM tag),
  doc: /***********
@@ -338,7 +338,7 @@ Optional arg @var{tag} specifies the group to check.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_play_channel, "play-channel", 1, 4, 0,
  (SCM chunk, SCM channel, SCM loops, SCM ticks, SCM fade),
  doc: /***********
@@ -399,7 +399,7 @@ the sound.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_play_music, "play-music", 1, 2, 0,
  (SCM music, SCM loops, SCM fade),
  doc: /***********
@@ -436,7 +436,7 @@ are as in @code{play-channel}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_volume, "volume", 0, 2, 0,
  (SCM volume, SCM which),
  doc: /***********
@@ -483,7 +483,7 @@ is unspecified or is -1, just return the current volume.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_volume_music, "music-volume", 0, 1, 0,
  (SCM volume),
  doc: /***********
@@ -505,7 +505,7 @@ means set the volume to @var{volume}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_halt_channel, "halt-channel", 0, 1, 0,
  (SCM channel),
  doc: /***********
@@ -526,7 +526,7 @@ Optional arg @var{channel} specifies a channel to halt.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_halt_group, "halt-group", 0, 1, 0,
  (SCM tag),
  doc: /***********
@@ -547,7 +547,7 @@ Optional arg @var{tag} specifies the group to halt.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_halt_music, "halt-music", 0, 0, 0,
  (void),
  doc: /***********
@@ -559,7 +559,7 @@ Halt playing of the music.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_expire_channel, "expire-channel", 0, 2, 0,
  (SCM channel, SCM ticks),
  doc: /***********
@@ -590,7 +590,7 @@ delay to that many milliseconds, rather than turning it off.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_fade_out_channel, "fade-out-channel", 0, 2, 0,
  (SCM which, SCM ms),
  doc: /***********
@@ -621,7 +621,7 @@ milliseconds the fading will take (default 0).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_fade_out_group, "fade-out-group", 0, 2, 0,
  (SCM tag, SCM ms),
  doc: /***********
@@ -652,7 +652,7 @@ milliseconds the fading will take (default 0).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_fade_out_music, "fade-out-music", 0, 1, 0,
  (SCM ms),
  doc: /***********
@@ -674,7 +674,7 @@ the fading will take (default 0).  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_fading_music, "fading-music", 0, 0, 0,
  (void),
  doc: /***********
@@ -687,7 +687,7 @@ Return the fading status of the music.
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_fading_channel, "fading-channel", 0, 1, 0,
  (SCM which),
  doc: /***********
@@ -709,7 +709,7 @@ Optional arg @var{which} selects which channel to check.
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_pause, "pause", 0, 1, 0,
  (SCM channel),
  doc: /***********
@@ -732,7 +732,7 @@ Return value unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_resume, "resume", 0, 1, 0,
  (SCM channel),
  doc: /***********
@@ -755,7 +755,7 @@ Return value unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_paused, "paused?", 0, 1, 0,
  (SCM channel),
  doc: /***********
@@ -777,7 +777,7 @@ Optional arg @var{channel} selects a which channel to check.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_pause_music, "pause-music", 0, 0, 0,
  (void),
  doc: /***********
@@ -790,7 +790,7 @@ Pause the music.  Return value unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_resume_music, "resume-music", 0, 0, 0,
  (void),
  doc: /***********
@@ -803,7 +803,7 @@ Resume (unpause) the music.  Return value unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_rewind_music, "rewind-music", 0, 0, 0,
  (void),
  doc: /***********
@@ -816,7 +816,7 @@ Rewind the music.  Return value unspecified.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_paused_music, "paused-music?", 0, 0, 0,
  (void),
  doc: /***********
@@ -829,7 +829,7 @@ Return #t if the music is currently paused.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_playing, "playing?", 0, 1, 0,
  (SCM channel),
  doc: /***********
@@ -851,7 +851,7 @@ Optional arg @var{channel} selects which channel to check.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_playing_music, "playing-music?", 0, 0, 0,
  (void),
  doc: /***********
@@ -864,7 +864,7 @@ Return #t iff the music is currently playing.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_set_music_cmd, "set-music-command", 1, 0, 0,
  (SCM command),
  doc: /***********
@@ -878,7 +878,7 @@ to @var{command}, a string.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_set_panning, "set-panning", 3, 0, 0,
  (SCM channel, SCM l, SCM r),
  doc: /***********
@@ -900,7 +900,7 @@ To get ``true'' panning, use @code{(set-panning CH N (- 255 N))}.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_set_distance, "set-distance", 2, 0, 0,
  (SCM channel, SCM distance),
  doc: /***********
@@ -928,7 +928,7 @@ unchanged.  */)
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_set_position, "set-position", 3, 0, 0,
  (SCM channel, SCM angle, SCM distance),
  doc: /***********
@@ -967,7 +967,7 @@ the mixer in the first place if you like.
 }
 
 
-GH_DEFPROC
+PRIMPROC
 (mix_close_audio, "close-audio", 0, 0, 0,
  (void),
  doc: /***********
