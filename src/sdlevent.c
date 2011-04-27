@@ -348,7 +348,7 @@ matching events instead of a count, removing them from the queue.
          second to allocate the array and copy the events (ugh).  This will
          most certainly be re-implemented w/ user-visible uniform vectors.  */
       for (i = cnumevents, ls = events;
-           i && !gh_null_p (ls);
+           i && !NULLP (ls);
            i--, ls = gh_cdr (ls));
       SCM_ASSERT (!i, numevents, 2, FUNC_NAME);
       cevents = alloca (cnumevents * sizeof (SDL_Event));

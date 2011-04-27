@@ -469,7 +469,7 @@ is unspecified or is -1, just return the current volume.  */)
   if (UNBOUNDP (which))
     /* No chunk or channel, call Mix_Volume on default channel.  */
     rv = Mix_Volume (-1, cvolume);
-  else if (gh_exact_p (which))
+  else if (EXACTP (which))
     /* Numeric which, treat as channel number.  */
     rv = Mix_Volume (gh_scm2long (which), cvolume);
   else

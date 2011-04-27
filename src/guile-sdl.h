@@ -39,10 +39,19 @@
 
 /* Guile.  */
 
+#include <libguile.h>
+
 #ifdef HAVE_GUILE_GH_H
 #include <guile/gh.h>
+#define NULLP(obj)        (gh_null_p (obj))
+#define PAIRP(obj)        (gh_pair_p (obj))
+#define EXACTP(obj)       (gh_exact_p (obj))
+#define SYMBOLP(obj)      (gh_symbol_p (obj))
 #else
-#include <libguile.h>
+#define NULLP(obj)        (scm_is_null (obj))
+#define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
+#define EXACTP(obj)       (scm_is_true (scm_exact_p (obj)))
+#define SYMBOLP(obj)      (scm_is_symbol (obj))
 #endif
 
 #ifdef HAVE_GUILE_MODSUP_H
@@ -103,7 +112,7 @@
   SCM_ASSERT (SCM_CHARP ((obj)), (obj), n, FUNC_NAME)
 
 #define ASSERT_LIST(obj,n) \
-  SCM_ASSERT (gh_null_p (obj) || gh_pair_p (obj), (obj), n, FUNC_NAME)
+  SCM_ASSERT (NULLP (obj) || PAIRP (obj), (obj), n, FUNC_NAME)
 
 #define BOUNDP(x)    (! SCM_EQ_P (x, SCM_UNDEFINED))
 #define UNBOUNDP(x)    (SCM_EQ_P (x, SCM_UNDEFINED))

@@ -230,7 +230,7 @@ instead of creating a new one.  */)
   ASSERT_EXACT (width, 1);
   ASSERT_EXACT (height, 2);
 
-  if (gh_symbol_p (format))
+  if (SYMBOLP (format))
     cformat = GSDL_FLAG2ULONG (format, gsdl_overlay_formats);
   else
     {
@@ -500,11 +500,11 @@ The return value is unspecified.  */)
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_LIST (ls, 2);
-  for (p = ls; ! gh_null_p (p); p = gh_cdr (p))
+  for (p = ls; ! NULLP (p); p = gh_cdr (p))
     ASSERT_RECT (gh_car (p), 2);
 
   csurface = UNPACK_SURFACE (surface);
-  for (p = ls; ! gh_null_p (p); p = gh_cdr (p))
+  for (p = ls; ! NULLP (p); p = gh_cdr (p))
     {
       rect = UNPACK_RECT (gh_car (p));
       SDL_UpdateRect (csurface, rect->x, rect->y, rect->w, rect->h);

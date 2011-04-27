@@ -335,7 +335,7 @@ If @var{flag} is #f, ignore @var{alpha} completely.  */)
   Uint8 calpha;
 
   ASSERT_SURFACE (surface, 1);
-  if (EXACTLY_FALSEP (flag) || gh_null_p (flag))
+  if (EXACTLY_FALSEP (flag) || NULLP (flag))
     {
       flag = SCM_BOOL_F;
       alpha = SCM_INUM0;

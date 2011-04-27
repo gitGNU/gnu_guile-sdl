@@ -193,7 +193,7 @@ Return the list of symbols associated with @var{enum-type}.  */)
   rv = gh_call3 (hfold, acons, SCM_EOL, enum_type->table);
   {
     SCM ls = rv;
-    while (! gh_null_p (ls))
+    while (! NULLP (ls))
       {
         gh_set_car_x (ls, gh_caar (ls));
         ls = gh_cdr (ls);
@@ -337,14 +337,14 @@ gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
   val_and_name_t *hit;
   unsigned long result = 0;
 
-  if (EXACTLY_FALSEP (flags) || gh_null_p (flags))
+  if (EXACTLY_FALSEP (flags) || NULLP (flags))
     return 0;
 
-  if (gh_pair_p (flags))
+  if (PAIRP (flags))
     {
       SCM head;
       /* A list of symbols representing flags.  */
-      while (! gh_null_p (flags))
+      while (! NULLP (flags))
         {
           ASSERT_SYMBOL (gh_car (flags), pos);
           head = gh_car (flags);

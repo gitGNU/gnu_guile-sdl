@@ -1,5 +1,22 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstractions: NULLP, PAIRP, EXACTP, SYMBOLP
+
+	Suggested by Brian Templeton.
+
+	* guile-sdl.h: #include <libguile> unconditionally.
+	(NULLP, PAIRP, EXACTP, SYMBOLP): New macros.
+	(ASSERT_LIST): Use ‘NULLP’, ‘PAIRP’.
+	* sdlenums.c (enumstash_enums): Use ‘NULLP’.
+	(gsdl_flags2ulong): Use ‘NULLP’, ‘PAIRP’.
+	* sdlevent.c (peep_events): Use ‘NULLP’.
+	* sdlmixer.c (mix_volume): Use ‘EXACTP’.
+	* sdlsurface.c (set_alpha): Use ‘NULLP’.
+	* sdlvideo.c (create_yuv_overlay): Use ‘SYMBOLP’.
+	(update_rects): Use ‘NULLP’.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: PRIMPROC
 
 	Suggested by Brian Templeton.
