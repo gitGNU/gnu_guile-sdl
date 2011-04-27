@@ -1,5 +1,14 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: DEFINE_PUBLIC
+
+	Suggested by Brian Templeton.
+
+	* guile-sdl.h (DEFINE_PUBLIC): New macro.
+	* sdlenums.c (gsdl_define_enum): Use it.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstractions: VECLENGTH, UVECLENGTH
 
 	* guile-sdl.h (VECLENGTH, UVECLENGTH): New macros.

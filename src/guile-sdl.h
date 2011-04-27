@@ -55,6 +55,7 @@
 #define SETCAR             gh_set_car_x
 #define VECLENGTH          gh_vector_length
 #define UVECLENGTH         gh_uniform_vector_length
+#define DEFINE_PUBLIC      gh_define
 #else
 #define NULLP(obj)        (scm_is_null (obj))
 #define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
@@ -68,6 +69,13 @@
 #define SETCAR             scm_set_car_x
 #define VECLENGTH          scm_c_vector_length
 #define UVECLENGTH         scm_c_uniform_vector_length
+
+#define DEFINE_PUBLIC(name,value)  do           \
+    {                                           \
+      scm_c_define (name, value);               \
+      scm_c_export (name, NULL);                \
+    }                                           \
+  while (0)
 #endif
 
 #ifdef HAVE_GUILE_MODSUP_H

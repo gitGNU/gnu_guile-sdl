@@ -136,7 +136,7 @@ gsdl_define_enum (const char *name, ...)
 
   /* Build and define the enum smob instance.  */
   SCM_NEWSMOB (enumstash, enum_tag, new_enum);
-  gh_define (name, enumstash);
+  DEFINE_PUBLIC (name, enumstash);
   return enumstash;
 }
 
