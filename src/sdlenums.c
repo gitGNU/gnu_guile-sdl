@@ -29,8 +29,9 @@ static SCM acons;
 static long enum_tag;
 
 typedef struct {
-  SCM vec, table;
+  SCM table;
   long min, max;
+  SCM *rev;
 } enum_struct;
 
 #define ASSERT_ENUM(obj,which) \
@@ -45,7 +46,8 @@ mark_enum (SCM enumstash)
 {
   enum_struct *enum_smob = UNPACK_ENUM (enumstash);
 
-  scm_gc_mark (enum_smob->vec);
+  /* Each element in ‘.rev’ is either ‘#f’, or a symbol, one of the
+     keys in ‘.table’; thus, it needs no further gc protection.  */
   scm_gc_mark (enum_smob->table);
   RETURN_FALSE;
 }
@@ -54,7 +56,10 @@ static
 size_t
 free_enum (SCM enumstash)
 {
-  free (UNPACK_ENUM (enumstash));
+  enum_struct *e = UNPACK_ENUM (enumstash);
+
+  free (e->rev);
+  free (e);
   return sizeof (enum_struct);
 }
 
@@ -79,7 +84,7 @@ gsdl_define_enum (const char *name, ...)
   va_list ap;
   char *symname;
   long value, max = 0, min = 0, count = 0; /* min was 0xffff --ttn */
-  SCM enumstash, vec, table, sym;
+  SCM enumstash, table, sym;
   enum_struct *new_enum;
 
   /* Initialize the argument list.  */
@@ -108,10 +113,13 @@ gsdl_define_enum (const char *name, ...)
   new_enum->max = max;
 
   /* Create the enum table.  */
-  vec = scm_dimensions_to_uniform_array (SCM_MAKINUM (max - min + 1),
-                                         SCM_EOL,
-                                         BOOL_FALSE);
-  new_enum->vec = vec;
+  {
+    int i, lim = max - min + 1;
+
+    new_enum->rev = malloc (sizeof (SCM) * lim);
+    for (i = 0; i < lim; i++)
+      new_enum->rev[i] = BOOL_FALSE;
+  }
 
   /* Create the enum hash.  */
   table = MAKE_HASH_TABLE (count);
@@ -126,7 +134,7 @@ gsdl_define_enum (const char *name, ...)
       symname = va_arg (ap, char*);
       value = va_arg (ap, long);
       sym = gh_symbol2scm (symname);
-      gh_vector_set_x (vec, gh_long2scm (value - min), sym);
+      new_enum->rev[value - min] = sym;
       scm_hashq_set_x (table, sym, gh_long2scm (value));
       count--;
     }
@@ -140,38 +148,44 @@ gsdl_define_enum (const char *name, ...)
   return enumstash;
 }
 
+static inline SCM
+lookup (SCM symbol, SCM enumstash)
+{
+  return scm_hashq_ref (UNPACK_ENUM (enumstash)->table,
+                        symbol, BOOL_FALSE);
+}
+
 
 /* C level conversions */
 
 long
-gsdl_enum2long (SCM enumstash, SCM enumstash_type, int pos, const char *FUNC_NAME)
+gsdl_enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
 {
-  enum_struct *enum_type;
-  SCM index;
   long result = 0;
 
-  enum_type = UNPACK_ENUM (enumstash_type);
-
-  if (SCM_SYMBOLP (enumstash))
+  if (SCM_SYMBOLP (obj))
     {
-      index = scm_hashq_ref (enum_type->table, enumstash, BOOL_FALSE);
-      if (NOT_FALSEP (index))
-        result = gh_scm2long (index);
+      obj = lookup (obj, enumstash);
+      if (NOT_FALSEP (obj))
+        result = gh_scm2long (obj);
     }
   else
     {
-      ASSERT_EXACT (enumstash, pos);
-      result = gh_scm2long (enumstash);
+      ASSERT_EXACT (obj, pos);
+      result = gh_scm2long (obj);
     }
 
   return result;
 }
 
 SCM
-gsdl_long2enum (long value, SCM enumstash_type)
+gsdl_long2enum (long value, SCM enumstash)
 {
-  enum_struct *enum_type = UNPACK_ENUM (enumstash_type);
-  return gh_vector_ref (enum_type->vec, gh_long2scm (value - enum_type->min));
+  enum_struct *e = UNPACK_ENUM (enumstash);
+
+  if (e->min > value) RETURN_FALSE;
+  if (e->max < value) RETURN_FALSE;
+  return e->rev[value - e->min];
 }
 
 
@@ -179,17 +193,17 @@ gsdl_long2enum (long value, SCM enumstash_type)
 
 PRIMPROC
 (enumstash_enums, "enumstash-enums", 1, 0, 0,
- (SCM enumstash_type),
+ (SCM enumstash),
  doc: /***********
-Return the list of symbols associated with @var{enum-type}.  */)
+Return the list of symbols belonging to @var{enumstash}.  */)
 {
 #define FUNC_NAME s_enumstash_enums
   SCM rv;
   enum_struct *enum_type;
 
-  ASSERT_ENUM (enumstash_type, 1);
+  ASSERT_ENUM (enumstash, 1);
 
-  enum_type = UNPACK_ENUM (enumstash_type);
+  enum_type = UNPACK_ENUM (enumstash);
   rv = CALL3 (hfold, acons, SCM_EOL, enum_type->table);
   {
     SCM ls = rv;
@@ -205,48 +219,31 @@ Return the list of symbols associated with @var{enum-type}.  */)
 
 PRIMPROC
 (enum_to_number, "enum->number", 2, 0, 0,
- (SCM enumstash_type,
+ (SCM enumstash,
   SCM symbol),
  doc: /***********
-Convert an enum number or symbol to a number.  */)
+Return the number associated with @var{symbol}, or @code{#f}
+if it does not belong to @var{enumstash}.  */)
 {
 #define FUNC_NAME s_enum_to_number
-  SCM table;
-  enum_struct *enum_type;
-
-  ASSERT_ENUM (enumstash_type, 1);
-
-  enum_type = UNPACK_ENUM (enumstash_type);
-  table = enum_type->table;
-
+  ASSERT_ENUM (enumstash, 1);
   ASSERT_SYMBOL (symbol, 2);
 
-  /* Lookup and return the number in the pair.  */
-  return scm_hashq_ref (table, symbol, BOOL_FALSE);
+  return lookup (symbol, enumstash);
 #undef FUNC_NAME
 }
 
 PRIMPROC
 (number_to_enum, "number->enum", 2, 0, 0,
- (SCM enumstash_type, SCM number),
+ (SCM enumstash, SCM number),
  doc: /***********
-Convert a number to an enum.  */)
+Return the symbol associated with @var{number}, or @code{#f}
+if it does not belong to @var{enumstash}.  */)
 {
 #define FUNC_NAME s_number_to_enum
-  SCM vec;
-  long index;
-  enum_struct *enum_type;
-
-  ASSERT_ENUM (enumstash_type, 1);
-
-  enum_type = UNPACK_ENUM (enumstash_type);
-  vec = enum_type->vec;
-
+  ASSERT_ENUM (enumstash, 1);
   ASSERT_EXACT (number, 2);
-  index = gh_scm2long (number) - enum_type->min;
-
-  /* Return the numbered index into the vector.  */
-  return gh_vector_ref (vec, gh_long2scm (index));
+  return gsdl_long2enum (gh_scm2long (number), enumstash);
 #undef FUNC_NAME
 }
 

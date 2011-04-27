@@ -1,5 +1,20 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Use C array instead of Scheme vector for enum table.
+
+	* sdlenums.c (enum_struct): Drop member ‘.vec’; add member ‘.rev’.
+	(mark_enum): Update.
+	(free_enum): Also ‘free’ the ‘rev’.
+	(gsdl_define_enum): Allocate and init ‘.rev’.
+	(lookup): New static func.
+	(gsdl_enum2long): Use ‘lookup’; rename args for clarity.
+	(gsdl_long2enum): Update; also, if value out of range, return ‘#f’.
+	(enumstash_enums): Rename arg; nfc.
+	(enum_to_number): Rename arg; use ‘lookup’.
+	(number_to_enum): Use ‘gsdl_long2enum’.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: LOOKUP
 
 	Suggested by Brian Templeton.
