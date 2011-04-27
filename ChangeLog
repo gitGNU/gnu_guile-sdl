@@ -1,5 +1,14 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[maint] Move testing machinery into test/.
+
+	* Makefile.am (SUBDIRS): Add test.
+	(TESTS, TESTS_ENVIRONMENT): Delete vars.
+	(as_is_dirs): Remove test.
+	* configure.ac (AC_CONFIG_FILES): Add test/Makefile.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[maint] Move module-catalog machinery into src/.
 
 	* configure.ac (MODULE_CATALOG_PREP): New AC_DEFUN;

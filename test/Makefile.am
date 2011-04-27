@@ -1,5 +1,3 @@
-## Process this file with Automake to create Makefile.in
-
 ## Copyright (C) 2003, 2004, 2005, 2007, 2008, 2009 Thien-Thi Nguyen
 ##
 ## This program is free software; you can redistribute it and/or
@@ -17,16 +15,30 @@
 ## Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ## Boston, MA  02110-1301  USA
 
-ACLOCAL_AMFLAGS = -I build-aux
+TESTS = alive.test				\
+	leak.scm				\
+	rect.scm				\
+	image.scm				\
+	event.scm				\
+	mixer.scm				\
+	ttf.scm					\
+	cursor.scm				\
+	roto.scm				\
+	gfx.scm					\
+	fading.scm
 
-SUBDIRS = src doc test
+TESTS_ENVIRONMENT = \
+	HAVE_TTF=$(HAVE_TTF) \
+	HAVE_MIXER=$(HAVE_MIXER) \
+	$(GUILE) -L "@abs_top_builddir@/src" -l $(srcdir)/common -s
 
-# distribution
-as_is_dirs =
+noises = background.ogg fx.ogg fx.wav
+images = gnu-goatee.jpg
+etcetc = crystal.ttf
 
-EXTRA_DIST = HISTORY \
-	build-aux/guile-sdl.m4 \
-	build-aux/sofix \
-	$(as_is_dirs)
+EXTRA_DIST = common $(TESTS) \
+ $(noises) \
+ $(images) \
+ $(etcetc)
 
 ## Makefile.am ends here

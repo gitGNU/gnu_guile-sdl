@@ -28,14 +28,15 @@
   (apply simple-format #t s args))
 
 (define (exit-77 msg)
-  (fso "INFO: ~A: ~A\n" (car (command-line)) (string-upcase msg))
+  (fso "INFO: ~A: ~A\n"
+       (basename (car (command-line)))
+       (string-upcase msg))
   (exit 77))
 
-(define (datafile name)
-  (in-vicinity (or (and=> (getenv "srcdir")
-                          (lambda (d) (in-vicinity d "test")))
-                   ".")
-               name))
+(define datafile
+  (let ((srcdir (or (getenv "srcdir") ".")))
+    (lambda (name)
+      (in-vicinity srcdir name))))
 
 (define debug? (env-1? "DEBUG"))
 (and debug? (debug-enable 'debug 'backtrace))

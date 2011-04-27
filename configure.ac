@@ -137,6 +137,7 @@ AC_CONFIG_FILES([
   src/Makefile
   src/SDL_gfx/Makefile
   doc/Makefile
+  test/Makefile
 ])
 
 AC_OUTPUT
