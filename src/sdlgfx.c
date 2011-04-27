@@ -47,8 +47,7 @@ On @var{surface}, draw a point at location
 
   RETURN_INT
     (pixelColor (UNPACK_SURFACE (surface),
-                 gh_scm2long (x), gh_scm2long (y),
-                 gh_scm2ulong (color)));
+                 C_LONG (x), C_LONG (y), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -69,9 +68,8 @@ with color @var{color}.  */)
   ASSERT_EXACT (color, 5);
 
   RETURN_INT
-    (hlineColor (UNPACK_SURFACE (surface),
-                 gh_scm2long (x1), gh_scm2long (x2), gh_scm2long (y),
-                 gh_scm2ulong (color)));
+    (hlineColor (UNPACK_SURFACE (surface), C_LONG (x1), C_LONG (x2),
+                 C_LONG (y), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -92,9 +90,8 @@ with color @var{color}.  */)
   ASSERT_EXACT (color, 5);
 
   RETURN_INT
-    (vlineColor (UNPACK_SURFACE (surface),
-                 gh_scm2long (x), gh_scm2long (y1), gh_scm2long (y2),
-                 gh_scm2ulong (color)));
+    (vlineColor (UNPACK_SURFACE (surface), C_LONG (x),
+                 C_LONG (y1), C_LONG (y2), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -122,9 +119,9 @@ Optional arg @var{fill} means to fill the rectangle as well.  */)
     ((EXACTLY_FALSEP (fill)
       ? rectangleColor
       : boxColor) (UNPACK_SURFACE (surface),
-                   gh_scm2long (x1), gh_scm2long (y1),
-                   gh_scm2long (x2), gh_scm2long (y2),
-                   gh_scm2ulong (color)));
+                   C_LONG (x1), C_LONG (y1),
+                   C_LONG (x2), C_LONG (y2),
+                   C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -148,9 +145,9 @@ with color @var{color}.  */)
 
   RETURN_INT
     (lineColor (UNPACK_SURFACE (surface),
-                gh_scm2long (x1), gh_scm2long (y1),
-                gh_scm2long (x2), gh_scm2long (y2),
-                gh_scm2ulong (color)));
+                C_LONG (x1), C_LONG (y1),
+                C_LONG (x2), C_LONG (y2),
+                C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -174,9 +171,9 @@ with color @var{color}.  */)
 
   RETURN_INT
     (aalineColor (UNPACK_SURFACE (surface),
-                  gh_scm2long (x1), gh_scm2long (y1),
-                  gh_scm2long (x2), gh_scm2long (y2),
-                  gh_scm2ulong (color)));
+                  C_LONG (x1), C_LONG (y1),
+                  C_LONG (x2), C_LONG (y2),
+                  C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -201,10 +198,8 @@ Optional arg @var{fill} means to fill the circle as well.  */)
   RETURN_INT
     ((EXACTLY_FALSEP (fill)
       ? circleColor
-      : filledCircleColor) (UNPACK_SURFACE (surface),
-                            gh_scm2long (x), gh_scm2long (y),
-                            gh_scm2long (r),
-                            gh_scm2ulong (color)));
+      : filledCircleColor) (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
+                            C_LONG (r), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -232,10 +227,8 @@ arguments are internally reversed).  */)
   ASSERT_EXACT (color, 7);
 
   RETURN_INT
-    (arcColor (UNPACK_SURFACE (surface),
-               gh_scm2long (x), gh_scm2long (y), gh_scm2long (r),
-               gh_scm2long (start), gh_scm2long (end),
-               gh_scm2ulong (color)));
+    (arcColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
+               C_LONG (r), C_LONG (start), C_LONG (end), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -255,10 +248,8 @@ On @var{surface}, draw an anti-aliased circle with center
   ASSERT_EXACT (color, 5);
 
   RETURN_INT
-    (aacircleColor (UNPACK_SURFACE (surface),
-                    gh_scm2long (x), gh_scm2long (y),
-                    gh_scm2long (r),
-                    gh_scm2ulong (color)));
+    (aacircleColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
+                    C_LONG (r), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -284,10 +275,8 @@ Optional arg @var{fill} means to fill the ellipse as well.  */)
   RETURN_INT
     ((EXACTLY_FALSEP (fill)
       ? ellipseColor
-      : filledEllipseColor) (UNPACK_SURFACE (surface),
-                             gh_scm2long (x), gh_scm2long (y),
-                             gh_scm2long (rx), gh_scm2long (ry),
-                             gh_scm2ulong (color)));
+      : filledEllipseColor) (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
+                             C_LONG (rx), C_LONG (ry), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -309,10 +298,8 @@ color @var{color}.  */)
   ASSERT_EXACT (color, 6);
 
   RETURN_INT
-    (aaellipseColor (UNPACK_SURFACE (surface),
-                     gh_scm2long (x), gh_scm2long (y),
-                     gh_scm2long (rx), gh_scm2long (ry),
-                     gh_scm2ulong (color)));
+    (aaellipseColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
+                     C_LONG (rx), C_LONG (ry), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -342,9 +329,8 @@ Optional arg @var{fill} means to fill the slice as well.  */)
     ((EXACTLY_FALSEP (fill)
       ? pieColor
       : filledPieColor) (UNPACK_SURFACE (surface),
-                         gh_scm2long (x), gh_scm2long (y), gh_scm2long (rad),
-                         gh_scm2long (start), gh_scm2long (end),
-                         gh_scm2ulong (color)));
+                         C_LONG (x), C_LONG (y), C_LONG (rad),
+                         C_LONG (start), C_LONG (end), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -375,10 +361,10 @@ fill the triangle as well.  */)
     ((EXACTLY_FALSEP (fill)
       ? trigonColor
       : filledTrigonColor) (UNPACK_SURFACE (surface),
-                            gh_scm2long (x1), gh_scm2long (y1),
-                            gh_scm2long (x2), gh_scm2long (y2),
-                            gh_scm2long (x3), gh_scm2long (y3),
-                            gh_scm2ulong (color)));
+                            C_LONG (x1), C_LONG (y1),
+                            C_LONG (x2), C_LONG (y2),
+                            C_LONG (x3), C_LONG (y3),
+                            C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -404,10 +390,10 @@ with color @var{color}.  */)
 
   RETURN_INT
     (aatrigonColor (UNPACK_SURFACE (surface),
-                    gh_scm2long (x1), gh_scm2long (y1),
-                    gh_scm2long (x2), gh_scm2long (y2),
-                    gh_scm2long (x3), gh_scm2long (y3),
-                    gh_scm2ulong (color)));
+                    C_LONG (x1), C_LONG (y1),
+                    C_LONG (x2), C_LONG (y2),
+                    C_LONG (x3), C_LONG (y3),
+                    C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -439,7 +425,7 @@ arg @var{fill} means to fill the polygon as well.  */)
                : filledPolygonColor) (UNPACK_SURFACE (surface),
                                       gsdl_scm_to_int16s (vx, cvx),
                                       gsdl_scm_to_int16s (vy, cvy),
-                                      len, gh_scm2ulong (color)));
+                                      len, C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -467,7 +453,7 @@ are specified by corresponding pairs from the uniform vectors
   RETURN_INT (aapolygonColor (UNPACK_SURFACE (surface),
                               gsdl_scm_to_int16s (vx, cvx),
                               gsdl_scm_to_int16s (vy, cvy),
-                              len, gh_scm2ulong (color)));
+                              len, C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -499,7 +485,7 @@ offset @var{tdx}, @var{tdy}.  */)
                                gsdl_scm_to_int16s (vx, cvx),
                                gsdl_scm_to_int16s (vy, cvy),
                                len, UNPACK_SURFACE (texture),
-                               gh_scm2int (tdx), gh_scm2int (tdy)));
+                               C_INT (tdx), C_INT (tdy)));
 #undef FUNC_NAME
 }
 
@@ -528,8 +514,7 @@ specified by corresponding pairs from the uniform vectors
   RETURN_INT (bezierColor (UNPACK_SURFACE (surface),
                            gsdl_scm_to_int16s (vx, cvx),
                            gsdl_scm_to_int16s (vy, cvy),
-                           len, gh_scm2long (s),
-                           gh_scm2ulong (color)));
+                           len, C_LONG (s), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -549,9 +534,8 @@ draw char @var{c} with @var{color} (a number).  */)
   ASSERT_EXACT (color, 5);
 
   RETURN_INT
-    (characterColor (UNPACK_SURFACE (surface),
-                     gh_scm2long (x), gh_scm2long (y),
-                     gh_scm2char (c), gh_scm2ulong (color)));
+    (characterColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
+                     C_CHAR (c), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -571,10 +555,8 @@ draw string @var{text} with @var{color} (a number).  */)
   ASSERT_EXACT (color, 5);
 
   RETURN_INT
-    (stringColor (UNPACK_SURFACE (surface),
-                  gh_scm2long (x), gh_scm2long (y),
-                  SCM_CHARS (text),
-                  gh_scm2ulong (color)));
+    (stringColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
+                  SCM_CHARS (text), C_ULONG (color)));
 #undef FUNC_NAME
 }
 
@@ -607,13 +589,13 @@ fourth arg @var{smooth} turns on anti-aliasing.  */)
   csurface = SMOBGET (surface, SDL_Surface *);
 
   ASSERT_NUMBER (angle, 2);
-  cangle = gh_scm2double (angle);
+  cangle = C_DOUBLE (angle);
 
   UNBOUND_MEANS_FALSE (zoom);
   if (NOT_FALSEP (zoom))
     {
       ASSERT_NUMBER (zoom, 3);
-      czoom = gh_scm2double (zoom);
+      czoom = C_DOUBLE (zoom);
     }
 
   UNBOUND_MEANS_FALSE (smooth);
@@ -646,19 +628,19 @@ turns on anti-aliasing.  */)
   csurface = SMOBGET (surface, SDL_Surface *);
 
   ASSERT_NUMBER (angle, 2);
-  cangle = gh_scm2double (angle);
+  cangle = C_DOUBLE (angle);
 
   UNBOUND_MEANS_FALSE (zoomx);
   if (NOT_FALSEP (zoomx))
     {
       ASSERT_NUMBER (zoomx, 3);
-      czoomx = gh_scm2double (zoomx);
+      czoomx = C_DOUBLE (zoomx);
     }
   UNBOUND_MEANS_FALSE (zoomy);
   if (NOT_FALSEP (zoomy))
     {
       ASSERT_NUMBER (zoomy, 3);
-      czoomy = gh_scm2double (zoomy);
+      czoomy = C_DOUBLE (zoomy);
     }
 
   UNBOUND_MEANS_FALSE (smooth);
@@ -691,13 +673,13 @@ Optional fourth arg @var{smooth} turns on anti-aliasing.  */)
   csurface = SMOBGET (surface, SDL_Surface *);
 
   ASSERT_NUMBER (zoomx, 2);
-  czoomx = gh_scm2double (zoomx);
+  czoomx = C_DOUBLE (zoomx);
 
   UNBOUND_MEANS_FALSE (zoomy);
   if (NOT_FALSEP (zoomy))
     {
       ASSERT_NUMBER (zoomy, 3);
-      czoomy = gh_scm2double (zoomy);
+      czoomy = C_DOUBLE (zoomy);
     }
   else
     czoomy = czoomx;
@@ -733,10 +715,10 @@ box RGBA or Y information'' and is in 32-bit RGBA format.  */)
   csurface = SMOBGET (surface, SDL_Surface *);
 
   ASSERT_EXACT (factorx, 2);
-  cfactorx = gh_scm2ulong (factorx);
+  cfactorx = C_ULONG (factorx);
 
   ASSERT_NUMBER (factory, 3);
-  cfactory = gh_scm2ulong (factory);
+  cfactory = C_ULONG (factory);
 
   new_surface = shrinkSurface (csurface, cfactorx, cfactory);
 
@@ -801,7 +783,7 @@ initialize the object (default 30 if not specified).  */)
       if (NOT_FALSEP (n))
         {
           ASSERT_EXACT (n, 1);
-          SDL_setFramerate (m, gh_scm2int (n));
+          SDL_setFramerate (m, C_INT (n));
         }
     }
 
@@ -822,7 +804,7 @@ frame rate of @var{n} Hz.  Return #f if not successful.  */)
   ASSERT_EXACT (n, 2);
 
   RETURN_TRUE_IF_0
-    (SDL_setFramerate (UNPACK_FPSMGR (mgr), gh_scm2int (n)));
+    (SDL_setFramerate (UNPACK_FPSMGR (mgr), C_INT (n)));
 #undef FUNC_NAME
 }
 
@@ -884,7 +866,7 @@ Otherwise, do nothing and return @code{#f}.  */)
   ASSERT_EXACT (alpha, 2);
 
   return (1 == SDL_gfxSetAlpha (UNPACK_SURFACE (surface),
-                                (Uint8) gh_scm2ulong (alpha))
+                                (Uint8) C_ULONG (alpha))
           ? SCM_BOOL_T
           : SCM_BOOL_F);
 #undef FUNC_NAME
@@ -1174,7 +1156,7 @@ D = saturation255 (S + C).  */)
   unsigned int cc;
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (c, 3);
-  cc = gh_scm2int (c);
+  cc = C_INT (c);
   RETURN_TRUE_IF_0 (~0xffUL & cc
                     ? SDL_imageFilterAddUint (s, d, len, cc)
                     : SDL_imageFilterAddByte (s, d, len, cc));
@@ -1192,7 +1174,7 @@ D = saturation255 (S/2 + C).  */)
   unsigned int cc;
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (c, 3);
-  cc = gh_scm2int (c);
+  cc = C_INT (c);
   RETURN_TRUE_IF_0 (SDL_imageFilterAddByteToHalf (s, d, len, cc));
 #undef FUNC_NAME
 }
@@ -1208,7 +1190,7 @@ D = saturation0 (S - C).  */)
   unsigned int cc;
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (c, 3);
-  cc = gh_scm2int (c);
+  cc = C_INT (c);
   RETURN_TRUE_IF_0 (~0xffUL & cc
                     ? SDL_imageFilterSubUint (s, d, len, cc)
                     : SDL_imageFilterSubByte (s, d, len, cc));
@@ -1226,7 +1208,7 @@ D = saturation0 (S >> N).  */)
   unsigned int cn;
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (n, 3);
-  cn = gh_scm2int (n);
+  cn = C_INT (n);
   RETURN_TRUE_IF_0 (SDL_imageFilterShiftRight (s, d, len, cn));
 #undef FUNC_NAME
 }
@@ -1242,7 +1224,7 @@ D = saturation0 ((uint) S >> N).  */)
   unsigned int cn;
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (n, 3);
-  cn = gh_scm2int (n);
+  cn = C_INT (n);
   RETURN_TRUE_IF_0 (SDL_imageFilterShiftRightUint (s, d, len, cn));
 #undef FUNC_NAME
 }
@@ -1258,7 +1240,7 @@ D = saturation255 (S * C).  */)
   unsigned int cc;
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (c, 3);
-  cc = gh_scm2int (c);
+  cc = C_INT (c);
   RETURN_TRUE_IF_0 (SDL_imageFilterMultByByte (s, d, len, cc));
 #undef FUNC_NAME
 }
@@ -1275,8 +1257,8 @@ D = saturation255 ((S >> N) * C).  */)
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (n, 3);
   ASSERT_NUMBER (c, 4);
-  cn = gh_scm2int (n);
-  cc = gh_scm2int (c);
+  cn = C_INT (n);
+  cc = C_INT (c);
   RETURN_TRUE_IF_0
     (SDL_imageFilterShiftRightAndMultByByte (s, d, len, cn, cc));
 #undef FUNC_NAME
@@ -1293,7 +1275,7 @@ D = (S << N).  */)
   unsigned int cn;
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (n, 3);
-  cn = gh_scm2int (n);
+  cn = C_INT (n);
   RETURN_TRUE_IF_0 (SDL_imageFilterShiftLeftByte (s, d, len, cn));
 #undef FUNC_NAME
 }
@@ -1309,7 +1291,7 @@ D = ((uint) S << N).  */)
   unsigned int cn;
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (n, 3);
-  cn = gh_scm2int (n);
+  cn = C_INT (n);
   RETURN_TRUE_IF_0 (SDL_imageFilterShiftLeftUint (s, d, len, cn));
 #undef FUNC_NAME
 }
@@ -1325,7 +1307,7 @@ D = saturation255 (S << N).  */)
   unsigned int cn;
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (n, 3);
-  cn = gh_scm2int (n);
+  cn = C_INT (n);
   RETURN_TRUE_IF_0 (SDL_imageFilterShiftLeft (s, d, len, cn));
 #undef FUNC_NAME
 }
@@ -1341,7 +1323,7 @@ D = (S < T ? 0 : 255).  */)
   unsigned int ct;
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (t, 3);
-  ct = gh_scm2int (t);
+  ct = C_INT (t);
   RETURN_TRUE_IF_0 (SDL_imageFilterBinarizeUsingThreshold (s, d, len, ct));
 #undef FUNC_NAME
 }
@@ -1358,8 +1340,8 @@ D = (Tmin <= S <= Tmax) ? 255 : 0.  */)
   SD_DECL_AND_CHECK ();
   ASSERT_NUMBER (tmin, 3);
   ASSERT_NUMBER (tmax, 4);
-  ctmin = gh_scm2int (tmin);
-  ctmax = gh_scm2int (tmax);
+  ctmin = C_INT (tmin);
+  ctmax = C_INT (tmax);
   RETURN_TRUE_IF_0 (SDL_imageFilterClipToRange (s, d, len, ctmin, ctmax));
 #undef FUNC_NAME
 }
@@ -1378,10 +1360,10 @@ D = saturation255 ((Nmax - Nmin) / (Cmax - Cmin) * (S - Cmin) + Nmin).  */)
   ASSERT_NUMBER (cmax, 4);
   ASSERT_NUMBER (nmin, 5);
   ASSERT_NUMBER (nmax, 6);
-  ccmin = gh_scm2int (cmin);
-  ccmax = gh_scm2int (cmax);
-  cnmin = gh_scm2int (nmin);
-  cnmax = gh_scm2int (nmax);
+  ccmin = C_INT (cmin);
+  ccmax = C_INT (cmax);
+  cnmin = C_INT (nmin);
+  cnmax = C_INT (nmax);
   RETURN_TRUE_IF_0
     (SDL_imageFilterNormalizeLinear (s, d, len, ccmin, ccmax, cnmin, cnmax));
 #undef FUNC_NAME

@@ -92,7 +92,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
   if (BOUNDP (n))
     {
       ASSERT_EXACT (n, 1);
-      cn = gh_scm2long (n);
+      cn = C_LONG (n);
     }
 
   RETURN_0STR (SDL_JoystickName (cn));
@@ -113,7 +113,7 @@ Optional arg @var{n} specifies which joystick to open.  */)
   if (BOUNDP (n))
     {
       ASSERT_EXACT (n, 1);
-      cn = gh_scm2long (n);
+      cn = C_LONG (n);
     }
 
   RETURN_NEW_JOYSTICK (SDL_JoystickOpen (cn));
@@ -134,7 +134,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
   if (BOUNDP (n))
     {
       ASSERT_EXACT (n, 1);
-      cn = gh_scm2long (n);
+      cn = C_LONG (n);
     }
 
   RETURN_BOOL
@@ -265,7 +265,7 @@ Set the Joystick event processing model to @var{state}.  */)
 #define FUNC_NAME s_joystick_event_state
   ASSERT_EXACT (state, 1);
 
-  RETURN_INT (SDL_JoystickEventState (gh_scm2long (state)));
+  RETURN_INT (SDL_JoystickEventState (C_LONG (state)));
 #undef FUNC_NAME
 }
 
@@ -286,7 +286,7 @@ For @var{joystick}, return state of @var{axis}.  */)
   joy = UNPACK_JOYSTICK (joystick);
 
   RETURN_INT (joy
-              ? SDL_JoystickGetAxis (joy, gh_scm2long (axis))
+              ? SDL_JoystickGetAxis (joy, C_LONG (axis))
               : -1);
 #undef FUNC_NAME
 }
@@ -317,7 +317,7 @@ On error, return #f.  */)
     {
       int ret;
 
-      ret = SDL_JoystickGetBall (joy, gh_scm2long (n), &dx, &dy);
+      ret = SDL_JoystickGetBall (joy, C_LONG (n), &dx, &dy);
 
       if (ret != -1)
         RETURN_LIST2 (CONS (SYM (dx), NUM_LONG (dx)),
@@ -345,7 +345,7 @@ For @var{joystick}, return state of hat @var{n}.  */)
   joy = UNPACK_JOYSTICK (joystick);
 
   RETURN_INT (joy
-              ? SDL_JoystickGetHat (joy, gh_scm2long (n))
+              ? SDL_JoystickGetHat (joy, C_LONG (n))
               : -1);
 #undef FUNC_NAME
 }
@@ -367,7 +367,7 @@ For @var{joystick}, return state of button @var{n}.  */)
   joy = UNPACK_JOYSTICK (joystick);
 
   RETURN_INT (joy
-              ? SDL_JoystickGetButton (joy, gh_scm2long (n))
+              ? SDL_JoystickGetButton (joy, C_LONG (n))
               : -1);
 #undef FUNC_NAME
 }

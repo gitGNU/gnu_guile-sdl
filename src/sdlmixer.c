@@ -77,14 +77,14 @@ those aspects of the device.  Return #t if successful.  */)
   if (NOT_FALSEP (freq))
     {
       ASSERT_EXACT (freq, 1);
-      cfreq = gh_scm2long (freq);
+      cfreq = C_LONG (freq);
     }
 
   UNBOUND_MEANS_FALSE (format);
   if (NOT_FALSEP (format))
     {
       ASSERT_EXACT (format, 2);
-      cformat = gh_scm2long (format);
+      cformat = C_LONG (format);
     }
 
   cchannels -= UNBOUNDP (stereo) ? 0 : EXACTLY_FALSEP (stereo);
@@ -93,7 +93,7 @@ those aspects of the device.  Return #t if successful.  */)
   if (NOT_FALSEP (chunksize))
     {
       ASSERT_EXACT (chunksize, 4);
-      cchunksize = gh_scm2long (chunksize);
+      cchunksize = C_LONG (chunksize);
     }
 
   /* Open the audio device.  */
@@ -115,7 +115,7 @@ new number of allocated channels.  */)
 #define FUNC_NAME s_mix_allocate_channels
   ASSERT_EXACT (numchans, 1);
 
-  RETURN_INT (Mix_AllocateChannels (gh_scm2long (numchans)));
+  RETURN_INT (Mix_AllocateChannels (C_LONG (numchans)));
 #undef FUNC_NAME
 }
 
@@ -190,7 +190,7 @@ Return the number of reserved channels.  */)
 #define FUNC_NAME s_mix_reserve_channels
   ASSERT_EXACT (num, 1);
 
-  RETURN_INT (Mix_ReserveChannels (gh_scm2long (num)));
+  RETURN_INT (Mix_ReserveChannels (C_LONG (num)));
 #undef FUNC_NAME
 }
 
@@ -214,11 +214,11 @@ to represent the group of all the channels).  Return
   if (BOUNDP (tag))
     {
       ASSERT_EXACT (tag, 2);
-      ctag = gh_scm2long (tag);
+      ctag = C_LONG (tag);
     }
 
   RETURN_BOOL
-    (Mix_GroupChannel (gh_scm2long (channel), ctag));
+    (Mix_GroupChannel (C_LONG (channel), ctag));
 #undef FUNC_NAME
 }
 
@@ -240,13 +240,11 @@ the group to use.  Return #t if successful.  */)
   if (BOUNDP (tag))
     {
       ASSERT_EXACT (tag, 3);
-      ctag = gh_scm2long (tag);
+      ctag = C_LONG (tag);
     }
 
   RETURN_BOOL
-    (Mix_GroupChannels (gh_scm2long (from),
-                        gh_scm2long (to),
-                        ctag));
+    (Mix_GroupChannels (C_LONG (from), C_LONG (to), ctag));
 #undef FUNC_NAME
 }
 
@@ -265,7 +263,7 @@ Optional arg @var{tag} specifies the group to check.  */)
   if (BOUNDP (tag))
     {
       ASSERT_EXACT (tag, 1);
-      ctag = gh_scm2long (tag);
+      ctag = C_LONG (tag);
     }
 
   RETURN_INT (Mix_GroupAvailable (ctag));
@@ -286,7 +284,7 @@ Optional arg @var{tag} specifies the group to check.  */)
   if (BOUNDP (tag))
     {
       ASSERT_EXACT (tag, 1);
-      ctag = gh_scm2long (tag);
+      ctag = C_LONG (tag);
     }
 
   RETURN_INT (Mix_GroupCount (ctag));
@@ -308,7 +306,7 @@ Optional arg @var{tag} specifies the group to check.  */)
   if (BOUNDP (tag))
     {
       ASSERT_EXACT (tag, 1);
-      ctag = gh_scm2long (tag);
+      ctag = C_LONG (tag);
     }
 
   RETURN_INT (Mix_GroupOldest (ctag));
@@ -330,7 +328,7 @@ Optional arg @var{tag} specifies the group to check.  */)
   if (BOUNDP (tag))
     {
       ASSERT_EXACT (tag, 1);
-      ctag = gh_scm2long (tag);
+      ctag = C_LONG (tag);
     }
 
   RETURN_INT (Mix_GroupNewer (ctag));
@@ -366,21 +364,21 @@ the sound.  */)
   if (NOT_FALSEP (channel))
     {
       ASSERT_EXACT (channel, 2);
-      cchannel = gh_scm2long (channel);
+      cchannel = C_LONG (channel);
     }
 
   UNBOUND_MEANS_FALSE (loops);
   if (NOT_FALSEP (loops))
     {
       ASSERT_EXACT (loops, 3);
-      cloops = gh_scm2long (loops);
+      cloops = C_LONG (loops);
     }
 
   UNBOUND_MEANS_FALSE (ticks);
   if (NOT_FALSEP (ticks))
     {
       ASSERT_EXACT (ticks, 4);
-      cticks = gh_scm2long (ticks);
+      cticks = C_LONG (ticks);
     }
 
   if (UNBOUNDP (fade))
@@ -391,8 +389,7 @@ the sound.  */)
       /* We have a fade.  */
       ASSERT_EXACT (fade, 5);
       rv = Mix_FadeInChannelTimed (cchannel, cchunk, cloops,
-                                   gh_scm2long (fade),
-                                   cticks);
+                                   C_LONG (fade), cticks);
     }
   RETURN_INT (rv);
 #undef FUNC_NAME
@@ -419,7 +416,7 @@ are as in @code{play-channel}.  */)
   if (NOT_FALSEP (loops))
     {
       ASSERT_EXACT (loops, 2);
-      cloops = gh_scm2long (loops);
+      cloops = C_LONG (loops);
     }
 
   if (UNBOUNDP (fade))
@@ -429,7 +426,7 @@ are as in @code{play-channel}.  */)
     {
       /* We have a fade.  */
       ASSERT_EXACT (fade, 3);
-      rv = Mix_FadeInMusic (cmusic, cloops, gh_scm2long (fade));
+      rv = Mix_FadeInMusic (cmusic, cloops, C_LONG (fade));
     }
   RETURN_INT (rv);
 #undef FUNC_NAME
@@ -463,7 +460,7 @@ is unspecified or is -1, just return the current volume.  */)
   if (NOT_FALSEP (volume))
     {
       ASSERT_EXACT (volume, 1);
-      cvolume = gh_scm2long (volume);
+      cvolume = C_LONG (volume);
     }
 
   if (UNBOUNDP (which))
@@ -471,7 +468,7 @@ is unspecified or is -1, just return the current volume.  */)
     rv = Mix_Volume (-1, cvolume);
   else if (EXACTP (which))
     /* Numeric which, treat as channel number.  */
-    rv = Mix_Volume (gh_scm2long (which), cvolume);
+    rv = Mix_Volume (C_LONG (which), cvolume);
   else
     {
       /* No-numeric which, must be a chunk smob.  */
@@ -497,7 +494,7 @@ means set the volume to @var{volume}.  */)
   if (BOUNDP (volume))
     {
       ASSERT_EXACT (volume, 1);
-      cvolume = gh_scm2long (volume);
+      cvolume = C_LONG (volume);
     }
 
   RETURN_INT (Mix_VolumeMusic (cvolume));
@@ -518,7 +515,7 @@ Optional arg @var{channel} specifies a channel to halt.  */)
   if (BOUNDP (channel))
     {
       ASSERT_EXACT (channel, 1);
-      cchannel = gh_scm2long (channel);
+      cchannel = C_LONG (channel);
     }
 
   RETURN_INT (Mix_HaltChannel (cchannel));
@@ -539,7 +536,7 @@ Optional arg @var{tag} specifies the group to halt.  */)
   if (BOUNDP (tag))
     {
       ASSERT_EXACT (tag, 1);
-      ctag = gh_scm2long (tag);
+      ctag = C_LONG (tag);
     }
 
   RETURN_INT (Mix_HaltGroup (ctag));
@@ -576,13 +573,13 @@ delay to that many milliseconds, rather than turning it off.  */)
   if (NOT_FALSEP (channel))
     {
       ASSERT_EXACT (channel, 1);
-      cchannel = gh_scm2long (channel);
+      cchannel = C_LONG (channel);
     }
 
   if (BOUNDP (ticks))
     {
       ASSERT_EXACT (ticks, 2);
-      cticks = gh_scm2long (ticks);
+      cticks = C_LONG (ticks);
     }
 
   RETURN_INT (Mix_ExpireChannel (cchannel, cticks));
@@ -607,13 +604,13 @@ milliseconds the fading will take (default 0).  */)
   if (NOT_FALSEP (which))
     {
       ASSERT_EXACT (which, 1);
-      cchannel = gh_scm2long (which);
+      cchannel = C_LONG (which);
     }
 
   if (BOUNDP (ms))
     {
       ASSERT_EXACT (ms, 2);
-      cms = gh_scm2long (ms);
+      cms = C_LONG (ms);
     }
 
   RETURN_INT (Mix_FadeOutChannel (cchannel, cms));
@@ -638,13 +635,13 @@ milliseconds the fading will take (default 0).  */)
   if (NOT_FALSEP (tag))
     {
       ASSERT_EXACT (tag, 1);
-      ctag = gh_scm2long (tag);
+      ctag = C_LONG (tag);
     }
 
   if (BOUNDP (ms))
     {
       ASSERT_EXACT (ms, 2);
-      cms = gh_scm2long (ms);
+      cms = C_LONG (ms);
     }
 
   RETURN_INT (Mix_FadeOutGroup (ctag, cms));
@@ -666,7 +663,7 @@ the fading will take (default 0).  */)
   if (BOUNDP (ms))
     {
       ASSERT_EXACT (ms, 1);
-      cms = gh_scm2long (ms);
+      cms = C_LONG (ms);
     }
 
   RETURN_INT (Mix_FadeOutMusic (cms));
@@ -701,7 +698,7 @@ Optional arg @var{which} selects which channel to check.
   if (BOUNDP (which))
     {
       ASSERT_EXACT (which, 1);
-      cwhich = gh_scm2long (which);
+      cwhich = C_LONG (which);
     }
 
   RETURN_FADINGSTATUS (Mix_FadingChannel (cwhich));
@@ -723,7 +720,7 @@ Return value unspecified.  */)
   if (BOUNDP (channel))
     {
       ASSERT_EXACT (channel, 1);
-      cchannel = gh_scm2long (channel);
+      cchannel = C_LONG (channel);
     }
 
   Mix_Pause (cchannel);
@@ -746,7 +743,7 @@ Return value unspecified.  */)
   if (BOUNDP (channel))
     {
       ASSERT_EXACT (channel, 1);
-      cchannel = gh_scm2long (channel);
+      cchannel = C_LONG (channel);
     }
 
   Mix_Resume (cchannel);
@@ -768,7 +765,7 @@ Optional arg @var{channel} selects a which channel to check.  */)
   if (BOUNDP (channel))
     {
       ASSERT_EXACT (channel, 1);
-      cchannel = gh_scm2long (channel);
+      cchannel = C_LONG (channel);
     }
 
   RETURN_BOOL
@@ -842,7 +839,7 @@ Optional arg @var{channel} selects which channel to check.  */)
   if (BOUNDP (channel))
     {
       ASSERT_EXACT (channel, 1);
-      cchannel = gh_scm2long (channel);
+      cchannel = C_LONG (channel);
     }
 
   RETURN_BOOL
@@ -893,9 +890,7 @@ To get ``true'' panning, use @code{(set-panning CH N (- 255 N))}.  */)
   ASSERT_EXACT (l, 2);
   ASSERT_EXACT (r, 3);
 
-  RETURN_INT (Mix_SetPanning (gh_scm2long (channel),
-                              gh_scm2ulong (l),
-                              gh_scm2ulong (r)));
+  RETURN_INT (Mix_SetPanning (C_LONG (channel), C_ULONG (l), C_ULONG (r)));
 #undef FUNC_NAME
 }
 
@@ -922,8 +917,7 @@ unchanged.  */)
   ASSERT_EXACT (channel, 1);
   ASSERT_EXACT (distance, 2);
 
-  RETURN_INT (Mix_SetDistance (gh_scm2long (channel),
-                               gh_scm2ulong (distance)));
+  RETURN_INT (Mix_SetDistance (C_LONG (channel), C_ULONG (distance)));
 #undef FUNC_NAME
 }
 
@@ -960,9 +954,8 @@ the mixer in the first place if you like.
   ASSERT_EXACT (angle, 2);
   ASSERT_EXACT (distance, 3);
 
-  RETURN_INT (Mix_SetPosition (gh_scm2long (channel),
-                               gh_scm2long (angle),
-                               gh_scm2ulong (distance)));
+  RETURN_INT (Mix_SetPosition (C_LONG (channel), C_LONG (angle),
+                               C_ULONG (distance)));
 #undef FUNC_NAME
 }
 

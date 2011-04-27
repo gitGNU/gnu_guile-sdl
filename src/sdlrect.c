@@ -83,10 +83,10 @@ and dimensions @var{width} by @var{height}.  */)
 
   if ((rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME)))
     {
-      rect->x = gh_scm2long (x);
-      rect->y = gh_scm2long (y);
-      rect->w = gh_scm2ulong (width);
-      rect->h = gh_scm2ulong (height);
+      rect->x = C_LONG (x);
+      rect->y = C_LONG (y);
+      rect->w = C_ULONG (width);
+      rect->h = C_ULONG (height);
     }
 
   RETURN_NEW_RECT (rect);
@@ -112,10 +112,10 @@ and dimensions @var{width} by @var{height}.  */)
   NUMBER_GETTER (f)                             \
   NUMBER_SETTER (f, c2s)
 
-NUMBER_GETSET (x, gh_scm2int)
-NUMBER_GETSET (y, gh_scm2int)
-NUMBER_GETSET (w, gh_scm2ulong)
-NUMBER_GETSET (h, gh_scm2ulong)
+NUMBER_GETSET (x, C_INT)
+NUMBER_GETSET (y, C_INT)
+NUMBER_GETSET (w, C_ULONG)
+NUMBER_GETSET (h, C_ULONG)
 
 
 void

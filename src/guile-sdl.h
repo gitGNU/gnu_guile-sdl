@@ -53,6 +53,12 @@
 #define NUM_ULONG          gh_ulong2scm
 #define SYMBOL             gh_symbol2scm
 #define STRING             gh_str02scm
+#define C_BOOL             gh_scm2bool
+#define C_CHAR             gh_scm2char
+#define C_INT              gh_scm2int
+#define C_LONG             gh_scm2long
+#define C_ULONG            gh_scm2ulong
+#define C_DOUBLE           gh_scm2double
 #define EQ                 gh_eq_p
 #define CONS               gh_cons
 #define CAR                gh_car
@@ -76,6 +82,12 @@
 #define NUM_ULONG          scm_from_ulong
 #define SYMBOL             scm_from_locale_symbol
 #define STRING             scm_from_locale_string
+#define C_BOOL             scm_to_bool
+#define C_CHAR             scm_to_char
+#define C_INT              scm_to_int
+#define C_LONG             scm_to_long
+#define C_ULONG            scm_to_ulong
+#define C_DOUBLE           scm_to_double
 #define EQ                 scm_is_eq
 #define CONS               scm_cons
 #define CAR                scm_car

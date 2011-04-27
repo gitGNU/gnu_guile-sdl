@@ -95,8 +95,7 @@ are those for the current video surface.  */)
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
-    (SDL_CreateRGBSurface (cflags,
-                           gh_scm2long (width), gh_scm2long (height),
+    (SDL_CreateRGBSurface (cflags, C_LONG (width), C_LONG (height),
                            /* Defaults from current video info.  */
                            fmt->BitsPerPixel,
                            fmt->Rmask,
@@ -137,12 +136,9 @@ for SDL_CreateRGBSurface, are: @var{flags}
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
     (SDL_CreateRGBSurface (cflags,
-                           gh_scm2long (width), gh_scm2long (height),
-                           gh_scm2long (depth),
-                           gh_scm2ulong (rmask),
-                           gh_scm2ulong (gmask),
-                           gh_scm2ulong (bmask),
-                           gh_scm2ulong (amask)));
+                           C_LONG (width), C_LONG (height), C_LONG (depth),
+                           C_ULONG (rmask), C_ULONG (gmask),
+                           C_ULONG (bmask), C_ULONG (amask)));
 #undef FUNC_NAME
 }
 
@@ -311,9 +307,7 @@ Set @var{surface} color key as specified by @var{flag}
   cflag = GSDL_FLAGS2ULONG (flag, gsdl_video_flags, 2);
 
   RETURN_TRUE_IF_0
-    (SDL_SetColorKey (UNPACK_SURFACE (surface),
-                      cflag,
-                      gh_scm2long (key)));
+    (SDL_SetColorKey (UNPACK_SURFACE (surface), cflag, C_LONG (key)));
 #undef FUNC_NAME
 }
 

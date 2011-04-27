@@ -83,8 +83,7 @@ Return a handle.  */)
   ASSERT_EXACT (ptsize, 2);
 
   RETURN_NEW_TTFONT
-    (TTF_OpenFont (SCM_CHARS (file),
-                   gh_scm2long (ptsize)));
+    (TTF_OpenFont (SCM_CHARS (file), C_LONG (ptsize)));
 #undef FUNC_NAME
 }
 
@@ -208,8 +207,7 @@ Alist keys are: @code{minx}, @code{maxx}, @code{miny},
   ASSERT_TTFONT (font, 1);
   ASSERT_CHAR (ch, 2);
 
-  TTF_GlyphMetrics (UNPACK_TTFONT (font),
-                    gh_scm2ulong (ch),
+  TTF_GlyphMetrics (UNPACK_TTFONT (font), C_ULONG (ch),
                     &minx, &maxx, &miny, &maxy, &advance);
 
   RETURN_LIST5 (CONS (SYM (minx), NUM_LONG (minx)),
@@ -371,7 +369,7 @@ or #t if the text is to be blended.  */)
   ASSERT_COLOR (fg, 3);
 
   cfont = UNPACK_TTFONT (font);
-  cch = gh_scm2char (ch);
+  cch = C_CHAR (ch);
   cfg = UNPACK_COLOR (fg);
 
   UNBOUND_MEANS_FALSE (bg);

@@ -94,7 +94,7 @@ Optional arg @var{drive} is a number specifying which drive.  */)
   if (BOUNDP (drive))
     {
       ASSERT_EXACT (drive, 1);
-      cdrive = gh_scm2int (drive);
+      cdrive = C_INT (drive);
     }
 
   name = SDL_CDName (cdrive);
@@ -117,7 +117,7 @@ Optional arg @var{drive} is a number specifying which drive.  */)
   if (BOUNDP (drive))
     {
       ASSERT_EXACT (drive, 1);
-      cdrive = gh_scm2int (drive);
+      cdrive = C_INT (drive);
     }
 
   cd = SDL_CDOpen (cdrive);
@@ -255,7 +255,7 @@ as an alist or #f if there were problems.  */)
   if (BOUNDP (n))
     {
       ASSERT_EXACT (n, 2);
-      cn = gh_scm2ulong (n);
+      cn = C_ULONG (n);
     }
 
   if (cd && (cn < cd->numtracks))
@@ -299,28 +299,28 @@ Return #t if successful.  */)
   if (NOT_FALSEP (start_track))
     {
       ASSERT_EXACT (start_track, 2);
-      cstart_track = gh_scm2ulong (start_track);
+      cstart_track = C_ULONG (start_track);
     }
 
   UNBOUND_MEANS_FALSE (start_frame);
   if (NOT_FALSEP (start_frame))
     {
       ASSERT_EXACT (start_frame, 3);
-      cstart_frame = gh_scm2ulong (start_frame);
+      cstart_frame = C_ULONG (start_frame);
     }
 
   UNBOUND_MEANS_FALSE (n_tracks);
   if (NOT_FALSEP (n_tracks))
     {
       ASSERT_EXACT (n_tracks, 4);
-      cn_tracks = gh_scm2ulong (n_tracks);;
+      cn_tracks = C_ULONG (n_tracks);;
     }
 
   UNBOUND_MEANS_FALSE (n_frames);
   if (NOT_FALSEP (n_frames))
     {
       ASSERT_EXACT (n_frames, 5);
-      cn_frames = gh_scm2ulong (n_frames);
+      cn_frames = C_ULONG (n_frames);
     }
   else
     {
@@ -358,9 +358,7 @@ Play CD in drive @var{cdrom} from @var{start} frame for
   cd = UNPACK_CDROM (cdrom);
 
   if (cd)
-    ret = SDL_CDPlay (cd,
-                      gh_scm2ulong (start),
-                      gh_scm2ulong (length));
+    ret = SDL_CDPlay (cd, C_ULONG (start), C_ULONG (length));
 
   RETURN_TRUE_IF_0 (ret);
 #undef FUNC_NAME
@@ -490,20 +488,20 @@ Return frames (an integer) computed fr
   int cm, cs = 0, cf = 0;
 
   ASSERT_EXACT (m, 1);
-  cm = gh_scm2ulong (m);
+  cm = C_ULONG (m);
 
   UNBOUND_MEANS_FALSE (s);
   if (NOT_FALSEP (s))
     {
       ASSERT_EXACT (s, 2);
-      cs = gh_scm2ulong (s);
+      cs = C_ULONG (s);
     }
 
   UNBOUND_MEANS_FALSE (f);
   if (NOT_FALSEP (f))
     {
       ASSERT_EXACT (f, 3);
-      cf = gh_scm2ulong (f);
+      cf = C_ULONG (f);
     }
 
   frames = MSF_TO_FRAMES (cm, cs, cf);
@@ -527,7 +525,7 @@ converting @var{frames} (a number).  */)
   int cframes, m, s, f;
 
   ASSERT_EXACT (frames, 1);
-  cframes = gh_scm2ulong (frames);
+  cframes = C_ULONG (frames);
 
   FRAMES_TO_MSF (cframes, &m , &s, &f);
   RETURN_LIST3 (CONS (SYM (m), NUM_ULONG (m)),

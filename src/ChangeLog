@@ -1,5 +1,26 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstractions: C_{BOOL,CHAR,INT,LONG,ULONG,DOUBLE}
+
+	* guile-sdl.h (C_BOOL, C_CHAR, C_INT)
+	(C_LONG, C_ULONG, C_DOUBLE): New macros.
+	* sdl.c: Do ‘s/gh_scm2bool/C_BOOL/g’, ‘s/gh_scm2char/C_CHAR/g’,
+	‘s/gh_scm2int/C_INT/g’, ‘s/gh_scm2long/C_LONG/g’,
+	‘s/gh_scm2ulong/C_ULONG/g’, ‘s/gh_scm2double/C_DOUBLE/g’.
+	* sdlcdrom.c: Likewise.
+	* sdlcolor.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: STRING
 
 	* guile-sdl.h (STRING): New macro.

@@ -167,12 +167,12 @@ gsdl_enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
     {
       obj = lookup (obj, enumstash);
       if (NOT_FALSEP (obj))
-        result = gh_scm2long (obj);
+        result = C_LONG (obj);
     }
   else
     {
       ASSERT_EXACT (obj, pos);
-      result = gh_scm2long (obj);
+      result = C_LONG (obj);
     }
 
   return result;
@@ -243,7 +243,7 @@ if it does not belong to @var{enumstash}.  */)
 #define FUNC_NAME s_number_to_enum
   ASSERT_ENUM (enumstash, 1);
   ASSERT_EXACT (number, 2);
-  return gsdl_long2enum (gh_scm2long (number), enumstash);
+  return gsdl_long2enum (C_LONG (number), enumstash);
 #undef FUNC_NAME
 }
 
@@ -440,7 +440,7 @@ Use @var{stash} to convert @var{number} to a list of symbols.  */)
   ASSERT_FLAGSTASH (stash, 1);
   ASSERT_EXACT (number, 2);
 
-  return gsdl_ulong2flags (gh_scm2ulong (number), stash);
+  return gsdl_ulong2flags (C_ULONG (number), stash);
 #undef FUNC_NAME
 }
 

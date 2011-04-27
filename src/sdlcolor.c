@@ -79,9 +79,9 @@ and @var{b} components.  */)
 
   if ((color = (SDL_Color *) scm_must_malloc (sizeof (SDL_Color), FUNC_NAME)))
     {
-      color->r = gh_scm2int (r);
-      color->g = gh_scm2int (g);
-      color->b = gh_scm2int (b);
+      color->r = C_INT (r);
+      color->g = C_INT (g);
+      color->b = C_INT (b);
     }
 
   RETURN_NEW_COLOR (color);
@@ -101,7 +101,7 @@ and @var{b} components.  */)
   GSDL_NUMBER_SETTER ("color:set-" #f "!",      \
                       color_set_ ## f,          \
                       color_tag, SDL_Color *,   \
-                      f, gh_scm2ulong)
+                      f, C_ULONG)
 
 #define NUMBER_GETSET(f) \
   NUMBER_GETTER (f)      \

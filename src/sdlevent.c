@@ -136,7 +136,7 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
       if (NOT_FALSEP (sym))
         {
           ASSERT_EXACT (sym, 1);
-          /* keysym->sym = (SDLKey) gh_scm2long (sym); */
+          /* keysym->sym = (SDLKey) C_LONG (sym); */
           keysym->sym = (SDLKey) GSDL_ENUM2LONG (sym, event_keysym_enum, 1);
         }
 
@@ -183,7 +183,7 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
   GSDL_NUMBER_SETTER ("event:" s_frag,          \
                       event_ ## c_frag,         \
                       event_tag, SDL_Event *,   \
-                      c_field, gh_scm2ulong)
+                      c_field, C_ULONG)
 
 #define NUM2_GETTER(a    ,    b)                \
   NUMBER_GETTER   (#a   ":"  #b,                \
@@ -338,7 +338,7 @@ matching events instead of a count, removing them from the queue.
 
   ASSERT_EXACT (numevents, 2);
 
-  cnumevents = gh_scm2long (numevents);
+  cnumevents = C_LONG (numevents);
   caction = GSDL_ENUM2LONG (action, event_action_enum, 3);
 
   switch (caction)
@@ -588,7 +588,7 @@ keyboard translation, or disables it if #f.  */)
   RETURN_BOOL
     (SDL_EnableUNICODE (UNBOUNDP (enable_p)
                         ? -1
-                        : gh_scm2bool (enable_p)));
+                        : C_BOOL (enable_p)));
 #undef FUNC_NAME
 }
 
@@ -613,8 +613,8 @@ Return #t on success.  */)
   ASSERT_EXACT (delay, 1);
   ASSERT_EXACT (interval, 2);
 
-  cdelay    = gh_scm2long (delay);
-  cinterval = gh_scm2long (interval);
+  cdelay    = C_LONG (delay);
+  cinterval = C_LONG (interval);
 
   RETURN_TRUE_IF_0 (SDL_EnableKeyRepeat (cdelay, cinterval));
 #undef FUNC_NAME
@@ -715,7 +715,7 @@ a value of 5 specifies both left and right buttons.  */)
 #define FUNC_NAME s_button_p
   ASSERT_EXACT (mask, 1);
   RETURN_BOOL
-    (SDL_BUTTON (gh_scm2long (mask)));
+    (SDL_BUTTON (C_LONG (mask)));
 #undef FUNC_NAME
 }
 

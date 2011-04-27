@@ -158,7 +158,7 @@ The return value is unspecified.  */)
 {
 #define FUNC_NAME s_delay
   ASSERT_EXACT (ms, 1);
-  SDL_Delay (gh_scm2ulong (ms));
+  SDL_Delay (C_ULONG (ms));
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
