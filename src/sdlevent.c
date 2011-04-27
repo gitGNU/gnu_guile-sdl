@@ -501,7 +501,7 @@ the_event_filter (const SDL_Event *event)
       }
       break;
     }
-  return NOT_FALSEP (gh_call1 (efi.proc, arg));
+  return NOT_FALSEP (CALL1 (efi.proc, arg));
 }
 
 PRIMPROC

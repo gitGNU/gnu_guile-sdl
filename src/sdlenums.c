@@ -190,7 +190,7 @@ Return the list of symbols associated with @var{enum-type}.  */)
   ASSERT_ENUM (enumstash_type, 1);
 
   enum_type = UNPACK_ENUM (enumstash_type);
-  rv = gh_call3 (hfold, acons, SCM_EOL, enum_type->table);
+  rv = CALL3 (hfold, acons, SCM_EOL, enum_type->table);
   {
     SCM ls = rv;
     while (! NULLP (ls))

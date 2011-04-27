@@ -55,6 +55,8 @@
 #define SETCAR             gh_set_car_x
 #define VECLENGTH          gh_vector_length
 #define UVECLENGTH         gh_uniform_vector_length
+#define CALL1              gh_call1
+#define CALL3              gh_call3
 #define DEFINE_PUBLIC      gh_define
 #else
 #define NULLP(obj)        (scm_is_null (obj))
@@ -69,6 +71,8 @@
 #define SETCAR             scm_set_car_x
 #define VECLENGTH          scm_c_vector_length
 #define UVECLENGTH         scm_c_uniform_vector_length
+#define CALL1              scm_call_1
+#define CALL3              scm_call_3
 
 #define DEFINE_PUBLIC(name,value)  do           \
     {                                           \
