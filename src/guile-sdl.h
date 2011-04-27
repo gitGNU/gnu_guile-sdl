@@ -52,6 +52,7 @@
 #define NUM_LONG           gh_long2scm
 #define NUM_ULONG          gh_ulong2scm
 #define SYMBOL             gh_symbol2scm
+#define STRING             gh_str02scm
 #define EQ                 gh_eq_p
 #define CONS               gh_cons
 #define CAR                gh_car
@@ -74,6 +75,7 @@
 #define NUM_LONG           scm_from_long
 #define NUM_ULONG          scm_from_ulong
 #define SYMBOL             scm_from_locale_symbol
+#define STRING             scm_from_locale_string
 #define EQ                 scm_is_eq
 #define CONS               scm_cons
 #define CAR                scm_car
@@ -295,7 +297,7 @@ extern long gsdl_smob_tags[GSTX_TOO_MUCH];
 
 /* Return a converted 0-terminated string.  */
 #define RETURN_0STR(exp) \
-  return gh_str02scm (exp)
+  return STRING (exp)
 
 /* Return various lists of various length.  */
 

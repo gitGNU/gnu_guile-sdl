@@ -1,5 +1,14 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: STRING
+
+	* guile-sdl.h (STRING): New macro.
+	(RETURN_0STR): Use it.
+	* sdlenums.c (gsdl_make_flagstash): Likewise.
+	* sdlvideo.c (wm_get_caption): Likewise.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: SYMBOL
 
 	* guile-sdl.h (SYMBOL): New macro.

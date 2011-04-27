@@ -303,7 +303,7 @@ gsdl_make_flagstash (flagstash_t *stash)
         if (cur->name && *(cur->name))
           {
             cur->sval = scm_permanent_object (NUM_ULONG (cur->val));
-            cur->sname = scm_permanent_object (gh_str02scm (cur->name));
+            cur->sname = scm_permanent_object (STRING (cur->name));
             count--;
             stash->linear[count] = cur;
           }

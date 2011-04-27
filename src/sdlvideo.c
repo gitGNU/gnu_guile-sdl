@@ -1115,8 +1115,8 @@ window, respectively.  */)
   char *title, *icon;
 
   SDL_WM_GetCaption (&title, &icon);
-  RETURN_LIST2 (CONS (SYM (title), gh_str02scm (title)),
-                CONS (SYM (icon),  gh_str02scm (icon)));
+  RETURN_LIST2 (CONS (SYM (title), STRING (title)),
+                CONS (SYM (icon),  STRING (icon)));
 #undef FUNC_NAME
 }
 
