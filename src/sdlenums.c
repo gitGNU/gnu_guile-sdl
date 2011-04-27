@@ -195,7 +195,7 @@ Return the list of symbols associated with @var{enum-type}.  */)
     SCM ls = rv;
     while (! NULLP (ls))
       {
-        gh_set_car_x (ls, CAAR (ls));
+        SETCAR (ls, CAAR (ls));
         ls = CDR (ls);
       }
   }

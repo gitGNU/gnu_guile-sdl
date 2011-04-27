@@ -51,6 +51,7 @@
 #define CAR                gh_car
 #define CAAR               gh_caar
 #define CDR                gh_cdr
+#define SETCAR             gh_set_car_x
 #else
 #define NULLP(obj)        (scm_is_null (obj))
 #define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
@@ -60,6 +61,7 @@
 #define CAR                scm_car
 #define CAAR               scm_caar
 #define CDR                scm_cdr
+#define SETCAR             scm_set_car_x
 #endif
 
 #ifdef HAVE_GUILE_MODSUP_H

@@ -1,5 +1,12 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: SETCAR
+
+	* guile-sdl.h (SETCAR): New macro.
+	* sdlenums.c (enumstash_enums): Use it.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstractions: CONS, CAR, CAAR, CDR
 
 	Suggested by Brian Templeton.
