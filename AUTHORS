@@ -26,4 +26,7 @@ Steven G. Johnson and Matteo Frigo wrote:
   builx-aux/ax_gcc_x86_cpuid.m4
 
 
+Brian Templeton wrote src/convert.c.
+
+
 Thien-Thi Nguyen modified everything, and wrote the rest.

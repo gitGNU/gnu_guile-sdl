@@ -192,13 +192,12 @@ and with hot pixel located at @var{x},@var{y}.  */)
   /* Build the arrays.  */
   cdata = alloca (sizeof (Uint8) * gh_vector_length (data));
   cmask = alloca (sizeof (Uint8) * gh_vector_length (mask));
-  gh_scm2chars (data, (char *) cdata);
-  gh_scm2chars (mask, (char *) cmask);
 
   /* Create the cursor.  */
   if ((cursor = MALLOC_XSDL_CURSOR (FUNC_NAME)))
     {
-      cursor->c = SDL_CreateCursor (cdata, cmask,
+      cursor->c = SDL_CreateCursor (gsdl_scm_to_uint8s (data, cdata),
+                                    gsdl_scm_to_uint8s (mask, cmask),
                                     gh_scm2long (w),
                                     gh_scm2long (h),
                                     gh_scm2long (x),
@@ -637,7 +636,7 @@ DECLARE_SIMPLE_SYM (redtable);
 DECLARE_SIMPLE_SYM (greentable);
 DECLARE_SIMPLE_SYM (bluetable);
 
-#define GAMMAVEC(x)  (gh_shorts2svect ((short *) x, GAMMA_TABLE_SIZE))
+#define GAMMAVEC(x)  (gsdl_scm_from_uint16s (x, GAMMA_TABLE_SIZE))
 
 GH_DEFPROC
 (get_gamma_ramp, "get-gamma-ramp", 0, 0, 0,
@@ -683,12 +682,10 @@ integer values.  Return #t if successful.  */)
   ASSERT_VSZFIT (greentable, 2);
   ASSERT_VSZFIT (bluetable,  3);
 
-  gh_scm2shorts (redtable,   (short *) rt);
-  gh_scm2shorts (greentable, (short *) gt);
-  gh_scm2shorts (bluetable,  (short *) bt);
-
   RETURN_TRUE_IF_0
-    (SDL_SetGammaRamp (rt, gt, bt));
+    (SDL_SetGammaRamp (gsdl_scm_to_uint16s (redtable,   rt),
+                       gsdl_scm_to_uint16s (greentable, gt),
+                       gsdl_scm_to_uint16s (bluetable,  bt)));
 #undef FUNC_NAME
 }
 

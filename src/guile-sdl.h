@@ -26,6 +26,16 @@
 /* The build environment.  */
 #include "config.h"
 
+/* System support.
+
+   Ideally, we would wrap each #include with the appropriate
+   ‘#ifdef HAVE_foo_H’ ... ‘#endif’, but that's ugly and the ones
+   we are interested in are all pretty much standardized nowadays.
+
+   Let's see how long this insufferable anti-portability attitude
+   stands in the Real World!  :-D  */
+#include <stdint.h>
+
 
 /* Guile.  */
 
@@ -372,6 +382,13 @@ GH_DEFPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),              \
 extern SCM gsdl_video_flags;
 extern SCM gsdl_palette_flags;
 extern SCM gsdl_alpha_enums;
+
+/* Vector conversion funcs.  */
+
+int16_t *gsdl_scm_to_int16s (SCM obj, int16_t *data);
+uint16_t *gsdl_scm_to_uint16s (SCM obj, uint16_t *data);
+uint8_t *gsdl_scm_to_uint8s (SCM obj, uint8_t *data);
+SCM gsdl_scm_from_uint16s (uint16_t *data, size_t n);
 
 #endif /* !defined (__GUILE_SDL_H) */
 

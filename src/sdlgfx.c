@@ -437,8 +437,8 @@ arg @var{fill} means to fill the polygon as well.  */)
   RETURN_INT ((EXACTLY_FALSEP (fill)
                ? polygonColor
                : filledPolygonColor) (UNPACK_SURFACE (surface),
-                                      gh_scm2shorts (vx, cvx),
-                                      gh_scm2shorts (vy, cvy),
+                                      gsdl_scm_to_int16s (vx, cvx),
+                                      gsdl_scm_to_int16s (vy, cvy),
                                       len, gh_scm2ulong (color)));
 #undef FUNC_NAME
 }
@@ -465,8 +465,8 @@ are specified by corresponding pairs from the uniform vectors
   cvx = alloca (sizeof (Sint16) * len);
   cvy = alloca (sizeof (Sint16) * len);
   RETURN_INT (aapolygonColor (UNPACK_SURFACE (surface),
-                              gh_scm2shorts (vx, cvx),
-                              gh_scm2shorts (vy, cvy),
+                              gsdl_scm_to_int16s (vx, cvx),
+                              gsdl_scm_to_int16s (vy, cvy),
                               len, gh_scm2ulong (color)));
 #undef FUNC_NAME
 }
@@ -496,8 +496,8 @@ offset @var{tdx}, @var{tdy}.  */)
   cvx = alloca (sizeof (Sint16) * len);
   cvy = alloca (sizeof (Sint16) * len);
   RETURN_INT (texturedPolygon (UNPACK_SURFACE (surface),
-                               gh_scm2shorts (vx, cvx),
-                               gh_scm2shorts (vy, cvy),
+                               gsdl_scm_to_int16s (vx, cvx),
+                               gsdl_scm_to_int16s (vy, cvy),
                                len, UNPACK_SURFACE (texture),
                                gh_scm2int (tdx), gh_scm2int (tdy)));
 #undef FUNC_NAME
@@ -526,8 +526,8 @@ specified by corresponding pairs from the uniform vectors
   cvx = alloca (sizeof (Sint16) * len);
   cvy = alloca (sizeof (Sint16) * len);
   RETURN_INT (bezierColor (UNPACK_SURFACE (surface),
-                           gh_scm2shorts (vx, cvx),
-                           gh_scm2shorts (vy, cvy),
+                           gsdl_scm_to_int16s (vx, cvx),
+                           gsdl_scm_to_int16s (vy, cvy),
                            len, gh_scm2long (s),
                            gh_scm2ulong (color)));
 #undef FUNC_NAME

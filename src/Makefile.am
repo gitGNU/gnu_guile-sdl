@@ -25,7 +25,7 @@ cmod_LTLIBRARIES = sdl.la gfx.la
 
 WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
-                  sdlenums.c misc.c
+                  sdlenums.c misc.c convert.c
 FLAGSTASH       = initf.c kmodf.c videof.c palettef.c overlayf.c evmaskf.c
 headers         = guile-sdl.h gperfsup.h modsup.h
 scheme          = misc-utils.scm simple.scm

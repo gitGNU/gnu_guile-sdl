@@ -1,5 +1,22 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add/use vector conversion funcs by Brian Templeton.
+
+	* convert.c: New file.
+	* Makefile.am (WRAPPER_SOURCES): Add convert.c.
+	* guile-sdl.h: #include <stdint.h>.
+	(gsdl_scm_to_int16s): New func decl.
+	(gsdl_scm_to_uint16s): Likewise.
+	(gsdl_scm_to_uint8s): Likewise.
+	(gsdl_scm_from_uint16s): Likewise.
+	* sdlgfx.c (draw_polygon, draw_aa_polygon)
+	(draw_textured_polygon, draw_bezier): Use ‘gsdl_scm_to_int16s’.
+	* sdlvideo.c (create_cursor): Use ‘gsdl_scm_to_uint8s’.
+	(GAMMAVEC): Use ‘gsdl_scm_from_uint16s’.
+	(set_gamma_ramp): Use ‘gsdl_scm_to_uint16s’.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Stack-allocate cursor data and mask.
 
 	* sdlvideo.c: #include <alloca.h>
