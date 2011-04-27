@@ -133,7 +133,7 @@ gsdl_define_enum (const char *name, ...)
     {
       symname = va_arg (ap, char*);
       value = va_arg (ap, long);
-      sym = gh_symbol2scm (symname);
+      sym = SYMBOL (symname);
       new_enum->rev[value - min] = sym;
       scm_hashq_set_x (table, sym, NUM_LONG (value));
       count--;
@@ -411,7 +411,7 @@ a flagstash object, in unspecified order.  */)
   cstash = UNPACK_FLAGSTASH (stash);
 
   for (i = 0; i < cstash->total; i++)
-    rv = CONS (gh_symbol2scm (cstash->linear[i]->name), rv);
+    rv = CONS (SYMBOL (cstash->linear[i]->name), rv);
   return rv;
 #undef FUNC_NAME
 }

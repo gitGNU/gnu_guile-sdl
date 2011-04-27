@@ -51,6 +51,7 @@
 #define NUM_INT            gh_int2scm
 #define NUM_LONG           gh_long2scm
 #define NUM_ULONG          gh_ulong2scm
+#define SYMBOL             gh_symbol2scm
 #define EQ                 gh_eq_p
 #define CONS               gh_cons
 #define CAR                gh_car
@@ -72,6 +73,7 @@
 #define NUM_INT            scm_from_int
 #define NUM_LONG           scm_from_long
 #define NUM_ULONG          scm_from_ulong
+#define SYMBOL             scm_from_locale_symbol
 #define EQ                 scm_is_eq
 #define CONS               scm_cons
 #define CAR                scm_car

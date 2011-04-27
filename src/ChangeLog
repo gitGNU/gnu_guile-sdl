@@ -1,5 +1,12 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: SYMBOL
+
+	* guile-sdl.h (SYMBOL): New macro.
+	* sdlenums.c (gsdl_define_enum, flagstash_flags): Use it.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: BOOLEAN
 
 	* guile-sdl.h (BOOLEAN): New macro.
