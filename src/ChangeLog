@@ -1,5 +1,15 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstractions: VECLENGTH, UVECLENGTH
+
+	* guile-sdl.h (VECLENGTH, UVECLENGTH): New macros.
+	* sdlgfx.c (draw_polygon, draw_aa_polygon)
+	(draw_textured_polygon, draw_bezier): Use ‘UVECLENGTH’.
+	* sdlvideo.c (create_cursor, set_colors)
+	(set_palette, get_gamma_ramp): Use ‘VECLENGTH’.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: EQ
 
 	* guile-sdl.h (EQ): New macro.

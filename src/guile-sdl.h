@@ -53,6 +53,8 @@
 #define CAAR               gh_caar
 #define CDR                gh_cdr
 #define SETCAR             gh_set_car_x
+#define VECLENGTH          gh_vector_length
+#define UVECLENGTH         gh_uniform_vector_length
 #else
 #define NULLP(obj)        (scm_is_null (obj))
 #define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
@@ -64,6 +66,8 @@
 #define CAAR               scm_caar
 #define CDR                scm_cdr
 #define SETCAR             scm_set_car_x
+#define VECLENGTH          scm_c_vector_length
+#define UVECLENGTH         scm_c_uniform_vector_length
 #endif
 
 #ifdef HAVE_GUILE_MODSUP_H

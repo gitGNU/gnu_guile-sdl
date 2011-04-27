@@ -431,7 +431,7 @@ arg @var{fill} means to fill the polygon as well.  */)
   ASSERT_EXACT (color, 4);
   UNBOUND_MEANS_FALSE (fill);
 
-  len = gh_uniform_vector_length (vx);
+  len = UVECLENGTH (vx);
   cvx = alloca (sizeof (Sint16) * len);
   cvy = alloca (sizeof (Sint16) * len);
   RETURN_INT ((EXACTLY_FALSEP (fill)
@@ -461,7 +461,7 @@ are specified by corresponding pairs from the uniform vectors
   ASSERT_VECTOR (vy, 3);
   ASSERT_EXACT (color, 4);
 
-  len = gh_uniform_vector_length (vx);
+  len = UVECLENGTH (vx);
   cvx = alloca (sizeof (Sint16) * len);
   cvy = alloca (sizeof (Sint16) * len);
   RETURN_INT (aapolygonColor (UNPACK_SURFACE (surface),
@@ -492,7 +492,7 @@ offset @var{tdx}, @var{tdy}.  */)
   ASSERT_EXACT (tdx, 5);
   ASSERT_EXACT (tdy, 6);
 
-  len = gh_uniform_vector_length (vx);
+  len = UVECLENGTH (vx);
   cvx = alloca (sizeof (Sint16) * len);
   cvy = alloca (sizeof (Sint16) * len);
   RETURN_INT (texturedPolygon (UNPACK_SURFACE (surface),
@@ -522,7 +522,7 @@ specified by corresponding pairs from the uniform vectors
   ASSERT_EXACT (s, 4);
   ASSERT_EXACT (color, 5);
 
-  len = gh_uniform_vector_length (vx);
+  len = UVECLENGTH (vx);
   cvx = alloca (sizeof (Sint16) * len);
   cvy = alloca (sizeof (Sint16) * len);
   RETURN_INT (bezierColor (UNPACK_SURFACE (surface),

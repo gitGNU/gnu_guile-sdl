@@ -190,8 +190,8 @@ and with hot pixel located at @var{x},@var{y}.  */)
   ASSERT_EXACT (y, 6);
 
   /* Build the arrays.  */
-  cdata = alloca (sizeof (Uint8) * gh_vector_length (data));
-  cmask = alloca (sizeof (Uint8) * gh_vector_length (mask));
+  cdata = alloca (sizeof (Uint8) * VECLENGTH (data));
+  cmask = alloca (sizeof (Uint8) * VECLENGTH (mask));
 
   /* Create the cursor.  */
   if ((cursor = MALLOC_XSDL_CURSOR (FUNC_NAME)))
@@ -554,7 +554,7 @@ using @var{colors}, a vector of SDL-Colors.  */)
   ASSERT_SURFACE (surface, 1);
   ASSERT_VECTOR (colors, 2);
 
-  length = gh_vector_length (colors);
+  length = VECLENGTH (colors);
   if ((ccolors = (SDL_Color*) scm_must_malloc (length, FUNC_NAME)))
     {
       for (i = 0; i < length; i++)
@@ -591,7 +591,7 @@ using @var{flags} (see @code{flagstash:palette}) and
   ASSERT_VECTOR (colors, 3);
 
   cflags   = GSDL_FLAGS2ULONG (flags, gsdl_palette_flags, 2);
-  length  = gh_vector_length (colors);
+  length   = VECLENGTH (colors);
   if ((ccolors  = (SDL_Color*) scm_must_malloc (length, FUNC_NAME)))
     {
       for (i = 0; i < length; i++)
@@ -663,7 +663,7 @@ Return #f if unsuccessful.  */)
 
 #define ASSERT_VSZFIT(v,which)                          \
   ASSERT_VECTOR (v, which);                             \
-  SCM_ASSERT (gh_vector_length (v) == GAMMA_TABLE_SIZE, \
+  SCM_ASSERT (VECLENGTH (v) == GAMMA_TABLE_SIZE,        \
               v, which, FUNC_NAME)
 
 PRIMPROC
