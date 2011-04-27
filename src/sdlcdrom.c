@@ -261,10 +261,10 @@ as an alist or #f if there were problems.  */)
   if (cd && (cn < cd->numtracks))
     /* Form an assoc list.  */
     RETURN_LIST4
-      (gh_cons (SYM (id),     gh_long2scm (cd->track[cn].id)),
-       gh_cons (SYM (type),   gh_long2scm (cd->track[cn].type)),
-       gh_cons (SYM (length), gh_ulong2scm (cd->track[cn].length)),
-       gh_cons (SYM (offset), gh_ulong2scm (cd->track[cn].offset)));
+      (CONS (SYM (id),     gh_long2scm (cd->track[cn].id)),
+       CONS (SYM (type),   gh_long2scm (cd->track[cn].type)),
+       CONS (SYM (length), gh_ulong2scm (cd->track[cn].length)),
+       CONS (SYM (offset), gh_ulong2scm (cd->track[cn].offset)));
   else
     RETURN_FALSE;
 #undef FUNC_NAME
@@ -530,9 +530,9 @@ converting @var{frames} (a number).  */)
   cframes = gh_scm2ulong (frames);
 
   FRAMES_TO_MSF (cframes, &m , &s, &f);
-  RETURN_LIST3 (gh_cons (SYM (m), gh_ulong2scm (m)),
-                gh_cons (SYM (s), gh_ulong2scm (s)),
-                gh_cons (SYM (f), gh_ulong2scm (f)));
+  RETURN_LIST3 (CONS (SYM (m), gh_ulong2scm (m)),
+                CONS (SYM (s), gh_ulong2scm (s)),
+                CONS (SYM (f), gh_ulong2scm (f)));
 #undef FUNC_NAME
 }
 

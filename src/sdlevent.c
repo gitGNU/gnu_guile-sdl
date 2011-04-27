@@ -349,13 +349,13 @@ matching events instead of a count, removing them from the queue.
          most certainly be re-implemented w/ user-visible uniform vectors.  */
       for (i = cnumevents, ls = events;
            i && !NULLP (ls);
-           i--, ls = gh_cdr (ls));
+           i--, ls = CDR (ls));
       SCM_ASSERT (!i, numevents, 2, FUNC_NAME);
       cevents = alloca (cnumevents * sizeof (SDL_Event));
       for (i = 0, ls = events;
            i < cnumevents;
-           i++, ls = gh_cdr (ls))
-        cevents[i] = *(UNPACK_EVENT (gh_car (ls)));
+           i++, ls = CDR (ls))
+        cevents[i] = *(UNPACK_EVENT (CAR (ls)));
       ret = SDL_PeepEvents (cevents, cnumevents, caction, 0);
       break;
 
@@ -378,7 +378,7 @@ matching events instead of a count, removing them from the queue.
               cev = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME);
               *cev = cevents[i];
               SCM_NEWSMOB (ev, event_tag, cev);
-              ls = gh_cons (ev, ls);
+              ls = CONS (ev, ls);
             }
         }
       break;
@@ -544,9 +544,9 @@ an event type, or @code{#t} if the proc takes an event object.  */)
 #define FUNC_NAME s_get_event_filter
   return EXACTLY_FALSEP (efi.proc)
     ? BOOL_FALSE
-    : gh_cons (efi.proc, (EF_FULL_EVENT == efi.type
-                          ? BOOL_TRUE
-                          : BOOL_FALSE));
+    : CONS (efi.proc, (EF_FULL_EVENT == efi.type
+                       ? BOOL_TRUE
+                       : BOOL_FALSE));
 #undef FUNC_NAME
 }
 
@@ -635,7 +635,7 @@ Return a list of pressed keys (SDLK_* symbols).  */)
 
   for (i = 0; i < count; i++)
     if (keystate[i])
-      ls = gh_cons (gsdl_long2enum (i, event_keysym_enum), ls);
+      ls = CONS (gsdl_long2enum (i, event_keysym_enum), ls);
 
   return ls;
 #undef FUNC_NAME
@@ -681,9 +681,9 @@ symbolic keys: @code{state}, @code{x} and @code{y}.  */)
 #define FUNC_NAME s_get_mouse_state
   int buttons, x, y;
   buttons = SDL_GetMouseState (&x, &y);
-  RETURN_LIST3 (gh_cons (SYM (state), gh_long2scm (buttons)),
-                gh_cons (SYM (x), gh_long2scm (x)),
-                gh_cons (SYM (y), gh_long2scm (y)));
+  RETURN_LIST3 (CONS (SYM (state), gh_long2scm (buttons)),
+                CONS (SYM (x), gh_long2scm (x)),
+                CONS (SYM (y), gh_long2scm (y)));
 #undef FUNC_NAME
 }
 
@@ -697,9 +697,9 @@ symbolic keys: @code{state}, @code{x} and @code{y}.  */)
 #define FUNC_NAME s_get_relative_mouse_state
   int buttons, x, y;
   buttons = SDL_GetRelativeMouseState (&x, &y);
-  RETURN_LIST3 (gh_cons (SYM (state), gh_long2scm (buttons)),
-                gh_cons (SYM (x), gh_long2scm (x)),
-                gh_cons (SYM (y), gh_long2scm (y)));
+  RETURN_LIST3 (CONS (SYM (state), gh_long2scm (buttons)),
+                CONS (SYM (x), gh_long2scm (x)),
+                CONS (SYM (y), gh_long2scm (y)));
 #undef FUNC_NAME
 }
 

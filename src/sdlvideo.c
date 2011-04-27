@@ -296,17 +296,17 @@ Keys are: @code{hw-available}, @code{wm-available},
   SCM_NEWSMOB (format, pixel_format_tag, info->vfmt);
 
   RETURN_LIST11
-    (gh_cons (SYM (hw_available), gh_bool2scm (info->hw_available)),
-     gh_cons (SYM (wm_available), gh_bool2scm (info->wm_available)),
-     gh_cons (SYM (blit_hw),      gh_bool2scm (info->blit_hw)),
-     gh_cons (SYM (blit_hw_CC),   gh_bool2scm (info->blit_hw_CC)),
-     gh_cons (SYM (blit_hw_A),    gh_bool2scm (info->blit_hw_A)),
-     gh_cons (SYM (blit_sw),      gh_bool2scm (info->blit_sw)),
-     gh_cons (SYM (blit_sw_CC),   gh_bool2scm (info->blit_sw_CC)),
-     gh_cons (SYM (blit_sw_A),    gh_bool2scm (info->blit_sw_A)),
-     gh_cons (SYM (blit_fill),    gh_bool2scm (info->blit_fill)),
-     gh_cons (SYM (video_mem),    gh_ulong2scm (info->video_mem)),
-     gh_cons (SYM (vfmt),         format));
+    (CONS (SYM (hw_available), gh_bool2scm (info->hw_available)),
+     CONS (SYM (wm_available), gh_bool2scm (info->wm_available)),
+     CONS (SYM (blit_hw),      gh_bool2scm (info->blit_hw)),
+     CONS (SYM (blit_hw_CC),   gh_bool2scm (info->blit_hw_CC)),
+     CONS (SYM (blit_hw_A),    gh_bool2scm (info->blit_hw_A)),
+     CONS (SYM (blit_sw),      gh_bool2scm (info->blit_sw)),
+     CONS (SYM (blit_sw_CC),   gh_bool2scm (info->blit_sw_CC)),
+     CONS (SYM (blit_sw_A),    gh_bool2scm (info->blit_sw_A)),
+     CONS (SYM (blit_fill),    gh_bool2scm (info->blit_fill)),
+     CONS (SYM (video_mem),    gh_ulong2scm (info->video_mem)),
+     CONS (SYM (vfmt),         format));
 #undef FUNC_NAME
 }
 
@@ -374,7 +374,7 @@ Return #f if no modes are available, #t if all are available.  */)
           SCM rect;
 
           SCM_NEWSMOB (rect, rect_tag, modes[i]);
-          result = gh_cons (rect, result);
+          result = CONS (rect, result);
         }
     }
   return result;
@@ -500,13 +500,13 @@ The return value is unspecified.  */)
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_LIST (ls, 2);
-  for (p = ls; ! NULLP (p); p = gh_cdr (p))
-    ASSERT_RECT (gh_car (p), 2);
+  for (p = ls; ! NULLP (p); p = CDR (p))
+    ASSERT_RECT (CAR (p), 2);
 
   csurface = UNPACK_SURFACE (surface);
-  for (p = ls; ! NULLP (p); p = gh_cdr (p))
+  for (p = ls; ! NULLP (p); p = CDR (p))
     {
-      rect = UNPACK_RECT (gh_car (p));
+      rect = UNPACK_RECT (CAR (p));
       SDL_UpdateRect (csurface, rect->x, rect->y, rect->w, rect->h);
     }
   RETURN_UNSPECIFIED;
@@ -654,9 +654,9 @@ Return #f if unsuccessful.  */)
   if (SDL_GetGammaRamp (rt, gt, bt) == -1)
     RETURN_FALSE;
 
-  RETURN_LIST3 (gh_cons (SYM (redtable),   GAMMAVEC (rt)),
-                gh_cons (SYM (greentable), GAMMAVEC (gt)),
-                gh_cons (SYM (bluetable),  GAMMAVEC (bt)));
+  RETURN_LIST3 (CONS (SYM (redtable),   GAMMAVEC (rt)),
+                CONS (SYM (greentable), GAMMAVEC (gt)),
+                CONS (SYM (bluetable),  GAMMAVEC (bt)));
 #undef FUNC_NAME
 }
 
@@ -794,9 +794,9 @@ respectively.  */)
               UNPACK_PIXEL_FORMAT (format),
               &r, &g, &b);
 
-  RETURN_LIST3 (gh_cons (SYM (r), gh_ulong2scm (r)),
-                gh_cons (SYM (g), gh_ulong2scm (g)),
-                gh_cons (SYM (b), gh_ulong2scm (b)));
+  RETURN_LIST3 (CONS (SYM (r), gh_ulong2scm (r)),
+                CONS (SYM (g), gh_ulong2scm (g)),
+                CONS (SYM (b), gh_ulong2scm (b)));
 #undef FUNC_NAME
 }
 
@@ -820,10 +820,10 @@ Get RGBA values from @var{pixel} in the specified pixel
                UNPACK_PIXEL_FORMAT (format),
                &r, &g, &b, &a);
 
-  RETURN_LIST4 (gh_cons (SYM (r), gh_ulong2scm (r)),
-                gh_cons (SYM (g), gh_ulong2scm (g)),
-                gh_cons (SYM (b), gh_ulong2scm (b)),
-                gh_cons (SYM (a), gh_ulong2scm (a)));
+  RETURN_LIST4 (CONS (SYM (r), gh_ulong2scm (r)),
+                CONS (SYM (g), gh_ulong2scm (g)),
+                CONS (SYM (b), gh_ulong2scm (b)),
+                CONS (SYM (a), gh_ulong2scm (a)));
 #undef FUNC_NAME
 }
 
@@ -1115,8 +1115,8 @@ window, respectively.  */)
   char *title, *icon;
 
   SDL_WM_GetCaption (&title, &icon);
-  RETURN_LIST2 (gh_cons (SYM (title), gh_str02scm (title)),
-                gh_cons (SYM (icon),  gh_str02scm (icon)));
+  RETURN_LIST2 (CONS (SYM (title), gh_str02scm (title)),
+                CONS (SYM (icon),  gh_str02scm (icon)));
 #undef FUNC_NAME
 }
 
@@ -1205,14 +1205,14 @@ an integer @var{mode} will result in a wrong-type-arg error.  */)
       case  0: mode = SYM (off);   break;
       case  1: mode = SYM (on);    break;
       default:
-        scm_misc_error (FUNC_NAME, "bad mode: ~S", gh_cons (mode, SCM_EOL));
+        scm_misc_error (FUNC_NAME, "bad mode: ~S", CONS (mode, SCM_EOL));
       }
 
   ASSERT_SYMBOL (mode, 1);
   if (! (gh_eq_p (mode, SYM (query)) ||
          gh_eq_p (mode, SYM (off)) ||
          gh_eq_p (mode, SYM (on))))
-    scm_misc_error (FUNC_NAME, "bad mode: ~S", gh_cons (mode, SCM_EOL));
+    scm_misc_error (FUNC_NAME, "bad mode: ~S", CONS (mode, SCM_EOL));
 
   return (SDL_GRAB_ON == SDL_WM_GrabInput (gh_eq_p (mode, SYM (query))
                                            ? SDL_GRAB_QUERY

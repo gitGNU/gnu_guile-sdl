@@ -39,9 +39,9 @@ The list may include: `mousefocus', `inputfocus', `active'.  */)
   Uint8 state = SDL_GetAppState ();
   SCM rv = SCM_EOL;
 
-  if (state & SDL_APPMOUSEFOCUS) rv = gh_cons (SYM (mousefocus), rv);
-  if (state & SDL_APPINPUTFOCUS) rv = gh_cons (SYM (inputfocus), rv);
-  if (state & SDL_APPACTIVE)     rv = gh_cons (SYM (active), rv);
+  if (state & SDL_APPMOUSEFOCUS) rv = CONS (SYM (mousefocus), rv);
+  if (state & SDL_APPINPUTFOCUS) rv = CONS (SYM (inputfocus), rv);
+  if (state & SDL_APPACTIVE)     rv = CONS (SYM (active), rv);
 
   return rv;
 }
@@ -69,7 +69,7 @@ integers).  */)
 
   if (result)
     {
-#define PUSH(x)  rv = gh_cons (x, rv)
+#define PUSH(x)  rv = CONS (x, rv)
       rv = SCM_EOL;
       PUSH (gh_ulong2scm (info->info.x11.wmwindow));
       PUSH (gh_ulong2scm (info->info.x11.fswindow));

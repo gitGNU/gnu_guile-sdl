@@ -195,8 +195,8 @@ Return the list of symbols associated with @var{enum-type}.  */)
     SCM ls = rv;
     while (! NULLP (ls))
       {
-        gh_set_car_x (ls, gh_caar (ls));
-        ls = gh_cdr (ls);
+        gh_set_car_x (ls, CAAR (ls));
+        ls = CDR (ls);
       }
   }
   return rv;
@@ -346,12 +346,12 @@ gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
       /* A list of symbols representing flags.  */
       while (! NULLP (flags))
         {
-          ASSERT_SYMBOL (gh_car (flags), pos);
-          head = gh_car (flags);
+          ASSERT_SYMBOL (CAR (flags), pos);
+          head = CAR (flags);
           hit = s->lookup (SCM_CHARS (head), SCM_LENGTH (head));
           if (hit)
             result |= hit->val;
-          flags = gh_cdr (flags);
+          flags = CDR (flags);
         }
     }
   else
@@ -376,10 +376,10 @@ gsdl_ulong2flags (unsigned long value, SCM stash)
     {
       val_and_name_t *cur = s->linear[i];
       if (cur->val == value)
-        return gh_cons (cur->sname, rv);
+        return CONS (cur->sname, rv);
       if (cur->val & value)
         {
-          rv = gh_cons (cur->sname, rv);
+          rv = CONS (cur->sname, rv);
           value &= ~(cur->val);
           if (! value)
             /* If we were to cache the translation, it would be done here.
@@ -414,7 +414,7 @@ a flagstash object, in unspecified order.  */)
   cstash = UNPACK_FLAGSTASH (stash);
 
   for (i = 0; i < cstash->total; i++)
-    rv = gh_cons (gh_symbol2scm (cstash->linear[i]->name), rv);
+    rv = CONS (gh_symbol2scm (cstash->linear[i]->name), rv);
   return rv;
 #undef FUNC_NAME
 }

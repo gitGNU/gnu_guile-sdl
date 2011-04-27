@@ -1,5 +1,22 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstractions: CONS, CAR, CAAR, CDR
+
+	Suggested by Brian Templeton.
+
+	* guile-sdl.h (CONS, CAR, CAAR, CDR): New macros.
+	(_rv_PUSH): Use ‘CONS’.
+	* misc.c: Do s/gh_foo/FOO/g, foo ∈ {cons, car, caar, cdr}.
+	* sdlcdrom.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstractions: NULLP, PAIRP, EXACTP, SYMBOLP
 
 	Suggested by Brian Templeton.

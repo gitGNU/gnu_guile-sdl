@@ -212,11 +212,11 @@ Alist keys are: @code{minx}, @code{maxx}, @code{miny},
                     gh_scm2ulong (ch),
                     &minx, &maxx, &miny, &maxy, &advance);
 
-  RETURN_LIST5 (gh_cons (SYM (minx), gh_long2scm (minx)),
-                gh_cons (SYM (maxx), gh_long2scm (maxx)),
-                gh_cons (SYM (miny), gh_long2scm (miny)),
-                gh_cons (SYM (maxy), gh_long2scm (maxy)),
-                gh_cons (SYM (advance), gh_long2scm (advance)));
+  RETURN_LIST5 (CONS (SYM (minx), gh_long2scm (minx)),
+                CONS (SYM (maxx), gh_long2scm (maxx)),
+                CONS (SYM (miny), gh_long2scm (miny)),
+                CONS (SYM (maxy), gh_long2scm (maxy)),
+                CONS (SYM (advance), gh_long2scm (advance)));
 #undef FUNC_NAME
 }
 
@@ -240,8 +240,8 @@ the string @var{text}.  */)
   ASSERT_STRING (text, 2);
 
   TTF_SizeText (UNPACK_TTFONT (font), SCM_CHARS (text), &w, &h);
-  RETURN_LIST2 (gh_cons (SYM (w), gh_long2scm (w)),
-                gh_cons (SYM (h), gh_long2scm (h)));
+  RETURN_LIST2 (CONS (SYM (w), gh_long2scm (w)),
+                CONS (SYM (h), gh_long2scm (h)));
 #undef FUNC_NAME
 }
 
@@ -262,8 +262,8 @@ the utf8 string @var{text}.  */)
   ASSERT_STRING (text, 2);
 
   TTF_SizeUTF8 (UNPACK_TTFONT (font), SCM_CHARS (text), &w, &h);
-  RETURN_LIST2 (gh_cons (gsdl_sym_w, gh_long2scm (w)),
-                gh_cons (gsdl_sym_h, gh_long2scm (h)));
+  RETURN_LIST2 (CONS (gsdl_sym_w, gh_long2scm (w)),
+                CONS (gsdl_sym_h, gh_long2scm (h)));
 #undef FUNC_NAME
 }
 

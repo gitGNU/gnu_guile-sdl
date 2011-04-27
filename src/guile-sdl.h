@@ -47,11 +47,19 @@
 #define PAIRP(obj)        (gh_pair_p (obj))
 #define EXACTP(obj)       (gh_exact_p (obj))
 #define SYMBOLP(obj)      (gh_symbol_p (obj))
+#define CONS               gh_cons
+#define CAR                gh_car
+#define CAAR               gh_caar
+#define CDR                gh_cdr
 #else
 #define NULLP(obj)        (scm_is_null (obj))
 #define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
 #define EXACTP(obj)       (scm_is_true (scm_exact_p (obj)))
 #define SYMBOLP(obj)      (scm_is_symbol (obj))
+#define CONS               scm_cons
+#define CAR                scm_car
+#define CAAR               scm_caar
+#define CDR                scm_cdr
 #endif
 
 #ifdef HAVE_GUILE_MODSUP_H
@@ -264,7 +272,7 @@ extern long gsdl_smob_tags[GSTX_TOO_MUCH];
   return SCM_EOL
 
 #define _rv_PUSH(x) \
-  _rv = gh_cons ((x), _rv)
+  _rv = CONS ((x), _rv)
 
 #define RETURN_LIST2(a,b)                       \
   do {                                          \
