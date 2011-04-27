@@ -1,5 +1,14 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: LOOKUP
+
+	Suggested by Brian Templeton.
+
+	* guile-sdl.h (LOOKUP): New macro.
+	* sdlenums.c (gsdl_init_enums): Use it.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstractions: CALL1, CALL3
 
 	* guile-sdl.h (CALL1, CALL3): New macros.

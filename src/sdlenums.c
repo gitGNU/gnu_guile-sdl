@@ -459,8 +459,8 @@ gsdl_init_enums (void)
   scm_set_smob_free  (flagstash_tag, free_flagstash);
   scm_set_smob_print (flagstash_tag, print_flagstash);
 
-  acons = gh_lookup ("acons");
-  hfold = gh_lookup ("hash-fold");
+  acons = LOOKUP ("acons");
+  hfold = LOOKUP ("hash-fold");
 
 #include "sdlenums.x"
 }
