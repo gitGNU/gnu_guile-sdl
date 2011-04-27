@@ -20,6 +20,7 @@
 
 #include "config.h"
 #include "guile-sdl.h"
+#include <alloca.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
@@ -189,8 +190,10 @@ and with hot pixel located at @var{x},@var{y}.  */)
   ASSERT_EXACT (y, 6);
 
   /* Build the arrays.  */
-  cdata = (Uint8 *) gh_scm2chars (data, NULL);
-  cmask = (Uint8 *) gh_scm2chars (mask, NULL);
+  cdata = alloca (sizeof (Uint8) * gh_vector_length (data));
+  cmask = alloca (sizeof (Uint8) * gh_vector_length (mask));
+  gh_scm2chars (data, (char *) cdata);
+  gh_scm2chars (mask, (char *) cmask);
 
   /* Create the cursor.  */
   if ((cursor = MALLOC_XSDL_CURSOR (FUNC_NAME)))
@@ -202,9 +205,6 @@ and with hot pixel located at @var{x},@var{y}.  */)
                                     gh_scm2long (y));
       cursor->freeable = 1;
     }
-  /* Free the arrays.  */
-  /*scm_must_*/free (cdata);
-  /*scm_must_*/free (cmask);
 
   /* Return the new smob.  */
   RETURN_NEW_CURSOR (cursor);

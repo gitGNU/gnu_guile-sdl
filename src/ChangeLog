@@ -1,5 +1,12 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Stack-allocate cursor data and mask.
+
+	* sdlvideo.c: #include <alloca.h>
+	(create_cursor): Use ‘alloca’; don't ‘free’ afterwards.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[maint] Move module-catalog machinery into src/.
 
 	* Makefile.am (noinst_DATA): New var.
