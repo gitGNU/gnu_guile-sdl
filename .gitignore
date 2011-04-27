@@ -26,6 +26,7 @@ Makefile.in
 /build-aux/config.guess
 /build-aux/config.sub
 /build-aux/depcomp
+/build-aux/guile-baux.state
 /build-aux/install-sh
 /build-aux/libtool.m4
 /build-aux/ltmain.sh
@@ -37,6 +38,8 @@ Makefile.in
 /build-aux/missing
 /build-aux/sofix
 /build-aux/texinfo.tex
+
+/build-aux/guile-baux
 
 /src/config.h
 /src/config.h.in

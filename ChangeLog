@@ -1,5 +1,12 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[maint] Use some doc-snarfing Guile-BAUX modules.
+
+	* autogen.sh: Add command to import Guile-BAUX modules.
+	* Makefile.am (as_is_dirs): Add build-aux/guile-baux.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[maint] Move testing machinery into test/.
 
 	* Makefile.am (SUBDIRS): Add test.

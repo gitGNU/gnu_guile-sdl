@@ -20,6 +20,15 @@ set -e
 test -f build-aux/sofix || echo WARNING: build-aux/sofix points nowhere
 
 ######################################################################
+# Guile-BAUX
+
+guile-baux-tool import \
+    tsar \
+    c-tsar \
+    tsin \
+    gbaux-do
+
+######################################################################
 # Libtool setup.
 
 if [ x"$1" = x--libtoolize ] || [ ! -f ltmain.sh ] ; then

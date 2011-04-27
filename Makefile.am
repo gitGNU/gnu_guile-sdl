@@ -22,7 +22,7 @@ ACLOCAL_AMFLAGS = -I build-aux
 SUBDIRS = src doc test
 
 # distribution
-as_is_dirs =
+as_is_dirs = build-aux/guile-baux
 
 EXTRA_DIST = HISTORY \
 	build-aux/guile-sdl.m4 \
