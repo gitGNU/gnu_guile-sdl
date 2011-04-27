@@ -842,7 +842,7 @@ or #f if unsuccessful.  */)
   ret = SDL_getFramerate (UNPACK_FPSMGR (mgr));
   return (0 > ret
           ? SCM_BOOL_F
-          : gh_int2scm (ret));
+          : NUM_INT (ret));
 #undef FUNC_NAME
 }
 

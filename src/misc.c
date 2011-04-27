@@ -73,14 +73,14 @@ integers).  */)
     {
 #define PUSH(x)  rv = CONS (x, rv)
       rv = SCM_EOL;
-      PUSH (gh_ulong2scm (info->info.x11.wmwindow));
-      PUSH (gh_ulong2scm (info->info.x11.fswindow));
-      PUSH (gh_ulong2scm (info->info.x11.window));
-      PUSH (gh_ulong2scm ((unsigned long) info->info.x11.display));
+      PUSH (NUM_ULONG (info->info.x11.wmwindow));
+      PUSH (NUM_ULONG (info->info.x11.fswindow));
+      PUSH (NUM_ULONG (info->info.x11.window));
+      PUSH (NUM_ULONG ((unsigned long) info->info.x11.display));
       PUSH (SDL_SYSWM_X11 == info->subsystem ? SYM (x11) : SCM_BOOL_F);
-      PUSH (LIST3 (gh_int2scm (info->version.major),
-                   gh_int2scm (info->version.minor),
-                   gh_int2scm (info->version.patch)));
+      PUSH (LIST3 (NUM_INT (info->version.major),
+                   NUM_INT (info->version.minor),
+                   NUM_INT (info->version.patch)));
 #undef PUSH
     }
 

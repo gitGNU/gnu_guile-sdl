@@ -1,5 +1,23 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstractions: NUM_INT, NUM_LONG, NUM_ULONG
+
+	* guile-sdl.h (NUM_INT, NUM_LONG, NUM_ULONG): New macros.
+	(RETURN_INT): Use ‘NUM_LONG’.
+	(RETURN_UINT): Use ‘NUM_ULONG’.
+	* misc.c: Do ‘s/gh_int2scm/NUM_INT/g’,
+	‘s/gh_long2scm/NUM_LONG/g’, ‘s/gh_ulong2scm/NUM_ULONG/g’.
+	* sdlcdrom.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Use C array instead of Scheme vector for enum table.
 
 	* sdlenums.c (enum_struct): Drop member ‘.vec’; add member ‘.rev’.

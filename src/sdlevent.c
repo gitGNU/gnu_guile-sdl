@@ -681,9 +681,9 @@ symbolic keys: @code{state}, @code{x} and @code{y}.  */)
 #define FUNC_NAME s_get_mouse_state
   int buttons, x, y;
   buttons = SDL_GetMouseState (&x, &y);
-  RETURN_LIST3 (CONS (SYM (state), gh_long2scm (buttons)),
-                CONS (SYM (x), gh_long2scm (x)),
-                CONS (SYM (y), gh_long2scm (y)));
+  RETURN_LIST3 (CONS (SYM (state), NUM_LONG (buttons)),
+                CONS (SYM (x), NUM_LONG (x)),
+                CONS (SYM (y), NUM_LONG (y)));
 #undef FUNC_NAME
 }
 
@@ -697,9 +697,9 @@ symbolic keys: @code{state}, @code{x} and @code{y}.  */)
 #define FUNC_NAME s_get_relative_mouse_state
   int buttons, x, y;
   buttons = SDL_GetRelativeMouseState (&x, &y);
-  RETURN_LIST3 (CONS (SYM (state), gh_long2scm (buttons)),
-                CONS (SYM (x), gh_long2scm (x)),
-                CONS (SYM (y), gh_long2scm (y)));
+  RETURN_LIST3 (CONS (SYM (state), NUM_LONG (buttons)),
+                CONS (SYM (x), NUM_LONG (x)),
+                CONS (SYM (y), NUM_LONG (y)));
 #undef FUNC_NAME
 }
 

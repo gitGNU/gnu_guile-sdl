@@ -135,7 +135,7 @@ gsdl_define_enum (const char *name, ...)
       value = va_arg (ap, long);
       sym = gh_symbol2scm (symname);
       new_enum->rev[value - min] = sym;
-      scm_hashq_set_x (table, sym, gh_long2scm (value));
+      scm_hashq_set_x (table, sym, NUM_LONG (value));
       count--;
     }
 
@@ -302,7 +302,7 @@ gsdl_make_flagstash (flagstash_t *stash)
       {
         if (cur->name && *(cur->name))
           {
-            cur->sval = scm_permanent_object (gh_ulong2scm (cur->val));
+            cur->sval = scm_permanent_object (NUM_ULONG (cur->val));
             cur->sname = scm_permanent_object (gh_str02scm (cur->name));
             count--;
             stash->linear[count] = cur;

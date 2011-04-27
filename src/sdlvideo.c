@@ -305,7 +305,7 @@ Keys are: @code{hw-available}, @code{wm-available},
      CONS (SYM (blit_sw_CC),   gh_bool2scm (info->blit_sw_CC)),
      CONS (SYM (blit_sw_A),    gh_bool2scm (info->blit_sw_A)),
      CONS (SYM (blit_fill),    gh_bool2scm (info->blit_fill)),
-     CONS (SYM (video_mem),    gh_ulong2scm (info->video_mem)),
+     CONS (SYM (video_mem),    NUM_ULONG (info->video_mem)),
      CONS (SYM (vfmt),         format));
 #undef FUNC_NAME
 }
@@ -408,7 +408,7 @@ mode supporting @var{width} and @var{height}.  */)
                             gh_scm2long (height),
                             gh_scm2long (bpp),
                             cflags);
-  return result ? gh_long2scm (result) : BOOL_FALSE;
+  return result ? NUM_LONG (result) : BOOL_FALSE;
 #undef FUNC_NAME
 }
 
@@ -559,7 +559,7 @@ using @var{colors}, a vector of SDL-Colors.  */)
     {
       for (i = 0; i < length; i++)
         {
-          color = UNPACK_COLOR (gh_vector_ref (colors, gh_long2scm (i)));
+          color = UNPACK_COLOR (gh_vector_ref (colors, NUM_LONG (i)));
           ccolors[i] = *color;
         }
 
@@ -596,7 +596,7 @@ using @var{flags} (see @code{flagstash:palette}) and
     {
       for (i = 0; i < length; i++)
         {
-          color = UNPACK_COLOR (gh_vector_ref (colors, gh_long2scm (i)));
+          color = UNPACK_COLOR (gh_vector_ref (colors, NUM_LONG (i)));
           ccolors[i] = *color;
         }
 
@@ -794,9 +794,9 @@ respectively.  */)
               UNPACK_PIXEL_FORMAT (format),
               &r, &g, &b);
 
-  RETURN_LIST3 (CONS (SYM (r), gh_ulong2scm (r)),
-                CONS (SYM (g), gh_ulong2scm (g)),
-                CONS (SYM (b), gh_ulong2scm (b)));
+  RETURN_LIST3 (CONS (SYM (r), NUM_ULONG (r)),
+                CONS (SYM (g), NUM_ULONG (g)),
+                CONS (SYM (b), NUM_ULONG (b)));
 #undef FUNC_NAME
 }
 
@@ -820,10 +820,10 @@ Get RGBA values from @var{pixel} in the specified pixel
                UNPACK_PIXEL_FORMAT (format),
                &r, &g, &b, &a);
 
-  RETURN_LIST4 (CONS (SYM (r), gh_ulong2scm (r)),
-                CONS (SYM (g), gh_ulong2scm (g)),
-                CONS (SYM (b), gh_ulong2scm (b)),
-                CONS (SYM (a), gh_ulong2scm (a)));
+  RETURN_LIST4 (CONS (SYM (r), NUM_ULONG (r)),
+                CONS (SYM (g), NUM_ULONG (g)),
+                CONS (SYM (b), NUM_ULONG (b)),
+                CONS (SYM (a), NUM_ULONG (a)));
 #undef FUNC_NAME
 }
 

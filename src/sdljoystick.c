@@ -320,8 +320,8 @@ On error, return #f.  */)
       ret = SDL_JoystickGetBall (joy, gh_scm2long (n), &dx, &dy);
 
       if (ret != -1)
-        RETURN_LIST2 (CONS (SYM (dx), gh_long2scm (dx)),
-                      CONS (SYM (dy), gh_long2scm (dy)));
+        RETURN_LIST2 (CONS (SYM (dx), NUM_LONG (dx)),
+                      CONS (SYM (dy), NUM_LONG (dy)));
     }
 
   RETURN_FALSE;
