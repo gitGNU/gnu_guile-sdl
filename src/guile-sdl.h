@@ -47,6 +47,7 @@
 #define PAIRP(obj)        (gh_pair_p (obj))
 #define EXACTP(obj)       (gh_exact_p (obj))
 #define SYMBOLP(obj)      (gh_symbol_p (obj))
+#define EQ                 gh_eq_p
 #define CONS               gh_cons
 #define CAR                gh_car
 #define CAAR               gh_caar
@@ -57,6 +58,7 @@
 #define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
 #define EXACTP(obj)       (scm_is_true (scm_exact_p (obj)))
 #define SYMBOLP(obj)      (scm_is_symbol (obj))
+#define EQ                 scm_is_eq
 #define CONS               scm_cons
 #define CAR                scm_car
 #define CAAR               scm_caar
@@ -87,7 +89,7 @@
 
 #define NOT_FALSEP(x)      (SCM_NFALSEP (x))
 #define EXACTLY_FALSEP(x)  (SCM_FALSEP (x))
-#define EXACTLY_TRUEP(x)   (gh_eq_p ((x), BOOL_TRUE))
+#define EXACTLY_TRUEP(x)   (EQ ((x), BOOL_TRUE))
 
 #define SET_FALSE(cvar) \
   cvar = BOOL_FALSE

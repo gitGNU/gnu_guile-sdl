@@ -1,5 +1,12 @@
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: EQ
+
+	* guile-sdl.h (EQ): New macro.
+	* sdlvideo.c (wm_grab_input): Use it.
+
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: SETCAR
 
 	* guile-sdl.h (SETCAR): New macro.

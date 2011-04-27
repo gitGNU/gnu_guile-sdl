@@ -1209,14 +1209,14 @@ an integer @var{mode} will result in a wrong-type-arg error.  */)
       }
 
   ASSERT_SYMBOL (mode, 1);
-  if (! (gh_eq_p (mode, SYM (query)) ||
-         gh_eq_p (mode, SYM (off)) ||
-         gh_eq_p (mode, SYM (on))))
+  if (! (EQ (mode, SYM (query)) ||
+         EQ (mode, SYM (off)) ||
+         EQ (mode, SYM (on))))
     scm_misc_error (FUNC_NAME, "bad mode: ~S", CONS (mode, SCM_EOL));
 
-  return (SDL_GRAB_ON == SDL_WM_GrabInput (gh_eq_p (mode, SYM (query))
+  return (SDL_GRAB_ON == SDL_WM_GrabInput (EQ (mode, SYM (query))
                                            ? SDL_GRAB_QUERY
-                                           : (gh_eq_p (mode, SYM (on))
+                                           : (EQ (mode, SYM (on))
                                               ? SDL_GRAB_ON
                                               : SDL_GRAB_OFF))
           ? SYM (on)
