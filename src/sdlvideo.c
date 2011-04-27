@@ -559,7 +559,7 @@ using @var{colors}, a vector of SDL-Colors.  */)
     {
       for (i = 0; i < length; i++)
         {
-          color = UNPACK_COLOR (gh_vector_ref (colors, NUM_LONG (i)));
+          color = UNPACK_COLOR (scm_vector_ref (colors, NUM_LONG (i)));
           ccolors[i] = *color;
         }
 
@@ -596,7 +596,7 @@ using @var{flags} (see @code{flagstash:palette}) and
     {
       for (i = 0; i < length; i++)
         {
-          color = UNPACK_COLOR (gh_vector_ref (colors, NUM_LONG (i)));
+          color = UNPACK_COLOR (scm_vector_ref (colors, NUM_LONG (i)));
           ccolors[i] = *color;
         }
 
