@@ -21,28 +21,6 @@ ACLOCAL_AMFLAGS = -I build-aux
 
 SUBDIRS = src doc
 
-noinst_DATA = .module-catalog
-
-.module-catalog:
-	if guile-tools | grep -q mkpimmc ; then			\
-	  guile-tools mkpimmc -d $(DEPDIR) $@ "$(srcdir)"	\
-	    -- -d in,lo,o,git					\
-	       -X '~$$' -X 'doc/' -X '/test/' ;			\
-	else echo '()' > $@ ; fi
-
-CLEANFILES = .module-catalog
-clean-local:
-	./config.status module-catalog-clean-local
-
-install-data-hook: update-libsite-module-catalog
-uninstall-hook:    update-libsite-module-catalog
-
-update-libsite-module-catalog:
-	if guile-tools | grep -q make-module-catalog ; then	\
-	   guile-tools make-module-catalog -t "$(DESTDIR)"	\
-	     "$(DESTDIR)$(GUILE_LIBSITE)" ;			\
-	fi
-
 # test suite
 TESTS = test/alive.test				\
 	test/leak.scm				\
@@ -59,7 +37,7 @@ TESTS = test/alive.test				\
 TESTS_ENVIRONMENT = \
 	HAVE_TTF=$(HAVE_TTF) \
 	HAVE_MIXER=$(HAVE_MIXER) \
-	$(GUILE) -L "@abs_top_builddir@" -l $(srcdir)/test/common -s
+	$(GUILE) -L "@abs_top_builddir@/src" -l $(srcdir)/test/common -s
 
 # distribution
 as_is_dirs = test

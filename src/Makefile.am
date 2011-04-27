@@ -35,6 +35,7 @@ modflags        = -avoid-version -export-dynamic -module
 BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH) sdlgfx.x
 
 cmod_DATA = $(scheme)
+noinst_DATA =
 
 EXTRA_DIST = $(FLAGSTASH:.c=.fspec) $(scheme)
 
@@ -73,19 +74,23 @@ fspec2c = guile-tools fspec2c
 .fspec.c:
 	$(fspec2c) -o $@ $<
 
-noinst_DATA	= .doc-index
+noinst_DATA	+= .doc-index
 MAINTAINERCLEANFILES = .doc-index *.doc
 endif ## MAINTAINER_MODE
 
 SOFIXFLAGS = no-la,no-symlinks
 
+updatemodcat = $(MAKE) $(AM_MAKEFLAGS) update-libsite-module-catalog
+
 install-data-hook:
 	cd "$(DESTDIR)$(cmoddir)" ; rm -f sdl-sup.* *.0.0.0
 	$(top_srcdir)/am/sofix $(SOFIXFLAGS) \
 	  $(DESTDIR)$(cmoddir) $(cmod_LTLIBRARIES)
+	$(updatemodcat)
 
 uninstall-hook:
 	rm -rf $(DESTDIR)$(cmoddir)
+	$(updatemodcat)
 
 ############################################################ begin optional
 
@@ -111,5 +116,26 @@ ttf_la_SOURCES = sdlttf.c ttff.c
 ttf_la_LDFLAGS = $(modflags) -lSDL_ttf
 
 endif # HAVE_TTF
+
+###################################################### begin module catalog
+
+noinst_DATA += .module-catalog
+
+.module-catalog:
+	if guile-tools | grep -q mkpimmc ; then			\
+	  guile-tools mkpimmc -d $(DEPDIR) $@ "$(srcdir)"	\
+	    -- -d in,lo,o,git					\
+	       -X '~$$' -X 'doc/' -X '/test/' ;			\
+	else echo '()' > $@ ; fi
+
+clean-local:
+	rm -f .module-catalog
+	../config.status module-catalog-clean-local
+
+update-libsite-module-catalog:
+	if guile-tools | grep -q make-module-catalog ; then	\
+	   guile-tools make-module-catalog -t "$(DESTDIR)"	\
+	     "$(DESTDIR)$(GUILE_LIBSITE)" ;			\
+	fi
 
 ## Makefile.am ends here

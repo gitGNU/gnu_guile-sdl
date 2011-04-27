@@ -1,3 +1,15 @@
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[maint] Move module-catalog machinery into src/.
+
+	* Makefile.am (noinst_DATA): New var.
+	[MAINTAINER_MODE] (noinst_DATA): Convert ‘=’ to ‘+=’.
+	(updatemodcat): New var.
+	(install-data-hook, uninstall-hook): Also $(updatemodcat).
+	(noinst_DATA): Add .module-catalog.
+	(.module-catalog): New target.
+	(clean-local, update-libsite-module-catalog): Likewise.
+
 2011-04-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[gfx] Extend ‘imfi-mmx?’ to also wrap SDL_imageFilterMMX{on,off}.

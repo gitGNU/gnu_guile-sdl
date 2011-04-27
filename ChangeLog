@@ -1,3 +1,16 @@
+2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[maint] Move module-catalog machinery into src/.
+
+	* configure.ac (MODULE_CATALOG_PREP): New AC_DEFUN;
+	use it instead of ‘GUILE_MODULE_CATALOG_PREP’.
+	* Makefile.am (noinst_DATA): Delete var.
+	(.module-catalog): Delete target.
+	(CLEANFILES): Delete var.
+	(clean-local, install-data-hook, uninstall-hook)
+	(update-libsite-module-catalog): Delete targets.
+	(TESTS_ENVIRONMENT): Point to src/ for module catalog.
+
 2011-04-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[maint] Decruft: Remove "make {check,clean}-000-libdir" support.
