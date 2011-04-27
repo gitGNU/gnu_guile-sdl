@@ -1,4 +1,4 @@
-;;; cursor.scm --- simple cursor test
+;;; cursor.scm --- simple cursor and set-gamma-ramp test
 
 ;; Copyright (C) 2003, 2004, 2007 Thien-Thi Nguyen
 ;;
@@ -65,6 +65,16 @@
 (do ((i 0 (1+ i)))
     ((= 50 i))
   (SDL:set-cursor (SDL:create-cursor (random-16) (random-16) 8 16 0 0))
+  (and (zero? (modulo i 5))
+       (let ((rt (make-vector 256))
+             (gt (make-vector 256))
+             (bt (make-vector 256)))
+         (do ((j 0 (1+ j)))
+             ((= 256 j))
+           (vector-set! rt j (random 65536))
+           (vector-set! gt j (random 65536))
+           (vector-set! bt j (random 65536)))
+         (SDL:set-gamma-ramp rt gt bt)))
   (SDL:delay 200))
 
 (let* ((data #(85 85 85 85 85 85 85 85 85 85 85 85 85 85 85 85))
