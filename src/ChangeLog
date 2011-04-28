@@ -1,3 +1,28 @@
+2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Switch to Guile-BAUX for doc maintenance.
+
+	* Makefile.am (SUFFIXES): Remove .doc.
+	(gx): New var.
+	(c2doc, scm2doc, mkdocindex, dotdocfiles): Delete vars.
+	(.c.doc, .scm.doc): Delete old-style suffix rules.
+	(.doc-index): Delete target.
+	[MAINTAINER_MODE] (coding, c_docscan, c_usual_args): New vars.
+	[MAINTAINER_MODE] (noinst_DATA): Add sdl.tsar.
+	[MAINTAINER_MODE] (sdl.tsar): New target.
+	[MAINTAINER_MODE] (noinst_DATA): Add gfx.tsar.
+	[MAINTAINER_MODE] (gfx.tsar): New target.
+	[MAINTAINER_MODE] (noinst_DATA): Add scheme.tsar.
+	[MAINTAINER_MODE] (scheme.tsar): New target.
+	(noinst_DATA): Remove .doc-index.
+	(MAINTAINERCLEANFILES): Delete var.
+	[HAVE_MIXER] (dotdocfiles): Delete var.
+	[HAVE_MIXER, MAINTAINER_MODE] (noinst_DATA): Add mixer.tsar.
+	[HAVE_MIXER, MAINTAINER_MODE] (mixer.tsar): New target.
+	[HAVE_TTF] (dotdocfiles): Delete var.
+	[HAVE_TTF, MAINTAINER_MODE] (noinst_DATA): Add ttf.tsar.
+	[HAVE_TTF, MAINTAINER_MODE] (ttf.tsar): New target.
+
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build] Make sure snarfing looks in $(srcdir).

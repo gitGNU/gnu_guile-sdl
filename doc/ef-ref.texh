@@ -1,4 +1,4 @@
-@c ef-ref.twerp --- enums/flags procs
+@c ef-ref.texh --- enums/flags procs
 
 @c Copyright @copyright{} 2003,2004 Thien-Thi Nguyen
 @c
@@ -9,11 +9,12 @@
 @c Texts.  A copy of the license is included in the appendix entitled
 @c ``GNU Free Documentation License''.
 
-@twerpdoc (enumstash-enums)
-@twerpdoc (enum->number)
-@twerpdoc (number->enum)
-@twerpdoc (flagstash-flags)
-@twerpdoc (flags->number)
-@twerpdoc (number->flags)
+@tsin m (sdl sdl)
+@tsin i enumstash-enums
+@tsin i enum->number
+@tsin i number->enum
+@tsin i flagstash-flags
+@tsin i flags->number
+@tsin i number->flags
 
-@c ef-ref.twerp ends here
+@c ef-ref.texh ends here

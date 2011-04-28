@@ -21,22 +21,19 @@
 
 test -n "${srcdir}"
 
-sed -e '//{N;s/^../=====/g;}' \
-    -e '/^=====/!d' \
-    -e 's/^=====//g' \
-    -e 's/[()]//g' \
-    -e 's/ .*//g' \
-    ../*/*.doc \
+sed -e '/^[(][0-9][0-9]* [0-9][0-9]* [.] \(.*\)[)]/!d' \
+    -e 's//\1/' \
+    ../*/*.tsar \
     | sort \
-    > TMP-dot-doc-files
+    > TMP-dot-tsar-files
 
-sed -e '/twerpdoc/!d' \
-    -e 's/.*(//g;s/).*//g' \
-    ${srcdir}/*.twerp \
+sed -e '/@tsin i /!d' \
+    -e 's///' \
+    ${srcdir}/*.texh \
     | sort \
-    > TMP-twerpdoc-directives
+    > TMP-tsin-i-directives
 
-diff -u TMP-dot-doc-files TMP-twerpdoc-directives > TMP
+diff -u TMP-dot-tsar-files TMP-tsin-i-directives > TMP
 
 if [ -s TMP ] ; then
     echo 'ERROR: bad doc coverage!'

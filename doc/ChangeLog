@@ -1,3 +1,21 @@
+2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Switch to Guile-BAUX for doc maintenance.
+
+	* ref.texh: Rename from ref.twerp; change @twerpdoc
+	directives to @tsin directives; add ‘@tsin m’ directives.
+	* ef-ref.texh: Likewise, for ef-ref.twerp.
+	* Makefile.am (SUFFIXES): Remove .twerp, add .texh.
+	(ref.texi, ef-ref.texi): Delete dependency decls.
+	(.twerp.texi): Delete old-style suffix rule.
+	(EXTRA_DIST): Remove ref.twerp, ef-ref.twerp;
+	add ref.texh, ef-ref.texh.
+	[MAINTAINER_MODE] (gx, tsopts): New vars.
+	[MAINTAINER_MODE] (snippets): New target.
+	[MAINTAINER_MODE] (.texh.texi): New old-style suffix rule.
+	[MAINTAINER_MODE] {ref.texi, ef-ref.texi): New dependency decls.
+	* cov: Rework to scan ../src/*.tsar and ‘@tsin i’ directives.
+
 2010-06-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[doc] Change manual license to GNU FDL 1.3.

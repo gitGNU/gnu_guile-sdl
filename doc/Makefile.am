@@ -22,7 +22,7 @@ BUILT_SOURCES = ref.texi ef-ref.texi excuse.texi TODO-excerpt
 info_TEXINFOS = guile-sdl.texi
 guile_sdl_TEXINFOS = $(BUILT_SOURCES)
 
-SUFFIXES = .texi .twerp
+SUFFIXES = .texi .texh
 
 TODO-excerpt: $(top_srcdir)/TODO
 	sed '1,/^_/!d;s/__*//' $< > $@
@@ -31,18 +31,10 @@ TODO-excerpt: $(top_srcdir)/TODO
 # place the info file in the build tree instead of the source tree.
 DISTCLEANFILES = guile-sdl.info
 
-ref.texi: $(top_srcdir)/src/*.c $(top_srcdir)/src/*.scm
-ef-ref.texi: $(top_srcdir)/*/*.c
-
-.twerp.texi:
-	guile-tools twerp2texi \
-	  -I ../src/.doc-index \
-	  -o $@ $(TWERP2TEXIFLAGS) $<
-
 excuse.texi: $(srcdir)/notes.tdt
 	$(srcdir)/mkexcuse $< > $@
 
-EXTRA_DIST = ref.twerp ef-ref.twerp \
+EXTRA_DIST = ref.texh ef-ref.texh \
  fdl.texi \
  ChangeLog-cov scan notes.tdt \
  cov mkexcuse $(BUILT_SOURCES)
@@ -61,5 +53,19 @@ api.tdt: $(INCDIR)/SDL/*.h
 	$(srcdir)/scan -o $@ --api $^
 
 CLEANFILES = api.tdt coverage.tdt
+
+if MAINTAINER_MODE
+gx = $(top_srcdir)/build-aux/guile-baux/gbaux-do
+tsopts = -c utf-8 -f snippets
+
+snippets: ../src/*.tsar
+	$(gx) tsar $(tsopts) concat $^
+
+.texh.texi:
+	$(gx) tsin $(tsopts) $<
+
+ref.texi: snippets
+ef-ref.texi: snippets
+endif ## MAINTAINER_MODE
 
 ## Makefile.am ends here

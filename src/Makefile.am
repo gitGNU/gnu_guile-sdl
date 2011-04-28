@@ -46,25 +46,31 @@ gfx_la_SOURCES  = sdlgfx.c $(headers)
 gfx_la_LDFLAGS  = $(modflags)
 gfx_la_LIBADD   = SDL_gfx/libSDL_gfx.la
 
-SUFFIXES = .c .fspec .x .doc
+SUFFIXES = .c .fspec .x
 
+gx		= $(top_srcdir)/build-aux/guile-baux/gbaux-do
 snarfcppopts	= $(DEFS) $(DEFAULT_INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS)
-c2doc		= guile-tools c2doc
-scm2doc		= guile-tools doc-snarf -D
-mkdocindex	= guile-tools make-twerp2texi-index
-dotdocfiles	= $(WRAPPER_SOURCES:.c=.doc) sdlgfx.doc $(scheme:.scm=.doc)
 
 .c.x:
 	$(c2x) -o $@ $< $(snarfcppopts)
 
-.c.doc:
-	$(c2doc) -o $@ $< -- $(snarfcppopts)
+if MAINTAINER_MODE
+coding = -c utf-8
+c_docscan = $(gx) c-tsar $(coding) -f $@ -m
+c_usual_args = update $^ -- $(snarfcppopts)
 
-.scm.doc:
-	$(scm2doc) -o $@ $<
+noinst_DATA += sdl.tsar
+sdl.tsar: $(WRAPPER_SOURCES)
+	$(c_docscan) '(sdl sdl)' $(c_usual_args)
 
-.doc-index: $(dotdocfiles)
-	$(mkdocindex) -o $@ $(dotdocfiles)
+noinst_DATA += gfx.tsar
+gfx.tsar: $(gfx_la_SOURCES)
+	$(c_docscan) '(sdl gfx)' $(c_usual_args)
+
+noinst_DATA += scheme.tsar
+scheme.tsar: $(scheme)
+	$(gx) tsar $(coding) -f $@ update $^
+endif # MAINTAINER_MODE
 
 DISTCLEANFILES = *.x
 if MAINTAINER_MODE
@@ -74,8 +80,6 @@ fspec2c = guile-tools fspec2c
 .fspec.c:
 	$(fspec2c) -o $@ $<
 
-noinst_DATA	+= .doc-index
-MAINTAINERCLEANFILES = .doc-index *.doc
 endif ## MAINTAINER_MODE
 
 SOFIXFLAGS = no-la,no-symlinks
@@ -97,24 +101,32 @@ uninstall-hook:
 if HAVE_MIXER
 
 BUILT_SOURCES    += sdlmixer.x
-dotdocfiles      += sdlmixer.doc
 cmod_LTLIBRARIES += mixer.la
 
 mixer_la_SOURCES = sdlmixer.c
 mixer_la_LDFLAGS = $(modflags) -lSDL_mixer
 
+if MAINTAINER_MODE
+noinst_DATA += mixer.tsar
+mixer.tsar: $(mixer_la_SOURCES)
+	$(c_docscan) '(sdl mixer)' $(c_usual_args)
+endif
 endif # HAVE_MIXER
 
 if HAVE_TTF
 
 EXTRA_DIST       += ttff.c
 BUILT_SOURCES    += sdlttf.x ttff.c
-dotdocfiles      += sdlttf.doc
 cmod_LTLIBRARIES += ttf.la
 
 ttf_la_SOURCES = sdlttf.c ttff.c
 ttf_la_LDFLAGS = $(modflags) -lSDL_ttf
 
+if MAINTAINER_MODE
+noinst_DATA += ttf.tsar
+ttf.tsar: $(ttf_la_SOURCES)
+	$(c_docscan) '(sdl ttf)' $(c_usual_args)
+endif
 endif # HAVE_TTF
 
 ###################################################### begin module catalog
