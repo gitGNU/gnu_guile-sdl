@@ -153,8 +153,7 @@ PRIMPROC
 (delay, "delay", 1, 0, 0,
  (SCM ms),
  doc: /***********
-Wait @var{ms} milliseconds.
-The return value is unspecified.  */)
+Wait @var{ms} milliseconds.  */)
 {
 #define FUNC_NAME s_delay
   ASSERT_EXACT (ms, 1);

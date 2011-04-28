@@ -299,8 +299,7 @@ PRIMPROC
 (pump_events, "pump-events", 0, 0, 0,
  (void),
  doc: /***********
-Gather events from input devices and update the event
-queue.  The return value is unspecified.  */)
+Gather events from input devices and update the event queue.  */)
 {
 #define FUNC_NAME s_pump_events
   SDL_PumpEvents ();
@@ -658,7 +657,7 @@ PRIMPROC
  doc: /***********
 Set the current key modifier state to @var{modstate},
 a list of symbols.  This does not change the keyboard state,
-only the key modifier flags.  The return value is unspecified.  */)
+only the key modifier flags.  */)
 {
 #define FUNC_NAME s_set_mod_state
   ASSERT_EXACT (modstate, 1);

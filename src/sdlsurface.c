@@ -208,8 +208,7 @@ PRIMPROC
 (unlock_surface, "unlock-surface", 1, 0, 0,
  (SCM surface),
  doc: /***********
-Unlock previously locked @var{surface}.
-The return value is unspecified.  */)
+Unlock previously locked @var{surface}.  */)
 {
 #define FUNC_NAME s_unlock_surface
   ASSERT_SURFACE (surface, 1);

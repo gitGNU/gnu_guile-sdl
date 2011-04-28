@@ -711,8 +711,7 @@ PRIMPROC
  (SCM channel),
  doc: /***********
 Pause the default channel.
-Optional arg @var{channel} selects which channel to pause.
-Return value unspecified.  */)
+Optional arg @var{channel} selects which channel to pause.  */)
 {
 #define FUNC_NAME s_mix_pause
   int cchannel = -1;
@@ -734,8 +733,7 @@ PRIMPROC
  (SCM channel),
  doc: /***********
 Resume (unpause) the default channel.
-Optional arg @var{channel} selects which channel to resume.
-Return value unspecified.  */)
+Optional arg @var{channel} selects which channel to resume.  */)
 {
 #define FUNC_NAME s_mix_resume
   int cchannel = -1;
@@ -778,7 +776,7 @@ PRIMPROC
 (mix_pause_music, "pause-music", 0, 0, 0,
  (void),
  doc: /***********
-Pause the music.  Return value unspecified.  */)
+Pause the music.  */)
 {
 #define FUNC_NAME s_mix_pause_music
   Mix_PauseMusic ();
@@ -791,7 +789,7 @@ PRIMPROC
 (mix_resume_music, "resume-music", 0, 0, 0,
  (void),
  doc: /***********
-Resume (unpause) the music.  Return value unspecified.  */)
+Resume (unpause) the music.  */)
 {
 #define FUNC_NAME s_mix_resume_music
   Mix_ResumeMusic ();
@@ -804,7 +802,7 @@ PRIMPROC
 (mix_rewind_music, "rewind-music", 0, 0, 0,
  (void),
  doc: /***********
-Rewind the music.  Return value unspecified.  */)
+Rewind the music.  */)
 {
 #define FUNC_NAME s_mix_rewind_music
   Mix_RewindMusic ();

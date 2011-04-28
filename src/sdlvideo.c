@@ -440,8 +440,7 @@ PRIMPROC
 Update @var{surface} within a specified rectangle.
 The second arg can either be an SDL-Rect object, or
 the second through fifth args are numbers specifying
-the x, y, width and height of a rectangular area.
-The return value is unspecified.  */)
+the x, y, width and height of a rectangular area.  */)
 {
 #define FUNC_NAME s_update_rect
   SDL_Rect *rect;
@@ -482,8 +481,7 @@ PRIMPROC
  (SCM surface, SCM ls),
  doc: /***********
 On @var{surface}, update the rectangles in @var{ls},
-a list of rectangles.
-The return value is unspecified.  */)
+a list of rectangles.  */)
 {
 #define FUNC_NAME s_update_rects
   SDL_Surface *csurface;
@@ -511,8 +509,7 @@ PRIMPROC
  (SCM surface),
  doc: /***********
 Swap double buffers of the default surface,
-or of @var{surface} if specified.
-The return value is unspecified.  */)
+or of @var{surface} if specified.  */)
 {
 #define FUNC_NAME s_flip
   SDL_Surface *csurface;
@@ -892,8 +889,7 @@ PRIMPROC
 (warp_mouse, "warp-mouse", 2, 0, 0,
  (SCM x, SCM y),
  doc: /***********
-Set the position of the mouse cursor to @var{x},@var{y}.
-The return value is unspecified.  */)
+Set the position of the mouse cursor to @var{x},@var{y}.  */)
 {
 #define FUNC_NAME s_warp_mouse
   ASSERT_EXACT (x, 1);
@@ -909,8 +905,7 @@ PRIMPROC
 (set_cursor, "set-cursor", 1, 0, 0,
  (SCM cursor),
  doc: /***********
-Set the current mouse cursor to @var{cursor}.
-The return value is unspecified.  */)
+Set the current mouse cursor to @var{cursor}.  */)
 {
 #define FUNC_NAME s_set_cursor
   ASSERT_CURSOR (cursor, 1);
@@ -979,7 +974,7 @@ PRIMPROC
   SCM value),
  doc: /***********
 Set the special SDL/OpenGL @var{attribute} to @var{value}.
-Both args are numbers.  The return value is unspecified.  */)
+Both args are numbers.  */)
 {
 #define FUNC_NAME s_gl_set_attribute
   ASSERT_EXACT (attribute, 1);
@@ -996,8 +991,7 @@ PRIMPROC
 (gl_swap_buffers, "gl-swap-buffers", 0, 0, 0,
  (void),
  doc: /***********
-Swap OpenGL framebuffers/Update Display.
-The return value is unspecified.  */)
+Swap OpenGL framebuffers/Update Display.  */)
 {
 #define FUNC_NAME s_gl_swap_buffers
   SDL_GL_SwapBuffers ();
@@ -1026,8 +1020,7 @@ PRIMPROC
 (unlock_yuv_overlay, "unlock-yuv-overlay", 1, 0, 0,
  (SCM overlay),
  doc: /***********
-Unlock the previously locked YUV @var{overlay}.
-The return value is unspecified.  */)
+Unlock the previously locked YUV @var{overlay}.  */)
 {
 #define FUNC_NAME s_unlock_yuv_overlay
   ASSERT_OVERLAY (overlay, 1);

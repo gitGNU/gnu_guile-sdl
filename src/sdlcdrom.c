@@ -454,7 +454,7 @@ PRIMPROC
 (cd_close, "cd-close", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
-Close the drive @var{cdrom}.  The return value is unspecified.  */)
+Close the drive @var{cdrom}.  */)
 {
 #define FUNC_NAME s_cd_close
   SDL_CD *cd;

@@ -377,8 +377,7 @@ PRIMPROC
 (joystick_close, "joystick-close", 1, 0, 0,
  (SCM joystick),
  doc: /***********
-Close a previously opened @var{joystick}.
-The return value is unspecified.  */)
+Close a previously opened @var{joystick}.  */)
 {
 #define FUNC_NAME s_joystick_close
   SDL_Joystick *joy;

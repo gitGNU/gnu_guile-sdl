@@ -1,5 +1,21 @@
 2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[doc] Don't say "return value unspecified".
+
+	U ≡ Remove inanity from docstring.
+	* sdl.c (delay): U.
+	* sdlcdrom.c (cd_close): U.
+	* sdlevent.c (pump_events, set_mod_state): U.
+	* sdljoystick.c (joystick_close): U.
+	* sdlmixer.c (mix_pause, mix_resume, mix_pause_music)
+	(mix_resume_music, mix_rewind_music): U.
+	* sdlsurface.c (unlock_surface): U.
+	* sdlvideo.c (update_rect, update_rects, flip)
+	(warp_mouse, set_cursor, gl_set_attribute)
+	(gl_swap_buffers, unlock_yuv_overlay): U.
+
+2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build] Switch to Guile-BAUX for doc maintenance.
 
 	* Makefile.am (SUFFIXES): Remove .doc.
