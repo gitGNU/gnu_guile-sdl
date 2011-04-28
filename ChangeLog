@@ -1,5 +1,14 @@
 2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build] Move module-catalog facilities check to configure time.
+
+	* configure.ac (gsdl_cv_mkpimmc): New cache-var, set
+	to "yes" if you have "guile-tools mkpimmc", "no" otherwise.
+	(HAVE_MKPIMMC): New ‘AM_CONDITIONAL’.
+	(MODULE_CATALOG_PREP): Conditionalize on "yes" ‘gsdl_cv_mkpimmc’.
+
+2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build] Switch to Guile-BAUX for doc maintenance.
 
 	* configure.ac (TWERP2TEXIFLAGS):

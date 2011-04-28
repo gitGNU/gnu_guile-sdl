@@ -90,11 +90,15 @@ install-data-hook:
 	cd "$(DESTDIR)$(cmoddir)" ; rm -f sdl-sup.* *.0.0.0
 	$(top_srcdir)/am/sofix $(SOFIXFLAGS) \
 	  $(DESTDIR)$(cmoddir) $(cmod_LTLIBRARIES)
+if HAVE_MKPIMMC
 	$(updatemodcat)
+endif
 
 uninstall-hook:
 	rm -rf $(DESTDIR)$(cmoddir)
+if HAVE_MKPIMMC
 	$(updatemodcat)
+endif
 
 ############################################################ begin optional
 
@@ -131,23 +135,20 @@ endif # HAVE_TTF
 
 ###################################################### begin module catalog
 
+if HAVE_MKPIMMC
 noinst_DATA += .module-catalog
 
 .module-catalog:
-	if guile-tools | grep -q mkpimmc ; then			\
-	  guile-tools mkpimmc -d $(DEPDIR) $@ "$(srcdir)"	\
-	    -- -d in,lo,o,git					\
-	       -X '~$$' -X 'doc/' -X '/test/' ;			\
-	else echo '()' > $@ ; fi
+	guile-tools mkpimmc -d $(DEPDIR) $@ "$(srcdir)"	\
+	  -- -d in,lo,o,git -X '~$$'
 
 clean-local:
 	rm -f .module-catalog
 	../config.status module-catalog-clean-local
 
 update-libsite-module-catalog:
-	if guile-tools | grep -q make-module-catalog ; then	\
-	   guile-tools make-module-catalog -t "$(DESTDIR)"	\
-	     "$(DESTDIR)$(GUILE_LIBSITE)" ;			\
-	fi
+	guile-tools make-module-catalog -t "$(DESTDIR)"	\
+	  "$(DESTDIR)$(GUILE_LIBSITE)"
+endif # HAVE_MKPIMMC
 
 ## Makefile.am ends here

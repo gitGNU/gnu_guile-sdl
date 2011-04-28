@@ -40,6 +40,15 @@ AC_SUBST([keepinside])
 ##: GUILE
 
 GUILE_PROGS
+
+AC_CACHE_CHECK([if you have "guile-tools mkpimmc"],[gsdl_cv_mkpimmc],
+[if $GUILE_TOOLS | grep mkpimmc >/dev/null 2>&1
+then gsdl_cv_mkpimmc=yes
+else gsdl_cv_mkpimmc=no
+fi])
+
+AM_CONDITIONAL([HAVE_MKPIMMC],[test yes = $gsdl_cv_mkpimmc])
+
 GUILE_FLAGS
 
 CPPFLAGS="$GUILE_CFLAGS"
@@ -117,7 +126,9 @@ AC_DEFUN([MODULE_CATALOG_PREP],[
   ])
 ])
 
+if test yes = $gsdl_cv_mkpimmc ; then
 MODULE_CATALOG_PREP
+fi
 
 ##----------------------------------------------------------------------------
 ##: write it out

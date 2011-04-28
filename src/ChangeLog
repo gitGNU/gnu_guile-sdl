@@ -1,5 +1,17 @@
 2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build] Move module-catalog facilities check to configure time.
+
+	C(X) ≡ "Conditionalize X on automake conditional ‘HAVE_MKPIMMC’".
+	* Makefile.am (install-data-hook, uninstall-hook):
+	C ($(updatemodcat) invocation).
+	(noinst_DATA): C (adding .module-catalog).
+	(.module-catalog): C (target); rewrite actions.
+	(clean-local): C (target).
+	(update-libsite-module-catalog): C (target); rewrite actions.
+
+2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[doc] Don't say "return value unspecified".
 
 	U ≡ Remove inanity from docstring.
