@@ -117,8 +117,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
        #:struct
        ((-1 char * name)
         (1 unsigned long val)
-        ("SCM_BOOL_F" SCM sname)
-        ("SCM_BOOL_F" SCM sval))
+        ("SCM_BOOL_F" SCM sname))
 
        #:struct-name
        "val_and_name"

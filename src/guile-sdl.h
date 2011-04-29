@@ -196,7 +196,6 @@ typedef struct val_and_name {
   char *name;
   unsigned long int val;
   SCM sname;
-  SCM sval;
 } val_and_name_t;
 
 typedef struct val_and_name * (in_word_set_t)

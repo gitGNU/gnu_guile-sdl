@@ -1,5 +1,12 @@
 2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Decruft: Drop unused ‘val_and_name_t.sval’.
+
+	* guile-sdl.h (val_and_name_t): Delete member ‘.sval’.
+	* sdlenums.c (gsdl_make_flagstash): Don't init ‘->sval’.
+
+2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Internalize flagstash objects.
 
 	* evmask.fs: New file.

@@ -1,5 +1,12 @@
 2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Decruft: Drop unused ‘val_and_name_t.sval’.
+
+	* build-aux/guile-baux/fs2c
+	(fullspec make-boilerplate #:struct): Update.
+
+2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build] Mogrify "guile-tools fspec2c" to make internal "fs2c".
 
 	* autogen.sh: Also import Guile-BAUX module ‘forms-from’.
