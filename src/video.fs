@@ -1,6 +1,6 @@
-;;; ttff.fspec --- ttf flags
+;;; video.fs --- video flags                            -*- scheme -*-
 
-;; Copyright (C) 2005 Thien-Thi Nguyen
+;; Copyright (C) 2005, 2011 Thien-Thi Nguyen
 ;;
 ;; This is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -17,38 +17,10 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(
- #:infile
- "SDL/SDL_ttf.h"
+vid "video"
+#:infile "SDL/SDL_video.h"
+#:region ("currently supported flags for the SDL_surface"
+          "define SDL_MUSTLOCK")
+#:regexp "^#define *\(SDL_[A-Z]+\)[ \t]+\(0x[0-9A-Fa-f]+\)"
 
- #:regexp
- "^#define *\(TTF_STYLE_[A-Z]+\)[ \t]+\(0x[0-9A-Fa-f]+\)"
-
- #:key-match-num
- 1
-
- #:struct
- ((-1 char * name)
-  (2 unsigned long val)
-  ("SCM_BOOL_F" SCM sname)
-  ("SCM_BOOL_F" SCM sval))
-
- #:struct-name
- "val_and_name"
-
- #:gperf-options
- "--language ANSI-C --global-table --omit-struct-type --includes"
-
- #:pre-boilerplate
- #{#include "gperfsup.h"
-   GPERFSUP_PRE_BOILERPLATE}#
-
- #:post-boilerplate
- #{GPERFSUP_POST_BOILERPLATE (ttf_flagstash, "sdl-ttf-flags")}#
-)
-
-;; Local variables:
-;; mode: scheme
-;; End:
-
-;;; ttff.fspec ends here
+;;; video.fs ends here

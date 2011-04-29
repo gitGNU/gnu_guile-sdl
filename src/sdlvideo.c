@@ -1207,9 +1207,9 @@ an integer @var{mode} will result in a wrong-type-arg error.  */)
 
 
 
-extern flagstash_t gsdl_video_flagstash;
-extern flagstash_t gsdl_palette_flagstash;
-extern flagstash_t gsdl_overlay_flagstash;
+#include "video.c"
+#include "palette.c"
+#include "overlay.c"
 
 void
 gsdl_init_video (void)
@@ -1233,13 +1233,13 @@ gsdl_init_video (void)
      NULL);
 
   /* video flags */
-  gsdl_video_flags = gsdl_make_flagstash (&gsdl_video_flagstash);
+  gsdl_video_flags = gsdl_make_flagstash (&vid_flagstash);
 
   /* palette flags */
-  gsdl_palette_flags = gsdl_make_flagstash (&gsdl_palette_flagstash);
+  gsdl_palette_flags = gsdl_make_flagstash (&pal_flagstash);
 
   /* yuv overlay formats */
-  gsdl_overlay_formats = gsdl_make_flagstash (&gsdl_overlay_flagstash);
+  gsdl_overlay_formats = gsdl_make_flagstash (&ov_flagstash);
 
   /* GL constants */
   gl_enums = gsdl_define_enum

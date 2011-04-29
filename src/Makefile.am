@@ -26,27 +26,27 @@ cmod_LTLIBRARIES = sdl.la gfx.la
 WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
                   sdlenums.c misc.c convert.c
-FLAGSTASH       = initf.c kmodf.c videof.c palettef.c overlayf.c evmaskf.c
-headers         = guile-sdl.h gperfsup.h modsup.h
+FLAGSTASH       = init.c kmod.c video.c palette.c overlay.c evmask.c
+headers         = guile-sdl.h modsup.h
 scheme          = misc-utils.scm simple.scm
 
 modflags        = -avoid-version -export-dynamic -module
 
-BUILT_SOURCES   = $(WRAPPER_SOURCES:.c=.x) $(FLAGSTASH) sdlgfx.x
+BUILT_SOURCES   = $(FLAGSTASH) $(WRAPPER_SOURCES:.c=.x) sdlgfx.x
 
 cmod_DATA = $(scheme)
 noinst_DATA =
 
-EXTRA_DIST = $(FLAGSTASH:.c=.fspec) $(scheme)
+EXTRA_DIST = $(FLAGSTASH:.c=.fs) $(scheme)
 
-sdl_la_SOURCES = $(FLAGSTASH) $(WRAPPER_SOURCES) $(headers)
+sdl_la_SOURCES = $(WRAPPER_SOURCES) $(headers)
 sdl_la_LDFLAGS = $(modflags)
 
 gfx_la_SOURCES  = sdlgfx.c $(headers)
 gfx_la_LDFLAGS  = $(modflags)
 gfx_la_LIBADD   = SDL_gfx/libSDL_gfx.la
 
-SUFFIXES = .c .fspec .x
+SUFFIXES = .c .fs .x
 
 gx		= $(top_srcdir)/build-aux/guile-baux/gbaux-do
 snarfcppopts	= $(DEFS) $(DEFAULT_INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS)
@@ -75,10 +75,8 @@ endif # MAINTAINER_MODE
 DISTCLEANFILES = *.x
 if MAINTAINER_MODE
 
-fspec2c = guile-tools fspec2c
-
-.fspec.c:
-	$(fspec2c) -o $@ $<
+.fs.c:
+	$(gx) fs2c -o $@ $<
 
 endif ## MAINTAINER_MODE
 
@@ -119,11 +117,11 @@ endif # HAVE_MIXER
 
 if HAVE_TTF
 
-EXTRA_DIST       += ttff.c
-BUILT_SOURCES    += sdlttf.x ttff.c
+EXTRA_DIST       += ttf.c
+BUILT_SOURCES    += ttf.c sdlttf.x
 cmod_LTLIBRARIES += ttf.la
 
-ttf_la_SOURCES = sdlttf.c ttff.c
+ttf_la_SOURCES = sdlttf.c
 ttf_la_LDFLAGS = $(modflags) -lSDL_ttf
 
 if MAINTAINER_MODE

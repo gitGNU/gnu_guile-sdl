@@ -405,7 +405,7 @@ Quit the SDL_ttf subsystem.  */)
 
 /* Initialize the ttf subsystem.  */
 
-extern flagstash_t gsdl_ttf_flagstash;
+#include "ttf.c"
 
 static
 void
@@ -414,7 +414,7 @@ init_module (void)
   ttf_font_tag = scm_make_smob_type ("font", sizeof (struct TTF_Font*));
   scm_set_smob_free (ttf_font_tag, free_font);
 
-  ttf_flags = gsdl_make_flagstash (&gsdl_ttf_flagstash);
+  ttf_flags = gsdl_make_flagstash (&ttf_flagstash);
 
 #include "sdlttf.x"
 }

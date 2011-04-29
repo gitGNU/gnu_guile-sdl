@@ -178,7 +178,7 @@ Return the current SDL error string.  */)
 }
 
 
-extern flagstash_t gsdl_init_flagstash;
+#include "init.c"
 
 static
 void
@@ -188,7 +188,7 @@ init_module (void)
   gsdl_init_enums ();
 
   /* Init flags.  */
-  init_flags = gsdl_make_flagstash (&gsdl_init_flagstash);
+  init_flags = gsdl_make_flagstash (&init_flagstash);
 
 #include "sdl.x"
 

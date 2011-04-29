@@ -1,6 +1,6 @@
-;;; evmaskf.fspec --- event mask flags
+;;; ttf.fs --- ttf flags                                -*- scheme -*-
 
-;; Copyright (C) 2005 Thien-Thi Nguyen
+;; Copyright (C) 2005, 2011 Thien-Thi Nguyen
 ;;
 ;; This is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -17,39 +17,8 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(
- #:infile
- "SDL/SDL_events.h"
+ttf "font-style"
+#:infile "SDL/SDL_ttf.h"
+#:regexp "^#define *\(TTF_STYLE_[A-Z]+\)[ \t]+0x[0-9A-Fa-f]+"
 
- #:region
- ("define SDL_EVENTMASK" . "define SDL_ALLEVENTS")
-
- #:regexp
- "^[ \t]*\(SDL_[A-Z]+\)[ \t]+="
-
- #:struct
- ((-1 char * name)
-  (1 unsigned long val)
-  ("SCM_BOOL_F" SCM sname)
-  ("SCM_BOOL_F" SCM sval))
-
- #:struct-name
- "val_and_name"
-
- #:gperf-options
- "--language ANSI-C --global-table --omit-struct-type --includes"
-
- #:pre-boilerplate
- #{#include <SDL/SDL_events.h>
-   #include "gperfsup.h"
-   GPERFSUP_PRE_BOILERPLATE}#
-
- #:post-boilerplate
- #{GPERFSUP_POST_BOILERPLATE (evmask_flagstash, "sdl-evmask-flags")}#
-)
-
-;; Local variables:
-;; mode: scheme
-;; End:
-
-;;; evmaskf.fspec ends here
+;;; ttf.fs ends here

@@ -1,3 +1,51 @@
+2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Internalize flagstash objects.
+
+	* evmask.fs: New file.
+	* init.fs: New file.
+	* kmod.fs: New file.
+	* overlay.fs: New file.
+	* palette.fs: New file.
+	* ttf.fs: New file.
+	* video.fs: New file.
+	* Makefile.am (FLAGSTASH): Remove initf.c, kmodf.c,
+	videof.c, palettef.c, overlayf.c, evmaskf.c; add initf.c,
+	kmodf.c, videof.c, palettef.c, overlayf.c, evmaskf.c
+	(headers): Remove gperfsup.h.
+	(BUILT_SOURCES): Move $(FLAGSTASH) first.
+	(EXTRA_DIST): Update ‘FLAGSTASH’ ext-transform to say ‘.fs’.
+	(sdl_la_SOURCES): Remove $(FLAGSTASH).
+	(SUFFIXES): Remove .fspec; add .fs.
+	(fspec2c): Delete var.
+	(.fspec.c): Delete old-style suffix rule.
+	(.fs.c): Add old-style suffix rule.
+	[HAVE_TTF] (EXTRA_DIST, BUILT_SOURCES): Do ‘s/ttff/ttf/g’.
+	[HAVE_TTF] (BUILT_SOURCES): Move ttf.c first.
+	[HAVE_TTF] (ttf_la_SOURCES): Remove ttff.c.
+	* sdl.c (gsdl_init_flagstash): Delete var decl;
+	instead, #include "init.c".
+	(init_module): Use ‘init_flagstash’.
+	* sdlevent.c (gsdl_kmod_flagstash, gsdl_evmask_flagstash):
+	Delete var decls; instead #include "kmod.c", "evmask.c".
+	(gsdl_init_event): Use ‘kmod_flagstash’, ‘evmask_flagstash’.
+	* sdlttf.c (gsdl_ttf_flagstash): Delete var decl;
+	instead, #include "ttf.c".
+	(init_module): Use ‘ttf_flagstash’.
+	* sdlvideo.c (gsdl_video_flagstash, gsdl_palette_flagstash)
+	(gsdl_overlay_flagstash): Delete var decls;
+	intstead, #include "video.c", "palette.c", "overlay.c".
+	(gsdl_init_video): Use ‘vid_flagstash’,
+	‘pal_flagstash’, ‘ov_flagstash’.
+	* evmaskf.fspec: Delete file.
+	* initf.fspec: Delete file.
+	* kmodf.fspec: Delete file.
+	* overlayf.fspec: Delete file.
+	* palettef.fspec: Delete file.
+	* ttff.fspec: Delete file.
+	* videof.fspec: Delete file.
+	* gperfsup.h: Delete file.
+
 2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build] Move module-catalog facilities check to configure time.

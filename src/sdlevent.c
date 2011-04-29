@@ -719,8 +719,8 @@ a value of 5 specifies both left and right buttons.  */)
 }
 
 
-extern flagstash_t gsdl_kmod_flagstash;
-extern flagstash_t gsdl_evmask_flagstash;
+#include "kmod.c"
+#include "evmask.c"
 
 /* Initialize glue.  */
 void
@@ -897,8 +897,8 @@ gsdl_init_event (void)
      GSDL_CSCS (SDL_GETEVENT),
      NULL);
 
-  event_mod_flags = gsdl_make_flagstash (&gsdl_kmod_flagstash);
-  event_mask_flags = gsdl_make_flagstash (&gsdl_evmask_flagstash);
+  event_mod_flags = gsdl_make_flagstash (&kmod_flagstash);
+  event_mask_flags = gsdl_make_flagstash (&evmask_flagstash);
 
   /* event states */
   event_state_enum = gsdl_define_enum
