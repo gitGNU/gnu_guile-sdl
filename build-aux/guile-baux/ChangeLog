@@ -1,0 +1,11 @@
+2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Decruft: Drop unused ‘val_and_name_t.sval’.
+
+	* fs2c (fullspec make-boilerplate #:struct): Update.
+
+
+Copyright (C) 2011 Thien-Thi Nguyen
+
+Copying and distribution of this file, with or without modification,
+are permitted provided the copyright notice and this notice are preserved.
