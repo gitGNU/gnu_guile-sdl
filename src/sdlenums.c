@@ -373,7 +373,7 @@ gsdl_ulong2flags (unsigned long value, SCM stash)
       val_and_name_t *cur = s->linear[i];
       if (cur->val == value)
         return CONS (cur->sname, rv);
-      if (cur->val & value)
+      if (cur->val == (cur->val & value))
         {
           rv = CONS (cur->sname, rv);
           value &= ~(cur->val);

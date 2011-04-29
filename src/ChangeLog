@@ -1,5 +1,12 @@
 2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Fix bug: Require exact bitwise match in ‘gsdl_ulong2flags’.
+
+	* sdlenums.c (gsdl_ulong2flags): Don't consider a flag
+	matched unless all of its bits are set in the candidate value.
+
+2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Fix bug: Make ‘number->flags’ return symbols, not strings.
 
 	* sdlenums.c (gsdl_make_flagstash): Save a symbol,
