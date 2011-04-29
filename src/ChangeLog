@@ -1,5 +1,12 @@
 2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Fix bug: Make ‘number->flags’ return symbols, not strings.
+
+	* sdlenums.c (gsdl_make_flagstash): Save a symbol,
+	not a string, for each flag's ‘val_and_name_t.sname’.
+
+2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Decruft: Drop unused ‘val_and_name_t.sval’.
 
 	* guile-sdl.h (val_and_name_t): Delete member ‘.sval’.

@@ -1,3 +1,9 @@
+2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Fix bug: Make ‘number->flags’ return symbols, not strings.
+
+	* alive.test: Add a test for ‘number->flags’.
+
 2011-04-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[test] Exercise ‘set-gamma-ramp’ along with the cursor test.
