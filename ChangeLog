@@ -1,3 +1,10 @@
+2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Mogrify "guile-tools fspec2c" to make internal "fs2c".
+
+	* autogen.sh: Also import Guile-BAUX module ‘forms-from’.
+	* build-aux/guile-baux/fs2c: New file.
+
 2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build] Move module-catalog facilities check to configure time.

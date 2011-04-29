@@ -1,0 +1,276 @@
+#!/bin/sh
+exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
+!#
+;;; fs2c --- translate flagstash spec to C code
+
+;; Copyright (C) 2003, 2004, 2005, 2007, 2008, 2011 Thien-Thi Nguyen
+;;
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 3, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this software; see the file COPYING.  If not, write to
+;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
+
+;;; Commentary:
+
+;; Usage: fs2c [OPTIONS] FS-SPEC
+;;
+;; Write C fragment to stdout derived from running gperf (GNU perfect
+;; hash function generator) on the flags scanned from the header as
+;; specified in file FS-SPEC.  OPTIONS are zero or more of:
+;;
+;;  -o, --output FILE    -- write to FILE instead of stdout
+;;  -I, --include DIR    -- look in DIR instead of /usr/include
+;;  -n, --no-cgen        -- write generated gperf input instead
+;;                          of actually sending it to gperf
+;;
+;; The FS-SPEC file contents are Scheme forms in the following format:
+;; First is the symbol NICK, used to form C identifiers.  Next is the
+;; string PRETTY, used in the external representation of the flagstash
+;; object like so: "sdl-PRETTY-flags".  The rest of the forms are
+;; alternating keywords and values.  These configure the first phase
+;; of fs2c operation: scanning for entries.  Entries are extracted by
+;; regular expression matching of lines (or a region) in a file.
+;; (The second phase of fs2c operation, feeding properly formatted
+;; entries to gperf, is not customizable.)
+;;
+;; Currently, these keywords are recognized:
+;;
+;;  #:infile RELPATH     -- which header to scan (string)
+;;  #:region (BEG END)   -- only scan lines inside BEG-END regexps (strings)
+;;  #:regexp REGEXP      -- regexp w/ first subexpression the key (string)
+;;
+;; Both #:infile and #:regexp are required; #:region is optional.
+
+;;; Code:
+
+(define-module (guile-baux fs2c)
+  #:export (main)
+  #:use-module ((guile-baux common) #:select (fs fse die check-hv qop<-args))
+  #:use-module ((guile-baux forms-from) #:select (forms<-file))
+  #:use-module ((srfi srfi-11) #:select (let-values))
+  #:use-module ((srfi srfi-13) #:select (string-join))
+  #:use-module ((ice-9 rdelim) #:select (read-line))
+  #:use-module ((ice-9 regex) #:select (match:substring))
+  #:use-module ((ice-9 popen) #:select (open-output-pipe
+                                        close-pipe)))
+
+(define (fullspec nick pretty . spec)
+
+  (define (table c)
+    (fs "~A_f_~A" nick c))
+
+  (define (before)
+    (fs "~A ~A ~A;~%"
+        ;; This awaits ‘flagstash_t’ re-org.
+        ;;   "static const struct val_and_name *"
+        "static struct val_and_name *"
+        (table 'N)
+        "(register const char *str, register unsigned int len)"))
+
+  (define (after)
+
+    (define (join how . ls)
+      (let ((sep (if (pair? how) (car how) how))
+            (grammar (if (pair? how) (cdr how) 'infix)))
+        (string-join ls sep grammar)))
+
+    (apply join '("\n" . suffix)
+           (fs "static flagstash_t ~A_flagstash = {" nick)
+           (join ",\n"
+                 (fs "\"sdl-~A-flags\"" pretty)
+                 (fs "&(~A[0])" (table 'W)) ; word array
+                 "NULL"
+                 "TOTAL_KEYWORDS"
+                 (fs "&~A" (table 'N))  ; lookup func
+                 "SCM_BOOL_F")
+           "};"
+           (map (lambda (sym)
+                  (fs "#undef ~A" sym))
+                '(TOTAL_KEYWORDS
+                  MIN_WORD_LENGTH
+                  MAX_WORD_LENGTH
+                  MIN_HASH_VALUE
+                  MAX_HASH_VALUE))))
+
+  (define (alist<-plist ls)
+    (let loop ((acc '()) (ls ls))
+      (if (null? ls)
+          acc
+          (loop (acons (car ls) (cadr ls) acc)
+                (cddr ls)))))
+
+  (define (make-boilerplate)
+    (alist<-plist
+     `(#:key-match-num
+       1
+
+       #:struct
+       ((-1 char * name)
+        (1 unsigned long val)
+        ("SCM_BOOL_F" SCM sname)
+        ("SCM_BOOL_F" SCM sval))
+
+       #:struct-name
+       "val_and_name"
+
+       #:gperf-opt-list
+       ,(cons*
+         ;; These are relatively uncontroversial.
+         "--language ANSI-C"
+         "--global-table"
+         "--omit-struct-type"
+
+         ;; These await ‘flagstash_t’ re-org.
+         ;;   "--null-strings"
+         ;;   "--pic"
+         ;;   "--readonly-tables"
+         ;;   "--switch 1"
+         ;;      ??? Perhaps ‘--switch’ should be determined
+         ;;      (or even omitted) based on the keyword set.
+
+         (map (lambda (c)
+                (fs "-~A ~A" c (table c)))
+              '(H N Q W))))))
+
+  (let ((alist (append! (make-boilerplate) (alist<-plist spec))))
+    (define (qspec kw)
+      (assq-ref alist kw))
+    ;; rv
+    (values (before) (after) qspec)))
+
+(define (scan-file filename regexp region)
+  (let* ((rv '())
+         (p (open-input-file filename))
+         (rx (make-regexp regexp))
+         (beg-rx (and region (make-regexp (car region))))
+         (end-rx (and region (make-regexp (cadr region))))
+         (in? #f))
+    (let loop ((line (read-line p)))
+      (or (eof-object? line)
+          (number? in?)
+          (begin
+            (cond ((and end-rx in? (regexp-exec end-rx line))
+                   (set! in? 0))
+                  ((and beg-rx (not in?) (regexp-exec beg-rx line))
+                   (set! in? #t))
+                  ((and (or (and beg-rx in?)
+                            (not beg-rx))
+                        (regexp-exec rx line))
+                   => (lambda (m)
+                        (set! rv (cons m rv)))))
+            (loop (read-line p)))))
+    (close-port p)
+    (reverse! rv)))
+
+(define (feed-gperf ofile no-cgen? spec gperf-input)
+
+  (define (render init)
+    (cond ((number? init)
+           (if (positive? init)
+               (lambda (m)
+                 (match:substring m init))
+               (let ((n-init (- init)))
+                 (lambda (m)
+                   (fs "~S" (match:substring m n-init))))))
+          ((string? init)
+           (lambda (m) init))
+          (else
+           (error "bad init:" init))))
+
+  (let* ((kw-num (spec #:key-match-num))
+         (struct (or (spec #:struct) '()))
+         (op (if no-cgen?
+                 (if (string=? "-" ofile)
+                     (current-output-port)
+                     (open-output-file ofile))
+                 (open-output-pipe
+                  (fs "gperf~A~A --output-file=~A"
+                      (if (null? struct) "" " -t")
+                      (cond ((spec #:gperf-opt-list)
+                             => (lambda (ls)
+                                  (string-join ls " " 'prefix)))
+                            (else ""))
+                      ofile)))))
+
+    (define (feed s . args)
+      (apply simple-format op s args))
+
+    (cond ((null? struct))
+          (else
+           (feed "struct ~A {" (or (spec #:struct-name)
+                                   "randomstructname"))
+           (for-each (lambda (x)
+                       (for-each (lambda (xx)
+                                   (feed " ~A" xx))
+                                 (cdr x))
+                       (feed ";"))
+                     struct)
+           (feed " };~%%%~%")))
+    (let* ((raw (map (lambda (struct-spec)
+                       (and=> (car struct-spec) render))
+                     struct))
+           (out (map (lambda (proc)
+                       (if proc
+                           (lambda (m) (feed ", ~A" (proc m)))
+                           (lambda (m) #f)))
+                     raw)))
+      (for-each (lambda (m)
+                  (feed "~A" ((car raw) m))
+                  (or (null? struct)
+                      (for-each (lambda (proc) (proc m))
+                                (cdr out)))
+                  (newline op))
+                gperf-input))
+    (if no-cgen?
+        (or (eq? op (current-output-port))
+            (close-port op))
+        (close-pipe op))
+    (or (string=? "-" ofile)
+        (file-exists? ofile)
+        (error "Problem with gperf, output file not written"))))
+
+(define (fs2c/qop qop)
+  (let* ((specfile (if (null? (qop '()))
+                       (die #f "missing input file")
+                       (car (qop '()))))
+         (partial (forms<-file specfile))
+         (op (or (qop 'output open-output-file)
+                 (current-output-port))))
+    (define (spew s)
+      (display s op)
+      (force-output))
+    (set-current-output-port op)
+    (let-values (((before after qspec) (apply fullspec partial)))
+      (spew before)
+      (let ((found (scan-file (in-vicinity
+                               (or (qop 'include) "/usr/include")
+                               (qspec #:infile))
+                              (qspec #:regexp)
+                              (qspec #:region))))
+        (feed-gperf "-" (qop 'no-cgen) qspec found))
+      (spew after))
+    (close-port op)))
+
+(define (main args)
+  (check-hv args '((package . "Guile-SDL")
+                   (version . "1.0")
+                   ;; Note: This is based on fspec2c 1.2 from
+                   ;; Guile 1.4.x, but significantly stripped
+                   ;; down and specialized for Guile-SDL.
+                   (help . commentary)))
+  (fs2c/qop
+   (qop<-args args '((output  (single-char #\o) (value #t))
+                     (include (single-char #\I) (value #t))
+                     (no-cgen (single-char #\n))))))
+
+;;; fs2c ends here
