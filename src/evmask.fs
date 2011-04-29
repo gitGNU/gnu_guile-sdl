@@ -21,6 +21,6 @@ evmask "event-mask"
 #:infile "SDL/SDL_events.h"
 #:region ("define SDL_EVENTMASK"
           "define SDL_ALLEVENTS")
-#:regexp "^[ \t]*\(SDL_[A-Z]+\)[ \t]+="
+#:symrgx (ws ("SDL_[A-Z]+") =)
 
 ;;; evmask.fs ends here

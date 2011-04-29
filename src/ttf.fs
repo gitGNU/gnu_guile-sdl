@@ -19,6 +19,6 @@
 
 ttf "font-style"
 #:infile "SDL/SDL_ttf.h"
-#:regexp "^#define *\(TTF_STYLE_[A-Z]+\)[ \t]+0x[0-9A-Fa-f]+"
+#:symrgx (#t "TTF_STYLE_[A-Z]+")
 
 ;;; ttf.fs ends here

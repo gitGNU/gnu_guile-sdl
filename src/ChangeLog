@@ -1,5 +1,18 @@
 2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Specify fs2c line regexp symbolically.
+
+	* evmask.fs (#:regexp): Delete.
+	(#:symrgx): New keyword + value.
+	* init.fs: Likewise.
+	* kmod.fs: Likewise.
+	* overlay.fs: Likewise.
+	* palette.fs: Likewise.
+	* ttf.fs: Likewise.
+	* video.fs: Likewise.
+
+2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Fix bug: Require exact bitwise match in ‘gsdl_ulong2flags’.
 
 	* sdlenums.c (gsdl_ulong2flags): Don't consider a flag

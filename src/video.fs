@@ -21,6 +21,6 @@ vid "video"
 #:infile "SDL/SDL_video.h"
 #:region ("currently supported flags for the SDL_surface"
           "define SDL_MUSTLOCK")
-#:regexp "^#define *\(SDL_[A-Z]+\)[ \t]+\(0x[0-9A-Fa-f]+\)"
+#:symrgx (#t "SDL_[A-Z]+")
 
 ;;; video.fs ends here

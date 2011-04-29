@@ -19,6 +19,6 @@
 
 kmod "keyboard-modifier"
 #:infile "SDL/SDL_keysym.h"
-#:regexp "^[ \t]*\(KMOD_[A-Z]+\)[ \t]*=[ \t]*0x[0-9A-Fa-f]+"
+#:symrgx (ws? ("KMOD_[A-Z]+") = x)
 
 ;;; kmod.fs ends here

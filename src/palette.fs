@@ -19,6 +19,6 @@
 
 pal "palette"
 #:infile "SDL/SDL_video.h"
-#:regexp "^#define *\(SDL_[A-Z]+PAL\)[ \t]+0x[0-9A-Fa-f]+"
+#:symrgx (#t "SDL_[A-Z]+PAL")
 
 ;;; palette.fs ends here

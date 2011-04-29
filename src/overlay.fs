@@ -19,6 +19,6 @@
 
 ov "overlay"
 #:infile "SDL/SDL_video.h"
-#:regexp "^#define *\(SDL_[A-Z0-9]+_OVERLAY\)[ \t]+0x[0-9A-Fa-f]+"
+#:symrgx (#t "SDL_[A-Z0-9]+_OVERLAY")
 
 ;;; overlay.fs ends here

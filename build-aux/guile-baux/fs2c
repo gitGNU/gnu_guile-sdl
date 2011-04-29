@@ -47,9 +47,27 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 ;;
 ;;  #:infile RELPATH     -- which header to scan (string)
 ;;  #:region (BEG END)   -- only scan lines inside BEG-END regexps (strings)
-;;  #:regexp REGEXP      -- regexp w/ first subexpression the key (string)
+;;  #:symrgx SYMRGX      -- symbolic regular expression with
+;;                          first subexpression the key (see below)
 ;;
-;; Both #:infile and #:regexp are required; #:region is optional.
+;; Both #:infile and #:symrgx are required; #:region is optional.
+;; SYMRGX is a list whose elements are strings, symbols and a single
+;; sublist whose single string element is the one to match the key.
+;; A string element expands to itself.  A symbol expands like so:
+;;
+;;  def     "#define"
+;;  ws      "[ \t]+"
+;;  ws?     "[ \t]*"
+;;  x       "0x[[:xdigit:]]+"
+;;  =       equivalent to (ws? "=" ws?)
+;;
+;; Any other symbol is converted to a string via `symbol->string'.
+;; The resulting list is prefixed with "^" and then concatenated to
+;; form the (string) regexp.  Because the form:
+;;
+;;   (def ws (STRING) ws x)
+;;
+;; is very common, SYMRGX recognizes (#t STRING) as equivalent.
 
 ;;; Code:
 
@@ -58,7 +76,8 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
   #:use-module ((guile-baux common) #:select (fs fse die check-hv qop<-args))
   #:use-module ((guile-baux forms-from) #:select (forms<-file))
   #:use-module ((srfi srfi-11) #:select (let-values))
-  #:use-module ((srfi srfi-13) #:select (string-join))
+  #:use-module ((srfi srfi-13) #:select (string-join
+                                         string-concatenate))
   #:use-module ((ice-9 rdelim) #:select (read-line))
   #:use-module ((ice-9 regex) #:select (match:substring))
   #:use-module ((ice-9 popen) #:select (open-output-pipe
@@ -147,10 +166,31 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
     ;; rv
     (values (before) (after) qspec)))
 
-(define (scan-file filename regexp region)
+(define (rx<-symbolic symbolic-regexp)
+
+  (define (flatten ls)
+    (string-concatenate (map defrag ls)))
+
+  (define (defrag x)
+    (cond ((symbol? x) (case x
+                         ((def) "#define")
+                         ((ws) "[ \t]+")
+                         ((ws?) "[ \t]*")
+                         ((x) "0x[[:xdigit:]]+")
+                         ((=) (flatten '(ws? "=" ws?)))
+                         (else (symbol->string x))))
+          ((pair? x) (fs "(~A)" (car x)))
+          ((string? x) x)
+          (else (error "bad symbolic-regexp fragment:" x))))
+
+  (flatten (cons "^" (if (eq? #t (car symbolic-regexp))
+                         `(def ws ,(cdr symbolic-regexp) ws x)
+                         symbolic-regexp))))
+
+(define (scan-file filename symrgx region)
   (let* ((rv '())
          (p (open-input-file filename))
-         (rx (make-regexp regexp))
+         (rx (make-regexp (rx<-symbolic symrgx)))
          (beg-rx (and region (make-regexp (car region))))
          (end-rx (and region (make-regexp (cadr region))))
          (in? #f))
@@ -254,7 +294,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
       (let ((found (scan-file (in-vicinity
                                (or (qop 'include) "/usr/include")
                                (qspec #:infile))
-                              (qspec #:regexp)
+                              (qspec #:symrgx)
                               (qspec #:region))))
         (feed-gperf "-" (qop 'no-cgen) qspec found))
       (spew after))

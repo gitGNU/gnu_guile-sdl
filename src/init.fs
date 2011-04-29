@@ -19,6 +19,6 @@
 
 init "init"
 #:infile "SDL/SDL.h"
-#:regexp "^#define *\(SDL_INIT_[A-Z]+\)[ \t]+0x[0-9A-Fa-f]+"
+#:symrgx (#t "SDL_INIT_[A-Z]+")
 
 ;;; init.fs ends here

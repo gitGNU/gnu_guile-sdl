@@ -1,5 +1,14 @@
 2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Specify fs2c line regexp symbolically.
+
+	* fs2c: Import ‘string-concatenate’.
+	(rx<-symbolic): New proc.
+	(scan-file): Don't take REGEXP; instead, take SYMRGX.
+	(fs2c/qop): Consult #:symrgx, not #:regexp.
+
+2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Decruft: Drop unused ‘val_and_name_t.sval’.
 
 	* fs2c (fullspec make-boilerplate #:struct): Update.
