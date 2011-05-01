@@ -1,3 +1,19 @@
+2011-05-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[maint] Use Free{SansBold,SerifBoldItalic}.ttf for testing.
+
+	These are from the FreeFont Project:
+	http://savannah.gnu.org/projects/freefont/
+	released under GPLv2+ (as of 2002).
+
+	* FreeSansBold.ttf: New file.
+	* FreeSerifBoldItalic.ttf: New file.
+	* Makefile.am (etcetc): Delete crystal.ttf;
+	add FreeSansBold.ttf, FreeSerifBoldItalic.ttf.
+	* crystal.ttf: Delete file.
+	* event.scm: Use FreeSansBold.ttf.
+	* ttf.scm: Use FreeSerifBoldItalic.ttf.
+
 2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Fix bug: Make ‘number->flags’ return symbols, not strings.

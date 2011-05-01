@@ -38,7 +38,7 @@
                    ls))
 
 ;; load a font file
-(define fonts (let* ((filename (datafile "crystal.ttf"))
+(define fonts (let* ((filename (datafile "FreeSerifBoldItalic.ttf"))
                      (ls (map (lambda (size)
                                 (SDL:load-font filename size))
                               '(16 32 64 128))))

@@ -34,7 +34,7 @@ TESTS_ENVIRONMENT = \
 
 noises = background.ogg fx.ogg fx.wav
 images = gnu-goatee.jpg
-etcetc = crystal.ttf
+etcetc = FreeSansBold.ttf FreeSerifBoldItalic.ttf
 
 EXTRA_DIST = common $(TESTS) \
  $(noises) \

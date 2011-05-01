@@ -39,7 +39,7 @@
                     '(SDL_HWSURFACE SDL_DOUBLEBUF))
 
 ;; load a font file
-(define font (SDL:load-font (datafile "crystal.ttf") 16))
+(define font (SDL:load-font (datafile "FreeSansBold.ttf") 16))
 
 ;; presize some stuff
 (define height (SDL:font:height font))

@@ -29,4 +29,9 @@ Steven G. Johnson and Matteo Frigo wrote:
 Brian Templeton wrote src/convert.c.
 
 
+Primož Peterlin wrote:
+  test/FreeSansBold.ttf
+  test/FreeSerifBoldItalic.ttf
+
+
 Thien-Thi Nguyen modified everything, and wrote the rest.
