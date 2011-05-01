@@ -20,6 +20,7 @@
 
 #include "config.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include "guile-sdl.h"
 #include <stdarg.h>
 
@@ -263,12 +264,10 @@ int
 print_flagstash (SCM smob, SCM port, scm_print_state *ps)
 {
   flagstash_t *stash = UNPACK_FLAGSTASH (smob);
+  char buf[64];
 
-  scm_puts      ("#<", port);
-  scm_intprint                  (stash->total, 10, port);
-  scm_putc      (' ', port);
-  scm_puts                      (stash->name, port);
-  scm_putc      ('>', port);
+  snprintf (buf, 64, "#<%d %s>", stash->total, stash->name);
+  scm_puts (buf, port);
   return 1;                             /* non-zero => ok */
 }
 

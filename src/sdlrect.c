@@ -20,6 +20,7 @@
 
 #include "config.h"
 #include "guile-sdl.h"
+#include <stdio.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
@@ -38,18 +39,11 @@ int
 print_rect (SCM smob, SCM port, scm_print_state *pstate)
 {
   SDL_Rect *rect = SMOBGET (smob, SDL_Rect *);
+  char buf[64];
 
-  scm_puts      ("#<SDL-Rect ", port);
-  scm_intprint                          (rect->w, 10, port);
-  scm_putc      ('x', port);
-  scm_intprint                          (rect->h, 10, port);
-  scm_putc      ('+', port);
-  scm_intprint                          (rect->x, 10, port);
-  scm_putc      ('+', port);
-  scm_intprint                          (rect->y, 10, port);
-  scm_putc      ('>', port);
-
-  /* non-zero means success */
+  snprintf (buf, 64, "#<SDL-Rect %ux%u%+d%+d>",
+            rect->w, rect->h, rect->x, rect->y);
+  scm_puts (buf, port);
   return 1;
 }
 

@@ -20,6 +20,7 @@
 
 #include "config.h"
 #include "guile-sdl.h"
+#include <stdio.h>
 #include <alloca.h>
 
 GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
@@ -752,13 +753,10 @@ int
 print_fpsmgr (SCM fpsmgr, SCM port, scm_print_state *pstate)
 {
   FPSmanager *m = UNPACK_FPSMGR (fpsmgr);
-  int chz = SDL_getFramerate (m);
+  char buf[24];
 
-  scm_puts      ("#<FPS-manager ", port);
-  scm_intprint                                  (chz, 10, port);
-  scm_puts      ("Hz>", port);
-
-  /* Non-zero means success.  */
+  snprintf (buf, 24, "#<FPS-manager %dHz>", SDL_getFramerate (m));
+  scm_puts (buf, port);
   return 1;
 }
 

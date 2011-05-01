@@ -20,6 +20,7 @@
 
 #include "config.h"
 #include "guile-sdl.h"
+#include <stdio.h>
 #include <alloca.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -131,38 +132,20 @@ static
 int
 print_pixel_format (SCM pixel_format, SCM port, scm_print_state *pstate)
 {
-#define PUTC(c)    scm_putc (c, port)
-#define PUTS(s)    scm_puts (s, port)
-#define PUT10I(n)  scm_intprint (n, 10, port)
-#define PUT16I(n)  scm_intprint (n, 16, port)
-
   SDL_PixelFormat *f = UNPACK_PIXEL_FORMAT (pixel_format);
+  char buf[80];
 
-  PUTS                  ("#<SDL-Pixel-Format ");
-  if (f->palette)
-    PUT10I                              (f->palette->ncolors);
-  else
-    PUTS                                ("NULL");
-  PUTC                  (' ');
-  PUT10I                                (f->BitsPerPixel);
-  PUTC                  (' ');
-  PUT16I                                (f->colorkey);
-  PUTC                  (' ');
-  PUT10I                                (f->alpha);
-  PUTC                  (' ');
-  if (f->Rmask) PUTC                    ('R');
-  if (f->Gmask) PUTC                    ('G');
-  if (f->Bmask) PUTC                    ('B');
-  if (f->Amask) PUTC                    ('A');
-  PUTC                  ('>');
-
-  /* Non-zero means success.  */
+  snprintf (buf, 80, "#<SDL-Pixel-Format %d %d %x %d %s%s%s%s>",
+            f->palette ? f->palette->ncolors : -1,
+            f->BitsPerPixel,
+            f->colorkey,
+            f->alpha,
+            f->Rmask ? "R" : "",
+            f->Gmask ? "G" : "",
+            f->Bmask ? "B" : "",
+            f->Amask ? "A" : "");
+  scm_puts (buf, port);
   return 1;
-
-#undef PUT16I
-#undef PUT10I
-#undef PUTS
-#undef PUTC
 }
 
 

@@ -1,5 +1,20 @@
 2011-05-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Make print funcs more efficient.
+
+	Implicit in all files is "#include <stdio.h>".
+	* sdlcdrom.c (print_cd): Use ‘snprintf’
+	to a local buffer and only one ‘scm_puts’.
+	* sdlcolor.c (print_color): Likewise.
+	* sdlenums.c (print_flagstash): Likewise.
+	* sdlgfx.c (print_fpsmgr): Likewise.
+	* sdljoystick.c (print_joy): Likewise.
+	* sdlrect.c (print_rect): Likewise.
+	* sdlsurface.c (print_surface): Likewise.
+	* sdlvideo.c (print_pixel_format): Likewise.
+
+2011-05-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Sort flagstash linear vals; move work to build time.
 
 	* guile-sdl.h (val_and_name_t): Delete typedef and struct.

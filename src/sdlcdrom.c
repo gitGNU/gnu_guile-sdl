@@ -20,6 +20,7 @@
 
 #include "config.h"
 #include "guile-sdl.h"
+#include <stdio.h>
 #include <SDL/SDL.h>
 
 static long cdrom_tag;
@@ -553,39 +554,22 @@ int
 print_cd (SCM cdrom, SCM port, scm_print_state *pstate)
 {
   SDL_CD *cd = UNPACK_CDROM (cdrom);
+  char buf[32], *status;
 
-  /* Print the current status.  */
   if (cd)
-    {
-      scm_puts ("#<SDL-CD ", port);
-
-      switch (cd->status)
-        {
-        case CD_TRAYEMPTY:
-          scm_puts (" [TRAY EMPTY]>", port);
-          break;
-
-        case CD_STOPPED:
-          scm_puts (" [STOPPED]>", port);
-          break;
-
-        case CD_PLAYING:
-          scm_puts (" [PLAYING]>", port);
-          break;
-
-        case CD_PAUSED:
-          scm_puts (" [PAUSED]>", port);
-          break;
-
-        case CD_ERROR:
-          scm_puts (" [DRIVE ERROR]>", port);
-          break;
-        }
-    }
+    switch (cd->status)
+      {
+      case CD_TRAYEMPTY: status = "TRAY EMPTY";  break;
+      case CD_STOPPED:   status = "STOPPED";     break;
+      case CD_PLAYING:   status = "PLAYING";     break;
+      case CD_PAUSED:    status = "PAUSED";      break;
+      case CD_ERROR:     status = "DRIVE ERROR"; break;
+      default:           status = "???";
+      }
   else
-    scm_puts ("#<SDL-CD NULL>", port);
-
-  /* Non-zero means success.  */
+    status = "-";
+  snprintf (buf, 32, "#<SDL-CD [%s]>", status);
+  scm_puts (buf, port);
   return 1;
 }
 

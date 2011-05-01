@@ -20,6 +20,7 @@
 
 #include "config.h"
 #include "guile-sdl.h"
+#include <stdio.h>
 #include <SDL/SDL.h>
 
 static
@@ -35,16 +36,11 @@ int
 print_color (SCM color, SCM port, scm_print_state *pstate)
 {
   SDL_Color *ccolor = UNPACK_COLOR (color);
+  char buf[32];
 
-  scm_puts      ("#<SDL-Color ", port);
-  scm_intprint                          (ccolor->r, 10, port);
-  scm_putc      (' ', port);
-  scm_intprint                          (ccolor->g, 10, port);
-  scm_putc      (' ', port);
-  scm_intprint                          (ccolor->b, 10, port);
-  scm_putc      ('>', port);
-
-  /* Non-zero means success.  */
+  snprintf (buf, 32, "#<SDL-Color %d %d %d>",
+            ccolor->r, ccolor->g, ccolor->b);
+  scm_puts (buf, port);
   return 1;
 }
 

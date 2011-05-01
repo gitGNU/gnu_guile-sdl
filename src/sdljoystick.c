@@ -20,6 +20,7 @@
 
 #include "config.h"
 #include "guile-sdl.h"
+#include <stdio.h>
 #include <SDL/SDL.h>
 
 static long joystick_tag;
@@ -415,15 +416,11 @@ int
 print_joy (SCM joystick, SCM port, scm_print_state *pstate)
 {
   SDL_Joystick *joy = UNPACK_JOYSTICK (joystick);
+  char buf[32];
 
-  scm_puts      ("#<SDL-Joystick ", port);
-  if (joy)
-    scm_intprint                        (SDL_JoystickIndex (joy), 10, port);
-  else
-    scm_puts                            ("NULL", port);
-  scm_putc      ('>', port);
-
-  /* Non-zero means success */
+  snprintf (buf, 32, "#<SDL-Joystick %d>",
+            joy ? SDL_JoystickIndex (joy) : -1);
+  scm_puts (buf, port);
   return 1;
 }
 
