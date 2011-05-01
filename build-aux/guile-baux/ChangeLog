@@ -1,5 +1,23 @@
 2011-05-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Sort flagstash linear vals; move work to build time.
+
+	* fs2c: Import ‘forms<-port’,
+	‘unique-i/o-file-port’, ‘open-input-pipe’.
+	(fullspec before): Use ‘lookup_t’.
+	(fullspec after): Update init form.
+	(fullspec make-boilerplate): Drop keys #:key-match-num,
+	#:struct; use ‘recognition’ for #:struct-name; add some
+	more options to #:gperf-opt-list.
+	(scan-file): Accumulate the extracted symbol directly.
+	(feed-gperf): Rewrite.
+	(C-program, sorted): New procs.
+	(fs2c/qop): Save current output-port; restore after gperf;
+	compute and output NICK_values and NICK_names tables prior
+	to ‘before’.
+
+2011-05-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Drop unuseful "fs2c --no-cgen".
 
 	* fs2c (feed-gperf): Don't take ‘no-cgen?’; always generate C.

@@ -259,17 +259,6 @@ static unsigned long int flagstash_tag;
   (SMOBGET (smob, flagstash_t *))
 
 static
-size_t
-free_flagstash (SCM smob)
-{
-  flagstash_t *stash = UNPACK_FLAGSTASH (smob);
-  int count = stash->total;
-  scm_must_free (stash->linear);
-
-  return (count * sizeof (val_and_name_t *));
-}
-
-static
 int
 print_flagstash (SCM smob, SCM port, scm_print_state *ps)
 {
@@ -291,34 +280,16 @@ gsdl_make_flagstash (flagstash_t *stash)
   SCM_NEWSMOB (smob, flagstash_tag, stash);
   smob = scm_permanent_object (smob);
   {
-    val_and_name_t *cur = stash->sparse;
     int count = stash->total;
+    int i;
 
-    stash->linear =
-      (val_and_name_t **) scm_must_malloc (count * sizeof (val_and_name_t *),
-                                           "linear flag pointers");
-
-    while (count)
+    for (i = 0; i < count; i++)
       {
-        if (cur->name && *(cur->name))
-          {
-            cur->sname = scm_permanent_object (SYMBOL (cur->name));
-            count--;
-            stash->linear[count] = cur;
-          }
-        cur++;
+        aka_t *aka = stash->aka + i;
+
+        aka->symbol = scm_permanent_object (SYMBOL (aka->rozt));
       }
-#if 0
-    fprintf (stderr, "%s: %d (%d bytes) / %d (%d bytes)\n",
-             stash->name,
-             stash->total,
-             stash->total * sizeof (val_and_name_t),
-             cur - stash->sparse,
-             (cur - stash->sparse) * sizeof (val_and_name_t));
-#endif
   }
-  stash->reverse_lookup_cache =
-    scm_permanent_object (MAKE_HASH_TABLE (stash->total));
 
   return smob;
 }
@@ -330,7 +301,7 @@ unsigned long
 gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
 {
   flagstash_t *s = UNPACK_FLAGSTASH (stash);
-  val_and_name_t *hit;
+  const recognition_t *hit;
   unsigned long result = 0;
 
   if (EXACTLY_FALSEP (flags) || NULLP (flags))
@@ -346,7 +317,7 @@ gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
           head = CAR (flags);
           hit = s->lookup (SCM_CHARS (head), SCM_LENGTH (head));
           if (hit)
-            result |= hit->val;
+            result |= s->val[hit->idx];
           flags = CDR (flags);
         }
     }
@@ -355,7 +326,7 @@ gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
       ASSERT_SYMBOL (flags, pos);
       hit = s->lookup (SCM_CHARS (flags), SCM_LENGTH (flags));
       if (hit)
-        result = hit->val;
+        result = s->val[hit->idx];
     }
 
   return result;
@@ -370,13 +341,14 @@ gsdl_ulong2flags (unsigned long value, SCM stash)
 
   for (i = 0; i < s->total; i++)
     {
-      val_and_name_t *cur = s->linear[i];
-      if (cur->val == value)
-        return CONS (cur->sname, rv);
-      if (cur->val == (cur->val & value))
+      unsigned long cur = s->val[i];
+
+      if (cur == value)
+        return CONS (s->aka[i].symbol, rv);
+      if (cur == (cur & value))
         {
-          rv = CONS (cur->sname, rv);
-          value &= ~(cur->val);
+          rv = CONS (s->aka[i].symbol, rv);
+          value &= ~cur;
           if (! value)
             /* If we were to cache the translation, it would be done here.
                Probably `flagstash_t' needs to include info on disjointness
@@ -410,7 +382,7 @@ a flagstash object, in unspecified order.  */)
   cstash = UNPACK_FLAGSTASH (stash);
 
   for (i = 0; i < cstash->total; i++)
-    rv = CONS (SYMBOL (cstash->linear[i]->name), rv);
+    rv = CONS (cstash->aka[i].symbol, rv);
   return rv;
 #undef FUNC_NAME
 }
@@ -452,7 +424,6 @@ gsdl_init_enums (void)
   scm_set_smob_free (enum_tag, free_enum);
 
   flagstash_tag = scm_make_smob_type ("flagstash", sizeof (flagstash_t *));
-  scm_set_smob_free  (flagstash_tag, free_flagstash);
   scm_set_smob_print (flagstash_tag, print_flagstash);
 
   acons = LOOKUP ("acons");

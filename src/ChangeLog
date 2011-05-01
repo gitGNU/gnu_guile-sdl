@@ -1,3 +1,23 @@
+2011-05-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Sort flagstash linear vals; move work to build time.
+
+	* guile-sdl.h (val_and_name_t): Delete typedef and struct.
+	(in_word_set_t): Delete typedef.
+	(recognition, recognition_t): New struct and typedef.
+	(lookup_t, aka_t): New typedefs.
+	(flagstash_t): Dose member ‘name’ w/ ‘const’; drop members
+	‘sparse’, ‘linear’; use ‘size_t’ for total and make it ‘const’;
+	change type of ‘lookup’ to ‘lookup_t *’; drop unused
+	member ‘reverse_lookup_cache’; add members ‘val’, ‘aka’.
+	* sdlenums.c (free_flagstash): Delete func.
+	(gsdl_make_flagstash): Rewrite.
+	(gsdl_flags2ulong): Update to consult stash's ‘val’ array.
+	(gsdl_ulong2flags): Update to scan stash's
+	‘val’ array and cons symbols from its ‘aka’ array.
+	(flagstash_flags): Update to consult stash's ‘aka’ array.
+	(gsdl_init_enums): Don't set a smob-free func for ‘flagstash_tag’.
+
 2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build int] Specify fs2c line regexp symbolically.

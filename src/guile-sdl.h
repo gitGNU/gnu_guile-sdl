@@ -192,22 +192,25 @@ SCM gsdl_ulong2flags (unsigned long value, SCM stash);
 #define GSDL_FLAGS2ULONG(flags,table,pos) \
   gsdl_flags2ulong ((flags), (table), (pos), FUNC_NAME)
 
-typedef struct val_and_name {
-  char *name;
-  unsigned long int val;
-  SCM sname;
-} val_and_name_t;
+typedef struct recognition {
+  const char *name;
+  const size_t idx;
+} recognition_t;
 
-typedef struct val_and_name * (in_word_set_t)
-     (register const char *str, register unsigned int len);
+typedef const recognition_t * (lookup_t)
+  (register const char *str, register unsigned int len);
+
+typedef union {
+  const char const *rozt;
+  SCM symbol;
+} aka_t;
 
 typedef struct flagstash {
-  char *name;
-  val_and_name_t  *sparse;
-  val_and_name_t **linear;
-  int total;
-  in_word_set_t *lookup;
-  SCM reverse_lookup_cache;
+  const char const *name;
+  const size_t total;
+  lookup_t *lookup;
+  const unsigned long const *val;
+  aka_t *aka;
 } flagstash_t;
 
 SCM gsdl_make_flagstash (flagstash_t *stash);
