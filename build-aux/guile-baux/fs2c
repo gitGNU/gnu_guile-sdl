@@ -30,8 +30,6 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 ;;
 ;;  -o, --output FILE    -- write to FILE instead of stdout
 ;;  -I, --include DIR    -- look in DIR instead of /usr/include
-;;  -n, --no-cgen        -- write generated gperf input instead
-;;                          of actually sending it to gperf
 ;;
 ;; The FS-SPEC file contents are Scheme forms in the following format:
 ;; First is the symbol NICK, used to form C identifiers.  Next is the
@@ -211,7 +209,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
     (close-port p)
     (reverse! rv)))
 
-(define (feed-gperf ofile no-cgen? spec gperf-input)
+(define (feed-gperf ofile spec gperf-input)
 
   (define (render init)
     (cond ((number? init)
@@ -228,18 +226,14 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 
   (let* ((kw-num (spec #:key-match-num))
          (struct (or (spec #:struct) '()))
-         (op (if no-cgen?
-                 (if (string=? "-" ofile)
-                     (current-output-port)
-                     (open-output-file ofile))
-                 (open-output-pipe
-                  (fs "gperf~A~A --output-file=~A"
-                      (if (null? struct) "" " -t")
-                      (cond ((spec #:gperf-opt-list)
-                             => (lambda (ls)
-                                  (string-join ls " " 'prefix)))
-                            (else ""))
-                      ofile)))))
+         (op (open-output-pipe
+              (fs "gperf~A~A --output-file=~A"
+                  (if (null? struct) "" " -t")
+                  (cond ((spec #:gperf-opt-list)
+                         => (lambda (ls)
+                              (string-join ls " " 'prefix)))
+                        (else ""))
+                  ofile))))
 
     (define (feed s . args)
       (apply simple-format op s args))
@@ -270,10 +264,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                                 (cdr out)))
                   (newline op))
                 gperf-input))
-    (if no-cgen?
-        (or (eq? op (current-output-port))
-            (close-port op))
-        (close-pipe op))
+    (close-pipe op)
     (or (string=? "-" ofile)
         (file-exists? ofile)
         (error "Problem with gperf, output file not written"))))
@@ -296,7 +287,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                                (qspec #:infile))
                               (qspec #:symrgx)
                               (qspec #:region))))
-        (feed-gperf "-" (qop 'no-cgen) qspec found))
+        (feed-gperf "-" qspec found))
       (spew after))
     (close-port op)))
 
@@ -309,7 +300,6 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                    (help . commentary)))
   (fs2c/qop
    (qop<-args args '((output  (single-char #\o) (value #t))
-                     (include (single-char #\I) (value #t))
-                     (no-cgen (single-char #\n))))))
+                     (include (single-char #\I) (value #t))))))
 
 ;;; fs2c ends here

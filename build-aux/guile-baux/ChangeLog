@@ -1,3 +1,11 @@
+2011-05-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Drop unuseful "fs2c --no-cgen".
+
+	* fs2c (feed-gperf): Don't take ‘no-cgen?’; always generate C.
+	(fs2c/qop): Update call to ‘feed-gperf’.
+	(main): Drop ‘no-cgen’ from options spec.
+
 2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build int] Specify fs2c line regexp symbolically.
