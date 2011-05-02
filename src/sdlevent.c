@@ -23,10 +23,10 @@
 #include <SDL/SDL_events.h>
 
 /* enum/flag types */
-SCM event_type_enum;
-SCM event_state_enum;
-SCM event_keysym_enum;
-SCM event_action_enum;
+static SCM event_type_enum;
+static SCM event_state_enum;
+static SCM event_keysym_enum;
+static SCM event_action_enum;
 
 static SCM event_mod_flags;
 static SCM event_mask_flags;
