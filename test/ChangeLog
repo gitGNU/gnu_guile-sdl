@@ -1,3 +1,10 @@
+2011-05-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[test] Test ‘enumstash-enums’, ‘enum->number’, ‘number->enum’.
+
+	* alive.test: List the enums; get their symbols; convert
+	syms to ints; convert ints to syms; check round-trip equiv.
+
 2011-05-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[maint] Use Free{SansBold,SerifBoldItalic}.ttf for testing.
