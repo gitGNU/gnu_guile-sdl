@@ -27,10 +27,6 @@ SUFFIXES = .texi .texh
 TODO-excerpt: $(top_srcdir)/TODO
 	sed '1,/^_/!d;s/__*//' $< > $@
 
-# This causes (one hopes) Automake 1.8 and later to generate rules to
-# place the info file in the build tree instead of the source tree.
-DISTCLEANFILES = guile-sdl.info
-
 excuse.texi: $(srcdir)/notes.tdt
 	$(srcdir)/mkexcuse $< > $@
 

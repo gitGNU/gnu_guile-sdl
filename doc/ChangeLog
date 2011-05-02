@@ -1,3 +1,9 @@
+2011-05-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build doc] Reduce unorthodoxy: Build .info in srcdir.
+
+	* Makefile.am (DISTCLEANFILES): Delete var.
+
 2011-04-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build] Switch to Guile-BAUX for doc maintenance.
