@@ -1,5 +1,37 @@
 2011-05-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Use single hash for enums; init from static arrays.
+
+	* sdlenums.c: Don't #include <stdarg.h>.
+	(enum_struct): Drop members ‘min’, ‘max’, ‘rev’;
+	add members ‘backing’, ‘count’.
+	(gsdl_define_enum): Rewrite to take count and table directly,
+	store reverse mapping in the hash, store only backing index
+	of forward mapping.
+	(lookup): Don't take enumstash; instead, take ‘enum_struct *’.
+	(gsdl_enum2long): Update call to ‘lookup’
+	and handling of non-‘#f’ return value.
+	(gsdl_long2enum): Use ‘lookup’.
+	(enumstash_enums): Filter out non-symbols.
+	(enum_to_number): Update call to ‘lookup’
+	and handling of non-‘#f’ return value.
+	(number_to_enum): Use ‘lookup’.
+	* guile-sdl.h (GSDL_CSCS): Delete macro.
+	(valaka_t): New struct/typedef.
+	(VALAKA): New macro.
+	(gsdl_define_enum): Update func decl.
+	(DEFINE_ENUM): New macro.
+	* sdlevent.c (event_type_eback, event_state_eback, event_keysym_eback)
+	(event_action_eback): New static arrays of ‘valaka_t’.
+	(gsdl_init_event): Use ‘DEFINE_ENUM’, ‘event_type_eback’,
+	‘event_keysym_eback’, ‘event_action_eback’, ‘event_state_eback’.
+	* sdlmixer.c (fading_status_eback): New static array of ‘valaka_t’.
+	(init_module): Use ‘DEFINE_ENUM’, ‘fading_status_eback’.
+	* sdlvideo.c (gl_eback, alpha_eback): New static arrays of ‘valaka_t’.
+	(gsdl_init_video): Use ‘DEFINE_ENUM’, ‘alpha_eback’, ‘gl_eback’.
+
+2011-05-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Internalize event enum vars.
 
 	* sdlevent.c (event_type_enum, event_state_enum)

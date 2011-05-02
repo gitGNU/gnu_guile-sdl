@@ -25,7 +25,13 @@
 GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
 
 
-SCM fading_status_enum;
+static SCM fading_status_enum;
+static valaka_t fading_status_eback[] = {
+  VALAKA (MIX_NO_FADING),
+  VALAKA (MIX_FADING_OUT),
+  VALAKA (MIX_FADING_IN)
+};
+
 #define RETURN_FADINGSTATUS(x)  return gsdl_long2enum ((x), fading_status_enum)
 
 
@@ -985,12 +991,7 @@ init_module (void)
   scm_set_smob_free (mix_audio_tag, free_audio);
 
   /* enums */
-  fading_status_enum = gsdl_define_enum
-    ("fading-status",
-     GSDL_CSCS (MIX_NO_FADING),
-     GSDL_CSCS (MIX_FADING_OUT),
-     GSDL_CSCS (MIX_FADING_IN),
-     NULL);
+  fading_status_enum = DEFINE_ENUM ("fading-status", fading_status_eback);
 
 #include "sdlmixer.x"
 }

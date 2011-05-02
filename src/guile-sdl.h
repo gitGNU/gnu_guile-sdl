@@ -179,8 +179,21 @@ typedef union {
   SCM symbol;
 } aka_t;
 
-#define GSDL_CSCS(x)  #x, x  /* "C String Comma Symbol" */
-SCM gsdl_define_enum (const char *name, ...);
+typedef struct {
+  const long int value;
+  aka_t aka;
+} valaka_t;
+
+#define VALAKA(x)  { x, { #x } }
+
+SCM gsdl_define_enum (const char *name, size_t count, valaka_t *backing);
+
+#define DEFINE_ENUM(name,backing)               \
+  gsdl_define_enum                              \
+  (name,                                        \
+   sizeof (backing) / sizeof (valaka_t),        \
+   backing)
+
 long gsdl_enum2long (SCM s_enum, SCM enum_type, int pos, const char *func);
 SCM gsdl_long2enum (long value, SCM enum_type);
 

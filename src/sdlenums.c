@@ -22,7 +22,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "guile-sdl.h"
-#include <stdarg.h>
 
 static SCM hfold;
 static SCM acons;
@@ -31,8 +30,8 @@ static long enum_tag;
 
 typedef struct {
   SCM table;
-  long min, max;
-  SCM *rev;
+  valaka_t *backing;
+  size_t count;
 } enum_struct;
 
 #define ASSERT_ENUM(obj,which) \
@@ -47,8 +46,6 @@ mark_enum (SCM enumstash)
 {
   enum_struct *enum_smob = UNPACK_ENUM (enumstash);
 
-  /* Each element in ‘.rev’ is either ‘#f’, or a symbol, one of the
-     keys in ‘.table’; thus, it needs no further gc protection.  */
   scm_gc_mark (enum_smob->table);
   RETURN_FALSE;
 }
@@ -69,81 +66,40 @@ mark_enum (SCM enumstash)
 
 /* Register a C enum.  */
 SCM
-gsdl_define_enum (const char *name, ...)
+gsdl_define_enum (const char *name, size_t count, valaka_t *backing)
 {
-  va_list ap;
-  char *symname;
-  long value, max = 0, min = 0, count = 0; /* min was 0xffff --ttn */
+  size_t i;
   SCM enumstash, table, sym;
-  enum_struct *new_enum;
-
-  /* Initialize the argument list.  */
-  va_start (ap, name);
-
-  /* First pass: count the args, find the max and min.  */
-  symname = va_arg (ap, char*);
-  while (symname)
-    {
-      count++;
-      value = va_arg (ap, long);
-      if (value > max)
-        max = value;
-      if (value < min)
-        min = value;
-      symname = va_arg (ap, char*);
-    }
-
-  /* Add one to make room for largest value.  */
-  max++;
+  enum_struct *s;
+  valaka_t *b;
 
   /* Create an enum struct to hold our values.  */
-  new_enum = (enum_struct *) malloc (sizeof (enum_struct));
-
-  new_enum->min = min;
-  new_enum->max = max;
-
-  /* Create the enum table.  */
-  {
-    int i, lim = max - min + 1;
-
-    new_enum->rev = malloc (sizeof (SCM) * lim);
-    for (i = 0; i < lim; i++)
-      new_enum->rev[i] = BOOL_FALSE;
-  }
+  s = malloc (sizeof (enum_struct));
+  s->count = count;
+  s->backing = backing;
 
   /* Create the enum hash.  */
-  table = MAKE_HASH_TABLE (count);
-  new_enum->table = table;
-
-  /* Reset the argument list.  (Is this safe?)  */
-  va_start (ap, name);
-
-  /* Second pass: fill the table and hash.  */
-  while (count > 0)
+  table = scm_permanent_object (MAKE_HASH_TABLE (count));
+  for (i = 0; i < count; i++)
     {
-      symname = va_arg (ap, char*);
-      value = va_arg (ap, long);
-      sym = SYMBOL (symname);
-      new_enum->rev[value - min] = sym;
-      scm_hashq_set_x (table, sym, NUM_LONG (value));
-      count--;
+      b = backing + i;
+      sym = b->aka.symbol = SYMBOL (b->aka.rozt);
+      scm_hashq_set_x (table, sym, NUM_INT (i));
+      scm_hashq_set_x (table, NUM_LONG (b->value), sym);
     }
-
-  /* Clean up.  */
-  va_end (ap);
+  s->table = table;
 
   /* Build and define the enum smob instance.  */
-  SCM_NEWSMOB (enumstash, enum_tag, new_enum);
+  SCM_NEWSMOB (enumstash, enum_tag, s);
   enumstash = scm_permanent_object (enumstash);
   DEFINE_PUBLIC (name, enumstash);
   return enumstash;
 }
 
 static inline SCM
-lookup (SCM symbol, SCM enumstash)
+lookup (SCM key, enum_struct *e)
 {
-  return scm_hashq_ref (UNPACK_ENUM (enumstash)->table,
-                        symbol, BOOL_FALSE);
+  return scm_hashq_ref (e->table, key, BOOL_FALSE);
 }
 
 
@@ -153,12 +109,13 @@ long
 gsdl_enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
 {
   long result = 0;
+  enum_struct *e = UNPACK_ENUM (enumstash);
 
   if (SCM_SYMBOLP (obj))
     {
-      obj = lookup (obj, enumstash);
+      obj = lookup (obj, e);
       if (NOT_FALSEP (obj))
-        result = C_LONG (obj);
+        result = e->backing[C_INT (obj)].value;
     }
   else
     {
@@ -172,11 +129,7 @@ gsdl_enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
 SCM
 gsdl_long2enum (long value, SCM enumstash)
 {
-  enum_struct *e = UNPACK_ENUM (enumstash);
-
-  if (e->min > value) RETURN_FALSE;
-  if (e->max < value) RETURN_FALSE;
-  return e->rev[value - e->min];
+  return lookup (NUM_LONG (value), UNPACK_ENUM (enumstash));
 }
 
 
@@ -200,11 +153,13 @@ Return the list of symbols belonging to @var{enumstash}.  */)
     SCM ls = rv;
     while (! NULLP (ls))
       {
-        SETCAR (ls, CAAR (ls));
+        SCM k = CAAR (ls);
+
+        SETCAR (ls, SYMBOLP (k) ? k : BOOL_FALSE);
         ls = CDR (ls);
       }
   }
-  return rv;
+  return scm_delq (BOOL_FALSE, rv);
 #undef FUNC_NAME
 }
 
@@ -217,10 +172,17 @@ Return the number associated with @var{symbol}, or @code{#f}
 if it does not belong to @var{enumstash}.  */)
 {
 #define FUNC_NAME s_enum_to_number
+  enum_struct *e;
+  SCM idx;
+
   ASSERT_ENUM (enumstash, 1);
   ASSERT_SYMBOL (symbol, 2);
 
-  return lookup (symbol, enumstash);
+  e = UNPACK_ENUM (enumstash);
+  idx = lookup (symbol, e);
+  return EXACTLY_FALSEP (idx)
+    ? idx
+    : NUM_INT (e->backing[C_INT (idx)].value);
 #undef FUNC_NAME
 }
 
@@ -234,7 +196,7 @@ if it does not belong to @var{enumstash}.  */)
 #define FUNC_NAME s_number_to_enum
   ASSERT_ENUM (enumstash, 1);
   ASSERT_EXACT (number, 2);
-  return gsdl_long2enum (C_LONG (number), enumstash);
+  return lookup (number, UNPACK_ENUM (enumstash));
 #undef FUNC_NAME
 }
 

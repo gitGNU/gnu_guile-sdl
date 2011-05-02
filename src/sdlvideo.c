@@ -37,7 +37,26 @@
 
 
 static SCM gl_enums;
+static valaka_t gl_eback[] = {
+  VALAKA (SDL_GL_RED_SIZE),
+  VALAKA (SDL_GL_GREEN_SIZE),
+  VALAKA (SDL_GL_BLUE_SIZE),
+  VALAKA (SDL_GL_ALPHA_SIZE),
+  VALAKA (SDL_GL_BUFFER_SIZE),
+  VALAKA (SDL_GL_DOUBLEBUFFER),
+  VALAKA (SDL_GL_DEPTH_SIZE),
+  VALAKA (SDL_GL_STENCIL_SIZE),
+  VALAKA (SDL_GL_ACCUM_RED_SIZE),
+  VALAKA (SDL_GL_ACCUM_GREEN_SIZE),
+  VALAKA (SDL_GL_ACCUM_BLUE_SIZE),
+  VALAKA (SDL_GL_ACCUM_ALPHA_SIZE)
+};
+
 SCM gsdl_alpha_enums;
+static valaka_t alpha_eback[] = {
+  VALAKA (SDL_ALPHA_OPAQUE),
+  VALAKA (SDL_ALPHA_TRANSPARENT)
+};
 
 SCM gsdl_video_flags;
 SCM gsdl_palette_flags;
@@ -1209,11 +1228,7 @@ gsdl_init_video (void)
   scm_set_smob_free (overlay_tag, free_yuv_overlay);
 
   /* alpha constants */
-  gsdl_alpha_enums = gsdl_define_enum
-    ("alpha-enums",
-     GSDL_CSCS (SDL_ALPHA_OPAQUE),
-     GSDL_CSCS (SDL_ALPHA_TRANSPARENT),
-     NULL);
+  gsdl_alpha_enums = DEFINE_ENUM ("alpha-enums", alpha_eback);
 
   /* video flags */
   gsdl_video_flags = gsdl_make_flagstash (&vid_flagstash);
@@ -1225,21 +1240,7 @@ gsdl_init_video (void)
   gsdl_overlay_formats = gsdl_make_flagstash (&ov_flagstash);
 
   /* GL constants */
-  gl_enums = gsdl_define_enum
-    ("gl-enums",
-     GSDL_CSCS (SDL_GL_RED_SIZE),
-     GSDL_CSCS (SDL_GL_GREEN_SIZE),
-     GSDL_CSCS (SDL_GL_BLUE_SIZE),
-     GSDL_CSCS (SDL_GL_ALPHA_SIZE),
-     GSDL_CSCS (SDL_GL_BUFFER_SIZE),
-     GSDL_CSCS (SDL_GL_DOUBLEBUFFER),
-     GSDL_CSCS (SDL_GL_DEPTH_SIZE),
-     GSDL_CSCS (SDL_GL_STENCIL_SIZE),
-     GSDL_CSCS (SDL_GL_ACCUM_RED_SIZE),
-     GSDL_CSCS (SDL_GL_ACCUM_GREEN_SIZE),
-     GSDL_CSCS (SDL_GL_ACCUM_BLUE_SIZE),
-     GSDL_CSCS (SDL_GL_ACCUM_ALPHA_SIZE),
-     NULL);
+  gl_enums = DEFINE_ENUM ("gl-enums", gl_eback);
 
 #include "sdlvideo.x"
 }
