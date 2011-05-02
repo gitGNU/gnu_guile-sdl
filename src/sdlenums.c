@@ -53,17 +53,6 @@ mark_enum (SCM enumstash)
   RETURN_FALSE;
 }
 
-static
-size_t
-free_enum (SCM enumstash)
-{
-  enum_struct *e = UNPACK_ENUM (enumstash);
-
-  free (e->rev);
-  free (e);
-  return sizeof (enum_struct);
-}
-
 
 #define REASONABLE_BUCKET_COUNT(count) \
   (SCM_MAKINUM                         \
@@ -145,6 +134,7 @@ gsdl_define_enum (const char *name, ...)
 
   /* Build and define the enum smob instance.  */
   SCM_NEWSMOB (enumstash, enum_tag, new_enum);
+  enumstash = scm_permanent_object (enumstash);
   DEFINE_PUBLIC (name, enumstash);
   return enumstash;
 }
@@ -420,7 +410,6 @@ gsdl_init_enums (void)
 {
   enum_tag = scm_make_smob_type ("SDL-enum", sizeof (enum_struct));
   scm_set_smob_mark (enum_tag, mark_enum);
-  scm_set_smob_free (enum_tag, free_enum);
 
   flagstash_tag = scm_make_smob_type ("flagstash", sizeof (flagstash_t *));
   scm_set_smob_print (flagstash_tag, print_flagstash);
