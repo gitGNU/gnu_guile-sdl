@@ -174,6 +174,11 @@
 
 /* Enums and flagstashes.  */
 
+typedef union {
+  const char const *rozt;
+  SCM symbol;
+} aka_t;
+
 #define GSDL_CSCS(x)  #x, x  /* "C String Comma Symbol" */
 SCM gsdl_define_enum (const char *name, ...);
 long gsdl_enum2long (SCM s_enum, SCM enum_type, int pos, const char *func);
@@ -199,11 +204,6 @@ typedef struct recognition {
 
 typedef const recognition_t * (lookup_t)
   (register const char *str, register unsigned int len);
-
-typedef union {
-  const char const *rozt;
-  SCM symbol;
-} aka_t;
 
 typedef struct flagstash {
   const char const *name;
