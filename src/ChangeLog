@@ -1,3 +1,11 @@
+2011-05-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Don't bother making convert.x.
+
+	* Makefile.am (WRAPPER_SOURCES): Remove convert.c.
+	(sdlimpl): New var.
+	(sdl_la_SOURCES, sdl.tsar): Use $(sdlimpl).
+
 2011-05-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Use single hash for enums; init from static arrays.

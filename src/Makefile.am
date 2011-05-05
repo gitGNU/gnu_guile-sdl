@@ -25,7 +25,7 @@ cmod_LTLIBRARIES = sdl.la gfx.la
 
 WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
-                  sdlenums.c misc.c convert.c
+                  sdlenums.c misc.c
 FLAGSTASH       = init.c kmod.c video.c palette.c overlay.c evmask.c
 headers         = guile-sdl.h modsup.h
 scheme          = misc-utils.scm simple.scm
@@ -39,7 +39,8 @@ noinst_DATA =
 
 EXTRA_DIST = $(FLAGSTASH:.c=.fs) $(scheme)
 
-sdl_la_SOURCES = $(WRAPPER_SOURCES) $(headers)
+sdlimpl = $(WRAPPER_SOURCES) convert.c
+sdl_la_SOURCES = $(sdlimpl) $(headers)
 sdl_la_LDFLAGS = $(modflags)
 
 gfx_la_SOURCES  = sdlgfx.c $(headers)
@@ -60,7 +61,7 @@ c_docscan = $(gx) c-tsar $(coding) -f $@ -m
 c_usual_args = update $^ -- $(snarfcppopts)
 
 noinst_DATA += sdl.tsar
-sdl.tsar: $(WRAPPER_SOURCES)
+sdl.tsar: $(sdlimpl)
 	$(c_docscan) '(sdl sdl)' $(c_usual_args)
 
 noinst_DATA += gfx.tsar
