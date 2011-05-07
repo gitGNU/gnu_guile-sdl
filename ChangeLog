@@ -1,3 +1,10 @@
+2011-05-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Use Guile-BAUX for init snarfing.
+
+	* autogen.sh: Import Guile-BAUX module ‘c2x’.
+	* configure.ac (GUILE_C2X_METHOD): Delete macro call.
+
 2011-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build] Mogrify "guile-tools fspec2c" to make internal "fs2c".

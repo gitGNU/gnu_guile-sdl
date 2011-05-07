@@ -23,6 +23,7 @@ test -f build-aux/sofix || echo WARNING: build-aux/sofix points nowhere
 # Guile-BAUX
 
 guile-baux-tool import \
+    c2x \
     forms-from \
     tsar \
     c-tsar \

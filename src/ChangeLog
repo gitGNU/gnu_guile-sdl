@@ -1,3 +1,10 @@
+2011-05-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Use Guile-BAUX for init snarfing.
+
+	* Makefile.am (SUFFIXES): Remove .x.
+	(.c.x): Use ‘$(gx) c2x’ instead of $(c2x).
+
 2011-05-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build int] Don't bother making convert.x.

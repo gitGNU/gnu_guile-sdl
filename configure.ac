@@ -53,8 +53,6 @@ GUILE_FLAGS
 
 CPPFLAGS="$GUILE_CFLAGS"
 
-GUILE_C2X_METHOD([c2x])
-
 AC_CHECK_HEADERS([guile/gh.h guile/modsup.h],,,[[
 #include <libguile.h>
 ]])

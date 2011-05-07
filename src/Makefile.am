@@ -47,13 +47,13 @@ gfx_la_SOURCES  = sdlgfx.c $(headers)
 gfx_la_LDFLAGS  = $(modflags)
 gfx_la_LIBADD   = SDL_gfx/libSDL_gfx.la
 
-SUFFIXES = .c .fs .x
+SUFFIXES = .c .fs
 
 gx		= $(top_srcdir)/build-aux/guile-baux/gbaux-do
 snarfcppopts	= $(DEFS) $(DEFAULT_INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS)
 
 .c.x:
-	$(c2x) -o $@ $< $(snarfcppopts)
+	$(gx) c2x -o $@ $< -- $(snarfcppopts)
 
 if MAINTAINER_MODE
 coding = -c utf-8
