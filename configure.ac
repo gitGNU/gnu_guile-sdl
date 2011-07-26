@@ -20,7 +20,7 @@ dnl Boston, MA  02110-1301  USA
 AC_INIT([guile-sdl],[0.3.10],[ttn@gnuvola.org])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([src/config.h])
-AM_INIT_AUTOMAKE([gnu 1.10.1])
+AM_INIT_AUTOMAKE([1.11.1 gnu])
 AM_MAINTAINER_MODE
 
 ##----------------------------------------------------------------------------
