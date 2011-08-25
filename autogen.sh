@@ -16,9 +16,6 @@
 
 set -e
 
-( cd build-aux ; ln -sf ../../.common/sofix )
-test -f build-aux/sofix || echo WARNING: build-aux/sofix points nowhere
-
 ######################################################################
 # Guile-BAUX
 

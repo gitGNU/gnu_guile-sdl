@@ -36,7 +36,6 @@ Makefile.in
 /build-aux/lt~obsolete.m4
 /build-aux/mdate-sh
 /build-aux/missing
-/build-aux/sofix
 /build-aux/texinfo.tex
 
 /build-aux/guile-baux
