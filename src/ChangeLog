@@ -1,3 +1,13 @@
+2011-08-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Incorporate selected modsup.h elements if needed.
+
+	Implicit: "[!HAVE_GUILE_MODSUP_H]".
+	* guile-sdl.h (GH_DEFPROC, GH_MODULE_LINK_FUNC)
+	(GH_STONED, GH_USE_MODULE): New macros.
+	[!SCM___GH__H] (gh_module_lookup, gh_call0)
+	(gh_call1, gh_call2, gh_call3): New func decls.
+
 2011-05-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build int] Use Guile-BAUX for init snarfing.

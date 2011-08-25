@@ -109,9 +109,78 @@
 
 #ifdef HAVE_GUILE_MODSUP_H
 #include <guile/modsup.h>
-#else
-#include "modsup.h"
-#endif
+#else  /* ! HAVE_GUILE_MODSUP_H */
+
+/*:Declare, define and document a C function callable from Scheme.
+
+   The C function is declared `static' and is "exported" later by the the
+   module initialization routine.  @var{fname} is the name of the C function
+   (must be a valid C identifier).  @var{primname}, a string, is the name
+   visible from Scheme code.  @var{req}, @var{opt} and @var{var} are each
+   integers quantifying the number of required, optional and rest args are in
+   the @var{arglist}.  Note that @var{var} can be only 0 or 1.  @var{arglist}
+   is the C-style argument list for the function.  The type for every element
+   must be @code{SCM}.  @code{docstring} is one or more strings that describe
+   the function.  Each string except the last must end in @code{\n}.
+*/
+#define GH_DEFPROC(fname, primname, req, opt, var, arglist, docstring) \
+  SCM_SNARF_HERE (static SCM fname arglist;)                           \
+  SCM_DEFINE (fname, primname, req, opt, var, arglist, docstring)
+
+/*:Define the C function to be called at link time for a non-needy module.
+
+   This function registers the @var{module_name} (a string) and arranges for
+   @var{module_init_func} to be called at the right time to actually do the
+   module-specific initializations.  @var{fname_frag} is the C translation of
+   @var{module_name} with unrepresentable characters replaced by underscore.
+   It should have the same length as @var{module_name}.
+
+   The macro also generates a forward declaration of the function,
+   immediately prior to the function definition, so that you don't have to.
+
+   Note that @var{module_name} must be a string literal.
+*/
+#define GH_MODULE_LINK_FUNC(module_name, fname_frag, module_init_func)  \
+void                                                                    \
+scm_init_ ## fname_frag ## _module (void);                              \
+void                                                                    \
+scm_init_ ## fname_frag ## _module (void)                               \
+{                                                                       \
+  /* Make sure strings(1) finds module name at bol.  */                 \
+  static const char modname[] = "\n" module_name;                       \
+  scm_register_module_xxx (1 + modname, module_init_func);              \
+}
+
+/*:Return the @var{obj} given, but marked as "permanent".
+   This means that it can never be garbage collected.
+*/
+#define GH_STONED(obj) \
+  scm_permanent_object (obj)
+
+/*:Declare and later arrange for @var{cvar} (type SCM) to hold a resolved
+   module object for @var{fullname}, a C string such as "(ice-9 q)".  The
+   string is saved in a C variable named by prefixing "s_" to @var{cvar}.
+   You must use @var{cvar} as the second arg to @code{GH_SELECT_MODULE_VAR}.
+*/
+#define GH_USE_MODULE(cvar,fullname)                    \
+SCM_SNARF_HERE (static const char s_ ## cvar[] =        \
+                fullname "#_#_"; static SCM cvar)       \
+SCM_SNARF_INIT (cvar = GH_STONED                        \
+                (scm_resolve_module                     \
+                 (scm_read_0str (s_ ## cvar)));)
+
+#ifndef SCM___GH__H
+extern SCM gh_module_lookup (SCM vector, const char *sname);
+#endif /* !SCM___GH__H */
+
+#ifndef SCM___GH__H
+extern SCM gh_call0 (SCM proc);
+extern SCM gh_call1 (SCM proc, SCM arg);
+extern SCM gh_call2 (SCM proc, SCM arg1, SCM arg2);
+extern SCM gh_call3 (SCM proc, SCM arg1, SCM arg2, SCM arg3);
+#endif /* !SCM__GH__H */
+
+#endif  /* ! HAVE_GUILE_MODSUP_H */
 
 #if      defined GH_DEFPROC
 #define PRIMPROC GH_DEFPROC

@@ -45,12 +45,6 @@ autoconf
 automake --add-missing
 
 ######################################################################
-# modsup.h
-
-cd src
-ln -sf `guile-config info includedir`/guile/modsup.h
-
-######################################################################
 # Done.
 
 : Now run configure and make.

@@ -1,5 +1,11 @@
 2011-08-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Incorporate selected modsup.h elements if needed.
+
+	* autogen.sh: Don't symlink src/modsup.h.
+
+2011-08-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Add sofix to the repo.
 
 	* build-aux/sofix: New file.
