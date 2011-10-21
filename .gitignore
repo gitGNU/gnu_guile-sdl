@@ -40,6 +40,7 @@ Makefile.in
 
 /build-aux/guile-baux
 
+/src/*.tsar
 /src/config.h
 /src/config.h.in
 /src/evmask.c
@@ -51,6 +52,11 @@ Makefile.in
 /src/stamp-h1
 /src/video.c
 
+/doc/TODO-excerpt
+/doc/ef-ref.texi
+/doc/excuse.texi
 /doc/guile-sdl.info
+/doc/ref.texi
+/doc/snippets
 /doc/stamp-vti
 /doc/version.texi
