@@ -1,3 +1,14 @@
+2011-10-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Require gperf(1) for maintenance; support env var override.
+
+	* build-aux/guile-baux/fs2c (feed-gperf): Take ‘gperf’;
+	if not ‘#f’, use it; otherwise default to "gperf".
+	(fs2c/qop): Update call to ‘feed-gperf’.
+	(main): Add option ‘gperf’.
+	* configure.ac (GPERF): New AC_ARG_VAR, AC_PATH_PROG; if value is
+	"no" when configuring with ‘--enable-maintainer-mode’, error out.
+
 2011-08-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build int] Incorporate selected modsup.h elements if needed.

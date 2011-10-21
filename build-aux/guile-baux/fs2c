@@ -205,9 +205,9 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
     (close-port p)
     (reverse! rv)))
 
-(define (feed-gperf who qspec linear)
+(define (feed-gperf gperf who qspec linear)
   (let ((op (open-output-pipe
-             (string-join (cons* "gperf" "-t" "--output-file=-"
+             (string-join (cons* (or gperf "gperf") "-t" "--output-file=-"
                                  (or (qspec #:gperf-opt-list)
                                      '()))
                           " "))))
@@ -290,7 +290,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                                ",\n  ")))
         (spew before)
         (set-current-output-port op)
-        (feed-gperf specfile qspec linear)
+        (feed-gperf (qop 'gperf)  specfile qspec linear)
         (force-output op)
         (set-current-output-port saved-op)
         (spew after)))
@@ -305,6 +305,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                    (help . commentary)))
   (fs2c/qop
    (qop<-args args '((output  (single-char #\o) (value #t))
-                     (include (single-char #\I) (value #t))))))
+                     (include (single-char #\I) (value #t))
+                     (gperf   (single-char #\g) (value #t))))))
 
 ;;; fs2c ends here

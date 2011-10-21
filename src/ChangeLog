@@ -1,3 +1,9 @@
+2011-10-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Require gperf(1) for maintenance; support env var override.
+
+	* Makefile.am [MAINTAINER_MODE] (.fs.c): Specify ‘-g $(GPERF)’.
+
 2011-08-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build int] Incorporate selected modsup.h elements if needed.

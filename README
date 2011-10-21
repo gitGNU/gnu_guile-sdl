@@ -17,6 +17,7 @@ Also included is SDL_gfx 2.0.18 (by Andreas Schiffler) and bindings for it.
 Requirements
 ------------
 
+* GNU gperf, if configuring w/ ‘--enable-maintainer-mode’
 * Guile that
   can load binary module (a b c)
         from library file a/b/c.so on %load-path

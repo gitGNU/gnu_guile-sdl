@@ -24,6 +24,15 @@ AM_INIT_AUTOMAKE([1.11.1 gnu])
 AM_MAINTAINER_MODE
 
 ##----------------------------------------------------------------------------
+##: external programs
+
+AC_ARG_VAR([GPERF],[GNU gperf(1) or workalike command;
+this is only required when configuring with ‘--enable-maintainer-mode’])
+AC_PATH_PROG([GPERF],[gperf],[no])
+AS_IF([test no = $GPERF && test xyes = x"$enable_maintainer_mode"],
+[AC_MSG_ERROR([*** gperf(1) not found; required if --enable-maintainer-mode])])
+
+##----------------------------------------------------------------------------
 ##: compiler
 
 AC_PROG_CC
