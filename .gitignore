@@ -50,6 +50,7 @@ Makefile.in
 /src/overlay.c
 /src/palette.c
 /src/stamp-h1
+/src/ttf.c
 /src/video.c
 
 /doc/TODO-excerpt
