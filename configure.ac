@@ -48,17 +48,11 @@ AC_SUBST([keepinside])
 ##----------------------------------------------------------------------------
 ##: GUILE
 
-GUILE_PROGS
+SNUGGLE_PROGS
+SNUGGLE_FLAGS
 
-AC_CACHE_CHECK([if you have "guile-tools mkpimmc"],[gsdl_cv_mkpimmc],
-[if $GUILE_TOOLS | grep mkpimmc >/dev/null 2>&1
-then gsdl_cv_mkpimmc=yes
-else gsdl_cv_mkpimmc=no
-fi])
-
+SNUGGLE_GUILE_TOOLS_EXISTSP([gsdl_cv_mkpimmc],[mkpimmc])
 AM_CONDITIONAL([HAVE_MKPIMMC],[test yes = $gsdl_cv_mkpimmc])
-
-GUILE_FLAGS
 
 CPPFLAGS="$GUILE_CFLAGS"
 
@@ -66,7 +60,7 @@ AC_CHECK_HEADERS([guile/gh.h guile/modsup.h],,,[[
 #include <libguile.h>
 ]])
 
-GUILE_LIBSITE_DIR
+SNUGGLE_GUILE_LIBSITE_DIR([gsdl])
 
 ##----------------------------------------------------------------------------
 ##: SDL

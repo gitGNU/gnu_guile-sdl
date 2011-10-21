@@ -1,5 +1,16 @@
 2011-10-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Use snuggle.m4.
+
+	* autogen.sh: Import Guile-BAUX module ‘re-prefixed-site-dirs’.
+	* build-aux/snuggle.m4: New file.
+	* configure.ac (GUILE_PROGS, GUILE_FLAGS)
+	(GUILE_LIBSITE_DIR): Delete macro calls.
+	(SNUGGLE_PROGS, SNUGGLE_FLAGS, SNUGGLE_GUILE_TOOLS_EXISTSP)
+	(SNUGGLE_GUILE_LIBSITE_DIR): New macro calls.
+
+2011-10-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build] Require gperf(1) for maintenance; support env var override.
 
 	* build-aux/guile-baux/fs2c (feed-gperf): Take ‘gperf’;
