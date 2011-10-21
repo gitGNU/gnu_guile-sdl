@@ -82,6 +82,11 @@ GUILE_SDL_OPTLIB([mixer],[Mix_OpenAudio])
 GUILE_SDL_OPTLIB([ttf],[TTF_Init])
 
 dnl Arch-specific checks.
+
+AC_CHECK_SIZEOF([long])
+
+AC_DEFUN([CHECK_MMX_USABILITY],[
+
 AX_GCC_X86_CPUID([0x00000001])
 edx=`echo $ax_cv_gcc_x86_cpuid_0x00000001 | sed 's/^unknown$//;s/.*://'`
 
@@ -96,6 +101,12 @@ AC_CACHE_CHECK([whether mmx is supported],[ax_cv_have_mmx_ext],[
 if test $ax_cv_have_mmx_ext = yes ; then
   AC_DEFINE([USE_MMX],1,[Define if the arch supports MMX instructions.])
 fi
+
+])dnl CHECK_MMX_USABILITY
+
+dnl The asm in src/SDL_gfx/*.c uses ‘pusha’, which is not supported in
+dnl "64-bit mode".  We assume ‘4 == sizeof (long)’ means "32-bit mode".
+AS_IF([test 4 = $ac_cv_sizeof_long],[CHECK_MMX_USABILITY])
 
 ##----------------------------------------------------------------------------
 ##: misc

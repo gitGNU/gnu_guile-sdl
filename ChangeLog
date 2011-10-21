@@ -1,5 +1,15 @@
 2011-10-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build] Don't bother checking MMX support if not in "32-bit mode".
+
+	* configure.ac (ac_cv_sizeof_long): New AC_CHECK_SIZEOF.
+	(AX_GCC_X86_CPUID, edx, ax_cv_have_mmx_ext, USE_MMX):
+	Move these macro calls and variable assignments into...
+	(CHECK_MMX_USABILITY): ... this new AC_DEFUN;
+	only call it when sizeof (long) is 4.
+
+2011-10-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Use snuggle.m4.
 
 	* autogen.sh: Import Guile-BAUX module ‘re-prefixed-site-dirs’.
