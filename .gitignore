@@ -42,7 +42,14 @@ Makefile.in
 
 /src/config.h
 /src/config.h.in
+/src/evmask.c
+/src/init.c
+/src/kmod.c
 /src/modsup.h
+/src/overlay.c
+/src/palette.c
+/src/stamp-h1
+/src/video.c
 
 /doc/guile-sdl.info
 /doc/stamp-vti
