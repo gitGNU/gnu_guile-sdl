@@ -1,5 +1,12 @@
 2011-10-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Use ‘%zu’ for ‘size_t’ arg to ‘snprintf’.
+
+	* sdlenums.c (print_flagstash):
+	Use ‘%zu’ for ‘size_t’ arg to ‘snprintf’.
+
+2011-10-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build] Require gperf(1) for maintenance; support env var override.
 
 	* Makefile.am [MAINTAINER_MODE] (.fs.c): Specify ‘-g $(GPERF)’.
