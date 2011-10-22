@@ -1,3 +1,12 @@
+2011-10-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Don't distribute src/modsup.h.
+
+	Omission from 2011-08-25, "Incorporate
+	selected modsup.h elements if needed".
+
+	* Makefile.am (headers): Remove modsup.h.
+
 2011-10-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Use ‘%zu’ for ‘size_t’ arg to ‘snprintf’.
