@@ -1,5 +1,11 @@
 2011-10-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstractions: GC_PROTECT, GC_UNPROTECT
+
+	* guile-sdl.h (GC_PROTECT, GC_UNPROTECT): New #define:s.
+
+2011-10-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Incorporate ‘GSDL_FLAG2ULONG’ into unique caller.
 
 	* sdlvideo.c (GSDL_FLAG2ULONG): Delete macro.

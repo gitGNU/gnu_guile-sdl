@@ -69,6 +69,8 @@
 #define UVECLENGTH         gh_uniform_vector_length
 #define CALL1              gh_call1
 #define CALL3              gh_call3
+#define GC_PROTECT         scm_protect_object
+#define GC_UNPROTECT       scm_unprotect_object
 #define LOOKUP             gh_lookup
 #define DEFINE_PUBLIC      gh_define
 #else
@@ -98,6 +100,8 @@
 #define UVECLENGTH         scm_c_uniform_vector_length
 #define CALL1              scm_call_1
 #define CALL3              scm_call_3
+#define GC_PROTECT         scm_gc_protect_object
+#define GC_UNPROTECT       scm_gc_unprotect_object
 #define LOOKUP(name)      (scm_variable_ref (scm_c_lookup (name)))
 #define DEFINE_PUBLIC(name,value)  do           \
     {                                           \
