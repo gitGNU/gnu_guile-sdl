@@ -1,5 +1,12 @@
 2011-10-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Incorporate ‘GSDL_FLAG2ULONG’ into unique caller.
+
+	* sdlvideo.c (GSDL_FLAG2ULONG): Delete macro.
+	(create_yuv_overlay): Use ‘gsdl_flags2ulong’ directly.
+
+2011-10-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Don't #include "config.h" twice.
 
 	It's enough to #include "guile-sdl.h".

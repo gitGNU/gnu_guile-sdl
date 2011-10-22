@@ -210,9 +210,6 @@ and with hot pixel located at @var{x},@var{y}.  */)
 }
 
 
-#define GSDL_FLAG2ULONG(flag,table) \
-  gsdl_flags2ulong ((flag), (table), 0, NULL) /* DWR! */
-
 PRIMPROC
 (create_yuv_overlay, "create-yuv-overlay", 3, 1, 0,
  (SCM width, SCM height, SCM format, SCM display),
@@ -230,7 +227,7 @@ instead of creating a new one.  */)
   ASSERT_EXACT (height, 2);
 
   if (SYMBOLP (format))
-    cformat = GSDL_FLAG2ULONG (format, gsdl_overlay_formats);
+    cformat = gsdl_flags2ulong (format, gsdl_overlay_formats, 3, FUNC_NAME);
   else
     {
       ASSERT_EXACT (format, 3);
