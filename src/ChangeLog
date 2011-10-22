@@ -1,5 +1,25 @@
 2011-10-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Don't #include "config.h" twice.
+
+	It's enough to #include "guile-sdl.h".
+
+	* misc.c: Don't #include "config.h".
+	* sdl.c: Likewise.
+	* sdlcdrom.c: Likewise.
+	* sdlcolor.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2011-10-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Don't distribute src/modsup.h.
 
 	Omission from 2011-08-25, "Incorporate

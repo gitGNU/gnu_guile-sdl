@@ -18,7 +18,6 @@
  * Boston, MA  02110-1301  USA
  */
 
-#include "config.h"
 #include "guile-sdl.h"
 #include <SDL/SDL_mixer.h>
 
