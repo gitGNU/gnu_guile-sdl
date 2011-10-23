@@ -24,9 +24,8 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 
 ;; Usage: fs2c [OPTIONS] FS-SPEC
 ;;
-;; Write C fragment to stdout derived from running gperf (GNU perfect
-;; hash function generator) on the flags scanned from the header as
-;; specified in file FS-SPEC.  OPTIONS are zero or more of:
+;; Write C fragment to stdout derived from the flags scanned from the
+;; header as specified in file FS-SPEC.  OPTIONS are zero or more of:
 ;;
 ;;  -o, --output FILE    -- write to FILE instead of stdout
 ;;  -I, --include DIR    -- look in DIR instead of /usr/include
@@ -35,11 +34,9 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 ;; First is the symbol NICK, used to form C identifiers.  Next is the
 ;; string PRETTY, used in the external representation of the flagstash
 ;; object like so: "sdl-PRETTY-flags".  The rest of the forms are
-;; alternating keywords and values.  These configure the first phase
-;; of fs2c operation: scanning for entries.  Entries are extracted by
-;; regular expression matching of lines (or a region) in a file.
-;; (The second phase of fs2c operation, feeding properly formatted
-;; entries to gperf, is not customizable.)
+;; alternating keywords and values.  These configure how fs2c scans
+;; for entries.  Entries are extracted by regular expression matching
+;; of lines (or a region) in a file.
 ;;
 ;; Currently, these keywords are recognized:
 ;;
@@ -75,7 +72,6 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
   #:use-module ((guile-baux forms-from) #:select (forms<-file
                                                   forms<-port))
   #:use-module ((guile-baux temporary-file) #:select (unique-i/o-file-port))
-  #:use-module ((srfi srfi-11) #:select (let-values))
   #:use-module ((srfi srfi-13) #:select (string-join
                                          string-concatenate))
   #:use-module ((ice-9 rdelim) #:select (read-line))
@@ -83,80 +79,6 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
   #:use-module ((ice-9 popen) #:select (open-output-pipe
                                         open-input-pipe
                                         close-pipe)))
-
-(define (fullspec nick pretty . spec)
-
-  (define (table c)
-    (fs "~A_f_~A" nick c))
-
-  (define (before)
-    (fs "static lookup_t ~A;~%" (table 'N)))
-
-  (define (after)
-
-    (define (join how . ls)
-      (let ((sep (if (pair? how) (car how) how))
-            (grammar (if (pair? how) (cdr how) 'infix)))
-        (string-join ls sep grammar)))
-
-    (apply join '("\n" . suffix)
-           (fs "static flagstash_t ~A_flagstash = {" nick)
-           (join ",\n  "
-                 (fs "\"sdl-~A-flags\"" pretty)
-                 "TOTAL_KEYWORDS"
-                 (table 'N)
-                 (fs "~A_values" nick)
-                 (fs "~A_names" nick))
-           "};"
-           (map (lambda (sym)
-                  (fs "#undef ~A" sym))
-                '(TOTAL_KEYWORDS
-                  MIN_WORD_LENGTH
-                  MAX_WORD_LENGTH
-                  MIN_HASH_VALUE
-                  MAX_HASH_VALUE))))
-
-  (define (alist<-plist ls)
-    (let loop ((acc '()) (ls ls))
-      (if (null? ls)
-          acc
-          (loop (acons (car ls) (cadr ls) acc)
-                (cddr ls)))))
-
-  (define (make-boilerplate)
-    (alist<-plist
-     `(#:struct-name
-       "recognition"
-
-       #:gperf-opt-list
-       ,(cons*
-         ;; These are relatively uncontroversial.
-         "--language ANSI-C"
-         "--global-table"
-         "--omit-struct-type"
-         "--readonly-tables"
-
-         ;; Experimental.
-
-         "--switch 1"
-         ;; ??? Perhaps ‘--switch’ should be determined
-         ;;     (or even omitted) based on the keyword set.
-
-         "--null-strings"
-         ;; ??? Doesn't have much effect with ‘--switch’.
-
-         ;; Complicated; needs some thought.
-         ;;   "--pic"
-
-         (map (lambda (c)
-                (fs "-~A ~A" c (table c)))
-              '(H N Q W))))))
-
-  (let ((alist (append! (make-boilerplate) (alist<-plist spec))))
-    (define (qspec kw)
-      (assq-ref alist kw))
-    ;; rv
-    (values (before) (after) qspec)))
 
 (define (rx<-symbolic symbolic-regexp)
 
@@ -205,25 +127,6 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
     (close-port p)
     (reverse! rv)))
 
-(define (feed-gperf gperf who qspec linear)
-  (let ((op (open-output-pipe
-             (string-join (cons* (or gperf "gperf") "-t" "--output-file=-"
-                                 (or (qspec #:gperf-opt-list)
-                                     '()))
-                          " "))))
-
-    (define (feed s . args)
-      (apply simple-format op s args)
-      (newline op))
-
-    (feed "struct ~A;" (qspec #:struct-name))
-    (feed "%%")
-    (for-each (lambda (name idx)
-                (feed "~A, ~A" name idx))
-              (map cdr linear)
-              (iota (length linear)))
-    (close-pipe op)))
-
 (define (C-program header found)
 
   (define (line s)
@@ -261,39 +164,54 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                        (car (qop '()))))
          (partial (forms<-file specfile))
          (nick (car partial))
+         (pretty (cadr partial))
          (saved-op (current-output-port))
          (op (or (qop 'output open-output-file)
                  saved-op)))
+
+    (define qspec
+      (let ((plist (cddr partial)))
+        ;; qspec
+        (lambda (kw)
+          (and=> (memq kw plist) cadr))))
+
+    (define (join how . ls)
+      (let ((sep (if (pair? how) (car how) how))
+            (grammar (if (pair? how) (cdr how) 'infix)))
+        (string-join ls sep grammar)))
+
     (define (spew s)
       (display s op)
       (force-output op))
-    (let-values (((before after qspec) (apply fullspec partial)))
-      (let* ((header (in-vicinity (or (qop 'include) "/usr/include")
-                                  (qspec #:infile)))
-             (found (scan-file header
-                               (qspec #:symrgx)
-                               (qspec #:region)))
-             (linear (sorted specfile header found))
-             (len (length linear)))
-        (spew (fs "static unsigned long ~A_values[~A] = {~%  ~A~%};~%~%"
-                  nick len
-                  (string-join (map (lambda (n)
-                                      (fs "0x~A" (number->string n 16)))
-                                    (map car linear))
-                               ",\n  ")))
-        (spew (fs "static aka_t ~A_names[~A] = {~%  ~A~%};~%~%"
-                  nick len
-                  (string-join (map (lambda (sym)
-                                      (fs "{ ~S }"
-                                          (symbol->string sym)))
-                                    (map cdr linear))
-                               ",\n  ")))
-        (spew before)
-        (set-current-output-port op)
-        (feed-gperf (qop 'gperf)  specfile qspec linear)
-        (force-output op)
-        (set-current-output-port saved-op)
-        (spew after)))
+
+    (let* ((header (in-vicinity (or (qop 'include) "/usr/include")
+                                (qspec #:infile)))
+           (found (scan-file header
+                             (qspec #:symrgx)
+                             (qspec #:region)))
+           (linear (sorted specfile header found))
+           (len (length linear)))
+      (spew (fs "static unsigned long ~A_values[~A] = {~%  ~A~%};~%~%"
+                nick len
+                (string-join (map (lambda (n)
+                                    (fs "0x~A" (number->string n 16)))
+                                  (map car linear))
+                             ",\n  ")))
+      (spew (fs "static aka_t ~A_names[~A] = {~%  ~A~%};~%~%"
+                nick len
+                (string-join (map (lambda (sym)
+                                    (fs "{ ~S }"
+                                        (symbol->string sym)))
+                                  (map cdr linear))
+                             ",\n  ")))
+      (spew (join '("\n" . suffix)
+                  (fs "static flagstash_t ~A_flagstash = {" nick)
+                  (join ",\n  "
+                        (fs "\"sdl-~A-flags\"" pretty)
+                        (fs "~A" len)
+                        (fs "~A_values" nick)
+                        (fs "~A_names" nick))
+                  "};")))
     (close-port op)))
 
 (define (main args)
@@ -305,7 +223,6 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                    (help . commentary)))
   (fs2c/qop
    (qop<-args args '((output  (single-char #\o) (value #t))
-                     (include (single-char #\I) (value #t))
-                     (gperf   (single-char #\g) (value #t))))))
+                     (include (single-char #\I) (value #t))))))
 
 ;;; fs2c ends here

@@ -77,7 +77,7 @@ DISTCLEANFILES = *.x
 if MAINTAINER_MODE
 
 .fs.c:
-	$(gx) fs2c -o $@ $< -g $(GPERF)
+	$(gx) fs2c -o $@ $<
 
 endif ## MAINTAINER_MODE
 

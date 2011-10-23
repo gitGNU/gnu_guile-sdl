@@ -211,6 +211,15 @@ static unsigned long int flagstash_tag;
   (SMOBGET (smob, flagstash_t *))
 
 static
+SCM
+mark_flagstash (SCM smob)
+{
+  flagstash_t *fs = UNPACK_FLAGSTASH (smob);
+
+  return fs->ht;
+}
+
+static
 int
 print_flagstash (SCM smob, SCM port, scm_print_state *ps)
 {
@@ -225,23 +234,22 @@ print_flagstash (SCM smob, SCM port, scm_print_state *ps)
 SCM
 gsdl_make_flagstash (flagstash_t *stash)
 {
-  SCM smob;
+  size_t i;
+  SCM ht, smob;
 
+  ht = GC_PROTECT (MAKE_HASH_TABLE (stash->total));
+  for (i = 0; i < stash->total; i++)
+    {
+      aka_t *aka = stash->aka + i;
+
+      aka->symbol = GH_STONED (SYMBOL (aka->rozt));
+      scm_hashq_set_x (ht, aka->symbol, NUM_INT (i));
+    }
+  stash->ht = ht;
   SCM_NEWSMOB (smob, flagstash_tag, stash);
-  smob = scm_permanent_object (smob);
-  {
-    int count = stash->total;
-    int i;
+  GC_UNPROTECT (ht);
 
-    for (i = 0; i < count; i++)
-      {
-        aka_t *aka = stash->aka + i;
-
-        aka->symbol = scm_permanent_object (SYMBOL (aka->rozt));
-      }
-  }
-
-  return smob;
+  return GH_STONED (smob);
 }
 
 
@@ -251,33 +259,35 @@ unsigned long
 gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
 {
   flagstash_t *s = UNPACK_FLAGSTASH (stash);
-  const recognition_t *hit;
   unsigned long result = 0;
 
   if (EXACTLY_FALSEP (flags) || NULLP (flags))
     return 0;
 
+#define LOOKUP_IOR(x)  do                               \
+    {                                                   \
+      SCM sidx;                                         \
+                                                        \
+      ASSERT_SYMBOL (x, pos);                           \
+      sidx = scm_hashq_ref (s->ht, x, BOOL_FALSE);      \
+      if (NOT_FALSEP (sidx))                            \
+        result |= s->val[C_INT (sidx)];                 \
+    }                                                   \
+  while (0)
+
   if (PAIRP (flags))
     {
-      SCM head;
       /* A list of symbols representing flags.  */
       while (! NULLP (flags))
         {
-          ASSERT_SYMBOL (CAR (flags), pos);
-          head = CAR (flags);
-          hit = s->lookup (SCM_CHARS (head), SCM_LENGTH (head));
-          if (hit)
-            result |= s->val[hit->idx];
+          LOOKUP_IOR (CAR (flags));
           flags = CDR (flags);
         }
     }
   else
-    {
-      ASSERT_SYMBOL (flags, pos);
-      hit = s->lookup (SCM_CHARS (flags), SCM_LENGTH (flags));
-      if (hit)
-        result = s->val[hit->idx];
-    }
+    LOOKUP_IOR (flags);
+
+#undef LOOKUP_IOR
 
   return result;
 }
@@ -373,6 +383,7 @@ gsdl_init_enums (void)
   scm_set_smob_mark (enum_tag, mark_enum);
 
   flagstash_tag = scm_make_smob_type ("flagstash", sizeof (flagstash_t *));
+  scm_set_smob_mark (flagstash_tag, mark_flagstash);
   scm_set_smob_print (flagstash_tag, print_flagstash);
 
   acons = LOOKUP ("acons");

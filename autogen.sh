@@ -6,7 +6,6 @@
 #  GNU Autoconf 2.61
 #  GNU Automake 1.10.1
 #  Guile 1.4.1.114
-#  GNU gperf 3.0.2
 #  GNU texinfo 4.11.94
 
 [ -f src/misc-utils.scm ] || {
