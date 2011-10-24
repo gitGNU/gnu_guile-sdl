@@ -1,3 +1,10 @@
+2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[slog] Use libguile version (ugh) for abstraction bifurcation.
+
+	* guile-sdl.h (GI_LEVEL_NOT_YET_1_8): New #define,
+	based on ‘SCM_MAJOR_VERSION’, ‘SCM_MINOR_VERSION’ values.
+
 2011-10-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build] Don't use gperf(1); use hash table for flagstash lookup.

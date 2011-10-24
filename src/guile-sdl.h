@@ -41,7 +41,16 @@
 
 #include <libguile.h>
 
-#ifdef HAVE_GUILE_GH_H
+#if  defined (SCM_MAJOR_VERSION)                                \
+  && defined (SCM_MINOR_VERSION)                                \
+  && (2 == SCM_MAJOR_VERSION                                    \
+      || (1 == SCM_MAJOR_VERSION && 8 <= SCM_MINOR_VERSION))
+#define GI_LEVEL_NOT_YET_1_8  0
+#else
+#define GI_LEVEL_NOT_YET_1_8  1
+#endif
+
+#ifdef GI_LEVEL_NOT_YET_1_8
 #include <guile/gh.h>
 #define NULLP(obj)        (gh_null_p (obj))
 #define PAIRP(obj)        (gh_pair_p (obj))
