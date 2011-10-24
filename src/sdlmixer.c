@@ -772,7 +772,7 @@ PRIMPROC
 Return #t if the default channel is paused.
 Optional arg @var{channel} selects a which channel to check.  */)
 {
-#define FUNC_NAME s_mix_resume
+#define FUNC_NAME s_mix_paused
   int cchannel = -1;
 
   if (BOUNDP (channel))

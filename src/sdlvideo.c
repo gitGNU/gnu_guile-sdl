@@ -662,7 +662,7 @@ used by the display, for @var{redtable}, @var{greentable}
 and @var{bluetable}.  Each table is an vector of 256
 integer values.  Return #t if successful.  */)
 {
-#define FUNC_NAME s_get_gamma_ramp
+#define FUNC_NAME s_set_gamma_ramp
   Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
 
   ASSERT_VSZFIT (redtable,   1);

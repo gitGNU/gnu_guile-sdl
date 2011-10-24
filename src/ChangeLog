@@ -1,5 +1,13 @@
 2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Fix bug: Use correct s_FOO for ‘#define FUNC_NAME’.
+
+	* sdlmixer.c (mix_paused): Use ‘s_mix_paused’.
+	* sdlsurface.c (load_image): Use ‘s_load_image’.
+	* sdlvideo.c (set_gamma_ramp): Use ‘s_set_gamma_ramp’.
+
+2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[slog] Bifurcate C-byte-range finangling.
 
 	U ≡ "Use ‘FINANGLE’, ‘UNFINANGLE’".

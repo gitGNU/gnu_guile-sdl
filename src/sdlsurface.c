@@ -237,7 +237,7 @@ PRIMPROC
 Return a surface made by loading the image @var{file}.
 If there are problems, return #f.  */)
 {
-#define FUNC_NAME s_load_bmp
+#define FUNC_NAME s_load_image
   range_t cfile;
   SDL_Surface *rv;
 
