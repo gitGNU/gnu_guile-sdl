@@ -51,7 +51,7 @@ mark_enum (SCM enumstash)
 
 
 #define REASONABLE_BUCKET_COUNT(count) \
-  (SCM_MAKINUM                         \
+  (NUM_INT                             \
    (((count) <= 11) ? 11               \
     : (((count) <= 23) ? 23            \
        : (((count) <= 57) ? 57         \

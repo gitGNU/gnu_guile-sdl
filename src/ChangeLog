@@ -1,5 +1,11 @@
 2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[slog] Avoid ‘SCM_MAKINUM’.
+
+	* sdlenums.c (REASONABLE_BUCKET_COUNT): Use ‘NUM_INT’.
+
+2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Fix bug: Use correct s_FOO for ‘#define FUNC_NAME’.
 
 	* sdlmixer.c (mix_paused): Use ‘s_mix_paused’.
