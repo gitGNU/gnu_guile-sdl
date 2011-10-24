@@ -78,11 +78,16 @@ Load a font from @var{file} with point size @var{ptsize}.
 Return a handle.  */)
 {
 #define FUNC_NAME s_ttf_load_font
+  range_t cfile;
+  TTF_Font *rv;
+
   ASSERT_STRING (file, 1);
   ASSERT_EXACT (ptsize, 2);
 
-  RETURN_NEW_TTFONT
-    (TTF_OpenFont (SCM_CHARS (file), C_LONG (ptsize)));
+  FINANGLE (file);
+  rv = TTF_OpenFont (RS (file), C_LONG (ptsize));
+  UNFINANGLE (file);
+  RETURN_NEW_TTFONT (rv);
 #undef FUNC_NAME
 }
 
@@ -231,12 +236,15 @@ and height of the @var{font}-specific rendering of
 the string @var{text}.  */)
 {
 #define FUNC_NAME s_ttf_size_text
+  range_t ctext;
   int w, h;
 
   ASSERT_TTFONT (font, 1);
   ASSERT_STRING (text, 2);
 
-  TTF_SizeText (UNPACK_TTFONT (font), SCM_CHARS (text), &w, &h);
+  FINANGLE (text);
+  TTF_SizeText (UNPACK_TTFONT (font), RS (text), &w, &h);
+  UNFINANGLE (text);
   RETURN_LIST2 (CONS (SYM (w), NUM_LONG (w)),
                 CONS (SYM (h), NUM_LONG (h)));
 #undef FUNC_NAME
@@ -253,12 +261,15 @@ and height of the @var{font}-specific rendering of
 the utf8 string @var{text}.  */)
 {
 #define FUNC_NAME s_ttf_size_utf8
+  range_t ctext;
   int w, h;
 
   ASSERT_TTFONT (font, 1);
   ASSERT_STRING (text, 2);
 
-  TTF_SizeUTF8 (UNPACK_TTFONT (font), SCM_CHARS (text), &w, &h);
+  FINANGLE (text);
+  TTF_SizeUTF8 (UNPACK_TTFONT (font), RS (text), &w, &h);
+  UNFINANGLE (text);
   RETURN_LIST2 (CONS (gsdl_sym_w, NUM_LONG (w)),
                 CONS (gsdl_sym_h, NUM_LONG (h)));
 #undef FUNC_NAME
@@ -276,30 +287,32 @@ optional fourth argument is the background color,
 or #t if the text is to be blended.  */)
 {
 #define FUNC_NAME s_ttf_render_text
+  range_t ctext;
   TTF_Font *cfont;
   SDL_Color *cfg;
   SDL_Surface *surface;
-  char *ctext;
 
   ASSERT_TTFONT (font, 1);
   ASSERT_STRING (text, 2);
   ASSERT_COLOR (fg, 3);
 
   cfont = UNPACK_TTFONT (font);
-  ctext = SCM_CHARS (text);
   cfg = UNPACK_COLOR (fg);
 
   UNBOUND_MEANS_FALSE (bg);
 
+  FINANGLE (text);
   if (EXACTLY_FALSEP (bg))
-    surface = TTF_RenderText_Solid (cfont, ctext, *cfg);
+    surface = TTF_RenderText_Solid (cfont, RS (text), *cfg);
   else if (EXACTLY_TRUEP (bg))
-    surface = TTF_RenderText_Blended (cfont, ctext, *cfg);
+    surface = TTF_RenderText_Blended (cfont, RS (text), *cfg);
   else
     {
       ASSERT_COLOR (bg, 4);
-      surface = TTF_RenderText_Shaded (cfont, ctext, *cfg, *(UNPACK_COLOR (bg)));
+      surface = TTF_RenderText_Shaded (cfont, RS (text), *cfg,
+                                       *(UNPACK_COLOR (bg)));
     }
+  UNFINANGLE (text);
 
   RETURN_NEW_SURFACE (surface);
 #undef FUNC_NAME
@@ -317,30 +330,32 @@ optional fourth argument is the background color,
 or #t if the text is to be blended.  */)
 {
 #define FUNC_NAME s_ttf_render_utf8
+  range_t ctext;
   TTF_Font *cfont;
   SDL_Color *cfg;
   SDL_Surface *surface;
-  char *ctext;
 
   ASSERT_TTFONT (font, 1);
   ASSERT_STRING (text, 2);
   ASSERT_COLOR (fg, 3);
 
   cfont = UNPACK_TTFONT (font);
-  ctext = SCM_CHARS (text);
   cfg = UNPACK_COLOR (fg);
 
   UNBOUND_MEANS_FALSE (bg);
 
+  FINANGLE (text);
   if (EXACTLY_FALSEP (bg))
-    surface = TTF_RenderUTF8_Solid (cfont, ctext, *cfg);
+    surface = TTF_RenderUTF8_Solid (cfont, RS (text), *cfg);
   else if (EXACTLY_TRUEP (bg))
-    surface = TTF_RenderUTF8_Blended (cfont, ctext, *cfg);
+    surface = TTF_RenderUTF8_Blended (cfont, RS (text), *cfg);
   else
     {
       ASSERT_COLOR (bg, 4);
-      surface = TTF_RenderUTF8_Shaded (cfont, ctext, *cfg, *(UNPACK_COLOR (bg)));
+      surface = TTF_RenderUTF8_Shaded (cfont, RS (text), *cfg,
+                                       *(UNPACK_COLOR (bg)));
     }
+  UNFINANGLE (text);
 
   RETURN_NEW_SURFACE (surface);
 #undef FUNC_NAME

@@ -1,5 +1,26 @@
 2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[slog] Bifurcate C-byte-range finangling.
+
+	U ≡ "Use ‘FINANGLE’, ‘UNFINANGLE’".
+	* guile-sdl.h (BSTRING): New #define.
+	(range_t): New typedef.
+	(RS, RLEN, FINANGLABLE_SCHEME_STRING_FROM_SYMBOL)
+	(_FINANGLE, UNFINANGLE): New macros.
+	[GI_LEVEL_NOT_YET_1_8] (ROZT_X, ROZT): New macros.
+	[!GI_LEVEL_NOT_YET_1_8] (REND, NUL_AT_END_X): New macros.
+	(FINANGLE_RAW, FINANGLE): New macros.
+	* sdlgfx.c (draw_string): U.
+	* sdlmixer.c (mix_load_music)
+	(mix_load_wave, mix_set_music_cmd): U.
+	* sdlsurface.c (load_bmp, load_image, save_bmp): U.
+	(string_to_image): Use ‘FINANGLE_RAW’, ‘UNFINANGLE’.
+	* sdlttf.c (ttf_load_font, ttf_size_text, ttf_size_utf8)
+	(ttf_render_text, ttf_render_utf8): U.
+	* sdlvideo.c (wm_set_caption): U.
+
+2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[slog] Use libguile version (ugh) for abstraction bifurcation.
 
 	* guile-sdl.h (GI_LEVEL_NOT_YET_1_8): New #define,

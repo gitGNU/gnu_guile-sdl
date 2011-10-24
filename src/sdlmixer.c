@@ -159,10 +159,15 @@ Load a wave or a music (.mod .s3m .it .xm) @var{file}.
 Return a handle to it.  */)
 {
 #define FUNC_NAME s_mix_load_music
-  ASSERT_STRING (file, 1);
+  range_t cfile;
+  Mix_Music *rv;
 
-  RETURN_NEW_MUSIC
-    (Mix_LoadMUS (SCM_CHARS (file)));
+  ASSERT_STRING (file, 1);
+  FINANGLE (file);
+  rv = Mix_LoadMUS (RS (file));
+  UNFINANGLE (file);
+
+  RETURN_NEW_MUSIC (rv);
 #undef FUNC_NAME
 }
 
@@ -174,10 +179,15 @@ PRIMPROC
 Load a wave @var{file}. Return a handle to it.  */)
 {
 #define FUNC_NAME s_mix_load_wave
-  ASSERT_STRING (file, 1);
+  range_t cfile;
+  Mix_Chunk *rv;
 
-  RETURN_NEW_AUDIO
-    (Mix_LoadWAV (SCM_CHARS (file)));
+  ASSERT_STRING (file, 1);
+  FINANGLE (file);
+  rv = Mix_LoadWAV (RS (file));
+  UNFINANGLE (file);
+
+  RETURN_NEW_AUDIO (rv);
 #undef FUNC_NAME
 }
 
@@ -872,8 +882,14 @@ Stop music and set external music playback command
 to @var{command}, a string.  */)
 {
 #define FUNC_NAME s_mix_set_music_cmd
+  range_t ccommand;
+  int rv;
+
   ASSERT_STRING (command, 1);
-  RETURN_INT (Mix_SetMusicCMD (SCM_CHARS (command)));
+  FINANGLE (command);
+  rv = Mix_SetMusicCMD (RS (command));
+  UNFINANGLE (command);
+  RETURN_INT (rv);
 #undef FUNC_NAME
 }
 

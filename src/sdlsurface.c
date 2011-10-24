@@ -216,9 +216,15 @@ PRIMPROC
 Return a surface made by loading the bitmap @var{file}.  */)
 {
 #define FUNC_NAME s_load_bmp
+  range_t cfile;
+  SDL_Surface *rv;
+
   ASSERT_STRING (file, 1);
 
-  RETURN_NEW_SURFACE (SDL_LoadBMP (SCM_CHARS (file)));
+  FINANGLE (file);
+  rv = SDL_LoadBMP (RS (file));
+  UNFINANGLE (file);
+  RETURN_NEW_SURFACE (rv);
 #undef FUNC_NAME
 }
 
@@ -232,9 +238,15 @@ Return a surface made by loading the image @var{file}.
 If there are problems, return #f.  */)
 {
 #define FUNC_NAME s_load_bmp
+  range_t cfile;
+  SDL_Surface *rv;
+
   ASSERT_STRING (file, 1);
 
-  RETURN_NEW_SURFACE (IMG_Load (SCM_CHARS (file)));
+  FINANGLE (file);
+  rv = IMG_Load (RS (file));
+  UNFINANGLE (file);
+  RETURN_NEW_SURFACE (rv);
 #undef FUNC_NAME
 }
 
@@ -248,13 +260,15 @@ Return a surface made by loading image data from string
 @var{s}.  [WARNING: This procedure is experimental!]  */)
 {
 #define FUNC_NAME s_string_to_image
-  void *mem; int size;
+  range_t cs;
+  SDL_Surface *rv;
 
   ASSERT_STRING (s, 1);
-  mem = SCM_CHARS (s);
-  size = SCM_ROLENGTH (s);
 
-  RETURN_NEW_SURFACE (IMG_Load_RW (SDL_RWFromMem (mem, size), 0));
+  FINANGLE_RAW (s);
+  rv = IMG_Load_RW (SDL_RWFromMem (RS (s), RLEN (s)), 0);
+  UNFINANGLE (s);
+  RETURN_NEW_SURFACE (rv);
 #undef FUNC_NAME
 }
 
@@ -268,12 +282,16 @@ Save @var{surface} to @var{file} in Windows BMP format.
 Return #t if successful.  */)
 {
 #define FUNC_NAME s_save_bmp
+  range_t cfile;
+  int rv;
+
   ASSERT_SURFACE (surface,  1);
   ASSERT_STRING (file, 2);
 
-  RETURN_TRUE_IF_0
-    (SDL_SaveBMP (UNPACK_SURFACE (surface),
-                  SCM_CHARS (file)));
+  FINANGLE (file);
+  rv = SDL_SaveBMP (UNPACK_SURFACE (surface), RS (file));
+  UNFINANGLE (file);
+  RETURN_TRUE_IF_0 (rv);
 #undef FUNC_NAME
 }
 

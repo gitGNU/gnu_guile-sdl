@@ -62,6 +62,7 @@
 #define NUM_ULONG          gh_ulong2scm
 #define SYMBOL             gh_symbol2scm
 #define STRING             gh_str02scm
+#define BSTRING            gh_str2scm
 #define C_BOOL             gh_scm2bool
 #define C_CHAR             gh_scm2char
 #define C_INT              gh_scm2int
@@ -93,6 +94,7 @@
 #define NUM_ULONG          scm_from_ulong
 #define SYMBOL             scm_from_locale_symbol
 #define STRING             scm_from_locale_string
+#define BSTRING            scm_from_locale_stringn
 #define C_BOOL             scm_to_bool
 #define C_CHAR             scm_to_char
 #define C_INT              scm_to_int
@@ -120,6 +122,76 @@
   while (0)
 #endif
 
+
+/* Abstractions for Scheme objects to C string conversion.  */
+
+typedef struct {
+  char *s;
+  size_t len;
+} range_t;
+
+#define RS(svar)    c ## svar .s
+#define RLEN(svar)  c ## svar .len
+
+#if GI_LEVEL_NOT_YET_1_8
+
+#define FINANGLABLE_SCHEME_STRING_FROM_SYMBOL(sym)      \
+  scm_string_copy (scm_symbol_to_string (sym))
+
+/* Coerce a Scheme (sub)string that is to be used in contexts where the
+   extracted C string is expected to be read-only and zero-terminated.  We
+   check this condition precisely instead of simply coercing all (sub)strings,
+   to avoid waste for those substrings that may in fact (by lucky accident)
+   already satisfy the condition.  */
+#define ROZT_X(x)                                       \
+  if (SCM_ROCHARS (x) [SCM_ROLENGTH (x)])               \
+    x = BSTRING (SCM_ROCHARS (x), SCM_ROLENGTH (x))
+
+#define _FINANGLE(svar,p1)  do                  \
+    {                                           \
+      if (p1)                                   \
+        ROZT_X (svar);                          \
+      RS (svar) = SCM_ROCHARS (svar);           \
+      RLEN (svar) = SCM_ROLENGTH (svar);        \
+    }                                           \
+  while (0)
+
+#define UNFINANGLE(svar)
+
+#else  /* !GI_LEVEL_NOT_YET_1_8 */
+
+#define FINANGLABLE_SCHEME_STRING_FROM_SYMBOL  scm_symbol_to_string
+
+#define REND(svar)          RS (svar) [RLEN (svar)]
+#define NUL_AT_END_X(svar)  REND (svar) = '\0'
+
+#define _FINANGLE(svar,p1)  do                                  \
+    {                                                           \
+      RS (svar) = scm_to_locale_stringn (svar, &RLEN (svar));   \
+      if (RS (svar))                                            \
+        {                                                       \
+          if (p1 && REND (svar))                                \
+            {                                                   \
+              RS (svar) = realloc (RS (svar), 1 + RLEN (svar)); \
+              NUL_AT_END_X (svar);                              \
+            }                                                   \
+        }                                                       \
+      else                                                      \
+        RS (svar) = strdup ("");                                \
+    }                                                           \
+  while (0)
+
+#define UNFINANGLE(svar)  free (RS (svar))
+
+#endif  /* !GI_LEVEL_NOT_YET_1_8 */
+
+/* Use ‘FINANGLE_RAW’ when the consumer of the C string takes full range
+   (start address plus length) info.  Otherwise, ‘FINANGLE’.  */
+
+#define FINANGLE_RAW(svar)  _FINANGLE (svar, 0)
+#define FINANGLE(svar)      _FINANGLE (svar, 1)
+
+
 #ifdef HAVE_GUILE_MODSUP_H
 #include <guile/modsup.h>
 #else  /* ! HAVE_GUILE_MODSUP_H */

@@ -548,15 +548,20 @@ On @var{surface} at position @var{x},@var{y},
 draw string @var{text} with @var{color} (a number).  */)
 {
 #define FUNC_NAME s_draw_string
+  range_t ctext;
+  int rv;
+
   ASSERT_SURFACE (surface, 1);
   ASSERT_EXACT (x, 2);
   ASSERT_EXACT (y, 3);
   ASSERT_STRING (text, 4);
   ASSERT_EXACT (color, 5);
 
-  RETURN_INT
-    (stringColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
-                  SCM_CHARS (text), C_ULONG (color)));
+  FINANGLE (text);
+  rv = stringColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
+                    RS (text), C_ULONG (color));
+  UNFINANGLE (text);
+  RETURN_INT (rv);
 #undef FUNC_NAME
 }
 

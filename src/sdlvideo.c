@@ -1058,22 +1058,18 @@ to @var{title} and @var{icon} (both strings), respectively.
 If @var{icon} is not specified, use @var{title} by default.  */)
 {
 #define FUNC_NAME s_wm_set_caption
-  char *ctitle, *cicon;
+  range_t ctitle, cicon;
 
   ASSERT_STRING (title, 1);
-
-  ctitle = SCM_CHARS (title);
-
   if (UNBOUNDP (icon))
-    cicon = ctitle;
-  else
-    {
-      ASSERT_STRING (icon, 2);
-      cicon = SCM_CHARS (icon);
-    }
+    icon = title;
+  ASSERT_STRING (icon, 2);
 
-  SDL_WM_SetCaption (ctitle, cicon);
-
+  FINANGLE (title);
+  FINANGLE (icon);
+  SDL_WM_SetCaption (RS (title), RS (icon));
+  UNFINANGLE (icon);
+  UNFINANGLE (title);
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
