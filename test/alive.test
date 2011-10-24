@@ -67,14 +67,14 @@ SDL:flags->number
 
 (d>> "try SDL:flags->number")
 (let ((n (SDL:flags->number *kmod* '(KMOD_LMETA KMOD_LSHIFT))))
-  (d>> "~A\n" n)
+  (d>> "~A~%" n)
   (or (number? n) (error "SDL:flags->number did not yield a number!"))
   (or (string=? "2001" (number->string n 8))
       (error "SDL:flags->number gave a number but it was wrong!")))
 
 (d>> "try SDL:number->flags")
 (let ((ls (SDL:number->flags *kmod* #o2001)))
-  (d>> "~S\n" ls)
+  (d>> "~S~%" ls)
   (or (pair? ls) (error "SDL:number->flags did not yield a list!"))
   (or (and-map symbol? ls)
       (error "SDL:number->flags gave a list with a non-symbol element!"))
@@ -87,7 +87,7 @@ SDL:flags->number
   (let loop ((count count))
     (or (> 0 count)
         (begin
-          (d>> "#~A (gc) => ~A\n" count (gc))
+          (d>> "#~A (gc) => ~A~%" count (gc))
           (loop (1- count))))))
 
 (cond (*have-ttf*

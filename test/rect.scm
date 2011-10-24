@@ -23,13 +23,13 @@
 (SDL:init '(SDL_INIT_VIDEO))
 
 (and debug?
-     (for-each (lambda (x) (fso "video-info: ~S\n" x))
+     (for-each (lambda (x) (fso "video-info: ~S~%" x))
                (SDL:get-video-info)))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect
   (let ((modes (SDL:list-modes)))
-    (and debug? (fso "hmm: (SDL:list-modes) => ~A\n" modes))
+    (and debug? (fso "hmm: (SDL:list-modes) => ~A~%" modes))
     (cond ((eq? modes #f)
            (error "no supported video modes"))
           ((eq? modes #t)
@@ -38,7 +38,7 @@
           (else
            ;; a list - choose the first mode
            (car modes)))))
-(and debug? (fso "test-rect => ~A\n" test-rect))
+(and debug? (fso "test-rect => ~A~%" test-rect))
 
 (set! *random-state* (seed->random-state (current-time)))
 

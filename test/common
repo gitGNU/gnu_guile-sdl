@@ -28,7 +28,7 @@
   (apply simple-format #t s args))
 
 (define (exit-77 msg)
-  (fso "INFO: ~A: ~A\n"
+  (fso "INFO: ~A: ~A~%"
        (basename (car (command-line)))
        (string-upcase msg))
   (exit 77))

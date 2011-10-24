@@ -34,7 +34,7 @@
 ;; display audio device info
 (let ((specs (SDL:query-spec)))
   (cond (specs
-         (fso "Opened audio at ~A Hz ~A bit ~A\n"
+         (fso "Opened audio at ~A Hz ~A bit ~A~%"
               (assq-ref specs 'freq)
               (logand (assq-ref specs 'format) #xFF)
               (if (> (assq-ref specs 'channels) 1)

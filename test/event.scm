@@ -25,11 +25,11 @@
 
 ;; initialize the SDL video (and event) module
 (let ((res (SDL:init '(SDL_INIT_VIDEO))))
-  (and debug? (fso "SDL:init: ~S\n" res)))
+  (and debug? (fso "SDL:init: ~S~%" res)))
 
 ;; initialize the font lib
 (let ((res (SDL:ttf-init)))
-  (and debug? (fso "SDL:ttf-init: ~S\n" res)))
+  (and debug? (fso "SDL:ttf-init: ~S~%" res)))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect (SDL:make-rect 0 0 600 200))

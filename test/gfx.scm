@@ -46,7 +46,7 @@
       (for-each one (list-tail all (random (- 256 (random 256))))))))
 
 (define mmx? (SDL:imfi-mmx?))
-(and debug? (fso "mmx: ~A\n" (if mmx? 'yes 'no)))
+(and debug? (fso "mmx: ~A~%" (if mmx? 'yes 'no)))
 (and (getenv "NOMMX") (SDL:imfi-mmx? #f))
 
 ;; character (font) stuff and blitting
