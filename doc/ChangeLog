@@ -1,3 +1,12 @@
+2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc] Drop TODO list from documentation.
+
+	* guile-sdl.texi (Introduction): Delete "TODO" from menu.
+	(TODO): Delete node/section.
+	* Makefile.am (BUILT_SOURCES): Remove TODO-excerpt.
+	(TODO-excerpt): Delete target.
+
 2011-05-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build doc] Reduce unorthodoxy: Build .info in srcdir.

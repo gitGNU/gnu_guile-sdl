@@ -109,7 +109,6 @@ low-level 2D graphics primitives have been provided.
 * Quick Start::                A simple example
 * Naming Conventions::         Naming conventions
 * Limitations::                Problems we don't hide
-* TODO::                       Plans for the future
 @end menu
 
 @node Quick Start
@@ -382,19 +381,6 @@ Guile-SDL to DTRT?  Questions questions...
 @item [your gripes here]
 
 @end itemize
-
-
-@node TODO
-@section TODO
-
-Here is an excerpt of the TODO file:
-
-@verbatiminclude TODO-excerpt
-
-Basically, a 1.0 release is still quite far away.  But we'll get there
-at some point.  Another interesting thing to consider is, what happens
-if there is another release of SDL after 1.2?  What if it is (gasp)
-incompatible with SDL 1.2?
 
 
 @c ---------------------------------------------------------------------------

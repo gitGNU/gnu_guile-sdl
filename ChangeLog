@@ -1,3 +1,9 @@
+2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc] Drop TODO list from documentation.
+
+	* TODO: Delete file.
+
 2011-10-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build] Don't use gperf(1); use hash table for flagstash lookup.

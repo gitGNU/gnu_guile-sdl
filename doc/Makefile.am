@@ -17,15 +17,12 @@
 ## Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ## Boston, MA  02110-1301  USA
 
-BUILT_SOURCES = ref.texi ef-ref.texi excuse.texi TODO-excerpt
+BUILT_SOURCES = ref.texi ef-ref.texi excuse.texi
 
 info_TEXINFOS = guile-sdl.texi
 guile_sdl_TEXINFOS = $(BUILT_SOURCES)
 
 SUFFIXES = .texi .texh
-
-TODO-excerpt: $(top_srcdir)/TODO
-	sed '1,/^_/!d;s/__*//' $< > $@
 
 excuse.texi: $(srcdir)/notes.tdt
 	$(srcdir)/mkexcuse $< > $@
