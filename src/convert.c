@@ -23,7 +23,7 @@
 int16_t *
 gsdl_scm_to_int16s (SCM obj, int16_t *data)
 {
-#ifndef HAVE_GUILE_GH_H
+#if !GI_LEVEL_NOT_YET_1_8
   scm_t_array_handle handle;
   size_t i, len;
   ssize_t inc;
@@ -34,16 +34,16 @@ gsdl_scm_to_int16s (SCM obj, int16_t *data)
   for (i = 0; i < len;  i++, elt += inc)
     data[i] = *elt;
   scm_array_handle_release (&handle);
-#else  /* HAVE_GUILE_GH_H */
+#else  /* GI_LEVEL_NOT_YET_1_8 */
   gh_scm2shorts (obj, data);
-#endif  /* HAVE_GUILE_GH_H */
+#endif  /* GI_LEVEL_NOT_YET_1_8 */
   return data;
 }
 
 uint16_t *
 gsdl_scm_to_uint16s (SCM obj, uint16_t *data)
 {
-#ifndef HAVE_GUILE_GH_H
+#if !GI_LEVEL_NOT_YET_1_8
   scm_t_array_handle handle;
   size_t i, len;
   ssize_t inc;
@@ -54,16 +54,16 @@ gsdl_scm_to_uint16s (SCM obj, uint16_t *data)
   for (i = 0; i < len;  i++, elt += inc)
     data[i] = *elt;
   scm_array_handle_release (&handle);
-#else  /* HAVE_GUILE_GH_H */
+#else  /* GI_LEVEL_NOT_YET_1_8 */
   gh_scm2shorts (obj, (short *) data);
-#endif  /* HAVE_GUILE_GH_H */
+#endif  /* GI_LEVEL_NOT_YET_1_8 */
   return data;
 }
 
 uint8_t *
 gsdl_scm_to_uint8s (SCM obj, uint8_t *data)
 {
-#ifndef HAVE_GUILE_GH_H
+#if !GI_LEVEL_NOT_YET_1_8
   scm_t_array_handle handle;
   size_t i, len;
   ssize_t inc;
@@ -74,9 +74,9 @@ gsdl_scm_to_uint8s (SCM obj, uint8_t *data)
   for (i = 0; i < len;  i++, elt += inc)
     data[i] = *elt;
   scm_array_handle_release (&handle);
-#else  /* HAVE_GUILE_GH_H */
+#else  /* GI_LEVEL_NOT_YET_1_8 */
   gh_scm2chars (obj, (char *) data);
-#endif  /* HAVE_GUILE_GH_H */
+#endif  /* GI_LEVEL_NOT_YET_1_8 */
   return data;
 }
 
@@ -84,7 +84,7 @@ SCM
 gsdl_scm_from_uint16s (uint16_t *data, size_t n)
 {
   SCM obj;
-#ifndef HAVE_GUILE_GH_H
+#if !GI_LEVEL_NOT_YET_1_8
   scm_t_array_handle handle;
   size_t i, len;
   ssize_t inc;
@@ -95,9 +95,9 @@ gsdl_scm_from_uint16s (uint16_t *data, size_t n)
   for (i = 0; i < len; i++, elt += inc)
     *elt = data[i];
   scm_array_handle_release (&handle);
-#else  /* HAVE_GUILE_GH_H */
+#else  /* GI_LEVEL_NOT_YET_1_8 */
   obj = gh_shorts2svect ((short *) data, n);
-#endif  /* HAVE_GUILE_GH_H */
+#endif  /* GI_LEVEL_NOT_YET_1_8 */
   return obj;
 }
 

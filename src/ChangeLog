@@ -1,3 +1,15 @@
+2011-10-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[slog] Use ‘GI_LEVEL_NOT_YET_1_8’ everywhere possible.
+
+	Omission from 2011-10-24, "Use libguile
+	version (ugh) for abstraction bifurcation".
+
+	* convert.c (gsdl_scm_to_int16s, gsdl_scm_to_uint16s)
+	(gsdl_scm_to_uint8s, gsdl_scm_from_uint16s):
+	Use ‘GI_LEVEL_NOT_YET_1_8’.
+	* guile-sdl.h: Fix typo: Use ‘#if’, not ‘#ifdef’.
+
 2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[slog] Avoid ‘SCM_MAKINUM’.
