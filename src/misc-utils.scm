@@ -22,7 +22,8 @@
 ;;; Code:
 
 (define-module (sdl misc-utils)
-  #:export (call-with-clip-rect
+  #:export (exact-floor
+            call-with-clip-rect
             rotate-square
             rectangle-closure
             rectangle<-geometry-string
@@ -34,6 +35,22 @@
             fader/3p
             toroidal-panner/3p)
   #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
+
+;; Return the exact floor of @var{number}.
+;; This is ``safer'' than simply @code{inexact->exact}
+;; for some Guile versions.
+;;
+;; @example
+;; (define scale 0.180281690140845)
+;; (inexact->exact scale)
+;;   @result{} 3247666210160131/18014398509481984 ; Guile 1.8.7
+;;   @result{} 0                                  ; Guile 1.4.x
+;; (exact-floor scale)
+;;   @result{} 0
+;; @end example
+;;
+(define (exact-floor number)
+  (inexact->exact (floor number)))
 
 ;; Set default clip rect to @var{rect}, call @var{thunk}, and restore it.
 ;; @var{thunk} is a procedure that takes no arguments.
@@ -324,7 +341,7 @@
             (or (begin (set! now (SDL:get-ticks))
                        (= bef now))
                 (begin (set! bef now)
-                       (set! new-a (min 255 (inexact->exact
+                       (set! new-a (min 255 (exact-floor
                                              (* scale (- now beg)))))
                        (= alpha new-a))
                 (begin (set! alpha new-a)

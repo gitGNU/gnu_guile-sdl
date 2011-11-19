@@ -1,3 +1,10 @@
+2011-11-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Add (sdl misc-utils) proc: exact-floor
+
+	* misc-utils.scm (exact-floor): New proc, exported.
+	(fader/3p): Use ‘exact-floor’.
+
 2011-10-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[slog] Use ‘GI_LEVEL_NOT_YET_1_8’ everywhere possible.

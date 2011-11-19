@@ -1,3 +1,9 @@
+2011-11-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Add (sdl misc-utils) proc: exact-floor
+
+	* ref.texh (Miscellaneous Utilities): Add @tsin.
+
 2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[doc] Drop TODO list from documentation.
