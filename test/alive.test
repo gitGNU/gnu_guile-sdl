@@ -98,6 +98,7 @@ SDL:flags->number
        (d>> "loading (sdl mixer)")
        (use-modules (sdl mixer))))
 
+(d>> "loading (sdl simple)")
 (use-modules (sdl simple))
 
 (exit #t)
