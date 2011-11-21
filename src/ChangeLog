@@ -1,5 +1,12 @@
 2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[slog] Use ‘scm_c_read_string’ instead of ‘scm_read_0str’.
+
+	* guile-sdl.h [!GI_LEVEL_NOT_YET_1_8] (IMPORT_MODULE):
+	Use ‘scm_c_read_string’.
+
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: MOD_INIT_LINK_THUNK
 
 	* guile-sdl.h [GI_LEVEL_NOT_YET_1_8] (MOD_INIT_LINK_THUNK):

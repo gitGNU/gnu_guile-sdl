@@ -229,7 +229,7 @@ SCM_SNARF_HERE (static const char s_ ## cvar[] =        \
                 fullname "#_#_"; static SCM cvar)       \
 SCM_SNARF_INIT (cvar = PERMANENT                        \
                 (scm_resolve_module                     \
-                 (scm_read_0str (s_ ## cvar)));)
+                 (scm_c_read_string (s_ ## cvar)));)
 
 #define MOD_INIT_LINK_THUNK(pretty,frag,func)  \
 void scm_init_ ## frag ## _module (void) { func (); }
