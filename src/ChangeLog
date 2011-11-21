@@ -1,3 +1,14 @@
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Internalize "alpha" enumstash object.
+
+	* sdlsurface.c (alpha_enums, alpha_eback): New static vars.
+	(set_alpha): Use ‘alpha_enums’.
+	(gsdl_init_surface): Init ‘alpha_enums’.
+	* sdlvideo.c (gsdl_alpha_enums, alpha_eback): Delete vars.
+	(gsdl_init_video): Don't init ‘gsdl_alpha_enums’.
+	* guile-sdl.h (gsdl_alpha_enums): Delete var decl.
+
 2011-11-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Add (sdl misc-utils) proc: exact-floor

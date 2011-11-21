@@ -23,6 +23,12 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
+static SCM alpha_enums;
+static valaka_t alpha_eback[] = {
+  VALAKA (SDL_ALPHA_OPAQUE),
+  VALAKA (SDL_ALPHA_TRANSPARENT)
+};
+
 
 /* smob functions */
 
@@ -349,7 +355,7 @@ If @var{flag} is #f, ignore @var{alpha} completely.  */)
   cflag = (EXACTLY_FALSEP (flag)
            ? 0
            : GSDL_FLAGS2ULONG (flag, gsdl_video_flags, 2));
-  calpha = (Uint8) GSDL_ENUM2LONG (alpha, gsdl_alpha_enums, 3);
+  calpha = (Uint8) GSDL_ENUM2LONG (alpha, alpha_enums, 3);
 
   RETURN_TRUE_IF_0
     (SDL_SetAlpha (UNPACK_SURFACE (surface),
@@ -603,6 +609,9 @@ gsdl_init_surface (void)
   scm_set_smob_print (surface_tag, print_surface);
 
 #include "sdlsurface.x"
+
+  /* alpha constants */
+  alpha_enums = DEFINE_ENUM ("alpha-enums", alpha_eback);
 }
 
 /* sdlsurface.c ends here */

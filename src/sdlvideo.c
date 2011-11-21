@@ -51,12 +51,6 @@ static valaka_t gl_eback[] = {
   VALAKA (SDL_GL_ACCUM_ALPHA_SIZE)
 };
 
-SCM gsdl_alpha_enums;
-static valaka_t alpha_eback[] = {
-  VALAKA (SDL_ALPHA_OPAQUE),
-  VALAKA (SDL_ALPHA_TRANSPARENT)
-};
-
 SCM gsdl_video_flags;
 SCM gsdl_palette_flags;
 static SCM gsdl_overlay_formats;
@@ -1218,9 +1212,6 @@ gsdl_init_video (void)
 
   overlay_tag = scm_make_smob_type ("SDL-Overlay", sizeof (SDL_Overlay));
   scm_set_smob_free (overlay_tag, free_yuv_overlay);
-
-  /* alpha constants */
-  gsdl_alpha_enums = DEFINE_ENUM ("alpha-enums", alpha_eback);
 
   /* video flags */
   gsdl_video_flags = gsdl_make_flagstash (&vid_flagstash);
