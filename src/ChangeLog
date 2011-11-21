@@ -1,5 +1,14 @@
 2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Internalize "palette" flagstash object.
+
+	* sdlvideo.c (palette_flags):
+	Rename from ‘gsdl_palette_flags’; make static.
+	(get_palette_flags, set_palette, gsdl_init_video): Update refs.
+	* guile-sdl.h (gsdl_palette_flags): Delete var decl.
+
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Internalize "alpha" enumstash object.
 
 	* sdlsurface.c (alpha_enums, alpha_eback): New static vars.

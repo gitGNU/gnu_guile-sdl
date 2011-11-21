@@ -609,7 +609,6 @@ PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value), "")            \
 /* Misc shared state.  */
 
 extern SCM gsdl_video_flags;
-extern SCM gsdl_palette_flags;
 
 /* Vector conversion funcs.  */
 

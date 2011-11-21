@@ -52,7 +52,7 @@ static valaka_t gl_eback[] = {
 };
 
 SCM gsdl_video_flags;
-SCM gsdl_palette_flags;
+static SCM palette_flags;
 static SCM gsdl_overlay_formats;
 
 PRIMPROC
@@ -70,7 +70,7 @@ PRIMPROC
 Return the flagstash object for palette flags.
 @xref{Enums and Constants}.  */)
 {
-  return gsdl_palette_flags;
+  return palette_flags;
 }
 
 PRIMPROC
@@ -571,7 +571,7 @@ using @var{flags} (see @code{flagstash:palette}) and
   ASSERT_SURFACE (surface, 1);
   ASSERT_VECTOR (colors, 3);
 
-  cflags   = GSDL_FLAGS2ULONG (flags, gsdl_palette_flags, 2);
+  cflags   = GSDL_FLAGS2ULONG (flags, palette_flags, 2);
   length   = VECLENGTH (colors);
   if ((ccolors  = (SDL_Color*) scm_must_malloc (length, FUNC_NAME)))
     {
@@ -1217,7 +1217,7 @@ gsdl_init_video (void)
   gsdl_video_flags = gsdl_make_flagstash (&vid_flagstash);
 
   /* palette flags */
-  gsdl_palette_flags = gsdl_make_flagstash (&pal_flagstash);
+  palette_flags = gsdl_make_flagstash (&pal_flagstash);
 
   /* yuv overlay formats */
   gsdl_overlay_formats = gsdl_make_flagstash (&ov_flagstash);
