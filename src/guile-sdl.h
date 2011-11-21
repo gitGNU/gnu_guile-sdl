@@ -98,7 +98,7 @@
 #define STRING             scm_from_locale_string
 #define BSTRING            scm_from_locale_stringn
 #define C_BOOL             scm_to_bool
-#define C_CHAR             scm_to_char
+#define C_CHAR(c)          C_INT (scm_char_to_integer (c))
 #define C_INT              scm_to_int
 #define C_LONG             scm_to_long
 #define C_ULONG            scm_to_ulong

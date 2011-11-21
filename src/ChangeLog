@@ -1,5 +1,15 @@
 2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Fix bug: Define ‘C_CHAR’ correctly for Guile 1.8.7.
+
+	Regression introduced 2011-04-28,
+	"Add abstractions: C_{BOOL,CHAR,INT,LONG,ULONG,DOUBLE}".
+
+	* guile-sdl.h [!GI_LEVEL_NOT_YET_1_8] (C_CHAR):
+	Rewrite to use ‘scm_char_to_integer’ and ‘C_INT’.
+
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Say ‘PERMANENT’ instead of ‘GH_STONED’.
 
 	* guile-sdl.h (PERMANENT): New #define.
