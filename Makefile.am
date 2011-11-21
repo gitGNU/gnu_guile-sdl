@@ -27,6 +27,7 @@ as_is_dirs = build-aux/guile-baux
 EXTRA_DIST = HISTORY \
 	build-aux/guile-sdl.m4 \
 	build-aux/sofix \
+	build-aux/uninstall-sofixed \
 	$(as_is_dirs)
 
 ## Makefile.am ends here

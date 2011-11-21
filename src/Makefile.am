@@ -81,19 +81,21 @@ if MAINTAINER_MODE
 
 endif ## MAINTAINER_MODE
 
+bx = $(top_srcdir)/build-aux
+soargs = $(DESTDIR)$(cmoddir) $(cmod_LTLIBRARIES)
 SOFIXFLAGS = no-la,no-symlinks
 
 updatemodcat = $(MAKE) $(AM_MAKEFLAGS) update-libsite-module-catalog
 
 install-data-hook:
 	cd "$(DESTDIR)$(cmoddir)" ; rm -f sdl-sup.* *.0.0.0
-	$(top_srcdir)/am/sofix $(SOFIXFLAGS) \
-	  $(DESTDIR)$(cmoddir) $(cmod_LTLIBRARIES)
+	$(bx)/sofix $(SOFIXFLAGS) $(soargs)
 if HAVE_MKPIMMC
 	$(updatemodcat)
 endif
 
 uninstall-hook:
+	$(bx)/uninstall-sofixed $(soargs)
 	rm -rf $(DESTDIR)$(cmoddir)
 if HAVE_MKPIMMC
 	$(updatemodcat)

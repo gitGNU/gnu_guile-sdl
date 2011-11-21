@@ -1,5 +1,13 @@
 2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[uninstall] Fix bug: Make sure everything is properly deleted.
+
+	* Makefile.am (bx, soargs): New vars.
+	(install-data-hook): Use $(bx), $(soargs).
+	(uninstall-hook): Invoke $(bx)/uninstall-sofixed.
+
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Internalize "palette" flagstash object.
 
 	* sdlvideo.c (palette_flags):

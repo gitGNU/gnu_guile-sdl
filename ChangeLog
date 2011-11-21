@@ -1,3 +1,10 @@
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[uninstall] Fix bug: Make sure everything is properly deleted.
+
+	* build-aux/uninstall-sofixed: New file.
+	* Makefile.am (EXTRA_DIST): Add build-aux/uninstall-sofixed.
+
 2011-10-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[doc] Drop TODO list from documentation.
