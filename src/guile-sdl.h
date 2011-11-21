@@ -199,6 +199,8 @@ typedef struct {
 
 #define IMPORT_MODULE      GH_USE_MODULE
 
+#define MOD_INIT_LINK_THUNK  GH_MODULE_LINK_FUNC
+
 #else  /* ! HAVE_GUILE_MODSUP_H */
 
 /*:Declare, define and document a C function callable from Scheme.
@@ -217,30 +219,6 @@ typedef struct {
   SCM_SNARF_HERE (static SCM fname arglist;)                           \
   SCM_DEFINE (fname, primname, req, opt, var, arglist, docstring)
 
-/*:Define the C function to be called at link time for a non-needy module.
-
-   This function registers the @var{module_name} (a string) and arranges for
-   @var{module_init_func} to be called at the right time to actually do the
-   module-specific initializations.  @var{fname_frag} is the C translation of
-   @var{module_name} with unrepresentable characters replaced by underscore.
-   It should have the same length as @var{module_name}.
-
-   The macro also generates a forward declaration of the function,
-   immediately prior to the function definition, so that you don't have to.
-
-   Note that @var{module_name} must be a string literal.
-*/
-#define GH_MODULE_LINK_FUNC(module_name, fname_frag, module_init_func)  \
-void                                                                    \
-scm_init_ ## fname_frag ## _module (void);                              \
-void                                                                    \
-scm_init_ ## fname_frag ## _module (void)                               \
-{                                                                       \
-  /* Make sure strings(1) finds module name at bol.  */                 \
-  static const char modname[] = "\n" module_name;                       \
-  scm_register_module_xxx (1 + modname, module_init_func);              \
-}
-
 /*:Declare and later arrange for @var{cvar} (type SCM) to hold a resolved
    module object for @var{fullname}, a C string such as "(ice-9 q)".  The
    string is saved in a C variable named by prefixing "s_" to @var{cvar}.
@@ -252,6 +230,9 @@ SCM_SNARF_HERE (static const char s_ ## cvar[] =        \
 SCM_SNARF_INIT (cvar = PERMANENT                        \
                 (scm_resolve_module                     \
                  (scm_read_0str (s_ ## cvar)));)
+
+#define MOD_INIT_LINK_THUNK(pretty,frag,func)  \
+void scm_init_ ## frag ## _module (void) { func (); }
 
 #endif  /* ! HAVE_GUILE_MODSUP_H */
 

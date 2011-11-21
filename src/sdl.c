@@ -202,6 +202,6 @@ init_module (void)
   gsdl_init_misc ();
 }
 
-GH_MODULE_LINK_FUNC ("sdl sdl", sdl_sdl, init_module)
+MOD_INIT_LINK_THUNK ("sdl sdl", sdl_sdl, init_module)
 
 /* sdl.c ends here */

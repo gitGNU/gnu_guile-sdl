@@ -433,6 +433,6 @@ init_module (void)
 #include "sdlttf.x"
 }
 
-GH_MODULE_LINK_FUNC ("sdl ttf", sdl_ttf, init_module)
+MOD_INIT_LINK_THUNK ("sdl ttf", sdl_ttf, init_module)
 
 /* sdlttf.c ends here */

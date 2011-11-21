@@ -1403,6 +1403,6 @@ init_module (void)
 #include "sdlgfx.x"
 }
 
-GH_MODULE_LINK_FUNC ("sdl gfx", sdl_gfx, init_module)
+MOD_INIT_LINK_THUNK ("sdl gfx", sdl_gfx, init_module)
 
 /* sdlgfx.c ends here */

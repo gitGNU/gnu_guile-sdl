@@ -1011,6 +1011,6 @@ init_module (void)
 #include "sdlmixer.x"
 }
 
-GH_MODULE_LINK_FUNC ("sdl mixer", sdl_mixer, init_module)
+MOD_INIT_LINK_THUNK ("sdl mixer", sdl_mixer, init_module)
 
 /* sdlmixer.c ends here */
