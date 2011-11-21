@@ -242,14 +242,14 @@ gsdl_make_flagstash (flagstash_t *stash)
     {
       aka_t *aka = stash->aka + i;
 
-      aka->symbol = GH_STONED (SYMBOL (aka->rozt));
+      aka->symbol = PERMANENT (SYMBOL (aka->rozt));
       scm_hashq_set_x (ht, aka->symbol, NUM_INT (i));
     }
   stash->ht = ht;
   SCM_NEWSMOB (smob, flagstash_tag, stash);
   GC_UNPROTECT (ht);
 
-  return GH_STONED (smob);
+  return PERMANENT (smob);
 }
 
 

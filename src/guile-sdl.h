@@ -41,6 +41,8 @@
 
 #include <libguile.h>
 
+#define PERMANENT  scm_permanent_object
+
 #if  defined (SCM_MAJOR_VERSION)                                \
   && defined (SCM_MINOR_VERSION)                                \
   && (2 == SCM_MAJOR_VERSION                                    \
@@ -236,12 +238,6 @@ scm_init_ ## fname_frag ## _module (void)                               \
   scm_register_module_xxx (1 + modname, module_init_func);              \
 }
 
-/*:Return the @var{obj} given, but marked as "permanent".
-   This means that it can never be garbage collected.
-*/
-#define GH_STONED(obj) \
-  scm_permanent_object (obj)
-
 /*:Declare and later arrange for @var{cvar} (type SCM) to hold a resolved
    module object for @var{fullname}, a C string such as "(ice-9 q)".  The
    string is saved in a C variable named by prefixing "s_" to @var{cvar}.
@@ -250,7 +246,7 @@ scm_init_ ## fname_frag ## _module (void)                               \
 #define GH_USE_MODULE(cvar,fullname)                    \
 SCM_SNARF_HERE (static const char s_ ## cvar[] =        \
                 fullname "#_#_"; static SCM cvar)       \
-SCM_SNARF_INIT (cvar = GH_STONED                        \
+SCM_SNARF_INIT (cvar = PERMANENT                        \
                 (scm_resolve_module                     \
                  (scm_read_0str (s_ ## cvar)));)
 

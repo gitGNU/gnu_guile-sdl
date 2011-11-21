@@ -1,5 +1,14 @@
 2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Say ‘PERMANENT’ instead of ‘GH_STONED’.
+
+	* guile-sdl.h (PERMANENT): New #define.
+	(GH_STONED): Delete #define.
+	(GH_USE_MODULE): Use ‘PERMANENT’.
+	* sdlenums.c (gsdl_make_flagstash): Likewise.
+
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[uninstall] Fix bug: Make sure everything is properly deleted.
 
 	* Makefile.am (bx, soargs): New vars.
