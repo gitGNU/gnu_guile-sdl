@@ -1,5 +1,15 @@
 2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Say ‘IMPORT_MODULE’ instead of ‘GH_USE_MODULE’.
+
+	* guile-sdl.h [GI_LEVEL_NOT_YET_1_8] (IMPORT_MODULE): New #define.
+	[!GI_LEVEL_NOT_YET_1_8] (IMPORT_MODULE): Rename from ‘GH_USE_MODULE’.
+	* sdlgfx.c (sdlsup): Use ‘IMPORT_MODULE’.
+	* sdlmixer.c (sdlsup): Likewise.
+	* sdlttf.c (sdlsup): Likewise.
+
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Remove tsar files on maintainer-mode "make clean".
 
 	* Makefile.am [MAINTAINER_MODE] (CLEANFILES): New var.

@@ -196,6 +196,9 @@ typedef struct {
 
 #ifdef HAVE_GUILE_MODSUP_H
 #include <guile/modsup.h>
+
+#define IMPORT_MODULE      GH_USE_MODULE
+
 #else  /* ! HAVE_GUILE_MODSUP_H */
 
 /*:Declare, define and document a C function callable from Scheme.
@@ -243,23 +246,12 @@ scm_init_ ## fname_frag ## _module (void)                               \
    string is saved in a C variable named by prefixing "s_" to @var{cvar}.
    You must use @var{cvar} as the second arg to @code{GH_SELECT_MODULE_VAR}.
 */
-#define GH_USE_MODULE(cvar,fullname)                    \
+#define IMPORT_MODULE(cvar,fullname)                    \
 SCM_SNARF_HERE (static const char s_ ## cvar[] =        \
                 fullname "#_#_"; static SCM cvar)       \
 SCM_SNARF_INIT (cvar = PERMANENT                        \
                 (scm_resolve_module                     \
                  (scm_read_0str (s_ ## cvar)));)
-
-#ifndef SCM___GH__H
-extern SCM gh_module_lookup (SCM vector, const char *sname);
-#endif /* !SCM___GH__H */
-
-#ifndef SCM___GH__H
-extern SCM gh_call0 (SCM proc);
-extern SCM gh_call1 (SCM proc, SCM arg);
-extern SCM gh_call2 (SCM proc, SCM arg1, SCM arg2);
-extern SCM gh_call3 (SCM proc, SCM arg1, SCM arg2, SCM arg3);
-#endif /* !SCM__GH__H */
 
 #endif  /* ! HAVE_GUILE_MODSUP_H */
 

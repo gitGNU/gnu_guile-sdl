@@ -21,7 +21,7 @@
 #include "guile-sdl.h"
 #include <SDL/SDL_ttf.h>
 
-GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
+IMPORT_MODULE (sdlsup, "(sdl sdl)");
 
 
 static SCM ttf_flags;

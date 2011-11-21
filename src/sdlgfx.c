@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <alloca.h>
 
-GH_USE_MODULE (sdlsup, "(sdl sdl)"); /* for various gsdl_* C funcs */
+IMPORT_MODULE (sdlsup, "(sdl sdl)");
 
 
 /*
