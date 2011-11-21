@@ -1,5 +1,12 @@
 2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[slog] Add abstraction: STRINGP
+
+	* guile-sdl.h (STRINGP): New #define.
+	(ASSERT_STRING): Use ‘STRINGP’.
+
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[slog] Use ‘scm_c_read_string’ instead of ‘scm_read_0str’.
 
 	* guile-sdl.h [!GI_LEVEL_NOT_YET_1_8] (IMPORT_MODULE):

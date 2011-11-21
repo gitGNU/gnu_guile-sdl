@@ -58,6 +58,7 @@
 #define PAIRP(obj)        (gh_pair_p (obj))
 #define EXACTP(obj)       (gh_exact_p (obj))
 #define SYMBOLP(obj)      (gh_symbol_p (obj))
+#define STRINGP            gh_string_p
 #define BOOLEAN            gh_bool2scm
 #define NUM_INT            gh_int2scm
 #define NUM_LONG           gh_long2scm
@@ -90,6 +91,7 @@
 #define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
 #define EXACTP(obj)       (scm_is_true (scm_exact_p (obj)))
 #define SYMBOLP(obj)      (scm_is_symbol (obj))
+#define STRINGP            scm_is_string
 #define BOOLEAN            scm_from_bool
 #define NUM_INT            scm_from_int
 #define NUM_LONG           scm_from_long
@@ -279,7 +281,7 @@ void scm_init_ ## frag ## _module (void) { func (); }
   SCM_ASSERT (SCM_SYMBOLP ((obj)), (obj), n, FUNC_NAME)
 
 #define ASSERT_STRING(obj,n) \
-  SCM_ASSERT (SCM_STRINGP ((obj)), (obj), n, FUNC_NAME)
+  SCM_ASSERT (STRINGP ((obj)), (obj), n, FUNC_NAME)
 
 #define ASSERT_NUMBER(obj,n) \
   SCM_ASSERT (NOT_FALSEP (scm_number_p ((obj))), (obj), n, FUNC_NAME)
