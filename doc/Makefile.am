@@ -59,6 +59,8 @@ snippets: ../src/*.tsar
 
 ref.texi: snippets
 ef-ref.texi: snippets
+
+CLEANFILES += snippets
 endif ## MAINTAINER_MODE
 
 ## Makefile.am ends here

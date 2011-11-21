@@ -152,4 +152,10 @@ update-libsite-module-catalog:
 	  "$(DESTDIR)$(GUILE_LIBSITE)"
 endif # HAVE_MKPIMMC
 
+####################################################################### etc
+
+if MAINTAINER_MODE
+CLEANFILES = *.tsar
+endif # MAINTAINER_MODE
+
 ## Makefile.am ends here

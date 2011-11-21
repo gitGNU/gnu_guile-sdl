@@ -1,3 +1,9 @@
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Remove tsar files on maintainer-mode "make clean".
+
+	* Makefile.am [MAINTAINER_MODE] (CLEANFILES): Add snippets.
+
 2011-11-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Add (sdl misc-utils) proc: exact-floor

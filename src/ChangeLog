@@ -1,5 +1,11 @@
 2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Remove tsar files on maintainer-mode "make clean".
+
+	* Makefile.am [MAINTAINER_MODE] (CLEANFILES): New var.
+
+2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Fix bug: Define ‘C_CHAR’ correctly for Guile 1.8.7.
 
 	Regression introduced 2011-04-28,
