@@ -536,8 +536,7 @@ using @var{colors}, a vector of SDL-Colors.  */)
   ASSERT_VECTOR (colors, 2);
 
   length = VECLENGTH (colors);
-  if ((ccolors = (SDL_Color*) scm_must_malloc (length * sizeof (SDL_Color),
-                                               FUNC_NAME)))
+  if ((ccolors = alloca (length * sizeof (SDL_Color))))
     {
       for (i = 0; i < length; i++)
         {
@@ -547,7 +546,6 @@ using @var{colors}, a vector of SDL-Colors.  */)
 
       result = SDL_SetColors (UNPACK_SURFACE (surface),
                               ccolors, 0, length);
-      scm_must_free (ccolors);
     }
 
   RETURN_BOOL
@@ -574,8 +572,7 @@ using @var{flags} (see @code{flagstash:palette}) and
 
   cflags   = GSDL_FLAGS2ULONG (flags, palette_flags, 2);
   length   = VECLENGTH (colors);
-  if ((ccolors = (SDL_Color*) scm_must_malloc (length * sizeof (SDL_Color),
-                                               FUNC_NAME)))
+  if ((ccolors = alloca (length * sizeof (SDL_Color))))
     {
       for (i = 0; i < length; i++)
         {
@@ -585,7 +582,6 @@ using @var{flags} (see @code{flagstash:palette}) and
 
       result = SDL_SetPalette (UNPACK_SURFACE (surface),
                                cflags, ccolors, 0, length);
-      scm_must_free (ccolors);
     }
 
   RETURN_BOOL

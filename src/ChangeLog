@@ -1,5 +1,12 @@
 2011-11-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Stack-allocate temp ‘SDL_Color’ array.
+
+	* sdlvideo.c (set_colors, set_palette):
+	Use ‘alloca’; don't ‘scm_must_free’ afterwards.
+
+2011-11-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Fix bug: Allocate enough memory for temp ‘SDL_Color’ array.
 
 	* sdlvideo.c (set_colors, set_palette):
