@@ -379,12 +379,12 @@ Use @var{stash} to convert @var{number} to a list of symbols.  */)
 void
 gsdl_init_enums (void)
 {
-  enum_tag = scm_make_smob_type ("SDL-enum", sizeof (enum_struct));
-  scm_set_smob_mark (enum_tag, mark_enum);
+  DEFSMOB (enum_tag, "SDL-enum", mark_enum, NULL, NULL);
 
-  flagstash_tag = scm_make_smob_type ("flagstash", sizeof (flagstash_t *));
-  scm_set_smob_mark (flagstash_tag, mark_flagstash);
-  scm_set_smob_print (flagstash_tag, print_flagstash);
+  DEFSMOB (flagstash_tag, "SDL-flagstash",
+           mark_flagstash,
+           NULL,
+           print_flagstash);
 
   acons = LOOKUP ("acons");
   hfold = LOOKUP ("hash-fold");

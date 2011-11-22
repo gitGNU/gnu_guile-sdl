@@ -29,8 +29,10 @@ static
 size_t
 free_rect (SCM rect)
 {
-  free (UNPACK_RECT (rect));
-  return sizeof (SDL_Rect);
+  SDL_Rect *crect = UNPACK_RECT (rect);
+
+  GCFREE (crect, rect_nick);
+  return GCRV (crect);
 }
 
 static
@@ -40,7 +42,7 @@ print_rect (SCM smob, SCM port, scm_print_state *pstate)
   SDL_Rect *rect = SMOBGET (smob, SDL_Rect *);
   char buf[64];
 
-  snprintf (buf, 64, "#<SDL-Rect %ux%u%+d%+d>",
+  snprintf (buf, 64, "#<%s %ux%u%+d%+d>", rect_nick,
             rect->w, rect->h, rect->x, rect->y);
   scm_puts (buf, port);
   return 1;
@@ -74,7 +76,7 @@ and dimensions @var{width} by @var{height}.  */)
   ASSERT_EXACT (width, 3);
   ASSERT_EXACT (height, 4);
 
-  if ((rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME)))
+  if ((rect = GCMALLOC_RECT ()))
     {
       rect->x = C_LONG (x);
       rect->y = C_LONG (y);
@@ -114,9 +116,10 @@ NUMBER_GETSET (h, C_ULONG)
 void
 gsdl_init_rect (void)
 {
-  rect_tag = scm_make_smob_type ("SDL-Rect", sizeof (SDL_Rect));
-  scm_set_smob_free  (rect_tag, free_rect);
-  scm_set_smob_print (rect_tag, print_rect);
+  DEFSMOB (rect_tag, rect_nick,
+           NULL,
+           free_rect,
+           print_rect);
 
 #include "sdlrect.x"
 }

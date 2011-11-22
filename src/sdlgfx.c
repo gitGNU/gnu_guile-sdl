@@ -741,6 +741,8 @@ box RGBA or Y information'' and is in 32-bit RGBA format.  */)
 
 static long fpsmgr_tag;
 
+#define fpsmgr_nick "SDL-FPS-Manager"
+
 #define ASSERT_FPSMGR(obj,n)  ASSERT_SMOB (obj, fpsmgr_tag, n)
 #define UNPACK_FPSMGR(smob)   (SMOBGET (smob, FPSmanager *))
 
@@ -748,8 +750,10 @@ static
 size_t
 free_fpsmgr (SCM fpsmgr)
 {
-  free (UNPACK_FPSMGR (fpsmgr));
-  return sizeof (FPSmanager);
+  FPSmanager *cfpsmgr = UNPACK_FPSMGR (fpsmgr);
+
+  GCFREE (cfpsmgr, fpsmgr_nick);
+  return GCRV (cfpsmgr);
 }
 
 static
@@ -779,7 +783,7 @@ initialize the object (default 30 if not specified).  */)
   FPSmanager *m;
 
   UNBOUND_MEANS_FALSE (n);
-  if ((m = (FPSmanager *) malloc (sizeof (FPSmanager))))
+  if ((m = GCMALLOC (sizeof (FPSmanager), fpsmgr_nick)))
     {
       SDL_initFramerate (m);
       if (NOT_FALSEP (n))
@@ -1396,9 +1400,10 @@ static
 void
 init_module (void)
 {
-  fpsmgr_tag = scm_make_smob_type ("FPS-manager", sizeof (FPSmanager));
-  scm_set_smob_free  (fpsmgr_tag, free_fpsmgr);
-  scm_set_smob_print (fpsmgr_tag, print_fpsmgr);
+  DEFSMOB (fpsmgr_tag, "SDL-FPS-Manager",
+           NULL,
+           free_fpsmgr,
+           print_fpsmgr);
 
 #include "sdlgfx.x"
 }

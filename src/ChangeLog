@@ -1,5 +1,57 @@
 2011-11-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[slog] Add smob abstractions; rework smob free funcs.
+
+	* guile-sdl.h (DEFSMOB, GCMALLOC, GCFREE, GCRV): New macros.
+	(rect_nick): New #define.
+	(GCMALLOC_RECT): New macro.
+	* sdlcdrom.c (cdrom_nick): New #define.
+	(print_cd): Use ‘cdrom_nick’.
+	(gsdl_init_cdrom): Use ‘DEFSMOB’, ‘cdrom_nick’.
+	* sdlcolor.c (color_nick): New #define.
+	(free_color): Use ‘GCFREE’, ‘GCRV’, ‘color_nick’.
+	(print_color): Use ‘color_nick’.
+	(color_p): Say "SDL-Color" in docstring; nfc.
+	(make_color): Use ‘GCMALLOC’, ‘color_nick’.
+	(gsdl_init_color): Use ‘DEFSMOB’, ‘color_nick’.
+	* sdlenums.c (gsdl_init_enums): Use ‘DEFSMOB’.
+	* sdlevent.c (event_nick): New #define.
+	(free_event): Use ‘GCFREE’, ‘GCRV’, ‘event_nick’.
+	(keysym_nick): New #define.
+	(free_keysym): Use ‘GCFREE’, ‘GCRV’, ‘keysym_nick’.
+	(GCMALLOC_EVENT): New macro.
+	(make_event): Use ‘GCMALLOC_EVENT’.
+	(make_keysym): Use ‘GCMALLOC’, ‘keysym_nick’.
+	(peep_events, the_event_filter): Use ‘GCMALLOC_EVENT’.
+	(gsdl_init_event): Use ‘DEFSMOB’, ‘event_nick’, ‘keysym_nick’.
+	* sdlgfx.c (fpsmgr_nick): New #define.
+	(free_fpsmgr): Use ‘GCFREE’, ‘GCRV’, ‘fpsmgr_nick’.
+	(make_fps_manager): Use ‘GCMALLOC’, ‘fpsmgr_nick’.
+	(init_module): Use ‘DEFSMOB’, ‘fpsmgr_nick’.
+	* sdljoystick.c (joystick_nick): New #define.
+	(print_joy): Use ‘joystick_nick’.
+	(gsdl_init_joystick): Use ‘DEFSMOB’, ‘joystick_nick’.
+	* sdlmixer.c (init_module): Use ‘DEFSMOB’.
+	* sdlrect.c (free_rect): ‘GCFREE’, ‘GCRV’, ‘rect_nick’.
+	(print_rect): Use ‘rect_nick’.
+	(make_rect): Use ‘GCMALLOC_RECT’.
+	(gsdl_init_rect): Use ‘DEFSMOB’, ‘rect_nick’.
+	* sdlsurface.c (surface_nick): New #define.
+	(print_surface): Use ‘surface_nick’.
+	(get_clip_rect): Use ‘GCMALLOC_RECT’.
+	(gsdl_init_surface): Use ‘DEFSMOB’, ‘surface_nick’.
+	* sdlttf.c (init_module): Use ‘DEFSMOB’.
+	* sdlvideo.c (cursor_nick): New #define.
+	(GCMALLOC_CURSOR): New macro.
+	(MALLOC_XSDL_CURSOR): Delete macro.
+	(free_cursor): Use ‘GCFREE’, ‘cursor_nick’, ‘GCRV’.
+	(pixel_format_nick): New #define.
+	(print_pixel_format): Use ‘pixel_format_nick’.
+	(create_cursor, get_cursor): Use ‘GCMALLOC_CURSOR’.
+	(gsdl_init_video): Use ‘DEFSMOB’, ‘cursor_nick’, ‘pixel_format_nick’.
+
+2011-11-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Stack-allocate temp ‘SDL_SysWMinfo’ object.
 
 	* misc.c (get_wm_info): Convert auto var ‘info’ from

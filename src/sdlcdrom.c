@@ -24,6 +24,8 @@
 
 static long cdrom_tag;
 
+#define cdrom_nick "SDL-CD"
+
 #define ASSERT_CDROM(obj,which) \
   ASSERT_SMOB (obj, cdrom_tag, which)
 
@@ -567,7 +569,7 @@ print_cd (SCM cdrom, SCM port, scm_print_state *pstate)
       }
   else
     status = "-";
-  snprintf (buf, 32, "#<SDL-CD [%s]>", status);
+  snprintf (buf, 32, "#<%s [%s]>", cdrom_nick, status);
   scm_puts (buf, port);
   return 1;
 }
@@ -576,9 +578,10 @@ print_cd (SCM cdrom, SCM port, scm_print_state *pstate)
 void
 gsdl_init_cdrom (void)
 {
-  cdrom_tag = scm_make_smob_type ("SDL-CD", sizeof (SDL_CD *));
-  scm_set_smob_free  (cdrom_tag, free_cd);
-  scm_set_smob_print (cdrom_tag, print_cd);
+  DEFSMOB (cdrom_tag, cdrom_nick,
+           NULL,
+           free_cd,
+           print_cd);
 
 #include "sdlcdrom.x"
 }

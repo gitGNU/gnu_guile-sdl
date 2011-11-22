@@ -24,6 +24,8 @@
 
 static long joystick_tag;
 
+#define joystick_nick "SDL-Joystick"
+
 #define ASSERT_JOYSTICK(obj,which) \
   ASSERT_SMOB (obj, joystick_tag, which)
 
@@ -417,7 +419,7 @@ print_joy (SCM joystick, SCM port, scm_print_state *pstate)
   SDL_Joystick *joy = UNPACK_JOYSTICK (joystick);
   char buf[32];
 
-  snprintf (buf, 32, "#<SDL-Joystick %d>",
+  snprintf (buf, 32, "#<%s %d>", joystick_nick,
             joy ? SDL_JoystickIndex (joy) : -1);
   scm_puts (buf, port);
   return 1;
@@ -427,9 +429,10 @@ print_joy (SCM joystick, SCM port, scm_print_state *pstate)
 void
 gsdl_init_joystick (void)
 {
-  joystick_tag = scm_make_smob_type ("SDL-Joystick", sizeof (SDL_Joystick *));
-  scm_set_smob_free  (joystick_tag, free_joy);
-  scm_set_smob_print (joystick_tag, print_joy);
+  DEFSMOB (joystick_tag, joystick_nick,
+           NULL,
+           free_joy,
+           print_joy);
 
 #include "sdljoystick.x"
 }

@@ -32,6 +32,8 @@ static valaka_t alpha_eback[] = {
 
 /* smob functions */
 
+#define surface_nick "SDL-Surface"
+
 #define SURFACE_P(x) \
   (SCM_SMOB_PREDICATE (surface_tag, x))
 
@@ -40,7 +42,6 @@ size_t
 free_surface (SCM surface)
 {
   SDL_FreeSurface (UNPACK_SURFACE (surface));
-  /* return sizeof (SDL_Surface); */
   return 0;
 }
 
@@ -56,7 +57,7 @@ print_surface (SCM surface_smob, SCM port, scm_print_state *pstate)
               surface->w, surface->h,
               surface->format->BitsPerPixel);
 
-  snprintf (buf, 64, "#<SDL-Surface %s>", surface ? sbuf : "NULL");
+  snprintf (buf, 64, "#<%s %s>", surface_nick, surface ? sbuf : "NULL");
   scm_puts (buf, port);
   return 1;
 }
@@ -403,7 +404,7 @@ Return the clipping rectangle for @var{surface}.  */)
 
   ASSERT_SURFACE (surface, 1);
 
-  if ((rect = (SDL_Rect *) scm_must_malloc (sizeof (SDL_Rect), FUNC_NAME)))
+  if ((rect = GCMALLOC_RECT ()))
     SDL_GetClipRect (UNPACK_SURFACE (surface), rect);
   RETURN_NEW_RECT (rect);
 #undef FUNC_NAME
@@ -604,9 +605,10 @@ both vertically and horizontally.  */)
 void
 gsdl_init_surface (void)
 {
-  surface_tag = scm_make_smob_type ("SDL-Surface", sizeof (SDL_Surface *));
-  scm_set_smob_free  (surface_tag, free_surface);
-  scm_set_smob_print (surface_tag, print_surface);
+  DEFSMOB (surface_tag, surface_nick,
+           NULL,
+           free_surface,
+           print_surface);
 
 #include "sdlsurface.x"
 

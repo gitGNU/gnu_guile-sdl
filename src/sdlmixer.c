@@ -999,11 +999,15 @@ void
 init_module (void)
 {
   /* smobs */
-  mix_music_tag = scm_make_smob_type ("sdl-music", sizeof (struct Mix_Music*));
-  scm_set_smob_free (mix_music_tag, free_music);
+  DEFSMOB (mix_music_tag, "SDL-Music",
+           NULL,
+           free_music,
+           NULL);
 
-  mix_audio_tag = scm_make_smob_type ("sdl-audio", sizeof (Mix_Chunk));
-  scm_set_smob_free (mix_audio_tag, free_audio);
+  DEFSMOB (mix_audio_tag, "SDL-Audio",
+           NULL,
+           free_audio,
+           NULL);
 
   /* enums */
   fading_status_enum = DEFINE_ENUM ("fading-status", fading_status_eback);

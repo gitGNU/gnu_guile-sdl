@@ -87,13 +87,14 @@ Return the flagstash object for overlay flags.
 
 /* extended SDL_* structures */
 
+#define cursor_nick "SDL-Cursor"
+
 typedef struct {
   int freeable;
   SDL_Cursor *c;
 } xSDL_Cursor;
 
-#define MALLOC_XSDL_CURSOR(who) \
-  (xSDL_Cursor *) scm_must_malloc (sizeof (xSDL_Cursor), who)
+#define GCMALLOC_CURSOR()  GCMALLOC (sizeof (xSDL_Cursor), cursor_nick)
 
 
 
@@ -120,8 +121,8 @@ free_cursor (SCM cursor)
 
   if (ccursor->freeable)
     SDL_FreeCursor (ccursor->c);
-  free (ccursor);
-  return sizeof (xSDL_Cursor);
+  GCFREE (ccursor, cursor_nick);
+  return GCRV (ccursor);
 }
 
 static
@@ -131,6 +132,8 @@ free_yuv_overlay (SCM overlay)
   SDL_FreeYUVOverlay (UNPACK_OVERLAY (overlay));
   return 0;
 }
+
+#define pixel_format_nick "SDL-Pixel-Format"
 
 static
 size_t
@@ -147,7 +150,7 @@ print_pixel_format (SCM pixel_format, SCM port, scm_print_state *pstate)
   SDL_PixelFormat *f = UNPACK_PIXEL_FORMAT (pixel_format);
   char buf[80];
 
-  snprintf (buf, 80, "#<SDL-Pixel-Format %d %d %x %d %s%s%s%s>",
+  snprintf (buf, 80, "#<%s %d %d %x %d %s%s%s%s>", pixel_format_nick,
             f->palette ? f->palette->ncolors : -1,
             f->BitsPerPixel,
             f->colorkey,
@@ -189,7 +192,7 @@ and with hot pixel located at @var{x},@var{y}.  */)
   cmask = alloca (sizeof (Uint8) * VECLENGTH (mask));
 
   /* Create the cursor.  */
-  if ((cursor = MALLOC_XSDL_CURSOR (FUNC_NAME)))
+  if ((cursor = GCMALLOC_CURSOR ()))
     {
       cursor->c = SDL_CreateCursor (gsdl_scm_to_uint8s (data, cdata),
                                     gsdl_scm_to_uint8s (mask, cmask),
@@ -914,7 +917,7 @@ Get the current mouse cursor.  */)
 #define FUNC_NAME s_get_cursor
   xSDL_Cursor *cursor;
 
-  if ((cursor = MALLOC_XSDL_CURSOR (FUNC_NAME)))
+  if ((cursor = GCMALLOC_CURSOR ()))
     {
       cursor->freeable = 0;
       cursor->c = SDL_GetCursor ();
@@ -1200,16 +1203,20 @@ an integer @var{mode} will result in a wrong-type-arg error.  */)
 void
 gsdl_init_video (void)
 {
-  cursor_tag = scm_make_smob_type ("SDL-Cursor", sizeof (xSDL_Cursor));
-  scm_set_smob_free (cursor_tag, free_cursor);
+  DEFSMOB (cursor_tag, cursor_nick,
+           NULL,
+           free_cursor,
+           NULL);
 
-  pixel_format_tag = scm_make_smob_type ("SDL-Pixel-Format",
-                                         sizeof (SDL_PixelFormat));
-  scm_set_smob_free (pixel_format_tag, free_pixel_format);
-  scm_set_smob_print (pixel_format_tag, print_pixel_format);
+  DEFSMOB (pixel_format_tag, pixel_format_nick,
+           NULL,
+           free_pixel_format,
+           print_pixel_format);
 
-  overlay_tag = scm_make_smob_type ("SDL-Overlay", sizeof (SDL_Overlay));
-  scm_set_smob_free (overlay_tag, free_yuv_overlay);
+  DEFSMOB (overlay_tag, "SDL-Overlay",
+           NULL,
+           free_yuv_overlay,
+           NULL);
 
   /* video flags */
   gsdl_video_flags = gsdl_make_flagstash (&vid_flagstash);

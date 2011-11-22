@@ -425,8 +425,10 @@ static
 void
 init_module (void)
 {
-  ttf_font_tag = scm_make_smob_type ("font", sizeof (struct TTF_Font*));
-  scm_set_smob_free (ttf_font_tag, free_font);
+  DEFSMOB (ttf_font_tag, "SDL-TTF",
+           NULL,
+           free_font,
+           /* TODO: print_font */ NULL);
 
   ttf_flags = gsdl_make_flagstash (&ttf_flagstash);
 

@@ -357,6 +357,35 @@ SCM gsdl_make_flagstash (flagstash_t *stash);
 
 /* Smobs.  */
 
+#if GI_LEVEL_NOT_YET_1_8
+
+#define DEFSMOB(tagvar,name,m,f,p)                              \
+  tagvar = scm_make_smob_type_mfpe (name, 0, m, f, p, NULL)
+
+#define GCMALLOC(sz,what)    scm_must_malloc (sz, what)
+#define GCFREE(ptr,what)     scm_must_free (ptr)
+#define GCRV(ptr)            sizeof (*ptr)
+
+#else  /* !GI_LEVEL_NOT_YET_1_8 */
+
+#define DEFSMOB(tagvar,name,m,f,p)  do          \
+    {                                           \
+      tagvar = scm_make_smob_type (name, 0);    \
+      if (NULL != m)                            \
+        scm_set_smob_mark (tagvar, m);          \
+      if (NULL != f)                            \
+        scm_set_smob_free (tagvar, f);          \
+      if (NULL != p)                            \
+        scm_set_smob_print (tagvar, p);         \
+    }                                           \
+  while (0)
+
+#define GCMALLOC(sz,what)    scm_gc_malloc (sz, what)
+#define GCFREE(ptr,what)     scm_gc_free (ptr, sizeof (*ptr), what)
+#define GCRV(ptr)            0
+
+#endif  /* !GI_LEVEL_NOT_YET_1_8 */
+
 /* useful type-checking for smobs */
 #define ASSERT_SMOB(smob, tag, which)                   \
   SCM_ASSERT ((SCM_NIMP (smob)                          \
@@ -393,6 +422,9 @@ extern long gsdl_smob_tags[GSTX_TOO_MUCH];
 #define rect_tag            (gsdl_smob_tags[GSTX_RECT])
 #define surface_tag         (gsdl_smob_tags[GSTX_SURFACE])
 #define pixel_format_tag    (gsdl_smob_tags[GSTX_PIXEL_FORMAT])
+
+#define rect_nick "SDL-Rect"
+#define GCMALLOC_RECT()  GCMALLOC (sizeof (SDL_Rect), rect_nick)
 
 #define ASSERT_COLOR(obj,n)         ASSERT_SMOB (obj, color_tag, n)
 #define ASSERT_RECT(obj,n)          ASSERT_SMOB (obj, rect_tag, n)

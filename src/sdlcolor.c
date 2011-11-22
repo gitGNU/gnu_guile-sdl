@@ -22,12 +22,16 @@
 #include <stdio.h>
 #include <SDL/SDL.h>
 
+#define color_nick "SDL-Color"
+
 static
 size_t
 free_color (SCM color)
 {
-  free (UNPACK_COLOR (color));
-  return sizeof (SDL_Color);
+  SDL_Color *ccolor = UNPACK_COLOR (color);
+
+  GCFREE (ccolor, color_nick);
+  return GCRV (ccolor);
 }
 
 static
@@ -37,7 +41,7 @@ print_color (SCM color, SCM port, scm_print_state *pstate)
   SDL_Color *ccolor = UNPACK_COLOR (color);
   char buf[32];
 
-  snprintf (buf, 32, "#<SDL-Color %d %d %d>",
+  snprintf (buf, 32, "#<%s %d %d %d>", color_nick,
             ccolor->r, ccolor->g, ccolor->b);
   scm_puts (buf, port);
   return 1;
@@ -50,7 +54,7 @@ PRIMPROC
 (color_p, "color?", 1, 0, 0,
  (SCM obj),
  doc: /***********
-Return #t iff @var{obj} is an SDL-color object.  */)
+Return #t iff @var{obj} is an SDL-Color object.  */)
 {
 #define FUNC_NAME s_color_p
   RETURN_BOOL
@@ -72,7 +76,7 @@ and @var{b} components.  */)
   ASSERT_EXACT (g, 2);
   ASSERT_EXACT (b, 3);
 
-  if ((color = (SDL_Color *) scm_must_malloc (sizeof (SDL_Color), FUNC_NAME)))
+  if ((color = GCMALLOC (sizeof (SDL_Color), color_nick)))
     {
       color->r = C_INT (r);
       color->g = C_INT (g);
@@ -110,9 +114,10 @@ NUMBER_GETSET(b)
 void
 gsdl_init_color (void)
 {
-  color_tag = scm_make_smob_type ("SDL-Color", sizeof (SDL_Color));
-  scm_set_smob_free  (color_tag, free_color);
-  scm_set_smob_print (color_tag, print_color);
+  DEFSMOB (color_tag, color_nick,
+           NULL,
+           free_color,
+           print_color);
 
 #include "sdlcolor.x"
 }

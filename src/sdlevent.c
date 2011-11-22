@@ -222,6 +222,8 @@ Return the flagstash object for event mask flags.
 
 static long event_tag;
 
+#define event_nick "SDL-Event"
+
 #define ASSERT_EVENT(obj,which) \
   ASSERT_SMOB (obj, event_tag, which)
 
@@ -235,12 +237,16 @@ static
 size_t
 free_event (SCM event)
 {
-  free (UNPACK_EVENT (event));
-  return sizeof (SDL_Event);
+  SDL_Event *cevent = UNPACK_EVENT (event);
+
+  GCFREE (cevent, event_nick);
+  return GCRV (cevent);
 }
 
 
 static long keysym_tag;
+
+#define keysym_nick "SDL-Keysym"
 
 #define ASSERT_KEYSYM(obj,which) \
   ASSERT_SMOB (obj, keysym_tag, which)
@@ -255,12 +261,16 @@ static
 size_t
 free_keysym (SCM keysym)
 {
-  free (UNPACK_KEYSYM (keysym));
-  return sizeof (SDL_keysym);
+  SDL_keysym *ckeysym = UNPACK_KEYSYM (keysym);
+
+  GCFREE (ckeysym, keysym_nick);
+  return GCRV (ckeysym);
 }
 
 
 /* Constructors */
+
+#define GCMALLOC_EVENT()  GCMALLOC (sizeof (SDL_Event), event_nick)
 
 PRIMPROC
 (make_event, "make-event", 0, 1, 0,
@@ -279,7 +289,7 @@ If omitted, the default is @code{SDL_NOEVENT}.
   if (BOUNDP (type))
     ctype = GSDL_ENUM2LONG (type, event_type_enum, 1);
 
-  if ((event = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME)))
+  if ((event = GCMALLOC_EVENT ()))
     event->type = ctype;
 
   RETURN_NEW_EVENT (event);
@@ -297,7 +307,7 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
 #define FUNC_NAME s_make_keysym
   SDL_keysym *keysym;
 
-  if ((keysym = (SDL_keysym *) scm_must_malloc (sizeof (SDL_keysym), FUNC_NAME)))
+  if ((keysym = GCMALLOC (sizeof (SDL_keysym), keysym_nick)))
     {
       /* Set the sym if given.  */
       UNBOUND_MEANS_FALSE (sym);
@@ -542,7 +552,7 @@ matching events instead of a count, removing them from the queue.
           ls = SCM_EOL;
           for (i = ret - 1; -1 < i; i--)
             {
-              cev = (SDL_Event *) scm_must_malloc (sizeof (SDL_Event), FUNC_NAME);
+              cev = GCMALLOC_EVENT ();
               *cev = cevents[i];
               SCM_NEWSMOB (ev, event_tag, cev);
               ls = CONS (ev, ls);
@@ -662,7 +672,7 @@ the_event_filter (const SDL_Event *event)
       {
         SDL_Event *copy;
 
-        copy = scm_must_malloc (sizeof (SDL_Event), __func__);
+        copy = GCMALLOC_EVENT ();
         *copy = *event;
         SCM_NEWSMOB (arg, event_tag, copy);
       }
@@ -894,11 +904,15 @@ a value of 5 specifies both left and right buttons.  */)
 void
 gsdl_init_event (void)
 {
-  event_tag = scm_make_smob_type ("SDL-Event", sizeof (SDL_Event));
-  scm_set_smob_free (event_tag, free_event);
+  DEFSMOB (event_tag, event_nick,
+           NULL,
+           free_event,
+           /* TODO: print_event */ NULL);
 
-  keysym_tag = scm_make_smob_type ("SDL-Keysym", sizeof (SDL_keysym));
-  scm_set_smob_free (keysym_tag, free_keysym);
+  DEFSMOB (keysym_tag, keysym_nick,
+           NULL,
+           free_keysym,
+           /* TODO: print_keysym */ NULL);
 
   /* event type constants */
   event_type_enum = DEFINE_ENUM ("event-types", event_type_eback);
