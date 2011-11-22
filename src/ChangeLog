@@ -1,5 +1,12 @@
 2011-11-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Stack-allocate temp ‘SDL_SysWMinfo’ object.
+
+	* misc.c (get_wm_info): Convert auto var ‘info’ from
+	pointer to object; don't ‘malloc’ and ‘free’; update refs.
+
+2011-11-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Stack-allocate temp ‘SDL_Color’ array.
 
 	* sdlvideo.c (set_colors, set_palette):

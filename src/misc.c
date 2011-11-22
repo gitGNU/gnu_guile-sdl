@@ -64,26 +64,25 @@ WINDOW, FSWINDOW and WMWINDOW are Window identifiers (also
 integers).  */)
 {
 #define FUNC_NAME s_get_wm_info
-  SDL_SysWMinfo *info = (SDL_SysWMinfo *) malloc (sizeof (SDL_SysWMinfo));
-  int result = SDL_GetWMInfo (info);
+  SDL_SysWMinfo info;
+  int result = SDL_GetWMInfo (&info);
   SCM rv = SCM_BOOL_F;
 
   if (result)
     {
 #define PUSH(x)  rv = CONS (x, rv)
       rv = SCM_EOL;
-      PUSH (NUM_ULONG (info->info.x11.wmwindow));
-      PUSH (NUM_ULONG (info->info.x11.fswindow));
-      PUSH (NUM_ULONG (info->info.x11.window));
-      PUSH (NUM_ULONG ((unsigned long) info->info.x11.display));
-      PUSH (SDL_SYSWM_X11 == info->subsystem ? SYM (x11) : SCM_BOOL_F);
-      PUSH (LIST3 (NUM_INT (info->version.major),
-                   NUM_INT (info->version.minor),
-                   NUM_INT (info->version.patch)));
+      PUSH (NUM_ULONG (info.info.x11.wmwindow));
+      PUSH (NUM_ULONG (info.info.x11.fswindow));
+      PUSH (NUM_ULONG (info.info.x11.window));
+      PUSH (NUM_ULONG ((unsigned long) info.info.x11.display));
+      PUSH (SDL_SYSWM_X11 == info.subsystem ? SYM (x11) : SCM_BOOL_F);
+      PUSH (LIST3 (NUM_INT (info.version.major),
+                   NUM_INT (info.version.minor),
+                   NUM_INT (info.version.patch)));
 #undef PUSH
     }
 
-  free (info);
   return rv;
 #undef FUNC_NAME
 }
