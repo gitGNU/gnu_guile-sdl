@@ -536,7 +536,8 @@ using @var{colors}, a vector of SDL-Colors.  */)
   ASSERT_VECTOR (colors, 2);
 
   length = VECLENGTH (colors);
-  if ((ccolors = (SDL_Color*) scm_must_malloc (length, FUNC_NAME)))
+  if ((ccolors = (SDL_Color*) scm_must_malloc (length * sizeof (SDL_Color),
+                                               FUNC_NAME)))
     {
       for (i = 0; i < length; i++)
         {
@@ -573,7 +574,8 @@ using @var{flags} (see @code{flagstash:palette}) and
 
   cflags   = GSDL_FLAGS2ULONG (flags, palette_flags, 2);
   length   = VECLENGTH (colors);
-  if ((ccolors  = (SDL_Color*) scm_must_malloc (length, FUNC_NAME)))
+  if ((ccolors = (SDL_Color*) scm_must_malloc (length * sizeof (SDL_Color),
+                                               FUNC_NAME)))
     {
       for (i = 0; i < length; i++)
         {

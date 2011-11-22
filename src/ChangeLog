@@ -1,3 +1,11 @@
+2011-11-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Fix bug: Allocate enough memory for temp ‘SDL_Color’ array.
+
+	* sdlvideo.c (set_colors, set_palette):
+	Use ‘length * sizeof (SDL_Color)’ in
+	the allocation request, not just ‘length’.
+
 2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[slog] Add abstraction: STRINGP
