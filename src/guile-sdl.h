@@ -86,6 +86,7 @@
 #define GC_UNPROTECT       scm_unprotect_object
 #define LOOKUP             gh_lookup
 #define DEFINE_PUBLIC      gh_define
+#define MODULE_LOOKUP      gh_module_lookup
 #else
 #define NULLP(obj)        (scm_is_null (obj))
 #define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
@@ -124,6 +125,8 @@
       scm_c_export (name, NULL);                \
     }                                           \
   while (0)
+#define MODULE_LOOKUP(module, name)                     \
+  scm_variable_ref (scm_c_module_lookup (module, name))
 #endif
 
 
@@ -200,6 +203,7 @@ typedef struct {
 #include <guile/modsup.h>
 
 #define IMPORT_MODULE      GH_USE_MODULE
+#define SELECT_MODULE_VAR  GH_SELECT_MODULE_VAR
 
 #define MOD_INIT_LINK_THUNK  GH_MODULE_LINK_FUNC
 
@@ -232,6 +236,10 @@ SCM_SNARF_HERE (static const char s_ ## cvar[] =        \
 SCM_SNARF_INIT (cvar = PERMANENT                        \
                 (scm_resolve_module                     \
                  (scm_c_read_string (s_ ## cvar)));)
+
+#define SELECT_MODULE_VAR(cvar,m_cvar,s_name)                           \
+SCM_SNARF_HERE (static SCM cvar)                                        \
+SCM_SNARF_INIT (cvar = PERMANENT (MODULE_LOOKUP (m_cvar, s_name));)
 
 #define MOD_INIT_LINK_THUNK(pretty,frag,func)  \
 void scm_init_ ## frag ## _module (void) { func (); }

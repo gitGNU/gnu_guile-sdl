@@ -1,3 +1,10 @@
+2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Add abstractions: MODULE_LOOKUP, SELECT_MODULE_VAR
+
+	* guile-sdl.h (MODULE_LOOKUP, SELECT_MODULE_VAR):
+	New #define:s and macros.
+
 2011-11-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[slog] Add smob abstractions; rework smob free funcs.
