@@ -1,5 +1,12 @@
 2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[slog] Add abstraction: VECTORP
+
+	* guile-sdl.h (VECTORP): New #define.
+	(ASSERT_VECTOR): Use ‘VECTORP’.
+
+2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[slog] Support "make install" and "make check" under Guile 1.8+.
 
 	* guile-sdl.h (CALL0): New #define.
