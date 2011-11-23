@@ -17,6 +17,7 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
+(use-modules (srfi srfi-4))
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
              ((sdl gfx) #:renamer (symbol-prefix-proc 'SDL:)))
 
@@ -115,12 +116,12 @@
 (do ((bez 0 (1+ bez)))
     ((= 100 bez))
   (let* ((n (+ 3 (random 5)))
-         (x-uv (make-vector n 0))
-         (y-uv (make-vector n 0)))
+         (x-uv (make-s16vector n 0))
+         (y-uv (make-s16vector n 0)))
     (do ((i 0 (1+ i)))
         ((= i n))
-      (vector-set! x-uv i (random 640))
-      (vector-set! y-uv i (random 480)))
+      (s16vector-set! x-uv i (random 640))
+      (s16vector-set! y-uv i (random 480)))
     (SDL:draw-bezier SCREEN x-uv y-uv 5
                      (+ #x80 (ash (random #xffffff) 8))))
   (SDL:flip))
@@ -230,12 +231,12 @@
 (do ((poly 0 (1+ poly)))
     ((= 10 poly))
   (let* ((n (+ 3 (random 5)))
-         (x-uv (make-vector n 0))
-         (y-uv (make-vector n 0)))
+         (x-uv (make-s16vector n 0))
+         (y-uv (make-s16vector n 0)))
     (do ((i 0 (1+ i)))
         ((= i n))
-      (vector-set! x-uv i (random 640))
-      (vector-set! y-uv i (random 480)))
+      (s16vector-set! x-uv i (random 640))
+      (s16vector-set! y-uv i (random 480)))
     (SDL:draw-polygon SCREEN x-uv y-uv
                       (+ #x80 (ash (random #xffffff) 8))
                       #t))
@@ -245,12 +246,12 @@
 (do ((poly 0 (1+ poly)))
     ((= 10 poly))
   (let* ((n (+ 3 (random 5)))
-         (x-uv (make-vector n 0))
-         (y-uv (make-vector n 0)))
+         (x-uv (make-s16vector n 0))
+         (y-uv (make-s16vector n 0)))
     (do ((i 0 (1+ i)))
         ((= i n))
-      (vector-set! x-uv i (random 640))
-      (vector-set! y-uv i (random 480)))
+      (s16vector-set! x-uv i (random 640))
+      (s16vector-set! y-uv i (random 480)))
     (SDL:draw-textured-polygon SCREEN x-uv y-uv
                                SCREEN (random 640) (random 480)))
   (SDL:flip))

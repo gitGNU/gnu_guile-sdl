@@ -623,7 +623,6 @@ extern SCM gsdl_video_flags;
 
 /* Vector conversion funcs.  */
 
-int16_t *gsdl_scm_to_int16s (SCM obj, int16_t *data);
 uint16_t *gsdl_scm_to_uint16s (SCM obj, uint16_t *data);
 uint8_t *gsdl_scm_to_uint8s (SCM obj, uint8_t *data);
 SCM gsdl_scm_from_uint16s (uint16_t *data, size_t n);

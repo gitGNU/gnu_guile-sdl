@@ -1,5 +1,25 @@
 2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Restrict type to s16 uvec for some gfx primitives.
+
+	These used accept arbitrary vectors, doing a costly
+	internal conversion on every call.  Good-bye slack!
+
+	* sdlgfx.c: #include <SDL/SDL.h>.
+	[GI_LEVEL_NOT_YET_1_8] (srfi4): New module object.
+	[GI_LEVEL_NOT_YET_1_8] (s16v_p): New Scheme proc object.
+	(S16VECTORP, ASSERT_UVEC_S16): New macros.
+	(s16_stuff): New struct.
+	(copy_s16): New static func.
+	(ST, VBITS, VLEN, STUFF, GET_PARTICULARS, HOWDY, LATER)
+	(STUFF2, HOWDY2, LATER2): New macros.
+	(draw_polygon, draw_aa_polygon)
+	(draw_textured_polygon, draw_bezier): Rewrite.
+	* convert.c (gsdl_scm_to_int16s): Delete func.
+	* guile-sdl.h (gsdl_scm_to_int16s): Delete func decl.
+
+2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstractions: MODULE_LOOKUP, SELECT_MODULE_VAR
 
 	* guile-sdl.h (MODULE_LOOKUP, SELECT_MODULE_VAR):

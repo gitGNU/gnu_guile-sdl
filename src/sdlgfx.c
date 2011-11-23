@@ -20,9 +20,95 @@
 
 #include "guile-sdl.h"
 #include <stdio.h>
+#include <SDL/SDL.h>
 #include <alloca.h>
 
 IMPORT_MODULE (sdlsup, "(sdl sdl)");
+
+
+#if GI_LEVEL_NOT_YET_1_8
+IMPORT_MODULE (srfi4, "(srfi srfi-4)");
+SELECT_MODULE_VAR (s16v_p, srfi4, "s16vector?");
+#define scm_s16vector_p(obj)  CALL1 (s16v_p, obj)
+#endif
+
+#define S16VECTORP(obj)  (NOT_FALSEP (scm_s16vector_p (obj)))
+
+#define ASSERT_UVEC_S16(obj, n) \
+  SCM_ASSERT (S16VECTORP (obj), (obj), n, FUNC_NAME)
+
+struct s16_stuff
+{
+  Sint16 *bits;
+#if !GI_LEVEL_NOT_YET_1_8
+  scm_t_array_handle handle;
+#endif  /* !GI_LEVEL_NOT_YET_1_8 */
+  size_t len;
+  ssize_t inc;
+  const int16_t *elt;
+};
+
+static void
+copy_s16 (struct s16_stuff *stuff)
+{
+  size_t i;
+  Sint16 *dst = stuff->bits;
+  const int16_t *src = stuff->elt;
+
+  for (i = 0; i < stuff->len; i++, src += stuff->inc)
+    dst[i] = *src;
+}
+
+#define ST(v,member)  v ## _stuff.member
+#define VBITS(v)      ST (v, bits)
+#define VLEN(v)       ST (v, len)
+
+#define STUFF(v)  struct s16_stuff v ## _stuff
+
+#if GI_LEVEL_NOT_YET_1_8
+
+/* DWR: Abstraction violation!  */
+#define GET_PARTICULARS(v)  do                          \
+    {                                                   \
+      VLEN (v) = (size_t) SCM_CELL_WORD_2 (v);          \
+      ST (v, elt) = (void *) SCM_CELL_OBJECT_3 (v);     \
+      ST (v, inc) = 1;                                  \
+    }                                                   \
+  while (0)
+
+#else  /* !GI_LEVEL_NOT_YET_1_8 */
+
+#define GET_PARTICULARS(v)                              \
+  ST (v, elt) = scm_s16vector_elements                  \
+    (v, &ST (v, handle), &ST (v, len), &ST (v, inc))
+
+#endif  /* !GI_LEVEL_NOT_YET_1_8 */
+
+/* NB: The cast to ‘Sint16 *’ avoids a "discards qualifiers" warning
+   from GCC.  Ideally, SDL_gfx/SDL_gfxPrimitives.h would declare the
+   inputs ‘const’, in which case no cast would be necessary.  */
+#define HOWDY(v)  do                                            \
+    {                                                           \
+      GET_PARTICULARS (v);                                      \
+      if (1 == ST (v, inc))                                     \
+        VBITS (v) = (Sint16 *) ST (v, elt);                     \
+      else                                                      \
+        {                                                       \
+          VBITS (v) = alloca (sizeof (Sint16) * VLEN (v));      \
+          copy_s16 (&v ## _stuff);                              \
+        }                                                       \
+    }                                                           \
+  while (0)
+
+#if GI_LEVEL_NOT_YET_1_8
+#define LATER(v)
+#else
+#define LATER(v)  scm_array_handle_release (&ST (v, handle))
+#endif
+
+#define STUFF2(one,two)  STUFF (one); STUFF (two)
+#define HOWDY2(one,two)  HOWDY (one); HOWDY (two)
+#define LATER2(one,two)  LATER (one); LATER (two)
 
 
 /*
@@ -408,24 +494,23 @@ by corresponding pairs from the uniform vectors
 arg @var{fill} means to fill the polygon as well.  */)
 {
 #define FUNC_NAME s_draw_polygon
-  Sint16 *cvx, *cvy;
-  unsigned int len;
+  STUFF2 (vx, vy);
+  int rv;
 
   ASSERT_SURFACE (surface, 1);
-  ASSERT_VECTOR (vx, 2);
-  ASSERT_VECTOR (vy, 3);
+  ASSERT_UVEC_S16 (vx, 2);
+  ASSERT_UVEC_S16 (vy, 3);
   ASSERT_EXACT (color, 4);
   UNBOUND_MEANS_FALSE (fill);
 
-  len = UVECLENGTH (vx);
-  cvx = alloca (sizeof (Sint16) * len);
-  cvy = alloca (sizeof (Sint16) * len);
-  RETURN_INT ((EXACTLY_FALSEP (fill)
-               ? polygonColor
-               : filledPolygonColor) (UNPACK_SURFACE (surface),
-                                      gsdl_scm_to_int16s (vx, cvx),
-                                      gsdl_scm_to_int16s (vy, cvy),
-                                      len, C_ULONG (color)));
+  HOWDY2 (vx, vy);
+  rv = (EXACTLY_FALSEP (fill)
+        ? polygonColor
+        : filledPolygonColor) (UNPACK_SURFACE (surface),
+                               VBITS (vx), VBITS (vy), VLEN (vx),
+                               C_ULONG (color));
+  LATER2 (vy, vx);
+  RETURN_INT (rv);
 #undef FUNC_NAME
 }
 
@@ -439,21 +524,20 @@ are specified by corresponding pairs from the uniform vectors
 @var{vx} and @var{vy}, in color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_polygon
-  Sint16 *cvx, *cvy;
-  unsigned long len;
+  STUFF2 (vx, vy);
+  int rv;
 
   ASSERT_SURFACE (surface, 1);
-  ASSERT_VECTOR (vx, 2);
-  ASSERT_VECTOR (vy, 3);
+  ASSERT_UVEC_S16 (vx, 2);
+  ASSERT_UVEC_S16 (vy, 3);
   ASSERT_EXACT (color, 4);
 
-  len = UVECLENGTH (vx);
-  cvx = alloca (sizeof (Sint16) * len);
-  cvy = alloca (sizeof (Sint16) * len);
-  RETURN_INT (aapolygonColor (UNPACK_SURFACE (surface),
-                              gsdl_scm_to_int16s (vx, cvx),
-                              gsdl_scm_to_int16s (vy, cvy),
-                              len, C_ULONG (color)));
+  HOWDY2 (vx, vy);
+  rv = aapolygonColor (UNPACK_SURFACE (surface),
+                       VBITS (vx), VBITS (vy), VLEN (vx),
+                       C_ULONG (color));
+  LATER2 (vy, vx);
+  RETURN_INT (rv);
 #undef FUNC_NAME
 }
 
@@ -468,24 +552,23 @@ and @var{vy}, filling from @var{texture} (a surface) with
 offset @var{tdx}, @var{tdy}.  */)
 {
 #define FUNC_NAME s_draw_textured_polygon
-  Sint16 *cvx, *cvy;
-  unsigned int len;
+  STUFF2 (vx, vy);
+  int rv;
 
   ASSERT_SURFACE (surface, 1);
-  ASSERT_VECTOR (vx, 2);
-  ASSERT_VECTOR (vy, 3);
+  ASSERT_UVEC_S16 (vx, 2);
+  ASSERT_UVEC_S16 (vy, 3);
   ASSERT_SURFACE (texture, 4);
   ASSERT_EXACT (tdx, 5);
   ASSERT_EXACT (tdy, 6);
 
-  len = UVECLENGTH (vx);
-  cvx = alloca (sizeof (Sint16) * len);
-  cvy = alloca (sizeof (Sint16) * len);
-  RETURN_INT (texturedPolygon (UNPACK_SURFACE (surface),
-                               gsdl_scm_to_int16s (vx, cvx),
-                               gsdl_scm_to_int16s (vy, cvy),
-                               len, UNPACK_SURFACE (texture),
-                               C_INT (tdx), C_INT (tdy)));
+  HOWDY2 (vx, vy);
+  rv = texturedPolygon (UNPACK_SURFACE (surface),
+                        VBITS (vx), VBITS (vy), VLEN (vx),
+                        UNPACK_SURFACE (texture),
+                        C_INT (tdx), C_INT (tdy));
+  LATER2 (vy, vx);
+  RETURN_INT (rv);
 #undef FUNC_NAME
 }
 
@@ -499,22 +582,21 @@ specified by corresponding pairs from the uniform vectors
 @var{vx} and @var{vy}, with @var{s} steps in color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_bezier
-  Sint16 *cvx, *cvy;
-  unsigned int len;
+  STUFF2 (vx, vy);
+  int rv;
 
   ASSERT_SURFACE (surface, 1);
-  ASSERT_VECTOR (vx, 2);
-  ASSERT_VECTOR (vy, 3);
+  ASSERT_UVEC_S16 (vx, 2);
+  ASSERT_UVEC_S16 (vy, 3);
   ASSERT_EXACT (s, 4);
   ASSERT_EXACT (color, 5);
 
-  len = UVECLENGTH (vx);
-  cvx = alloca (sizeof (Sint16) * len);
-  cvy = alloca (sizeof (Sint16) * len);
-  RETURN_INT (bezierColor (UNPACK_SURFACE (surface),
-                           gsdl_scm_to_int16s (vx, cvx),
-                           gsdl_scm_to_int16s (vy, cvy),
-                           len, C_LONG (s), C_ULONG (color)));
+  HOWDY2 (vx, vy);
+  rv = bezierColor (UNPACK_SURFACE (surface),
+                    VBITS (vx), VBITS (vy), VLEN (vx),
+                    C_LONG (s), C_ULONG (color));
+  LATER2 (vy, vx);
+  RETURN_INT (rv);
 #undef FUNC_NAME
 }
 

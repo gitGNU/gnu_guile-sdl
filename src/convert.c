@@ -20,26 +20,6 @@
 
 #include "guile-sdl.h"
 
-int16_t *
-gsdl_scm_to_int16s (SCM obj, int16_t *data)
-{
-#if !GI_LEVEL_NOT_YET_1_8
-  scm_t_array_handle handle;
-  size_t i, len;
-  ssize_t inc;
-  const int16_t *elt;
-
-  obj = scm_any_to_s16vector (obj);
-  elt = scm_s16vector_elements (obj, &handle, &len, &inc);
-  for (i = 0; i < len;  i++, elt += inc)
-    data[i] = *elt;
-  scm_array_handle_release (&handle);
-#else  /* GI_LEVEL_NOT_YET_1_8 */
-  gh_scm2shorts (obj, data);
-#endif  /* GI_LEVEL_NOT_YET_1_8 */
-  return data;
-}
-
 uint16_t *
 gsdl_scm_to_uint16s (SCM obj, uint16_t *data)
 {
