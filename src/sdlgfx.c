@@ -18,12 +18,14 @@
  * Boston, MA  02110-1301  USA
  */
 
+#define GUILE_SDL_OPTIONAL_MODULE  1
 #include "guile-sdl.h"
 #include <stdio.h>
 #include <SDL/SDL.h>
 #include <alloca.h>
 
 IMPORT_MODULE (sdlsup, "(sdl sdl)");
+SELECT_MODULE_VAR (obtw, sdlsup, "%%Guile-SDL-obtw");
 
 
 #if GI_LEVEL_NOT_YET_1_8
@@ -1488,6 +1490,8 @@ init_module (void)
            print_fpsmgr);
 
 #include "sdlgfx.x"
+
+  btw = UNPACK_POINTER (CALL0 (obtw));
 }
 
 MOD_INIT_LINK_THUNK ("sdl gfx", sdl_gfx, init_module)

@@ -1,5 +1,66 @@
 2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[slog] Support "make install" and "make check" under Guile 1.8+.
+
+	* guile-sdl.h (CALL0): New #define.
+	(PACK_POINTER, UNPACK_POINTER): New macros.
+	(define_enum_t): New typedef.
+	(DEFINE_ENUM): Use ‘btw->define_enum’.
+	(make_flagstash_t): New typedef.
+	(struct obtw): New.
+	[GUILE_SDL_OPTIONAL_MODULE] (btw): New ‘static’ var decl.
+	[!GUILE_SDL_OPTIONAL_MODULE] (btw): New ‘extern’ var decl.
+	(GSTX_COLOR, GSTX_RECT, GSTX_SURFACE, GSTX_PIXEL_FORMAT)
+	(GSTX_RESERVED4, GSTX_RESERVED5, GSTX_RESERVED6, GSTX_RESERVED7)
+	(GSTX_TOO_MUCH): Delete #define:s.
+	(gsdl_smob_tags): Delete var.
+	(color_tag, rect_tag, surface_tag, pixel_format_tag): Use ‘btw’.
+	(gsdl_video_flags, gsdl_scm_to_uint16s, gsdl_scm_to_uint8s)
+	(gsdl_scm_from_uint16s): Move var and func decls inside
+	cpp conditional ‘!defined GUILE_SDL_OPTIONAL_MODULE’.
+	* sdl.c (btw): New var.
+	(gsdl_smob_tags): Delete var.
+	(obtw): New PRIMPROC.
+	(init_module): Init ‘btw’.
+	* sdlgfx.c (GUILE_SDL_OPTIONAL_MODULE): New #define.
+	(obtw): New Scheme proc object.
+	(init_module): Init ‘btw’.
+	* sdlmixer.c (GUILE_SDL_OPTIONAL_MODULE): New #define.
+	(obtw): New Scheme proc object.
+	(init_module): #include "sdlmixer.x" earlier; init ‘btw’.
+	* sdlttf.c (GUILE_SDL_OPTIONAL_MODULE): New #define.
+	(obtw): New Scheme proc object.
+	(init_module): #include "sdlttf.x" earlier; init ‘btw’.
+	* Makefile.am [LAME] (genwrap, basic, CLEANFILES): New vars.
+	[LAME] (cmod_DATA): Add $(basic).
+	[LAME] (pkglib_LTLIBRARIES): New var.
+	[LAME] (sdl.exports, gfx.exports, sdl, gfx): New targets.
+	[!LAME] (cmod_LTLIBRARIES): Move var into this am-cond.
+	(soargs): Bifurcate var on am-cond ‘LAME’.
+	(install-data-hook): Drop "past mistakes" decrufting;
+	if ‘LAME’, do ‘FOR_MAKE_CHECK’ handling; move $(updatemodcat)
+	into am-cond ‘!LAME’; drop am-cond ‘HAVE_MKPIMMC’.
+	(uninstall-hook): Move $(updatemodcat) into am-cond ‘!LAME’;
+	drop am-cond ‘HAVE_MKPIMMC’; delete both $(cmoddir), $(pkglibdir).
+	[HAVE_MIXER, LAME] (cmod_DATA): Add mixer.
+	[HAVE_MIXER, LAME] (pkglib_LTLIBRARIES): Add mixer.la.
+	[HAVE_MIXER, LAME] (CLEANFILES): Add mixer, mixer.exports.
+	[HAVE_MIXER, LAME] (mixer.exports, mixer): New targets.
+	[HAVE_MIXER] (cmod_LTLIBRARIES): Move ‘+=’ into am-cond ‘!LAME’.
+	[HAVE_TTF, LAME] (cmod_DATA): Add ttf.
+	[HAVE_TTF, LAME] (pkglib_LTLIBRARIES): Add ttf.la.
+	[HAVE_TTF, LAME] (CLEANFILES): add ttf, ttf.exports.
+	[HAVE_TTF, LAME] (ttf.exports, ttf): New targets.
+	[HAVE_TTF] (cmod_LTLIBRARIES): Move ‘+=’ into am-cond ‘!LAME’.
+	[HAVE_MKPIMMC] (noinst_DATA): Delete var ‘+=’.
+	[HAVE_MKPIMMC] (.module-catalog, clean-local): Delete targets.
+	(group-stamp): New target.
+	(noinst_DATA): Add group-stamp.
+	(update-libsite-module-catalog): Move out
+	of am-cond ‘HAVE_MKPIMMC’; use $(GUILE_TOOLS).
+
+2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Restrict type to s16 uvec for some gfx primitives.
 
 	These used accept arbitrary vectors, doing a costly

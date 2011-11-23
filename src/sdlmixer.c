@@ -18,10 +18,12 @@
  * Boston, MA  02110-1301  USA
  */
 
+#define GUILE_SDL_OPTIONAL_MODULE  1
 #include "guile-sdl.h"
 #include <SDL/SDL_mixer.h>
 
 IMPORT_MODULE (sdlsup, "(sdl sdl)");
+SELECT_MODULE_VAR (obtw, sdlsup, "%%Guile-SDL-obtw");
 
 
 static SCM fading_status_enum;
@@ -1009,10 +1011,12 @@ init_module (void)
            free_audio,
            NULL);
 
+#include "sdlmixer.x"
+
+  btw = UNPACK_POINTER (CALL0 (obtw));
+
   /* enums */
   fading_status_enum = DEFINE_ENUM ("fading-status", fading_status_eback);
-
-#include "sdlmixer.x"
 }
 
 MOD_INIT_LINK_THUNK ("sdl mixer", sdl_mixer, init_module)

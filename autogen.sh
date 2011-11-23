@@ -21,6 +21,7 @@ set -e
 guile-baux-tool import \
     re-prefixed-site-dirs \
     c2x \
+    gen-scheme-wrapper \
     forms-from \
     tsar \
     c-tsar \

@@ -18,10 +18,12 @@
  * Boston, MA  02110-1301  USA
  */
 
+#define GUILE_SDL_OPTIONAL_MODULE  1
 #include "guile-sdl.h"
 #include <SDL/SDL_ttf.h>
 
 IMPORT_MODULE (sdlsup, "(sdl sdl)");
+SELECT_MODULE_VAR (obtw, sdlsup, "%%Guile-SDL-obtw");
 
 
 static SCM ttf_flags;
@@ -430,9 +432,10 @@ init_module (void)
            free_font,
            /* TODO: print_font */ NULL);
 
-  ttf_flags = gsdl_make_flagstash (&ttf_flagstash);
-
 #include "sdlttf.x"
+
+  btw = UNPACK_POINTER (CALL0 (obtw));
+  ttf_flags = btw->make_flagstash (&ttf_flagstash);
 }
 
 MOD_INIT_LINK_THUNK ("sdl ttf", sdl_ttf, init_module)

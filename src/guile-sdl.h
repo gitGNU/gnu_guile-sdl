@@ -80,6 +80,7 @@
 #define SETCAR             gh_set_car_x
 #define VECLENGTH          gh_vector_length
 #define UVECLENGTH         gh_uniform_vector_length
+#define CALL0              gh_call0
 #define CALL1              gh_call1
 #define CALL3              gh_call3
 #define GC_PROTECT         scm_protect_object
@@ -114,6 +115,7 @@
 #define SETCAR             scm_set_car_x
 #define VECLENGTH          scm_c_vector_length
 #define UVECLENGTH         scm_c_uniform_vector_length
+#define CALL0              scm_call_0
 #define CALL1              scm_call_1
 #define CALL3              scm_call_3
 #define GC_PROTECT         scm_gc_protect_object
@@ -225,11 +227,6 @@ typedef struct {
   SCM_SNARF_HERE (static SCM fname arglist;)                           \
   SCM_DEFINE (fname, primname, req, opt, var, arglist, docstring)
 
-/*:Declare and later arrange for @var{cvar} (type SCM) to hold a resolved
-   module object for @var{fullname}, a C string such as "(ice-9 q)".  The
-   string is saved in a C variable named by prefixing "s_" to @var{cvar}.
-   You must use @var{cvar} as the second arg to @code{GH_SELECT_MODULE_VAR}.
-*/
 #define IMPORT_MODULE(cvar,fullname)                    \
 SCM_SNARF_HERE (static const char s_ ## cvar[] =        \
                 fullname "#_#_"; static SCM cvar)       \
@@ -255,6 +252,9 @@ void scm_init_ ## frag ## _module (void) { func (); }
 #else
 #error "guile deficient: not even SCM_DEFINE available!"
 #endif
+
+#define PACK_POINTER(x)    (scm_object_address (PTR2SCM (x)))
+#define UNPACK_POINTER(x)  ((void *) C_ULONG (x))
 
 /* Booleans.  */
 
@@ -319,10 +319,13 @@ typedef struct {
 
 #define VALAKA(x)  { x, { #x } }
 
+typedef SCM (define_enum_t) (const char *name, size_t count,
+                             valaka_t *backing);
+
 SCM gsdl_define_enum (const char *name, size_t count, valaka_t *backing);
 
 #define DEFINE_ENUM(name,backing)               \
-  gsdl_define_enum                              \
+  btw->define_enum                              \
   (name,                                        \
    sizeof (backing) / sizeof (valaka_t),        \
    backing)
@@ -350,6 +353,8 @@ typedef struct flagstash {
   aka_t *aka;
   SCM ht;
 } flagstash_t;
+
+typedef SCM (make_flagstash_t) (flagstash_t *stash);
 
 SCM gsdl_make_flagstash (flagstash_t *stash);
 
@@ -405,31 +410,29 @@ SCM gsdl_make_flagstash (flagstash_t *stash);
 
 #define SMOBFIELD(c_type,c_field)  (SMOBGET (obj, c_type)->c_field)
 
+struct obtw
+{
+  long smob_tags[4];
+  /* These are: color, rect, surface, pixel format.  */
+
+  make_flagstash_t *make_flagstash;
+  define_enum_t *define_enum;
+};
+
+#if 1 == GUILE_SDL_OPTIONAL_MODULE
+static
+#else
+#define btw  gsdl_btw
+extern
+#endif
+struct obtw *btw;
+
 /* Return values.  */
 
-/* Most smob tags are static, but a few are required to be global
-   because they are used in more than one compilation unit.  To minimize
-   linker symbol footprint we gather them into one big array, manually
-   indexed.  The convenience foo_tag macros are for consistency w/ the
-   static variants.  "GSTX" stands for "Guile-sdl (and/or Global) Smob
-   Tag indeX".  */
-
-#define GSTX_COLOR              0
-#define GSTX_RECT               1
-#define GSTX_SURFACE            2
-#define GSTX_PIXEL_FORMAT       3
-#define GSTX_RESERVED4          4
-#define GSTX_RESERVED5          5
-#define GSTX_RESERVED6          6
-#define GSTX_RESERVED7          7
-#define GSTX_TOO_MUCH           8
-
-extern long gsdl_smob_tags[GSTX_TOO_MUCH];
-
-#define color_tag           (gsdl_smob_tags[GSTX_COLOR])
-#define rect_tag            (gsdl_smob_tags[GSTX_RECT])
-#define surface_tag         (gsdl_smob_tags[GSTX_SURFACE])
-#define pixel_format_tag    (gsdl_smob_tags[GSTX_PIXEL_FORMAT])
+#define color_tag           (btw->smob_tags[0])
+#define rect_tag            (btw->smob_tags[1])
+#define surface_tag         (btw->smob_tags[2])
+#define pixel_format_tag    (btw->smob_tags[3])
 
 #define rect_nick "SDL-Rect"
 #define GCMALLOC_RECT()  GCMALLOC (sizeof (SDL_Rect), rect_nick)
@@ -617,6 +620,8 @@ PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value), "")            \
   RETURN_UNSPECIFIED;                                                   \
 }
 
+#if !defined GUILE_SDL_OPTIONAL_MODULE
+
 /* Misc shared state.  */
 
 extern SCM gsdl_video_flags;
@@ -626,6 +631,8 @@ extern SCM gsdl_video_flags;
 uint16_t *gsdl_scm_to_uint16s (SCM obj, uint16_t *data);
 uint8_t *gsdl_scm_to_uint8s (SCM obj, uint8_t *data);
 SCM gsdl_scm_from_uint16s (uint16_t *data, size_t n);
+
+#endif  /* !defined GUILE_SDL_OPTIONAL_MODULE */
 
 #endif /* !defined (__GUILE_SDL_H) */
 

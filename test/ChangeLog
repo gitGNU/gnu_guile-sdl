@@ -1,5 +1,14 @@
 2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[slog] Support "make install" and "make check" under Guile 1.8+.
+
+	* zow.in: New file.
+	* Makefile.am (TESTS_ENVIRONMENT): Use "sh zow".
+	(simu, check_DATA): New vars.
+	($(simu), clean-local, installcheck-local): New targets.
+
+2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Restrict type to s16 uvec for some gfx primitives.
 
 	* gfx.scm: Use module (srfi srfi-4).

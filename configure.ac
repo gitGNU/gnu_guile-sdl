@@ -23,6 +23,8 @@ AC_CONFIG_HEADERS([src/config.h])
 AM_INIT_AUTOMAKE([1.11.1 gnu])
 AM_MAINTAINER_MODE
 
+SNUGGLE_SET_SOFIXFLAGS
+
 ##----------------------------------------------------------------------------
 ##: compiler
 
@@ -42,8 +44,10 @@ AC_SUBST([keepinside])
 SNUGGLE_PROGS
 SNUGGLE_FLAGS
 
-SNUGGLE_GUILE_TOOLS_EXISTSP([gsdl_cv_mkpimmc],[mkpimmc])
-AM_CONDITIONAL([HAVE_MKPIMMC],[test yes = $gsdl_cv_mkpimmc])
+SNUGGLE_GUILE_TOOLS_EXISTSP([gsdl_cv_mmc],[make-module-catalog])
+AM_CONDITIONAL([LAME],[test no = $gsdl_cv_mmc])
+AM_COND_IF([LAME],[AC_DEFINE([LAME], 1,
+[Define to 1 if Guile needs a Scheme wrapper to load .so files.])])
 
 CPPFLAGS="$GUILE_CFLAGS"
 
@@ -110,30 +114,6 @@ AC_DISABLE_STATIC	dnl module only
 AC_PROG_LIBTOOL
 
 ##----------------------------------------------------------------------------
-
-# This is basically ‘GUILE_MODULE_CATALOG_PREP’, q.v.,
-# but hacked to operate in src/ instead of top-level.
-# TODO: Make GUILE_MODULE_CATALOG_PREP take 2nd arg.
-#
-AC_DEFUN([MODULE_CATALOG_PREP],[
-  AC_CONFIG_COMMANDS([module-catalog-prep],[
-    test x"$DEPDIR" = x && DEPDIR=".deps"
-    test -d "src/$DEPDIR" || mkdir "src/$DEPDIR"
-    prereq="$DEPDIR/m4_case([$1],[],[.Pmodule-catalog],[$1])"
-    test -f "src/$prereq" || echo '# dummy' > "src/$prereq"
-    grep -q "include $prereq" src/Makefile || echo "include $prereq" >> src/Makefile
-  ])
-  AC_CONFIG_COMMANDS([module-catalog-clean-local],[
-    prereq="src/$DEPDIR/m4_case([$1],[],[.Pmodule-catalog],[$1])"
-    test -f "$prereq" && echo '# dummy' > "$prereq"
-  ])
-])
-
-if test yes = $gsdl_cv_mkpimmc ; then
-MODULE_CATALOG_PREP
-fi
-
-##----------------------------------------------------------------------------
 ##: write it out
 
 AC_CONFIG_FILES([
@@ -142,6 +122,7 @@ AC_CONFIG_FILES([
   src/SDL_gfx/Makefile
   doc/Makefile
   test/Makefile
+  test/zow
 ])
 
 AC_OUTPUT

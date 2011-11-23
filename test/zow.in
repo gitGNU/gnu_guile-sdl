@@ -1,0 +1,26 @@
+#!/bin/sh
+# zow --- run "@GUILE@" w/ proper test environment
+
+test x"$DEBUG" = x || dopt='--debug'
+
+prefix=`pwd`/.simu
+exec_prefix="@exec_prefix@"
+libdir="@libdir@"
+
+if [ x"$GUILE_LIBSITE" = x ]
+then d="@GUILE_LIBSITE@"
+else d="$GUILE_LIBSITE"
+fi
+
+# Make sure ‘GUILE_LIBSITE’ is sane.
+test x"$VERBOSE" = x || echo GUILE_LIBSITE: $d
+if [ -z "$d" ] || [ ! -d "$d" ]
+then
+    echo 'zow: Invalid GUILE_LIBSITE value.'
+    exit 1
+fi
+
+test x"$DEBUG" = x || set -x
+exec ${GUILE-@GUILE@} $dopt -L "$d" -l $srcdir/common -s $1
+
+# zow ends here

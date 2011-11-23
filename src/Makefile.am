@@ -21,8 +21,6 @@ SUBDIRS = SDL_gfx
 
 cmoddir = $(GUILE_LIBSITE)/sdl
 
-cmod_LTLIBRARIES = sdl.la gfx.la
-
 WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
                   sdlenums.c misc.c
@@ -36,6 +34,35 @@ BUILT_SOURCES   = $(FLAGSTASH) $(WRAPPER_SOURCES:.c=.x) sdlgfx.x
 
 cmod_DATA = $(scheme)
 noinst_DATA =
+
+if LAME
+genwrap = $(gx) gen-scheme-wrapper --dlname \
+	  -o $@ $< -g sdl -t scm_init_~A_module \
+	  -i '$(pkglibdir)'
+
+basic = sdl gfx
+CLEANFILES = $(basic) $(basic:=.exports)
+cmod_DATA += $(basic)
+pkglib_LTLIBRARIES = $(basic:=.la)
+
+sdl.exports: sdl.tsar $(WRAPPER_SOURCES)
+	{ $(SED) '/^.[0-9]* [0-9]* [.] /!d;s///;s/.$$//' $^ ;	\
+	  $(SED) '/.*DEFINE_ENUM ."/!d;s///;s/".*//' $^ ;	\
+	} > $@
+
+gfx.exports: sdlgfx.c
+	> $@ \
+	$(SED) '/PRIMPROC/,/^(/!d;/^PRIMPROC/d;s/^.*"\(.*\)".*/\1/' $^
+
+sdl: sdl.la sdl.exports
+	$(genwrap)
+
+gfx: gfx.la gfx.exports
+	$(genwrap)
+
+else
+cmod_LTLIBRARIES = sdl.la gfx.la
+endif
 
 EXTRA_DIST = $(FLAGSTASH:.c=.fs) $(scheme)
 
@@ -82,31 +109,60 @@ if MAINTAINER_MODE
 endif ## MAINTAINER_MODE
 
 bx = $(top_srcdir)/build-aux
+if LAME
+soargs = $(DESTDIR)$(pkglibdir) $(pkglib_LTLIBRARIES)
+else !LAME
 soargs = $(DESTDIR)$(cmoddir) $(cmod_LTLIBRARIES)
+endif !LAME
+
 SOFIXFLAGS = no-la,no-symlinks
 
 updatemodcat = $(MAKE) $(AM_MAKEFLAGS) update-libsite-module-catalog
 
 install-data-hook:
-	cd "$(DESTDIR)$(cmoddir)" ; rm -f sdl-sup.* *.0.0.0
 	$(bx)/sofix $(SOFIXFLAGS) $(soargs)
-if HAVE_MKPIMMC
+if LAME
+	@if [ 1 = '$(FOR_MAKE_CHECK)' ] ; then		\
+	  for la in $(pkglib_LTLIBRARIES) ; do 		\
+	    b=`basename $$la .la` ;			\
+	    mv -f $$b $$b.STASH ;			\
+	    $(MAKE) $(AM_MAKEFLAGS) $$b ;		\
+	    $(INSTALL_DATA) $$b '$(cmoddir)' ;		\
+	    mv -f $$b.STASH $$b ;			\
+	  done ;					\
+	fi
+else !LAME
 	$(updatemodcat)
-endif
+endif !LAME
 
 uninstall-hook:
 	$(bx)/uninstall-sofixed $(soargs)
-	rm -rf $(DESTDIR)$(cmoddir)
-if HAVE_MKPIMMC
+if !LAME
 	$(updatemodcat)
-endif
+endif !LAME
+	-rmdir '$(DESTDIR)$(cmoddir)'
+	-rmdir '$(DESTDIR)$(pkglibdir)'
 
 ############################################################ begin optional
 
 if HAVE_MIXER
 
 BUILT_SOURCES    += sdlmixer.x
+if LAME
+cmod_DATA += mixer
+pkglib_LTLIBRARIES += mixer.la
+CLEANFILES += mixer mixer.exports
+
+mixer.exports: sdlmixer.c
+	> $@ \
+	$(SED) '/PRIMPROC/,/^(/!d;/^PRIMPROC/d;s/^.*"\(.*\)".*/\1/' $^
+
+mixer: mixer.la mixer.exports
+	$(genwrap)
+
+else
 cmod_LTLIBRARIES += mixer.la
+endif
 
 mixer_la_SOURCES = sdlmixer.c
 mixer_la_LDFLAGS = $(modflags) -lSDL_mixer
@@ -122,7 +178,21 @@ if HAVE_TTF
 
 EXTRA_DIST       += ttf.c
 BUILT_SOURCES    += ttf.c sdlttf.x
+if LAME
+cmod_DATA += ttf
+pkglib_LTLIBRARIES += ttf.la
+CLEANFILES += ttf ttf.exports
+
+ttf.exports: sdlttf.c
+	> $@ \
+	$(SED) '/PRIMPROC/,/^(/!d;/^PRIMPROC/d;s/^.*"\(.*\)".*/\1/' $^
+
+ttf: ttf.la ttf.exports
+	$(genwrap)
+
+else
 cmod_LTLIBRARIES += ttf.la
+endif
 
 ttf_la_SOURCES = sdlttf.c
 ttf_la_LDFLAGS = $(modflags) -lSDL_ttf
@@ -134,23 +204,15 @@ ttf.tsar: $(ttf_la_SOURCES)
 endif
 endif # HAVE_TTF
 
+group-stamp: $(cmod_LTLIBRARIES) $(pkglib_LTLIBRARIES)
+	@echo $^ > $@
+noinst_DATA += group-stamp
+
 ###################################################### begin module catalog
 
-if HAVE_MKPIMMC
-noinst_DATA += .module-catalog
-
-.module-catalog:
-	guile-tools mkpimmc -d $(DEPDIR) $@ "$(srcdir)"	\
-	  -- -d in,lo,o,git -X '~$$'
-
-clean-local:
-	rm -f .module-catalog
-	../config.status module-catalog-clean-local
-
 update-libsite-module-catalog:
-	guile-tools make-module-catalog -t "$(DESTDIR)"	\
+	$(GUILE_TOOLS) make-module-catalog -t "$(DESTDIR)"	\
 	  "$(DESTDIR)$(GUILE_LIBSITE)"
-endif # HAVE_MKPIMMC
 
 ####################################################################### etc
 

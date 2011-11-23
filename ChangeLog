@@ -1,3 +1,17 @@
+2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[slog] Support "make install" and "make check" under Guile 1.8+.
+
+	* autogen.sh: Import Guile-BAUX module ‘gen-scheme-wrapper’.
+	* configure.ac (SNUGGLE_SET_SOFIXFLAGS): New macro call.
+	(gsdl_cv_mkpimmc): Delete var.
+	(HAVE_MKPIMMC): Delete am-cond.
+	(gsdl_cv_mmc): New var, for "guile-tools make-module-catalog".
+	(LAME): New am-cond.
+	(LAME): New AC_SUBST.
+	(MODULE_CATALOG_PREP): Delete AC_DEFUN and its call.
+	(AC_CONFIG_FILES): Add test/zow.
+
 2011-11-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[uninstall] Fix bug: Make sure everything is properly deleted.

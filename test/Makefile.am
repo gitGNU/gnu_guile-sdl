@@ -30,7 +30,7 @@ TESTS = alive.test				\
 TESTS_ENVIRONMENT = \
 	HAVE_TTF=$(HAVE_TTF) \
 	HAVE_MIXER=$(HAVE_MIXER) \
-	$(GUILE) -L "@abs_top_builddir@/src" -l $(srcdir)/common -s
+	sh zow
 
 noises = background.ogg fx.ogg fx.wav
 images = gnu-goatee.jpg
@@ -40,5 +40,22 @@ EXTRA_DIST = common $(TESTS) \
  $(noises) \
  $(images) \
  $(etcetc)
+
+simu = .simu
+check_DATA = $(simu)
+
+$(simu): ../src/group-stamp
+	top=`pwd`/$@ ;				\
+	rm -rf $$top ;				\
+	cd ../src ;				\
+	$(MAKE) $(AM_MAKEFLAGS) install		\
+	  FOR_MAKE_CHECK=1			\
+	  prefix="$$top"
+
+clean-local:
+	-rm -rf $(simu)
+
+installcheck-local:
+	$(MAKE) $(AM_MAKEFLAGS) check GUILE_LIBSITE='$(GUILE_LIBSITE)'
 
 ## Makefile.am ends here

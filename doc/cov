@@ -23,6 +23,7 @@ test -n "${srcdir}"
 
 sed -e '/^[(][0-9][0-9]* [0-9][0-9]* [.] \(.*\)[)]/!d' \
     -e 's//\1/' \
+    -e '/^%%/d' \
     ../*/*.tsar \
     | sort \
     > TMP-dot-tsar-files

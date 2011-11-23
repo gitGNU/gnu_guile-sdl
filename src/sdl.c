@@ -21,6 +21,8 @@
 #include "guile-sdl.h"
 #include <SDL/SDL.h>
 
+struct obtw *btw;
+
 
 /* Forward declarations on this page.  */
 
@@ -33,12 +35,6 @@ extern void gsdl_init_event (void);
 extern void gsdl_init_joystick (void);
 extern void gsdl_init_cdrom (void);
 extern void gsdl_init_misc (void);
-
-
-/* See ../include/sdlsmobs.h for discussion.
-   The assignment is forces allocation in data space.  */
-
-long gsdl_smob_tags[GSTX_TOO_MUCH] = {0x50feeb1e,};
 
 
 static SCM init_flags;
@@ -177,12 +173,28 @@ Return the current SDL error string.  */)
 }
 
 
+PRIMPROC
+(obtw, "%%Guile-SDL-obtw", 0, 0, 0,
+ (void),
+ doc: /***********
+Internal procedure; do not use.  */)
+{
+#define FUNC_NAME s_obtw
+  return PACK_POINTER (btw);
+#undef FUNC_NAME
+}
+
 #include "init.c"
 
 static
 void
 init_module (void)
 {
+  /* Oh, by the way...  */
+  btw = calloc (1, sizeof (*btw));
+  btw->make_flagstash = gsdl_make_flagstash;
+  btw->define_enum = gsdl_define_enum;
+
   /* Initialize enums first, so we can use them.  */
   gsdl_init_enums ();
 

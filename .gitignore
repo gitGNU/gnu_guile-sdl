@@ -40,18 +40,27 @@ Makefile.in
 
 /build-aux/guile-baux
 
+/src/*.exports
 /src/*.tsar
 /src/config.h
 /src/config.h.in
 /src/evmask.c
+/src/gfx
+/src/group-stamp
 /src/init.c
 /src/kmod.c
+/src/mixer
 /src/modsup.h
 /src/overlay.c
 /src/palette.c
+/src/sdl
 /src/stamp-h1
+/src/ttf
 /src/ttf.c
 /src/video.c
+
+/test/.simu
+/test/zow
 
 /doc/ef-ref.texi
 /doc/excuse.texi
