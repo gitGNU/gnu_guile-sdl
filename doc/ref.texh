@@ -447,6 +447,7 @@ to the audio device.
 @tsin i draw-hline
 @tsin i draw-vline
 @tsin i draw-rectangle
+@tsin i draw-rounded-rectangle
 @tsin i draw-line
 @tsin i draw-aa-line
 @tsin i draw-arc

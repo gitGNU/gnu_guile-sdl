@@ -1,3 +1,9 @@
+2011-11-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (sdl gfx) proc: draw-rounded-rectangle
+
+	* gfx.scm: Test rounded-rectangle drawing, too.
+
 2011-11-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[slog] Support "make install" and "make check" under Guile 1.8+.

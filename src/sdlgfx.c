@@ -215,6 +215,38 @@ Optional arg @var{fill} means to fill the rectangle as well.  */)
 
 
 PRIMPROC
+(draw_rounded_rectangle, "draw-rounded-rectangle", 7, 1, 0,
+ (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
+  SCM rad, SCM color, SCM fill),
+ doc: /***********
+On @var{surface}, draw a rectangle with opposite points
+@var{x1},@var{y1} and @var{x2},@var{y2},
+with rounded corners radius @var{rad} in color @var{color}.
+Optional arg @var{fill} means to fill the rectangle as well.  */)
+{
+#define FUNC_NAME s_draw_rounded_rectangle
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x1, 2);
+  ASSERT_EXACT (y1, 3);
+  ASSERT_EXACT (x2, 4);
+  ASSERT_EXACT (y2, 5);
+  ASSERT_EXACT (rad, 6);
+  ASSERT_EXACT (color, 7);
+  UNBOUND_MEANS_FALSE (fill);
+
+  RETURN_INT
+    ((EXACTLY_FALSEP (fill)
+      ? roundedRectangleColor
+      : roundedBoxColor) (UNPACK_SURFACE (surface),
+                          C_LONG (x1), C_LONG (y1),
+                          C_LONG (x2), C_LONG (y2),
+                          C_LONG (rad),
+                          C_ULONG (color)));
+#undef FUNC_NAME
+}
+
+
+PRIMPROC
 (draw_line, "draw-line", 6, 0, 0,
  (SCM surface, SCM x1, SCM y1,
   SCM x2, SCM y2, SCM color),

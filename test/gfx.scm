@@ -283,6 +283,20 @@
         (SDL:blit-surface blot brect SCREEN srect)))
     (SDL:flip)))
 
+;; draw rounded rectangles
+(do ((inc 0 (random 8))
+     (rad 0 (+ rad inc))
+     (x1 0 (+ x1 inc))
+     (y1 0 (+ y1 inc))
+     (x2 (1- (SDL:surface:w SCREEN)) (- x2 inc))
+     (y2 (1- (SDL:surface:h SCREEN)) (- y2 inc)))
+    ((<= 240 rad))
+  (SDL:draw-rounded-rectangle
+   SCREEN x1 y1 x2 y2
+   rad (+ #x30 (ash (random #xffffff) 8))
+   (zero? (random 8)))
+  (SDL:flip))
+
 ;; clean up
 (SDL:delay 2000)
 (SDL:quit)
