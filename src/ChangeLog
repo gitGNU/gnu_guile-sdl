@@ -1,5 +1,14 @@
 2011-11-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[gfx] Fix typo in rounded-rectangle subroutine.
+
+	TODO: Send this to Andreas Schiffler.
+
+	* SDL_gfx/SDL_gfxPrimitives.c (_murphyWideline):
+	Fix typo: Swap ‘y1’ and ‘y2’ correctly.
+
+2011-11-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	New (sdl gfx) proc: draw-rounded-rectangle
 
 	* sdlgfx.c (draw_rounded_rectangle): New PRIMPROC.
