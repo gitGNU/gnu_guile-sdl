@@ -141,8 +141,10 @@
 (define (one start-l start-r start-t start-b)
 
   (define (line!-proc color)
-    (lambda (x1 y1 x2 y2)
-      (SDL:draw-line SCREEN x1 y1 x2 y2 color)))
+    (let ((barest-hint (logior #x08 (logand color (lognot #xff)))))
+      (lambda (x1 y1 x2 y2)
+        (SDL:draw-thick-line SCREEN x1 y1 x2 y2 7 barest-hint)
+        (SDL:draw-line SCREEN x1 y1 x2 y2 color))))
 
   (define (span-points beg end steps)
     (define (integer<- x)

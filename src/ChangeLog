@@ -1,3 +1,9 @@
+2011-11-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (sdl gfx) proc: draw-thick-line
+
+	* sdlgfx.c (draw_thick_line): New PRIMPROC.
+
 2011-11-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[gfx] Fix typo in rounded-rectangle subroutine.

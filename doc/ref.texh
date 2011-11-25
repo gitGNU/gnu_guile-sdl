@@ -450,6 +450,7 @@ to the audio device.
 @tsin i draw-rounded-rectangle
 @tsin i draw-line
 @tsin i draw-aa-line
+@tsin i draw-thick-line
 @tsin i draw-arc
 @tsin i draw-circle
 @tsin i draw-aa-circle

@@ -299,6 +299,33 @@ with color @var{color}.  */)
 
 
 PRIMPROC
+(draw_thick_line, "draw-thick-line", 7, 0, 0,
+ (SCM surface, SCM x1, SCM y1, SCM x2, SCM y2,
+  SCM width, SCM color),
+ doc: /***********
+On @var{surface}, draw a line segment from
+@var{x1},@var{y1} to @var{x2},@var{y2},
+with thickness @var{width} in color @var{color}.  */)
+{
+#define FUNC_NAME s_draw_thick_line
+  ASSERT_SURFACE (surface, 1);
+  ASSERT_EXACT (x1, 2);
+  ASSERT_EXACT (y1, 3);
+  ASSERT_EXACT (x2, 4);
+  ASSERT_EXACT (y2, 5);
+  ASSERT_EXACT (width, 6);
+  ASSERT_EXACT (color, 7);
+
+  RETURN_INT
+    (thickLineColor (UNPACK_SURFACE (surface),
+                     C_LONG (x1), C_LONG (y1),
+                     C_LONG (x2), C_LONG (y2),
+                     C_ULONG (width), C_ULONG (color)));
+#undef FUNC_NAME
+}
+
+
+PRIMPROC
 (draw_circle, "draw-circle", 5, 1, 0,
  (SCM surface, SCM x, SCM y, SCM r,
   SCM color, SCM fill),

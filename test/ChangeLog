@@ -1,3 +1,9 @@
+2011-11-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (sdl gfx) proc: draw-thick-line
+
+	* gfx.scm (one line!-proc): Also draw thick line.
+
 2011-11-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	New (sdl gfx) proc: draw-rounded-rectangle
