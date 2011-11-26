@@ -522,7 +522,7 @@ Return a new surface created by flipping @var{surface} vertically.  */)
   ASSERT_SURFACE (surface, 1);
 
   /* Get source and dimensions.  */
-  src = SMOBGET (surface, SDL_Surface *);
+  src = UNPACK_SURFACE (surface);
   w = src->w;
   h = src->h;
 
@@ -562,7 +562,7 @@ Return a new surface created by flipping @var{surface} horizontally.  */)
   ASSERT_SURFACE (surface, 1);
 
   /* Get source and dimensions.  */
-  src = SMOBGET (surface, SDL_Surface *);
+  src = UNPACK_SURFACE (surface);
   w = src->w;
   h = src->h;
 

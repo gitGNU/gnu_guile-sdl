@@ -734,7 +734,7 @@ fourth arg @var{smooth} turns on anti-aliasing.  */)
   double cangle = 0.0, czoom = 1.0;
 
   ASSERT_SURFACE (surface, 1);
-  csurface = SMOBGET (surface, SDL_Surface *);
+  csurface = UNPACK_SURFACE (surface);
 
   ASSERT_NUMBER (angle, 2);
   cangle = C_DOUBLE (angle);
@@ -773,7 +773,7 @@ turns on anti-aliasing.  */)
   double cangle = 0.0, czoomx = 1.0, czoomy = 1.0;
 
   ASSERT_SURFACE (surface, 1);
-  csurface = SMOBGET (surface, SDL_Surface *);
+  csurface = UNPACK_SURFACE (surface);
 
   ASSERT_NUMBER (angle, 2);
   cangle = C_DOUBLE (angle);
@@ -818,7 +818,7 @@ Optional fourth arg @var{smooth} turns on anti-aliasing.  */)
   double czoomx = 1.0, czoomy = 1.0;
 
   ASSERT_SURFACE (surface, 1);
-  csurface = SMOBGET (surface, SDL_Surface *);
+  csurface = UNPACK_SURFACE (surface);
 
   ASSERT_NUMBER (zoomx, 2);
   czoomx = C_DOUBLE (zoomx);
@@ -860,7 +860,7 @@ box RGBA or Y information'' and is in 32-bit RGBA format.  */)
   unsigned int cfactorx, cfactory;
 
   ASSERT_SURFACE (surface, 1);
-  csurface = SMOBGET (surface, SDL_Surface *);
+  csurface = UNPACK_SURFACE (surface);
 
   ASSERT_EXACT (factorx, 2);
   cfactorx = C_ULONG (factorx);

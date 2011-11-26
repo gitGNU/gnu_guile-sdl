@@ -39,7 +39,7 @@ static
 int
 print_rect (SCM smob, SCM port, scm_print_state *pstate)
 {
-  SDL_Rect *rect = SMOBGET (smob, SDL_Rect *);
+  SDL_Rect *rect = UNPACK_RECT (smob);
   char buf[64];
 
   snprintf (buf, 64, "#<%s %ux%u%+d%+d>", rect_nick,

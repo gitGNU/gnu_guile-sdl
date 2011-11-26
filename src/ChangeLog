@@ -1,5 +1,15 @@
 2011-11-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Use UNPACK_{SURFACE,RECT} more.
+
+	* sdlgfx.c (roto_zoom_surface, roto_zoom_surface_xy)
+	(zoom_surface, shrink_surface): Use ‘UNPACK_SURFACE’.
+	* sdlsurface.c (vertical_flip_surface)
+	(horizontal_flip_surface): Likewise.
+	* sdlrect.c (print_rect): Use ‘UNPACK_RECT’.
+
+2011-11-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Decruft: Don't stone enumstash and its hash.
 
 	* sdlenums.c (gsdl_define_enum): Don't stone the hash or smob.
