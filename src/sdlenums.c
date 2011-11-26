@@ -78,7 +78,7 @@ gsdl_define_enum (const char *name, size_t count, valaka_t *backing)
   s->backing = backing;
 
   /* Create the enum hash.  */
-  table = scm_permanent_object (MAKE_HASH_TABLE (count));
+  table = MAKE_HASH_TABLE (count);
   for (i = 0; i < count; i++)
     {
       b = backing + i;
@@ -90,7 +90,6 @@ gsdl_define_enum (const char *name, size_t count, valaka_t *backing)
 
   /* Build and define the enum smob instance.  */
   SCM_NEWSMOB (enumstash, enum_tag, s);
-  enumstash = scm_permanent_object (enumstash);
   DEFINE_PUBLIC (name, enumstash);
   return enumstash;
 }
