@@ -21,7 +21,6 @@
 #include "guile-sdl.h"
 #include <stdio.h>
 #include <alloca.h>
-#include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
 #define MAX_DRIVER_LEN    100

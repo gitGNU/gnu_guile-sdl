@@ -21,7 +21,6 @@
 #define GUILE_SDL_OPTIONAL_MODULE  1
 #include "guile-sdl.h"
 #include <stdio.h>
-#include <SDL/SDL.h>
 #include <alloca.h>
 
 IMPORT_MODULE (sdlsup, "(sdl sdl)");

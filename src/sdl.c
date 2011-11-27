@@ -19,7 +19,6 @@
  */
 
 #include "guile-sdl.h"
-#include <SDL/SDL.h>
 
 struct obtw *btw;
 

@@ -20,7 +20,6 @@
 
 #include "guile-sdl.h"
 #include <stdio.h>
-#include <SDL/SDL.h>
 
 static long cdrom_tag;
 

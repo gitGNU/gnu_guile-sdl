@@ -1,5 +1,22 @@
 2011-11-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Decruft: Don't #include <SDL/SDL.h> unnecessarily.
+
+	It's no longer necessary due to 2011-11-27, "Add
+	abstractions: DECLARE_PF, RETURN_NEW_PF_OR_FALSE".
+
+	* misc.c: Don't #include <SDL/SDL.h>.
+	* sdl.c: Likewise.
+	* sdlcdrom.c: Likewise.
+	* sdlcolor.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2011-11-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Fix bug: Don't ‘SDL_FreeSurface’ internal surfaces.
 
 	* guile-sdl.h (surface_nick): Move #define here from sdlsurface.c.
