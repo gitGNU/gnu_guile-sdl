@@ -333,11 +333,13 @@ SCM gsdl_define_enum (const char *name, size_t count, valaka_t *backing);
    sizeof (backing) / sizeof (valaka_t),        \
    backing)
 
-long gsdl_enum2long (SCM s_enum, SCM enum_type, int pos, const char *func);
-SCM gsdl_long2enum (long value, SCM enum_type);
+typedef long (enum2long_t) (SCM s_enum, SCM enum_type,
+                            int pos, const char *func);
+
+typedef SCM (long2enum_t) (long value, SCM enum_type);
 
 #define GSDL_ENUM2LONG(enums,table,pos) \
-  gsdl_enum2long ((enums), (table), (pos), FUNC_NAME)
+  btw->enum2long ((enums), (table), (pos), FUNC_NAME)
 
 /* flags (constants typically used as a logical or'ed group) */
 
@@ -437,6 +439,8 @@ struct obtw
 
   make_flagstash_t *make_flagstash;
   define_enum_t *define_enum;
+  enum2long_t *enum2long;
+  long2enum_t *long2enum;
 };
 
 #if 1 == GUILE_SDL_OPTIONAL_MODULE
@@ -634,7 +638,7 @@ PRIMPROC (c_func, s_func, 1, 0, 0, (SCM obj), "")                       \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, tag, 1);                                            \
-  return gsdl_long2enum (SMOBFIELD (c_type, c_field), etype);           \
+  return btw->long2enum (SMOBFIELD (c_type, c_field), etype);           \
 }
 
 #define GSDL_ENUM_SETTER(s_func, c_func, tag, c_type, c_field, etype)   \

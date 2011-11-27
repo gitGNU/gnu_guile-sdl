@@ -103,8 +103,8 @@ lookup (SCM key, enum_struct *e)
 
 /* C level conversions */
 
-long
-gsdl_enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
+static long
+enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
 {
   long result = 0;
   enum_struct *e = UNPACK_ENUM (enumstash);
@@ -124,8 +124,8 @@ gsdl_enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
   return result;
 }
 
-SCM
-gsdl_long2enum (long value, SCM enumstash)
+static SCM
+long2enum (long value, SCM enumstash)
 {
   return lookup (NUM_LONG (value), UNPACK_ENUM (enumstash));
 }
@@ -378,6 +378,9 @@ Use @var{stash} to convert @var{number} to a list of symbols.  */)
 void
 gsdl_init_enums (void)
 {
+  btw->enum2long = enum2long;
+  btw->long2enum = long2enum;
+
   DEFSMOB (enum_tag, "SDL-enum", mark_enum, NULL, NULL);
 
   DEFSMOB (flagstash_tag, "SDL-flagstash",

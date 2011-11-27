@@ -1,5 +1,21 @@
 2011-11-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Move enum conversion funcs dispatch into ‘btw’.
+
+	* guile-sdl.h (gsdl_enum2long, gsdl_long2enum): Delete func decls.
+	(enum2long_t, long2enum_t): New typedefs.
+	(GSDL_ENUM2LONG): Use ‘btw->enum2long’.
+	(struct obtw): Add members ‘enum2long’, ‘long2enum’.
+	(GSDL_ENUM_GETTER): Use ‘btw->long2enum’.
+	* sdlenums.c (enum2long): Rename from ‘gsdl_enum2long’; make static.
+	(long2enum): Rename from ‘gsdl_long2enum’; make static.
+	(gsdl_init_enums): Init ‘btw->enum2long’ and ‘btw->long2enum’.
+	* sdlevent.c (the_event_filter)
+	(event_state, get_key_state): Use ‘btw->long2enum’.
+	* sdlmixer.c (RETURN_FADINGSTATUS): Likewise.
+
+2011-11-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Decruft: Don't #include <SDL/SDL.h> unnecessarily.
 
 	It's no longer necessary due to 2011-11-27, "Add

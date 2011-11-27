@@ -33,7 +33,7 @@ static valaka_t fading_status_eback[] = {
   VALAKA (MIX_FADING_IN)
 };
 
-#define RETURN_FADINGSTATUS(x)  return gsdl_long2enum ((x), fading_status_enum)
+#define RETURN_FADINGSTATUS(x)  return btw->long2enum ((x), fading_status_enum)
 
 
 static long mix_music_tag;

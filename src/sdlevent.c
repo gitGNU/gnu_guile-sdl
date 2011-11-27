@@ -666,7 +666,7 @@ the_event_filter (const SDL_Event *event)
   switch (efi.type)
     {
     case EF_TYPE_ONLY:
-      arg = gsdl_long2enum (event->type, event_type_enum);
+      arg = btw->long2enum (event->type, event_type_enum);
       break;
     case EF_FULL_EVENT:
       {
@@ -746,7 +746,7 @@ processing state of the specified event.  */)
 
   ret = SDL_EventState (ctype, cstate);
   if (SDL_QUERY == cstate)
-    return gsdl_long2enum (ret, event_state_enum);
+    return btw->long2enum (ret, event_state_enum);
   else
     RETURN_UNSPECIFIED;
 #undef FUNC_NAME
@@ -812,7 +812,7 @@ Return a list of pressed keys (SDLK_* symbols).  */)
 
   for (i = 0; i < count; i++)
     if (keystate[i])
-      ls = CONS (gsdl_long2enum (i, event_keysym_enum), ls);
+      ls = CONS (btw->long2enum (i, event_keysym_enum), ls);
 
   return ls;
 #undef FUNC_NAME
