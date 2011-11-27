@@ -89,13 +89,7 @@ Return the flagstash object for overlay flags.
 
 #define cursor_nick "SDL-Cursor"
 
-typedef struct {
-  int freeable;
-  SDL_Cursor *c;
-} xSDL_Cursor;
-
-#define GCMALLOC_CURSOR()  GCMALLOC (sizeof (xSDL_Cursor), cursor_nick)
-
+DECLARE_PF (Cursor);
 
 
 /* tags for SDL smobs */
@@ -105,10 +99,15 @@ static long overlay_tag;
 #define ASSERT_CURSOR(obj,which)   ASSERT_SMOB (obj, cursor_tag, which)
 #define ASSERT_OVERLAY(obj,which)  ASSERT_SMOB (obj, overlay_tag, which)
 
-#define UNPACK_CURSOR(smob)       (SMOBGET (smob, xSDL_Cursor *))
+#define UNPACK_PF_CURSOR(smob)    (SMOBGET (smob, PF_Cursor *))
+#define UNPACK_CURSOR(smob)       (UNPACK_PF_CURSOR (smob)->object)
 #define UNPACK_OVERLAY(smob)      (SMOBGET (smob, SDL_Overlay *))
 
-#define RETURN_NEW_CURSOR(x)    NEWSMOB_OR_FALSE (cursor_tag, x)
+#define RETURN_PF_CURSOR(x,REFP)                        \
+  RETURN_NEW_PF_OR_FALSE (Cursor, cursor, REFP, x)
+
+#define RETURN_NEW_CURSOR(x)    RETURN_PF_CURSOR (x, 0)
+#define RETURN_INT_CURSOR(x)    RETURN_PF_CURSOR (x, 1)
 #define RETURN_NEW_OVERLAY(x)   NEWSMOB_OR_FALSE (overlay_tag, x)
 
 /* smob functions */
@@ -117,12 +116,12 @@ static
 size_t
 free_cursor (SCM cursor)
 {
-  xSDL_Cursor *ccursor = UNPACK_CURSOR (cursor);
+  PF_Cursor *pf = UNPACK_PF_CURSOR (cursor);
 
-  if (ccursor->freeable)
-    SDL_FreeCursor (ccursor->c);
-  GCFREE (ccursor, cursor_nick);
-  return GCRV (ccursor);
+  if (! pf->internalp)
+    SDL_FreeCursor (pf->object);
+  GCFREE (pf, cursor_nick);
+  return GCRV (pf);
 }
 
 static
@@ -177,7 +176,6 @@ Return a new cursor from @var{data} and @var{mask}
 and with hot pixel located at @var{x},@var{y}.  */)
 {
 #define FUNC_NAME s_create_cursor
-  xSDL_Cursor *cursor;
   Uint8 *cdata, *cmask;
 
   ASSERT_VECTOR (data, 1);
@@ -191,18 +189,12 @@ and with hot pixel located at @var{x},@var{y}.  */)
   cdata = alloca (sizeof (Uint8) * VECLENGTH (data));
   cmask = alloca (sizeof (Uint8) * VECLENGTH (mask));
 
-  /* Create the cursor.  */
-  if ((cursor = GCMALLOC_CURSOR ()))
-    {
-      cursor->c = SDL_CreateCursor (gsdl_scm_to_uint8s (data, cdata),
-                                    gsdl_scm_to_uint8s (mask, cmask),
-                                    C_LONG (w), C_LONG (h),
-                                    C_LONG (x), C_LONG (y));
-      cursor->freeable = 1;
-    }
-
-  /* Return the new smob.  */
-  RETURN_NEW_CURSOR (cursor);
+  /* Create the cursor and return the new smob.  */
+  RETURN_NEW_CURSOR
+    (SDL_CreateCursor (gsdl_scm_to_uint8s (data, cdata),
+                       gsdl_scm_to_uint8s (mask, cmask),
+                       C_LONG (w), C_LONG (h),
+                       C_LONG (x), C_LONG (y)));
 #undef FUNC_NAME
 }
 
@@ -902,7 +894,7 @@ Set the current mouse cursor to @var{cursor}.  */)
 {
 #define FUNC_NAME s_set_cursor
   ASSERT_CURSOR (cursor, 1);
-  SDL_SetCursor (UNPACK_CURSOR (cursor)->c);
+  SDL_SetCursor (UNPACK_CURSOR (cursor));
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
@@ -915,15 +907,7 @@ PRIMPROC
 Get the current mouse cursor.  */)
 {
 #define FUNC_NAME s_get_cursor
-  xSDL_Cursor *cursor;
-
-  if ((cursor = GCMALLOC_CURSOR ()))
-    {
-      cursor->freeable = 0;
-      cursor->c = SDL_GetCursor ();
-    }
-
-  RETURN_NEW_CURSOR (cursor);
+  RETURN_INT_CURSOR (SDL_GetCursor ());
 #undef FUNC_NAME
 }
 

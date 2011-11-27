@@ -1,5 +1,22 @@
 2011-11-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Use pf to wrap ‘SDL_Cursor’.
+
+	* sdlvideo.c (xSDL_Cursor): Delete struct.
+	(GCMALLOC_CURSOR): Delete macro.
+	(Cursor): New ‘DECLARE_PF’.
+	(UNPACK_PF_CURSOR): New macro.
+	(UNPACK_CURSOR): Use ‘UNPACK_PF_CURSOR’.
+	(RETURN_PF_CURSOR): New macro.
+	(RETURN_NEW_CURSOR): Use ‘RETURN_PF_CURSOR’.
+	(RETURN_INT_CURSOR): New macro.
+	(free_cursor): Rewrite.
+	(create_cursor): Update call to ‘RETURN_NEW_CURSOR’.
+	(set_cursor): Use ‘UNPACK_CURSOR’ directly.
+	(get_cursor): Use ‘RETURN_INT_CURSOR’.
+
+2011-11-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstractions: DECLARE_PF, RETURN_NEW_PF_OR_FALSE
 
 	* guile-sdl.h: #include <SDL/SDL.h>.
