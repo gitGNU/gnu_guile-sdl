@@ -32,8 +32,6 @@ static valaka_t alpha_eback[] = {
 
 /* smob functions */
 
-#define surface_nick "SDL-Surface"
-
 #define SURFACE_P(x) \
   (SCM_SMOB_PREDICATE (surface_tag, x))
 
@@ -41,8 +39,12 @@ static
 size_t
 free_surface (SCM surface)
 {
-  SDL_FreeSurface (UNPACK_SURFACE (surface));
-  return 0;
+  PF_Surface *pf = UNPACK_PF_SURFACE (surface);
+
+  if (! pf->internalp)
+    SDL_FreeSurface (pf->object);
+  GCFREE (pf, surface_nick);
+  return GCRV (pf);
 }
 
 static
@@ -144,12 +146,12 @@ for SDL_CreateRGBSurface, are: @var{flags}
 #define NUMBER_GETTER(f,backend)                        \
   GSDL_NUMBER_GETTER ("surface:" #f,                    \
                       surface_get_ ## f,                \
-                      surface_tag, SDL_Surface *,       \
+                      surface_tag, PF_Surface *,        \
                       backend)
 
-NUMBER_GETTER (w, w)
-NUMBER_GETTER (h, h)
-NUMBER_GETTER (depth, format->BitsPerPixel)
+NUMBER_GETTER (w, object->w)
+NUMBER_GETTER (h, object->h)
+NUMBER_GETTER (depth, object->format->BitsPerPixel)
 
 GSDL_FLAG_GETTER ("surface:flags", surface_get_flags,
                   surface_tag, SDL_Surface *,

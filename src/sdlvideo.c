@@ -245,7 +245,7 @@ PRIMPROC
 Return the current display surface.  */)
 {
 #define FUNC_NAME s_get_video_surface
-  RETURN_NEW_SURFACE (SDL_GetVideoSurface ());
+  RETURN_INT_SURFACE (SDL_GetVideoSurface ());
 #undef FUNC_NAME
 }
 
@@ -413,7 +413,7 @@ Return a new surface.  */)
   if (BOUNDP (flags))
     cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 4);
 
-  RETURN_NEW_SURFACE
+  RETURN_INT_SURFACE
     (SDL_SetVideoMode (C_LONG (width), C_LONG (height),
                        C_LONG (bpp), cflags));
 #undef FUNC_NAME

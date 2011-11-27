@@ -457,14 +457,19 @@ struct obtw *btw;
 #define rect_nick "SDL-Rect"
 #define GCMALLOC_RECT()  GCMALLOC (sizeof (SDL_Rect), rect_nick)
 
+#define surface_nick "SDL-Surface"
+
 #define ASSERT_COLOR(obj,n)         ASSERT_SMOB (obj, color_tag, n)
 #define ASSERT_RECT(obj,n)          ASSERT_SMOB (obj, rect_tag, n)
 #define ASSERT_SURFACE(obj,n)       ASSERT_SMOB (obj, surface_tag, n)
 #define ASSERT_PIXEL_FORMAT(obj,n)  ASSERT_SMOB (obj, pixel_format_tag, n)
 
+DECLARE_PF (Surface);
+#define UNPACK_PF_SURFACE(smob)    (SMOBGET (smob, PF_Surface *))
+
 #define UNPACK_COLOR(smob)         (SMOBGET (smob, SDL_Color *))
 #define UNPACK_RECT(smob)          (SMOBGET (smob, SDL_Rect *))
-#define UNPACK_SURFACE(smob)       (SMOBGET (smob, SDL_Surface *))
+#define UNPACK_SURFACE(smob)       (UNPACK_PF_SURFACE (smob)->object)
 #define UNPACK_PIXEL_FORMAT(smob)  (SMOBGET (smob, SDL_PixelFormat *))
 
 #define NEWSMOB_OR_FALSE(tag,x)                 \
@@ -494,9 +499,13 @@ struct obtw *btw;
     }                                                                   \
   while (0)
 
+#define RETURN_PF_SURFACE(x,INTERNALP)                          \
+  RETURN_NEW_PF_OR_FALSE (Surface, surface, INTERNALP, x)
+
 #define RETURN_NEW_COLOR(x)         NEWSMOB_OR_FALSE (color_tag, x)
 #define RETURN_NEW_RECT(x)          NEWSMOB_OR_FALSE (rect_tag, x)
-#define RETURN_NEW_SURFACE(x)       NEWSMOB_OR_FALSE (surface_tag, x)
+#define RETURN_NEW_SURFACE(x)       RETURN_PF_SURFACE (x, 0)
+#define RETURN_INT_SURFACE(x)       RETURN_PF_SURFACE (x, 1)
 #define RETURN_NEW_PIXEL_FORMAT(x)  NEWSMOB_OR_FALSE (pixel_format_tag, x)
 
 /* Lots of SDL functions return 0 for true, -1 otherwise.  */

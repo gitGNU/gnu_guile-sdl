@@ -1,5 +1,24 @@
 2011-11-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Fix bug: Don't ‘SDL_FreeSurface’ internal surfaces.
+
+	* guile-sdl.h (surface_nick): Move #define here from sdlsurface.c.
+	(Surface): New ‘DECLARE_PF’.
+	(UNPACK_PF_SURFACE): New macro.
+	(UNPACK_SURFACE): Use ‘UNPACK_PF_SURFACE’.
+	(RETURN_PF_SURFACE): New macro.
+	(RETURN_NEW_SURFACE): Use ‘RETURN_PF_SURFACE’.
+	(RETURN_INT_SURFACE): New macro.
+	* sdlsurface.c (surface_nick): Move #define to guile-sdl.h.
+	(free_surface): Rewrite.
+	(NUMBER_GETTER): Use ‘PF_Surface’.
+	(surface_get_w, surface_get_h, surface_depth):
+	Update to look in actual ‘object’.
+	* sdlvideo.c (get_video_surface, set_video_mode):
+	Use ‘RETURN_INT_SURFACE’.
+
+2011-11-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Use pf to wrap ‘SDL_Cursor’.
 
 	* sdlvideo.c (xSDL_Cursor): Delete struct.
