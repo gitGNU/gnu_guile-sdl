@@ -1,3 +1,10 @@
+2011-11-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Add abstractions: DECLARE_PF, RETURN_NEW_PF_OR_FALSE
+
+	* guile-sdl.h: #include <SDL/SDL.h>.
+	(DECLARE_PF, RETURN_NEW_PF_OR_FALSE): New macros.
+
 2011-11-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Use UNPACK_{SURFACE,RECT} more.

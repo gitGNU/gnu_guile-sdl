@@ -35,6 +35,7 @@
    Let's see how long this insufferable anti-portability attitude
    stands in the Real World!  :-D  */
 #include <stdint.h>
+#include <SDL/SDL.h>
 
 
 /* Guile.  */
@@ -412,6 +413,23 @@ SCM gsdl_make_flagstash (flagstash_t *stash);
 
 #define SMOBFIELD(c_type,c_field)  (SMOBGET (obj, c_type)->c_field)
 
+/* {wrapping "current" (libsdl internal) objects}
+
+   Some libsdl funcs return, instead of a newly constructed object, an
+   an object currently in use internal to libsdl.  For these, it is
+   incorrect to call the (SDL) type's free func in the smob's free func.
+
+   To distinguish these objects, we use a "possibly freeable" structure
+   to wrap the actual object, and set ‘.internalp’ as appropriate.
+   In the smob free func, an object with ‘.internalp’ set is not
+   passed to its (SDL) type's free func.  */
+
+#define DECLARE_PF(ACTUAL)                      \
+  typedef struct {                              \
+    SDL_ ## ACTUAL *object;                     \
+    int internalp;                              \
+  } PF_ ## ACTUAL
+
 struct obtw
 {
   long smob_tags[4];
@@ -458,6 +476,23 @@ struct obtw *btw;
     else                                        \
       RETURN_FALSE;                             \
   } while (0)
+
+#define RETURN_NEW_PF_OR_FALSE(ACTUAL,LOCALPREFIX,INTERNALP,X)  do      \
+    {                                                                   \
+      SDL_ ## ACTUAL *__p = X;                                          \
+                                                                        \
+      if (NULL != __p)                                                  \
+        {                                                               \
+          PF_ ## ACTUAL *pf = GCMALLOC (sizeof (PF_ ## ACTUAL),         \
+                                        LOCALPREFIX ## _nick);          \
+          pf->object = __p;                                             \
+          pf->internalp = INTERNALP;                                    \
+          SCM_RETURN_NEWSMOB (LOCALPREFIX ## _tag, pf);                 \
+        }                                                               \
+      else                                                              \
+        RETURN_FALSE;                                                   \
+    }                                                                   \
+  while (0)
 
 #define RETURN_NEW_COLOR(x)         NEWSMOB_OR_FALSE (color_tag, x)
 #define RETURN_NEW_RECT(x)          NEWSMOB_OR_FALSE (rect_tag, x)
