@@ -1,3 +1,12 @@
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (sdl gfx) elements: font-rotation!, font-rotations
+
+	* sdlgfx.c (frot_enum): New static ‘SCM’.
+	(frot_eback): New static array of ‘valaka_t’.
+	(font_rotation_x): New PRIMPROC.
+	(init_module): Init ‘frot_enum’ w/ Scheme name ‘font-rotations’.
+
 2011-11-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Move enum conversion funcs dispatch into ‘btw’.

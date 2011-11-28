@@ -1,3 +1,10 @@
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (sdl gfx) elements: font-rotation!, font-rotations
+
+	* gfx.scm <character (font) stuff and blitting>:
+	Exercise ‘font-rotations’, ‘font-rotation!’, ‘draw-string’.
+
 2011-11-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	New (sdl gfx) proc: draw-thick-line

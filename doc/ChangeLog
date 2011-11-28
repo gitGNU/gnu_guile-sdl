@@ -1,3 +1,10 @@
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (sdl gfx) elements: font-rotation!, font-rotations
+
+	* ref.texh (SDL_gfx): Add @tsin for ‘font-rotation!’
+	and @defvr for ‘font-rotations’.
+
 2011-11-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	New (sdl gfx) proc: draw-thick-line

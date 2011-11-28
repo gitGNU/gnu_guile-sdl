@@ -52,6 +52,8 @@
 
 ;; character (font) stuff and blitting
 (let* ((screen (SDL:get-video-surface))
+       (cx (ash (SDL:surface:w screen) -1))
+       (cy (ash (SDL:surface:h screen) -1))
        (head-file (datafile "gnu-goatee.jpg"))
        (head (SDL:load-image head-file))
        (iw (SDL:surface:w head))
@@ -60,11 +62,25 @@
        (hix (+ lox iw lox))
        (loy (/ (- 480 (* 2 ih)) 3))
        (hiy (+ loy ih loy))
+       (frot (list->vector (SDL:enumstash-enums SDL:font-rotations)))
+       (frot-count (vector-length frot))
        (place (SDL:make-rect 0 0 iw ih)))
   (define (draw! n)
     (SDL:rect:set-x! place (if (zero? (logand n 1)) lox hix))
     (SDL:rect:set-y! place (if (zero? (logand n 2)) loy hiy))
-    (draw-characters!)
+    (let ((rot (vector-ref frot (random frot-count))))
+      (SDL:font-rotation! rot)
+      (draw-characters!)
+      (SDL:draw-string screen
+                       (+ cx (* 20 (case rot
+                                     ((clockwise) (random 10))
+                                     ((counter-clockwise) (- (random 10)))
+                                     (else 0))))
+                       (+ cy (* 20 (case rot
+                                     ((none) (random 10))
+                                     ((upside-down) (- (random 10)))
+                                     (else 0))))
+                       "ZOW!" #xff0000ff))
     (SDL:blit-surface head #f screen place))
   (define (two-op op)
     (op head head))
