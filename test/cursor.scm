@@ -83,6 +83,6 @@
 (SDL:delay 420)
 
 ;; quit SDL
-(SDL:quit)
+(exit (SDL:quit))
 
 ;;; cursor.scm ends here

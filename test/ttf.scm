@@ -88,6 +88,6 @@
 ;; clean up
 (SDL:delay 1000)
 (SDL:ttf-quit)
-(SDL:quit)
+(exit (SDL:quit))
 
 ;;; ttf.scm ends here

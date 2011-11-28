@@ -68,6 +68,6 @@
 (SDL:delay 200)
 
 ;; quit SDL
-(SDL:quit)
+(exit (SDL:quit))
 
 ;;; rect.scm ends here

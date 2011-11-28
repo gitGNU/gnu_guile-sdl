@@ -317,6 +317,6 @@
 
 ;; clean up
 (SDL:delay 500)
-(SDL:quit)
+(exit (SDL:quit))
 
 ;;; gfx.scm ends here

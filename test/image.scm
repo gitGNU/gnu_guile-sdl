@@ -55,6 +55,6 @@
 
 ;; wait then quit
 (SDL:delay 500)
-(SDL:quit)
+(exit (SDL:quit))
 
 ;;; image.scm ends here

@@ -57,6 +57,6 @@
       10)
 
 ;; quit
-(SDL:quit)
+(exit (SDL:quit))
 
 ;;; roto.scm ends here

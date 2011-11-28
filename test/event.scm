@@ -128,6 +128,6 @@
 (input-loop (SDL:make-event 0))
 
 ;; quit SDL
-(SDL:quit)
+(exit (SDL:quit))
 
 ;;; event.scm ends here

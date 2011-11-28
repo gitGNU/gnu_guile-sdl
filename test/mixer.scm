@@ -63,6 +63,6 @@
 
 ;; close the audio and quit SDL
 (SDL:close-audio)
-(SDL:quit)
+(exit (SDL:quit))
 
 ;;; mixer.scm ends here

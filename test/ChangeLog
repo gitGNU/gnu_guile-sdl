@@ -1,5 +1,19 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Make sure tests explicitly ‘exit’.
+
+	* cursor.scm: Exit with value returned by ‘SDL:quit’.
+	* event.scm: Likewise.
+	* fading.scm: Likewise.
+	* gfx.scm: Likewise.
+	* image.scm: Likewise.
+	* mixer.scm: Likewise.
+	* rect.scm: Likewise.
+	* roto.scm: Likewise.
+	* ttf.scm: Likewise.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v] Make tests less weary for the impatient.
 
 	* cursor.scm: Don't delay after warping the mouse;

@@ -65,6 +65,6 @@
   (fade/wait! img2 img3)                ; again!
   (fade/wait! img3 img2)                ; again!
   (fade/wait! img2 img1)                ; again!
-  (SDL:quit))
+  (exit (SDL:quit)))
 
 ;;; fading.scm ends here
