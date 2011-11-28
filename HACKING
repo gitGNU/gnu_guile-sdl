@@ -4,75 +4,47 @@ This file is both a guide for newcomers and a todo list for oldstayers.
 It lives in the repo but is not included in the distribution.
 
 * 0.3.11
-*** upgrade to SDL_gfx 2.0.21
-*** remove ‘@node TODO’ from manual
+*** DONE upgrade to SDL_gfx 2.0.22
+***** DONE add [[file:src/SDL_gfx/SDL_gfxPrimitives.h::thickLineColor][thick lines]] from 2.0.22
+***** DONE add [[file:src/SDL_gfx/SDL_gfxPrimitives.h::gfxPrimitivesSetFontRotation][font rotation]] from 2.0.21
+*** DONE remove ‘@node TODO’ from manual
+*** DONE transition from ttn-fu to Guile-BAUX + SNUGGLE
 
 * ongoing (some of which may go into the next release)
 *** use pre-installed SDL_gfx if sufficiently functional
+    (alternatively, use the subset that is functional)
 *** comment code (audience: intermediate scheme programmer)
-*** transition maintenance support from ttn-fu to Guile-fu
-***** doc extraction / mogrification
-***** compilation
-***** linking
-*** obsolete "maintainer mode"
-*** tiered
-***** 0.3 "coverage"
-******* DONE (sdl gfx)
-********* DONE SDL_gfxBlitRGBA
-********* DONE SDL_gfxSetAlpha
-********* DONE SDL_imageFilter* (many funcs)
-*********** DONE with C fallback
-*********** DONE assembler only
-******* DONE interface present but "not yet implemented"
-********* DONE peep-event
-********* DONE set-event-filter
-********* DONE get-event-filter
-********* DONE event-state
-********* DONE get-key-state
-********* DONE scale-surface (deleted)
-******* TODO programming practice review
-********* TODO return values
-*********** TODO smob safety
-*********** TODO 0-means-success
-*********** TODO consistency
-********* TODO use unsigned long for colors
-******* TODO /usr/include/SDL/*.h coverage
-********* TODO mixer
-*********** TODO hooks
-*********** TODO effects
-*********** DONE panning / position / distance
-******* TODO opengl?
-***** 0.4 "control"
-******* TODO threading system
-******* TODO signals
-******* TODO interop w/ other event loops?
-********* TODO fastevents
-***** 0.5 "glitches"
-******* TODO review/revise interfaces (WARNING: disruptive)
-******* TODO error handling cleanup
-********* TODO document policy
-********* TODO cases: NULL, -1, ...
-***** 0.6 "earth"
-******* TODO handle pre-installed libSDL_gfx
-********* TODO write configure check for it
-********* TODO use it if it is featureful enough
-******* TODO two-level modularization
-********* TODO many small modules: (sdl modules cdrom)
-********* DONE overarching: (sdl sdl)
-******* TODO finalize interfaces
-***** 0.7 "water"
-******* TODO write configure check for guile that can load binary modules
-******* TODO executable modules: (sdl scripts FOO)
-******* TODO third-party post-install extension framework
-***** 0.8 "fire"
-******* TODO performance tweaking
-******* TODO user-alloc alternatives (less consing) for event procs
-***** 0.9 "air"
-******* TODO you/
-***** 1.0
-***** eventually
-******* TODO port to Mac OSX/BeOS (ignore windoze)
-******* TODO switch to an automated wrapper generater
+*** make ‘set-colors!’ take optional arg ‘first’
+*** likewise ‘set-palette’ (hmm, why does this not end in "!"?)
+*** programming practice review
+***** return values
+******* smob safety
+******* 0-means-success
+******* consistency
+***** use unsigned long for colors
+*** /usr/include/SDL/*.h coverage
+***** mixer
+******* hooks
+******* effects
+*** ? opengl
+*** threading system
+*** signals
+*** ? interop w/ other event loops (fastevents, etc)
+*** review/revise interfaces (WARNING: disruptive)
+*** error handling cleanup
+***** document policy
+***** cases: NULL, -1, etc
+*** handle pre-installed libSDL_gfx
+***** write configure check for it
+***** use it if it is featureful enough
+*** many small modules: (sdl modules cdrom)
+*** finalize interfaces
+*** executable modules: (sdl scripts FOO)
+*** third-party post-install extension framework
+*** performance tweaking
+*** user-alloc alternatives (less consing) for event procs
+*** ? gnulib
+*** switch to an automated wrapper generater
 
 * portability
   | guile version | bootstrap | build | run |
@@ -102,9 +74,9 @@ It lives in the repo but is not included in the distribution.
     This branch is where largely-stable changes intended for the next release
     live.  It's very unlikely to undergo rebase, but not entirely impossible.
     Guile-SDL hackers probably want to start here.
-*** q/TOPIC -- "questionably", "querulously"
+*** q-TOPIC -- "questionably", "querulously"
     These are experimental, exploring the particular TOPIC.  They are intended
     to be ephemeral, undergoing rebase, amendment, and ultimately removal.
-*** zzz -- "zleeping, znoring, zoftly"
-    This branch is where changes that will never be part of a release are
-    archived.  It is rebased every once in a while for exercise.
+*** z-TOPIC -- "zleeping, znoring, zoftly"
+    These branches have changes that will never be part of a release.
+    It is rebased every once in a while for exercise.
