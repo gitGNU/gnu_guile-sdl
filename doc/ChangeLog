@@ -1,5 +1,11 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Break out tsar-names-extraction sed script.
+
+	* cov: Use "${srcdir}/../build-aux/tsar-names.sed".
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v] Decruft: Don't specify ‘srcdir’ in doc/ test env.
 
 	Automake already does this.

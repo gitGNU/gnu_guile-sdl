@@ -28,6 +28,7 @@ EXTRA_DIST = HISTORY \
 	build-aux/guile-sdl.m4 \
 	build-aux/sofix \
 	build-aux/uninstall-sofixed \
+	build-aux/tsar-names.sed \
 	$(as_is_dirs)
 
 ## Makefile.am ends here
