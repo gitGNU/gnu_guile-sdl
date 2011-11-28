@@ -21,6 +21,10 @@ then
 fi
 
 test x"$DEBUG" = x || set -x
-exec ${GUILE-@GUILE@} $dopt -L "$d" -l $srcdir/common -s $1
+exec ${GUILE-@GUILE@} $dopt \
+    -L "$d" \
+    -L "${srcdir}/../build-aux" \
+    -l $srcdir/common \
+    -s $1
 
 # zow ends here

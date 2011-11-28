@@ -1,5 +1,11 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v int] Make Guile-BAUX modules available to tests.
+
+	* zow.in: Invoke Guile with -L ‘"${srcdir}/../build-aux"’.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v] Add ‘VERBOSE=1’ support.
 
 	* common (verbose?): New var.
