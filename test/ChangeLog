@@ -1,5 +1,12 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Exercise some more (sdl ttf) procs.
+
+	* ttf.scm (font-loader): New proc.
+	(fonts): Use ‘font-loader’.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v] Make sure tests explicitly ‘exit’.
 
 	* cursor.scm: Exit with value returned by ‘SDL:quit’.

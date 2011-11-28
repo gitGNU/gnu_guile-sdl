@@ -38,9 +38,26 @@
                    ls))
 
 ;; load a font file
+(define (font-loader filename)
+  (lambda (size)
+    (let* ((font (SDL:load-font filename size))
+           (style (SDL:font:style font))
+           (etc (map (lambda (proc)
+                       (cons (procedure-name proc)
+                             (proc font)))
+                     (list SDL:font:height
+                           SDL:font:ascent
+                           SDL:font:descent
+                           SDL:font:line-skip))))
+      (cond (verbose?
+             (fso "INFO: loaded ~S ~S => ~S~%" filename style font)
+             (for-each (lambda (pair)
+                         (fso "\t(~A) ~S~%" (car pair) (cdr pair)))
+                       etc)))
+      font)))
+
 (define fonts (let* ((filename (datafile "FreeSerifBoldItalic.ttf"))
-                     (ls (map (lambda (size)
-                                (SDL:load-font filename size))
+                     (ls (map (font-loader filename)
                               '(16 32 64 128))))
                 (set-cdr! (last-pair ls) ls)
                 ls))
