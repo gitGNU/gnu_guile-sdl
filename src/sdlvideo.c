@@ -23,6 +23,70 @@
 #include <alloca.h>
 #include <SDL/SDL_image.h>
 
+/* Vector conversion funcs.  */
+
+static uint16_t *
+gsdl_scm_to_uint16s (SCM obj, uint16_t *data)
+{
+#if !GI_LEVEL_NOT_YET_1_8
+  scm_t_array_handle handle;
+  size_t i, len;
+  ssize_t inc;
+  const uint16_t *elt;
+
+  obj = scm_any_to_u16vector (obj);
+  elt = scm_u16vector_elements (obj, &handle, &len, &inc);
+  for (i = 0; i < len;  i++, elt += inc)
+    data[i] = *elt;
+  scm_array_handle_release (&handle);
+#else  /* GI_LEVEL_NOT_YET_1_8 */
+  gh_scm2shorts (obj, (short *) data);
+#endif  /* GI_LEVEL_NOT_YET_1_8 */
+  return data;
+}
+
+static uint8_t *
+gsdl_scm_to_uint8s (SCM obj, uint8_t *data)
+{
+#if !GI_LEVEL_NOT_YET_1_8
+  scm_t_array_handle handle;
+  size_t i, len;
+  ssize_t inc;
+  const uint8_t *elt;
+
+  obj = scm_any_to_u8vector (obj);
+  elt = scm_u8vector_elements (obj, &handle, &len, &inc);
+  for (i = 0; i < len;  i++, elt += inc)
+    data[i] = *elt;
+  scm_array_handle_release (&handle);
+#else  /* GI_LEVEL_NOT_YET_1_8 */
+  gh_scm2chars (obj, (char *) data);
+#endif  /* GI_LEVEL_NOT_YET_1_8 */
+  return data;
+}
+
+static SCM
+gsdl_scm_from_uint16s (uint16_t *data, size_t n)
+{
+  SCM obj;
+#if !GI_LEVEL_NOT_YET_1_8
+  scm_t_array_handle handle;
+  size_t i, len;
+  ssize_t inc;
+  uint16_t *elt;
+
+  obj = scm_make_u16vector (scm_from_size_t (n), SCM_UNDEFINED);
+  elt = scm_u16vector_writable_elements (obj, &handle, &len, &inc);
+  for (i = 0; i < len; i++, elt += inc)
+    *elt = data[i];
+  scm_array_handle_release (&handle);
+#else  /* GI_LEVEL_NOT_YET_1_8 */
+  obj = gh_shorts2svect ((short *) data, n);
+#endif  /* GI_LEVEL_NOT_YET_1_8 */
+  return obj;
+}
+
+
 #define MAX_DRIVER_LEN    100
 #define GAMMA_TABLE_SIZE  256
 

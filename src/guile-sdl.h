@@ -676,12 +676,6 @@ PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value), "")            \
 
 extern SCM gsdl_video_flags;
 
-/* Vector conversion funcs.  */
-
-uint16_t *gsdl_scm_to_uint16s (SCM obj, uint16_t *data);
-uint8_t *gsdl_scm_to_uint8s (SCM obj, uint8_t *data);
-SCM gsdl_scm_from_uint16s (uint16_t *data, size_t n);
-
 #endif  /* !defined GUILE_SDL_OPTIONAL_MODULE */
 
 #endif /* !defined (__GUILE_SDL_H) */

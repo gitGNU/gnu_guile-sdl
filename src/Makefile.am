@@ -66,7 +66,7 @@ endif
 
 EXTRA_DIST = $(FLAGSTASH:.c=.fs) $(scheme)
 
-sdlimpl = $(WRAPPER_SOURCES) convert.c
+sdlimpl = $(WRAPPER_SOURCES)
 sdl_la_SOURCES = $(sdlimpl) $(headers)
 sdl_la_LDFLAGS = $(modflags)
 

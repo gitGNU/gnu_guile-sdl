@@ -1,5 +1,16 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Move vector conversion funcs into unique .c client.
+
+	* Makefile.am (sdlimpl): Remove convert.c.
+	* guile-sdl.h (gsdl_scm_to_uint16s): Delete func decl.
+	(gsdl_scm_to_uint8s, gsdl_scm_from_uint16s): Likewise.
+	* convert.c: Delete file; move funcs to...
+	* sdlvideo.c (gsdl_scm_to_uin16s): ...here; make static.
+	(gsdl_scm_to_uint8s, gsdl_scm_from_uint16s): Likewise.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Move flags conversion funcs dispatch into ‘btw’.
 
 	* guile-sdl.h (flags2ulong_t, ulong2flags_t): New typedefs.
