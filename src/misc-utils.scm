@@ -34,7 +34,7 @@
             ignore-all-event-types-except
             fader/3p
             toroidal-panner/3p)
-  #:use-module ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
+  #:use-module ((sdl sdl) #:prefix SDL:))
 
 ;; Return the exact floor of @var{number}.
 ;; This is ``safer'' than simply @code{inexact->exact}

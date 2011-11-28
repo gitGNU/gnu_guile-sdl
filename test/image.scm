@@ -17,7 +17,7 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
+(use-modules ((sdl sdl) #:prefix SDL:))
 
 ;; the size of our test image
 (define gnu-rect (SDL:make-rect 0 0 200 153))

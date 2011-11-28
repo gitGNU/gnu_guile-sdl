@@ -19,8 +19,8 @@
 
 (or *have-ttf* (exit-77 "ttf disabled"))
 
-(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
-             ((sdl ttf) #:renamer (symbol-prefix-proc 'SDL:)))
+(use-modules ((sdl sdl) #:prefix SDL:)
+             ((sdl ttf) #:prefix SDL:))
 
 ;; initialize SDL video
 (SDL:init '(SDL_INIT_VIDEO))

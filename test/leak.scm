@@ -19,8 +19,8 @@
 
 (or debug? (exit-77 "debug only"))
 
-(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
-             ((sdl ttf) #:renamer (symbol-prefix-proc 'SDL:)))
+(use-modules ((sdl sdl) #:prefix SDL:)
+             ((sdl ttf) #:prefix SDL:))
 
 (define exit-value #t)
 

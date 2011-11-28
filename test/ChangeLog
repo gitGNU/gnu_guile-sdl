@@ -1,5 +1,21 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	For import, use #:prefix instead of #:renamer.
+
+	* alive.test: Use #:prefix in ‘use-modules’ forms.
+	* cursor.scm: Likewise.
+	* event.scm: Likewise.
+	* fading.scm: Likewise.
+	* gfx.scm: Likewise.
+	* image.scm: Likewise.
+	* leak.scm: Likewise.
+	* mixer.scm: Likewise.
+	* rect.scm: Likewise.
+	* roto.scm: Likewise.
+	* ttf.scm: Likewise.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v int] Use some (guile-baux common) procs unconditionally.
 
 	* common: Import (guile-baux common) procs ‘fs’, ‘fso’, ‘fse’.

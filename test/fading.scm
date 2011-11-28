@@ -20,8 +20,8 @@
 (use-modules
  ((sdl misc-utils) #:select (copy-surface fader/3p))
  ((sdl simple) #:select (simple-canvas))
- ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
- ((sdl gfx) #:renamer (symbol-prefix-proc 'GFX:)))
+ ((sdl sdl) #:prefix SDL:)
+ ((sdl gfx) #:prefix GFX:))
 
 (define (as-four surface)
   (let* ((w (SDL:surface:w surface))

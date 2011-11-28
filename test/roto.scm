@@ -17,8 +17,8 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
-             ((sdl gfx) #:renamer (symbol-prefix-proc 'GFX:)))
+(use-modules ((sdl sdl) #:prefix SDL:)
+             ((sdl gfx) #:prefix GFX:))
 
 ;; initialize the SDL video module
 (SDL:init '(SDL_INIT_VIDEO))

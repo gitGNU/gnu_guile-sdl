@@ -19,7 +19,7 @@
 
 (or *interactive* (exit-77 "interactive"))
 
-(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
+(use-modules ((sdl sdl) #:prefix SDL:))
 
 ;; initialize the SDL video module
 (SDL:init '(SDL_INIT_VIDEO))

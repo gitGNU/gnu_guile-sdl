@@ -123,7 +123,7 @@ backwards, and escape or q to quit.
 
 @lisp
 ;; load the SDL module and some useful srfi's
-(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
+(use-modules ((sdl sdl) #:prefix SDL:)
              (srfi srfi-1)
              (srfi srfi-2))
 

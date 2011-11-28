@@ -18,8 +18,8 @@
 ;; Boston, MA  02110-1301  USA
 
 (use-modules (srfi srfi-4))
-(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
-             ((sdl gfx) #:renamer (symbol-prefix-proc 'SDL:)))
+(use-modules ((sdl sdl) #:prefix SDL:)
+             ((sdl gfx) #:prefix SDL:))
 
 ;; initialize SDL video
 (SDL:init '(SDL_INIT_VIDEO))

@@ -22,8 +22,8 @@
 
 ;; simple mixer test
 
-(use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:))
-             ((sdl mixer) #:renamer (symbol-prefix-proc 'SDL:)))
+(use-modules ((sdl sdl) #:prefix SDL:)
+             ((sdl mixer) #:prefix SDL:))
 
 ;; initialize the SDL mixer module
 (SDL:init '(SDL_INIT_AUDIO))
