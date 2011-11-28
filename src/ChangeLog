@@ -1,5 +1,23 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Move flags conversion funcs dispatch into ‘btw’.
+
+	* guile-sdl.h (flags2ulong_t, ulong2flags_t): New typedefs.
+	(gsdl_flags2ulong, gsdl_ulong2flags): Delete func decls.
+	(GSDL_FLAGS2ULONG): Use ‘btw->flags2ulong’.
+	(struct obtw): Add members ‘flags2ulong’, ‘ulong2flags’.
+	(GSDL_FLAG_GETTER): Use ‘btw->ulong2flags’.
+	* sdlenums.c (flags2ulong): Rename from
+	‘gsdl_flags2ulong’; make static.
+	(ulong2flags): Rename from ‘gsdl_ulong2flags’; make static.
+	(number_to_flags): Use ‘ulong2flags’.
+	(gsdl_init_enums): Init ‘btw->flags2ulong’, ‘btw->ulong2flags’.
+	* sdl.c (was_init): Use ‘btw->ulong2flags’.
+	* sdlevent.c (get_mod_state): Likewise.
+	* sdlttf.c (ttf_get_font_style): Likewise.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Use ‘GSDL_FLAGS2ULONG’ more.
 
 	* sdlevent.c (peep_events): Use ‘GSDL_FLAGS2ULONG’.

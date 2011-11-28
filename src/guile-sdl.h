@@ -341,13 +341,13 @@ typedef SCM (long2enum_t) (long value, SCM enum_type);
 
 /* flags (constants typically used as a logical or'ed group) */
 
-unsigned long gsdl_flags2ulong (SCM flags, SCM table,
-                                int pos, const char *func);
+typedef unsigned long (flags2ulong_t) (SCM flags, SCM table,
+                                       int pos, const char *func);
 
-SCM gsdl_ulong2flags (unsigned long value, SCM stash);
+typedef SCM (ulong2flags_t) (unsigned long value, SCM stash);
 
 #define GSDL_FLAGS2ULONG(flags,table,pos) \
-  gsdl_flags2ulong ((flags), (table), (pos), FUNC_NAME)
+  btw->flags2ulong ((flags), (table), (pos), FUNC_NAME)
 
 typedef struct flagstash {
   const char const *name;
@@ -436,6 +436,8 @@ struct obtw
   /* These are: color, rect, surface, pixel format.  */
 
   make_flagstash_t *make_flagstash;
+  flags2ulong_t *flags2ulong;
+  ulong2flags_t *ulong2flags;
   define_enum_t *define_enum;
   enum2long_t *enum2long;
   long2enum_t *long2enum;
@@ -655,7 +657,7 @@ PRIMPROC (c_func, s_func, 1, 0, 0, (SCM obj), "")                       \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (obj, c_tag, 1);                                          \
-  return gsdl_ulong2flags (SMOBFIELD (c_type, c_field), stash);         \
+  return btw->ulong2flags (SMOBFIELD (c_type, c_field), stash);         \
 }
 
 #define GSDL_FLAG_SETTER(s_func, c_func, c_tag, c_type, c_field, stash) \

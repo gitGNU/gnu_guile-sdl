@@ -105,7 +105,7 @@ doesn't reflect any inherent properties of the truetype font file.  */)
 #define FUNC_NAME s_ttf_get_font_style
   ASSERT_TTFONT (font, 1);
 
-  return gsdl_ulong2flags (TTF_GetFontStyle (UNPACK_TTFONT (font)),
+  return btw->ulong2flags (TTF_GetFontStyle (UNPACK_TTFONT (font)),
                            ttf_flags);
 #undef FUNC_NAME
 }

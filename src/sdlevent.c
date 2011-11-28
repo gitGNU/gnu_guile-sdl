@@ -825,7 +825,7 @@ PRIMPROC
 Return the current key modifier state as a list of symbols.  */)
 {
 #define FUNC_NAME s_get_mod_state
-  return gsdl_ulong2flags (SDL_GetModState (), event_mod_flags);
+  return btw->ulong2flags (SDL_GetModState (), event_mod_flags);
 #undef FUNC_NAME
 }
 

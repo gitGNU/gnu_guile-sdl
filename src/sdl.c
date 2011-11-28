@@ -121,7 +121,7 @@ from the same set useful for @code{init}.  Return a list
 likewise composed.  */)
 {
 #define FUNC_NAME s_was_init
-  return gsdl_ulong2flags (SDL_WasInit (GSDL_FLAGS2ULONG
+  return btw->ulong2flags (SDL_WasInit (GSDL_FLAGS2ULONG
                                         (sel, init_flags, 1)),
                            init_flags);
 #undef FUNC_NAME

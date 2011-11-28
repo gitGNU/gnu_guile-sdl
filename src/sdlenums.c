@@ -254,8 +254,8 @@ gsdl_make_flagstash (flagstash_t *stash)
 
 /* Converting from flags to ulong and back */
 
-unsigned long
-gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
+static unsigned long
+flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
 {
   flagstash_t *s = UNPACK_FLAGSTASH (stash);
   unsigned long result = 0;
@@ -291,8 +291,8 @@ gsdl_flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
   return result;
 }
 
-SCM
-gsdl_ulong2flags (unsigned long value, SCM stash)
+static SCM
+ulong2flags (unsigned long value, SCM stash)
 {
   flagstash_t *s = UNPACK_FLAGSTASH (stash);
   int i;
@@ -370,7 +370,7 @@ Use @var{stash} to convert @var{number} to a list of symbols.  */)
   ASSERT_FLAGSTASH (stash, 1);
   ASSERT_EXACT (number, 2);
 
-  return gsdl_ulong2flags (C_ULONG (number), stash);
+  return ulong2flags (C_ULONG (number), stash);
 #undef FUNC_NAME
 }
 
@@ -378,6 +378,8 @@ Use @var{stash} to convert @var{number} to a list of symbols.  */)
 void
 gsdl_init_enums (void)
 {
+  btw->flags2ulong = flags2ulong;
+  btw->ulong2flags = ulong2flags;
   btw->define_enum = define_enum;
   btw->enum2long = enum2long;
   btw->long2enum = long2enum;
