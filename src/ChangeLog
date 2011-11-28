@@ -1,5 +1,15 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build] Fix bug: Define old-style suffix rule .fs.c unconditionally.
+
+	Omission from 2011-10-23, "Don't use gperf(1);
+	use hash table for flagstash lookup".
+
+	* Makefile.am (.fs.c): Move old-style
+	suffix rule out of am-cond ‘MAINTAINER_MODE’.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Move vector conversion funcs into unique .c client.
 
 	* Makefile.am (sdlimpl): Remove convert.c.

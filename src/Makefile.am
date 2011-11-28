@@ -101,12 +101,9 @@ scheme.tsar: $(scheme)
 endif # MAINTAINER_MODE
 
 DISTCLEANFILES = *.x
-if MAINTAINER_MODE
 
 .fs.c:
 	$(gx) fs2c -o $@ $<
-
-endif ## MAINTAINER_MODE
 
 bx = $(top_srcdir)/build-aux
 if LAME
