@@ -63,8 +63,9 @@
     ((= i 20))
   (let ((sample (rand-rect test-rect)))
     (SDL:fill-rect screen sample (random #xffffff))
-    (SDL:update-rect screen sample))
-  (SDL:delay 100))
+    (SDL:update-rect screen sample)))
+
+(SDL:delay 200)
 
 ;; quit SDL
 (SDL:quit)

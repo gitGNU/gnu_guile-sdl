@@ -1,5 +1,18 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Make tests less weary for the impatient.
+
+	* cursor.scm: Don't delay after warping the mouse;
+	reduce loop delay to 100msec, end delay to 420msec.
+	* fading.scm: Reduce loop delay to 420msec.
+	* gfx.scm <character and IMFI>: Reduce loop iteration to 100.
+	<top>: Reduce end delay to 500msec.
+	* rect.scm: Eliminate loop delay.
+	<top>: Add end delay.
+	* roto.scm <first spin>: Reduce loop delay to 50msec.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	For import, use #:prefix instead of #:renamer.
 
 	* alive.test: Use #:prefix in ‘use-modules’ forms.

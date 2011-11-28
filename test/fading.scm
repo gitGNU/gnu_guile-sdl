@@ -54,7 +54,7 @@
         (let loop ((continue? (fade!)))
           (and continue? (loop (fade!))))
         (done!)))
-    (SDL:delay 1234))
+    (SDL:delay 420))
   (SDL:fill-rect void #f
                  (SDL:map-rgb (SDL:surface-get-format (canvas)) 0 0 0))
   (SDL:blit-surface img1)

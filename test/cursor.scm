@@ -55,8 +55,6 @@
 (SDL:warp-mouse (ash (SDL:surface:w (SDL:get-video-surface)) -1)
                 (ash (SDL:surface:h (SDL:get-video-surface)) -1))
 
-(SDL:delay 1000)
-
 ;; primitive cursor creation (need a higher level one)
 (define (random-16)
   (list->vector (map (lambda ignored
@@ -75,14 +73,14 @@
            (vector-set! gt j (random 65536))
            (vector-set! bt j (random 65536)))
          (SDL:set-gamma-ramp rt gt bt)))
-  (SDL:delay 200))
+  (SDL:delay 100))
 
 (let* ((data #(85 85 85 85 85 85 85 85 85 85 85 85 85 85 85 85))
        (mask data)
        (cursor (SDL:create-cursor data mask 8 16 0 0)))
   (SDL:set-cursor cursor))
 
-(SDL:delay 1000)
+(SDL:delay 420)
 
 ;; quit SDL
 (SDL:quit)

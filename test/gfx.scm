@@ -121,7 +121,7 @@
                         (random 256) (random 256)
                         (random 256) (random 256))))))
     (do ((i 0 (1+ i)))
-        ((= i (* 4 2 42)))
+        ((= 100 i))
       (if (zero? (random 5))
           (set! head (SDL:load-image head-file))
           ((vector-ref v (random (vector-length v)))))
@@ -316,7 +316,7 @@
   (SDL:flip))
 
 ;; clean up
-(SDL:delay 2000)
+(SDL:delay 500)
 (SDL:quit)
 
 ;;; gfx.scm ends here

@@ -49,7 +49,7 @@
 
 (spin 27 ((mag 1.0 (* mag 0.9)))
       3 (GFX:roto-zoom-surface gnu-head theta mag #t)
-      100)
+      50)
 
 (spin (+ 10 (random 17)) ((magx 1.0 (* magx (+ 0.75 (random 0.5))))
                           (magy 1.0 (* magy (+ 0.75 (random 0.5)))))
