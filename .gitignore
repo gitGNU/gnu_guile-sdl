@@ -60,6 +60,7 @@ Makefile.in
 /src/video.c
 
 /test/.simu
+/test/t99.list
 /test/zow
 
 /doc/ef-ref.texi

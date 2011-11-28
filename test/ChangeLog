@@ -1,5 +1,17 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Add test coverage test for MAINTAINER_MODE; mark xfail.
+
+	* t99-cov: New file.
+	* Makefile.am (XFAIL_TESTS): New var.
+	[MAINTAINER_MODE] (CLEANFILES): New var.
+	[MAINTAINER_MODE] (check_DATA): Add t99.list.
+	[MAINTAINER_MODE] (XFAIL_TESTS): Add t99-cov.
+	[MAINTAINER_MODE] (TESTS): Add t99-cov.
+	[MAINTAINER_MODE] (t99.list): New target.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v int] Make Guile-BAUX modules available to tests.
 
 	* zow.in: Invoke Guile with -L ‘"${srcdir}/../build-aux"’.

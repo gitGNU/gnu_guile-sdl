@@ -1,0 +1,63 @@
+;;; t99-cov --- how slight the slighting?                -*- scheme -*-
+
+;; Copyright (C) 2011 Thien-Thi Nguyen
+;;
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 3 of
+;; the License, or (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public
+;; License along with this program; if not, write to the Free
+;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA  02110-1301  USA
+
+(define PROCS "t99.list")
+
+(or (file-exists? PROCS)
+    (exit-77 "unsupported"))
+
+(use-modules (ice-9 rdelim)
+             (ice-9 popen)
+             (srfi srfi-1)
+             (srfi srfi-13)
+             (guile-baux common)
+             (guile-baux forms-from))
+
+(define ALL (forms<-file PROCS))
+
+(define LIST-TESTS-COMMAND (fs "cat ~A ~A"
+                               (datafile "alive.test")
+                               (datafile "*.scm")))
+
+(define TEXT (let ((p (open-input-pipe LIST-TESTS-COMMAND)))
+               (let loop ((acc '()))
+                 (let ((line (read-line p 'concat)))
+                   (cond ((eof-object? line)
+                          (close-pipe p)
+                          (string-concatenate acc))
+                         (else
+                          (loop (if (or (string=? "\n" line)
+                                        (char=? #\; (string-ref line 0)))
+                                    acc
+                                    (cons line acc)))))))))
+
+(define SLIGHTED (filter (lambda (x)
+                           (not (string-contains TEXT (symbol->string x))))
+                         ALL))
+
+(exit (cond ((null? SLIGHTED))
+            (else
+             (cond (verbose?
+                    (fse "SLIGHTED: ~A~%" (length SLIGHTED))
+                    (for-each (lambda (x)
+                                (fse "\t~S~%" x))
+                              SLIGHTED)))
+             #f)))
+
+;;; t99-cov ends here

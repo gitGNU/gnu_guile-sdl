@@ -15,6 +15,7 @@
 ## Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ## Boston, MA  02110-1301  USA
 
+XFAIL_TESTS =
 TESTS = alive.test				\
 	leak.scm				\
 	rect.scm				\
@@ -51,6 +52,16 @@ $(simu): ../src/group-stamp
 	$(MAKE) $(AM_MAKEFLAGS) install		\
 	  FOR_MAKE_CHECK=1			\
 	  prefix="$$top"
+
+if MAINTAINER_MODE
+CLEANFILES = t99.list
+check_DATA += t99.list
+XFAIL_TESTS += t99-cov
+TESTS += t99-cov
+
+t99.list: ../doc/snippets
+	> $@ sed -f $(top_srcdir)/build-aux/tsar-names.sed $<
+endif MAINTAINER_MODE
 
 clean-local:
 	-rm -rf $(simu)
