@@ -17,15 +17,14 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
+(use-modules ((guile-baux common) #:select (fs fso fse)))
+
 (define (env-1? x)
   (string=? "1" (or (getenv x) "")))
 
 (define *have-ttf*    (env-1? "HAVE_TTF"))
 (define *have-mixer*  (env-1? "HAVE_MIXER"))
 (define *interactive* (env-1? "INTERACTIVE"))
-
-(define (fso s . args)
-  (apply simple-format #t s args))
 
 (define (exit-77 msg)
   (fso "INFO: ~A: ~A~%"

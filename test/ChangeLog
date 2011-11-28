@@ -1,5 +1,16 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v int] Use some (guile-baux common) procs unconditionally.
+
+	* common: Import (guile-baux common) procs ‘fs’, ‘fso’, ‘fse’.
+	(fso): Delete proc.
+	* alive.test (debug?): Delete redundant var.
+	(d>>): Use ‘fse’.
+	* event.scm (display-centered-w/height-proc): Use ‘fs’.
+	* t99-cov: Don't import (guile-baux common).
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v] Add test coverage test for MAINTAINER_MODE; mark xfail.
 
 	* t99-cov: New file.

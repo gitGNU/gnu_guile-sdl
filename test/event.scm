@@ -53,7 +53,7 @@
   (let ((text-rect (SDL:make-rect 0 y (SDL:rect:w test-rect) height)))
     ;; rv
     (lambda (fstr . args)
-      (let* ((text (apply simple-format #f fstr args))
+      (let* ((text (apply fs fstr args))
              (rendered (SDL:render-text font text white #t))
              (dimensions (SDL:font:size-text font text))
              (width (assq-ref dimensions 'w))

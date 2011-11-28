@@ -17,9 +17,8 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(define debug? (getenv "DEBUG"))
 (define (d>> s . args)
-  (and debug? (apply format (current-error-port) (string-append s "\n") args)))
+  (and debug? (apply fse (string-append s "~%") args)))
 
 (d>> "loading (sdl sdl)")
 (use-modules ((sdl sdl) #:renamer (symbol-prefix-proc 'SDL:)))
