@@ -1,5 +1,13 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Decruft: Don't specify ‘srcdir’ in doc/ test env.
+
+	Automake already does this.
+
+	* Makefile.am [MAINTAINER_MODE] (TESTS_ENVIRONMENT): Delete var.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	New (sdl gfx) elements: font-rotation!, font-rotations
 
 	* ref.texh (SDL_gfx): Add @tsin for ‘font-rotation!’

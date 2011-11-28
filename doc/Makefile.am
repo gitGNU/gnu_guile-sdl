@@ -33,7 +33,6 @@ EXTRA_DIST = ref.texh ef-ref.texh \
  cov mkexcuse $(BUILT_SOURCES)
 
 if MAINTAINER_MODE
-TESTS_ENVIRONMENT = srcdir=$(srcdir)
 TESTS = cov
 endif ## MAINTAINER_MODE
 
