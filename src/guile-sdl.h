@@ -325,8 +325,6 @@ typedef struct {
 typedef SCM (define_enum_t) (const char *name, size_t count,
                              valaka_t *backing);
 
-SCM gsdl_define_enum (const char *name, size_t count, valaka_t *backing);
-
 #define DEFINE_ENUM(name,backing)               \
   btw->define_enum                              \
   (name,                                        \

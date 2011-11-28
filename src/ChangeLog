@@ -1,5 +1,18 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Decruft: Internalize enum definition func.
+
+	Omission from (it was already moved into ‘btw’ by) 2011-11-23,
+	"Support "make install" and "make check" under Guile 1.8+".
+
+	* guile-sdl.h (gsdl_define_enum): Delete func decl.
+	* sdl.c (init_module): Don't init ‘btw->define_enum’.
+	* sdlenums.c (define_enum): Rename from
+	‘gsdl_define_enum’; make static.
+	(gsdl_init_enums): Init ‘btw->define_enum’.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	For import, use #:prefix instead of #:renamer.
 
 	* misc-utils.scm: Use #:prefix in ‘define-module’ form.

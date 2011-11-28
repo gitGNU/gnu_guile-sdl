@@ -64,8 +64,8 @@ mark_enum (SCM enumstash)
 
 
 /* Register a C enum.  */
-SCM
-gsdl_define_enum (const char *name, size_t count, valaka_t *backing)
+static SCM
+define_enum (const char *name, size_t count, valaka_t *backing)
 {
   size_t i;
   SCM enumstash, table, sym;
@@ -378,6 +378,7 @@ Use @var{stash} to convert @var{number} to a list of symbols.  */)
 void
 gsdl_init_enums (void)
 {
+  btw->define_enum = define_enum;
   btw->enum2long = enum2long;
   btw->long2enum = long2enum;
 

@@ -192,7 +192,6 @@ init_module (void)
   /* Oh, by the way...  */
   btw = calloc (1, sizeof (*btw));
   btw->make_flagstash = gsdl_make_flagstash;
-  btw->define_enum = gsdl_define_enum;
 
   /* Initialize enums first, so we can use them.  */
   gsdl_init_enums ();
