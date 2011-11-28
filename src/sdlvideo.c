@@ -215,7 +215,7 @@ instead of creating a new one.  */)
   ASSERT_EXACT (height, 2);
 
   if (SYMBOLP (format))
-    cformat = gsdl_flags2ulong (format, gsdl_overlay_formats, 3, FUNC_NAME);
+    cformat = GSDL_FLAGS2ULONG (format, gsdl_overlay_formats, 3);
   else
     {
       ASSERT_EXACT (format, 3);

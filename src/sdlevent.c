@@ -541,7 +541,7 @@ matching events instead of a count, removing them from the queue.
       /* fallthrough */
 
     case SDL_PEEKEVENT:
-      cmask = gsdl_flags2ulong (mask, event_mask_flags, 4, FUNC_NAME);
+      cmask = GSDL_FLAGS2ULONG (mask, event_mask_flags, 4);
       ret = SDL_PeepEvents (cevents, cnumevents, caction, cmask);
       if (0 > ret)
         scm_misc_error (FUNC_NAME, "badness", SCM_EOL);

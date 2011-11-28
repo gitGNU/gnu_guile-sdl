@@ -1,5 +1,12 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Use ‘GSDL_FLAGS2ULONG’ more.
+
+	* sdlevent.c (peep_events): Use ‘GSDL_FLAGS2ULONG’.
+	* sdlvideo.c (create_yuv_overlay): Likewise.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Decruft: Internalize enum definition func.
 
 	Omission from (it was already moved into ‘btw’ by) 2011-11-23,
