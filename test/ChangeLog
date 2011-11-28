@@ -1,5 +1,11 @@
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Add ‘VERBOSE=1’ support.
+
+	* common (verbose?): New var.
+
+2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	New (sdl gfx) elements: font-rotation!, font-rotations
 
 	* gfx.scm <character (font) stuff and blitting>:

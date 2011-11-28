@@ -38,6 +38,8 @@
     (lambda (name)
       (in-vicinity srcdir name))))
 
+(define verbose? (env-1? "VERBOSE"))
+
 (define debug? (env-1? "DEBUG"))
 (and debug? (debug-enable 'debug 'backtrace))
 
