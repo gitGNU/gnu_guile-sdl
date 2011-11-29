@@ -43,7 +43,7 @@ PRIMPROC
 (joystick_p, "joystick?", 1, 0, 0,
  (SCM obj),
  doc: /***********
-Return #t iff @var{obj} is a joystick object.  */)
+Return @code{#t} iff @var{obj} is a joystick object.  */)
 {
 #define FUNC_NAME s_joystick_p
   RETURN_BOOL
@@ -56,7 +56,7 @@ PRIMPROC
 (joystick_null_p, "joystick-null?", 1, 0, 0,
  (SCM joystick),
  doc: /***********
-Return #t iff @var{joystick} is a NULL joystick.
+Return @code{#t} iff @var{joystick} is a NULL joystick.
 [What does that mean? --ttn]  */)
 {
 #define FUNC_NAME s_joystick_null_p
@@ -126,7 +126,7 @@ PRIMPROC
 (joystick_opened_p, "joystick-opened?", 0, 1, 0,
  (SCM n),
  doc: /***********
-Return #t iff the default joystick is opened.
+Return @code{#t} iff the default joystick is opened.
 Optional arg @var{n} specifies which joystick to check.  */)
 {
 #define FUNC_NAME s_joystick_opened_p
@@ -303,7 +303,7 @@ PRIMPROC
  doc: /***********
 For @var{joystick}, return relative motion of trackball
 @var{n}, as an alist with keys @code{dx} and @code{dy}.
-On error, return #f.  */)
+On error, return @code{#f}.  */)
 {
 #define FUNC_NAME s_joystick_get_ball
   SDL_Joystick *joy;

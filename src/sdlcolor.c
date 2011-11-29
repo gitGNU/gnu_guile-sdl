@@ -53,7 +53,7 @@ PRIMPROC
 (color_p, "color?", 1, 0, 0,
  (SCM obj),
  doc: /***********
-Return #t iff @var{obj} is an SDL-Color object.  */)
+Return @code{#t} iff @var{obj} is an SDL-Color object.  */)
 {
 #define FUNC_NAME s_color_p
   RETURN_BOOL

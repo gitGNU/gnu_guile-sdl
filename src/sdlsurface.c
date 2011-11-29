@@ -191,7 +191,7 @@ PRIMPROC
  (SCM surface),
  doc: /***********
 Lock @var{surface} for direct access.
-Return #t if successful.  */)
+Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_lock_surface
   ASSERT_SURFACE (surface, 1);
@@ -243,7 +243,7 @@ PRIMPROC
  (SCM file),
  doc: /***********
 Return a surface made by loading the image @var{file}.
-If there are problems, return #f.  */)
+If there are problems, return @code{#f}.  */)
 {
 #define FUNC_NAME s_load_image
   range_t cfile;
@@ -287,7 +287,7 @@ PRIMPROC
   SCM file),
  doc: /***********
 Save @var{surface} to @var{file} in Windows BMP format.
-Return #t if successful.  */)
+Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_save_bmp
   range_t cfile;
@@ -337,7 +337,7 @@ Adjust whole-@var{surface} alpha as specified by
 @var{flag} (see @code{flagstash:video}) and @var{alpha}
 (one of the @code{alpha-enums}, or a number 0-255).
 @xref{Enums and Constants}.
-If @var{flag} is #f, ignore @var{alpha} completely.  */)
+If @var{flag} is @code{#f}, ignore @var{alpha} completely.  */)
 {
 #define FUNC_NAME s_set_alpha
   Uint32 cflag;
@@ -373,7 +373,7 @@ PRIMPROC
   SCM rect),
  doc: /***********
 Set @var{surface} clipping rectangle to the whole surface.
-Optional arg @var{rect}, if non-#f, specifies a particular
+Optional arg @var{rect}, if non-@code{#f}, specifies a particular
 rectangle instead of using the whole surface.  */)
 {
 #define FUNC_NAME s_set_clip_rect

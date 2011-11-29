@@ -581,7 +581,7 @@ PRIMPROC
 (poll_event, "poll-event", 0, 1, 0,
  (SCM event),
  doc: /***********
-Poll for events and return #t if there are any pending.
+Poll for events and return @code{#t} if there are any pending.
 Optional arg @var{event} specifies an event object (from
 @code{make-event}) to be filled in with the next event from
 the queue (if available).  */)
@@ -608,7 +608,7 @@ PRIMPROC
 (wait_event, "wait-event", 0, 1, 0,
  (SCM event),
  doc: /***********
-Wait indefinitely for and return #f only if there were errors.
+Wait indefinitely for and return @code{#f} only if there were errors.
 Optional arg @var{event} specifies an event object (from
 @code{make-event}) to be filled in with the next event from
 the queue.  */)
@@ -757,9 +757,9 @@ PRIMPROC
 (enable_unicode, "enable-unicode", 0, 1, 0,
  (SCM enable_p),
  doc: /***********
-Return #t iff UNICODE keyboard translation is enabled.
-Optional arg @var{enable?} if non-#f, enables UNICODE
-keyboard translation, or disables it if #f.  */)
+Return @code{#t} iff UNICODE keyboard translation is enabled.
+Optional arg @var{enable?} if non-@code{#f}, enables UNICODE
+keyboard translation, or disables it if @code{#f}.  */)
 {
 #define FUNC_NAME s_enable_unicode
   RETURN_BOOL
@@ -782,7 +782,7 @@ Enable or disable keyboard repeat.
 when a key is pressed, and keyboard repeat begins.
 @var{interval} is the time in ms between keyboard repeat
 events.  If @var{delay} is 0, keyboard repeat is disabled.
-Return #t on success.  */)
+Return @code{#t} on success.  */)
 {
 #define FUNC_NAME s_enable_key_repeat
   int cinterval, cdelay;
@@ -884,7 +884,7 @@ PRIMPROC
 (button_p, "button?", 1, 0, 0,
  (SCM mask),
  doc: /***********
-Return #t if buttons specified in @var{mask} (an integer)
+Return @code{#t} if buttons specified in @var{mask} (an integer)
 are pressed.  Use 1 for left, 2 for middle and 4 for right,
 combined with @code{logior}, to form @var{mask}.  For example,
 a value of 5 specifies both left and right buttons.  */)

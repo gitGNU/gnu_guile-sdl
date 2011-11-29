@@ -57,7 +57,7 @@ Return information on the window manager, as a list of the
 form: (VERSION SUBSYSTEM DISPLAY WINDOW FSWINDOW WMWINDOW).
 VERSION is a sub-list of form: (MAJOR MINOR PATCH), where
 element is an integer.  SUBSYSTEM is either the symbol
-@code{x11}, or #f.  DISPLAY is a pointer (machine address)
+@code{x11}, or @code{#f}.  DISPLAY is a pointer (machine address)
 of the X11 Display structure, converted to an integer.
 WINDOW, FSWINDOW and WMWINDOW are Window identifiers (also
 integers).  */)

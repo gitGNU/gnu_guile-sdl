@@ -83,7 +83,7 @@ PRIMPROC
  (void),
  doc: /***********
 Shut down all SDL subsystems.
-Return #t.  */)
+Return @code{#t}.  */)
 {
 #define FUNC_NAME s_quit
   scm_gc ();
@@ -100,7 +100,7 @@ PRIMPROC
 Shut down the SDL subsystems represented by @var{sel}.
 @var{sel} is a list of flags (symbols)
 from the same set useful for @code{init}.
-Return #t.  */)
+Return @code{#t}.  */)
 {
 #define FUNC_NAME s_quit_subsystem
   scm_gc ();

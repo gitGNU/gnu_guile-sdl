@@ -52,7 +52,7 @@ PRIMPROC
 (rect_p, "rect?", 1, 0, 0,
  (SCM obj),
  doc: /***********
-Return #t iff @var{obj} is an SDL-rectangle object.  */)
+Return @code{#t} iff @var{obj} is an SDL-rectangle object.  */)
 {
 #define FUNC_NAME s_rect_p
   RETURN_BOOL

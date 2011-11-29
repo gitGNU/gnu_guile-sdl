@@ -43,7 +43,7 @@ PRIMPROC
 (cd_p, "cd?", 1, 0, 0,
  (SCM obj),
  doc: /***********
-Return #t iff @var{obj} is a CDROM drive object.  */)
+Return @code{#t} iff @var{obj} is a CDROM drive object.  */)
 {
 #define FUNC_NAME s_cd_p
   RETURN_BOOL
@@ -56,7 +56,7 @@ PRIMPROC
 (cd_null_p, "cd-null?", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
-Return #t iff @var{cdrom} is a null pointer.
+Return @code{#t} iff @var{cdrom} is a null pointer.
 [What does that mean? --ttn]  */)
 {
 #define FUNC_NAME s_cd_null_p
@@ -108,7 +108,7 @@ PRIMPROC
  (SCM drive),
  doc: /***********
 Open the CDROM drive for access and return its handle.
-If the drive is unavailable, return #f.
+If the drive is unavailable, return @code{#f}.
 Optional arg @var{drive} is a number specifying which drive.  */)
 {
 #define FUNC_NAME s_cd_open
@@ -170,7 +170,7 @@ PRIMPROC
 (cd_in_drive_p, "cd-in-drive?", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
-Return #t iff there is a CD in drive @var{cdrom}.  */)
+Return @code{#t} iff there is a CD in drive @var{cdrom}.  */)
 {
 #define FUNC_NAME s_cd_in_drive_p
   SDL_CD *cd;
@@ -244,7 +244,7 @@ PRIMPROC
  (SCM cdrom, SCM n),
  doc: /***********
 For CD in drive @var{cdrom}, return info on track @var{n}
-as an alist or #f if there were problems.  */)
+as an alist or @code{#f} if there were problems.  */)
 {
 #define FUNC_NAME s_cd_get_nth_track
   SDL_CD *cd;
@@ -287,7 +287,7 @@ frames.  If both @var{ntrack} and @var{nframe} are 0, play
 until the end of the CD.  This procedure will skip data
 tracks, and should only be called after calling
 @code{cd-status} to get track information about the CD.
-Return #t if successful.  */)
+Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_play_tracks
   SDL_CD *cd;
@@ -346,7 +346,7 @@ PRIMPROC
   SCM length),
  doc: /***********
 Play CD in drive @var{cdrom} from @var{start} frame for
-@var{length} frames.  Return #t if successful.  */)
+@var{length} frames.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_play
   SDL_CD *cd;
@@ -370,7 +370,7 @@ PRIMPROC
 (cd_pause, "cd-pause", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
-Pause the CD in drive @var{cdrom}.  Return #t if successful.  */)
+Pause the CD in drive @var{cdrom}.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_pause
   SDL_CD *cd;
@@ -392,7 +392,7 @@ PRIMPROC
  (SCM cdrom),
  doc: /***********
 Resume (unpause) the CD in drive @var{cdrom}.
-Return #t if successful.  */)
+Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_resume
   SDL_CD *cd;
@@ -413,7 +413,7 @@ PRIMPROC
 (cd_stop, "cd-stop", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
-Stop the CD in drive @var{cdrom}.  Return #t if successful.  */)
+Stop the CD in drive @var{cdrom}.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_stop
   SDL_CD *cd;
@@ -434,7 +434,7 @@ PRIMPROC
 (cd_eject, "cd-eject", 1, 0, 0,
  (SCM cdrom),
  doc: /***********
-Eject the CD from drive @var{cdrom}.  Return #t if successful.  */)
+Eject the CD from drive @var{cdrom}.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_eject
   SDL_CD *cd;

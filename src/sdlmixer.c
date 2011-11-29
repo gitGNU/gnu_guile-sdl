@@ -72,7 +72,7 @@ PRIMPROC
 Open the mixer with a certain audio format.
 Optional args @var{freq} (number), @var{format} (number),
 @var{stereo} (boolean) and @var{chunksize} (number) specify
-those aspects of the device.  Return #t if successful.  */)
+those aspects of the device.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_mix_open_audio
   int cfreq = MIX_DEFAULT_FREQUENCY;
@@ -134,7 +134,7 @@ PRIMPROC
 (mix_query_spec, "query-spec", 0, 0, 0,
  (void),
  doc: /***********
-Return audio device parameters as an alist, or #f
+Return audio device parameters as an alist, or @code{#f}
 if the audio has not yet been opened.
 Keys are @code{freq} (frequency), @code{format},
 and @code{channels} (the number of allocated channels).  */)
@@ -221,7 +221,7 @@ A tag can be assigned to several mixer channels, to
 form groups of channels.  If @var{tag} is not specified, or
 is -1, the tag is removed (actually -1 is the tag used
 to represent the group of all the channels).  Return
-#t if successful.  */)
+@code{#t} if successful.  */)
 {
 #define FUNC_NAME s_mix_group_channel
   int ctag = -1;
@@ -246,7 +246,7 @@ PRIMPROC
  doc: /***********
 Assign channels in the range @var{from} through @var{to}
 to the default group.  Optional arg @var{tag} specifies
-the group to use.  Return #t if successful.  */)
+the group to use.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_mix_group_channels
   int ctag = -1;
@@ -459,7 +459,7 @@ Optional arg @var{volume} (a number in the range 0-128) means
 set the volume to @var{volume} and return the original volume.
 Optional second arg @var{which} specifies a chunk or
 channel to check (or modify) instead of the default.
-If @var{volume} is non-#f and @var{which} is #f, modify all
+If @var{volume} is non-@code{#f} and @var{which} is @code{#f}, modify all
 channels.
 
 [Here is the original (perhaps clearer) docstring. ---ttn]
@@ -771,7 +771,7 @@ PRIMPROC
 (mix_paused, "paused?", 0, 1, 0,
  (SCM channel),
  doc: /***********
-Return #t if the default channel is paused.
+Return @code{#t} if the default channel is paused.
 Optional arg @var{channel} selects a which channel to check.  */)
 {
 #define FUNC_NAME s_mix_paused
@@ -832,7 +832,7 @@ PRIMPROC
 (mix_paused_music, "paused-music?", 0, 0, 0,
  (void),
  doc: /***********
-Return #t if the music is currently paused.  */)
+Return @code{#t} if the music is currently paused.  */)
 {
 #define FUNC_NAME s_mix_paused_music
   RETURN_BOOL
@@ -845,7 +845,7 @@ PRIMPROC
 (mix_playing, "playing?", 0, 1, 0,
  (SCM channel),
  doc: /***********
-Return #t iff the default channel is playing.
+Return @code{#t} iff the default channel is playing.
 Optional arg @var{channel} selects which channel to check.  */)
 {
 #define FUNC_NAME s_mix_playing
@@ -867,7 +867,7 @@ PRIMPROC
 (mix_playing_music, "playing-music?", 0, 0, 0,
  (void),
  doc: /***********
-Return #t iff the music is currently playing.  */)
+Return @code{#t} iff the music is currently playing.  */)
 {
 #define FUNC_NAME s_mix_playing_music
   RETURN_BOOL

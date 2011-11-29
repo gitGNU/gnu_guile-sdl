@@ -286,7 +286,7 @@ Return a new surface containing the @var{font}-specific
 rendering of the @var{text} string.
 Third argument is the foreground color;
 optional fourth argument is the background color,
-or #t if the text is to be blended.  */)
+or @code{#t} if the text is to be blended.  */)
 {
 #define FUNC_NAME s_ttf_render_text
   range_t ctext;
@@ -329,7 +329,7 @@ Return a new surface containing a @var{font}-specific
 rendering of the utf8 string @var{text}.
 Third argument is the foreground color;
 optional fourth argument is the background color,
-or #t if the text is to be blended.  */)
+or @code{#t} if the text is to be blended.  */)
 {
 #define FUNC_NAME s_ttf_render_utf8
   range_t ctext;
@@ -372,7 +372,7 @@ Return a new surface containing a @var{font}-specific
 rendering of the character @var{ch}.
 Third argument is the foreground color;
 optional fourth argument is the background color,
-or #t if the text is to be blended.  */)
+or @code{#t} if the text is to be blended.  */)
 {
 #define FUNC_NAME s_ttf_render_glyph
   TTF_Font *cfont;

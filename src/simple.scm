@@ -28,7 +28,7 @@
   #:use-module ((sdl gfx) #:prefix /G/-))
 
 ;; Return a @dfn{canvas closure} that accepts a few simple messages.
-;; If @var{init?} is non-#f, initalize the SDL video subsystem first.
+;; If @var{init?} is non-@code{#f}, initalize the SDL video subsystem first.
 ;; @var{w}, @var{h}, and @var{bpp} specify the width, height, and
 ;; bits-per-pixel, respectively.
 ;; @var{flags} are symbols to set the video mode.  If omitted, the
@@ -94,7 +94,7 @@
             (else (error "bad key:" (car args))))))))
 
 ;; Return a @dfn{stylus closure} that accepts a few simple messages.
-;; If @var{init?} is non-#f, initialize the SDL True Type support first.
+;; If @var{init?} is non-@code{#f}, initialize the SDL TTF support first.
 ;; @var{filename} specifes the .ttf file to load and @code{size} the size.
 ;; @var{r}, @var{g} and @var{b} are integers (0-255) specifying the color.
 ;; The closure recognizes the following messages:
@@ -165,8 +165,9 @@
 ;;
 ;; @item #:rects
 ;; Return the vector of rectangles of length N+1 (the element at index
-;; zero is #f) corresponding to areas on the image representing the smaller
-;; sub-images.  The element at index I is a rectangle of dimension IxI.
+;; zero is @code{#f}) corresponding to areas on the image representing
+;; the smaller sub-images.  The element at index I is a rectangle of
+;; dimension IxI.
 ;;
 ;; @item #:blit! i rect
 ;; Blit the sub-image @var{i} (an integer 1 <= I <= N), onto the canvas.

@@ -974,7 +974,7 @@ PRIMPROC
  (SCM mgr, SCM n),
  doc: /***********
 Arrange for FPS manager @var{mgr} to try to maintain a
-frame rate of @var{n} Hz.  Return #f if not successful.  */)
+frame rate of @var{n} Hz.  Return @code{#f} if not successful.  */)
 {
 #define FUNC_NAME s_fps_manager_set_x
   ASSERT_FPSMGR (mgr, 1);
@@ -991,7 +991,7 @@ PRIMPROC
  (SCM mgr),
  doc: /***********
 Return the frame rate of FPS manager @var{mgr} in Hz,
-or #f if unsuccessful.  */)
+or @code{#f} if unsuccessful.  */)
 {
 #define FUNC_NAME s_fps_manager_get
   int ret;

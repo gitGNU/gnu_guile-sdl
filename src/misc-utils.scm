@@ -169,13 +169,14 @@
              (< 0 (R #:h! (->n (1+ x) len))))
          (R))))
 
-;; Return a procedure @code{P} that checks the event queue for @var{timeout} ms,
-;; polling every @var{slice} ms.  If an event arrives during that time, return
-;; #t.  Otherwise return #f.  Optional arg @var{get-timeout-events} is either
-;; a list of events to be pushed on the queue in the case of timeout, or a
-;; thunk to be called that produces such a list.  If @var{get-timeout-events}
-;; is specified, return the result of another event queue polling.  (This may
-;; still be #f if the pushed events are masked in some way.)
+;; Return a procedure @code{P} that checks the event queue for @var{timeout}
+;; ms, polling every @var{slice} ms.  If an event arrives during that time,
+;; return @code{#t}.  Otherwise return @code{#f}.  Optional arg
+;; @var{get-timeout-events} is either a list of events to be pushed on the
+;; queue in the case of timeout, or a thunk to be called that produces such a
+;; list.  If @var{get-timeout-events} is specified, return the result of
+;; another event queue polling.  (This may still be @code{#f} if the pushed
+;; events are masked in some way.)
 ;;
 ;; @code{P} is called with a single arg, a pre-constructed event object.  This
 ;; interface is congruent with that of @code{wait-event} and @code{poll-event}.
@@ -276,7 +277,7 @@
 
 ;; Arrange to ignore all event types except those in @var{ls} (zero or
 ;; more symbols from @code{event-types}).  As a special case, if @var{ls}
-;; is #f, arrange to not ignore any event types (all are enabled).
+;; is @code{#f}, arrange to not ignore any event types (all are enabled).
 ;; @xref{Enums and Constants}.
 ;;
 (define (ignore-all-event-types-except . ls)
@@ -290,8 +291,8 @@
 
 ;; Return three values, each a thunk, that can be used to loop for
 ;; @var{sec} seconds, blitting onto @var{realized} at @var{location} (a
-;; rectangle or #f to indicate the origin) the alpha-composition of
-;; @var{image} and its @var{replacement} (both surfaces), to effect a
+;; rectangle or @code{#f} to indicate the origin) the alpha-composition
+;; of @var{image} and its @var{replacement} (both surfaces), to effect a
 ;; @dfn{fade-in} of @var{replacement} over @var{image}.  The alpha value
 ;; is directly proportional to the time between the ``next!'' phase call
 ;; and the ``init!''  phase call.

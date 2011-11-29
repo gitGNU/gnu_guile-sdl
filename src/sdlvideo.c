@@ -379,7 +379,7 @@ Return a list of available screen dimensions for pixel
 @var{format} and @var{flags}.  Format defaults to that for
 the current screen.  Flags default to none
 (see @code{flagstash:video}).
-Return #f if no modes are available, #t if all are available.  */)
+Return @code{#f} if no modes are available, @code{#t} if all are available.  */)
 {
 #define FUNC_NAME s_list_modes
   SDL_PixelFormat *cformat = NULL;
@@ -404,10 +404,10 @@ Return #f if no modes are available, #t if all are available.  */)
   modes = SDL_ListModes (cformat, cflags);
 
   if (modes == (SDL_Rect**)0)
-    /* Return #f to signify no resolutions are available.  */
+    /* Return ‘#f’ to signify no resolutions are available.  */
     SET_FALSE (result);
   else if (modes == (SDL_Rect**)-1)
-    /* Return #t to signify all resolutions are available.  */
+    /* Return ‘#t’ to signify all resolutions are available.  */
     SET_TRUE (result);
   else
     {
@@ -435,7 +435,7 @@ PRIMPROC
 Check to see if a particular video mode is supported.
 Args are @var{width}, @var{height}, @var{bpp} (numbers),
 and @var{flags} (see @code{flagstash:video}).
-Return #f if the mode is not supported, or a number
+Return @code{#f} if the mode is not supported, or a number
 indicating the bits-per-pixel of the closest available
 mode supporting @var{width} and @var{height}.  */)
 {
@@ -683,7 +683,7 @@ Get the gamma translation lookup tables currently used
 by the display.  Each table is a vector of 256 integer values.
 Return an alist with keys @code{redtable}, @code{greentable}
 and @code{bluetable}, and values the corresponding vectors.
-Return #f if unsuccessful.  */)
+Return @code{#f} if unsuccessful.  */)
 {
 #define FUNC_NAME s_get_gamma_ramp
   Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
@@ -710,7 +710,7 @@ PRIMPROC
 Set the gamma translation lookup tables currently
 used by the display, for @var{redtable}, @var{greentable}
 and @var{bluetable}.  Each table is an vector of 256
-integer values.  Return #t if successful.  */)
+integer values.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_set_gamma_ramp
   Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
@@ -868,8 +868,8 @@ PRIMPROC
  (SCM surface, SCM rect, SCM color),
  doc: /***********
 Fill @var{surface} @var{rect} with @var{color} (a number).
-If @var{rect} is #f, fill the entire surface.
-Return #t if successful.  */)
+If @var{rect} is @code{#f}, fill the entire surface.
+Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_fill_rect
   SDL_Rect *crect = NULL;
@@ -893,7 +893,7 @@ PRIMPROC
  (SCM surface),
  doc: /***********
 Return a new surface made by converting @var{surface}
-to the display format.  Return #f if not successful.  */)
+to the display format.  Return @code{#f} if not successful.  */)
 {
 #define FUNC_NAME s_display_format
   SDL_Surface *csurface;
@@ -915,7 +915,7 @@ PRIMPROC
  (SCM surface),
  doc: /***********
 Return a new surface made by converting @var{surface}
-to the display format, with an alpha channel.  Return #f
+to the display format, with an alpha channel.  Return @code{#f}
 if not successful.  */)
 {
 #define FUNC_NAME s_display_format_alpha
@@ -980,8 +980,8 @@ PRIMPROC
  (SCM query),
  doc: /***********
 Toggle the visibility of the mouse cursor.
-Return #t if was being displayed before the call,
-and #f if not.  Optional arg @var{query} non-#f
+Return @code{#t} if was being displayed before the call,
+and @code{#f} if not.  Optional arg @var{query} non-@code{#f}
 means to return the current state without toggling.  */)
 {
 #define FUNC_NAME s_show_cursor
@@ -1045,7 +1045,7 @@ PRIMPROC
  (SCM overlay),
  doc: /***********
 Lock the given YUV @var{overlay}.
-Return #f if successful.  */)
+Return @code{#f} if successful.  */)
 {
 #define FUNC_NAME s_lock_yuv_overlay
   ASSERT_OVERLAY (overlay, 1);
@@ -1076,7 +1076,7 @@ PRIMPROC
  (SCM overlay, SCM dstrect),
  doc: /***********
 Blit the YUV @var{overlay} to the display @var{dstrect}
-over which it was created.  Return #t if successful.  */)
+over which it was created.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_display_yuv_overlay
   ASSERT_OVERLAY (overlay, 1);
@@ -1159,7 +1159,7 @@ PRIMPROC
  (void),
  doc: /***********
 Iconify/Minimize the window.
-Return #t if successful.  */)
+Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_wm_iconify_window
   RETURN_BOOL
@@ -1175,7 +1175,7 @@ PRIMPROC
 Toggle the default video surface between windowed
 and fullscreen mode, if supported.  Optional arg
 @var{surface} specifies another surface to toggle.
-Return #t if successful.  */)
+Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_wm_toggle_full_screen
   SDL_Surface *csurface;

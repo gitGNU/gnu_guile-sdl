@@ -1,5 +1,24 @@
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[doc] Use ‘@code’ around ‘#t’ and ‘#f’ in doc strings.
+
+	* misc-utils.scm: Use ‘@code’ around ‘#t’ and ‘#f’ in doc strings.
+	* misc.c: Likewise.
+	* sdl.c: Likewise.
+	* sdlcdrom.c: Likewise.
+	* sdlcolor.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlrect.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+	* simple.scm: Likewise.
+
+2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Use ‘zero?’.
 
 	* misc-utils.scm (rectangle<-geometry-string): Use ‘zero?’.
