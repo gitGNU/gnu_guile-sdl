@@ -21,15 +21,15 @@
 (or *have-ttf* (exit-77 "ttf disabled"))
 
 (use-modules ((sdl sdl) #:prefix SDL:)
-             ((sdl ttf) #:prefix SDL:))
+             ((sdl ttf) #:prefix TTF:))
 
 ;; initialize the SDL video (and event) module
 (let ((res (SDL:init '(SDL_INIT_VIDEO))))
   (and debug? (fso "SDL:init: ~S~%" res)))
 
 ;; initialize the font lib
-(let ((res (SDL:ttf-init)))
-  (and debug? (fso "SDL:ttf-init: ~S~%" res)))
+(let ((res (TTF:ttf-init)))
+  (and debug? (fso "TTF:ttf-init: ~S~%" res)))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect (SDL:make-rect 0 0 600 200))
@@ -39,10 +39,10 @@
                     '(SDL_HWSURFACE SDL_DOUBLEBUF))
 
 ;; load a font file
-(define font (SDL:load-font (datafile "FreeSansBold.ttf") 16))
+(define font (TTF:load-font (datafile "FreeSansBold.ttf") 16))
 
 ;; presize some stuff
-(define height (SDL:font:height font))
+(define height (TTF:font:height font))
 (define top (quotient (- (SDL:rect:h test-rect) height) 2))
 
 ;; color to write in
@@ -54,8 +54,8 @@
     ;; rv
     (lambda (fstr . args)
       (let* ((text (apply fs fstr args))
-             (rendered (SDL:render-text font text white #t))
-             (dimensions (SDL:font:size-text font text))
+             (rendered (TTF:render-text font text white #t))
+             (dimensions (TTF:font:size-text font text))
              (width (assq-ref dimensions 'w))
              (screen (SDL:get-video-surface))
              (left (quotient (- (SDL:rect:w test-rect) width) 2))

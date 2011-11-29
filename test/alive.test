@@ -91,11 +91,11 @@ SDL:flags->number
 
 (cond (*have-ttf*
        (d>> "loading (sdl ttf)")
-       (use-modules (sdl ttf))))
+       (use-modules ((sdl ttf) #:prefix TTF:))))
 
 (cond (*have-mixer*
        (d>> "loading (sdl mixer)")
-       (use-modules (sdl mixer))))
+       (use-modules ((sdl mixer) #:prefix MIXER:))))
 
 (d>> "loading (sdl simple)")
 (use-modules (sdl simple))

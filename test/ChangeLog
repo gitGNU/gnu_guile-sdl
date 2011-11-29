@@ -1,3 +1,19 @@
+2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[v int] Use different #:prefix for each module.
+
+	U (X, Y) ≡ "Use #:prefix ‘X:’ for importing (sdl Y)".
+	Implicit ∀ files: Update references.
+	* alive.test <*have-ttf*>: U (TTF, ttf).
+	<*have-mixer*>: U (MIXER, mixer).
+	* event.scm: U (TTF, ttf).
+	* gfx.scm: U (GFX, gfx).
+	* leak.scm <top>: Don't import (sdl ttf) unconditionally.
+	<*have-ttf*>: U (TTF, ttf).
+	<*have-mixer*>: U (MIXER, mixer).
+	* mixer.scm: U (MIXER, mixer).
+	* ttf.scm: U (TTF, ttf).
+
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[v] Exercise some more (sdl ttf) procs.

@@ -19,8 +19,7 @@
 
 (or debug? (exit-77 "debug only"))
 
-(use-modules ((sdl sdl) #:prefix SDL:)
-             ((sdl ttf) #:prefix SDL:))
+(use-modules ((sdl sdl) #:prefix SDL:))
 
 (define exit-value #t)
 
@@ -75,21 +74,21 @@
 
 (and *have-ttf*
      (begin
-       (use-modules (sdl ttf))
-       (ttf-init)
+       (use-modules ((sdl ttf) #:prefix TTF:))
+       (TTF:ttf-init)
        (append! alloc/dealloc-tests
                 `(("ttf" ,(let ((f (datafile "crystal.ttf")))
-                            (lambda () (load-font f 24))))))))
+                            (lambda () (TTF:load-font f 24))))))))
 
 (and *have-mixer*
      (begin
-       (use-modules (sdl mixer))
-       (open-audio)
+       (use-modules ((sdl mixer) #:prefix MIXER:))
+       (MIXER:open-audio)
        (append! alloc/dealloc-tests
                 `(("music" ,(let ((f (datafile "fx.ogg")))
-                              (lambda () (load-music f))))
+                              (lambda () (MIXER:load-music f))))
                   ("wave" ,(let ((f (datafile "fx.wav")))
-                             (lambda () (load-wave f))))))))
+                             (lambda () (MIXER:load-wave f))))))))
 
 ;; do it!
 (for-each (lambda (args)

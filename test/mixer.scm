@@ -23,16 +23,16 @@
 ;; simple mixer test
 
 (use-modules ((sdl sdl) #:prefix SDL:)
-             ((sdl mixer) #:prefix SDL:))
+             ((sdl mixer) #:prefix MIXER:))
 
 ;; initialize the SDL mixer module
 (SDL:init '(SDL_INIT_AUDIO))
 
 ;; initialize the audio device
-(SDL:open-audio)
+(MIXER:open-audio)
 
 ;; display audio device info
-(let ((specs (SDL:query-spec)))
+(let ((specs (MIXER:query-spec)))
   (cond (specs
          (fso "Opened audio at ~A Hz ~A bit ~A~%"
               (assq-ref specs 'freq)
@@ -45,24 +45,24 @@
 
 
 ;; load the files
-(define background (SDL:load-music (datafile "background.ogg")))
-(define fx (SDL:load-wave (datafile "fx.ogg")))
+(define background (MIXER:load-music (datafile "background.ogg")))
+(define fx (MIXER:load-wave (datafile "fx.ogg")))
 
 ;; play background
-(SDL:volume 128)
-(SDL:play-music background)
+(MIXER:volume 128)
+(MIXER:play-music background)
 
 (define angle 90)
 
 ;; loop until it's done, playing a sound effect every 1500ms
-(while (SDL:playing-music?)
-       (let ((ch (SDL:play-channel fx)))
-         (SDL:set-position ch angle 0))
+(while (MIXER:playing-music?)
+       (let ((ch (MIXER:play-channel fx)))
+         (MIXER:set-position ch angle 0))
        (set! angle (- angle))
        (SDL:delay 1500))
 
 ;; close the audio and quit SDL
-(SDL:close-audio)
+(MIXER:close-audio)
 (exit (SDL:quit))
 
 ;;; mixer.scm ends here

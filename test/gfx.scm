@@ -19,7 +19,7 @@
 
 (use-modules (srfi srfi-4))
 (use-modules ((sdl sdl) #:prefix SDL:)
-             ((sdl gfx) #:prefix SDL:))
+             ((sdl gfx) #:prefix GFX:))
 
 ;; initialize SDL video
 (SDL:init '(SDL_INIT_VIDEO))
@@ -41,14 +41,14 @@
         (max-y (- 480 8))
         (all (map integer->char (iota 256))))
     (define (one char)
-      (SDL:draw-character SCREEN (random max-x) (random max-y) char
+      (GFX:draw-character SCREEN (random max-x) (random max-y) char
                           (+ #xff (ash (random #x1000000) 8))))
     (lambda ()
       (for-each one (list-tail all (random (- 256 (random 256))))))))
 
-(define mmx? (SDL:imfi-mmx?))
+(define mmx? (GFX:imfi-mmx?))
 (and debug? (fso "mmx: ~A~%" (if mmx? 'yes 'no)))
-(and (getenv "NOMMX") (SDL:imfi-mmx? #f))
+(and (getenv "NOMMX") (GFX:imfi-mmx? #f))
 
 ;; character (font) stuff and blitting
 (let* ((screen (SDL:get-video-surface))
@@ -62,16 +62,16 @@
        (hix (+ lox iw lox))
        (loy (/ (- 480 (* 2 ih)) 3))
        (hiy (+ loy ih loy))
-       (frot (list->vector (SDL:enumstash-enums SDL:font-rotations)))
+       (frot (list->vector (SDL:enumstash-enums GFX:font-rotations)))
        (frot-count (vector-length frot))
        (place (SDL:make-rect 0 0 iw ih)))
   (define (draw! n)
     (SDL:rect:set-x! place (if (zero? (logand n 1)) lox hix))
     (SDL:rect:set-y! place (if (zero? (logand n 2)) loy hiy))
     (let ((rot (vector-ref frot (random frot-count))))
-      (SDL:font-rotation! rot)
+      (GFX:font-rotation! rot)
       (draw-characters!)
-      (SDL:draw-string screen
+      (GFX:draw-string screen
                        (+ cx (* 20 (case rot
                                      ((clockwise) (random 10))
                                      ((counter-clockwise) (- (random 10)))
@@ -89,34 +89,34 @@
   (define (three-op-c op c)
     (op head head (random c)))
   (let ((v (vector
-            (lambda () (three-op SDL:imfi-add))
-            (lambda () (three-op SDL:imfi-mean))
-            (lambda () (three-op SDL:imfi-sub))
-            (lambda () (three-op SDL:imfi-abs-diff))
-            (lambda () (three-op SDL:imfi-mult))
-            (lambda () (three-op SDL:imfi-mulnor))
-            (lambda () (three-op SDL:imfi-muldiv2))
-            (lambda () (three-op SDL:imfi-muldiv4))
-            (lambda () (three-op SDL:imfi-logand))
-            (lambda () (three-op SDL:imfi-logior))
-            (lambda () (SDL:imfi-add-c head head 1) ; avoid div-by-zero
-                    (three-op SDL:imfi-div))
-            (lambda () (two-op SDL:imfi-not))
-            (lambda () (three-op-c SDL:imfi-add-c 128))
-            (lambda () (three-op-c SDL:imfi-add-c-to-half 128))
-            (lambda () (three-op-c SDL:imfi-sub-c 128))
-            (lambda () (three-op-c SDL:imfi-ashr 32))
-            (lambda () (three-op-c SDL:imfi-lshr 32))
-            (lambda () (three-op-c SDL:imfi-mul-c 8))
-            (lambda () (SDL:imfi-ashr-mul-c
+            (lambda () (three-op GFX:imfi-add))
+            (lambda () (three-op GFX:imfi-mean))
+            (lambda () (three-op GFX:imfi-sub))
+            (lambda () (three-op GFX:imfi-abs-diff))
+            (lambda () (three-op GFX:imfi-mult))
+            (lambda () (three-op GFX:imfi-mulnor))
+            (lambda () (three-op GFX:imfi-muldiv2))
+            (lambda () (three-op GFX:imfi-muldiv4))
+            (lambda () (three-op GFX:imfi-logand))
+            (lambda () (three-op GFX:imfi-logior))
+            (lambda () (GFX:imfi-add-c head head 1) ; avoid div-by-zero
+                    (three-op GFX:imfi-div))
+            (lambda () (two-op GFX:imfi-not))
+            (lambda () (three-op-c GFX:imfi-add-c 128))
+            (lambda () (three-op-c GFX:imfi-add-c-to-half 128))
+            (lambda () (three-op-c GFX:imfi-sub-c 128))
+            (lambda () (three-op-c GFX:imfi-ashr 32))
+            (lambda () (three-op-c GFX:imfi-lshr 32))
+            (lambda () (three-op-c GFX:imfi-mul-c 8))
+            (lambda () (GFX:imfi-ashr-mul-c
                         head head (random 32) (random 128)))
-            (lambda () (three-op-c SDL:imfi-bshl 32))
-            (lambda () (three-op-c SDL:imfi-lshl 32))
-            (lambda () (three-op-c SDL:imfi-ashl 32))
-            (lambda () (three-op-c SDL:imfi-binarize 256))
-            (lambda () (SDL:imfi-clip
+            (lambda () (three-op-c GFX:imfi-bshl 32))
+            (lambda () (three-op-c GFX:imfi-lshl 32))
+            (lambda () (three-op-c GFX:imfi-ashl 32))
+            (lambda () (three-op-c GFX:imfi-binarize 256))
+            (lambda () (GFX:imfi-clip
                         head head (random 128) (+ 128 (random 128))))
-            (lambda () (SDL:imfi-normalize-linear
+            (lambda () (GFX:imfi-normalize-linear
                         head head
                         (random 256) (random 256)
                         (random 256) (random 256))))))
@@ -138,7 +138,7 @@
         ((= i n))
       (s16vector-set! x-uv i (random 640))
       (s16vector-set! y-uv i (random 480)))
-    (SDL:draw-bezier SCREEN x-uv y-uv 5
+    (GFX:draw-bezier SCREEN x-uv y-uv 5
                      (+ #x80 (ash (random #xffffff) 8))))
   (SDL:flip))
 
@@ -147,10 +147,10 @@
       (h (SDL:surface:h SCREEN)))
   (do ((i 0 (1+ i)))
       ((= i h))
-    (SDL:draw-hline SCREEN (random w) (random w) i (random #xffffff)))
+    (GFX:draw-hline SCREEN (random w) (random w) i (random #xffffff)))
   (do ((i 0 (1+ i)))
       ((= i w))
-    (SDL:draw-vline SCREEN i (random h) (random h) (random #xffffff)))
+    (GFX:draw-vline SCREEN i (random h) (random h) (random #xffffff)))
   (SDL:flip))
 
 ;; draw lines
@@ -159,8 +159,8 @@
   (define (line!-proc color)
     (let ((barest-hint (logior #x08 (logand color (lognot #xff)))))
       (lambda (x1 y1 x2 y2)
-        (SDL:draw-thick-line SCREEN x1 y1 x2 y2 7 barest-hint)
-        (SDL:draw-line SCREEN x1 y1 x2 y2 color))))
+        (GFX:draw-thick-line SCREEN x1 y1 x2 y2 7 barest-hint)
+        (GFX:draw-line SCREEN x1 y1 x2 y2 color))))
 
   (define (span-points beg end steps)
     (define (integer<- x)
@@ -199,7 +199,7 @@
 (do ((x-radius 320 (1- x-radius))
      (y-radius 240 (1- y-radius)))
     ((= 200 y-radius))
-  (SDL:draw-ellipse SCREEN 320 240 x-radius y-radius
+  (GFX:draw-ellipse SCREEN 320 240 x-radius y-radius
                     (+ (ash (random #xffffff) 8) 1)
                     #t)
   (SDL:flip))
@@ -208,7 +208,7 @@
 (do ((radius 100 (1- radius)))
     ((> 70 radius))
   (let ((c! (lambda (x y)
-              (SDL:draw-circle SCREEN x y radius
+              (GFX:draw-circle SCREEN x y radius
                                (+ (ash (random #xffffff) 8) 1)
                                #t))))
     (c! 100 100)
@@ -230,16 +230,16 @@
            (sub (quotient (- (+ beg (random 360)) beg) 16)))
       (do ((i 0 (1+ i)))
           ((= i 16))
-        (SDL:draw-pie-slice SCREEN
+        (GFX:draw-pie-slice SCREEN
                             x y r
                             (+ beg (* sub i)) (+ beg (* sub (1+ i)))
                             (+ (* 9 i) color)
                             #t)
-        (SDL:draw-arc SCREEN
+        (GFX:draw-arc SCREEN
                       x y (- r (quotient (* r i) 16))
                       (+ beg (* sub i)) (+ beg (* sub (1+ i)))
                       (logior color #xff)))
-      (SDL:draw-arc SCREEN
+      (GFX:draw-arc SCREEN
                     x y r
                     beg (+ beg (* sub 16))
                     (logior color #xff))
@@ -255,7 +255,7 @@
         ((= i n))
       (s16vector-set! x-uv i (random 640))
       (s16vector-set! y-uv i (random 480)))
-    (SDL:draw-polygon SCREEN x-uv y-uv
+    (GFX:draw-polygon SCREEN x-uv y-uv
                       (+ #x80 (ash (random #xffffff) 8))
                       #t))
   (SDL:flip))
@@ -270,7 +270,7 @@
         ((= i n))
       (s16vector-set! x-uv i (random 640))
       (s16vector-set! y-uv i (random 480)))
-    (SDL:draw-textured-polygon SCREEN x-uv y-uv
+    (GFX:draw-textured-polygon SCREEN x-uv y-uv
                                SCREEN (random 640) (random 480)))
   (SDL:flip))
 
@@ -296,8 +296,8 @@
           ((= 480 y))
         (SDL:rect:set-x! srect x)
         (SDL:rect:set-y! srect y)
-        (SDL:blit-rgba s-32 srect blot brect)
-        (SDL:set-pixel-alpha! blot (random 192))
+        (GFX:blit-rgba s-32 srect blot brect)
+        (GFX:set-pixel-alpha! blot (random 192))
         (SDL:blit-surface blot brect SCREEN srect)))
     (SDL:flip)))
 
@@ -309,7 +309,7 @@
      (x2 (1- (SDL:surface:w SCREEN)) (- x2 inc))
      (y2 (1- (SDL:surface:h SCREEN)) (- y2 inc)))
     ((<= 240 rad))
-  (SDL:draw-rounded-rectangle
+  (GFX:draw-rounded-rectangle
    SCREEN x1 y1 x2 y2
    rad (+ #x30 (ash (random #xffffff) 8))
    (zero? (random 8)))

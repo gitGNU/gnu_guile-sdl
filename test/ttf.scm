@@ -20,13 +20,13 @@
 (or *have-ttf* (exit-77 "ttf disabled"))
 
 (use-modules ((sdl sdl) #:prefix SDL:)
-             ((sdl ttf) #:prefix SDL:))
+             ((sdl ttf) #:prefix TTF:))
 
 ;; initialize SDL video
 (SDL:init '(SDL_INIT_VIDEO))
 
 ;; initialize the font lib
-(or (= 0 (SDL:ttf-init)) (error "could not init font lib"))
+(or (= 0 (TTF:ttf-init)) (error "could not init font lib"))
 
 ;; the text to display
 (define sentence (let ((ls (map symbol->string
@@ -40,15 +40,15 @@
 ;; load a font file
 (define (font-loader filename)
   (lambda (size)
-    (let* ((font (SDL:load-font filename size))
-           (style (SDL:font:style font))
+    (let* ((font (TTF:load-font filename size))
+           (style (TTF:font:style font))
            (etc (map (lambda (proc)
                        (cons (procedure-name proc)
                              (proc font)))
-                     (list SDL:font:height
-                           SDL:font:ascent
-                           SDL:font:descent
-                           SDL:font:line-skip))))
+                     (list TTF:font:height
+                           TTF:font:ascent
+                           TTF:font:descent
+                           TTF:font:line-skip))))
       (cond (verbose?
              (fso "INFO: loaded ~S ~S => ~S~%" filename style font)
              (for-each (lambda (pair)
@@ -69,7 +69,7 @@
 (set! *random-state* (seed->random-state (current-time)))
 
 (define (rand-rect font word)
-  (let* ((dimensions (SDL:font:size-text font word))
+  (let* ((dimensions (TTF:font:size-text font word))
          (w (assq-ref dimensions 'w))
          (h (assq-ref dimensions 'h)))
     (SDL:make-rect (random (- (SDL:rect:w test-rect) w))
@@ -92,7 +92,7 @@
     (or (zero? i)
         (let* ((word (car words))
                (font (car fonts))
-               (text (SDL:render-text font word (rand-color)
+               (text (TTF:render-text font word (rand-color)
                                       (case (random 3)
                                         ((0) #t)
                                         ((1) #f)
@@ -104,7 +104,7 @@
 
 ;; clean up
 (SDL:delay 1000)
-(SDL:ttf-quit)
+(TTF:ttf-quit)
 (exit (SDL:quit))
 
 ;;; ttf.scm ends here
