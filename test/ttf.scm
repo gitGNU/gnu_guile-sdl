@@ -129,7 +129,27 @@
             (SDL:update-rect screen dst-rect)
             (loop (1- i) (cdr fonts)))))))
 
+(define (spew-at)
+  (let ((at #\@)
+        (test-w (SDL:rect:w test-rect))
+        (test-h (SDL:rect:h test-rect))
+        (screen (SDL:get-video-surface))
+        (render (renderer TTF:render-glyph)))
+    (let loop ((i 42) (fonts fonts))
+      (or (zero? i)
+          (let* ((font (car fonts))
+                 (text (render font at))
+                 (w (SDL:surface:w text))
+                 (h (SDL:surface:h text))
+                 (dst-rect (SDL:make-rect (random (- test-w w))
+                                          (random (- test-h h))
+                                          w h)))
+            (SDL:blit-surface text test-rect screen dst-rect)
+            (SDL:update-rect screen dst-rect)
+            (loop (1- i) (cdr fonts)))))))
+
 (spew-utf-8)
+(spew-at)
 
 ;; clean up
 (SDL:delay 1000)

@@ -1,5 +1,12 @@
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Exercise ‘(sdl ttf) render-glyph’.
+
+	* ttf.scm (spew-at): New proc.
+	<top-level>: Call ‘spew-at’.
+
+2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v] Exercise some TTF procs for handling UTF-8.
 
 	* ttf.scm: Add ‘coding: utf-8’ to first-line comment.
