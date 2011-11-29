@@ -17,8 +17,6 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(or *interactive* (exit-77 "interactive"))
-
 (use-modules ((sdl sdl) #:prefix SDL:))
 
 ;; initialize the SDL video module
@@ -52,8 +50,9 @@
 (SDL:flip)
 
 ;; move the mouse (rude, but we can live w/ that)
-(SDL:warp-mouse (ash (SDL:surface:w (SDL:get-video-surface)) -1)
-                (ash (SDL:surface:h (SDL:get-video-surface)) -1))
+(let ((screen (SDL:get-video-surface)))
+  (SDL:warp-mouse (- (ash (SDL:surface:w screen) -1) 4)
+                  (- (ash (SDL:surface:h screen) -1) 8)))
 
 ;; primitive cursor creation (need a higher level one)
 (define (random-16)

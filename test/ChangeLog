@@ -1,5 +1,12 @@
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v cursor] Center the pointer precisely; ignore INTERACTIVE=1.
+
+	* cursor.scm: Don't skip if ‘INTERACTIVE=1’.
+	<mouse-warp>: Bump UL corner so pointer center is screen center.
+
+2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v] Exercise ‘(sdl ttf) render-glyph’.
 
 	* ttf.scm (spew-at): New proc.
