@@ -1,3 +1,12 @@
+2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[dist] Also distribute sdl.tsar.
+
+	This file is needed to generate sdl.exports.
+	TODO: Make do without.
+
+	* Makefile.am [MAINTAINER_MODE] (EXTRA_DIST): Add sdl.tsar.
+
 2011-11-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[build] Fix bug: Define old-style suffix rule .fs.c unconditionally.

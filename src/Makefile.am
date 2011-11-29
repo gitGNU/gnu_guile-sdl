@@ -98,6 +98,9 @@ gfx.tsar: $(gfx_la_SOURCES)
 noinst_DATA += scheme.tsar
 scheme.tsar: $(scheme)
 	$(gx) tsar $(coding) -f $@ update $^
+
+# Blech, we need to distribute this to generate the exports file.
+EXTRA_DIST += sdl.tsar
 endif # MAINTAINER_MODE
 
 DISTCLEANFILES = *.x
