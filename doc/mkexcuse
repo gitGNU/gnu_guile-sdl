@@ -93,7 +93,7 @@ is not significant.
                                               (newline)
                                               0))))))
                      *notes*)
-           (or (= 0 col) (newline)))
+           (or (zero? col) (newline)))
          (fln "@end verbatim")))
 
 (newline)

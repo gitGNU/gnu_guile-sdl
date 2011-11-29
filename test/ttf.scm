@@ -26,7 +26,7 @@
 (SDL:init '(SDL_INIT_VIDEO))
 
 ;; initialize the font lib
-(or (= 0 (TTF:ttf-init)) (error "could not init font lib"))
+(or (zero? (TTF:ttf-init)) (error "could not init font lib"))
 
 ;; the text to display
 (define sentence (let ((ls (map symbol->string

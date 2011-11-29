@@ -1,5 +1,13 @@
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Use ‘zero?’.
+
+	* misc-utils.scm (rectangle<-geometry-string): Use ‘zero?’.
+	(poll-with-push-on-timeout-proc, toroidal-panner/3p): Likewise.
+	* simple.scm (simple-canvas, simple-vpacked-image): Likewise.
+
+2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[dist] Also distribute sdl.tsar.
 
 	This file is needed to generate sdl.exports.

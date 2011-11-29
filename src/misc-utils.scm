@@ -156,7 +156,7 @@
         (p/m (plus-or-minus 0))
         (R (rectangle-closure)))
     (and x
-         (not (= 0 x))
+         (not (zero? x))
          (< 0 (R #:w! (->n 0 x)))
          (if p/m
              (and (< x p/m)
@@ -198,7 +198,7 @@
     (lambda (ev)
       (let loop ((still timeout))
         (cond ((SDL:poll-event ev))
-              ((= 0 still)          (push! ev))
+              ((zero? still)        (push! ev))
               (else                 (SDL:delay slice)
                                     (loop (max 0 (- still slice)))))))))
 
@@ -461,7 +461,7 @@
        ;; next!
        (lambda ()
          (cond ((not live?) live?)
-               ((= 0 count)
+               ((zero? count)
                 (set! live? #f)
                 live?)
                (else

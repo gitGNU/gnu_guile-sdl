@@ -1,5 +1,12 @@
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Use ‘zero?’.
+
+	* cursor.scm <initial blit>: Use ‘zero?’.
+	* ttf.scm <TTF init>: Likewise.
+
+2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v int] Use ‘even?’.
 
 	* event.scm (ignore-maybe): Use ‘even?’.

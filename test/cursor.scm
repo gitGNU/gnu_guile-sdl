@@ -47,7 +47,7 @@
         ((= 2 y))
       (SDL:rect:set-x! rect (* 200 x))
       (SDL:rect:set-y! rect (* 153 y))
-      (or (= 0 (logxor x y))
+      (or (zero? (logxor x y))
           (SDL:blit-surface gnu-head #f (SDL:get-video-surface) rect)))))
 (SDL:flip)
 

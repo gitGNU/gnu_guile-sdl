@@ -61,7 +61,7 @@
 ;;
 (define (simple-canvas init? w h bpp . flags)
   (or (not init?)
-      (= 0 (///-init '(SDL_INIT_VIDEO)))
+      (zero? (///-init '(SDL_INIT_VIDEO)))
       (error "could not init SDL"))
   (let ((canvas #f)
         (rect #f)
@@ -178,7 +178,7 @@
 (define (simple-vpacked-image filename . etc)
   (let* ((image (///-load-image filename))
          (rects (let loop ((size (///-surface:w image)) (offset 0) (acc '()))
-                  (if (= 0 size)
+                  (if (zero? size)
                       (list->vector (cons #f acc))
                       (loop (1- size) (+ offset size)
                             (cons (///-make-rect 0 offset size size) acc)))))
