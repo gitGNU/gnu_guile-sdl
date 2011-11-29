@@ -76,7 +76,7 @@
 ;; set the event filter: ignore the mouse every other second
 (define (ignore-maybe event-type)
   (not (and (eq? 'SDL_MOUSEMOTION event-type)
-            (zero? (remainder (car (gettimeofday)) 2)))))
+            (even? (car (gettimeofday))))))
 (SDL:set-event-filter ignore-maybe #f)
 (and debug? (fso "event-filter: ~S~%" (SDL:get-event-filter)))
 

@@ -1,5 +1,11 @@
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v int] Use ‘even?’.
+
+	* event.scm (ignore-maybe): Use ‘even?’.
+
+2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v int] Use different #:prefix for each module.
 
 	U (X, Y) ≡ "Use #:prefix ‘X:’ for importing (sdl Y)".
