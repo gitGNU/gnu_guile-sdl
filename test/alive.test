@@ -52,9 +52,10 @@ SDL:flags->number
             (SDL:flagstash:overlay)
             (SDL:flagstash:video)
             (SDL:flagstash:palette)
+            (SDL:flagstash:event-mask)
             (SDL:flagstash:event-mod))))
   (d>> "all: ~S" all)
-  (or (= 5 (length all))
+  (or (= 6 (length all))
       (error "unexpected number of flag stashes"))
   (for-each (lambda (stash)
               (d>> "~A: ~S" stash (SDL:flagstash-flags stash)))
@@ -91,7 +92,9 @@ SDL:flags->number
 
 (cond (*have-ttf*
        (d>> "loading (sdl ttf)")
-       (use-modules ((sdl ttf) #:prefix TTF:))))
+       (use-modules ((sdl ttf) #:prefix TTF:))
+       (let ((styles (TTF:flagstash:ttf)))
+         (d>> "styles: ~S ~S" styles (SDL:flagstash-flags styles)))))
 
 (cond (*have-mixer*
        (d>> "loading (sdl mixer)")

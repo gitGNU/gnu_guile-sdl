@@ -1,5 +1,12 @@
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Exercise flagstash:{event-mask,ttf}.
+
+	* alive.test <top>: Add ‘flagstash:event-mask’ to core list.
+	<*have-ttf*>: Access ‘flagstash:ttf’.
+
+2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Use ‘zero?’.
 
 	* cursor.scm <initial blit>: Use ‘zero?’.
