@@ -1,4 +1,4 @@
-;;; ttf.scm --- simple true type font test
+;;; ttf.scm --- simple true type font test         -*- coding: utf-8 *-
 
 ;; Copyright (C) 2003, 2004, 2007, 2008, 2009, 2011 Thien-Thi Nguyen
 ;;
@@ -84,6 +84,13 @@
 (SDL:fill-rect (SDL:get-video-surface) test-rect #xffffff)
 (SDL:flip)
 
+(define (renderer proc)
+  (lambda (font string)
+    (proc font string (rand-color) (case (random 3)
+                                     ((0) #t)
+                                     ((1) #f)
+                                     ((2) (rand-color))))))
+
 ;; write the text in random locations with random colors
 (let ((src-rect (SDL:make-surface (SDL:rect:w test-rect)
                                   (SDL:rect:h test-rect)))
@@ -101,6 +108,28 @@
           (SDL:blit-surface text test-rect screen dst-rect)
           (SDL:update-rect screen dst-rect)
           (loop (1- i) (cdr words) (cdr fonts))))))
+
+(define (spew-utf-8)
+  (let ((infinity "λ∞")
+        (test-w (SDL:rect:w test-rect))
+        (test-h (SDL:rect:h test-rect))
+        (screen (SDL:get-video-surface))
+        (render (renderer TTF:render-utf8)))
+    (let loop ((i 42) (fonts fonts))
+      (or (zero? i)
+          (let* ((font (car fonts))
+                 (text (render font infinity))
+                 (dimensions (TTF:font:size-utf8 font infinity))
+                 (w (assq-ref dimensions 'w))
+                 (h (assq-ref dimensions 'h))
+                 (dst-rect (SDL:make-rect (random (- test-w w))
+                                          (random (- test-h h))
+                                          w h)))
+            (SDL:blit-surface text test-rect screen dst-rect)
+            (SDL:update-rect screen dst-rect)
+            (loop (1- i) (cdr fonts)))))))
+
+(spew-utf-8)
 
 ;; clean up
 (SDL:delay 1000)

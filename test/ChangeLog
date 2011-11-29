@@ -1,5 +1,13 @@
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Exercise some TTF procs for handling UTF-8.
+
+	* ttf.scm: Add ‘coding: utf-8’ to first-line comment.
+	(renderer, spew-utf-8): New procs.
+	<top-level>: Call ‘spew-utf-8’.
+
+2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v] Exercise flagstash:{event-mask,ttf}.
 
 	* alive.test <top>: Add ‘flagstash:event-mask’ to core list.
