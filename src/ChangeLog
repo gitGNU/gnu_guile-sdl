@@ -1,3 +1,19 @@
+2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Add uvec wrangling abstractions.
+
+	* b-uv.h: New file.
+	* Makefile.am (headers): Add b-uv.h.
+	* sdlgfx.c: #include "b-uv.h".
+	(S16VECTORP): Delete macro.
+	(ASSERT_UVEC_S16): Use ‘ASSERT_UVEC’.
+	(ST, VBITS, VLEN, STUFF, GET_PARTICULARS)
+	(HOWDY, LATER): Delete macros.
+	(struct s16_stuff, copy_16): Delete explicit definitions;
+	instead, define via ‘DEFINE_STRUCT_AND_COPY_FUNC’.
+	(STUFF2): Use ‘S16_STUFF’.
+	(HOWDY2): Use ‘HOWDY_S16’.
+
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[doc] Use ‘@code’ around ‘#t’ and ‘#f’ in doc strings.
