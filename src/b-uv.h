@@ -60,7 +60,7 @@ copy_## TT (struct TT ##_stuff *stuff)                  \
 #if GI_LEVEL_NOT_YET_1_8
 
 /* DWR: Abstraction violation!  */
-#define GET_PARTICULARS(v,tt)  do                       \
+#define GET_PARTICULARS(tt,v)  do                       \
     {                                                   \
       VLEN (v) = (size_t) SCM_CELL_WORD_2 (v);          \
       ST (v, elt) = (void *) SCM_CELL_OBJECT_3 (v);     \

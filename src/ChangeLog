@@ -1,5 +1,14 @@
 2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Fix bug: Define ‘GET_PARTICULARS’ consistently.
+
+	Omission from 2011-11-30, "Add uvec wrangling abstractions".
+
+	* b-uv.h [GI_LEVEL_NOT_YET_1_8] (GET_PARTICULARS):
+	Invert order of arguments.
+
+2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Return / take u16 uvec for gamma-ramp getter / setter procs.
 
 	* sdlvideo.c (gsdl_scm_to_uint16s): Delete func.
