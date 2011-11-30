@@ -1,75 +1,88 @@
-Introduction
-------------
+Welcome! (or "☡ Guile ∘ SDL ∞")
+===============================
 
-This directory contains Guile-SDL, a set of modules that provide bindings
-for SDL (Simple DirectMedia Layer) to enable Guile programmers to do all
-the nice things you can do with SDL.
+	This directory contains Guile-SDL, a set of modules that provide
+	bindings for SDL (Simple DirectMedia Layer) to enable Guile
+	programmers to do all the nice things you can do with SDL.
 
-Most of the SDL functions have been wrapped with the exception of a few
-functions that were too C-centric.  The SDL Threads and the Audio functions
-haven't been included because of the problems with Guile code being run
-from more than one thread.  However audio programming can be done with the
-module `(sdl mixer)' that requires the SDL_mixer library.
+	Most of the SDL functions have been wrapped with the exception
+	of a few functions that were too C-centric.  The SDL Threads and
+	the Audio functions haven't been included because of the
+	problems with Guile code being run from more than one thread.
+	However audio programming can be done with the module ‘(sdl
+	mixer)’ that requires the SDL_mixer library.
 
-Also included is SDL_gfx 2.0.18 (by Andreas Schiffler) and bindings for it.
+	Also included is SDL_gfx 2.0.22 (by Andreas Schiffler) and
+	bindings for it.
 
 
 Requirements
-------------
+============
 
-* GNU gperf, if configuring w/ ‘--enable-maintainer-mode’
-* Guile that
-  can load binary module (a b c)
-        from library file a/b/c.so on %load-path
-* SDL-1.2
-* SDL_image
-* SDL_mixer (optional, required if audio support is needed)
-* SDL_ttf (optional, required if truetype font support is needed)
+	* Guile 1.4 or later
+	* SDL 1.2
+	* SDL_image
+	* SDL_mixer (optional)
+	* SDL_ttf (optional)
 
 
 Installation Process
---------------------
+====================
 
-See file INSTALL for generic installation instructions.  Briefly:
+	See file INSTALL for generic installation instructions.
+	Briefly:
 
-  ./configure [--disable-mixer] [--disable-ttf]
-  make
-  make check [INTERACTIVE=1] [DEBUG=1] [NOMMX=1]
-  make install
+	  ./configure [--disable-mixer] [--disable-ttf]
+	  make
+	  make check [INTERACTIVE=1] [VERBOSE=1] [DEBUG=1] [NOMMX=1]
+	  make install
+	  make installcheck
 
-By default, configuration tries to find the libSDL_mixer and libSDL_ttf
-libs and headers to build modules (sdl mixer) and (sdl ttf), respectively.
-If they are not found, these modules will not be installed.
+	By default, configuration tries to find the libSDL_mixer and
+	libSDL_ttf libs and headers to build modules (sdl mixer) and
+	(sdl ttf), respectively.  If they are not found, these modules
+	will not be installed.
 
-Note: The output of "./configure --help" includes the line:
-  --disable-sdltest       Do not try to compile and run a test SDL program
-However, that option, an artifact of SDL's autoconf support, is ignored.
+	Note: The output of "./configure --help" mentions the option
+	‘--disable-sdltest’.  However, that is an artifact of SDL's
+	autoconf support, and is silently ignored.
 
-By default, "make check" runs only tests which do not require user
-interaction.  You can specify `INTERACTIVE=1' to enable running these
-particular tests.  If there are problems, add `DEBUG=1' and send the
-output to the maintainer along w/ a precise description of observations
-and expectations (i.e. file a bug report).
+	By default, "make check" and "make installcheck" run only tests
+	which do not require user interaction.  You can specify
+	‘INTERACTIVE=1’ to enable running these particular tests.  If
+	there are problems, add ‘DEBUG=1 VERBOSE=1’ and send the output
+	to the maintainer along w/ a precise description of observations
+	and expectations (i.e. file a bug report).
 
-If the gfx test segfaults, try running it with `NOMMX=1'.
+	If the gfx test segfaults, try running it with ‘NOMMX=1’.
 
 
 Installation Result
--------------------
+===================
 
-Doing "make install" copies four compiled modules (machine-dependent
-shared object libraries), two scheme modules (human readable text), and an
-info file to various directories under ${prefix} and ${exec_prefix}.  See
-the file INSTALL if you wish to choose different values for the ${} vars.
+	Doing "make install" copies six modules (four machine-dependent
+	shared object libraries and two human-readable text), and the
+	documentation (info format file) to various directories under
+	${prefix} and ${exec_prefix}, with the result being that the
+	following modules are available:
 
-      ${prefix}/info                 -- guile-sdl.info
-   ${exec_prefix}/lib/guile/site/sdl -- (sdl sdl)
-                                        (sdl mixer)
-                                        (sdl ttf)
-                                        (sdl gfx)
-                                        (sdl misc-utils)
-                                        (sdl simple)
+	  (sdl sdl)
+	  (sdl mixer)
+	  (sdl ttf)
+	  (sdl gfx)
+	  (sdl misc-utils)
+	  (sdl simple)
 
-Additionally, if your system supports "guile-tools make-module-catalog",
-that program is run in both "site" directories to create and/or update the
-module catalogs there.
+	See the output of ‘./configure --help’ for information on how to
+	customize the installation directories.
+
+	Additionally, if you have "guile-tools make-module-catalog",
+	that program is run in the "site directory" to create and/or
+	update the module catalog there.
+
+
+Reporting Bugs
+==============
+
+	Please send bug reports to Thien-Thi Nguyen.
+	Alternatively, you can file a report on Savannah.

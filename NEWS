@@ -22,7 +22,7 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
 	Previously, these would throw an error saying "not yet
 	implemented (sorry)".  Note that the interface for
-	`set-event-filter' is different from before.  This is not a
+	‘set-event-filter’ is different from before.  This is not a
 	problem since the proc was not useful before, anyway.
 
   - new (sdl gfx) proc: draw-arc
@@ -67,20 +67,20 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
   - new (sdl misc-utils) proc: fader/3p
   - new (sdl misc-utils) proc: toroidal-panner/3p
 
-	These are three-phase exposing variants of `fade-loop!' and
-	`toroidal-panner', respectively.  (In fact, the old procs have
+	These are three-phase exposing variants of ‘fade-loop!’ and
+	‘toroidal-panner’, respectively.  (In fact, the old procs have
 	been rewritten to use the new.)  Three-phase procs return three
 	values, one for each phase of "init", "next" and "done".  This
 	lets caller maintain control for fine(r)-grained scheduling.
 	See manual for an example of the stylized call sequence.
 
-	NOTE: Both `fade-loop!' and `toroidal-panner' are scheduled for
+	NOTE: Both ‘fade-loop!’ and ‘toroidal-panner’ are scheduled for
 	removal by 2008-01-01.  DO NOT RELY ON THEM.
 
   - new (sdl gfx) proc: blit-rgba
   - new (sdl gfx) proc: set-pixel-alpha!
 
-	The latter wraps `SDL_gfxSetAlpha' in the underlying (SDL_gfx)
+	The latter wraps ‘SDL_gfxSetAlpha’ in the underlying (SDL_gfx)
 	library, but the natural schemified name would clash w/ SDL's,
 	so this was chosen for uniqueness as well as to emphasize its
 	per-pixel nature.
@@ -88,7 +88,7 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
   - docs have more info
 
 	The manual now lists valid values for flagstash:* and *-enums,
-	mined using `flagstash-flags' and `enumstash-enums', respectively.
+	mined using ‘flagstash-flags’ and ‘enumstash-enums’, respectively.
 
 
 - 0.3.7 | 2007-09-16
@@ -199,7 +199,7 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
   - change to (sdl misc-utils) proc: copy-surface
 
-	This now uses `convert-surface' to do one-step copy/conversion,
+	This now uses ‘convert-surface’ to do one-step copy/conversion,
 	instead of the two-step process used previously.  The SRCALPHA
 	(per-surface flag) handling added in Guile-SDL 0.3.2 has been
 	removed.
@@ -209,7 +209,7 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 	Using these args is now equivalent to specifying 0 (zero) to the
 	underlying SDL function.
 
-  - `set-alpha!' third arg now optional
+  - ‘set-alpha!’ third arg now optional
 
 	If omitted it is taken as #f.
 
@@ -218,13 +218,13 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
 - 0.3.2 | 2005-01-23
 
-  - bugfix: (sdl sdl) proc `fill-rect' handles alpha/red values > 127
+  - bugfix: (sdl sdl) proc ‘fill-rect’ handles alpha/red values > 127
 
 	The color used to be extracted as signed instead of unsigned.
 	This caused incorrect out-of-range errors for color values whose
 	high bit (alpha for ABGR, red for RGBA) was set.
 
-  - bugfix: (sdl misc-utils) proc `copy-surface' handles SDL_SRCALPHA
+  - bugfix: (sdl misc-utils) proc ‘copy-surface’ handles SDL_SRCALPHA
 
 	The proc now takes care to clear this flag (and restore it
 	afterwards) in the source surface around the blit, so that RGB
@@ -265,21 +265,21 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
 - 0.3.1 | 2005-01-08
 
-  - bugfix: `make-surface' and `create-rgb-surface' no longer ignore `flags'
+  - bugfix: ‘make-surface’ and ‘create-rgb-surface’ no longer ignore ‘flags’
 
 	These procs used to internally hardcode SDL_HWSURFACE instead of
-	using the `flags' argument.
+	using the ‘flags’ argument.
 
   - dropped (sdl sdl) proc: scale-surface
 
 	This was never implemented.  Its advertized functionality was
-	also redundant w/ `zoom-surface', which furthermore has the
+	also redundant w/ ‘zoom-surface’, which furthermore has the
 	benefit of a more flexible interface.
 
   - print representation for flagstash objects now begins with "#"
 
 	This is to follow the Scheme convention for printing objects
-	that cannot be `read' back in.
+	that cannot be ‘read’ back in.
 
   - implementation for (sdl sdl) proc: event-state
   - implementation for (sdl sdl) proc: peep-events
@@ -299,7 +299,7 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
 	If your Guile installation does not provide this program, that's
 	ok; Guile-SDL will still build.  However, in that case the
-	wrapper script `wily-guile' may have difficulty finding the
+	wrapper script ‘wily-guile’ may have difficulty finding the
 	pre-installed compiled modules, which will affect "make check",
 	primarily.
 
@@ -354,7 +354,7 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 	FOO/libBAR.la, and not simply FOO/BAR.la, appropriately named
 	symlinks are now created for each installed .la file.
 
-  - bugfix: symbolic return value for `fading-music' and `fading-channel'
+  - bugfix: symbolic return value for ‘fading-music’ and ‘fading-channel’
 
 	These procs used to return an integer.  Now they return a
 	symbol, one of: MIX_NO_FADING, MIX_FADING_OUT, MIX_FADING_IN.
@@ -371,7 +371,7 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 	The module (sdl sdl) used to be a scheme wrapper for binary
 	module (sdl sdl-sup).  Now it is the binary module itself.
 	See README.  Also, (sdl sdl) no longer provides the procs
-	`call-with-clip-rect' and `rotate-square'.
+	‘call-with-clip-rect’ and ‘rotate-square’.
 
 	On "make install" if file $(GUILE_SITE)/sdl/sdl.scm exists,
 	it is deleted.  If the dir $(GUILE_SITE)/sdl is empty as a
@@ -379,8 +379,8 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
   - new module: (sdl misc-utils)
 
-	Currently this contains the procs `call-with-clip-rect' and
-	`rotate-square', both of which used to be available in module
+	Currently this contains the procs ‘call-with-clip-rect’ and
+	‘rotate-square’, both of which used to be available in module
 	(sdl sdl).  The procs are documented in the info pages in a new
 	chapter: "Miscellaneous Utilities".
 
@@ -470,7 +470,7 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
 
 		${GUILE_LIBSITE}/sdl/
 
-	The value of ${GUILE_LIBSITE} is determined by the `configure'
+	The value of ${GUILE_LIBSITE} is determined by the ‘configure’
 	script.  Also installed in this directory is the compiled module
 	(sdl sdl-sup), an internal module used by all the user-facing
 	modules.  Related to these changes, if the program "guile-tools
@@ -486,7 +486,7 @@ Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
   - "sdl-" prefix dropped
 
 	Procedure names no longer begin with "sdl-".  You can use the
-	#:renamer clause (in `use-modules' and `define-module' forms)
+	#:renamer clause (in ‘use-modules’ and ‘define-module’ forms)
 	to add this back, or possibly choose another prefix.  In this
 	distribution, the tests, examples and documentation use "SDL:".
 

@@ -11,6 +11,6 @@ Guile-SDL owes its existence and improvement to:
   Paolo Bonzini, for libtool help.
 
   Paul Osmialowski, for making available ports of some Guile 1.4.x
-  `guile-tools' programs to Guile 1.6.x.
+  ‘guile-tools’ programs to Guile 1.6.x.
 
-  Brian Templeton, for (Guile) portability code.
+  Brian Templeton, for (Guile) portability ideas.
