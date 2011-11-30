@@ -1,5 +1,13 @@
 2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Return / take u16 uvec for gamma-ramp getter / setter procs.
+
+	* cursor.scm (spew-ramp): New proc.
+	<top-level>: Call ‘SDL:get-gamma-ramp’ and ‘spew-ramp’.
+	<cursor loop>: Use ‘make-u16vector’, ‘u16vector-set!’.
+
+2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Restrict type to u8 uvec for some ‘create-cursor’ args.
 
 	* cursor.scm: Import (srfi srfi-4).

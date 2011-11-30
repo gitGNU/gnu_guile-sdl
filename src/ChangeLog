@@ -1,5 +1,23 @@
 2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Return / take u16 uvec for gamma-ramp getter / setter procs.
+
+	* sdlvideo.c (gsdl_scm_to_uint16s): Delete func.
+	(gsdl_scm_from_uint16s): Likewise.
+	[GI_LEVEL_NOT_YET_1_8] (u16v_p): New scheme object proc.
+	[GI_LEVEL_NOT_YET_1_8] (mk_u16v, u16v_x): Likewise.
+	[GI_LEVEL_NOT_YET_1_8] (scm_u16vector_p): New macro.
+	[GI_LEVEL_NOT_YET_1_8] (scm_make_u16vector): Likewise.
+	(u16_stuff, copy_u16): New, via ‘DEFINE_STRUCT_AND_COPY_FUNC’.
+	(ASSERT_UVEC_U16, U16_STUFF)
+	(GET_U16_PARTICULARS, HOWDY_U16): New macros.
+	(GAMMAVEC): Delete macro.
+	(get_gamma_ramp): Rewrite.
+	(ASSERT_VSZFIT): Delete macro.
+	(set_gamma_ramp): Rewrite.
+
+2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Restrict type to u8 uvec for some ‘create-cursor’ args.
 
 	* sdlvideo.c: #include "b-uv.h".

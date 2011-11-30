@@ -24,54 +24,15 @@
 #include <SDL/SDL_image.h>
 #include "b-uv.h"
 
-/* Vector conversion funcs.  */
-
-static uint16_t *
-gsdl_scm_to_uint16s (SCM obj, uint16_t *data)
-{
-#if !GI_LEVEL_NOT_YET_1_8
-  scm_t_array_handle handle;
-  size_t i, len;
-  ssize_t inc;
-  const uint16_t *elt;
-
-  obj = scm_any_to_u16vector (obj);
-  elt = scm_u16vector_elements (obj, &handle, &len, &inc);
-  for (i = 0; i < len;  i++, elt += inc)
-    data[i] = *elt;
-  scm_array_handle_release (&handle);
-#else  /* GI_LEVEL_NOT_YET_1_8 */
-  gh_scm2shorts (obj, (short *) data);
-#endif  /* GI_LEVEL_NOT_YET_1_8 */
-  return data;
-}
-
-static SCM
-gsdl_scm_from_uint16s (uint16_t *data, size_t n)
-{
-  SCM obj;
-#if !GI_LEVEL_NOT_YET_1_8
-  scm_t_array_handle handle;
-  size_t i, len;
-  ssize_t inc;
-  uint16_t *elt;
-
-  obj = scm_make_u16vector (scm_from_size_t (n), SCM_UNDEFINED);
-  elt = scm_u16vector_writable_elements (obj, &handle, &len, &inc);
-  for (i = 0; i < len; i++, elt += inc)
-    *elt = data[i];
-  scm_array_handle_release (&handle);
-#else  /* GI_LEVEL_NOT_YET_1_8 */
-  obj = gh_shorts2svect ((short *) data, n);
-#endif  /* GI_LEVEL_NOT_YET_1_8 */
-  return obj;
-}
-
-
 #if GI_LEVEL_NOT_YET_1_8
 IMPORT_MODULE (srfi4, "(srfi srfi-4)");
 SELECT_MODULE_VAR (u8v_p, srfi4, "u8vector?");
+SELECT_MODULE_VAR (u16v_p, srfi4, "u16vector?");
+SELECT_MODULE_VAR (mk_u16v, srfi4, "make-u16vector");
+SELECT_MODULE_VAR (u16v_x, srfi4, "u16vector-set!");
 #define scm_u8vector_p(obj)           CALL1 (u8v_p, obj)
+#define scm_u16vector_p(obj)          CALL1 (u16v_p, obj)
+#define scm_make_u16vector(len,fill)  CALL2 (mk_u16v, len, fill)
 #endif
 
 DEFINE_STRUCT_AND_COPY_FUNC (u8, Uint8)
@@ -79,6 +40,12 @@ DEFINE_STRUCT_AND_COPY_FUNC (u8, Uint8)
 #define U8_STUFF(v)             STUFF (u8, v)
 #define GET_U8_PARTICULARS(v)   GET_PARTICULARS (u8, v)
 #define HOWDY_U8(v)             HOWDY (u8, Uint8, v)
+
+DEFINE_STRUCT_AND_COPY_FUNC (u16, Uint16)
+#define ASSERT_UVEC_U16(obj,n)  ASSERT_UVEC (u16, obj, n)
+#define U16_STUFF(v)            STUFF (u16, v)
+#define GET_U16_PARTICULARS(v)  GET_PARTICULARS (u16, v)
+#define HOWDY_U16(v)            HOWDY (u16, Uint16, v)
 
 
 #define MAX_DRIVER_LEN    100
@@ -664,55 +631,87 @@ and @var{bluegamma}.  */)
 }
 
 
-#define GAMMAVEC(x)  (gsdl_scm_from_uint16s (x, GAMMA_TABLE_SIZE))
-
 PRIMPROC
 (get_gamma_ramp, "get-gamma-ramp", 0, 0, 0,
  (void),
  doc: /***********
 Return the gamma translation lookup tables currently used by
 the display as a list of three tables, for red, green and blue.
-Each table is a vector of 256 @code{unsigned short} (16-bit) values.
+Each table is a u16 vector of length 256.
 Return @code{#f} if unsuccessful.  */)
 {
 #define FUNC_NAME s_get_gamma_ramp
-  Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
+  U16_STUFF (r); SCM r;
+  U16_STUFF (g); SCM g;
+  U16_STUFF (b); SCM b;
+  SCM table_size = NUM_ULONG (GAMMA_TABLE_SIZE);
+  int rv;
 
-  if (SDL_GetGammaRamp (rt, gt, bt) == -1)
+#define GREET(v)                                        \
+  v = scm_make_u16vector (table_size, SCM_UNDEFINED);   \
+  GET_U16_PARTICULARS (v)
+#define WRITABLE_VBITS(v)  (Uint16 *) ST (v, elt)
+
+  GREET (r);
+  GREET (g);
+  GREET (b);
+  rv = SDL_GetGammaRamp (WRITABLE_VBITS (r),
+                         WRITABLE_VBITS (g),
+                         WRITABLE_VBITS (b));
+  LATER (r);
+  LATER (g);
+  LATER (b);
+  if (0 > rv)
     RETURN_FALSE;
+  else
+    RETURN_LIST3 (r, g, b);
 
-  RETURN_LIST3 (GAMMAVEC (rt),
-                GAMMAVEC (gt),
-                GAMMAVEC (bt));
+#undef WRITABLE_VBITS
+#undef GREET
 #undef FUNC_NAME
 }
 
 
-#define ASSERT_VSZFIT(v,which)                          \
-  ASSERT_VECTOR (v, which);                             \
-  SCM_ASSERT (VECLENGTH (v) == GAMMA_TABLE_SIZE,        \
-              v, which, FUNC_NAME)
-
 PRIMPROC
 (set_gamma_ramp, "set-gamma-ramp", 3, 0, 0,
- (SCM redtable, SCM greentable, SCM bluetable),
+ (SCM r, SCM g, SCM b),
  doc: /***********
 Set the gamma translation lookup tables currently
-used by the display, for @var{redtable}, @var{greentable}
-and @var{bluetable}.  Each table is an vector of 256
-integer values.  Return @code{#t} if successful.  */)
+used by the display to tables @var{r}, @var{g} and @var{b},
+each a u16 vector (SRFI 4) of length 256, or @code{#f},
+in which case that particular component is unchanged.
+Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_set_gamma_ramp
-  Uint16 rt[GAMMA_TABLE_SIZE], gt[GAMMA_TABLE_SIZE], bt[GAMMA_TABLE_SIZE];
+#define STUFF_GIVEN(v)                          \
+  U16_STUFF (v);                                \
+  int v ## _given = NOT_FALSEP (v)
+#define GREET(v)                                \
+  if (v ##_given)                               \
+    HOWDY_U16 (v);                              \
+  else                                          \
+    VBITS (v) = NULL
 
-  ASSERT_VSZFIT (redtable,   1);
-  ASSERT_VSZFIT (greentable, 2);
-  ASSERT_VSZFIT (bluetable,  3);
+  STUFF_GIVEN (r);
+  STUFF_GIVEN (g);
+  STUFF_GIVEN (b);
+  int rv;
 
-  RETURN_TRUE_IF_0
-    (SDL_SetGammaRamp (gsdl_scm_to_uint16s (redtable,   rt),
-                       gsdl_scm_to_uint16s (greentable, gt),
-                       gsdl_scm_to_uint16s (bluetable,  bt)));
+  if (r_given) ASSERT_UVEC_U16 (r, 1);
+  if (g_given) ASSERT_UVEC_U16 (g, 2);
+  if (b_given) ASSERT_UVEC_U16 (b, 3);
+
+  GREET (r);
+  GREET (g);
+  GREET (b);
+  rv = SDL_SetGammaRamp (VBITS (r), VBITS (g), VBITS (b));
+  LATER (r);
+  LATER (g);
+  LATER (b);
+  RETURN_TRUE_IF_0 (rv);
+
+#undef GREET
+#undef STUFF_GIVEN
 #undef FUNC_NAME
 }
 
