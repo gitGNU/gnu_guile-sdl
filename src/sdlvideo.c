@@ -669,20 +669,15 @@ and @var{bluegamma}.  */)
 }
 
 
-DECLARE_SIMPLE_SYM (redtable);
-DECLARE_SIMPLE_SYM (greentable);
-DECLARE_SIMPLE_SYM (bluetable);
-
 #define GAMMAVEC(x)  (gsdl_scm_from_uint16s (x, GAMMA_TABLE_SIZE))
 
 PRIMPROC
 (get_gamma_ramp, "get-gamma-ramp", 0, 0, 0,
  (void),
  doc: /***********
-Get the gamma translation lookup tables currently used
-by the display.  Each table is a vector of 256 integer values.
-Return an alist with keys @code{redtable}, @code{greentable}
-and @code{bluetable}, and values the corresponding vectors.
+Return the gamma translation lookup tables currently used by
+the display as a list of three tables, for red, green and blue.
+Each table is a vector of 256 @code{unsigned short} (16-bit) values.
 Return @code{#f} if unsuccessful.  */)
 {
 #define FUNC_NAME s_get_gamma_ramp
@@ -691,9 +686,9 @@ Return @code{#f} if unsuccessful.  */)
   if (SDL_GetGammaRamp (rt, gt, bt) == -1)
     RETURN_FALSE;
 
-  RETURN_LIST3 (CONS (SYM (redtable),   GAMMAVEC (rt)),
-                CONS (SYM (greentable), GAMMAVEC (gt)),
-                CONS (SYM (bluetable),  GAMMAVEC (bt)));
+  RETURN_LIST3 (GAMMAVEC (rt),
+                GAMMAVEC (gt),
+                GAMMAVEC (bt));
 #undef FUNC_NAME
 }
 

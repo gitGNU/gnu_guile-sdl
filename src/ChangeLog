@@ -1,5 +1,12 @@
 2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Make ‘get-gamma-ramp’ return a simple list, not an alist.
+
+	* sdlvideo.c (redtable, greentable, bluetable): Delete symbols.
+	(get_gamma_ramp): Return a simple list.
+
+2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[slog] Add abstraction: CALL2
 
 	* guile-sdl.h (CALL2): New #define.
