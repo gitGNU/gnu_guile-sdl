@@ -17,6 +17,7 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
+(use-modules (srfi srfi-4))
 (use-modules ((sdl sdl) #:prefix SDL:))
 
 ;; initialize the SDL video module
@@ -56,9 +57,9 @@
 
 ;; primitive cursor creation (need a higher level one)
 (define (random-16)
-  (list->vector (map (lambda ignored
-                       (random 256))
-                     (iota 16))))
+  (list->u8vector (map (lambda ignored
+                         (random 256))
+                       (iota 16))))
 (do ((i 0 (1+ i)))
     ((= 50 i))
   (SDL:set-cursor (SDL:create-cursor (random-16) (random-16) 8 16 0 0))
@@ -74,7 +75,7 @@
          (SDL:set-gamma-ramp rt gt bt)))
   (SDL:delay 100))
 
-(let* ((data #(85 85 85 85 85 85 85 85 85 85 85 85 85 85 85 85))
+(let* ((data (u8vector 85 85 85 85 85 85 85 85 85 85 85 85 85 85 85 85))
        (mask data)
        (cursor (SDL:create-cursor data mask 8 16 0 0)))
   (SDL:set-cursor cursor))

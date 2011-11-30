@@ -1,5 +1,18 @@
 2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Restrict type to u8 uvec for some ‘create-cursor’ args.
+
+	* sdlvideo.c: #include "b-uv.h".
+	(gsdl_scm_to_uint8s): Delete func.
+	[GI_LEVEL_NOT_YET_1_8] (srfi4): New module object.
+	[GI_LEVEL_NOT_YET_1_8] (u8v_p): New scheme proc object.
+	[GI_LEVEL_NOT_YET_1_8] (scm_u8vector_p): New macro.
+	(u8_stuff, copy_u8): New, via ‘DEFINE_STRUCT_AND_COPY_FUNC’.
+	(ASSERT_UVEC_U8, U8_STUFF, GET_U8_PARTICULARS, HOWDY_U8): New macros.
+	(create_cursor): Rewrite.
+
+2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Make ‘get-gamma-ramp’ return a simple list, not an alist.
 
 	* sdlvideo.c (redtable, greentable, bluetable): Delete symbols.

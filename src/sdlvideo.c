@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <alloca.h>
 #include <SDL/SDL_image.h>
+#include "b-uv.h"
 
 /* Vector conversion funcs.  */
 
@@ -41,26 +42,6 @@ gsdl_scm_to_uint16s (SCM obj, uint16_t *data)
   scm_array_handle_release (&handle);
 #else  /* GI_LEVEL_NOT_YET_1_8 */
   gh_scm2shorts (obj, (short *) data);
-#endif  /* GI_LEVEL_NOT_YET_1_8 */
-  return data;
-}
-
-static uint8_t *
-gsdl_scm_to_uint8s (SCM obj, uint8_t *data)
-{
-#if !GI_LEVEL_NOT_YET_1_8
-  scm_t_array_handle handle;
-  size_t i, len;
-  ssize_t inc;
-  const uint8_t *elt;
-
-  obj = scm_any_to_u8vector (obj);
-  elt = scm_u8vector_elements (obj, &handle, &len, &inc);
-  for (i = 0; i < len;  i++, elt += inc)
-    data[i] = *elt;
-  scm_array_handle_release (&handle);
-#else  /* GI_LEVEL_NOT_YET_1_8 */
-  gh_scm2chars (obj, (char *) data);
 #endif  /* GI_LEVEL_NOT_YET_1_8 */
   return data;
 }
@@ -85,6 +66,19 @@ gsdl_scm_from_uint16s (uint16_t *data, size_t n)
 #endif  /* GI_LEVEL_NOT_YET_1_8 */
   return obj;
 }
+
+
+#if GI_LEVEL_NOT_YET_1_8
+IMPORT_MODULE (srfi4, "(srfi srfi-4)");
+SELECT_MODULE_VAR (u8v_p, srfi4, "u8vector?");
+#define scm_u8vector_p(obj)           CALL1 (u8v_p, obj)
+#endif
+
+DEFINE_STRUCT_AND_COPY_FUNC (u8, Uint8)
+#define ASSERT_UVEC_U8(obj,n)   ASSERT_UVEC (u8,  obj, n)
+#define U8_STUFF(v)             STUFF (u8, v)
+#define GET_U8_PARTICULARS(v)   GET_PARTICULARS (u8, v)
+#define HOWDY_U8(v)             HOWDY (u8, Uint8, v)
 
 
 #define MAX_DRIVER_LEN    100
@@ -235,29 +229,30 @@ PRIMPROC
   SCM x, SCM y),
  doc: /***********
 Return a new cursor from @var{data} and @var{mask}
-(vectors), sized @var{w} by @var{h}
+(u8 vectors), sized @var{w} by @var{h}
 and with hot pixel located at @var{x},@var{y}.  */)
 {
 #define FUNC_NAME s_create_cursor
-  Uint8 *cdata, *cmask;
+  U8_STUFF (data);
+  U8_STUFF (mask);
+  SDL_Cursor *rv;
 
-  ASSERT_VECTOR (data, 1);
-  ASSERT_VECTOR (mask, 2);
+  ASSERT_UVEC_U8 (data, 1);
+  ASSERT_UVEC_U8 (mask, 2);
   ASSERT_EXACT (w, 3);
   ASSERT_EXACT (h, 4);
   ASSERT_EXACT (x, 5);
   ASSERT_EXACT (y, 6);
 
-  /* Build the arrays.  */
-  cdata = alloca (sizeof (Uint8) * VECLENGTH (data));
-  cmask = alloca (sizeof (Uint8) * VECLENGTH (mask));
-
-  /* Create the cursor and return the new smob.  */
-  RETURN_NEW_CURSOR
-    (SDL_CreateCursor (gsdl_scm_to_uint8s (data, cdata),
-                       gsdl_scm_to_uint8s (mask, cmask),
-                       C_LONG (w), C_LONG (h),
-                       C_LONG (x), C_LONG (y)));
+  HOWDY_U8 (data);
+  HOWDY_U8 (mask);
+  rv = SDL_CreateCursor (VBITS (data),
+                         VBITS (mask),
+                         C_LONG (w), C_LONG (h),
+                         C_LONG (x), C_LONG (y));
+  LATER (data);
+  LATER (mask);
+  RETURN_NEW_CURSOR (rv);
 #undef FUNC_NAME
 }
 

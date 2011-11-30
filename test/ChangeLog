@@ -1,3 +1,11 @@
+2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Restrict type to u8 uvec for some ‘create-cursor’ args.
+
+	* cursor.scm: Import (srfi srfi-4).
+	(random-16): Use ‘list->u8vector’.
+	<final cursor>: Use ‘u8vector’.
+
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[v cursor] Center the pointer precisely; ignore INTERACTIVE=1.
