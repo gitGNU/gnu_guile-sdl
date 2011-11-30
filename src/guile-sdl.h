@@ -84,6 +84,7 @@
 #define UVECLENGTH         gh_uniform_vector_length
 #define CALL0              gh_call0
 #define CALL1              gh_call1
+#define CALL2              gh_call2
 #define CALL3              gh_call3
 #define GC_PROTECT         scm_protect_object
 #define GC_UNPROTECT       scm_unprotect_object
@@ -120,6 +121,7 @@
 #define UVECLENGTH         scm_c_uniform_vector_length
 #define CALL0              scm_call_0
 #define CALL1              scm_call_1
+#define CALL2              scm_call_2
 #define CALL3              scm_call_3
 #define GC_PROTECT         scm_gc_protect_object
 #define GC_UNPROTECT       scm_gc_unprotect_object

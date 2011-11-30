@@ -1,5 +1,11 @@
 2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[slog] Add abstraction: CALL2
+
+	* guile-sdl.h (CALL2): New #define.
+
+2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add uvec wrangling abstractions.
 
 	* b-uv.h: New file.
