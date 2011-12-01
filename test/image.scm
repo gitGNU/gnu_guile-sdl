@@ -53,6 +53,18 @@
   (SDL:blit-surface orig gnu-rect (SDL:get-video-surface) gnu-rect))
 (SDL:flip (SDL:get-video-surface))
 
+;; round-trip via a .bmp file
+(SDL:delay 500)
+(let ((screen (SDL:get-video-surface))
+      (filename "image.bmp"))
+  (SDL:save-bmp screen filename)
+  (SDL:fill-rect screen gnu-rect 0)
+  (SDL:update-rect screen gnu-rect)
+  (SDL:delay 100)
+  (SDL:blit-surface (SDL:load-bmp filename) gnu-rect screen gnu-rect)
+  (SDL:flip)
+  (delete-file filename))
+
 ;; wait then quit
 (SDL:delay 500)
 (exit (SDL:quit))
