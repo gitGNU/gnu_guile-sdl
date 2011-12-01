@@ -274,7 +274,7 @@ Return a surface made by loading image data from string
   ASSERT_STRING (s, 1);
 
   FINANGLE_RAW (s);
-  rv = IMG_Load_RW (SDL_RWFromMem (RS (s), RLEN (s)), 0);
+  rv = IMG_Load_RW (SDL_RWFromConstMem (RS (s), RLEN (s)), 0);
   UNFINANGLE (s);
   RETURN_NEW_SURFACE (rv);
 #undef FUNC_NAME
