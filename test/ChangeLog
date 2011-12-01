@@ -1,3 +1,10 @@
+2011-12-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[v] Exercise ‘surface?’, ‘surface:depth’, ‘surface:flags’.
+
+	* rect.scm: Check that ‘screen’ is a surface; exit
+	failurefully if not; gather depth, flags; display if ‘verbose?’.
+
 2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Return / take u16 uvec for gamma-ramp getter / setter procs.

@@ -57,6 +57,15 @@
 (define screen (SDL:set-video-mode (SDL:rect:w test-rect)
                                    (SDL:rect:h test-rect)
                                    16 '(SDL_HWSURFACE)))
+(cond ((SDL:surface? screen))
+      (else (fse "ERROR: Not a surface: ~S~%" screen)
+            (exit #f)))
+
+;; get some info on ‘screen’
+(let ((depth (SDL:surface:depth screen))
+      (flags (SDL:surface:flags screen)))
+  (and verbose? (fso "INFO: ‘screen’ depth ~S flags ~S~%"
+                     depth flags)))
 
 ;; draw some rectangles filled with random colors
 (do ((i 0 (1+ i)))
