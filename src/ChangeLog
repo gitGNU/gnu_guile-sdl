@@ -1,5 +1,15 @@
 2011-12-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Use ‘PF_Surface’ more.
+
+	Omission from 2011-11-27, "Fix bug:
+	Don't ‘SDL_FreeSurface’ internal surfaces".
+
+	* sdlsurface.c (surface_get_flags): Specify ‘PF_Surface *’
+	and ‘object->flags’ for unpacking and internal access.
+
+2011-12-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Increase ‘string->image’ safety.
 
 	* sdlsurface.c (string_to_image): Use ‘SDL_RWFromConstMem’.
