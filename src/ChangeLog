@@ -1,5 +1,15 @@
 2011-12-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Decruft: Assume ‘surface:flags’ returns a list of symbols.
+
+	Omission from 2011-04-29, "Fix bug: Make
+	‘number->flags’ return symbols, not strings".
+
+	* misc-utils.scm (copy-surface conv): Don't
+	bother mapping ‘string->symbol’ over ‘surface:flags’ rv.
+
+2011-12-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Use ‘PF_Surface’ more.
 
 	Omission from 2011-11-27, "Fix bug:

@@ -264,7 +264,7 @@
   (define (conv new)
     (SDL:convert-surface
      new (SDL:surface-get-format surface)
-     (map string->symbol (SDL:surface:flags surface))))
+     (SDL:surface:flags surface)))
   (cond ((and (not (null? clip))
               (car clip))
          => (lambda (rect)
