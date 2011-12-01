@@ -1,3 +1,13 @@
+2011-12-01  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc int] Use ‘-args:’ in docstrings.
+
+	* misc-utils.scm (rotate-square, rectangle-closure)
+	(poll-with-push-on-timeout-proc, copy-surface)
+	(toroidal-panner/3p): Use ‘-args:’ in docstring.
+	* sdlevent.c (set_event_filter): Likewise.
+	* simple.scm (simple-vpacked-image): Likewise.
+
 2011-11-30  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Fix bug: Define ‘GET_PARTICULARS’ consistently.

@@ -174,7 +174,7 @@
 ;; @var{rect} specifies a rectangle to blit to.
 ;; @end table
 ;;
-;;-sig: (filename [canvas])
+;;-args: (- 1 0 canvas)
 ;;
 (define (simple-vpacked-image filename . etc)
   (let* ((image (///-load-image filename))

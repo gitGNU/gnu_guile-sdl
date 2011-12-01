@@ -65,7 +65,7 @@
 ;; Return a new surface made by rotating @var{square} by @var{angle} degrees.
 ;; The square retains its original size.
 ;;
-;;-sig: (square angle)
+;;-args: (2 0 0 square angle)
 ;;
 (define (rotate-square src angle)
   (let* ((width (SDL:surface:w src))
@@ -93,7 +93,7 @@
 ;; Optional arg @var{rect} specifies a rectangle object to manage
 ;; instead of allocating a new one.
 ;;
-;;-sig: ([rect])
+;;-args: (- 1 0 rect)
 ;;
 (define (rectangle-closure . opt)
   (let ((rect (if (null? opt)
@@ -182,7 +182,7 @@
 ;; interface is congruent with that of @code{wait-event} and @code{poll-event}.
 ;; @xref{Events}.
 ;;
-;;-sig: (timeout slice [get-timeout-events])
+;;-args: (- 1 0)
 ;;
 (define (poll-with-push-on-timeout-proc timeout slice . get-timeout-events)
   (let* ((fresh (and (not (null? get-timeout-events))
@@ -258,7 +258,7 @@
 ;; Optional second arg @var{clip} is a rectangle describing the
 ;; portion of @var{surface} to copy (default is the entire surface).
 ;;
-;;-sig: (surface [clip])
+;;-args: (- 1 0)
 ;;
 (define (copy-surface surface . clip)
   (define (conv new)
@@ -400,7 +400,7 @@
 ;; (for-each pan-back ramp)
 ;; @end example
 ;;
-;;-sig: (surface dx dy [[sub] batch?])
+;;-args: (- 2 0 sub batch?)
 ;;
 (define (toroidal-panner/3p surface dx dy . opts)
   (define (r/new-xy r new-x new-y)

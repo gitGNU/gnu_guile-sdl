@@ -691,7 +691,7 @@ return value, if non-@code{#f}, means to keep the event, otherwise
 discard it.  If @var{full?} is @code{#f}, the arg the event type (a
 symbol), otherwise it is an event object.
 
--sig: (filter full?)  */)
+-args: (2 0 0 filter full?)  */)
 {
 #define FUNC_NAME s_set_event_filter
   if (NOT_FALSEP (filter))
