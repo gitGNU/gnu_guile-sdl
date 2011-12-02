@@ -1,5 +1,12 @@
 2011-12-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Exercise some window-manager procs.
+
+	* rect.scm: Use ‘(sdl sdl)’ procs ‘set-icon’,
+	‘get-wm-info’, ‘get-caption’, ‘set-caption’.
+
+2011-12-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v] Exercise ‘show-cursor’.
 
 	* cursor.scm: Make sure the cursor is visible.

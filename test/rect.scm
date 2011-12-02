@@ -53,6 +53,21 @@
          (y1 (apply max two-y)))
     (SDL:make-rect (- x1 x0 -1) (- y1 y0 -1) x0 y0)))
 
+;; set the icon
+(let ((icon (SDL:make-surface 149 149))
+      (at (SDL:make-rect 0 0 0 0)))
+  (SDL:fill-rect icon #f #x424242)
+  (do ((i 0 (1+ i)))
+      ((= 42 i))
+    (let ((x (random 149))
+          (y (random 149)))
+      (SDL:rect:set-x! at x)
+      (SDL:rect:set-y! at y)
+      (SDL:rect:set-w! at (random (- 149 x)))
+      (SDL:rect:set-h! at (random (- 149 y))))
+    (SDL:fill-rect icon at (random #xffffff)))
+  (SDL:set-icon icon))
+
 ;; set the video mode to the dimensions of our rect
 (define screen (SDL:set-video-mode (SDL:rect:w test-rect)
                                    (SDL:rect:h test-rect)
@@ -67,6 +82,18 @@
   (and verbose? (fso "INFO: ‘screen’ depth ~S flags ~S~%"
                      depth flags)))
 
+;; futz w/ the window-manager
+(let ((info (SDL:get-wm-info))
+      (caption (SDL:get-caption)))
+  (cond (verbose?
+         (fso "INFO: get-wm-info => ~S~%" info)
+         (fso "INFO: get-caption => ~S~%" caption)))
+  (and *interactive* (SDL:delay 1000))
+  (SDL:set-caption "and so it goes")
+  (cond (verbose?
+         (fso "INFO: get-wm-info => ~S~%" (SDL:get-wm-info))
+         (fso "INFO: get-caption => ~S~%" (SDL:get-caption)))))
+
 ;; draw some rectangles filled with random colors
 (do ((i 0 (1+ i)))
     ((= i 20))
@@ -74,7 +101,13 @@
     (SDL:fill-rect screen sample (random #xffffff))
     (SDL:update-rect screen sample)))
 
-(SDL:delay 200)
+(SDL:delay (* 200 (if *interactive* 10 1)))
+
+;; more wm futzing -- do this after pausing to avoid
+;;                    disconcerting flashing
+(let ((rv (SDL:iconify-window)))
+  (and verbose? (fso "INFO: iconify-window => ~S~%" rv))
+  (SDL:delay (* 200 (if *interactive* 10 1))))
 
 ;; quit SDL
 (exit (SDL:quit))
