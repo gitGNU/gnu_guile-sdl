@@ -966,16 +966,17 @@ Get the current mouse cursor.  */)
 
 PRIMPROC
 (show_cursor, "show-cursor", 0, 1, 0,
- (SCM query),
+ (SCM setting),
  doc: /***********
-Toggle the visibility of the mouse cursor.
-Return @code{#t} if was being displayed before the call,
-and @code{#f} if not.  Optional arg @var{query} non-@code{#f}
-means to return the current state without toggling.  */)
+Return the current visibility of the pointer (aka ``mouse cursor'')
+as a boolean.  If arg @var{setting} (a boolean) is specified, set
+the visibility to @var{setting} (the returned visibility corresponds
+to that before the call, regardless).  */)
 {
 #define FUNC_NAME s_show_cursor
-  UNBOUND_MEANS_FALSE (query);
-  RETURN_BOOL (SDL_ShowCursor (EXACTLY_FALSEP (query) - 1));
+  RETURN_BOOL (SDL_ShowCursor (BOUNDP (setting)
+                               ? NOT_FALSEP (setting)
+                               : -1));
 #undef FUNC_NAME
 }
 
