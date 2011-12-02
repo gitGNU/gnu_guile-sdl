@@ -142,15 +142,15 @@ for SDL_CreateRGBSurface, are: @var{flags}
 
 /* accessors */
 
-#define NUMBER_GETTER(f,backend)                        \
-  GSDL_NUMBER_GETTER ("surface:" #f,                    \
-                      surface_get_ ## f,                \
-                      surface_tag, PF_Surface *,        \
+#define NUMBER_GETTER(f,backend)                \
+  GSDL_PF_NUMBER_GETTER ("surface:" #f,         \
+                      surface_get_ ## f,        \
+                      surface_tag, Surface,     \
                       backend)
 
-NUMBER_GETTER (w, object->w)
-NUMBER_GETTER (h, object->h)
-NUMBER_GETTER (depth, object->format->BitsPerPixel)
+NUMBER_GETTER (w, w)
+NUMBER_GETTER (h, h)
+NUMBER_GETTER (depth, format->BitsPerPixel)
 
 GSDL_FLAG_GETTER ("surface:flags", surface_get_flags,
                   surface_tag, PF_Surface *,

@@ -620,6 +620,16 @@ PRIMPROC (c_func, s_func, 1, 0, 0, (SCM obj),                           \
   RETURN_INT (SMOBFIELD (c_type, c_field));                             \
 }
 
+#define GSDL_PF_NUMBER_GETTER(sname, cname, tag, actual, field) \
+PRIMPROC (cname, sname, 1, 0, 0, (SCM obj),                     \
+          "Get @code{" #field "} from the\n"                    \
+          "@code{SDL_" #actual " *} @var{obj}.")                \
+{                                                               \
+  const char *FUNC_NAME = s_ ## cname;                          \
+  ASSERT_SMOB (obj, tag, 1);                                    \
+  RETURN_INT (SMOBFIELD (PF_ ##actual *, object->field));       \
+}
+
 #define GSDL_NUMBER_SETTER(s_func, c_func, tag, c_type, c_field, conv)  \
 PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),                \
           "Set @code{" #c_field "} in the\n"                            \

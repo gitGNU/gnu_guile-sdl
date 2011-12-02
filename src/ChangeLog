@@ -1,5 +1,16 @@
 2011-12-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[doc] Don't mention "object->" in PF smob getter docstring.
+
+	Omission from 2011-11-27, "Fix bug:
+	Don't ‘SDL_FreeSurface’ internal surfaces".
+
+	* guile-sdl.h (GSDL_PF_NUMBER_GETTER): New macro.
+	* sdlsurface.c (NUMBER_GETTER): Use ‘GSDL_PF_NUMBER_GETTER’.
+	(get_surface_w, get_surface_h, get_surface_depth): Update.
+
+2011-12-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Fix bug: Make ‘get-caption’ handle NULL title, icon.
 
 	* sdlvideo.c (wm_get_caption): If ‘title’ or ‘icon’
