@@ -1,5 +1,12 @@
 2011-12-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Fix bug: Make ‘get-caption’ handle NULL title, icon.
+
+	* sdlvideo.c (wm_get_caption): If ‘title’ or ‘icon’
+	is NULL, don't cons a string; instead, yield ‘#f’.
+
+2011-12-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Redesign ‘show-cursor’.
 
 	* sdlvideo.c (show_cursor): Rewrite.

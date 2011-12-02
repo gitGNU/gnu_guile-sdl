@@ -1115,15 +1115,15 @@ PRIMPROC
  (void),
  doc: /***********
 Return an alist with keys @code{title} and @code{icon}
-and values the title-bar and icon name of the display
+and values the title-bar and icon name (or @code{#f}) of the display
 window, respectively.  */)
 {
 #define FUNC_NAME s_wm_get_caption
   char *title, *icon;
 
   SDL_WM_GetCaption (&title, &icon);
-  RETURN_LIST2 (CONS (SYM (title), STRING (title)),
-                CONS (SYM (icon),  STRING (icon)));
+  RETURN_LIST2 (CONS (SYM (title), title ? STRING (title) : BOOL_FALSE),
+                CONS (SYM (icon),  icon  ? STRING (icon)  : BOOL_FALSE));
 #undef FUNC_NAME
 }
 
