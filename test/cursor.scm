@@ -55,6 +55,9 @@
   (SDL:warp-mouse (- (ash (SDL:surface:w screen) -1) 4)
                   (- (ash (SDL:surface:h screen) -1) 8)))
 
+;; make sure the cursor is visible
+(SDL:show-cursor #t)
+
 (define (spew-ramp r g b)
   (define (hex n)
     (number->string n 16))
