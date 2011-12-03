@@ -413,7 +413,8 @@ SCM gsdl_make_flagstash (flagstash_t *stash);
 #define SMOBGET(smob,c_type)       ((c_type) SCM_SMOB_DATA (smob))
 #define SMOBSET(smob,val)          (SCM_SET_SMOB_DATA (smob, val))
 
-#define SMOBFIELD(c_type,c_field)  (SMOBGET (obj, c_type)->c_field)
+#define SMOBF(obj,ctype,field)     SMOBGET (obj, ctype)->field
+#define SMOBFIELD(ctype,field)     SMOBF (obj, ctype, field)
 
 /* {wrapping "current" (libsdl internal) objects}
 
@@ -610,36 +611,33 @@ DECLARE_PF (Surface);
 
 /* number getter and setter */
 
-#define GSDL_NUMBER_GETTER(s_func, c_func, tag, c_type, c_field)        \
-PRIMPROC (c_func, s_func, 1, 0, 0, (SCM obj),                           \
-          "Get @code{" #c_field "} from the\n"                          \
-          "@code{" #c_type "} @var{obj}.")                              \
+#define GSDL_NUMBER_GETTER(s_func, c_func, lpre, actual, c_field)       \
+PRIMPROC (c_func, s_func, 1, 0, 0, (SCM lpre),                          \
+          "Get @code{" #c_field "} from @var{" #lpre "}.")              \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (obj, tag, 1);                                            \
-  RETURN_INT (SMOBFIELD (c_type, c_field));                             \
+  ASSERT_SMOB (lpre, lpre ## _tag, 1);                                  \
+  RETURN_INT (SMOBF (lpre, SDL_ ##actual *, c_field));                  \
 }
 
-#define GSDL_PF_NUMBER_GETTER(sname, cname, tag, actual, field) \
-PRIMPROC (cname, sname, 1, 0, 0, (SCM obj),                     \
-          "Get @code{" #field "} from the\n"                    \
-          "@code{SDL_" #actual " *} @var{obj}.")                \
-{                                                               \
-  const char *FUNC_NAME = s_ ## cname;                          \
-  ASSERT_SMOB (obj, tag, 1);                                    \
-  RETURN_INT (SMOBFIELD (PF_ ##actual *, object->field));       \
+#define GSDL_PF_NUMBER_GETTER(sname, cname, lpre, actual, field)        \
+PRIMPROC (cname, sname, 1, 0, 0, (SCM lpre),                            \
+          "Get @code{" #field "} from @var{" #lpre "}.")                \
+{                                                                       \
+  const char *FUNC_NAME = s_ ## cname;                                  \
+  ASSERT_SMOB (lpre, lpre ## _tag, 1);                                  \
+  RETURN_INT (SMOBF (lpre, PF_ ##actual *, object->field));             \
 }
 
-#define GSDL_NUMBER_SETTER(s_func, c_func, tag, c_type, c_field, conv)  \
-PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value),                \
-          "Set @code{" #c_field "} in the\n"                            \
-          "@code{" #c_type "} @var{obj}\n"                              \
+#define GSDL_NUMBER_SETTER(s_func, c_func, lpre, actual, c_field, conv) \
+PRIMPROC (c_func, s_func, 2, 0, 0, (SCM lpre, SCM value),               \
+          "Set @code{" #c_field "} in @var{" #lpre "}\n"                \
           "to @var{value}.")                                            \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (obj, tag, 1);                                            \
+  ASSERT_SMOB (lpre, lpre ## _tag, 1);                                  \
   ASSERT_EXACT (value, 2);                                              \
-  SMOBFIELD (c_type, c_field) = conv (value);                           \
+  SMOBF (lpre, SDL_ ##actual *, c_field) = conv (value);                \
   RETURN_UNSPECIFIED;                                                   \
 }
 

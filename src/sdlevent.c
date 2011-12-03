@@ -355,12 +355,12 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
 #define NUMBER_GETTER(s_frag, c_frag, c_field)          \
   GSDL_NUMBER_GETTER ("event:" s_frag,                  \
                       event_ ## c_frag,                 \
-                      event_tag, SDL_Event *, c_field)
+                      event, Event, c_field)
 
 #define NUMBER_SETTER(s_frag, c_frag, c_field)  \
   GSDL_NUMBER_SETTER ("event:" s_frag,          \
                       event_ ## c_frag,         \
-                      event_tag, SDL_Event *,   \
+                      event, Event,             \
                       c_field, C_ULONG)
 
 #define NUM2_GETTER(a    ,    b)                \

@@ -1,3 +1,18 @@
+2011-12-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc] Don't mention SDL type in smob number-access procs.
+
+	* guile-sdl.h (SMOBF): New macro.
+	(SMOBFIELD): Use ‘SMOBF’.
+	(GSDL_NUMBER_GETTER, GSDL_PF_NUMBER_GETTER)
+	(GSDL_NUMBER_SETTER): Rewrite.
+	* sdlcolor.c (NUMBER_GETTER, NUMBER_SETTER): Update calls
+	to ‘GSDL_NUMBER_GETTER’ and ‘GSDL_NUMBER_SETTER’, respectively.
+	* sdlevent.c (NUMBER_GETTER, NUMBER_SETTER): Likewise.
+	* sdlrect.c (NUMBER_GETTER, NUMBER_SETTER): Likewise.
+	* sdlsurface.c (NUMBER_GETTER):
+	Update call to ‘GSDL_PF_NUMBER_GETTER’.
+
 2011-12-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[doc] Don't mention "object->" in PF smob getter docstring.

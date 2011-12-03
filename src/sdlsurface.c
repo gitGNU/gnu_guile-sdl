@@ -144,9 +144,9 @@ for SDL_CreateRGBSurface, are: @var{flags}
 
 #define NUMBER_GETTER(f,backend)                \
   GSDL_PF_NUMBER_GETTER ("surface:" #f,         \
-                      surface_get_ ## f,        \
-                      surface_tag, Surface,     \
-                      backend)
+                         surface_get_ ## f,     \
+                         surface, Surface,      \
+                         backend)
 
 NUMBER_GETTER (w, w)
 NUMBER_GETTER (h, h)

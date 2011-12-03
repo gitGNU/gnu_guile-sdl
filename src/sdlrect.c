@@ -93,13 +93,13 @@ and dimensions @var{width} by @var{height}.  */)
 #define NUMBER_GETTER(f)                        \
   GSDL_NUMBER_GETTER ("rect:" #f,               \
                       rect_ ## f,               \
-                      rect_tag, SDL_Rect *,     \
+                      rect, Rect,               \
                       f)
 
 #define NUMBER_SETTER(f,conv)                   \
   GSDL_NUMBER_SETTER ("rect:set-" #f "!",       \
                       rect_set_ ## f,           \
-                      rect_tag, SDL_Rect *,     \
+                      rect, Rect,               \
                       f, conv)
 
 #define NUMBER_GETSET(f,c2s)                    \

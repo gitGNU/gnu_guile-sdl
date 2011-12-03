@@ -92,13 +92,13 @@ and @var{b} components.  */)
 #define NUMBER_GETTER(f)                        \
   GSDL_NUMBER_GETTER ("color:" #f,              \
                       color_ ## f,              \
-                      color_tag, SDL_Color *,   \
+                      color, Color,             \
                       f)
 
 #define NUMBER_SETTER(f)                        \
   GSDL_NUMBER_SETTER ("color:set-" #f "!",      \
                       color_set_ ## f,          \
-                      color_tag, SDL_Color *,   \
+                      color, Color,             \
                       f, C_ULONG)
 
 #define NUMBER_GETSET(f) \
