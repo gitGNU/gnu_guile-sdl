@@ -1,3 +1,11 @@
+2011-12-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[v] Exercise more gfx procs.
+
+	* gfx.scm <singular stuff>: New section, to exercise
+	‘draw-point’, ‘draw-rectangle’, ‘draw-aa-line’, ‘draw-aa-circle’,
+	‘draw-aa-ellipse’, ‘draw-trigon’, ‘draw-aa-trigon’, ‘draw-aa-polygon’.
+
 2011-12-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[v] Exercise some window-manager procs.

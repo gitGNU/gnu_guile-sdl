@@ -31,6 +31,9 @@
 
 (define SCREEN (SDL:get-video-surface))
 
+(define ?x (let ((w (SDL:surface:w SCREEN))) (lambda () (random w))))
+(define ?y (let ((h (SDL:surface:h SCREEN))) (lambda () (random h))))
+
 ;; clear the screen
 (SDL:fill-rect SCREEN #f #xffffff)
 (SDL:flip)
@@ -313,6 +316,26 @@
    SCREEN x1 y1 x2 y2
    rad (+ #x30 (ash (random #xffffff) 8))
    (zero? (random 8)))
+  (SDL:flip))
+
+;; singular stuff
+(let ((green #x00ff00ff))
+  (define (nine gen)
+    (list->s16vector (map (lambda ignored
+                            (gen))
+                          (iota 9))))
+  (GFX:draw-point SCREEN (?x) (?y) green)
+  (GFX:draw-rectangle SCREEN (?x) (?y) (?x) (?y) green)
+  (GFX:draw-aa-line SCREEN (?x) (?y) (?x) (?y) green)
+  (let ((x (?x))
+        (y (?y)))
+    (GFX:draw-aa-circle SCREEN x y (min x y) green))
+  (let ((x (?x))
+        (y (?y)))
+    (GFX:draw-aa-ellipse SCREEN x y (max x y) (min x y) green))
+  (GFX:draw-trigon SCREEN (?x) (?y) (?x) (?y) (?x) (?y) green)
+  (GFX:draw-aa-trigon SCREEN (?x) (?y) (?x) (?y) (?x) (?y) green)
+  (GFX:draw-aa-polygon SCREEN (nine ?x) (nine ?y) green)
   (SDL:flip))
 
 ;; clean up
