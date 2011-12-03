@@ -1,5 +1,13 @@
 2011-12-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[doc] Generate documentation for smob enum-access procs.
+
+	* guile-sdl.h (GSDL_ENUM_GETTER, GSDL_ENUM_SETTER): Rewrite.
+	* sdlevent.c (ENUM_GETTER, ENUM_SETTER): Update calls
+	to ‘GSDL_ENUM_GETTER’ and ‘GSDL_ENUM_SETTER’, respectively.
+
+2011-12-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[doc] Generate documentation for smob flag-access procs.
 
 	* guile-sdl.h (GSDL_FLAG_GETTER, GSDL_FLAG_SETTER): Rewrite.

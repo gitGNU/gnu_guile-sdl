@@ -338,13 +338,13 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
 #define ENUM_GETTER(s_frag, c_frag, c_field, etypefrag) \
   GSDL_ENUM_GETTER ("event:" s_frag,                    \
                     event_ ## c_frag,                   \
-                    event_tag, SDL_Event *, c_field,    \
+                    event, SDL_Event *, c_field,        \
                     etypefrag ## _enum)
 
 #define ENUM_SETTER(s_frag, c_frag, c_field, etypefrag) \
   GSDL_ENUM_SETTER ("event:" s_frag,                    \
                     event_ ## c_frag,                   \
-                    event_tag, SDL_Event *,             \
+                    event, SDL_Event *,                 \
                     c_field, etypefrag ## _enum)
 
 #define ENUM_GETSET(get_s, get_c, set_s, set_c, c_field, etypefrag)     \

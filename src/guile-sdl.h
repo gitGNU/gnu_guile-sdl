@@ -643,20 +643,24 @@ PRIMPROC (c_func, s_func, 2, 0, 0, (SCM lpre, SCM value),               \
 
 /* enum getter and setter */
 
-#define GSDL_ENUM_GETTER(s_func, c_func, tag, c_type, c_field, etype)   \
-PRIMPROC (c_func, s_func, 1, 0, 0, (SCM obj), "")                       \
-{                                                                       \
-  const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (obj, tag, 1);                                            \
-  return btw->long2enum (SMOBFIELD (c_type, c_field), etype);           \
+#define GSDL_ENUM_GETTER(sname,cname,lpre,ctype,field,etype)    \
+PRIMPROC (cname, sname, 1, 0, 0, (SCM lpre),                    \
+          "Return the symbolic @code{" #field "}"               \
+          " from @var{" #lpre "}.")                             \
+{                                                               \
+  const char *FUNC_NAME = s_ ## cname;                          \
+  ASSERT_SMOB (lpre, lpre ##_tag, 1);                           \
+  return btw->long2enum (SMOBF (lpre, ctype, field), etype);    \
 }
 
-#define GSDL_ENUM_SETTER(s_func, c_func, tag, c_type, c_field, etype)   \
-PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value), "")            \
+#define GSDL_ENUM_SETTER(sname,cname,lpre,ctype,field,etype)            \
+PRIMPROC (cname, sname, 2, 0, 0, (SCM lpre, SCM value),                 \
+          "Set @code{" #field "} in @var{" #lpre "}"                    \
+          " to @var{value}, a symbol or integer.")                      \
 {                                                                       \
-  const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (obj, tag, 1);                                            \
-  SMOBFIELD (c_type, c_field) = GSDL_ENUM2LONG (value, etype, 1);       \
+  const char *FUNC_NAME = s_ ## cname;                                  \
+  ASSERT_SMOB (lpre, lpre ##_tag, 1);                                   \
+  SMOBF (lpre, ctype, field) = GSDL_ENUM2LONG (value, etype, 1);        \
   RETURN_UNSPECIFIED;                                                   \
 }
 
