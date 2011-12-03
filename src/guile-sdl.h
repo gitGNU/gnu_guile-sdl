@@ -662,21 +662,24 @@ PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value), "")            \
 
 /* flag getter and setter*/
 
-#define GSDL_FLAG_GETTER(s_func, c_func, c_tag, c_type, c_field, stash) \
-PRIMPROC (c_func, s_func, 1, 0, 0, (SCM obj), "")                       \
+#define GSDL_FLAG_GETTER(sname,cname,lpre,ctype,field,fname,stash)      \
+PRIMPROC (cname, sname, 1, 0, 0, (SCM lpre),                            \
+          "Return @code{" #fname "} from @var{" #lpre "}"               \
+          " as a (possibly empty) list of symbols.")                    \
 {                                                                       \
-  const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (obj, c_tag, 1);                                          \
-  return btw->ulong2flags (SMOBFIELD (c_type, c_field), stash);         \
+  const char *FUNC_NAME = s_ ## cname;                                  \
+  ASSERT_SMOB (lpre, lpre ##_tag, 1);                                   \
+  return btw->ulong2flags (SMOBF (lpre, ctype, field), stash);          \
 }
 
-#define GSDL_FLAG_SETTER(s_func, c_func, c_tag, c_type, c_field, stash) \
-PRIMPROC (c_func, s_func, 2, 0, 0, (SCM obj, SCM value), "")            \
+#define GSDL_FLAG_SETTER(sname,cname,lpre,ctype,field,fname,stash)      \
+PRIMPROC (cname, sname, 2, 0, 0, (SCM lpre, SCM value),                 \
+          "Set @code{" #fname "} in @var{" #lpre "}"                    \
+          " to @var{value}, a (possibly empty) list of symbols.")       \
 {                                                                       \
-  const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (obj, c_tag, 1);                                          \
-  SMOBFIELD (c_type, c_field)                                           \
-    = GSDL_FLAGS2ULONG (value, stash, 2);                               \
+  const char *FUNC_NAME = s_ ## cname;                                  \
+  ASSERT_SMOB (lpre, lpre ##_tag, 1);                                   \
+  SMOBF (lpre, ctype, field) = GSDL_FLAGS2ULONG (value, stash, 2);      \
   RETURN_UNSPECIFIED;                                                   \
 }
 

@@ -1,5 +1,14 @@
 2011-12-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[doc] Generate documentation for smob flag-access procs.
+
+	* guile-sdl.h (GSDL_FLAG_GETTER, GSDL_FLAG_SETTER): Rewrite.
+	* sdlevent.c (FLAG_GETTER, FLAG_SETTER): Update calls
+	to ‘GSDL_FLAG_GETTER’ and ‘GSDL_FLAG_SETTER’, respectively.
+	* sdlsurface.c (surface_get_flags): Update call to ‘GSDL_FLAG_GETTER’.
+
+2011-12-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[doc] Don't mention SDL type in smob number-access procs.
 
 	* guile-sdl.h (SMOBF): New macro.

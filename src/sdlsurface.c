@@ -153,8 +153,8 @@ NUMBER_GETTER (h, h)
 NUMBER_GETTER (depth, format->BitsPerPixel)
 
 GSDL_FLAG_GETTER ("surface:flags", surface_get_flags,
-                  surface_tag, PF_Surface *,
-                  object->flags, gsdl_video_flags)
+                  surface, PF_Surface *,
+                  object->flags, flags, gsdl_video_flags)
 
 
 PRIMPROC

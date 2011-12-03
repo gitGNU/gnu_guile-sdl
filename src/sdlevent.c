@@ -396,14 +396,14 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
 #define FLAG_GETTER(s_frag, c_frag, c_field, stash)     \
   GSDL_FLAG_GETTER ("event:" s_frag,                    \
                     event_ ## c_frag,                   \
-                    event_tag, SDL_Event *,             \
-                    c_field, stash)
+                    event, SDL_Event *,                 \
+                    c_field, c_field, stash)
 
 #define FLAG_SETTER(s_frag, c_frag, c_field, stash)     \
   GSDL_FLAG_SETTER ("event:" s_frag,                    \
                     event_ ## c_frag,                   \
-                    event_tag, SDL_Event *,             \
-                    c_field, stash)
+                    event, SDL_Event *,                 \
+                    c_field, c_field, stash)
 
 #define FLAG_GETSET(get_s, get_c, set_s, set_c, c_field, stash) \
   FLAG_GETTER (get_s, get_c, c_field, stash)                    \
