@@ -199,6 +199,8 @@ static valaka_t event_action_eback[] = {
 static SCM event_mod_flags;
 static SCM event_mask_flags;
 
+#define ALLOCA_EVENTS(count)  alloca (count * sizeof (SDL_Event))
+
 PRIMPROC
 (get_event_mod_flags, "flagstash:event-mod", 0, 0, 0,
  (void),
@@ -528,7 +530,7 @@ matching events instead of a count, removing them from the queue.
            i && !NULLP (ls);
            i--, ls = CDR (ls));
       SCM_ASSERT (!i, numevents, 2, FUNC_NAME);
-      cevents = alloca (cnumevents * sizeof (SDL_Event));
+      cevents = ALLOCA_EVENTS (cnumevents);
       for (i = 0, ls = events;
            i < cnumevents;
            i++, ls = CDR (ls))
@@ -537,7 +539,7 @@ matching events instead of a count, removing them from the queue.
       break;
 
     case SDL_GETEVENT:
-      cevents = alloca (cnumevents * sizeof (SDL_Event));
+      cevents = ALLOCA_EVENTS (cnumevents);
       /* fallthrough */
 
     case SDL_PEEKEVENT:

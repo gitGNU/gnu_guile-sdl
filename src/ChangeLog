@@ -1,5 +1,14 @@
 2011-12-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstractions: ALLOCA_EVENTS, ALLOCA_COLORS
+
+	* sdlevent.c (ALLOCA_EVENTS): New macro.
+	(peep_events): Use ‘ALLOCA_EVENTS’.
+	* sdlcolors.c (ALLOCA_COLORS): New macro.
+	(set_colors): Use ‘ALLOCA_COLORS’.
+
+2011-12-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[doc] Generate documentation for smob enum-access procs.
 
 	* guile-sdl.h (GSDL_ENUM_GETTER, GSDL_ENUM_SETTER): Rewrite.

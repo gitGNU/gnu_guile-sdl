@@ -57,6 +57,7 @@ DEFINE_STRUCT_AND_COPY_FUNC (u16, Uint16)
 #define RECT_P(x) \
   (SCM_SMOB_PREDICATE (rect_tag, x))
 
+#define ALLOCA_COLORS(count)  alloca (count * sizeof (SDL_Color))
 
 
 static SCM gl_enums;
@@ -556,7 +557,7 @@ using @var{colors}, a vector of SDL-Colors.  */)
   ASSERT_VECTOR (colors, 2);
 
   length = VECLENGTH (colors);
-  if ((ccolors = alloca (length * sizeof (SDL_Color))))
+  if ((ccolors = ALLOCA_COLORS (length)))
     {
       for (i = 0; i < length; i++)
         {
@@ -592,7 +593,7 @@ using @var{flags} (see @code{flagstash:palette}) and
 
   cflags   = GSDL_FLAGS2ULONG (flags, palette_flags, 2);
   length   = VECLENGTH (colors);
-  if ((ccolors = alloca (length * sizeof (SDL_Color))))
+  if ((ccolors = ALLOCA_COLORS (length)))
     {
       for (i = 0; i < length; i++)
         {
