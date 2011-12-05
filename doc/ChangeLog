@@ -1,3 +1,10 @@
+2011-12-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Replace ‘(sdl misc-utils) exact-floor’ w/ ‘exact-truncate’.
+
+	* ref.texh (Miscellaneous Utilities): Replace
+	@tsin for ‘exact-floor’ w/ that for ‘exact-truncate’.
+
 2011-11-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Use ‘zero?’.

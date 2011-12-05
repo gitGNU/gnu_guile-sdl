@@ -22,7 +22,7 @@
 ;;; Code:
 
 (define-module (sdl misc-utils)
-  #:export (exact-floor
+  #:export (exact-truncate
             call-with-clip-rect
             rotate-square
             rectangle-closure
@@ -36,7 +36,7 @@
             toroidal-panner/3p)
   #:use-module ((sdl sdl) #:prefix SDL:))
 
-;; Return the exact floor of @var{number}.
+;; Return the exact truncation (rounding to zero) of @var{number}.
 ;; This is ``safer'' than simply @code{inexact->exact}
 ;; for some Guile versions.
 ;;
@@ -45,12 +45,12 @@
 ;; (inexact->exact scale)
 ;;   @result{} 3247666210160131/18014398509481984 ; Guile 1.8.7
 ;;   @result{} 0                                  ; Guile 1.4.x
-;; (exact-floor scale)
+;; (exact-truncate scale)
 ;;   @result{} 0
 ;; @end example
 ;;
-(define (exact-floor number)
-  (inexact->exact (floor number)))
+(define (exact-truncate number)
+  (inexact->exact (truncate number)))
 
 ;; Set default clip rect to @var{rect}, call @var{thunk}, and restore it.
 ;; @var{thunk} is a procedure that takes no arguments.
@@ -342,7 +342,7 @@
             (or (begin (set! now (SDL:get-ticks))
                        (= bef now))
                 (begin (set! bef now)
-                       (set! new-a (min 255 (exact-floor
+                       (set! new-a (min 255 (exact-truncate
                                              (* scale (- now beg)))))
                        (= alpha new-a))
                 (begin (set! alpha new-a)

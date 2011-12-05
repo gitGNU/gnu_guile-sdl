@@ -1,3 +1,13 @@
+2011-12-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Replace ‘(sdl misc-utils) exact-floor’ w/ ‘exact-truncate’.
+
+	Rounding to zero is more useful in practice.  Ah, symmetry!
+
+	* misc-utils.scm (exact-truncate): New proc, exported.
+	(exact-floor): Delete proc.
+	(fader/3p): Use ‘exact-truncate’.
+
 2011-12-03  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Add abstractions: ALLOCA_EVENTS, ALLOCA_COLORS

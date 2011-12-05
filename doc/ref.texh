@@ -527,7 +527,7 @@ Values are @code{none} (the default at startup), @code{clockwise},
 These are available in module @code{(sdl misc-utils)}.
 
 @tsin m (sdl misc-utils)
-@tsin i exact-floor
+@tsin i exact-truncate
 @tsin i call-with-clip-rect
 @tsin i rotate-square
 @tsin i rectangle-closure
