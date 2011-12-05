@@ -76,7 +76,6 @@ static valaka_t gl_eback[] = {
   VALAKA (SDL_GL_ACCUM_ALPHA_SIZE)
 };
 
-SCM gsdl_video_flags;
 static SCM palette_flags;
 static SCM gsdl_overlay_formats;
 
@@ -86,7 +85,7 @@ PRIMPROC
 Return the flagstash object for video flags.
 @xref{Enums and Constants}.  */)
 {
-  return gsdl_video_flags;
+  return btw->video_flags;
 }
 
 PRIMPROC
@@ -361,7 +360,7 @@ Return @code{#f} if no modes are available, @code{#t} if all are available.  */)
   if (NOT_FALSEP (flags))
     {
       ASSERT_EXACT (flags, 2);
-      cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 2);
+      cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 2);
     }
 
   modes = SDL_ListModes (cformat, cflags);
@@ -411,7 +410,7 @@ mode supporting @var{width} and @var{height}.  */)
   ASSERT_EXACT (bpp,    3);
 
   if (BOUNDP (flags))
-    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 4);
+    cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 4);
 
   result = SDL_VideoModeOK (C_LONG (width), C_LONG (height),
                             C_LONG (bpp), cflags);
@@ -437,7 +436,7 @@ Return a new surface.  */)
   ASSERT_EXACT (bpp,    3);
 
   if (BOUNDP (flags))
-    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 4);
+    cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 4);
 
   RETURN_INT_SURFACE
     (SDL_SetVideoMode (C_LONG (width), C_LONG (height),
@@ -1257,7 +1256,7 @@ gsdl_init_video (void)
            NULL);
 
   /* video flags */
-  gsdl_video_flags = btw->make_flagstash (&vid_flagstash);
+  btw->video_flags = btw->make_flagstash (&vid_flagstash);
 
   /* palette flags */
   palette_flags = btw->make_flagstash (&pal_flagstash);

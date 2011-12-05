@@ -89,7 +89,7 @@ are those for the current video surface.  */)
   fmt = cur ? cur->format : SDL_GetVideoInfo ()->vfmt;
   cflags = (UNBOUNDP (flags)
             ? (cur ? cur->flags : 0)
-            : GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 3));
+            : GSDL_FLAGS2ULONG (flags, btw->video_flags, 3));
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
@@ -129,7 +129,7 @@ for SDL_CreateRGBSurface, are: @var{flags}
   ASSERT_EXACT (bmask,  7);
   ASSERT_EXACT (amask,  8);
 
-  cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 1);
+  cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 1);
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
@@ -154,7 +154,7 @@ NUMBER_GETTER (depth, format->BitsPerPixel)
 
 GSDL_FLAG_GETTER ("surface:flags", surface_get_flags,
                   surface, PF_Surface *,
-                  object->flags, flags, gsdl_video_flags)
+                  object->flags, flags, btw->video_flags)
 
 
 PRIMPROC
@@ -319,7 +319,7 @@ Set @var{surface} color key as specified by @var{flag}
   ASSERT_SURFACE (surface, 1);
   ASSERT_EXACT (key, 3);
 
-  cflag = GSDL_FLAGS2ULONG (flag, gsdl_video_flags, 2);
+  cflag = GSDL_FLAGS2ULONG (flag, btw->video_flags, 2);
 
   RETURN_TRUE_IF_0
     (SDL_SetColorKey (UNPACK_SURFACE (surface), cflag, C_LONG (key)));
@@ -356,7 +356,7 @@ If @var{flag} is @code{#f}, ignore @var{alpha} completely.  */)
 
   cflag = (EXACTLY_FALSEP (flag)
            ? 0
-           : GSDL_FLAGS2ULONG (flag, gsdl_video_flags, 2));
+           : GSDL_FLAGS2ULONG (flag, btw->video_flags, 2));
   calpha = (Uint8) GSDL_ENUM2LONG (alpha, alpha_enums, 3);
 
   RETURN_TRUE_IF_0
@@ -429,7 +429,7 @@ surface.  Optional third arg @var{flags} is a list of flags
   ASSERT_PIXEL_FORMAT (format, 2);
 
   if (BOUNDP (flags))
-    cflags = GSDL_FLAGS2ULONG (flags, gsdl_video_flags, 3);
+    cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 3);
 
   RETURN_NEW_SURFACE
     (SDL_ConvertSurface (UNPACK_SURFACE (surface),

@@ -436,6 +436,9 @@ struct obtw
   long smob_tags[4];
   /* These are: color, rect, surface, pixel format.  */
 
+  SCM video_flags;
+  /* Flags used in various sdl{surface,video}.c funcs.  */
+
   make_flagstash_t *make_flagstash;
   flags2ulong_t *flags2ulong;
   ulong2flags_t *ulong2flags;
@@ -684,14 +687,6 @@ PRIMPROC (cname, sname, 2, 0, 0, (SCM lpre, SCM value),                 \
   SMOBF (lpre, ctype, field) = GSDL_FLAGS2ULONG (value, stash, 2);      \
   RETURN_UNSPECIFIED;                                                   \
 }
-
-#if !defined GUILE_SDL_OPTIONAL_MODULE
-
-/* Misc shared state.  */
-
-extern SCM gsdl_video_flags;
-
-#endif  /* !defined GUILE_SDL_OPTIONAL_MODULE */
 
 #endif /* !defined (__GUILE_SDL_H) */
 
