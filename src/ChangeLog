@@ -1,5 +1,19 @@
 2011-12-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Declare (sdl sdl) shared state "hidden" for GCC 4.1+.
+
+	This leaves one visible func per module, the module init thunk.
+	To verify, do ‘nm --defined-only -g .libs/*.so’ under GNU/Linux.
+
+	* guile-sdl.h (GCC_VERSION, DSOPRIVATE, GBO): New #define:s.
+	[!GUILE_SDL_OPTIONAL_MODULE] (btw): Use ‘GBO’, not ‘extern’.
+	* sdl.c (DECLARE_INIT_THUNK): New macro.
+	(gsdl_init_enums, gsdl_init_rect, gsdl_init_color)
+	(gsdl_init_video, gsdl_init_surface, gsdl_init_event)
+	(gsdl_init_joystick, gsdl_init_cdrom, gsdl_init_misc): Use it.
+
+2011-12-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Move ‘gsdl_video_flags’ into ‘btw’.
 
 	* guile-sdl.h (struct obtw): Add member ‘video_flags’.

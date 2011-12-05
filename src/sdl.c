@@ -25,15 +25,17 @@ struct obtw *btw;
 
 /* Forward declarations on this page.  */
 
-extern void gsdl_init_enums (void);
-extern void gsdl_init_rect (void);
-extern void gsdl_init_color (void);
-extern void gsdl_init_video (void);
-extern void gsdl_init_surface (void);
-extern void gsdl_init_event (void);
-extern void gsdl_init_joystick (void);
-extern void gsdl_init_cdrom (void);
-extern void gsdl_init_misc (void);
+#define DECLARE_INIT_THUNK(x)  GBO void gsdl_init_ ## x (void)
+
+DECLARE_INIT_THUNK (enums);
+DECLARE_INIT_THUNK (rect);
+DECLARE_INIT_THUNK (color);
+DECLARE_INIT_THUNK (video);
+DECLARE_INIT_THUNK (surface);
+DECLARE_INIT_THUNK (event);
+DECLARE_INIT_THUNK (joystick);
+DECLARE_INIT_THUNK (cdrom);
+DECLARE_INIT_THUNK (misc);
 
 
 static SCM init_flags;

@@ -38,6 +38,18 @@
 #include <SDL/SDL.h>
 
 
+#define GCC_VERSION  (__GNUC__ * 10000           \
+                      + __GNUC_MINOR__ * 100     \
+                      + __GNUC_PATCHLEVEL__)
+#if GCC_VERSION >= 40100
+#define DSOPRIVATE  __attribute__ ((__visibility__ ("hidden")))
+#else
+#define DSOPRIVATE
+#endif
+
+#define GBO  DSOPRIVATE extern
+
+
 /* Guile.  */
 
 #include <libguile.h>
@@ -451,7 +463,7 @@ struct obtw
 static
 #else
 #define btw  gsdl_btw
-extern
+GBO
 #endif
 struct obtw *btw;
 
