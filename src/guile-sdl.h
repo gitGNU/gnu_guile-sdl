@@ -361,8 +361,6 @@ typedef struct flagstash {
 
 typedef SCM (make_flagstash_t) (flagstash_t *stash);
 
-SCM gsdl_make_flagstash (flagstash_t *stash);
-
 /* Symbols.  */
 
 #define DECLARE_SYM(frag,string) \

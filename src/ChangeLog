@@ -1,5 +1,18 @@
 2011-12-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Move ‘gsdl_make_flagstash’ into ‘btw’.
+
+	* sdlenums.c (make_flagstash): Rename
+	from ‘gsdl_make_flagstash’; make static.
+	(gsdl_init_enums): Init ‘btw->make_flagstash’.
+	* sdl.c (init_module): Don't init ‘btw->make_flagstash’;
+	use ‘btw->make_flagstash’.
+	* sdlevent.c (gsdl_init_event): Use ‘btw->make_flagstash’.
+	* sdlvideo.c (gsdl_init_video): Likewise.
+	* guile-sdl.h (gsdl_make_flagstash): Delete func decl.
+
+2011-12-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Replace ‘(sdl misc-utils) exact-floor’ w/ ‘exact-truncate’.
 
 	Rounding to zero is more useful in practice.  Ah, symmetry!

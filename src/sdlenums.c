@@ -230,8 +230,8 @@ print_flagstash (SCM smob, SCM port, scm_print_state *ps)
   return 1;                             /* non-zero => ok */
 }
 
-SCM
-gsdl_make_flagstash (flagstash_t *stash)
+static SCM
+make_flagstash (flagstash_t *stash)
 {
   size_t i;
   SCM ht, smob;
@@ -378,6 +378,7 @@ Use @var{stash} to convert @var{number} to a list of symbols.  */)
 void
 gsdl_init_enums (void)
 {
+  btw->make_flagstash = make_flagstash;
   btw->flags2ulong = flags2ulong;
   btw->ulong2flags = ulong2flags;
   btw->define_enum = define_enum;

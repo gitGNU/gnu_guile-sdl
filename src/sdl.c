@@ -191,13 +191,12 @@ init_module (void)
 {
   /* Oh, by the way...  */
   btw = calloc (1, sizeof (*btw));
-  btw->make_flagstash = gsdl_make_flagstash;
 
   /* Initialize enums first, so we can use them.  */
   gsdl_init_enums ();
 
   /* Init flags.  */
-  init_flags = gsdl_make_flagstash (&init_flagstash);
+  init_flags = btw->make_flagstash (&init_flagstash);
 
 #include "sdl.x"
 

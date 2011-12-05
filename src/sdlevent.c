@@ -922,8 +922,8 @@ gsdl_init_event (void)
   /* keysyms */
   event_keysym_enum = DEFINE_ENUM ("event-keys", event_keysym_eback);
   event_action_enum = DEFINE_ENUM ("event-actions", event_action_eback);
-  event_mod_flags = gsdl_make_flagstash (&kmod_flagstash);
-  event_mask_flags = gsdl_make_flagstash (&evmask_flagstash);
+  event_mod_flags = btw->make_flagstash (&kmod_flagstash);
+  event_mask_flags = btw->make_flagstash (&evmask_flagstash);
 
   /* event states */
   event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);
