@@ -18,6 +18,8 @@
  * Boston, MA  02110-1301  USA
  */
 
+#define IMPORT_SRFI4()  IMPORT_MODULE (srfi4, "(srfi srfi-4)")
+
 #define ASSERT_UVEC(tt,obj,n)                           \
   SCM_ASSERT (NOT_FALSEP (scm_## tt ##vector_p (obj)),  \
               (obj), n, FUNC_NAME)

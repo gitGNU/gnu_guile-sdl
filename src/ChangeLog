@@ -1,5 +1,13 @@
 2011-12-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: IMPORT_SRFI4
+
+	* b-uv.h (IMPORT_SRFI4): New macro.
+	* sdlgfx.c: Use it.
+	* sdlvideo.c: Likewise.
+
+2011-12-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Decruft: Zonk $(pkglibdir) for !LAME "make install".
 
 	This is a temporary workaround.  Long term, it would be better to

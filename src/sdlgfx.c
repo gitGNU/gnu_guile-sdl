@@ -27,7 +27,7 @@
 IMPORT_MODULE (sdlsup, "(sdl sdl)");
 SELECT_MODULE_VAR (obtw, sdlsup, "%%Guile-SDL-obtw");
 #if GI_LEVEL_NOT_YET_1_8
-IMPORT_MODULE (srfi4, "(srfi srfi-4)");
+IMPORT_SRFI4 ();
 SELECT_MODULE_VAR (s16v_p, srfi4, "s16vector?");
 #define scm_s16vector_p(obj)  CALL1 (s16v_p, obj)
 #endif
