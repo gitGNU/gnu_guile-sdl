@@ -26,10 +26,10 @@
 
 #if GI_LEVEL_NOT_YET_1_8
 IMPORT_SRFI4 ();
-SELECT_MODULE_VAR (u8v_p, srfi4, "u8vector?");
-SELECT_MODULE_VAR (u16v_p, srfi4, "u16vector?");
 SELECT_MODULE_VAR (mk_u16v, srfi4, "make-u16vector");
 SELECT_MODULE_VAR (u16v_x, srfi4, "u16vector-set!");
+SELECT_UVEC_PREDICATE (u8);
+SELECT_UVEC_PREDICATE (u16);
 #define scm_u8vector_p(obj)           CALL1 (u8v_p, obj)
 #define scm_u16vector_p(obj)          CALL1 (u16v_p, obj)
 #define scm_make_u16vector(len,fill)  CALL2 (mk_u16v, len, fill)

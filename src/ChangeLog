@@ -1,5 +1,13 @@
 2011-12-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: SELECT_UVEC_PREDICATE
+
+	* b-uv.h (SELECT_UVEC_PREDICATE): New macro.
+	* sdlgfx.c: Use it.
+	* sdlvideo.c: Likewise.
+
+2011-12-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: IMPORT_SRFI4
 
 	* b-uv.h (IMPORT_SRFI4): New macro.

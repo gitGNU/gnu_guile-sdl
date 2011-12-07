@@ -20,6 +20,9 @@
 
 #define IMPORT_SRFI4()  IMPORT_MODULE (srfi4, "(srfi srfi-4)")
 
+#define SELECT_UVEC_PREDICATE(TT)                       \
+  SELECT_MODULE_VAR (TT ## v_p, srfi4, #TT "vector?")
+
 #define ASSERT_UVEC(tt,obj,n)                           \
   SCM_ASSERT (NOT_FALSEP (scm_## tt ##vector_p (obj)),  \
               (obj), n, FUNC_NAME)
