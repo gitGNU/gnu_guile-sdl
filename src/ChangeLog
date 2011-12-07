@@ -1,5 +1,14 @@
 2011-12-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Relax uvec restriction; re-allow ordinary vectors.
+
+	* b-uv.h (DEFINE_ANY_TO): New macro.
+	(ASSERT_UVEC): If ‘obj’ is a vector, substitute it w/ a new uvec.
+	* sdlgfx.c (s16): New ‘DEFINE_ANY_TO’.
+	* sdlvideo.c (u8, u16): New ‘DEFINE_ANY_TO’s.
+
+2011-12-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: SELECT_UVEC_PREDICATE
 
 	* b-uv.h (SELECT_UVEC_PREDICATE): New macro.

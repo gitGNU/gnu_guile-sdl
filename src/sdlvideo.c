@@ -33,6 +33,10 @@ SELECT_UVEC_PREDICATE (u16);
 #define scm_u8vector_p(obj)           CALL1 (u8v_p, obj)
 #define scm_u16vector_p(obj)          CALL1 (u16v_p, obj)
 #define scm_make_u16vector(len,fill)  CALL2 (mk_u16v, len, fill)
+
+/* For backward compatability (EVENTUALLY ZONKABLE).  */
+DEFINE_ANY_TO (u8)
+DEFINE_ANY_TO (u16)
 #endif
 
 DEFINE_STRUCT_AND_COPY_FUNC (u8, Uint8)
