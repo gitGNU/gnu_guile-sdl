@@ -1,3 +1,12 @@
+2011-12-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Decruft: Zonk $(pkglibdir) for !LAME "make install".
+
+	This is a temporary workaround.  Long term, it would be better to
+	instruct Automake not to create that directory in the first place.
+
+	* Makefile.am (install-data-hook) [!LAME]: Delete $(pkglibdir).
+
 2011-12-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Declare (sdl sdl) shared state "hidden" for GCC 4.1+.

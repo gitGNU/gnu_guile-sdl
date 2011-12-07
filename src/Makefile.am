@@ -132,6 +132,7 @@ if LAME
 	  done ;					\
 	fi
 else !LAME
+	rmdir $(pkglibdir)
 	$(updatemodcat)
 endif !LAME
 
