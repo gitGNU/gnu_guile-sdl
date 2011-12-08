@@ -1,5 +1,13 @@
 2011-12-08  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Use ‘SCM_MISC_ERROR’.
+
+	* guile-sdl.h (THROW_NOT_YET_IMPLEMENTED): Use ‘SCM_MISC_ERROR’.
+	* sdlevent.c (peep_events): Likewise.
+	* sdlvideo.c (wm_grab_input): Likewise.
+
+2011-12-08  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[doc] Document uniform vs ordinary vectors; spiff docstrings.
 
 	* sdlgfx.c (draw_polygon, draw_aa_polygon)

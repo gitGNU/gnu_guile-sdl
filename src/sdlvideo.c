@@ -1216,14 +1216,14 @@ an integer @var{mode} will result in a wrong-type-arg error.  */)
       case  0: mode = SYM (off);   break;
       case  1: mode = SYM (on);    break;
       default:
-        scm_misc_error (FUNC_NAME, "bad mode: ~S", CONS (mode, SCM_EOL));
+        SCM_MISC_ERROR ("bad mode: ~S", CONS (mode, SCM_EOL));
       }
 
   ASSERT_SYMBOL (mode, 1);
   if (! (EQ (mode, SYM (query)) ||
          EQ (mode, SYM (off)) ||
          EQ (mode, SYM (on))))
-    scm_misc_error (FUNC_NAME, "bad mode: ~S", CONS (mode, SCM_EOL));
+    SCM_MISC_ERROR ("bad mode: ~S", CONS (mode, SCM_EOL));
 
   return (SDL_GRAB_ON == SDL_WM_GrabInput (EQ (mode, SYM (query))
                                            ? SDL_GRAB_QUERY

@@ -546,7 +546,7 @@ matching events instead of a count, removing them from the queue.
       cmask = GSDL_FLAGS2ULONG (mask, event_mask_flags, 4);
       ret = SDL_PeepEvents (cevents, cnumevents, caction, cmask);
       if (0 > ret)
-        scm_misc_error (FUNC_NAME, "badness", SCM_EOL);
+        SCM_MISC_ERROR ("badness", SCM_EOL);
       if (cevents)
         {
           SDL_Event *cev; SCM ev;
@@ -563,7 +563,7 @@ matching events instead of a count, removing them from the queue.
       break;
 
     default:
-      scm_misc_error (FUNC_NAME, "bad action", SCM_EOL);
+      SCM_MISC_ERROR ("bad action", SCM_EOL);
     }
 
   switch (caction)

@@ -618,7 +618,7 @@ DECLARE_PF (Surface);
 /* Throws.  */
 
 #define THROW_NOT_YET_IMPLEMENTED \
-  scm_misc_error (FUNC_NAME, "not yet implemented (sorry)", SCM_EOL)
+  SCM_MISC_ERROR ("not yet implemented (sorry)", SCM_EOL)
 
 /* Whole functions.  */
 
