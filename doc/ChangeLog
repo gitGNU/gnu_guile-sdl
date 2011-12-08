@@ -1,3 +1,10 @@
+2011-12-08  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc] Document uniform vs ordinary vectors; spiff docstrings.
+
+	* guile-sdl.texi (Introduction): Add "Uniform Vectors" to menu.
+	(Uniform Vectors): New node/section.
+
 2011-12-05  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Replace ‘(sdl misc-utils) exact-floor’ w/ ‘exact-truncate’.

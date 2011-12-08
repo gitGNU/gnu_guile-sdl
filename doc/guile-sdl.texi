@@ -108,6 +108,7 @@ low-level 2D graphics primitives have been provided.
 @menu
 * Quick Start::                A simple example
 * Naming Conventions::         Naming conventions
+* Uniform Vectors::            Regular for elegance
 * Limitations::                Problems we don't hide
 @end menu
 
@@ -350,6 +351,28 @@ use @code{make} as a prefix.  In addition, we will sometimes introduce
 higher-level creation functions, such as @code{make-surface},
 which is a wrapper to @code{create-rgb-surface} which provides
 useful default values from the current screen information.
+
+
+@node Uniform Vectors
+@section Uniform Vectors
+
+@cindex uniform vector argument(s)
+@cindex @code{u8}
+@cindex @code{u16}
+@cindex @code{s16}
+Some procedures take one or more @dfn{uniform vector} arguments,
+as specified in @acronym{SRFI} 4 (@pxref{Video}, @pxref{SDL_gfx}).
+The specific type of vector is one of @code{u8}, @code{u16},
+@code{s16}, where @code{u} or @code{s} stands for ``unsigned'' or
+``signed'', respectively, and the rest the number of bits.
+
+@cindex ordinary vector argument(s), planned retirement
+@cindex planned retirement, ordinary vector argument(s)
+For backward compatability with Guile-SDL 0.3.10 and earlier, you can
+also use an ordinary vector.  This is expensive and less safe, however,
+so this support @strong{will be removed} after 2012-12-31.  Luckily,
+migration is simple: Import module @code{(srfi srfi-4)} and replace
+@code{list->vector} with @code{list->u16vector}, and so on.
 
 
 @node Limitations

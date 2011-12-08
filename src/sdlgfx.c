@@ -483,7 +483,7 @@ PRIMPROC
  (SCM surface, SCM vx, SCM vy, SCM color, SCM fill),
  doc: /***********
 On @var{surface}, draw a polygon whose points are specified
-by corresponding pairs from the uniform vectors
+by corresponding pairs from the s16 uniform vectors
 @var{vx} and @var{vy}, in color @var{color}.  Optional
 arg @var{fill} means to fill the polygon as well.  */)
 {
@@ -514,7 +514,7 @@ PRIMPROC
  (SCM surface, SCM vx, SCM vy, SCM color),
  doc: /***********
 On @var{surface}, draw an anti-aliased polygon whose points
-are specified by corresponding pairs from the uniform vectors
+are specified by corresponding pairs from the s16 uniform vectors
 @var{vx} and @var{vy}, in color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_polygon
@@ -541,7 +541,7 @@ PRIMPROC
  (SCM surface, SCM vx, SCM vy, SCM texture, SCM tdx, SCM tdy),
  doc: /***********
 On @var{surface}, draw a polygon whose points are specified
-by corresponding pairs from the uniform vectors @var{vx}
+by corresponding pairs from the s16 uniform vectors @var{vx}
 and @var{vy}, filling from @var{texture} (a surface) with
 offset @var{tdx}, @var{tdy}.  */)
 {
@@ -572,7 +572,7 @@ PRIMPROC
  (SCM surface, SCM vx, SCM vy, SCM s, SCM color),
  doc: /***********
 On @var{surface}, draw a bezier curve whose points are
-specified by corresponding pairs from the uniform vectors
+specified by corresponding pairs from the s16 uniform vectors
 @var{vx} and @var{vy}, with @var{s} steps in color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_bezier

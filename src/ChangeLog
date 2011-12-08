@@ -1,3 +1,12 @@
+2011-12-08  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc] Document uniform vs ordinary vectors; spiff docstrings.
+
+	* sdlgfx.c (draw_polygon, draw_aa_polygon)
+	(draw_textured_polygon, draw_bezier): Spiff doc.
+	* sdlvideo.c (create_cursor)
+	(get_gamm_ramp, set_gamma_ramp): Likewise.
+
 2011-12-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Relax uvec restriction; re-allow ordinary vectors.

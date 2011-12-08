@@ -200,7 +200,7 @@ PRIMPROC
   SCM x, SCM y),
  doc: /***********
 Return a new cursor from @var{data} and @var{mask}
-(u8 vectors), sized @var{w} by @var{h}
+(both u8 uniform vectors), sized @var{w} by @var{h}
 and with hot pixel located at @var{x},@var{y}.  */)
 {
 #define FUNC_NAME s_create_cursor
@@ -641,7 +641,7 @@ PRIMPROC
  doc: /***********
 Return the gamma translation lookup tables currently used by
 the display as a list of three tables, for red, green and blue.
-Each table is a u16 vector of length 256.
+Each table is a u16 uniform vector of length 256.
 Return @code{#f} if unsuccessful.  */)
 {
 #define FUNC_NAME s_get_gamma_ramp
@@ -682,7 +682,7 @@ PRIMPROC
  doc: /***********
 Set the gamma translation lookup tables currently
 used by the display to tables @var{r}, @var{g} and @var{b},
-each a u16 vector (SRFI 4) of length 256, or @code{#f},
+each a u16 uniform vector of length 256, or @code{#f},
 in which case that particular component is unchanged.
 Return @code{#t} if successful.  */)
 {
