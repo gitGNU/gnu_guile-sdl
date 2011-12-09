@@ -1,3 +1,15 @@
+2011-12-09  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Fully validate  ‘set-colors!’, ‘set-palette’ colormap arg.
+
+	* guile-sdl.h (VECREF): New macro/#define.
+	* sdlvideo.c: Don't #include <alloca.h>.
+	(ALLOCA_COLORS): Delete macro.
+	(assert_colormap_copy): New static func.
+	(ASSERT_COLORMAP_COPY): New macro.
+	(set_colors, set_palette): Don't ‘alloca’; make auto var
+	‘ccolors’ a 256-element array; use ‘ASSERT_COLORMAP_COPY’.
+
 2011-12-08  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Use ‘SCM_MISC_ERROR’.

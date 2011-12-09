@@ -94,6 +94,7 @@
 #define SETCAR             gh_set_car_x
 #define VECLENGTH          gh_vector_length
 #define UVECLENGTH         gh_uniform_vector_length
+#define VECREF(vec,idx)    (SCM_VELTS (vec)[idx])
 #define CALL0              gh_call0
 #define CALL1              gh_call1
 #define CALL2              gh_call2
@@ -131,6 +132,7 @@
 #define SETCAR             scm_set_car_x
 #define VECLENGTH          scm_c_vector_length
 #define UVECLENGTH         scm_c_uniform_vector_length
+#define VECREF             scm_c_vector_ref
 #define CALL0              scm_call_0
 #define CALL1              scm_call_1
 #define CALL2              scm_call_2

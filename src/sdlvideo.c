@@ -20,7 +20,6 @@
 
 #include "guile-sdl.h"
 #include <stdio.h>
-#include <alloca.h>
 #include <SDL/SDL_image.h>
 #include "b-uv.h"
 
@@ -60,8 +59,6 @@ DEFINE_STRUCT_AND_COPY_FUNC (u16, Uint16)
 
 #define RECT_P(x) \
   (SCM_SMOB_PREDICATE (rect_tag, x))
-
-#define ALLOCA_COLORS(count)  alloca (count * sizeof (SDL_Color))
 
 
 static SCM gl_enums;
@@ -544,6 +541,37 @@ or of @var{surface} if specified.  */)
 }
 
 
+static void
+assert_colormap_copy (const char *FUNC_NAME, SCM v, int pos,
+                      int *len, SDL_Color *cv)
+{
+  if (! VECTORP (v)
+      || 256 < (*len = VECLENGTH (v)))
+    *len = -1;
+  else
+    {
+      int i;
+
+      for (i = 0; i < *len; i++)
+        {
+          SCM elem = VECREF (v, i);
+
+          if (! COLOR_P (elem))
+            {
+              *len = -1;
+              break;
+            }
+          *cv++ = *UNPACK_COLOR (elem);
+        }
+    }
+  SCM_ASSERT_TYPE (-1 < *len, v, pos, FUNC_NAME,
+                   "vector (length 256 or less) of SDL-Color");
+}
+
+#define ASSERT_COLORMAP_COPY(v,pos,len) \
+  assert_colormap_copy (FUNC_NAME, v, pos, &len, c ## v)
+
+
 PRIMPROC
 (set_colors, "set-colors!", 2, 0, 0,
  (SCM surface, SCM colors),
@@ -552,28 +580,15 @@ Set a portion of the colormap for the 8-bit @var{surface}
 using @var{colors}, a vector of SDL-Colors.  */)
 {
 #define FUNC_NAME s_set_colors
-  SDL_Color *ccolors;
-  SDL_Color *color;
-  int i, length, result = 0;
+  SDL_Color ccolors[256];
+  int length;
 
   ASSERT_SURFACE (surface, 1);
-  ASSERT_VECTOR (colors, 2);
-
-  length = VECLENGTH (colors);
-  if ((ccolors = ALLOCA_COLORS (length)))
-    {
-      for (i = 0; i < length; i++)
-        {
-          color = UNPACK_COLOR (scm_vector_ref (colors, NUM_LONG (i)));
-          ccolors[i] = *color;
-        }
-
-      result = SDL_SetColors (UNPACK_SURFACE (surface),
-                              ccolors, 0, length);
-    }
+  ASSERT_COLORMAP_COPY (colors, 2, length);
 
   RETURN_BOOL
-    (result);
+    (SDL_SetColors (UNPACK_SURFACE (surface),
+                    ccolors, 0, length));
 #undef FUNC_NAME
 }
 
@@ -587,29 +602,16 @@ using @var{flags} (see @code{flagstash:palette}) and
 @var{colors}, a vector of SDL-Colors.  */)
 {
 #define FUNC_NAME s_set_palette
-  SDL_Color *ccolors;
-  SDL_Color *color;
-  int cflags, i, length, result = 0;
+  SDL_Color ccolors[256];
+  int cflags, length;
 
   ASSERT_SURFACE (surface, 1);
-  ASSERT_VECTOR (colors, 3);
+  ASSERT_COLORMAP_COPY (colors, 3, length);
 
   cflags   = GSDL_FLAGS2ULONG (flags, palette_flags, 2);
-  length   = VECLENGTH (colors);
-  if ((ccolors = ALLOCA_COLORS (length)))
-    {
-      for (i = 0; i < length; i++)
-        {
-          color = UNPACK_COLOR (scm_vector_ref (colors, NUM_LONG (i)));
-          ccolors[i] = *color;
-        }
-
-      result = SDL_SetPalette (UNPACK_SURFACE (surface),
-                               cflags, ccolors, 0, length);
-    }
-
   RETURN_BOOL
-    (result);
+    (SDL_SetPalette (UNPACK_SURFACE (surface),
+                     cflags, ccolors, 0, length));
 #undef FUNC_NAME
 }
 
