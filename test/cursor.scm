@@ -97,6 +97,7 @@
        (let ((rt (make-u16vector 256))
              (gt (make-u16vector 256))
              (bt (make-u16vector 256)))
+         (SDL:show-cursor (not (SDL:show-cursor)))
          (do ((j 0 (1+ j)))
              ((= 256 j))
            (u16vector-set! rt j (random 65536))
