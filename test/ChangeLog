@@ -1,5 +1,12 @@
 2011-12-09  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[v] Exercise ‘set-colors!’.
+
+	* rect.scm (screen): Specify depth 8.
+	<futz w/ the colormap>: New section.
+
+2011-12-09  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v] Exercise ‘show-cursor’ more.
 
 	* cursor.scm <main loop>: Periodically toggle cursor visibility.

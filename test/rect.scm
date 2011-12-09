@@ -71,7 +71,7 @@
 ;; set the video mode to the dimensions of our rect
 (define screen (SDL:set-video-mode (SDL:rect:w test-rect)
                                    (SDL:rect:h test-rect)
-                                   16 '(SDL_HWSURFACE)))
+                                   8 '(SDL_HWSURFACE)))
 (cond ((SDL:surface? screen))
       (else (fse "ERROR: Not a surface: ~S~%" screen)
             (exit #f)))
@@ -102,6 +102,31 @@
     (SDL:update-rect screen sample)))
 
 (SDL:delay (* 200 (if *interactive* 10 1)))
+
+;; futz w/ the colormap
+(let ((cm (list->vector
+           (map (lambda (n)
+                  ;; grayscale
+                  (SDL:make-color n n n))
+                (iota 256)))))
+  (define (randomize-cm!)
+    (do ((i 0 (1+ i)))
+        ((= 256 i))
+      (let ((elem (vector-ref cm i)))
+        (SDL:color:set-r! elem (random 256))
+        (SDL:color:set-g! elem (random 256))
+        (SDL:color:set-b! elem (random 256)))))
+  (define (jam!)
+    (SDL:set-colors! screen cm)
+    (SDL:delay 200))
+  ;; do it
+  (for-each (lambda (thunk)
+              (thunk))
+            (list jam!
+                  randomize-cm!
+                  jam!
+                  randomize-cm!
+                  jam!)))
 
 ;; more wm futzing -- do this after pausing to avoid
 ;;                    disconcerting flashing
