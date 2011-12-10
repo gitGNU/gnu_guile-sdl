@@ -1,5 +1,12 @@
 2011-12-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstraction: NEW_EVENT_X
+
+	* sdlevent.c (NEW_EVENT_X): New macro.
+	(peep_events, the_event_filter): Use ‘NEW_EVENT_X’.
+
+2011-12-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	On smob "wrong type arg" throw, report expected type.
 
 	U ≡ "Update call to ‘ASSERT_SMOB’".

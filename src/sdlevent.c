@@ -232,6 +232,9 @@ static long event_tag;
 #define UNPACK_EVENT(smob) \
   (SMOBGET (smob, SDL_Event *))
 
+#define NEW_EVENT_X(scm,ptr) \
+  SCM_NEWSMOB (scm, event_tag, ptr)
+
 #define RETURN_NEW_EVENT(x) \
   NEWSMOB_OR_FALSE (event_tag, x)
 
@@ -556,7 +559,7 @@ matching events instead of a count, removing them from the queue.
             {
               cev = GCMALLOC_EVENT ();
               *cev = cevents[i];
-              SCM_NEWSMOB (ev, event_tag, cev);
+              NEW_EVENT_X (ev, cev);
               ls = CONS (ev, ls);
             }
         }
@@ -676,7 +679,7 @@ the_event_filter (const SDL_Event *event)
 
         copy = GCMALLOC_EVENT ();
         *copy = *event;
-        SCM_NEWSMOB (arg, event_tag, copy);
+        NEW_EVENT_X (arg, copy);
       }
       break;
     }
