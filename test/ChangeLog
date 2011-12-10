@@ -1,3 +1,13 @@
+2011-12-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[v int] Add abstraction: half
+
+	* common (half): New proc.
+	* event.scm (top, display-centered-w/height-proc)
+	(display-centered, display-centered/next-line): Use ‘half’.
+	* fading.scm (as-four): Likewise.
+	* roto.scm (spin): Likewise.
+
 2011-12-09  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[v] Exercise ‘set-colors!’.

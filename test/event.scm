@@ -43,7 +43,7 @@
 
 ;; presize some stuff
 (define height (TTF:font:height font))
-(define top (quotient (- (SDL:rect:h test-rect) height) 2))
+(define top (half (- (SDL:rect:h test-rect) height)))
 
 ;; color to write in
 (define white (SDL:make-color #xff #xff #xff))
@@ -58,7 +58,7 @@
              (dimensions (TTF:font:size-text font text))
              (width (assq-ref dimensions 'w))
              (screen (SDL:get-video-surface))
-             (left (quotient (- (SDL:rect:w test-rect) width) 2))
+             (left (half (- (SDL:rect:w test-rect) width)))
              (dst-rect (SDL:make-rect left y width height))
              (src-rect (SDL:make-rect 0 0 width height)))
         (SDL:fill-rect screen text-rect 0)
@@ -68,10 +68,10 @@
 ;; write text centered on screen
 (define display-centered
   (display-centered-w/height-proc
-   (quotient (- (SDL:rect:h test-rect) height) 2)))
+   (half (- (SDL:rect:h test-rect) height))))
 (define display-centered/next-line
   (display-centered-w/height-proc
-   (+ 3 height (quotient (- (SDL:rect:h test-rect) height) 2))))
+   (+ 3 height (half (- (SDL:rect:h test-rect) height)))))
 
 ;; set the event filter: ignore the mouse every other second
 (define (ignore-maybe event-type)

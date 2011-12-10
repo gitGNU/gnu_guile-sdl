@@ -37,6 +37,9 @@
     (lambda (name)
       (in-vicinity srcdir name))))
 
+(define (half n)
+  (ash n -1))
+
 (define verbose? (env-1? "VERBOSE"))
 
 (define debug? (env-1? "DEBUG"))

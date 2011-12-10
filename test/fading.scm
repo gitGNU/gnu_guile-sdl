@@ -26,8 +26,8 @@
 (define (as-four surface)
   (let* ((w (SDL:surface:w surface))
          (h (SDL:surface:h surface))
-         (w/2 (quotient w 2))
-         (h/2 (quotient h 2))
+         (w/2 (half w))
+         (h/2 (half h))
          (hoh (GFX:shrink-surface surface 2 2)) ; half-of-half
          (result (SDL:display-format (SDL:make-surface w h)))
          (drect (SDL:make-rect 0 0 w/2 h/2)))
