@@ -1,5 +1,11 @@
 2011-12-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Avoid ‘quotient’.
+
+	* gfx.scm <draw pie slices and arcs>: Use ‘ash’.
+
+2011-12-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v int] Add abstraction: half
 
 	* common (half): New proc.

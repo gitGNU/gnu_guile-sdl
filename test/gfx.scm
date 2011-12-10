@@ -230,7 +230,7 @@
            (r (min x (- w x) y (- h y)))
            (color (ash (random #xffffff) 8))
            (beg (random 360))
-           (sub (quotient (- (+ beg (random 360)) beg) 16)))
+           (sub (ash (- (+ beg (random 360)) beg) -4)))
       (do ((i 0 (1+ i)))
           ((= i 16))
         (GFX:draw-pie-slice SCREEN
@@ -239,7 +239,7 @@
                             (+ (* 9 i) color)
                             #t)
         (GFX:draw-arc SCREEN
-                      x y (- r (quotient (* r i) 16))
+                      x y (- r (ash (* r i) -4))
                       (+ beg (* sub i)) (+ beg (* sub (1+ i)))
                       (logior color #xff)))
       (GFX:draw-arc SCREEN
