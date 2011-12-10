@@ -299,25 +299,30 @@ void scm_init_ ## frag ## _module (void) { func (); }
 /* Argument validation.  */
 
 #define ASSERT_EXACT(obj,n) \
-  SCM_ASSERT (NOT_FALSEP (scm_exact_p ((obj))), (obj), n, FUNC_NAME)
+  SCM_ASSERT_TYPE (NOT_FALSEP (scm_exact_p ((obj))), (obj), n, FUNC_NAME, "exact")
 
 #define ASSERT_VECTOR(obj,n) \
-  SCM_ASSERT (VECTORP ((obj)), (obj), n, FUNC_NAME)
+  SCM_VALIDATE_VECTOR (n, obj)
 
 #define ASSERT_SYMBOL(obj,n) \
-  SCM_ASSERT (SCM_SYMBOLP ((obj)), (obj), n, FUNC_NAME)
+  SCM_VALIDATE_SYMBOL (n, obj)
 
 #define ASSERT_STRING(obj,n) \
-  SCM_ASSERT (STRINGP ((obj)), (obj), n, FUNC_NAME)
+  SCM_VALIDATE_STRING (n, obj)
+
+#ifndef SCM_VALIDATE_NUMBER
+#define SCM_VALIDATE_NUMBER(n,obj) \
+  SCM_VALIDATE_TYPE (n, obj, SCM_NUMBERP, "number")
+#endif
 
 #define ASSERT_NUMBER(obj,n) \
-  SCM_ASSERT (NOT_FALSEP (scm_number_p ((obj))), (obj), n, FUNC_NAME)
+  SCM_VALIDATE_NUMBER (n, obj)
 
 #define ASSERT_CHAR(obj,n) \
-  SCM_ASSERT (SCM_CHARP ((obj)), (obj), n, FUNC_NAME)
+  SCM_VALIDATE_CHAR (n, obj)
 
 #define ASSERT_LIST(obj,n) \
-  SCM_ASSERT (NULLP (obj) || PAIRP (obj), (obj), n, FUNC_NAME)
+  SCM_VALIDATE_LIST (n, obj)
 
 #define BOUNDP(x)    (! SCM_EQ_P (x, SCM_UNDEFINED))
 #define UNBOUNDP(x)    (SCM_EQ_P (x, SCM_UNDEFINED))

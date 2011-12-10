@@ -34,8 +34,9 @@ scm_any_to_ ## TT ## vector (SCM v)                                     \
       if (VECTORP (obj))                                        \
         obj = scm_any_to_## tt ##vector (obj);                  \
       else                                                      \
-        SCM_ASSERT (NOT_FALSEP (scm_## tt ##vector_p (obj)),    \
-                    (obj), n, FUNC_NAME);                       \
+        SCM_ASSERT_TYPE                                         \
+          (NOT_FALSEP (scm_## tt ##vector_p (obj)),             \
+           (obj), n, FUNC_NAME, #tt "vector");                  \
     }                                                           \
   while (0)
 

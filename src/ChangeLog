@@ -1,3 +1,17 @@
+2011-12-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Use more <libguile/validate.h> abstractions.
+
+	* b-uv.h (ASSERT_UVEC): Use ‘SCM_ASSERT_TYPE’.
+	* guile-sdl.h (ASSERT_EXACT): Likewise.
+	(ASSERT_VECTOR): Use ‘SCM_VALIDATE_VECTOR’.
+	(ASSERT_SYMBOL): Use ‘SCM_VALIDATE_SYMBOL’.
+	(ASSERT_STRING): Use ‘SCM_VALIDATE_STRING’.
+	(SCM_VALIDATE_NUMBER): New macro, if not already defined.
+	(ASSERT_NUMBER): Use ‘SCM_VALIDATE_NUMBER’.
+	(ASSERT_CHAR): Use ‘SCM_VALIDATE_CHAR’.
+	(ASSERT_LIST): Use ‘SCM_VALIDATE_LIST’.
+
 2011-12-09  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Fully validate  ‘set-colors!’, ‘set-palette’ colormap arg.
