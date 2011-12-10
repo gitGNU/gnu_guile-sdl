@@ -343,6 +343,8 @@ typedef struct {
 
 #define VALAKA(x)  { x, { #x } }
 
+#define enum_nick "SDL-enum"
+
 typedef SCM (define_enum_t) (const char *name, size_t count,
                              valaka_t *backing);
 
@@ -361,6 +363,8 @@ typedef SCM (long2enum_t) (long value, SCM enum_type);
   btw->enum2long ((enums), (table), (pos), FUNC_NAME)
 
 /* flags (constants typically used as a logical or'ed group) */
+
+#define flagstash_nick "SDL-flagstash"
 
 typedef unsigned long (flags2ulong_t) (SCM flags, SCM table,
                                        int pos, const char *func);
@@ -422,10 +426,9 @@ typedef SCM (make_flagstash_t) (flagstash_t *stash);
 #endif  /* !GI_LEVEL_NOT_YET_1_8 */
 
 /* useful type-checking for smobs */
-#define ASSERT_SMOB(smob, tag, which)                   \
-  SCM_ASSERT ((SCM_NIMP (smob)                          \
-               && (long) SCM_CAR (smob) == (tag)),      \
-              (smob), (which), FUNC_NAME)
+#define ASSERT_SMOB(smob, lpre, which)                          \
+  SCM_ASSERT_TYPE (SCM_SMOB_PREDICATE (lpre ## _tag, smob),     \
+                   (smob), (which), FUNC_NAME, lpre ## _nick)
 
 #define SMOBGET(smob,c_type)       ((c_type) SCM_SMOB_DATA (smob))
 #define SMOBSET(smob,val)          (SCM_SET_SMOB_DATA (smob, val))
@@ -481,15 +484,19 @@ struct obtw *btw;
 #define surface_tag         (btw->smob_tags[2])
 #define pixel_format_tag    (btw->smob_tags[3])
 
+#define color_nick "SDL-Color"
+
 #define rect_nick "SDL-Rect"
 #define GCMALLOC_RECT()  GCMALLOC (sizeof (SDL_Rect), rect_nick)
 
 #define surface_nick "SDL-Surface"
 
-#define ASSERT_COLOR(obj,n)         ASSERT_SMOB (obj, color_tag, n)
-#define ASSERT_RECT(obj,n)          ASSERT_SMOB (obj, rect_tag, n)
-#define ASSERT_SURFACE(obj,n)       ASSERT_SMOB (obj, surface_tag, n)
-#define ASSERT_PIXEL_FORMAT(obj,n)  ASSERT_SMOB (obj, pixel_format_tag, n)
+#define pixel_format_nick "SDL-Pixel-Format"
+
+#define ASSERT_COLOR(obj,n)         ASSERT_SMOB (obj, color, n)
+#define ASSERT_RECT(obj,n)          ASSERT_SMOB (obj, rect, n)
+#define ASSERT_SURFACE(obj,n)       ASSERT_SMOB (obj, surface, n)
+#define ASSERT_PIXEL_FORMAT(obj,n)  ASSERT_SMOB (obj, pixel_format, n)
 
 DECLARE_PF (Surface);
 #define UNPACK_PF_SURFACE(smob)    (SMOBGET (smob, PF_Surface *))
@@ -636,7 +643,7 @@ PRIMPROC (c_func, s_func, 1, 0, 0, (SCM lpre),                          \
           "Get @code{" #c_field "} from @var{" #lpre "}.")              \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (lpre, lpre ## _tag, 1);                                  \
+  ASSERT_SMOB (lpre, lpre, 1);                                          \
   RETURN_INT (SMOBF (lpre, SDL_ ##actual *, c_field));                  \
 }
 
@@ -645,7 +652,7 @@ PRIMPROC (cname, sname, 1, 0, 0, (SCM lpre),                            \
           "Get @code{" #field "} from @var{" #lpre "}.")                \
 {                                                                       \
   const char *FUNC_NAME = s_ ## cname;                                  \
-  ASSERT_SMOB (lpre, lpre ## _tag, 1);                                  \
+  ASSERT_SMOB (lpre, lpre, 1);                                          \
   RETURN_INT (SMOBF (lpre, PF_ ##actual *, object->field));             \
 }
 
@@ -655,7 +662,7 @@ PRIMPROC (c_func, s_func, 2, 0, 0, (SCM lpre, SCM value),               \
           "to @var{value}.")                                            \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
-  ASSERT_SMOB (lpre, lpre ## _tag, 1);                                  \
+  ASSERT_SMOB (lpre, lpre, 1);                                          \
   ASSERT_EXACT (value, 2);                                              \
   SMOBF (lpre, SDL_ ##actual *, c_field) = conv (value);                \
   RETURN_UNSPECIFIED;                                                   \
@@ -669,7 +676,7 @@ PRIMPROC (cname, sname, 1, 0, 0, (SCM lpre),                    \
           " from @var{" #lpre "}.")                             \
 {                                                               \
   const char *FUNC_NAME = s_ ## cname;                          \
-  ASSERT_SMOB (lpre, lpre ##_tag, 1);                           \
+  ASSERT_SMOB (lpre, lpre, 1);                                  \
   return btw->long2enum (SMOBF (lpre, ctype, field), etype);    \
 }
 
@@ -679,7 +686,7 @@ PRIMPROC (cname, sname, 2, 0, 0, (SCM lpre, SCM value),                 \
           " to @var{value}, a symbol or integer.")                      \
 {                                                                       \
   const char *FUNC_NAME = s_ ## cname;                                  \
-  ASSERT_SMOB (lpre, lpre ##_tag, 1);                                   \
+  ASSERT_SMOB (lpre, lpre, 1);                                          \
   SMOBF (lpre, ctype, field) = GSDL_ENUM2LONG (value, etype, 1);        \
   RETURN_UNSPECIFIED;                                                   \
 }
@@ -692,7 +699,7 @@ PRIMPROC (cname, sname, 1, 0, 0, (SCM lpre),                            \
           " as a (possibly empty) list of symbols.")                    \
 {                                                                       \
   const char *FUNC_NAME = s_ ## cname;                                  \
-  ASSERT_SMOB (lpre, lpre ##_tag, 1);                                   \
+  ASSERT_SMOB (lpre, lpre, 1);                                          \
   return btw->ulong2flags (SMOBF (lpre, ctype, field), stash);          \
 }
 
@@ -702,7 +709,7 @@ PRIMPROC (cname, sname, 2, 0, 0, (SCM lpre, SCM value),                 \
           " to @var{value}, a (possibly empty) list of symbols.")       \
 {                                                                       \
   const char *FUNC_NAME = s_ ## cname;                                  \
-  ASSERT_SMOB (lpre, lpre ##_tag, 1);                                   \
+  ASSERT_SMOB (lpre, lpre, 1);                                          \
   SMOBF (lpre, ctype, field) = GSDL_FLAGS2ULONG (value, stash, 2);      \
   RETURN_UNSPECIFIED;                                                   \
 }

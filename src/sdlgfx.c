@@ -848,7 +848,7 @@ static long fpsmgr_tag;
 
 #define fpsmgr_nick "SDL-FPS-Manager"
 
-#define ASSERT_FPSMGR(obj,n)  ASSERT_SMOB (obj, fpsmgr_tag, n)
+#define ASSERT_FPSMGR(obj,n)  ASSERT_SMOB (obj, fpsmgr, n)
 #define UNPACK_FPSMGR(smob)   (SMOBGET (smob, FPSmanager *))
 
 static

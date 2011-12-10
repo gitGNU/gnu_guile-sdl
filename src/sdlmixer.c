@@ -39,8 +39,11 @@ static valaka_t fading_status_eback[] = {
 static long mix_music_tag;
 static long mix_audio_tag;
 
-#define ASSERT_MUSIC(obj,which)   ASSERT_SMOB (obj, mix_music_tag, which)
-#define ASSERT_AUDIO(obj,which)   ASSERT_SMOB (obj, mix_audio_tag, which)
+#define mix_music_nick "SDL-Music"
+#define mix_audio_nick "SDL-Audio"
+
+#define ASSERT_MUSIC(obj,which)   ASSERT_SMOB (obj, mix_music, which)
+#define ASSERT_AUDIO(obj,which)   ASSERT_SMOB (obj, mix_audio, which)
 
 #define UNPACK_MUSIC(smob)   (SMOBGET (smob, Mix_Music *))
 #define UNPACK_AUDIO(smob)   (SMOBGET (smob, Mix_Chunk *))
@@ -1001,12 +1004,12 @@ void
 init_module (void)
 {
   /* smobs */
-  DEFSMOB (mix_music_tag, "SDL-Music",
+  DEFSMOB (mix_music_tag, mix_music_nick,
            NULL,
            free_music,
            NULL);
 
-  DEFSMOB (mix_audio_tag, "SDL-Audio",
+  DEFSMOB (mix_audio_tag, mix_audio_nick,
            NULL,
            free_audio,
            NULL);

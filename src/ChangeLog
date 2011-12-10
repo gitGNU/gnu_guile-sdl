@@ -1,5 +1,34 @@
 2011-12-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	On smob "wrong type arg" throw, report expected type.
+
+	U ≡ "Update call to ‘ASSERT_SMOB’".
+	* guile-sdl.h (enum_nick, flagstash_nick): New ‘#define’s.
+	(ASSERT_SMOB): Use ‘SCM_ASSERT_TYPE’, ‘SCM_SMOB_PREDICATE’;
+	take ‘lpre’ instead of ‘tag’; compute _tag and _nick internally.
+	(color_nick, pixel_format_nick): New ‘#define’s.
+	(ASSERT_COLOR, ASSERT_RECT, ASSERT_SURFACE, ASSERT_PIXEL_FORMAT)
+	(GSDL_NUMBER_GETTER, GSDL_PF_NUMBER_GETTER, GSDL_NUMBER_SETTER)
+	(GSDL_ENUM_GETTER, GSDL_ENUM_SETTER, GSDL_FLAG_GETTER)
+	(GSDL_FLAG_SETTER): U.
+	* sdlcdrom.c (ASSERT_CDROM): U.
+	* sdlcolor.c (color_nick): Delete #define.
+	* sdlenums.c (ASSERT_ENUM, ASSERT_FLAGSTASH): U.
+	(gsdl_init_enums): Use ‘enum_nick’, ‘flagstash_nick’.
+	* sdlevent.c (ASSERT_EVENT, ASSERT_KEYSYM): U.
+	* sdlgfx.c (ASSERT_FPSMGR): U.
+	* sdljoystick.c (ASSERT_JOYSTICK): U.
+	* sdlmixer.c (mix_music_nick, mix_audio_nick): New ‘#define’s.
+	(init_module): Use ‘mix_music_nick’, ‘mix_audio_nick’.
+	* sdlttf.c (ttf_font_nick): New #define.
+	(ASSERT_TTFONT): U.
+	(init_module): Use ‘ttf_font_nick’.
+	* sdlvideo.c (overlay_nick): New #define.
+	(ASSERT_CURSOR, ASSERT_OVERLAY): U.
+	(gsdl_init_video): Use ‘overlay_nick’.
+
+2011-12-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Use more <libguile/validate.h> abstractions.
 
 	* b-uv.h (ASSERT_UVEC): Use ‘SCM_ASSERT_TYPE’.

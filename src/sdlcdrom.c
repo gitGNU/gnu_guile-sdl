@@ -26,7 +26,7 @@ static long cdrom_tag;
 #define cdrom_nick "SDL-CD"
 
 #define ASSERT_CDROM(obj,which) \
-  ASSERT_SMOB (obj, cdrom_tag, which)
+  ASSERT_SMOB (obj, cdrom, which)
 
 #define UNPACK_CDROM(smob) \
   (SMOBGET (smob, SDL_CD *))

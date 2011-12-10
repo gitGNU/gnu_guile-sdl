@@ -227,7 +227,7 @@ static long event_tag;
 #define event_nick "SDL-Event"
 
 #define ASSERT_EVENT(obj,which) \
-  ASSERT_SMOB (obj, event_tag, which)
+  ASSERT_SMOB (obj, event, which)
 
 #define UNPACK_EVENT(smob) \
   (SMOBGET (smob, SDL_Event *))
@@ -251,7 +251,7 @@ static long keysym_tag;
 #define keysym_nick "SDL-Keysym"
 
 #define ASSERT_KEYSYM(obj,which) \
-  ASSERT_SMOB (obj, keysym_tag, which)
+  ASSERT_SMOB (obj, keysym, which)
 
 #define UNPACK_KEYSYM(smob) \
   (SMOBGET (smob, SDL_keysym *))

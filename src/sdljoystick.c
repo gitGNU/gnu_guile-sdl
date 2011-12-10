@@ -26,7 +26,7 @@ static long joystick_tag;
 #define joystick_nick "SDL-Joystick"
 
 #define ASSERT_JOYSTICK(obj,which) \
-  ASSERT_SMOB (obj, joystick_tag, which)
+  ASSERT_SMOB (obj, joystick, which)
 
 #define UNPACK_JOYSTICK(smob) \
   (SMOBGET (smob, SDL_Joystick *))

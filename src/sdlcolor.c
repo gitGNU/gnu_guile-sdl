@@ -21,8 +21,6 @@
 #include "guile-sdl.h"
 #include <stdio.h>
 
-#define color_nick "SDL-Color"
-
 static
 size_t
 free_color (SCM color)

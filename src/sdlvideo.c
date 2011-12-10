@@ -120,9 +120,10 @@ DECLARE_PF (Cursor);
 /* tags for SDL smobs */
 static long cursor_tag;
 static long overlay_tag;
+#define overlay_nick "SDL-Overlay"
 
-#define ASSERT_CURSOR(obj,which)   ASSERT_SMOB (obj, cursor_tag, which)
-#define ASSERT_OVERLAY(obj,which)  ASSERT_SMOB (obj, overlay_tag, which)
+#define ASSERT_CURSOR(obj,which)   ASSERT_SMOB (obj, cursor, which)
+#define ASSERT_OVERLAY(obj,which)  ASSERT_SMOB (obj, overlay, which)
 
 #define UNPACK_PF_CURSOR(smob)    (SMOBGET (smob, PF_Cursor *))
 #define UNPACK_CURSOR(smob)       (UNPACK_PF_CURSOR (smob)->object)
@@ -1256,7 +1257,7 @@ gsdl_init_video (void)
            free_pixel_format,
            print_pixel_format);
 
-  DEFSMOB (overlay_tag, "SDL-Overlay",
+  DEFSMOB (overlay_tag, overlay_nick,
            NULL,
            free_yuv_overlay,
            NULL);

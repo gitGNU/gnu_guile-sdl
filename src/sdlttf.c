@@ -41,9 +41,10 @@ to get a list of its flags.  @xref{Enums and Constants}.  */)
 
 /* Smob tags.  */
 static long ttf_font_tag;
+#define ttf_font_nick "SDL-TTF"
 
 #define ASSERT_TTFONT(obj,which) \
-  ASSERT_SMOB (obj, ttf_font_tag, which)
+  ASSERT_SMOB (obj, ttf_font, which)
 
 #define UNPACK_TTFONT(smob) \
   SMOBGET (smob, TTF_Font *)
@@ -427,7 +428,7 @@ static
 void
 init_module (void)
 {
-  DEFSMOB (ttf_font_tag, "SDL-TTF",
+  DEFSMOB (ttf_font_tag, ttf_font_nick,
            NULL,
            free_font,
            /* TODO: print_font */ NULL);

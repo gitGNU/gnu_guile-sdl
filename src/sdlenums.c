@@ -34,7 +34,7 @@ typedef struct {
 } enum_struct;
 
 #define ASSERT_ENUM(obj,which) \
-  ASSERT_SMOB (obj, enum_tag, which)
+  ASSERT_SMOB (obj, enum, which)
 
 #define UNPACK_ENUM(smob) \
   (SMOBGET (smob, enum_struct *))
@@ -204,7 +204,7 @@ if it does not belong to @var{enumstash}.  */)
 static unsigned long int flagstash_tag;
 
 #define ASSERT_FLAGSTASH(obj,which) \
-  ASSERT_SMOB (obj, flagstash_tag, which)
+  ASSERT_SMOB (obj, flagstash, which)
 
 #define UNPACK_FLAGSTASH(smob) \
   (SMOBGET (smob, flagstash_t *))
@@ -385,9 +385,9 @@ gsdl_init_enums (void)
   btw->enum2long = enum2long;
   btw->long2enum = long2enum;
 
-  DEFSMOB (enum_tag, "SDL-enum", mark_enum, NULL, NULL);
+  DEFSMOB (enum_tag, enum_nick, mark_enum, NULL, NULL);
 
-  DEFSMOB (flagstash_tag, "SDL-flagstash",
+  DEFSMOB (flagstash_tag, flagstash_nick,
            mark_flagstash,
            NULL,
            print_flagstash);
