@@ -298,8 +298,11 @@ void scm_init_ ## frag ## _module (void) { func (); }
 
 /* Argument validation.  */
 
+#define ASSERT_TYPE(condition,object,position,expected) \
+  SCM_ASSERT_TYPE (condition, object, position, FUNC_NAME, expected)
+
 #define ASSERT_EXACT(obj,n) \
-  SCM_ASSERT_TYPE (NOT_FALSEP (scm_exact_p ((obj))), (obj), n, FUNC_NAME, "exact")
+  ASSERT_TYPE (NOT_FALSEP (scm_exact_p ((obj))), (obj), n, "exact")
 
 #define ASSERT_VECTOR(obj,n) \
   SCM_VALIDATE_VECTOR (n, obj)
@@ -427,8 +430,8 @@ typedef SCM (make_flagstash_t) (flagstash_t *stash);
 
 /* useful type-checking for smobs */
 #define ASSERT_SMOB(smob, lpre, which)                          \
-  SCM_ASSERT_TYPE (SCM_SMOB_PREDICATE (lpre ## _tag, smob),     \
-                   (smob), (which), FUNC_NAME, lpre ## _nick)
+  ASSERT_TYPE (SCM_SMOB_PREDICATE (lpre ## _tag, smob),         \
+                   (smob), (which), lpre ## _nick)
 
 #define SMOBGET(smob,c_type)       ((c_type) SCM_SMOB_DATA (smob))
 #define SMOBSET(smob,val)          (SCM_SET_SMOB_DATA (smob, val))

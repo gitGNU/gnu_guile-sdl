@@ -565,8 +565,8 @@ assert_colormap_copy (const char *FUNC_NAME, SCM v, int pos,
           *cv++ = *UNPACK_COLOR (elem);
         }
     }
-  SCM_ASSERT_TYPE (-1 < *len, v, pos, FUNC_NAME,
-                   "vector (length 256 or less) of SDL-Color");
+  ASSERT_TYPE (-1 < *len, v, pos,
+               "vector (length 256 or less) of SDL-Color");
 }
 
 #define ASSERT_COLORMAP_COPY(v,pos,len) \

@@ -1,3 +1,11 @@
+2011-12-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Add abstraction: ASSERT_TYPE
+
+	* guile-sdl.h (ASSERT_TYPE): New macro.
+	(ASSERT_EXACT, ASSERT_SMOB): Use ‘ASSERT_TYPE’.
+	* sdlvideo.c (assert_colormap_copy): Likewise.
+
 2011-12-10  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Avoid ‘quotient’.
