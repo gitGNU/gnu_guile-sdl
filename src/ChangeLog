@@ -1,5 +1,13 @@
 2011-12-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Validate args for ‘peep-events’ action ‘SDL_ADDEVENT’.
+
+	* sdlevent.c (EVENT_P): New macro.
+	(peep_events) <SDL_ADDEVENT>: Validate ‘events’;
+	use ‘SCM_MISC_ERROR’ to report insufficient ‘events’ length.
+
+2011-12-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstraction: ASSERT_TYPE
 
 	* guile-sdl.h (ASSERT_TYPE): New macro.

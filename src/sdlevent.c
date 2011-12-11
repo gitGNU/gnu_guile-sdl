@@ -226,6 +226,8 @@ static long event_tag;
 
 #define event_nick "SDL-Event"
 
+#define EVENT_P(obj)  SCM_SMOB_PREDICATE (event_tag, obj)
+
 #define ASSERT_EVENT(obj,which) \
   ASSERT_SMOB (obj, event, which)
 
@@ -526,13 +528,19 @@ matching events instead of a count, removing them from the queue.
   switch (caction)
     {
     case SDL_ADDEVENT:
-      /* Do two passes: first to make sure we have as much as we say we do,
+      /* Do two passes: first to validate argument types and consistency,
          second to allocate the array and copy the events (ugh).  This will
          most certainly be re-implemented w/ user-visible uniform vectors.  */
-      for (i = cnumevents, ls = events;
-           i && !NULLP (ls);
-           i--, ls = CDR (ls));
-      SCM_ASSERT (!i, numevents, 2, FUNC_NAME);
+      SCM_VALIDATE_LIST_COPYLEN (1, events, i);
+      if (cnumevents > i)
+        SCM_MISC_ERROR ("numevents greater than events length",
+                        SCM_EOL);
+      for (i = 0, ls = events;
+           i < cnumevents;
+           i++, ls = CDR (ls))
+        if (! EVENT_P (CAR (ls)))
+          break;
+      ASSERT_TYPE (i == cnumevents, events, 1, "list of SDL-Event");
       cevents = ALLOCA_EVENTS (cnumevents);
       for (i = 0, ls = events;
            i < cnumevents;
