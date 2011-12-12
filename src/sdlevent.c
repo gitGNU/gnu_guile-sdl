@@ -520,9 +520,7 @@ matching events instead of a count, removing them from the queue.
   Uint32 cmask;
   SCM ls = SCM_BOOL_F;
 
-  ASSERT_INTEGER (numevents, 2);
-
-  cnumevents = C_LONG (numevents);
+  ASSERT_LONG_COPY (numevents, 2);
   caction = GSDL_ENUM2LONG (action, event_action_enum, 3);
 
   switch (caction)
@@ -800,11 +798,8 @@ Return @code{#t} on success.  */)
 #define FUNC_NAME s_enable_key_repeat
   int cinterval, cdelay;
 
-  ASSERT_INTEGER (delay, 1);
-  ASSERT_INTEGER (interval, 2);
-
-  cdelay    = C_LONG (delay);
-  cinterval = C_LONG (interval);
+  ASSERT_LONG_COPY (delay, 1);
+  ASSERT_LONG_COPY (interval, 2);
 
   RETURN_TRUE_IF_0 (SDL_EnableKeyRepeat (cdelay, cinterval));
 #undef FUNC_NAME

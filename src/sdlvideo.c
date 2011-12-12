@@ -245,10 +245,7 @@ instead of creating a new one.  */)
   if (SYMBOLP (format))
     cformat = GSDL_FLAGS2ULONG (format, gsdl_overlay_formats, 3);
   else
-    {
-      ASSERT_INTEGER (format, 3);
-      cformat = C_ULONG (format);
-    }
+    ASSERT_ULONG_COPY (format, 3);
 
   if (UNBOUNDP (display))
     cdisplay = SDL_GetVideoSurface ();
@@ -474,14 +471,10 @@ the x, y, width and height of a rectangular area.  */)
     }
   else
     {
-      ASSERT_INTEGER (x, 2);
-      ASSERT_INTEGER (y, 3);
-      ASSERT_INTEGER (w, 4);
-      ASSERT_INTEGER (h, 5);
-      cx = C_LONG (x);
-      cy = C_LONG (y);
-      cw = C_LONG (w);
-      ch = C_LONG (h);
+      ASSERT_LONG_COPY (x, 2);
+      ASSERT_LONG_COPY (y, 3);
+      ASSERT_LONG_COPY (w, 4);
+      ASSERT_LONG_COPY (h, 5);
     }
 
   SDL_UpdateRect (UNPACK_SURFACE (surface), cx, cy, cw, ch);
@@ -746,12 +739,9 @@ Return the mapped components as an unsigned integer.  */)
     }
   else
     {
-      ASSERT_INTEGER (r, 2);
-      ASSERT_INTEGER (g, 3);
-      ASSERT_INTEGER (b, 4);
-      cr = C_ULONG (r);
-      cg = C_ULONG (g);
-      cb = C_ULONG (b);
+      ASSERT_ULONG_COPY (r, 2);
+      ASSERT_ULONG_COPY (g, 3);
+      ASSERT_ULONG_COPY (b, 4);
     }
 
   RETURN_UINT (SDL_MapRGB (UNPACK_PIXEL_FORMAT (format),
@@ -786,14 +776,10 @@ Return the mapped components as an unsigned integer.  */)
     }
   else
     {
-      ASSERT_INTEGER (r, 2);
-      ASSERT_INTEGER (g, 3);
-      ASSERT_INTEGER (b, 4);
-      ASSERT_INTEGER (a, 5);
-      cr = C_ULONG (r);
-      cg = C_ULONG (g);
-      cb = C_ULONG (b);
-      ca = C_ULONG (a);
+      ASSERT_ULONG_COPY (r, 2);
+      ASSERT_ULONG_COPY (g, 3);
+      ASSERT_ULONG_COPY (b, 4);
+      ASSERT_ULONG_COPY (a, 5);
     }
 
   RETURN_UINT (SDL_MapRGBA (UNPACK_PIXEL_FORMAT (format),

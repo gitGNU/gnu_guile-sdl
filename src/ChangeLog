@@ -1,5 +1,17 @@
 2011-12-12  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstractions: ASSERT_{INTEGER,INT,LONG,ULONG}_COPY
+
+	* guile-sdl.h (ASSERT_INTEGER_COPY, ASSERT_INT_COPY)
+	(ASSERT_LONG_COPY, ASSERT_ULONG_COPY): New macros.
+	* sdlcdrom.c: Use new macros throughout.
+	* sdlevent.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2011-12-12  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	Tighten arg type-check from ‘exact?’ to ‘integer?’.
 
 	* guile-sdl.h (EXACTP): Delete macro/#define.

@@ -85,26 +85,17 @@ those aspects of the device.  Return @code{#t} if successful.  */)
 
   UNBOUND_MEANS_FALSE (freq);
   if (NOT_FALSEP (freq))
-    {
-      ASSERT_INTEGER (freq, 1);
-      cfreq = C_LONG (freq);
-    }
+    ASSERT_LONG_COPY (freq, 1);
 
   UNBOUND_MEANS_FALSE (format);
   if (NOT_FALSEP (format))
-    {
-      ASSERT_INTEGER (format, 2);
-      cformat = C_LONG (format);
-    }
+    ASSERT_LONG_COPY (format, 2);
 
   cchannels -= UNBOUNDP (stereo) ? 0 : EXACTLY_FALSEP (stereo);
 
   UNBOUND_MEANS_FALSE (chunksize);
   if (NOT_FALSEP (chunksize))
-    {
-      ASSERT_INTEGER (chunksize, 4);
-      cchunksize = C_LONG (chunksize);
-    }
+    ASSERT_LONG_COPY (chunksize, 4);
 
   /* Open the audio device.  */
   RETURN_TRUE_IF_0
@@ -232,10 +223,7 @@ to represent the group of all the channels).  Return
   ASSERT_INTEGER (channel, 1);
 
   if (BOUNDP (tag))
-    {
-      ASSERT_INTEGER (tag, 2);
-      ctag = C_LONG (tag);
-    }
+    ASSERT_LONG_COPY (tag, 2);
 
   RETURN_BOOL
     (Mix_GroupChannel (C_LONG (channel), ctag));
@@ -258,10 +246,7 @@ the group to use.  Return @code{#t} if successful.  */)
   ASSERT_INTEGER (to, 2);
 
   if (BOUNDP (tag))
-    {
-      ASSERT_INTEGER (tag, 3);
-      ctag = C_LONG (tag);
-    }
+    ASSERT_LONG_COPY (tag, 3);
 
   RETURN_BOOL
     (Mix_GroupChannels (C_LONG (from), C_LONG (to), ctag));
@@ -281,10 +266,7 @@ Optional arg @var{tag} specifies the group to check.  */)
   int ctag = -1;
 
   if (BOUNDP (tag))
-    {
-      ASSERT_INTEGER (tag, 1);
-      ctag = C_LONG (tag);
-    }
+    ASSERT_LONG_COPY (tag, 1);
 
   RETURN_INT (Mix_GroupAvailable (ctag));
 #undef FUNC_NAME
@@ -302,10 +284,7 @@ Optional arg @var{tag} specifies the group to check.  */)
   int ctag = -1;
 
   if (BOUNDP (tag))
-    {
-      ASSERT_INTEGER (tag, 1);
-      ctag = C_LONG (tag);
-    }
+    ASSERT_LONG_COPY (tag, 1);
 
   RETURN_INT (Mix_GroupCount (ctag));
 #undef FUNC_NAME
@@ -324,10 +303,7 @@ Optional arg @var{tag} specifies the group to check.  */)
   int ctag = -1;
 
   if (BOUNDP (tag))
-    {
-      ASSERT_INTEGER (tag, 1);
-      ctag = C_LONG (tag);
-    }
+    ASSERT_LONG_COPY (tag, 1);
 
   RETURN_INT (Mix_GroupOldest (ctag));
 #undef FUNC_NAME
@@ -346,10 +322,7 @@ Optional arg @var{tag} specifies the group to check.  */)
   int ctag = -1;
 
   if (BOUNDP (tag))
-    {
-      ASSERT_INTEGER (tag, 1);
-      ctag = C_LONG (tag);
-    }
+    ASSERT_LONG_COPY (tag, 1);
 
   RETURN_INT (Mix_GroupNewer (ctag));
 #undef FUNC_NAME
@@ -382,24 +355,15 @@ the sound.  */)
 
   UNBOUND_MEANS_FALSE (channel);
   if (NOT_FALSEP (channel))
-    {
-      ASSERT_INTEGER (channel, 2);
-      cchannel = C_LONG (channel);
-    }
+    ASSERT_LONG_COPY (channel, 2);
 
   UNBOUND_MEANS_FALSE (loops);
   if (NOT_FALSEP (loops))
-    {
-      ASSERT_INTEGER (loops, 3);
-      cloops = C_LONG (loops);
-    }
+    ASSERT_LONG_COPY (loops, 3);
 
   UNBOUND_MEANS_FALSE (ticks);
   if (NOT_FALSEP (ticks))
-    {
-      ASSERT_INTEGER (ticks, 4);
-      cticks = C_LONG (ticks);
-    }
+    ASSERT_LONG_COPY (ticks, 4);
 
   if (UNBOUNDP (fade))
     /* No fade, normal Mix_PlayChannelTimed.  */
@@ -434,10 +398,7 @@ are as in @code{play-channel}.  */)
 
   UNBOUND_MEANS_FALSE (loops);
   if (NOT_FALSEP (loops))
-    {
-      ASSERT_INTEGER (loops, 2);
-      cloops = C_LONG (loops);
-    }
+    ASSERT_LONG_COPY (loops, 2);
 
   if (UNBOUNDP (fade))
     /* No fade, normal Mix_PlayMusic.  */
@@ -478,10 +439,7 @@ is unspecified or is -1, just return the current volume.  */)
 
   UNBOUND_MEANS_FALSE (volume);
   if (NOT_FALSEP (volume))
-    {
-      ASSERT_INTEGER (volume, 1);
-      cvolume = C_LONG (volume);
-    }
+    ASSERT_LONG_COPY (volume, 1);
 
   if (UNBOUNDP (which))
     /* No chunk or channel, call Mix_Volume on default channel.  */
@@ -512,10 +470,7 @@ means set the volume to @var{volume}.  */)
   int cvolume = -1;
 
   if (BOUNDP (volume))
-    {
-      ASSERT_INTEGER (volume, 1);
-      cvolume = C_LONG (volume);
-    }
+    ASSERT_LONG_COPY (volume, 1);
 
   RETURN_INT (Mix_VolumeMusic (cvolume));
 #undef FUNC_NAME
@@ -533,10 +488,7 @@ Optional arg @var{channel} specifies a channel to halt.  */)
   int cchannel = -1;
 
   if (BOUNDP (channel))
-    {
-      ASSERT_INTEGER (channel, 1);
-      cchannel = C_LONG (channel);
-    }
+    ASSERT_LONG_COPY (channel, 1);
 
   RETURN_INT (Mix_HaltChannel (cchannel));
 #undef FUNC_NAME
@@ -554,10 +506,7 @@ Optional arg @var{tag} specifies the group to halt.  */)
   int ctag = -1;
 
   if (BOUNDP (tag))
-    {
-      ASSERT_INTEGER (tag, 1);
-      ctag = C_LONG (tag);
-    }
+    ASSERT_LONG_COPY (tag, 1);
 
   RETURN_INT (Mix_HaltGroup (ctag));
 #undef FUNC_NAME
@@ -591,16 +540,10 @@ delay to that many milliseconds, rather than turning it off.  */)
 
   UNBOUND_MEANS_FALSE (channel);
   if (NOT_FALSEP (channel))
-    {
-      ASSERT_INTEGER (channel, 1);
-      cchannel = C_LONG (channel);
-    }
+    ASSERT_LONG_COPY (channel, 1);
 
   if (BOUNDP (ticks))
-    {
-      ASSERT_INTEGER (ticks, 2);
-      cticks = C_LONG (ticks);
-    }
+    ASSERT_LONG_COPY (ticks, 2);
 
   RETURN_INT (Mix_ExpireChannel (cchannel, cticks));
 #undef FUNC_NAME
@@ -617,23 +560,17 @@ Second optional arg @var{ms} specifies the number of
 milliseconds the fading will take (default 0).  */)
 {
 #define FUNC_NAME s_mix_fade_out_channel
-  int cchannel = -1;
+  int cwhich = -1;
   int cms = 0;
 
   UNBOUND_MEANS_FALSE (which);
   if (NOT_FALSEP (which))
-    {
-      ASSERT_INTEGER (which, 1);
-      cchannel = C_LONG (which);
-    }
+    ASSERT_LONG_COPY (which, 1);
 
   if (BOUNDP (ms))
-    {
-      ASSERT_INTEGER (ms, 2);
-      cms = C_LONG (ms);
-    }
+    ASSERT_LONG_COPY (ms, 2);
 
-  RETURN_INT (Mix_FadeOutChannel (cchannel, cms));
+  RETURN_INT (Mix_FadeOutChannel (cwhich, cms));
 #undef FUNC_NAME
 }
 
@@ -653,16 +590,10 @@ milliseconds the fading will take (default 0).  */)
 
   UNBOUND_MEANS_FALSE (tag);
   if (NOT_FALSEP (tag))
-    {
-      ASSERT_INTEGER (tag, 1);
-      ctag = C_LONG (tag);
-    }
+    ASSERT_LONG_COPY (tag, 1);
 
   if (BOUNDP (ms))
-    {
-      ASSERT_INTEGER (ms, 2);
-      cms = C_LONG (ms);
-    }
+    ASSERT_LONG_COPY (ms, 2);
 
   RETURN_INT (Mix_FadeOutGroup (ctag, cms));
 #undef FUNC_NAME
@@ -681,10 +612,7 @@ the fading will take (default 0).  */)
   int cms = 0;
 
   if (BOUNDP (ms))
-    {
-      ASSERT_INTEGER (ms, 1);
-      cms = C_LONG (ms);
-    }
+    ASSERT_LONG_COPY (ms, 1);
 
   RETURN_INT (Mix_FadeOutMusic (cms));
 #undef FUNC_NAME
@@ -716,10 +644,7 @@ Optional arg @var{which} selects which channel to check.
   int cwhich = -1;
 
   if (BOUNDP (which))
-    {
-      ASSERT_INTEGER (which, 1);
-      cwhich = C_LONG (which);
-    }
+    ASSERT_LONG_COPY (which, 1);
 
   RETURN_FADINGSTATUS (Mix_FadingChannel (cwhich));
 #undef FUNC_NAME
@@ -737,10 +662,7 @@ Optional arg @var{channel} selects which channel to pause.  */)
   int cchannel = -1;
 
   if (BOUNDP (channel))
-    {
-      ASSERT_INTEGER (channel, 1);
-      cchannel = C_LONG (channel);
-    }
+    ASSERT_LONG_COPY (channel, 1);
 
   Mix_Pause (cchannel);
   RETURN_UNSPECIFIED;
@@ -759,10 +681,7 @@ Optional arg @var{channel} selects which channel to resume.  */)
   int cchannel = -1;
 
   if (BOUNDP (channel))
-    {
-      ASSERT_INTEGER (channel, 1);
-      cchannel = C_LONG (channel);
-    }
+    ASSERT_LONG_COPY (channel, 1);
 
   Mix_Resume (cchannel);
   RETURN_UNSPECIFIED;
@@ -781,10 +700,7 @@ Optional arg @var{channel} selects a which channel to check.  */)
   int cchannel = -1;
 
   if (BOUNDP (channel))
-    {
-      ASSERT_INTEGER (channel, 1);
-      cchannel = C_LONG (channel);
-    }
+    ASSERT_LONG_COPY (channel, 1);
 
   RETURN_BOOL
     (Mix_Paused (cchannel));
@@ -855,10 +771,7 @@ Optional arg @var{channel} selects which channel to check.  */)
   int cchannel = -1;
 
   if (BOUNDP (channel))
-    {
-      ASSERT_INTEGER (channel, 1);
-      cchannel = C_LONG (channel);
-    }
+    ASSERT_LONG_COPY (channel, 1);
 
   RETURN_BOOL
     (Mix_Playing (cchannel));

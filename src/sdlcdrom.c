@@ -93,10 +93,7 @@ Optional arg @var{drive} is a number specifying which drive.  */)
   int cdrive = 0;
 
   if (BOUNDP (drive))
-    {
-      ASSERT_INTEGER (drive, 1);
-      cdrive = C_INT (drive);
-    }
+    ASSERT_INT_COPY (drive, 1);
 
   name = SDL_CDName (cdrive);
   RETURN_0STR (name);
@@ -116,10 +113,7 @@ Optional arg @var{drive} is a number specifying which drive.  */)
   int cdrive = 0;
 
   if (BOUNDP (drive))
-    {
-      ASSERT_INTEGER (drive, 1);
-      cdrive = C_INT (drive);
-    }
+    ASSERT_INT_COPY (drive, 1);
 
   cd = SDL_CDOpen (cdrive);
   if (! cd)
@@ -254,10 +248,7 @@ as an alist or @code{#f} if there were problems.  */)
   cd = UNPACK_CDROM (cdrom);
 
   if (BOUNDP (n))
-    {
-      ASSERT_INTEGER (n, 2);
-      cn = C_ULONG (n);
-    }
+    ASSERT_ULONG_COPY (n, 2);
 
   if (cd && (cn < cd->numtracks))
     /* Form an assoc list.  */
@@ -298,31 +289,19 @@ Return @code{#t} if successful.  */)
 
   UNBOUND_MEANS_FALSE (start_track);
   if (NOT_FALSEP (start_track))
-    {
-      ASSERT_INTEGER (start_track, 2);
-      cstart_track = C_ULONG (start_track);
-    }
+    ASSERT_ULONG_COPY (start_track, 2);
 
   UNBOUND_MEANS_FALSE (start_frame);
   if (NOT_FALSEP (start_frame))
-    {
-      ASSERT_INTEGER (start_frame, 3);
-      cstart_frame = C_ULONG (start_frame);
-    }
+    ASSERT_ULONG_COPY (start_frame, 3);
 
   UNBOUND_MEANS_FALSE (n_tracks);
   if (NOT_FALSEP (n_tracks))
-    {
-      ASSERT_INTEGER (n_tracks, 4);
-      cn_tracks = C_ULONG (n_tracks);;
-    }
+    ASSERT_ULONG_COPY (n_tracks, 4);
 
   UNBOUND_MEANS_FALSE (n_frames);
   if (NOT_FALSEP (n_frames))
-    {
-      ASSERT_INTEGER (n_frames, 5);
-      cn_frames = C_ULONG (n_frames);
-    }
+    ASSERT_ULONG_COPY (n_frames, 5);
   else
     {
       cd = UNPACK_CDROM (cdrom);
@@ -488,22 +467,15 @@ Return frames (an integer) computed fr
   int frames;
   int cm, cs = 0, cf = 0;
 
-  ASSERT_INTEGER (m, 1);
-  cm = C_ULONG (m);
+  ASSERT_ULONG_COPY (m, 1);
 
   UNBOUND_MEANS_FALSE (s);
   if (NOT_FALSEP (s))
-    {
-      ASSERT_INTEGER (s, 2);
-      cs = C_ULONG (s);
-    }
+    ASSERT_ULONG_COPY (s, 2);
 
   UNBOUND_MEANS_FALSE (f);
   if (NOT_FALSEP (f))
-    {
-      ASSERT_INTEGER (f, 3);
-      cf = C_ULONG (f);
-    }
+    ASSERT_ULONG_COPY (f, 3);
 
   frames = MSF_TO_FRAMES (cm, cs, cf);
   RETURN_INT (frames);
@@ -525,8 +497,7 @@ converting @var{frames} (a number).  */)
 #define FUNC_NAME s_cd_frames_to_msf
   int cframes, m, s, f;
 
-  ASSERT_INTEGER (frames, 1);
-  cframes = C_ULONG (frames);
+  ASSERT_ULONG_COPY (frames, 1);
 
   FRAMES_TO_MSF (cframes, &m , &s, &f);
   RETURN_LIST3 (CONS (SYM (m), NUM_ULONG (m)),

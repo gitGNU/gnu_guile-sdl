@@ -304,6 +304,17 @@ void scm_init_ ## frag ## _module (void) { func (); }
 #define ASSERT_INTEGER(obj,n) \
   ASSERT_TYPE (INTEGERP (obj), obj, n, "integer")
 
+#define ASSERT_INTEGER_COPY(name,pos,change)  do        \
+    {                                                   \
+      ASSERT_INTEGER (name, pos);                       \
+      c ## name = C_ ## change (name);                  \
+    }                                                   \
+  while (0)
+
+#define ASSERT_INT_COPY(name,pos)    ASSERT_INTEGER_COPY (name, pos, INT)
+#define ASSERT_LONG_COPY(name,pos)   ASSERT_INTEGER_COPY (name, pos, LONG)
+#define ASSERT_ULONG_COPY(name,pos)  ASSERT_INTEGER_COPY (name, pos, ULONG)
+
 #define ASSERT_VECTOR(obj,n) \
   SCM_VALIDATE_VECTOR (n, obj)
 

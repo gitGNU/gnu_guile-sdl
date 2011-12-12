@@ -91,10 +91,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
   int cn = 0;
 
   if (BOUNDP (n))
-    {
-      ASSERT_INTEGER (n, 1);
-      cn = C_LONG (n);
-    }
+    ASSERT_LONG_COPY (n, 1);
 
   RETURN_0STR (SDL_JoystickName (cn));
 #undef FUNC_NAME
@@ -112,10 +109,7 @@ Optional arg @var{n} specifies which joystick to open.  */)
   int cn = 0;
 
   if (BOUNDP (n))
-    {
-      ASSERT_INTEGER (n, 1);
-      cn = C_LONG (n);
-    }
+    ASSERT_LONG_COPY (n, 1);
 
   RETURN_NEW_JOYSTICK (SDL_JoystickOpen (cn));
 #undef FUNC_NAME
@@ -133,10 +127,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
   int cn = 0;
 
   if (BOUNDP (n))
-    {
-      ASSERT_INTEGER (n, 1);
-      cn = C_LONG (n);
-    }
+    ASSERT_LONG_COPY (n, 1);
 
   RETURN_BOOL
     (SDL_JoystickOpened (cn));
