@@ -86,14 +86,14 @@ those aspects of the device.  Return @code{#t} if successful.  */)
   UNBOUND_MEANS_FALSE (freq);
   if (NOT_FALSEP (freq))
     {
-      ASSERT_EXACT (freq, 1);
+      ASSERT_INTEGER (freq, 1);
       cfreq = C_LONG (freq);
     }
 
   UNBOUND_MEANS_FALSE (format);
   if (NOT_FALSEP (format))
     {
-      ASSERT_EXACT (format, 2);
+      ASSERT_INTEGER (format, 2);
       cformat = C_LONG (format);
     }
 
@@ -102,7 +102,7 @@ those aspects of the device.  Return @code{#t} if successful.  */)
   UNBOUND_MEANS_FALSE (chunksize);
   if (NOT_FALSEP (chunksize))
     {
-      ASSERT_EXACT (chunksize, 4);
+      ASSERT_INTEGER (chunksize, 4);
       cchunksize = C_LONG (chunksize);
     }
 
@@ -123,7 +123,7 @@ of channels, the upper channels are stopped.  Return the
 new number of allocated channels.  */)
 {
 #define FUNC_NAME s_mix_allocate_channels
-  ASSERT_EXACT (numchans, 1);
+  ASSERT_INTEGER (numchans, 1);
 
   RETURN_INT (Mix_AllocateChannels (C_LONG (numchans)));
 #undef FUNC_NAME
@@ -208,7 +208,7 @@ the next sample if requested with a -1 value below.
 Return the number of reserved channels.  */)
 {
 #define FUNC_NAME s_mix_reserve_channels
-  ASSERT_EXACT (num, 1);
+  ASSERT_INTEGER (num, 1);
 
   RETURN_INT (Mix_ReserveChannels (C_LONG (num)));
 #undef FUNC_NAME
@@ -229,11 +229,11 @@ to represent the group of all the channels).  Return
 #define FUNC_NAME s_mix_group_channel
   int ctag = -1;
 
-  ASSERT_EXACT (channel, 1);
+  ASSERT_INTEGER (channel, 1);
 
   if (BOUNDP (tag))
     {
-      ASSERT_EXACT (tag, 2);
+      ASSERT_INTEGER (tag, 2);
       ctag = C_LONG (tag);
     }
 
@@ -254,12 +254,12 @@ the group to use.  Return @code{#t} if successful.  */)
 #define FUNC_NAME s_mix_group_channels
   int ctag = -1;
 
-  ASSERT_EXACT (from, 1);
-  ASSERT_EXACT (to, 2);
+  ASSERT_INTEGER (from, 1);
+  ASSERT_INTEGER (to, 2);
 
   if (BOUNDP (tag))
     {
-      ASSERT_EXACT (tag, 3);
+      ASSERT_INTEGER (tag, 3);
       ctag = C_LONG (tag);
     }
 
@@ -282,7 +282,7 @@ Optional arg @var{tag} specifies the group to check.  */)
 
   if (BOUNDP (tag))
     {
-      ASSERT_EXACT (tag, 1);
+      ASSERT_INTEGER (tag, 1);
       ctag = C_LONG (tag);
     }
 
@@ -303,7 +303,7 @@ Optional arg @var{tag} specifies the group to check.  */)
 
   if (BOUNDP (tag))
     {
-      ASSERT_EXACT (tag, 1);
+      ASSERT_INTEGER (tag, 1);
       ctag = C_LONG (tag);
     }
 
@@ -325,7 +325,7 @@ Optional arg @var{tag} specifies the group to check.  */)
 
   if (BOUNDP (tag))
     {
-      ASSERT_EXACT (tag, 1);
+      ASSERT_INTEGER (tag, 1);
       ctag = C_LONG (tag);
     }
 
@@ -347,7 +347,7 @@ Optional arg @var{tag} specifies the group to check.  */)
 
   if (BOUNDP (tag))
     {
-      ASSERT_EXACT (tag, 1);
+      ASSERT_INTEGER (tag, 1);
       ctag = C_LONG (tag);
     }
 
@@ -383,21 +383,21 @@ the sound.  */)
   UNBOUND_MEANS_FALSE (channel);
   if (NOT_FALSEP (channel))
     {
-      ASSERT_EXACT (channel, 2);
+      ASSERT_INTEGER (channel, 2);
       cchannel = C_LONG (channel);
     }
 
   UNBOUND_MEANS_FALSE (loops);
   if (NOT_FALSEP (loops))
     {
-      ASSERT_EXACT (loops, 3);
+      ASSERT_INTEGER (loops, 3);
       cloops = C_LONG (loops);
     }
 
   UNBOUND_MEANS_FALSE (ticks);
   if (NOT_FALSEP (ticks))
     {
-      ASSERT_EXACT (ticks, 4);
+      ASSERT_INTEGER (ticks, 4);
       cticks = C_LONG (ticks);
     }
 
@@ -407,7 +407,7 @@ the sound.  */)
   else
     {
       /* We have a fade.  */
-      ASSERT_EXACT (fade, 5);
+      ASSERT_INTEGER (fade, 5);
       rv = Mix_FadeInChannelTimed (cchannel, cchunk, cloops,
                                    C_LONG (fade), cticks);
     }
@@ -435,7 +435,7 @@ are as in @code{play-channel}.  */)
   UNBOUND_MEANS_FALSE (loops);
   if (NOT_FALSEP (loops))
     {
-      ASSERT_EXACT (loops, 2);
+      ASSERT_INTEGER (loops, 2);
       cloops = C_LONG (loops);
     }
 
@@ -445,7 +445,7 @@ are as in @code{play-channel}.  */)
   else
     {
       /* We have a fade.  */
-      ASSERT_EXACT (fade, 3);
+      ASSERT_INTEGER (fade, 3);
       rv = Mix_FadeInMusic (cmusic, cloops, C_LONG (fade));
     }
   RETURN_INT (rv);
@@ -479,14 +479,14 @@ is unspecified or is -1, just return the current volume.  */)
   UNBOUND_MEANS_FALSE (volume);
   if (NOT_FALSEP (volume))
     {
-      ASSERT_EXACT (volume, 1);
+      ASSERT_INTEGER (volume, 1);
       cvolume = C_LONG (volume);
     }
 
   if (UNBOUNDP (which))
     /* No chunk or channel, call Mix_Volume on default channel.  */
     rv = Mix_Volume (-1, cvolume);
-  else if (EXACTP (which))
+  else if (INTEGERP (which))
     /* Numeric which, treat as channel number.  */
     rv = Mix_Volume (C_LONG (which), cvolume);
   else
@@ -513,7 +513,7 @@ means set the volume to @var{volume}.  */)
 
   if (BOUNDP (volume))
     {
-      ASSERT_EXACT (volume, 1);
+      ASSERT_INTEGER (volume, 1);
       cvolume = C_LONG (volume);
     }
 
@@ -534,7 +534,7 @@ Optional arg @var{channel} specifies a channel to halt.  */)
 
   if (BOUNDP (channel))
     {
-      ASSERT_EXACT (channel, 1);
+      ASSERT_INTEGER (channel, 1);
       cchannel = C_LONG (channel);
     }
 
@@ -555,7 +555,7 @@ Optional arg @var{tag} specifies the group to halt.  */)
 
   if (BOUNDP (tag))
     {
-      ASSERT_EXACT (tag, 1);
+      ASSERT_INTEGER (tag, 1);
       ctag = C_LONG (tag);
     }
 
@@ -592,13 +592,13 @@ delay to that many milliseconds, rather than turning it off.  */)
   UNBOUND_MEANS_FALSE (channel);
   if (NOT_FALSEP (channel))
     {
-      ASSERT_EXACT (channel, 1);
+      ASSERT_INTEGER (channel, 1);
       cchannel = C_LONG (channel);
     }
 
   if (BOUNDP (ticks))
     {
-      ASSERT_EXACT (ticks, 2);
+      ASSERT_INTEGER (ticks, 2);
       cticks = C_LONG (ticks);
     }
 
@@ -623,13 +623,13 @@ milliseconds the fading will take (default 0).  */)
   UNBOUND_MEANS_FALSE (which);
   if (NOT_FALSEP (which))
     {
-      ASSERT_EXACT (which, 1);
+      ASSERT_INTEGER (which, 1);
       cchannel = C_LONG (which);
     }
 
   if (BOUNDP (ms))
     {
-      ASSERT_EXACT (ms, 2);
+      ASSERT_INTEGER (ms, 2);
       cms = C_LONG (ms);
     }
 
@@ -654,13 +654,13 @@ milliseconds the fading will take (default 0).  */)
   UNBOUND_MEANS_FALSE (tag);
   if (NOT_FALSEP (tag))
     {
-      ASSERT_EXACT (tag, 1);
+      ASSERT_INTEGER (tag, 1);
       ctag = C_LONG (tag);
     }
 
   if (BOUNDP (ms))
     {
-      ASSERT_EXACT (ms, 2);
+      ASSERT_INTEGER (ms, 2);
       cms = C_LONG (ms);
     }
 
@@ -682,7 +682,7 @@ the fading will take (default 0).  */)
 
   if (BOUNDP (ms))
     {
-      ASSERT_EXACT (ms, 1);
+      ASSERT_INTEGER (ms, 1);
       cms = C_LONG (ms);
     }
 
@@ -717,7 +717,7 @@ Optional arg @var{which} selects which channel to check.
 
   if (BOUNDP (which))
     {
-      ASSERT_EXACT (which, 1);
+      ASSERT_INTEGER (which, 1);
       cwhich = C_LONG (which);
     }
 
@@ -738,7 +738,7 @@ Optional arg @var{channel} selects which channel to pause.  */)
 
   if (BOUNDP (channel))
     {
-      ASSERT_EXACT (channel, 1);
+      ASSERT_INTEGER (channel, 1);
       cchannel = C_LONG (channel);
     }
 
@@ -760,7 +760,7 @@ Optional arg @var{channel} selects which channel to resume.  */)
 
   if (BOUNDP (channel))
     {
-      ASSERT_EXACT (channel, 1);
+      ASSERT_INTEGER (channel, 1);
       cchannel = C_LONG (channel);
     }
 
@@ -782,7 +782,7 @@ Optional arg @var{channel} selects a which channel to check.  */)
 
   if (BOUNDP (channel))
     {
-      ASSERT_EXACT (channel, 1);
+      ASSERT_INTEGER (channel, 1);
       cchannel = C_LONG (channel);
     }
 
@@ -856,7 +856,7 @@ Optional arg @var{channel} selects which channel to check.  */)
 
   if (BOUNDP (channel))
     {
-      ASSERT_EXACT (channel, 1);
+      ASSERT_INTEGER (channel, 1);
       cchannel = C_LONG (channel);
     }
 
@@ -910,9 +910,9 @@ Both @var{l} and @var{r} are integers 0--255, inclusive, where
 To get ``true'' panning, use @code{(set-panning CH N (- 255 N))}.  */)
 {
 #define FUNC_NAME s_mix_set_panning
-  ASSERT_EXACT (channel, 1);
-  ASSERT_EXACT (l, 2);
-  ASSERT_EXACT (r, 3);
+  ASSERT_INTEGER (channel, 1);
+  ASSERT_INTEGER (l, 2);
+  ASSERT_INTEGER (r, 3);
 
   RETURN_INT (Mix_SetPanning (C_LONG (channel), C_ULONG (l), C_ULONG (r)));
 #undef FUNC_NAME
@@ -938,8 +938,8 @@ Setting (distance) to 0 unregisters this effect, since the data would be
 unchanged.  */)
 {
 #define FUNC_NAME s_mix_set_distance
-  ASSERT_EXACT (channel, 1);
-  ASSERT_EXACT (distance, 2);
+  ASSERT_INTEGER (channel, 1);
+  ASSERT_INTEGER (distance, 2);
 
   RETURN_INT (Mix_SetDistance (C_LONG (channel), C_ULONG (distance)));
 #undef FUNC_NAME
@@ -974,9 +974,9 @@ the mixer in the first place if you like.
 @end quotation  */)
 {
 #define FUNC_NAME s_mix_set_position
-  ASSERT_EXACT (channel, 1);
-  ASSERT_EXACT (angle, 2);
-  ASSERT_EXACT (distance, 3);
+  ASSERT_INTEGER (channel, 1);
+  ASSERT_INTEGER (angle, 2);
+  ASSERT_INTEGER (distance, 3);
 
   RETURN_INT (Mix_SetPosition (C_LONG (channel), C_LONG (angle),
                                C_ULONG (distance)));

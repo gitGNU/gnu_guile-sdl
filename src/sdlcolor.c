@@ -69,9 +69,9 @@ and @var{b} components.  */)
 #define FUNC_NAME s_make_color
   SDL_Color *color;
 
-  ASSERT_EXACT (r, 1);
-  ASSERT_EXACT (g, 2);
-  ASSERT_EXACT (b, 3);
+  ASSERT_INTEGER (r, 1);
+  ASSERT_INTEGER (g, 2);
+  ASSERT_INTEGER (b, 3);
 
   if ((color = GCMALLOC (sizeof (SDL_Color), color_nick)))
     {

@@ -92,7 +92,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
 
   if (BOUNDP (n))
     {
-      ASSERT_EXACT (n, 1);
+      ASSERT_INTEGER (n, 1);
       cn = C_LONG (n);
     }
 
@@ -113,7 +113,7 @@ Optional arg @var{n} specifies which joystick to open.  */)
 
   if (BOUNDP (n))
     {
-      ASSERT_EXACT (n, 1);
+      ASSERT_INTEGER (n, 1);
       cn = C_LONG (n);
     }
 
@@ -134,7 +134,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
 
   if (BOUNDP (n))
     {
-      ASSERT_EXACT (n, 1);
+      ASSERT_INTEGER (n, 1);
       cn = C_LONG (n);
     }
 
@@ -264,7 +264,7 @@ PRIMPROC
 Set the Joystick event processing model to @var{state}.  */)
 {
 #define FUNC_NAME s_joystick_event_state
-  ASSERT_EXACT (state, 1);
+  ASSERT_INTEGER (state, 1);
 
   RETURN_INT (SDL_JoystickEventState (C_LONG (state)));
 #undef FUNC_NAME
@@ -282,7 +282,7 @@ For @var{joystick}, return state of @var{axis}.  */)
   SDL_Joystick *joy;
 
   ASSERT_JOYSTICK (joystick, 1);
-  ASSERT_EXACT (axis, 2);
+  ASSERT_INTEGER (axis, 2);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -310,7 +310,7 @@ On error, return @code{#f}.  */)
   int dx, dy;
 
   ASSERT_JOYSTICK (joystick, 1);
-  ASSERT_EXACT (n, 2);
+  ASSERT_INTEGER (n, 2);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -341,7 +341,7 @@ For @var{joystick}, return state of hat @var{n}.  */)
   SDL_Joystick *joy;
 
   ASSERT_JOYSTICK (joystick, 1);
-  ASSERT_EXACT (n, 2);
+  ASSERT_INTEGER (n, 2);
 
   joy = UNPACK_JOYSTICK (joystick);
 
@@ -363,7 +363,7 @@ For @var{joystick}, return state of button @var{n}.  */)
   SDL_Joystick *joy;
 
   ASSERT_JOYSTICK (joystick, 1);
-  ASSERT_EXACT (n, 2);
+  ASSERT_INTEGER (n, 2);
 
   joy = UNPACK_JOYSTICK (joystick);
 

@@ -69,8 +69,8 @@
 #include <guile/gh.h>
 #define NULLP(obj)        (gh_null_p (obj))
 #define PAIRP(obj)        (gh_pair_p (obj))
-#define EXACTP(obj)       (gh_exact_p (obj))
 #define SYMBOLP(obj)      (gh_symbol_p (obj))
+#define INTEGERP(obj)      NOT_FALSEP (scm_integer_p (obj))
 #define VECTORP            gh_vector_p
 #define STRINGP            gh_string_p
 #define BOOLEAN            gh_bool2scm
@@ -107,8 +107,8 @@
 #else
 #define NULLP(obj)        (scm_is_null (obj))
 #define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
-#define EXACTP(obj)       (scm_is_true (scm_exact_p (obj)))
 #define SYMBOLP(obj)      (scm_is_symbol (obj))
+#define INTEGERP           scm_is_integer
 #define VECTORP            scm_is_vector
 #define STRINGP            scm_is_string
 #define BOOLEAN            scm_from_bool
@@ -301,8 +301,8 @@ void scm_init_ ## frag ## _module (void) { func (); }
 #define ASSERT_TYPE(condition,object,position,expected) \
   SCM_ASSERT_TYPE (condition, object, position, FUNC_NAME, expected)
 
-#define ASSERT_EXACT(obj,n) \
-  ASSERT_TYPE (NOT_FALSEP (scm_exact_p ((obj))), (obj), n, "exact")
+#define ASSERT_INTEGER(obj,n) \
+  ASSERT_TYPE (INTEGERP (obj), obj, n, "integer")
 
 #define ASSERT_VECTOR(obj,n) \
   SCM_VALIDATE_VECTOR (n, obj)
@@ -666,7 +666,7 @@ PRIMPROC (c_func, s_func, 2, 0, 0, (SCM lpre, SCM value),               \
 {                                                                       \
   const char *FUNC_NAME = s_ ## c_func;                                 \
   ASSERT_SMOB (lpre, lpre, 1);                                          \
-  ASSERT_EXACT (value, 2);                                              \
+  ASSERT_INTEGER (value, 2);                                            \
   SMOBF (lpre, SDL_ ##actual *, c_field) = conv (value);                \
   RETURN_UNSPECIFIED;                                                   \
 }

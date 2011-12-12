@@ -208,10 +208,10 @@ and with hot pixel located at @var{x},@var{y}.  */)
 
   ASSERT_UVEC_U8 (data, 1);
   ASSERT_UVEC_U8 (mask, 2);
-  ASSERT_EXACT (w, 3);
-  ASSERT_EXACT (h, 4);
-  ASSERT_EXACT (x, 5);
-  ASSERT_EXACT (y, 6);
+  ASSERT_INTEGER (w, 3);
+  ASSERT_INTEGER (h, 4);
+  ASSERT_INTEGER (x, 5);
+  ASSERT_INTEGER (y, 6);
 
   HOWDY_U8 (data);
   HOWDY_U8 (mask);
@@ -239,14 +239,14 @@ instead of creating a new one.  */)
   Uint32 cformat;
   SDL_Surface *cdisplay;
 
-  ASSERT_EXACT (width, 1);
-  ASSERT_EXACT (height, 2);
+  ASSERT_INTEGER (width, 1);
+  ASSERT_INTEGER (height, 2);
 
   if (SYMBOLP (format))
     cformat = GSDL_FLAGS2ULONG (format, gsdl_overlay_formats, 3);
   else
     {
-      ASSERT_EXACT (format, 3);
+      ASSERT_INTEGER (format, 3);
       cformat = C_ULONG (format);
     }
 
@@ -361,7 +361,7 @@ Return @code{#f} if no modes are available, @code{#t} if all are available.  */)
   UNBOUND_MEANS_FALSE (flags);
   if (NOT_FALSEP (flags))
     {
-      ASSERT_EXACT (flags, 2);
+      ASSERT_INTEGER (flags, 2);
       cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 2);
     }
 
@@ -407,9 +407,9 @@ mode supporting @var{width} and @var{height}.  */)
   Uint32 cflags = 0;
   int result;
 
-  ASSERT_EXACT (width,  1);
-  ASSERT_EXACT (height, 2);
-  ASSERT_EXACT (bpp,    3);
+  ASSERT_INTEGER (width,  1);
+  ASSERT_INTEGER (height, 2);
+  ASSERT_INTEGER (bpp,    3);
 
   if (BOUNDP (flags))
     cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 4);
@@ -433,9 +433,9 @@ Return a new surface.  */)
 #define FUNC_NAME s_set_video_mode
   Uint32 cflags = 0;
 
-  ASSERT_EXACT (width,  1);
-  ASSERT_EXACT (height, 2);
-  ASSERT_EXACT (bpp,    3);
+  ASSERT_INTEGER (width,  1);
+  ASSERT_INTEGER (height, 2);
+  ASSERT_INTEGER (bpp,    3);
 
   if (BOUNDP (flags))
     cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 4);
@@ -474,10 +474,10 @@ the x, y, width and height of a rectangular area.  */)
     }
   else
     {
-      ASSERT_EXACT (x, 2);
-      ASSERT_EXACT (y, 3);
-      ASSERT_EXACT (w, 4);
-      ASSERT_EXACT (h, 5);
+      ASSERT_INTEGER (x, 2);
+      ASSERT_INTEGER (y, 3);
+      ASSERT_INTEGER (w, 4);
+      ASSERT_INTEGER (h, 5);
       cx = C_LONG (x);
       cy = C_LONG (y);
       cw = C_LONG (w);
@@ -746,9 +746,9 @@ Return the mapped components as an unsigned integer.  */)
     }
   else
     {
-      ASSERT_EXACT (r, 2);
-      ASSERT_EXACT (g, 3);
-      ASSERT_EXACT (b, 4);
+      ASSERT_INTEGER (r, 2);
+      ASSERT_INTEGER (g, 3);
+      ASSERT_INTEGER (b, 4);
       cr = C_ULONG (r);
       cg = C_ULONG (g);
       cb = C_ULONG (b);
@@ -781,15 +781,15 @@ Return the mapped components as an unsigned integer.  */)
       cr = color->r;
       cg = color->g;
       cb = color->b;
-      ASSERT_EXACT (g, 3);
+      ASSERT_INTEGER (g, 3);
       ca = C_ULONG (g);
     }
   else
     {
-      ASSERT_EXACT (r, 2);
-      ASSERT_EXACT (g, 3);
-      ASSERT_EXACT (b, 4);
-      ASSERT_EXACT (a, 5);
+      ASSERT_INTEGER (r, 2);
+      ASSERT_INTEGER (g, 3);
+      ASSERT_INTEGER (b, 4);
+      ASSERT_INTEGER (a, 5);
       cr = C_ULONG (r);
       cg = C_ULONG (g);
       cb = C_ULONG (b);
@@ -820,7 +820,7 @@ respectively.  */)
 #define FUNC_NAME s_get_rgb
   Uint8 r, g, b;
 
-  ASSERT_EXACT (pixel, 1);
+  ASSERT_INTEGER (pixel, 1);
   ASSERT_PIXEL_FORMAT (format, 2);
 
   SDL_GetRGB (C_ULONG (pixel), UNPACK_PIXEL_FORMAT (format),
@@ -845,7 +845,7 @@ Get RGBA values from @var{pixel} in the specified pixel
 #define FUNC_NAME s_get_rgba
   Uint8 r, g, b, a;
 
-  ASSERT_EXACT (pixel, 1);
+  ASSERT_INTEGER (pixel, 1);
   ASSERT_PIXEL_FORMAT (format, 2);
 
   SDL_GetRGBA (C_ULONG (pixel), UNPACK_PIXEL_FORMAT (format),
@@ -876,7 +876,7 @@ Return @code{#t} if successful.  */)
       ASSERT_RECT (rect, 2);
       crect = UNPACK_RECT (rect);
     }
-  ASSERT_EXACT (color, 3);
+  ASSERT_INTEGER (color, 3);
 
   RETURN_TRUE_IF_0
     (SDL_FillRect (UNPACK_SURFACE (surface), crect, C_ULONG (color)));
@@ -936,8 +936,8 @@ PRIMPROC
 Set the position of the mouse cursor to @var{x},@var{y}.  */)
 {
 #define FUNC_NAME s_warp_mouse
-  ASSERT_EXACT (x, 1);
-  ASSERT_EXACT (y, 2);
+  ASSERT_INTEGER (x, 1);
+  ASSERT_INTEGER (y, 2);
 
   SDL_WarpMouse (C_ULONG (x), C_ULONG (y));
   RETURN_UNSPECIFIED;
@@ -997,7 +997,7 @@ Return the value of a special SDL/OpenGL @var{attribute}.  */)
 #define FUNC_NAME s_gl_get_attribute
   int value;
 
-  ASSERT_EXACT (attribute, 1);
+  ASSERT_INTEGER (attribute, 1);
 
   SDL_GL_GetAttribute ((SDL_GLattr) C_LONG (attribute), &value);
   RETURN_INT (value);
@@ -1014,8 +1014,8 @@ Set the special SDL/OpenGL @var{attribute} to @var{value}.
 Both args are numbers.  */)
 {
 #define FUNC_NAME s_gl_set_attribute
-  ASSERT_EXACT (attribute, 1);
-  ASSERT_EXACT (value, 2);
+  ASSERT_INTEGER (attribute, 1);
+  ASSERT_INTEGER (value, 2);
 
   SDL_GL_SetAttribute ((SDL_GLattr) C_LONG (attribute),
                        (int) C_LONG (value));

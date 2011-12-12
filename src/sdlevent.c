@@ -320,7 +320,7 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
       UNBOUND_MEANS_FALSE (sym);
       if (NOT_FALSEP (sym))
         {
-          ASSERT_EXACT (sym, 1);
+          ASSERT_INTEGER (sym, 1);
           /* keysym->sym = (SDLKey) C_LONG (sym); */
           keysym->sym = (SDLKey) GSDL_ENUM2LONG (sym, event_keysym_enum, 1);
         }
@@ -328,7 +328,7 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
       /* Set the mod if given.  */
       if (BOUNDP (mod))
         {
-          ASSERT_EXACT (mod, 2);
+          ASSERT_INTEGER (mod, 2);
           keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, 2);
         }
     }
@@ -520,7 +520,7 @@ matching events instead of a count, removing them from the queue.
   Uint32 cmask;
   SCM ls = SCM_BOOL_F;
 
-  ASSERT_EXACT (numevents, 2);
+  ASSERT_INTEGER (numevents, 2);
 
   cnumevents = C_LONG (numevents);
   caction = GSDL_ENUM2LONG (action, event_action_enum, 3);
@@ -800,8 +800,8 @@ Return @code{#t} on success.  */)
 #define FUNC_NAME s_enable_key_repeat
   int cinterval, cdelay;
 
-  ASSERT_EXACT (delay, 1);
-  ASSERT_EXACT (interval, 2);
+  ASSERT_INTEGER (delay, 1);
+  ASSERT_INTEGER (interval, 2);
 
   cdelay    = C_LONG (delay);
   cinterval = C_LONG (interval);
@@ -851,7 +851,7 @@ a list of symbols.  This does not change the keyboard state,
 only the key modifier flags.  */)
 {
 #define FUNC_NAME s_set_mod_state
-  ASSERT_EXACT (modstate, 1);
+  ASSERT_INTEGER (modstate, 1);
   SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, 1));
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
@@ -903,7 +903,7 @@ combined with @code{logior}, to form @var{mask}.  For example,
 a value of 5 specifies both left and right buttons.  */)
 {
 #define FUNC_NAME s_button_p
-  ASSERT_EXACT (mask, 1);
+  ASSERT_INTEGER (mask, 1);
   RETURN_BOOL
     (SDL_BUTTON (C_LONG (mask)));
 #undef FUNC_NAME

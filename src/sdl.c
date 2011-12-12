@@ -152,7 +152,7 @@ PRIMPROC
 Wait @var{ms} milliseconds.  */)
 {
 #define FUNC_NAME s_delay
-  ASSERT_EXACT (ms, 1);
+  ASSERT_INTEGER (ms, 1);
   SDL_Delay (C_ULONG (ms));
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME

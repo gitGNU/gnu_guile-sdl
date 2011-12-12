@@ -62,9 +62,9 @@ On @var{surface}, draw a point at location
 {
 #define FUNC_NAME s_draw_point
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x, 2);
-  ASSERT_EXACT (y, 3);
-  ASSERT_EXACT (color, 4);
+  ASSERT_INTEGER (x, 2);
+  ASSERT_INTEGER (y, 3);
+  ASSERT_INTEGER (color, 4);
 
   RETURN_INT
     (pixelColor (UNPACK_SURFACE (surface),
@@ -83,10 +83,10 @@ with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_hline
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x1, 2);
-  ASSERT_EXACT (x2, 3);
-  ASSERT_EXACT (y, 4);
-  ASSERT_EXACT (color, 5);
+  ASSERT_INTEGER (x1, 2);
+  ASSERT_INTEGER (x2, 3);
+  ASSERT_INTEGER (y, 4);
+  ASSERT_INTEGER (color, 5);
 
   RETURN_INT
     (hlineColor (UNPACK_SURFACE (surface), C_LONG (x1), C_LONG (x2),
@@ -105,10 +105,10 @@ with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_vline
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x, 2);
-  ASSERT_EXACT (y1, 3);
-  ASSERT_EXACT (y2, 4);
-  ASSERT_EXACT (color, 5);
+  ASSERT_INTEGER (x, 2);
+  ASSERT_INTEGER (y1, 3);
+  ASSERT_INTEGER (y2, 4);
+  ASSERT_INTEGER (color, 5);
 
   RETURN_INT
     (vlineColor (UNPACK_SURFACE (surface), C_LONG (x),
@@ -129,11 +129,11 @@ Optional arg @var{fill} means to fill the rectangle as well.  */)
 {
 #define FUNC_NAME s_draw_rectangle
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x1, 2);
-  ASSERT_EXACT (y1, 3);
-  ASSERT_EXACT (x2, 4);
-  ASSERT_EXACT (y2, 5);
-  ASSERT_EXACT (color, 6);
+  ASSERT_INTEGER (x1, 2);
+  ASSERT_INTEGER (y1, 3);
+  ASSERT_INTEGER (x2, 4);
+  ASSERT_INTEGER (y2, 5);
+  ASSERT_INTEGER (color, 6);
   UNBOUND_MEANS_FALSE (fill);
 
   RETURN_INT
@@ -159,12 +159,12 @@ Optional arg @var{fill} means to fill the rectangle as well.  */)
 {
 #define FUNC_NAME s_draw_rounded_rectangle
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x1, 2);
-  ASSERT_EXACT (y1, 3);
-  ASSERT_EXACT (x2, 4);
-  ASSERT_EXACT (y2, 5);
-  ASSERT_EXACT (rad, 6);
-  ASSERT_EXACT (color, 7);
+  ASSERT_INTEGER (x1, 2);
+  ASSERT_INTEGER (y1, 3);
+  ASSERT_INTEGER (x2, 4);
+  ASSERT_INTEGER (y2, 5);
+  ASSERT_INTEGER (rad, 6);
+  ASSERT_INTEGER (color, 7);
   UNBOUND_MEANS_FALSE (fill);
 
   RETURN_INT
@@ -190,11 +190,11 @@ with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_line
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x1, 2);
-  ASSERT_EXACT (y1, 3);
-  ASSERT_EXACT (x2, 4);
-  ASSERT_EXACT (y2, 5);
-  ASSERT_EXACT (color, 6);
+  ASSERT_INTEGER (x1, 2);
+  ASSERT_INTEGER (y1, 3);
+  ASSERT_INTEGER (x2, 4);
+  ASSERT_INTEGER (y2, 5);
+  ASSERT_INTEGER (color, 6);
 
   RETURN_INT
     (lineColor (UNPACK_SURFACE (surface),
@@ -216,11 +216,11 @@ with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_line
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x1, 2);
-  ASSERT_EXACT (y1, 3);
-  ASSERT_EXACT (x2, 4);
-  ASSERT_EXACT (y2, 5);
-  ASSERT_EXACT (color, 6);
+  ASSERT_INTEGER (x1, 2);
+  ASSERT_INTEGER (y1, 3);
+  ASSERT_INTEGER (x2, 4);
+  ASSERT_INTEGER (y2, 5);
+  ASSERT_INTEGER (color, 6);
 
   RETURN_INT
     (aalineColor (UNPACK_SURFACE (surface),
@@ -242,12 +242,12 @@ with thickness @var{width} in color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_thick_line
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x1, 2);
-  ASSERT_EXACT (y1, 3);
-  ASSERT_EXACT (x2, 4);
-  ASSERT_EXACT (y2, 5);
-  ASSERT_EXACT (width, 6);
-  ASSERT_EXACT (color, 7);
+  ASSERT_INTEGER (x1, 2);
+  ASSERT_INTEGER (y1, 3);
+  ASSERT_INTEGER (x2, 4);
+  ASSERT_INTEGER (y2, 5);
+  ASSERT_INTEGER (width, 6);
+  ASSERT_INTEGER (color, 7);
 
   RETURN_INT
     (thickLineColor (UNPACK_SURFACE (surface),
@@ -269,10 +269,10 @@ Optional arg @var{fill} means to fill the circle as well.  */)
 {
 #define FUNC_NAME s_draw_circle
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x, 2);
-  ASSERT_EXACT (y, 3);
-  ASSERT_EXACT (r, 4);
-  ASSERT_EXACT (color, 5);
+  ASSERT_INTEGER (x, 2);
+  ASSERT_INTEGER (y, 3);
+  ASSERT_INTEGER (r, 4);
+  ASSERT_INTEGER (color, 5);
   UNBOUND_MEANS_FALSE (fill);
 
   RETURN_INT
@@ -299,12 +299,12 @@ arguments are internally reversed).  */)
 {
 #define FUNC_NAME s_draw_arc
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x, 2);
-  ASSERT_EXACT (y, 3);
-  ASSERT_EXACT (r, 4);
-  ASSERT_EXACT (start, 5);
-  ASSERT_EXACT (end, 6);
-  ASSERT_EXACT (color, 7);
+  ASSERT_INTEGER (x, 2);
+  ASSERT_INTEGER (y, 3);
+  ASSERT_INTEGER (r, 4);
+  ASSERT_INTEGER (start, 5);
+  ASSERT_INTEGER (end, 6);
+  ASSERT_INTEGER (color, 7);
 
   RETURN_INT
     (arcColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
@@ -322,10 +322,10 @@ On @var{surface}, draw an anti-aliased circle with center
 {
 #define FUNC_NAME s_draw_aa_circle
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x, 2);
-  ASSERT_EXACT (y, 3);
-  ASSERT_EXACT (r, 4);
-  ASSERT_EXACT (color, 5);
+  ASSERT_INTEGER (x, 2);
+  ASSERT_INTEGER (y, 3);
+  ASSERT_INTEGER (r, 4);
+  ASSERT_INTEGER (color, 5);
 
   RETURN_INT
     (aacircleColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
@@ -345,11 +345,11 @@ Optional arg @var{fill} means to fill the ellipse as well.  */)
 {
 #define FUNC_NAME s_draw_ellipse
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x, 2);
-  ASSERT_EXACT (y, 3);
-  ASSERT_EXACT (rx, 4);
-  ASSERT_EXACT (ry, 5);
-  ASSERT_EXACT (color, 6);
+  ASSERT_INTEGER (x, 2);
+  ASSERT_INTEGER (y, 3);
+  ASSERT_INTEGER (rx, 4);
+  ASSERT_INTEGER (ry, 5);
+  ASSERT_INTEGER (color, 6);
   UNBOUND_MEANS_FALSE (fill);
 
   RETURN_INT
@@ -371,11 +371,11 @@ color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_ellipse
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x, 2);
-  ASSERT_EXACT (y, 3);
-  ASSERT_EXACT (rx, 4);
-  ASSERT_EXACT (ry, 5);
-  ASSERT_EXACT (color, 6);
+  ASSERT_INTEGER (x, 2);
+  ASSERT_INTEGER (y, 3);
+  ASSERT_INTEGER (rx, 4);
+  ASSERT_INTEGER (ry, 5);
+  ASSERT_INTEGER (color, 6);
 
   RETURN_INT
     (aaellipseColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
@@ -396,12 +396,12 @@ Optional arg @var{fill} means to fill the slice as well.  */)
 {
 #define FUNC_NAME s_draw_pie_slice
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x, 2);
-  ASSERT_EXACT (y, 3);
-  ASSERT_EXACT (rad, 4);
-  ASSERT_EXACT (start, 5);
-  ASSERT_EXACT (end, 6);
-  ASSERT_EXACT (color, 7);
+  ASSERT_INTEGER (x, 2);
+  ASSERT_INTEGER (y, 3);
+  ASSERT_INTEGER (rad, 4);
+  ASSERT_INTEGER (start, 5);
+  ASSERT_INTEGER (end, 6);
+  ASSERT_INTEGER (color, 7);
 
   UNBOUND_MEANS_FALSE (fill);
 
@@ -427,13 +427,13 @@ fill the triangle as well.  */)
 {
 #define FUNC_NAME s_draw_trigon
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x1, 2);
-  ASSERT_EXACT (y1, 3);
-  ASSERT_EXACT (x2, 4);
-  ASSERT_EXACT (y2, 5);
-  ASSERT_EXACT (x3, 6);
-  ASSERT_EXACT (y3, 7);
-  ASSERT_EXACT (color, 8);
+  ASSERT_INTEGER (x1, 2);
+  ASSERT_INTEGER (y1, 3);
+  ASSERT_INTEGER (x2, 4);
+  ASSERT_INTEGER (y2, 5);
+  ASSERT_INTEGER (x3, 6);
+  ASSERT_INTEGER (y3, 7);
+  ASSERT_INTEGER (color, 8);
 
   UNBOUND_MEANS_FALSE (fill);
 
@@ -460,13 +460,13 @@ with color @var{color}.  */)
 {
 #define FUNC_NAME s_draw_aa_trigon
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x1, 2);
-  ASSERT_EXACT (y1, 3);
-  ASSERT_EXACT (x2, 4);
-  ASSERT_EXACT (y2, 5);
-  ASSERT_EXACT (x3, 6);
-  ASSERT_EXACT (y3, 7);
-  ASSERT_EXACT (color, 8);
+  ASSERT_INTEGER (x1, 2);
+  ASSERT_INTEGER (y1, 3);
+  ASSERT_INTEGER (x2, 4);
+  ASSERT_INTEGER (y2, 5);
+  ASSERT_INTEGER (x3, 6);
+  ASSERT_INTEGER (y3, 7);
+  ASSERT_INTEGER (color, 8);
 
   RETURN_INT
     (aatrigonColor (UNPACK_SURFACE (surface),
@@ -494,7 +494,7 @@ arg @var{fill} means to fill the polygon as well.  */)
   ASSERT_SURFACE (surface, 1);
   ASSERT_UVEC_S16 (vx, 2);
   ASSERT_UVEC_S16 (vy, 3);
-  ASSERT_EXACT (color, 4);
+  ASSERT_INTEGER (color, 4);
   UNBOUND_MEANS_FALSE (fill);
 
   HOWDY2 (vx, vy);
@@ -524,7 +524,7 @@ are specified by corresponding pairs from the s16 uniform vectors
   ASSERT_SURFACE (surface, 1);
   ASSERT_UVEC_S16 (vx, 2);
   ASSERT_UVEC_S16 (vy, 3);
-  ASSERT_EXACT (color, 4);
+  ASSERT_INTEGER (color, 4);
 
   HOWDY2 (vx, vy);
   rv = aapolygonColor (UNPACK_SURFACE (surface),
@@ -553,8 +553,8 @@ offset @var{tdx}, @var{tdy}.  */)
   ASSERT_UVEC_S16 (vx, 2);
   ASSERT_UVEC_S16 (vy, 3);
   ASSERT_SURFACE (texture, 4);
-  ASSERT_EXACT (tdx, 5);
-  ASSERT_EXACT (tdy, 6);
+  ASSERT_INTEGER (tdx, 5);
+  ASSERT_INTEGER (tdy, 6);
 
   HOWDY2 (vx, vy);
   rv = texturedPolygon (UNPACK_SURFACE (surface),
@@ -582,8 +582,8 @@ specified by corresponding pairs from the s16 uniform vectors
   ASSERT_SURFACE (surface, 1);
   ASSERT_UVEC_S16 (vx, 2);
   ASSERT_UVEC_S16 (vy, 3);
-  ASSERT_EXACT (s, 4);
-  ASSERT_EXACT (color, 5);
+  ASSERT_INTEGER (s, 4);
+  ASSERT_INTEGER (color, 5);
 
   HOWDY2 (vx, vy);
   rv = bezierColor (UNPACK_SURFACE (surface),
@@ -604,10 +604,10 @@ draw char @var{c} with @var{color} (a number).  */)
 {
 #define FUNC_NAME s_draw_character
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x, 2);
-  ASSERT_EXACT (y, 3);
+  ASSERT_INTEGER (x, 2);
+  ASSERT_INTEGER (y, 3);
   ASSERT_CHAR (c, 4);
-  ASSERT_EXACT (color, 5);
+  ASSERT_INTEGER (color, 5);
 
   RETURN_INT
     (characterColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
@@ -628,10 +628,10 @@ draw string @var{text} with @var{color} (a number).  */)
   int rv;
 
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (x, 2);
-  ASSERT_EXACT (y, 3);
+  ASSERT_INTEGER (x, 2);
+  ASSERT_INTEGER (y, 3);
   ASSERT_STRING (text, 4);
-  ASSERT_EXACT (color, 5);
+  ASSERT_INTEGER (color, 5);
 
   FINANGLE (text);
   rv = stringColor (UNPACK_SURFACE (surface), C_LONG (x), C_LONG (y),
@@ -824,7 +824,7 @@ box RGBA or Y information'' and is in 32-bit RGBA format.  */)
   ASSERT_SURFACE (surface, 1);
   csurface = UNPACK_SURFACE (surface);
 
-  ASSERT_EXACT (factorx, 2);
+  ASSERT_INTEGER (factorx, 2);
   cfactorx = C_ULONG (factorx);
 
   ASSERT_NUMBER (factory, 3);
@@ -893,7 +893,7 @@ initialize the object (default 30 if not specified).  */)
       SDL_initFramerate (m);
       if (NOT_FALSEP (n))
         {
-          ASSERT_EXACT (n, 1);
+          ASSERT_INTEGER (n, 1);
           SDL_setFramerate (m, C_INT (n));
         }
     }
@@ -912,7 +912,7 @@ frame rate of @var{n} Hz.  Return @code{#f} if not successful.  */)
 {
 #define FUNC_NAME s_fps_manager_set_x
   ASSERT_FPSMGR (mgr, 1);
-  ASSERT_EXACT (n, 2);
+  ASSERT_INTEGER (n, 2);
 
   RETURN_TRUE_IF_0
     (SDL_setFramerate (UNPACK_FPSMGR (mgr), C_INT (n)));
@@ -974,7 +974,7 @@ Otherwise, do nothing and return @code{#f}.  */)
 {
 #define FUNC_NAME s_set_pixel_alpha_x
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (alpha, 2);
+  ASSERT_INTEGER (alpha, 2);
 
   return (1 == SDL_gfxSetAlpha (UNPACK_SURFACE (surface),
                                 (Uint8) C_ULONG (alpha))

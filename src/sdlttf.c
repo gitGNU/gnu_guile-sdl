@@ -85,7 +85,7 @@ Return a handle.  */)
   TTF_Font *rv;
 
   ASSERT_STRING (file, 1);
-  ASSERT_EXACT (ptsize, 2);
+  ASSERT_INTEGER (ptsize, 2);
 
   FINANGLE (file);
   rv = TTF_OpenFont (RS (file), C_LONG (ptsize));

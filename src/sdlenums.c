@@ -117,7 +117,7 @@ enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
     }
   else
     {
-      ASSERT_EXACT (obj, pos);
+      ASSERT_INTEGER (obj, pos);
       result = C_LONG (obj);
     }
 
@@ -193,7 +193,7 @@ if it does not belong to @var{enumstash}.  */)
 {
 #define FUNC_NAME s_number_to_enum
   ASSERT_ENUM (enumstash, 1);
-  ASSERT_EXACT (number, 2);
+  ASSERT_INTEGER (number, 2);
   return lookup (number, UNPACK_ENUM (enumstash));
 #undef FUNC_NAME
 }
@@ -368,7 +368,7 @@ Use @var{stash} to convert @var{number} to a list of symbols.  */)
 {
 #define FUNC_NAME s_number_to_flags
   ASSERT_FLAGSTASH (stash, 1);
-  ASSERT_EXACT (number, 2);
+  ASSERT_INTEGER (number, 2);
 
   return ulong2flags (C_ULONG (number), stash);
 #undef FUNC_NAME

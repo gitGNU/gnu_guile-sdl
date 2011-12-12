@@ -70,10 +70,10 @@ and dimensions @var{width} by @var{height}.  */)
 #define FUNC_NAME s_make_rect
   SDL_Rect *rect;
 
-  ASSERT_EXACT (x, 1);
-  ASSERT_EXACT (y, 2);
-  ASSERT_EXACT (width, 3);
-  ASSERT_EXACT (height, 4);
+  ASSERT_INTEGER (x, 1);
+  ASSERT_INTEGER (y, 2);
+  ASSERT_INTEGER (width, 3);
+  ASSERT_INTEGER (height, 4);
 
   if ((rect = GCMALLOC_RECT ()))
     {

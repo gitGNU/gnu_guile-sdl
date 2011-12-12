@@ -82,8 +82,8 @@ are those for the current video surface.  */)
   const SDL_PixelFormat *fmt;
   const SDL_Surface *cur;
 
-  ASSERT_EXACT (width,  1);
-  ASSERT_EXACT (height, 2);
+  ASSERT_INTEGER (width,  1);
+  ASSERT_INTEGER (height, 2);
 
   cur = SDL_GetVideoSurface ();
   fmt = cur ? cur->format : SDL_GetVideoInfo ()->vfmt;
@@ -121,13 +121,13 @@ for SDL_CreateRGBSurface, are: @var{flags}
 #define FUNC_NAME s_create_rgb_surface
   Uint32 cflags;
 
-  ASSERT_EXACT (width,  2);
-  ASSERT_EXACT (height, 3);
-  ASSERT_EXACT (depth,  4);
-  ASSERT_EXACT (rmask,  5);
-  ASSERT_EXACT (gmask,  6);
-  ASSERT_EXACT (bmask,  7);
-  ASSERT_EXACT (amask,  8);
+  ASSERT_INTEGER (width,  2);
+  ASSERT_INTEGER (height, 3);
+  ASSERT_INTEGER (depth,  4);
+  ASSERT_INTEGER (rmask,  5);
+  ASSERT_INTEGER (gmask,  6);
+  ASSERT_INTEGER (bmask,  7);
+  ASSERT_INTEGER (amask,  8);
 
   cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 1);
 
@@ -317,7 +317,7 @@ Set @var{surface} color key as specified by @var{flag}
   Uint32 cflag;
 
   ASSERT_SURFACE (surface, 1);
-  ASSERT_EXACT (key, 3);
+  ASSERT_INTEGER (key, 3);
 
   cflag = GSDL_FLAGS2ULONG (flag, btw->video_flags, 2);
 
@@ -352,7 +352,7 @@ If @var{flag} is @code{#f}, ignore @var{alpha} completely.  */)
   if (UNBOUNDP (alpha))
     alpha = SCM_INUM0;
   else
-    ASSERT_EXACT (alpha, 3);
+    ASSERT_INTEGER (alpha, 3);
 
   cflag = (EXACTLY_FALSEP (flag)
            ? 0

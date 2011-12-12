@@ -94,7 +94,7 @@ Optional arg @var{drive} is a number specifying which drive.  */)
 
   if (BOUNDP (drive))
     {
-      ASSERT_EXACT (drive, 1);
+      ASSERT_INTEGER (drive, 1);
       cdrive = C_INT (drive);
     }
 
@@ -117,7 +117,7 @@ Optional arg @var{drive} is a number specifying which drive.  */)
 
   if (BOUNDP (drive))
     {
-      ASSERT_EXACT (drive, 1);
+      ASSERT_INTEGER (drive, 1);
       cdrive = C_INT (drive);
     }
 
@@ -255,7 +255,7 @@ as an alist or @code{#f} if there were problems.  */)
 
   if (BOUNDP (n))
     {
-      ASSERT_EXACT (n, 2);
+      ASSERT_INTEGER (n, 2);
       cn = C_ULONG (n);
     }
 
@@ -299,28 +299,28 @@ Return @code{#t} if successful.  */)
   UNBOUND_MEANS_FALSE (start_track);
   if (NOT_FALSEP (start_track))
     {
-      ASSERT_EXACT (start_track, 2);
+      ASSERT_INTEGER (start_track, 2);
       cstart_track = C_ULONG (start_track);
     }
 
   UNBOUND_MEANS_FALSE (start_frame);
   if (NOT_FALSEP (start_frame))
     {
-      ASSERT_EXACT (start_frame, 3);
+      ASSERT_INTEGER (start_frame, 3);
       cstart_frame = C_ULONG (start_frame);
     }
 
   UNBOUND_MEANS_FALSE (n_tracks);
   if (NOT_FALSEP (n_tracks))
     {
-      ASSERT_EXACT (n_tracks, 4);
+      ASSERT_INTEGER (n_tracks, 4);
       cn_tracks = C_ULONG (n_tracks);;
     }
 
   UNBOUND_MEANS_FALSE (n_frames);
   if (NOT_FALSEP (n_frames))
     {
-      ASSERT_EXACT (n_frames, 5);
+      ASSERT_INTEGER (n_frames, 5);
       cn_frames = C_ULONG (n_frames);
     }
   else
@@ -353,8 +353,8 @@ Play CD in drive @var{cdrom} from @var{start} frame for
   int ret = -1;
 
   ASSERT_CDROM (cdrom, 1);
-  ASSERT_EXACT (start, 2);
-  ASSERT_EXACT (length, 3);
+  ASSERT_INTEGER (start, 2);
+  ASSERT_INTEGER (length, 3);
 
   cd = UNPACK_CDROM (cdrom);
 
@@ -488,20 +488,20 @@ Return frames (an integer) computed fr
   int frames;
   int cm, cs = 0, cf = 0;
 
-  ASSERT_EXACT (m, 1);
+  ASSERT_INTEGER (m, 1);
   cm = C_ULONG (m);
 
   UNBOUND_MEANS_FALSE (s);
   if (NOT_FALSEP (s))
     {
-      ASSERT_EXACT (s, 2);
+      ASSERT_INTEGER (s, 2);
       cs = C_ULONG (s);
     }
 
   UNBOUND_MEANS_FALSE (f);
   if (NOT_FALSEP (f))
     {
-      ASSERT_EXACT (f, 3);
+      ASSERT_INTEGER (f, 3);
       cf = C_ULONG (f);
     }
 
@@ -525,7 +525,7 @@ converting @var{frames} (a number).  */)
 #define FUNC_NAME s_cd_frames_to_msf
   int cframes, m, s, f;
 
-  ASSERT_EXACT (frames, 1);
+  ASSERT_INTEGER (frames, 1);
   cframes = C_ULONG (frames);
 
   FRAMES_TO_MSF (cframes, &m , &s, &f);
