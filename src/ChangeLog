@@ -1,3 +1,12 @@
+2011-12-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Add abstractions: {IF_BOUND_}ASSERT_DOUBLE_COPY
+
+	* sdlgfx.c (ASSERT_DOUBLE_COPY): New macro.
+	(IF_BOUND_ASSERT_DOUBLE_COPY): Likewise.
+	(roto_zoom_surface, roto_zoom_surface_xy)
+	(zoom_surface): Use them.
+
 2011-12-12  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[int] Add abstractions: ASSERT_{INTEGER,INT,LONG,ULONG}_COPY

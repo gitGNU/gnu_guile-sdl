@@ -46,6 +46,18 @@ DEFINE_STRUCT_AND_COPY_FUNC (s16, Sint16)
 #define LATER2(one,two)  LATER (one); LATER (two)
 
 
+#define ASSERT_DOUBLE_COPY(name,pos)  do        \
+    {                                           \
+      ASSERT_NUMBER (name, pos);                \
+      c ## name = C_DOUBLE (name);              \
+    }                                           \
+  while (0)
+
+#define IF_BOUND_ASSERT_DOUBLE_COPY(name,pos)   \
+  if (BOUNDP (name) && NOT_FALSEP (name))       \
+    ASSERT_DOUBLE_COPY (name, pos);
+
+
 /*
  * gfxPrimitives
  */
@@ -698,16 +710,8 @@ fourth arg @var{smooth} turns on anti-aliasing.  */)
   ASSERT_SURFACE (surface, 1);
   csurface = UNPACK_SURFACE (surface);
 
-  ASSERT_NUMBER (angle, 2);
-  cangle = C_DOUBLE (angle);
-
-  UNBOUND_MEANS_FALSE (zoom);
-  if (NOT_FALSEP (zoom))
-    {
-      ASSERT_NUMBER (zoom, 3);
-      czoom = C_DOUBLE (zoom);
-    }
-
+  ASSERT_DOUBLE_COPY (angle, 2);
+  IF_BOUND_ASSERT_DOUBLE_COPY (zoom, 3);
   UNBOUND_MEANS_FALSE (smooth);
 
   new_surface = rotozoomSurface (csurface, cangle, czoom, NOT_FALSEP (smooth));
@@ -737,22 +741,9 @@ turns on anti-aliasing.  */)
   ASSERT_SURFACE (surface, 1);
   csurface = UNPACK_SURFACE (surface);
 
-  ASSERT_NUMBER (angle, 2);
-  cangle = C_DOUBLE (angle);
-
-  UNBOUND_MEANS_FALSE (zoomx);
-  if (NOT_FALSEP (zoomx))
-    {
-      ASSERT_NUMBER (zoomx, 3);
-      czoomx = C_DOUBLE (zoomx);
-    }
-  UNBOUND_MEANS_FALSE (zoomy);
-  if (NOT_FALSEP (zoomy))
-    {
-      ASSERT_NUMBER (zoomy, 3);
-      czoomy = C_DOUBLE (zoomy);
-    }
-
+  ASSERT_DOUBLE_COPY (angle, 2);
+  IF_BOUND_ASSERT_DOUBLE_COPY (zoomx, 3);
+  IF_BOUND_ASSERT_DOUBLE_COPY (zoomy, 4);
   UNBOUND_MEANS_FALSE (smooth);
 
   new_surface = rotozoomSurfaceXY (csurface, cangle, czoomx, czoomy,
@@ -782,18 +773,9 @@ Optional fourth arg @var{smooth} turns on anti-aliasing.  */)
   ASSERT_SURFACE (surface, 1);
   csurface = UNPACK_SURFACE (surface);
 
-  ASSERT_NUMBER (zoomx, 2);
-  czoomx = C_DOUBLE (zoomx);
-
-  UNBOUND_MEANS_FALSE (zoomy);
-  if (NOT_FALSEP (zoomy))
-    {
-      ASSERT_NUMBER (zoomy, 3);
-      czoomy = C_DOUBLE (zoomy);
-    }
-  else
-    czoomy = czoomx;
-
+  ASSERT_DOUBLE_COPY (zoomx, 2);
+  czoomy = czoomx;
+  IF_BOUND_ASSERT_DOUBLE_COPY (zoomy, 3);
   UNBOUND_MEANS_FALSE (smooth);
 
   new_surface = zoomSurface (csurface, czoomx, czoomy, NOT_FALSEP (smooth));
