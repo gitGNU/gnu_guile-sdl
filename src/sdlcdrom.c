@@ -282,27 +282,16 @@ Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_play_tracks
   SDL_CD *cd;
-  int cstart_track = 0, cstart_frame = 0, cn_tracks = 1, cn_frames = 1;
+  int cstart_track = 0, cstart_frame = 0, cn_tracks = 1, cn_frames = -1;
   int ret = -1;
 
   ASSERT_CDROM (cdrom, 1);
 
-  UNBOUND_MEANS_FALSE (start_track);
-  if (NOT_FALSEP (start_track))
-    ASSERT_ULONG_COPY (start_track, 2);
-
-  UNBOUND_MEANS_FALSE (start_frame);
-  if (NOT_FALSEP (start_frame))
-    ASSERT_ULONG_COPY (start_frame, 3);
-
-  UNBOUND_MEANS_FALSE (n_tracks);
-  if (NOT_FALSEP (n_tracks))
-    ASSERT_ULONG_COPY (n_tracks, 4);
-
-  UNBOUND_MEANS_FALSE (n_frames);
-  if (NOT_FALSEP (n_frames))
-    ASSERT_ULONG_COPY (n_frames, 5);
-  else
+  IF_BOUND_ASSERT_ULONG_COPY (start_track, 2);
+  IF_BOUND_ASSERT_ULONG_COPY (start_frame, 3);
+  IF_BOUND_ASSERT_ULONG_COPY (n_tracks, 4);
+  IF_BOUND_ASSERT_ULONG_COPY (n_frames, 5);
+  if (0 > cn_frames)
     {
       cd = UNPACK_CDROM (cdrom);
       cn_frames = cd->track[cstart_track + cn_tracks - 1].length;
@@ -468,14 +457,8 @@ Return frames (an integer) computed fr
   int cm, cs = 0, cf = 0;
 
   ASSERT_ULONG_COPY (m, 1);
-
-  UNBOUND_MEANS_FALSE (s);
-  if (NOT_FALSEP (s))
-    ASSERT_ULONG_COPY (s, 2);
-
-  UNBOUND_MEANS_FALSE (f);
-  if (NOT_FALSEP (f))
-    ASSERT_ULONG_COPY (f, 3);
+  IF_BOUND_ASSERT_ULONG_COPY (s, 2);
+  IF_BOUND_ASSERT_ULONG_COPY (f, 3);
 
   frames = MSF_TO_FRAMES (cm, cs, cf);
   RETURN_INT (frames);

@@ -83,19 +83,12 @@ those aspects of the device.  Return @code{#t} if successful.  */)
   int cchannels = 2;
   int cchunksize = 1024;
 
-  UNBOUND_MEANS_FALSE (freq);
-  if (NOT_FALSEP (freq))
-    ASSERT_LONG_COPY (freq, 1);
-
-  UNBOUND_MEANS_FALSE (format);
-  if (NOT_FALSEP (format))
-    ASSERT_LONG_COPY (format, 2);
+  IF_BOUND_ASSERT_LONG_COPY (freq, 1);
+  IF_BOUND_ASSERT_LONG_COPY (format, 2);
 
   cchannels -= UNBOUNDP (stereo) ? 0 : EXACTLY_FALSEP (stereo);
 
-  UNBOUND_MEANS_FALSE (chunksize);
-  if (NOT_FALSEP (chunksize))
-    ASSERT_LONG_COPY (chunksize, 4);
+  IF_BOUND_ASSERT_LONG_COPY (chunksize, 4);
 
   /* Open the audio device.  */
   RETURN_TRUE_IF_0
@@ -353,17 +346,9 @@ the sound.  */)
   ASSERT_AUDIO (chunk, 1);
   cchunk = UNPACK_AUDIO (chunk);
 
-  UNBOUND_MEANS_FALSE (channel);
-  if (NOT_FALSEP (channel))
-    ASSERT_LONG_COPY (channel, 2);
-
-  UNBOUND_MEANS_FALSE (loops);
-  if (NOT_FALSEP (loops))
-    ASSERT_LONG_COPY (loops, 3);
-
-  UNBOUND_MEANS_FALSE (ticks);
-  if (NOT_FALSEP (ticks))
-    ASSERT_LONG_COPY (ticks, 4);
+  IF_BOUND_ASSERT_LONG_COPY (channel, 2);
+  IF_BOUND_ASSERT_LONG_COPY (loops, 3);
+  IF_BOUND_ASSERT_LONG_COPY (ticks, 4);
 
   if (UNBOUNDP (fade))
     /* No fade, normal Mix_PlayChannelTimed.  */
@@ -396,9 +381,7 @@ are as in @code{play-channel}.  */)
   ASSERT_MUSIC (music, 1);
   cmusic = UNPACK_MUSIC (music);
 
-  UNBOUND_MEANS_FALSE (loops);
-  if (NOT_FALSEP (loops))
-    ASSERT_LONG_COPY (loops, 2);
+  IF_BOUND_ASSERT_LONG_COPY (loops, 2);
 
   if (UNBOUNDP (fade))
     /* No fade, normal Mix_PlayMusic.  */
@@ -437,9 +420,7 @@ is unspecified or is -1, just return the current volume.  */)
   int cvolume = -1;
   long rv;
 
-  UNBOUND_MEANS_FALSE (volume);
-  if (NOT_FALSEP (volume))
-    ASSERT_LONG_COPY (volume, 1);
+  IF_BOUND_ASSERT_LONG_COPY (volume, 1);
 
   if (UNBOUNDP (which))
     /* No chunk or channel, call Mix_Volume on default channel.  */
@@ -538,12 +519,8 @@ delay to that many milliseconds, rather than turning it off.  */)
   int cchannel = -1;
   int cticks = -1;
 
-  UNBOUND_MEANS_FALSE (channel);
-  if (NOT_FALSEP (channel))
-    ASSERT_LONG_COPY (channel, 1);
-
-  if (BOUNDP (ticks))
-    ASSERT_LONG_COPY (ticks, 2);
+  IF_BOUND_ASSERT_LONG_COPY (channel, 1);
+  IF_BOUND_ASSERT_LONG_COPY (ticks, 2);
 
   RETURN_INT (Mix_ExpireChannel (cchannel, cticks));
 #undef FUNC_NAME
@@ -563,12 +540,8 @@ milliseconds the fading will take (default 0).  */)
   int cwhich = -1;
   int cms = 0;
 
-  UNBOUND_MEANS_FALSE (which);
-  if (NOT_FALSEP (which))
-    ASSERT_LONG_COPY (which, 1);
-
-  if (BOUNDP (ms))
-    ASSERT_LONG_COPY (ms, 2);
+  IF_BOUND_ASSERT_LONG_COPY (which, 1);
+  IF_BOUND_ASSERT_LONG_COPY (ms, 2);
 
   RETURN_INT (Mix_FadeOutChannel (cwhich, cms));
 #undef FUNC_NAME
@@ -588,12 +561,8 @@ milliseconds the fading will take (default 0).  */)
   int ctag = -1;
   int cms = 0;
 
-  UNBOUND_MEANS_FALSE (tag);
-  if (NOT_FALSEP (tag))
-    ASSERT_LONG_COPY (tag, 1);
-
-  if (BOUNDP (ms))
-    ASSERT_LONG_COPY (ms, 2);
+  IF_BOUND_ASSERT_LONG_COPY (tag, 1);
+  IF_BOUND_ASSERT_LONG_COPY (ms, 2);
 
   RETURN_INT (Mix_FadeOutGroup (ctag, cms));
 #undef FUNC_NAME

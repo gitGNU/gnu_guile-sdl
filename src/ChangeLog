@@ -1,5 +1,14 @@
 2011-12-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[int] Add abstractions: IF_BOUND_ASSERT_{INTEGER,LONG,ULONG}_COPY
+
+	* guile-sdl.h (IF_BOUND_ASSERT_INTEGER_COPY)
+	(IF_BOUND_ASSERT_LONG_COPY, IF_BOUND_ASSERT_ULONG_COPY): New macros.
+	* sdlcdrom.c: Use new macros throughout.
+	* sdlmixer.c: Likewise.
+
+2011-12-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Add abstractions: {IF_BOUND_}ASSERT_DOUBLE_COPY
 
 	* sdlgfx.c (ASSERT_DOUBLE_COPY): New macro.

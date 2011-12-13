@@ -343,6 +343,16 @@ void scm_init_ ## frag ## _module (void) { func (); }
 
 #define UNBOUND_MEANS_FALSE(x)  if (UNBOUNDP (x)) SET_FALSE (x)
 
+#define IF_BOUND_ASSERT_INTEGER_COPY(name,pos,change)   \
+  if (BOUNDP (name) && NOT_FALSEP (name))               \
+    ASSERT_INTEGER_COPY (name, pos, change)
+
+#define IF_BOUND_ASSERT_LONG_COPY(name,pos) \
+  IF_BOUND_ASSERT_INTEGER_COPY (name, pos, LONG)
+
+#define IF_BOUND_ASSERT_ULONG_COPY(name,pos) \
+  IF_BOUND_ASSERT_INTEGER_COPY (name, pos, ULONG)
+
 /* Enums and flagstashes.  */
 
 typedef union {
