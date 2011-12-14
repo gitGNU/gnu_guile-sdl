@@ -1198,7 +1198,7 @@ an integer @var{mode} will result in a wrong-type-arg error.  */)
   if (UNBOUNDP (mode))
     mode = SYM (query);
 
-  if (NOT_FALSEP (scm_exact_p (mode)))
+  if (INTEGERP (mode))
     switch (C_LONG (mode))
       {
       case -1: mode = SYM (query); break;
