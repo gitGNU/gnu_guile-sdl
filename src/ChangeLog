@@ -1,5 +1,12 @@
 2011-12-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[doc] Mention planned retirment of integer ‘mode’ to ‘grab-input’.
+
+	* sdlvideo.c (wm_grab_input): Don't tie retirement to Guile-SDL
+	version number; instead, state the date 2012-05-31 explicitly.
+
+2011-12-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[int] Use ‘INTEGERP’ more.
 
 	* sdlvideo.c (wm_grab_input): Use ‘INTEGERP’.

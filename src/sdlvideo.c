@@ -1191,8 +1191,9 @@ of grab, one of @code{query} (the default),
 @code{off} or @code{on}.
 
 Compatibility Note: Presently, @var{mode} can also be an
-integer, one of -1, 0 or 1.  Starting with Guile-SDL 0.5.0
-an integer @var{mode} will result in a wrong-type-arg error.  */)
+integer, one of -1, 0 or 1.  This support@strong{will be removed}
+after 2012-05-31, such that specifying an integer @var{mode} will
+result in a @code{wrong-type-arg} error.  */)
 {
 #define FUNC_NAME s_wm_grab_input
   if (UNBOUNDP (mode))
