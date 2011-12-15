@@ -1,8 +1,280 @@
 Guile-SDL NEWS
-
 See the end for copying conditions.
 
-Please send Guile-SDL bug reports to <ttn@gnuvola.org>.
+
+- 0.4.0 | 2011-12-15
+
+  - improved portability
+
+	Guile-SDL is now also tested with Guile-1.8.7 on a 64-bit host.
+	It should build and run without any deprecation warnings; if use
+	under ‘GUILE_WARN_DEPRECATED=detailed’ reveals something, please
+	report that as a bug.
+
+	Notably, for Guile versions that do not support "direct shared-
+	object loading" (i.e., Guile 1.8+), configuration arranges for a
+	module's sofile to be installed in $(libdir)/guile-sdl -- aka
+	$(pkglibdir) -- and its Scheme wrapper (that dynamically loads
+	the sofile and handles ‘define-module’ duties) to be installed in
+	the "normal" site directory.
+
+	See new file HACKING for details.
+
+  - validation
+
+    - use Free{SansBold,SerifBoldItalic}.ttf for testing
+
+	The testing (distributed but not installed) font files are now
+	FreeSansBold.ttf and FreeSerifBoldItalic.ttf (see AUTHORS).  The
+	file crystal.ttf is no longer included due to doubts about its
+	lineage and licensing.
+
+    - support for ‘VERBOSE=1’
+
+	By default, "make check" is relatively silent.  You can use
+	"make check VERBOSE=1" to see more information.
+
+    - support for ‘NOMMX=1’
+
+	You can disable MMX usage dynamically with "make check NOMMX=1".
+	This might be necessary if test/gfx.scm segfaults.  :-/
+
+    - infrastructure upgrade
+
+	Doing "make check" now prepares a "simulated installation"
+	(under test/.simu) for better approximation to a real-world,
+	post-install environment.  It is an approximation only because
+	documentation is not included.
+
+	Tests are now run by a driver program which DTRT, we hope.
+	Also, they have full access to Guile-BAUX modules.
+
+    - support for "make installcheck"
+
+	(You need to "make install" first!)  Since ‘installcheck’
+	piggybacks on ‘check’, it honors ‘INTERACTIVE=1’, etc.
+
+    - tests delay less
+
+	This makes running "make check" less weary for the impatient.
+
+    - tests explicitly ‘exit’
+
+	Moreover, the exit value is taken from the ‘(sdl sdl) quit’
+	return value.  This helps detect problems earlier.
+
+    - different ‘#:prefix’ for each module
+
+	Previously, some tests would use the same import-prefix for
+	different modules.  Now they are distinct, for clarity.
+
+    - cursor test ignores ‘INTERACTIVE=1’
+
+	There was really no good reason for it to honor ‘INTERACTIVE=1’
+	in the first place.
+
+    - better coverage, though still incomplete
+
+	The test suite now includes ‘t99-cov’, marked as ‘xfail’.
+	There are still 189 "slighted" procedures.
+
+  - planned retirement: integer arg for ‘grab-input’
+
+	Support for integer ‘mode’ to proc ‘(sdl sdl) grab-input’ WILL BE
+	REMOVED after 2012-05-31, such that an integer ‘mode’ will result
+	in a ‘wrong-type-arg’ error.
+
+	Migration is straightforward; use a symbol instead of an integer.
+	was: -1     now: query
+	      0          off
+	      1          on
+
+  - planned retirement: ordinary vector argument(s)
+
+	Some procedures now take uniform vector arguments (see below).
+	For backward compatability with Guile-SDL 0.3.10 and earlier,
+	you can also use an ordinary vector.  This is expensive and less
+	safe, however, so this support WILL BE REMOVED after 2012-12-31.
+
+	Luckily, migration is simple: Import module ‘(srfi srfi-4)’ and
+	replace ‘list->vector’ with ‘list->u16vector’, and so on.
+
+  - bugfixes
+
+	Backward-incompatible changes are marked with "[I]".
+
+    - distribute ‘SDL_gfx’ LICENSE
+
+	I.e., the GNU LGPL 2.1.
+
+    - no MMX support if not in "32-bit mode"
+
+	The MMX support (in SDL_gfx) was previously enabled for any
+	processor that reported support for it.  However, the code
+	itself makes use of instructions (e.g., PUSHA, POPA) that are
+	not available in 64-bit mode, so we now don't even bother
+	checking for MMX support for 64-bit processors.
+
+    - [I] flags are symbols
+
+	Previously the following procs returned a (possibly empty) list
+	of strings.  Now, they return a (possibly empty) list of symbols.
+
+	- (sdl sdl) flagstash-flags
+	- (sdl sdl) number->flags
+	- (sdl sdl) was-init
+	- (sdl sdl) get-mod-state
+	- (sdl sdl) event:key:keysym:mod
+	- (sdl ttf) font:style
+
+    - exact bitwise match required in ‘ulong2flags’
+
+	This func, a subroutine of the procs listed above in entry
+	"flags are symbols" (except for ‘flagstash-flags’), used to
+	include a flag in the returned list if any of its constituent
+	bits were set in the original number.  Now, it requires all set
+	bits to match as a condition for inclusion.
+
+    - correct proc name for wrong-type-arg error message
+
+	The following procs used to mis-identify themselves (as another)
+	in the ‘wrong-type-arg’ error message:
+
+	- (sdl mixer) paused?
+	- (sdl sdl) load-image
+	- (sdl sdl) set-gamma-ramp
+
+    - allocate enough memory for temp ‘SDL_Color’ array
+
+	Procs ‘set-colors!’ and ‘set-palette’ used to corrupt memory by
+	underallocating a temporary ‘SDL_Color’ array, then overfilling
+	it.  Now, they allocate the right amount.
+
+    - avoid ‘SDL_Surface’ double-free
+
+	Previously, both ‘get-video-surface’ and ‘set-video-mode’ would
+	return a smob whose free func would call ‘SDL_FreeSurface’ on
+	the unpacked ‘SDL_Surface’ object.  This is incorrect because
+	those objects are internal (and moreover currently in use),
+	rather than freshly constructed for hand-off to the user; the
+	smob free func should not call ‘SDL_FreeSurface’ on them.  That
+	is the job for the internal cleanup invoked by ‘(sdl sdl) quit’.
+
+	Now, the ‘SDL-Surface’ smob distinguishes between user and
+	internal, and its free func calls ‘SDL_FreeSurface’ only for
+	user objects.
+
+    - ‘(sdl sdl) get-caption’ handles ‘NULL’ title, icon
+
+	This used to segfault on ‘NULL’ title or icon.
+
+  - other changes
+
+	Backward-incompatible changes are marked with "[I]".  For procs
+	that now take uniform vectors, see also the "planned retirement"
+	NEWS entry above.
+
+    - [I] arg type-check tightened from ‘exact?’ to ‘integer?’
+
+	Procs that used to accept exact numbers now accept integers
+	only.  This basically means rational numbers are now invalid.
+	Observant tarball-perusers will note that the modules and tests
+	no longer use ‘quotient’.
+
+    - ‘(sdl gfx) imfi-mmx?’ now able to set MMX usage
+
+	This now takes an optional arg ‘setting’ for en-/dis-abling MMX
+	usage at runtime.
+
+    - embedded ‘SDL_gfx’ upgraded to 2.0.22
+
+	Unfortunately, some MMX-backed procs now routinely segfault.
+	(More unfortunately, the segfault has not been investigated, and
+	was in fact the motivation for extending ‘imfi-mmx?’, as a "make
+	check" workaround.  Masking bugs via feature creep: suboptimal.)
+
+    - new proc: ‘(sdl gfx) draw-rounded-rectangle’
+
+	This draws a rectangle with rounded corners of specified radius.
+
+    - new proc: ‘(sdl gfx) draw-thick-line’
+
+	This draws a line of specified thickness (in pixels).
+
+    - new proc: ‘(sdl gfx) font-rotation!’
+
+	This causes subsequent ‘draw-character’ and ‘draw-string’ calls
+	to render rotated images.  The symbolic specified rotation is
+	one of ‘none’, ‘clockwise’, ‘counter-clockwise’, ‘upside-down’.
+
+    - new enumstash: ‘(sdl gfx) font-rotations’
+
+	This is for ‘font-rotation!’ support.
+
+    - new proc: ‘(sdl misc-utils) exact-truncate’
+
+	This is nothing but ‘(inexact->exact (truncate n))’ plus
+	documentation, support and the special glow from association
+	with other Guile-SDL procs. :-D
+
+    - ‘#:prefix’ used for import renaming
+
+	All ‘#:renamer’ uses were coincident with ‘symbol-prefix-proc’,
+	so these have been replaced with ‘#:prefix’.  [Insert blurb
+	about ‘symbol-prefix-proc’ regret, here.]
+
+    - some ‘(sdl gfx)’ procs take s16 uniform vectors
+
+	Coordinate arguments for these procs can now be s16 uniform
+	vectors.  You can even mix normal w/ s16 (but that's crazy).
+	- draw-polygon
+	- draw-aa-polygon
+	- draw-textured-polygon
+	- draw-bezier
+
+    - ‘(sdl sdl) create-cursor’ takes u8 uniform vectors
+
+	The ‘data’ and ‘mask’ arguments can now be u8 uniform vectors.
+
+    - ‘(sdl sdl) set-gamma-ramp’ takes u16 uniform vectors
+
+	The red, green and blue table arguments can now be u16 uniform
+	vectors.
+
+    - [I] ‘(sdl sdl) get-gamma-ramp’ now returns list of uvec
+
+	Previously, this proc returned an alist.  Now, it returns a list
+	of three elements, each of which is a u16 uniform vector.
+
+    - [I] ‘(sdl sdl) show-cursor’ redesigned
+
+	The optional arg is no longer a "toggle enabler" (which didn't
+	seem to be implemented correctly, anyway) but instead a direct
+	"setting".  In other words:
+
+	was: show: (or  (show-cursor) (show-cursor #t)) ; buggy?
+	     hide: (and (show-cursor) (show-cursor #t)) ; buggy?
+	     flip: (show-cursor #t)                     ; buggy?
+
+	now: show: (show-cursor #t)
+	     hide: (show-cursor #f)
+	     flip: (show-cursor (not (show-cursor)))
+
+  - documentation improvements
+    - manual license now GNU FDL 1.3
+    - table of contents now after title page
+    - getter/setter procs documented
+    - SDL type no longer mentioned in access procs
+    - todo list dropped
+
+  - tools for bootstrap upgraded
+    - no longer need gperf(1) to bootstrap
+    - GNU Automake 1.11.1
+    - GNU Autoconf 2.68
+    - GNU Libtool 2.4.2
+    - GNU texinfo 4.13
+    - Guile-BAUX 20111207.1126.1d610b3
+    - snuggle.m4 serial 5
 
 
 - 0.3.10 | 2009-04-24
