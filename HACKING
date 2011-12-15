@@ -3,12 +3,13 @@ HACKING Guile-SDL                                               -*- org -*-
 This file is both a guide for newcomers and a todo list for oldstayers.
 It lives in the repo but is not included in the distribution.
 
-* 0.3.11
+* next
 *** DONE upgrade to SDL_gfx 2.0.22
 ***** DONE add [[file:src/SDL_gfx/SDL_gfxPrimitives.h::thickLineColor][thick lines]] from 2.0.22
 ***** DONE add [[file:src/SDL_gfx/SDL_gfxPrimitives.h::gfxPrimitivesSetFontRotation][font rotation]] from 2.0.21
 *** DONE remove ‘@node TODO’ from manual
 *** DONE transition from ttn-fu to Guile-BAUX + SNUGGLE
+*** DONE use unsigned long for colors
 
 * ongoing (some of which may go into the next release)
 *** use pre-installed SDL_gfx if sufficiently functional
@@ -21,35 +22,26 @@ It lives in the repo but is not included in the distribution.
 ******* smob safety
 ******* 0-means-success
 ******* consistency
-***** use unsigned long for colors
 *** /usr/include/SDL/*.h coverage
 ***** mixer
 ******* hooks
 ******* effects
 *** ? opengl
-*** threading system
-*** signals
 *** ? interop w/ other event loops (fastevents, etc)
-*** review/revise interfaces (WARNING: disruptive)
 *** error handling cleanup
 ***** document policy
 ***** cases: NULL, -1, etc
-*** handle pre-installed libSDL_gfx
-***** write configure check for it
-***** use it if it is featureful enough
 *** many small modules: (sdl modules cdrom)
-*** finalize interfaces
-*** executable modules: (sdl scripts FOO)
-*** third-party post-install extension framework
+*** ? third-party post-install extension framework
 *** performance tweaking
-*** user-alloc alternatives (less consing) for event procs
 *** ? gnulib
-*** switch to an automated wrapper generater
 
 * portability
   | guile version | bootstrap | build | run |
   |     1.4.1.118 | yes       | yes   | yes |
   |     1.4.1.119 | yes       | yes   | yes |
+  |     1.4.1.124 | yes       | yes   | yes |
+  |         1.8.7 | yes       | yes   | yes |
 
 * coding standards
 *** C code: indent -nut
