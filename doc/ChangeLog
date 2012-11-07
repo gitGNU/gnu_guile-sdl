@@ -1,3 +1,9 @@
+2012-11-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc] Explicitly declare UTF-8.
+
+	* guile-sdl.texi <header>: Add ‘@documentencoding UTF-8’.
+
 2011-12-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.4.0
