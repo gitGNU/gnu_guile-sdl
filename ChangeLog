@@ -1,3 +1,14 @@
+2012-11-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[boot] Use autoreconf; modernize configure.ac.
+
+	* autogen.sh: Don't run libtoolize, aclocal,
+	autoheader, autoconf, automake.  Instead, run autoreconf.
+	* configure.ac (AC_CONFIG_MACRO_DIR): New macro call.
+	(LT_PREREQ, LT_INIT): Likewise.
+	(AC_PROG_INSTALL, AC_PROG_LN_S, AC_PROG_MAKE_SET)
+	(AC_PROG_RANLIB, AC_DISABLE_STATIC, AC_PROG_LIBTOOL): Delete.
+
 2011-12-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.4.0

@@ -32,21 +32,9 @@ guile-baux-tool import \
     gbaux-do
 
 ######################################################################
-# Libtool setup.
-
-if [ x"$1" = x--libtoolize ] || [ ! -f ltmain.sh ] ; then
-    libtoolize --force --automake
-fi
-
-######################################################################
 # Invoke the auto* tools.
 
-loc="-I `guile-config info datadir`/aclocal"
-test "$loc" = "-I `aclocal --print-ac-dir`" && loc=
-aclocal $loc -I build-aux
-autoheader
-autoconf
-automake --add-missing
+autoreconf -B `guile-config info datadir`/aclocal -v -i -f
 
 ######################################################################
 # Done.

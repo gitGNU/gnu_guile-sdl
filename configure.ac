@@ -19,6 +19,7 @@ dnl Boston, MA  02110-1301  USA
 
 AC_INIT([guile-sdl],[0.4.0],[ttn@gnuvola.org])
 AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([build-aux])
 AC_CONFIG_HEADERS([src/config.h])
 AM_INIT_AUTOMAKE([1.11.1 gnu])
 AM_MAINTAINER_MODE
@@ -27,6 +28,9 @@ SNUGGLE_SET_SOFIXFLAGS
 
 ##----------------------------------------------------------------------------
 ##: compiler
+
+LT_PREREQ([2.4.2])
+LT_INIT([dlopen disable-static]) dnl module only
 
 AC_PROG_CC
 
@@ -102,16 +106,6 @@ fi
 dnl The asm in src/SDL_gfx/*.c uses ‘pusha’, which is not supported in
 dnl "64-bit mode".  We assume ‘4 == sizeof (long)’ means "32-bit mode".
 AS_IF([test 4 = $ac_cv_sizeof_long],[CHECK_MMX_USABILITY])
-
-##----------------------------------------------------------------------------
-##: misc
-
-AC_PROG_INSTALL
-AC_PROG_LN_S
-AC_PROG_MAKE_SET
-AC_PROG_RANLIB
-AC_DISABLE_STATIC	dnl module only
-AC_PROG_LIBTOOL
 
 ##----------------------------------------------------------------------------
 ##: write it out
