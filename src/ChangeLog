@@ -1,5 +1,12 @@
 2012-11-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Fix bug: Convert Scheme character to C correctly.
+
+	* sdlttf.c (ttf_glyph_metrics):
+	Use ‘C_CHAR’ to convert ‘ch’ from Scheme to C.
+
+2012-11-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[sdl] No longer accept integer arg for ‘grab-input’.
 
 	* sdlvideo.c (wm_grab_input): Drop support for integer ‘mode’.

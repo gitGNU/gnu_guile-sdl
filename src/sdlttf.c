@@ -214,7 +214,7 @@ Alist keys are: @code{minx}, @code{maxx}, @code{miny},
   ASSERT_TTFONT (font, 1);
   ASSERT_CHAR (ch, 2);
 
-  TTF_GlyphMetrics (UNPACK_TTFONT (font), C_ULONG (ch),
+  TTF_GlyphMetrics (UNPACK_TTFONT (font), C_CHAR (ch),
                     &minx, &maxx, &miny, &maxy, &advance);
 
   RETURN_LIST5 (CONS (SYM (minx), NUM_LONG (minx)),
