@@ -1188,28 +1188,13 @@ PRIMPROC
 Grab mouse and keyboard input.  Return new grab state.
 Optional arg @var{mode} (a symbol) specifies the kind
 of grab, one of @code{query} (the default),
-@code{off} or @code{on}.
-
-Compatibility Note: Presently, @var{mode} can also be an
-integer, one of -1, 0 or 1.  This support@strong{will be removed}
-after 2012-05-31, such that specifying an integer @var{mode} will
-result in a @code{wrong-type-arg} error.  */)
+@code{off} or @code{on}.  */)
 {
 #define FUNC_NAME s_wm_grab_input
   if (UNBOUNDP (mode))
     mode = SYM (query);
-
-  if (INTEGERP (mode))
-    switch (C_LONG (mode))
-      {
-      case -1: mode = SYM (query); break;
-      case  0: mode = SYM (off);   break;
-      case  1: mode = SYM (on);    break;
-      default:
-        SCM_MISC_ERROR ("bad mode: ~S", CONS (mode, SCM_EOL));
-      }
-
-  ASSERT_SYMBOL (mode, 1);
+  else
+    ASSERT_SYMBOL (mode, 1);
   if (! (EQ (mode, SYM (query)) ||
          EQ (mode, SYM (off)) ||
          EQ (mode, SYM (on))))
