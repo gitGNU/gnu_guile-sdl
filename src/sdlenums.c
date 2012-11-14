@@ -50,6 +50,8 @@ mark_enum (SCM enumstash)
 }
 
 
+#if GI_LEVEL_NOT_YET_1_8
+
 #define REASONABLE_BUCKET_COUNT(count) \
   (NUM_INT                             \
    (((count) <= 11) ? 11               \
@@ -62,6 +64,12 @@ mark_enum (SCM enumstash)
 #define MAKE_HASH_TABLE(size) \
   (scm_make_vector (REASONABLE_BUCKET_COUNT (size), SCM_EOL))
 
+#else  /* !GI_LEVEL_NOT_YET_1_8 */
+
+#define MAKE_HASH_TABLE(size) \
+  scm_c_make_hash_table (size)
+
+#endif /* !GI_LEVEL_NOT_YET_1_8 */
 
 /* Register a C enum.  */
 static SCM
