@@ -1,5 +1,17 @@
 2012-11-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Don't barf if decrufting is unnecessary.
+
+	Apparently, w/ Automake 1.12.4, there is no longer any need for
+	2011-12-07, "Decruft: Zonk $(pkglibdir) for !LAME "make install"".
+	However, we keep it around, in subdued form, for hysterical raisins.
+
+	* Makefile.am (install-data-hook) [!LAME]: If $(pkglibdir)
+	doesn't exist, don't fail on the attempt to delete it.
+	Also, include $(DESTDIR) prefix and single quotes.
+
+2012-11-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[slog] Use C func for Guile 1.8+ to make hash table.
 
 	Suggested by Andy Wingo.

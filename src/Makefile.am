@@ -132,7 +132,7 @@ if LAME
 	  done ;					\
 	fi
 else !LAME
-	rmdir $(pkglibdir)
+	-rmdir '$(DESTDIR)$(pkglibdir)'
 	$(updatemodcat)
 endif !LAME
 
