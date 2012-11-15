@@ -3,14 +3,6 @@ HACKING Guile-SDL                                               -*- org -*-
 This file is both a guide for newcomers and a todo list for oldstayers.
 It lives in the repo but is not included in the distribution.
 
-* next
-*** DONE upgrade to SDL_gfx 2.0.22
-***** DONE add [[file:src/SDL_gfx/SDL_gfxPrimitives.h::thickLineColor][thick lines]] from 2.0.22
-***** DONE add [[file:src/SDL_gfx/SDL_gfxPrimitives.h::gfxPrimitivesSetFontRotation][font rotation]] from 2.0.21
-*** DONE remove ‘@node TODO’ from manual
-*** DONE transition from ttn-fu to Guile-BAUX + SNUGGLE
-*** DONE use unsigned long for colors
-
 * ongoing (some of which may go into the next release)
 *** use pre-installed SDL_gfx if sufficiently functional
     (alternatively, use the subset that is functional)
@@ -41,7 +33,9 @@ It lives in the repo but is not included in the distribution.
   |     1.4.1.118 | yes       | yes   | yes |
   |     1.4.1.119 | yes       | yes   | yes |
   |     1.4.1.124 | yes       | yes   | yes |
+  |     1.4.1.127 | n/a       | yes   | yes |
   |         1.8.7 | yes       | yes   | yes |
+  |         2.0.6 | n/a       | yes   | yes |
 
 * coding standards
 *** C code: indent -nut
