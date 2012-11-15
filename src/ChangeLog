@@ -1,3 +1,7 @@
+2012-11-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 0.4.1
+
 2012-11-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Fix bug: Convert Scheme character to C correctly.

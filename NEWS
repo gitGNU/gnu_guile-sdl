@@ -2,6 +2,35 @@ Guile-SDL NEWS
 See the end for copying conditions.
 
 
+- 0.4.1 | 2012-11-15
+
+  - distribution now .tar.xz
+
+	If you have GNU tar, you can use "tar xf" and it will DTRT.
+	If not, you can use "xz -dc TARBALL | tar xf -" to unpack.
+
+  - integer arg no longer accepted for ‘grab-input’
+
+	This was pre-announced in Guile-SDL 0.4.0 (2011-12-15) NEWS.
+
+  - bugfix: ‘font:glyph-metrics’ Scheme char to C char conversion
+
+	The bug, introduced 2003-11-09, manifested as a mysterious
+	(expecting integer) wrong-type-arg error.  Now fixed, with test.
+	(The test is pretty lame, admittedly.)
+
+  - improved portability
+
+	Tested w/ Guile 2.0.6, 1.8.7, 1.4.1.127.  Apparently 2.0.6
+	sneers at ‘apply-to-args’; wave goodbye to another old friend.
+
+  - bootstrap tools upgrade
+    - GNU Autoconf 2.69
+    - GNU Automake 1.12.4
+    - Guile-BAUX 20121026.1208.c21074a
+    - SNUGGLE 0.1
+
+
 - 0.4.0 | 2011-12-15
 
   - improved portability

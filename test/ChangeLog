@@ -1,5 +1,9 @@
 2012-11-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Release: 0.4.1
+
+2012-11-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[v slog] Avoid ‘apply-to-args’.
 
 	* cursor.scm: Use ‘(apply PROC ARGS)’ directly.
