@@ -82,8 +82,7 @@
                 (hex4 (u16vector-ref g i))
                 (hex4 (u16vector-ref b i)))))))
 
-(apply-to-args (SDL:get-gamma-ramp)
-               spew-ramp)
+(apply spew-ramp (SDL:get-gamma-ramp))
 
 ;; primitive cursor creation (need a higher level one)
 (define (random-16)

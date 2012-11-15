@@ -1,3 +1,9 @@
+2012-11-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[v slog] Avoid ‘apply-to-args’.
+
+	* cursor.scm: Use ‘(apply PROC ARGS)’ directly.
+
 2012-11-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[v] Exercise ‘(sdl ttf) glyph-metrics’.
