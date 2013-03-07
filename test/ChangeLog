@@ -1,3 +1,12 @@
+2013-03-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[v] Don't bother checking memory leaks for Guile 2.
+
+	Apparently, Guile 2 does not track freed memory.  See:
+	<http://lists.gnu.org/archive/html/bug-guile/2013-03/msg00054.html>.
+
+	* leak.scm: Skip if under Guile 2.
+
 2012-11-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.4.1
