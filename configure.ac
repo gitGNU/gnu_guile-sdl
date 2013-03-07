@@ -22,7 +22,7 @@ AC_INIT([guile-sdl],[0.4.1],[ttn@gnuvola.org])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux])
 AC_CONFIG_HEADERS([src/config.h])
-AM_INIT_AUTOMAKE([1.11.1 gnu no-dist-gzip dist-xz])
+AM_INIT_AUTOMAKE([1.11.1 gnu no-dist-gzip dist-lzip dist-xz])
 AM_MAINTAINER_MODE
 
 SNUGGLE_SET_SOFIXFLAGS

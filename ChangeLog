@@ -1,3 +1,9 @@
+2013-03-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[dist] Create .lz tarball as well on "make dist".
+
+	* configure.ac (AM_INIT_AUTOMAKE): Add option ‘dist-lzip’.
+
 2012-11-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.4.1
