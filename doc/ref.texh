@@ -12,7 +12,9 @@
 @chapter General SDL
 
 @tsin m (sdl sdl)
+
 @tsin i flagstash:init
+
 @example
 SDL_INIT_foo, where foo can be:
 VIDEO            CDROM            JOYSTICK
@@ -21,18 +23,26 @@ NOPARACHUTE
 @end example
 
 @tsin i init
+
 @tsin i init-subsystem
+
 @tsin i quit
+
 @tsin i quit-subsystem
+
 @tsin i was-init
+
 @tsin i get-ticks
+
 @tsin i delay
+
 @tsin i get-error
 
 @node Video
 @chapter Video
 
 @tsin i flagstash:video
+
 @example
 SDL_foo, where foo can be:
 OPENGL       SRCALPHA     ASYNCBLIT
@@ -44,39 +54,58 @@ RESIZABLE    DOUBLEBUF
 @end example
 
 @tsin i flagstash:palette
+
 @example
 SDL_LOGPAL       SDL_PHYSPAL
 @end example
 
 @tsin i flagstash:overlay
+
 @example
 SDL_foo_OVERLAY, where foo can be:
   YVYU  YUY2  IYUV  YV12  UYVY
 @end example
 
 @tsin i create-cursor
+
 @tsin i create-yuv-overlay
+
 @tsin i get-video-surface
+
 @tsin i get-video-info
+
 @tsin i video-driver-name
+
 @tsin i list-modes
+
 @tsin i video-mode-ok
+
 @tsin i set-video-mode
 
 @section Rectangles
 
 @tsin i rect?
+
 @tsin i make-rect
+
 @tsin i rect:x
+
 @tsin i rect:y
+
 @tsin i rect:w
+
 @tsin i rect:h
+
 @tsin i rect:set-x!
+
 @tsin i rect:set-y!
+
 @tsin i rect:set-w!
+
 @tsin i rect:set-h!
 
 @tsin i update-rect
+
 @tsin i update-rects
 
 @tsin i flip
@@ -84,81 +113,138 @@ SDL_foo_OVERLAY, where foo can be:
 @section Colors
 
 @tsin i color?
+
 @tsin i make-color
+
 @tsin i color:r
+
 @tsin i color:g
+
 @tsin i color:b
+
 @tsin i color:set-r!
+
 @tsin i color:set-g!
+
 @tsin i color:set-b!
+
 @tsin i set-colors!
 
 @tsin i set-palette
+
 @tsin i set-gamma
+
 @tsin i get-gamma-ramp
+
 @tsin i set-gamma-ramp
+
 @tsin i map-rgb
+
 @tsin i map-rgba
+
 @tsin i get-rgb
+
 @tsin i get-rgba
+
 @tsin i fill-rect
+
 @tsin i display-format
+
 @tsin i display-format-alpha
+
 @tsin i warp-mouse
+
 @tsin i set-cursor
+
 @tsin i get-cursor
+
 @tsin i show-cursor
+
 @tsin i gl-get-attribute
+
 @tsin i gl-set-attribute
+
 @tsin i gl-swap-buffers
+
 @tsin i lock-yuv-overlay
+
 @tsin i unlock-yuv-overlay
+
 @tsin i display-yuv-overlay
 
 @section Windowing System Interaction
 
 @tsin i get-wm-info
+
 @tsin i set-caption
+
 @tsin i get-caption
+
 @tsin i set-icon
+
 @tsin i iconify-window
+
 @tsin i toggle-full-screen
+
 @tsin i grab-input
+
 @tsin i get-app-state
 
 @section Surface
 
 @tsin i make-surface
+
 @tsin i create-rgb-surface
+
 @tsin i surface:w
+
 @tsin i surface:h
+
 @tsin i surface:depth
+
 @tsin i surface:flags
+
 @tsin i surface-get-format
+
 @tsin i surface?
+
 @tsin i lock-surface
+
 @tsin i unlock-surface
+
 @tsin i load-bmp
+
 @tsin i load-image
+
 @tsin i string->image
+
 @tsin i save-bmp
+
 @tsin i set-color-key!
+
 @tsin i set-alpha!
+
 @tsin i set-clip-rect!
+
 @tsin i get-clip-rect
+
 @tsin i convert-surface
+
 @tsin i blit-surface
 
 @section Misc Surface Operations
 
 @tsin i vertical-flip-surface
+
 @tsin i horizontal-flip-surface
+
 @tsin i vh-flip-surface
 
 @node Events
 @chapter Events
 
 @tsin i flagstash:event-mod
+
 @example
 KMOD_foo, where foo can be:
 RALT        RMETA       RSHIFT      NUM
@@ -168,6 +254,7 @@ NONE
 @end example
 
 @tsin i flagstash:event-mask
+
 @example
 SDL_fooMASK, where foo can be:
 ACTIVEEVENT
@@ -188,44 +275,65 @@ VIDEOEXPOSE   VIDEORESIZE
 @end example
 
 @tsin i make-event
+
 @tsin i make-keysym
+
 @tsin i event:type
+
 @tsin i event:set-type!
 
 @section Activity
 
 @tsin i event:active:gain
+
 @tsin i event:active:state
+
 @tsin i event:active:set-gain!
+
 @tsin i event:active:set-state!
 
 @section Keys
 
 @tsin i event:key:keysym:sym
+
 @tsin i event:key:keysym:set-sym!
+
 @tsin i event:key:keysym:mod
+
 @tsin i event:key:keysym:set-mod!
 
 @tsin i event:key:state
+
 @tsin i event:key:keysym:scancode
+
 @tsin i event:key:keysym:unicode
 
 @tsin i event:key:set-state!
+
 @tsin i event:key:keysym:set-scancode!
+
 @tsin i event:key:keysym:set-unicode!
 
 @section Motions
 
 @tsin i event:motion:state
+
 @tsin i event:motion:x
+
 @tsin i event:motion:y
+
 @tsin i event:motion:xrel
+
 @tsin i event:motion:yrel
 
 @tsin i event:motion:set-state!
+
 @tsin i event:motion:set-x!
+
 @tsin i event:motion:set-y!
+
 @tsin i event:motion:set-xrel!
+
 @tsin i event:motion:set-yrel!
 
 @section Buttons
@@ -233,75 +341,115 @@ VIDEOEXPOSE   VIDEORESIZE
 @tsin i button?
 
 @tsin i event:button:button
+
 @tsin i event:button:state
+
 @tsin i event:button:x
+
 @tsin i event:button:y
 
 @tsin i event:button:set-button!
+
 @tsin i event:button:set-state!
+
 @tsin i event:button:set-x!
+
 @tsin i event:button:set-y!
 
 @section Joysticks
 
 @tsin i event:jaxis:which
+
 @tsin i event:jaxis:axis
+
 @tsin i event:jaxis:value
 
 @tsin i event:jaxis:set-which!
+
 @tsin i event:jaxis:set-axis!
+
 @tsin i event:jaxis:set-value!
 
 @tsin i event:jbutton:which
+
 @tsin i event:jbutton:button
+
 @tsin i event:jbutton:state
 
 @tsin i event:jbutton:set-which!
+
 @tsin i event:jbutton:set-button!
+
 @tsin i event:jbutton:set-state!
 
 @tsin i event:jball:which
+
 @tsin i event:jball:ball
+
 @tsin i event:jball:xrel
+
 @tsin i event:jball:yrel
 
 @tsin i event:jball:set-which!
+
 @tsin i event:jball:set-ball!
+
 @tsin i event:jball:set-xrel!
+
 @tsin i event:jball:set-yrel!
 
 @tsin i event:jhat:which
+
 @tsin i event:jhat:hat
+
 @tsin i event:jhat:value
 
 @tsin i event:jhat:set-which!
+
 @tsin i event:jhat:set-hat!
+
 @tsin i event:jhat:set-value!
 
 @section Resizes
 
 @tsin i event:resize:w
+
 @tsin i event:resize:h
 
 @tsin i event:resize:set-w!
+
 @tsin i event:resize:set-h!
 
 @section Misc
 
 @tsin i pump-events
+
 @tsin i peep-events
+
 @tsin i poll-event
+
 @tsin i wait-event
+
 @tsin i push-event
+
 @tsin i set-event-filter
+
 @tsin i get-event-filter
+
 @tsin i event-state
+
 @tsin i enable-unicode
+
 @tsin i enable-key-repeat
+
 @tsin i get-key-state
+
 @tsin i get-mod-state
+
 @tsin i set-mod-state
+
 @tsin i get-mouse-state
+
 @tsin i get-mouse-relative-state
 
 @node Joystick
@@ -310,45 +458,80 @@ VIDEOEXPOSE   VIDEORESIZE
 @tsin i num-joysticks
 
 @tsin i joystick?
+
 @tsin i joystick-null?
+
 @tsin i joystick-name
+
 @tsin i joystick-open
+
 @tsin i joystick-opened?
+
 @tsin i joystick-index
+
 @tsin i joystick-num-axes
+
 @tsin i joystick-num-balls
+
 @tsin i joystick-num-hats
+
 @tsin i joystick-num-buttons
+
 @tsin i joystick-update
+
 @tsin i joystick-event-state
+
 @tsin i joystick-get-axis
+
 @tsin i joystick-get-ball
+
 @tsin i joystick-get-hat
+
 @tsin i joystick-get-button
+
 @tsin i joystick-close
 
 @node CDROM
 @chapter CDROM
 
 @tsin i cd?
+
 @tsin i cd-null?
+
 @tsin i cd-num-drives
+
 @tsin i cd-name
+
 @tsin i cd-open
+
 @tsin i cd-status
+
 @tsin i cd-in-drive?
+
 @tsin i cd-get-num-tracks
+
 @tsin i cd-get-cur-track
+
 @tsin i cd-get-cur-frame
+
 @tsin i cd-get-nth-track
+
 @tsin i cd-play-tracks
+
 @tsin i cd-play
+
 @tsin i cd-pause
+
 @tsin i cd-resume
+
 @tsin i cd-stop
+
 @tsin i cd-eject
+
 @tsin i cd-close
+
 @tsin i cd-msf->frames
+
 @tsin i cd-frames->msf
 
 @node OpenGL
@@ -360,66 +543,117 @@ VIDEOEXPOSE   VIDEORESIZE
 @chapter TrueType
 
 @tsin i flagstash:ttf
+
 @example
 TTF_STYLE_foo, where foo can be:
   BOLD  NORMAL  UNDERLINE  ITALIC
 @end example
 
 @tsin m (sdl ttf)
+
 @tsin i ttf-init
+
 @tsin i load-font
+
 @tsin i font:style
+
 @tsin i font:set-style!
+
 @tsin i font:height
+
 @tsin i font:ascent
+
 @tsin i font:descent
+
 @tsin i font:line-skip
+
 @tsin i font:glyph-metrics
+
 @tsin i font:size-text
+
 @tsin i font:size-utf8
+
 @tsin i render-text
+
 @tsin i render-utf8
+
 @tsin i render-glyph
+
 @tsin i ttf-quit
 
 @node Audio
 @chapter Audio
 
 @tsin m (sdl mixer)
+
 @tsin i open-audio
+
 @tsin i allocated-channels
+
 @tsin i query-spec
+
 @tsin i load-music
+
 @tsin i load-wave
+
 @tsin i reserve-channels
+
 @tsin i group-channel
+
 @tsin i group-channels
+
 @tsin i group-available
+
 @tsin i group-count
+
 @tsin i group-oldest
+
 @tsin i group-newer
+
 @tsin i play-channel
+
 @tsin i play-music
+
 @tsin i volume
+
 @tsin i music-volume
+
 @tsin i halt-channel
+
 @tsin i halt-group
+
 @tsin i halt-music
+
 @tsin i expire-channel
+
 @tsin i fade-out-channel
+
 @tsin i fade-out-group
+
 @tsin i fade-out-music
+
 @tsin i fading-music
+
 @tsin i fading-channel
+
 @tsin i pause
+
 @tsin i resume
+
 @tsin i paused?
+
 @tsin i pause-music
+
 @tsin i resume-music
+
 @tsin i rewind-music
+
 @tsin i paused-music?
+
 @tsin i playing?
+
 @tsin i playing-music?
+
 @tsin i set-music-command
 
 FWIW, the C header file for the following panning, distance and
@@ -432,7 +666,9 @@ to the audio device.
 @end quotation
 
 @tsin i set-panning
+
 @tsin i set-distance
+
 @tsin i set-position
 
 @tsin i close-audio
@@ -443,28 +679,51 @@ to the audio device.
 @section Graphics Primitives
 
 @tsin m (sdl gfx)
+
 @tsin i draw-point
+
 @tsin i draw-hline
+
 @tsin i draw-vline
+
 @tsin i draw-rectangle
+
 @tsin i draw-rounded-rectangle
+
 @tsin i draw-line
+
 @tsin i draw-aa-line
+
 @tsin i draw-thick-line
+
 @tsin i draw-arc
+
 @tsin i draw-circle
+
 @tsin i draw-aa-circle
+
 @tsin i draw-ellipse
+
 @tsin i draw-aa-ellipse
+
 @tsin i draw-pie-slice
+
 @tsin i draw-trigon
+
 @tsin i draw-aa-trigon
+
 @tsin i draw-polygon
+
 @tsin i draw-aa-polygon
+
 @tsin i draw-textured-polygon
+
 @tsin i draw-bezier
+
 @tsin i draw-character
+
 @tsin i draw-string
+
 @tsin i font-rotation!
 
 @defvr enumstash font-rotations
@@ -476,49 +735,81 @@ Values are @code{none} (the default at startup), @code{clockwise},
 @section Rotation / Zooming
 
 @tsin i roto-zoom-surface
+
 @tsin i roto-zoom-surface-xy
+
 @tsin i zoom-surface
+
 @tsin i shrink-surface
 
 @section Managing Frame Rate
 
 @tsin i make-fps-manager
+
 @tsin i fps-manager-set!
+
 @tsin i fps-manager-get
+
 @tsin i fps-manager-delay!
 
 @section RGBA Extras
 
 @tsin i set-pixel-alpha!
+
 @tsin i blit-rgba
 
 @section Image Filtering
 
 @tsin i imfi-mmx?
+
 @tsin i imfi-add
+
 @tsin i imfi-mean
+
 @tsin i imfi-sub
+
 @tsin i imfi-abs-diff
+
 @tsin i imfi-mult
+
 @tsin i imfi-mulnor
+
 @tsin i imfi-muldiv2
+
 @tsin i imfi-muldiv4
+
 @tsin i imfi-logand
+
 @tsin i imfi-logior
+
 @tsin i imfi-div
+
 @tsin i imfi-not
+
 @tsin i imfi-add-c
+
 @tsin i imfi-add-c-to-half
+
 @tsin i imfi-sub-c
+
 @tsin i imfi-ashr
+
 @tsin i imfi-lshr
+
 @tsin i imfi-mul-c
+
 @tsin i imfi-ashr-mul-c
+
 @tsin i imfi-bshl
+
 @tsin i imfi-lshl
+
 @tsin i imfi-ashl
+
 @tsin i imfi-binarize
+
 @tsin i imfi-clip
+
 @tsin i imfi-normalize-linear
 
 @node Miscellaneous Utilities
@@ -527,15 +818,25 @@ Values are @code{none} (the default at startup), @code{clockwise},
 These are available in module @code{(sdl misc-utils)}.
 
 @tsin m (sdl misc-utils)
+
 @tsin i exact-truncate
+
 @tsin i call-with-clip-rect
+
 @tsin i rotate-square
+
 @tsin i rectangle-closure
+
 @tsin i rectangle<-geometry-string
+
 @tsin i poll-with-push-on-timeout-proc
+
 @tsin i rect<-surface
+
 @tsin i copy-rectangle
+
 @tsin i copy-surface
+
 @tsin i ignore-all-event-types-except
 
 In the following procs, those named ending with @code{/3p} return
@@ -556,6 +857,7 @@ Note that @code{foo!} returns non-@code{#f} to indicate that the
 looping is not yet complete.
 
 @tsin i fader/3p
+
 @tsin i toroidal-panner/3p
 
 @node Simple Closures
@@ -572,7 +874,9 @@ encouraged to look at the implementation as a model for creating
 customized abstractions.
 
 @tsin i simple-canvas
+
 @tsin i simple-stylus
+
 @tsin i simple-vpacked-image
 
 @c ref.texh ends here
