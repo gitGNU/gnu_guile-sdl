@@ -36,6 +36,7 @@ Texts.  A copy of the license is included in the appendix entitled
 @title Guile-SDL
 @subtitle SDL for Guile
 @subtitle Version @value{VERSION}
+@author Thien-Thi Nguyen
 @author Alex Shinn
 
 @c  The following two commands

@@ -1,5 +1,11 @@
 2013-03-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[doc] Add another author.
+
+	* guile-sdl.texi: Add ‘@author Thien-Thi Nguyen’.
+
+2013-03-07  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[doc slog] Add blank lines around @tsin directives.
 
 	Apparently, makeinfo 5.0 doesn't automagically add blank
