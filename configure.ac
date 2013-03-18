@@ -103,6 +103,14 @@ dnl "64-bit mode".  We assume ‘4 == sizeof (long)’ means "32-bit mode".
 AS_IF([test 4 = $ac_cv_sizeof_long],[CHECK_MMX_USABILITY])
 
 ##----------------------------------------------------------------------------
+##: transfer ‘CFLAGS’ to ‘NORMAL_CFLAGS’
+
+NORMAL_CFLAGS="$CFLAGS"
+AC_SUBST([NORMAL_CFLAGS])
+
+CFLAGS=
+
+##----------------------------------------------------------------------------
 ##: write it out
 
 AC_CONFIG_FILES([

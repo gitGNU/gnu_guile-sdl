@@ -18,6 +18,7 @@
 ## Boston, MA  02110-1301  USA
 
 AM_CPPFLAGS = $(SDL_CFLAGS)
+AM_CFLAGS = $(keepinside) $(NORMAL_CFLAGS)
 
 noinst_LTLIBRARIES = libSDL_gfx.la
 
@@ -33,8 +34,6 @@ libSDL_gfx_la_SOURCES = \
   SDL_imageFilter.h \
   SDL_rotozoom.c \
   SDL_rotozoom.h
-
-libSDL_gfx_la_CFLAGS = $(keepinside)
 
 EXTRA_DIST = LICENSE
 

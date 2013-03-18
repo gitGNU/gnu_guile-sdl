@@ -21,6 +21,7 @@
 SUBDIRS = SDL_gfx
 
 AM_CPPFLAGS = $(SDL_CFLAGS)
+AM_CFLAGS = $(NORMAL_CFLAGS)
 
 cmoddir = $(GUILE_LIBSITE)/sdl
 

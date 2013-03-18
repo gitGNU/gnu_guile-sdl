@@ -1,5 +1,13 @@
 2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Transfer configure's ‘CFLAGS’ to ‘NORMAL_CFLAGS’.
+
+	* Makefile.am (AM_CFLAGS): New var.
+	* SDL_gfx/Makefile.am (AM_CFLAGS): Likewise.
+	(libSDL_gfx_la_CFLAGS): Delete var.
+
+2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Use ‘SDL_CFLAGS’ directly.
 
 	* Makefile.am (AM_CPPFLAGS): New var.

@@ -1,5 +1,12 @@
 2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Transfer configure's ‘CFLAGS’ to ‘NORMAL_CFLAGS’.
+
+	* configure.ac (NORMAL_CFLAGS): New AC_SUBST.
+	(CFLAGS): Clear value.
+
+2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Use ‘SDL_CFLAGS’ directly.
 
 	* configure.ac (CFLAGS): Don't augment w/ value of ‘SDL_FLAGS’.
