@@ -35,12 +35,7 @@ LT_INIT([dlopen disable-static]) dnl module only
 
 AC_PROG_CC
 
-## If using GCC, ask for warnings and possibly a bit of quickness.
-if test x"$GCC" = xyes ; then
-  CFLAGS="$CFLAGS -Wall -Wno-long-long -pipe"
-  keepinside='--visibility=hidden'
-fi
-
+AS_IF([test x"$GCC" = xyes],[keepinside='--visibility=hidden'])
 AC_SUBST([keepinside])
 
 ##----------------------------------------------------------------------------

@@ -1,3 +1,9 @@
+2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[boot] No longer ask for "warnings and a little bit of quickness".
+
+	* configure.ac: Don't set ‘CFLAGS’ based on ‘GCC’.
+
 2013-03-08  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	[boot] Bump Automake min vers to 1.12.2.
