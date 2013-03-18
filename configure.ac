@@ -63,7 +63,6 @@ SNUGGLE_GUILE_LIBSITE_DIR([gsdl])
 AM_PATH_SDL([1.2.0], :,
             AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 
-CFLAGS="$CFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
 
 dnl Checks for libraries.

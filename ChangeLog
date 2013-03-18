@@ -1,5 +1,11 @@
 2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build int] Use ‘SDL_CFLAGS’ directly.
+
+	* configure.ac (CFLAGS): Don't augment w/ value of ‘SDL_FLAGS’.
+
+2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[boot] No longer ask for "warnings and a little bit of quickness".
 
 	* configure.ac: Don't set ‘CFLAGS’ based on ‘GCC’.

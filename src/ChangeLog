@@ -1,3 +1,10 @@
+2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Use ‘SDL_CFLAGS’ directly.
+
+	* Makefile.am (AM_CPPFLAGS): New var.
+	* SDL_gfx/Makefile.am (AM_CPPFLAGS): Likewise.
+
 2012-11-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.4.1

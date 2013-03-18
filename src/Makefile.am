@@ -20,6 +20,8 @@
 
 SUBDIRS = SDL_gfx
 
+AM_CPPFLAGS = $(SDL_CFLAGS)
+
 cmoddir = $(GUILE_LIBSITE)/sdl
 
 WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
