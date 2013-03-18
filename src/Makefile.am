@@ -76,7 +76,8 @@ sdl_la_LDFLAGS = $(modflags)
 
 gfx_la_SOURCES  = sdlgfx.c $(headers)
 gfx_la_LDFLAGS  = $(modflags)
-gfx_la_LIBADD   = SDL_gfx/libSDL_gfx.la
+gfx_la_LIBADD   = SDL_gfx/libSDL_gfx.la \
+                  SDL_gfx/libimfi.la
 
 SUFFIXES = .c .fs
 

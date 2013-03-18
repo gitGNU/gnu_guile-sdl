@@ -1,5 +1,11 @@
 2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build] Add support for configure var ‘IMFI_CFLAGS’.
+
+	* configure.ac (IMFI_CFLAGS): New AC_ARG_VAR.
+
+2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Transfer configure's ‘CFLAGS’ to ‘NORMAL_CFLAGS’.
 
 	* configure.ac (NORMAL_CFLAGS): New AC_SUBST.

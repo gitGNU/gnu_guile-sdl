@@ -30,10 +30,16 @@ libSDL_gfx_la_SOURCES = \
   SDL_gfxPrimitives.c \
   SDL_gfxPrimitives.h \
   SDL_gfxPrimitives_font.h \
-  SDL_imageFilter.c \
-  SDL_imageFilter.h \
   SDL_rotozoom.c \
   SDL_rotozoom.h
+
+noinst_LTLIBRARIES += libimfi.la
+
+libimfi_la_SOURCES = \
+  SDL_imageFilter.c \
+  SDL_imageFilter.h
+
+libimfi_la_CFLAGS = $(AM_CFLAGS) $(IMFI_CFLAGS)
 
 EXTRA_DIST = LICENSE
 

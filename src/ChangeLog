@@ -1,5 +1,16 @@
 2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	[build] Add support for configure var ‘IMFI_CFLAGS’.
+
+	* SDL_gfx/Makefile.am (libSDL_gfx_la_SOURCES):
+	Move SDL_imageFilter.c and SDL_imageFilter.h from here...
+	(noinst_LTLIBRARIES): Add libimfi.la.
+	(libimfi_la_SOURCES): ...to here.
+	(libimfi_la_CFLAGS): New var.
+	* Makefile.am (gfx_la_LIBADD): Add SDL_gfx/libimfi.la.
+
+2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build int] Transfer configure's ‘CFLAGS’ to ‘NORMAL_CFLAGS’.
 
 	* Makefile.am (AM_CFLAGS): New var.

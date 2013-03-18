@@ -43,6 +43,18 @@ Installation Process
 	(sdl ttf), respectively.  If they are not found, these modules
 	will not be installed.
 
+	If your cpu supports MMX but your compiler mishandles the
+	assembly in the imagefilter functions (causing a segfault),
+	you can use env var ‘IMFI_CFLAGS’ to try to work around the
+	problem.  For example:
+
+	  ./configure CFLAGS='-g -O3' IMFI_CFLAGS='-O1'
+
+	arranges to pass ‘-g -O3 -O1’ to the compiler, which should
+	set the optimization level to one (later option overrides).
+	This var is marked special and is automatically re-supplied
+	in config.status invocations.
+
 	Note: The output of "./configure --help" mentions the option
 	‘--disable-sdltest’.  However, that is an artifact of SDL's
 	autoconf support, and is silently ignored.
@@ -55,6 +67,7 @@ Installation Process
 	and expectations (i.e. file a bug report).
 
 	If the gfx test segfaults, try running it with ‘NOMMX=1’.
+	(But, it could be a compiler problem, see ‘IMFI_CFLAGS’ above.)
 
 
 Installation Result
