@@ -1,5 +1,9 @@
 2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Release: 0.4.2
+
+2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build] Add support for configure var ‘IMFI_CFLAGS’.
 
 	* SDL_gfx/Makefile.am (libSDL_gfx_la_SOURCES):

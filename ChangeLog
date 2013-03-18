@@ -1,5 +1,11 @@
 2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
+	Release: 0.4.2
+
+	* configure.ac (AC_INIT): Bump version to "0.4.2" for release.
+
+2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
 	[build] Add support for configure var ‘IMFI_CFLAGS’.
 
 	* configure.ac (IMFI_CFLAGS): New AC_ARG_VAR.
