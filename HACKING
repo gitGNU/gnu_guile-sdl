@@ -29,13 +29,24 @@ It lives in the repo but is not included in the distribution.
 *** ? gnulib
 
 * portability
-  | guile version | bootstrap | build | run |
-  |     1.4.1.118 | yes       | yes   | yes |
-  |     1.4.1.119 | yes       | yes   | yes |
-  |     1.4.1.124 | yes       | yes   | yes |
-  |     1.4.1.127 | n/a       | yes   | yes |
-  |         1.8.7 | yes       | yes   | yes |
-  |         2.0.6 | n/a       | yes   | yes |
+  |-----------+-----------+-------+-----|
+  |     guile | bootstrap | build | run |
+  |-----------+-----------+-------+-----|
+  | 1.4.1.118 | yes       | yes   | yes |
+  | 1.4.1.119 | yes       | yes   | yes |
+  | 1.4.1.124 | yes       | yes   | yes |
+  | 1.4.1.127 | n/a       | yes   | yes |
+  |     1.8.7 | yes       | yes   | yes |
+  |     2.0.6 | n/a       | yes   | yes |
+  |     2.0.7 | maybe     | yes   | yes |
+  |-----------+-----------+-------+-----|
+
+* bootstrap tools
+*** usual GNU stuff: Libtool, Autoconf, Automake
+*** GNU Guile (see [[portability]] above)
+*** SDL 1.2
+*** [[http://www.gnuvola.org/software/guile-baux/][Guile-BAUX]]
+*** [[http://www.gnuvola.org/software/snuggle/][SNUGGLE]]
 
 * coding standards
 *** C code: indent -nut
@@ -43,6 +54,7 @@ It lives in the repo but is not included in the distribution.
 *** (setq indent-tabs-mode nil)
 *** (add-hook 'before-save-hook 'delete-trailing-whitespace)
 *** everything UTF-8
+*** assume ‘NULL’ is all bits zero
 *** ChangeLog
 ***** ttn-style: TITLE LF LF {BLURB LF LF}* BODY
 ***** exclude titles suffixed "; nfc." (no functional change)
