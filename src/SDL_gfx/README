@@ -119,7 +119,7 @@ An assembler must be installed (i.e. "nasm").
 
 \subsection platforms Supported Platforms
 
-The library compiles and is tested for a Linux target (gcc compiler) and
+The library compiles and is tested for a GNU/Linux target (gcc compiler) and
 a Win32 target (VisualC6/7/8, mingw32, xmingw32 cross-compiler). MacOS X
 target is reported to work (10.3+ native and Project Builder).
 QNX is reported to build well (see .diff in "Other Builds").
@@ -136,7 +136,7 @@ See section "Installation" below for more build instructions.
 
 \section install_sec Installation
 
-\subsection unix Unix/Linux
+\subsection unix Unix and GNU/Linux
 
 To compile the library your need the SDL 1.2 installed from source or
 installed with the 'devel' RPM package. For example on Mandriva, run:
