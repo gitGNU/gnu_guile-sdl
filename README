@@ -46,7 +46,7 @@ Installation Process
 	If your cpu supports MMX but your compiler mishandles the
 	assembly in the imagefilter functions (causing a segfault),
 	you can use env var ‘IMFI_CFLAGS’ to try to work around the
-	problem.  For example:
+	problem for that particular compilation unit.  For example:
 
 	  ./configure CFLAGS='-g -O3' IMFI_CFLAGS='-O1'
 
@@ -58,6 +58,10 @@ Installation Process
 	Note: The output of "./configure --help" mentions the option
 	‘--disable-sdltest’.  However, that is an artifact of SDL's
 	autoconf support, and is silently ignored.
+
+	Note (Guile 2): Guile-SDL build, test and use is done strictly
+	w/ ‘GUILE_AUTO_COMPILE=0’ in the environment.  If there are
+	build problems, try that first (w/ a freshly unpacked tarball).
 
 	By default, "make check" and "make installcheck" run only tests
 	which do not require user interaction.  You can specify
