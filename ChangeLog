@@ -1,5 +1,11 @@
 2013-04-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Release: 0.4.3
+
+	* configure.ac (AC_INIT): Bump version to "0.4.3" for release.
+
+2013-04-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Change bug-report address.
 
 	* configure.ac (AC_INIT): ...here.

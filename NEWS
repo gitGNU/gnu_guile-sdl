@@ -2,6 +2,10 @@ Guile-SDL NEWS
 See the end for copying conditions.
 
 
+- 0.4.3 | 2013-04-13
+  - bug-report address updated
+
+
 - 0.4.2 | 2013-03-18
 
   - distribution now also .tar.lz
