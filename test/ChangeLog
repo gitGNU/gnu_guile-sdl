@@ -1,3 +1,9 @@
+2013-05-15  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v int] Make gfx ‘draw-characters!’ more eye-pleasing.
+
+	* gfx.scm (draw-characters!): Bump max w and h by one pixel.
+
 2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.4.2

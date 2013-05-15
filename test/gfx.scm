@@ -40,8 +40,11 @@
 
 ;; character (font) stuff prep
 (define draw-characters!
-  (let ((max-x (- 640 8))
-        (max-y (- 480 8))
+  ;; Although glyph bb is 8x8, the last row and column are always empty.
+  ;; So, allow 1-pixel display "outside", for uniform aesthetics "inside".
+  ;; (This is apparent only w/ high iteration count.)
+  (let ((max-x (- 640 8 -1))
+        (max-y (- 480 8 -1))
         (all (map integer->char (iota 256))))
     (define (one char)
       (GFX:draw-character SCREEN (random max-x) (random max-y) char
