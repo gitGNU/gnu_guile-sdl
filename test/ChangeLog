@@ -1,5 +1,11 @@
 2013-05-15  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Make fading test quicker.
+
+	* fading.scm: Decrease fade duration to 420 msec.
+
+2013-05-15  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v int] Make gfx ‘draw-characters!’ more eye-pleasing.
 
 	* gfx.scm (draw-characters!): Bump max w and h by one pixel.

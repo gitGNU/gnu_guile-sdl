@@ -48,7 +48,7 @@
        (void (SDL:make-surface 200 153)))
   (define (fade/wait! bef aft)
     (call-with-values (lambda ()
-                        (fader/3p 1.42 (canvas) #f bef aft))
+                        (fader/3p 0.420 (canvas) #f bef aft))
       (lambda (init! fade! done!)
         (init!)
         (let loop ((continue? (fade!)))
