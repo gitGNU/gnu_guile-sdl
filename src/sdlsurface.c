@@ -510,7 +510,7 @@ to x=0, y=0, @var{dst} surface dimensions.  */)
 
 #define MAKE_DEST_SURFACE(src)                          \
   SDL_CreateRGBSurface (src->flags, src->w, src->h,     \
-                        16,                             \
+                        src->format->BitsPerPixel,      \
                         0, 0, 0, 0)
 
 PRIMPROC
