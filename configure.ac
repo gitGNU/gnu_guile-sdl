@@ -97,9 +97,8 @@ AC_CACHE_CHECK([whether mmx is supported],[ax_cv_have_mmx_ext],[
      *)               ax_cv_have_mmx_ext=no ;;
   esac
 ])
-if test $ax_cv_have_mmx_ext = yes ; then
-  AC_DEFINE([USE_MMX],1,[Define if the arch supports MMX instructions.])
-fi
+AS_IF([test $ax_cv_have_mmx_ext = yes],
+[AC_DEFINE([USE_MMX],1,[Define if the arch supports MMX instructions.])])
 
 ])dnl CHECK_MMX_USABILITY
 

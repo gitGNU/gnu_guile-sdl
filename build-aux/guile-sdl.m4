@@ -37,17 +37,17 @@ m4_pushdef([COND],    [AS_TR_CPP([HAVE_]$1)])
 
 AC_ARG_ENABLE([$1],[AC_HELP_STRING([--disable-$1],
 [omit bindings for SDL_$1 (default=enabled)])],:,[ENABLE=yes])
-if ENABLED ; then
+AS_IF([ENABLED],[
   dnl Use ":" to avoid prepending to $LIBS.
   AC_CHECK_LIB([SDL_$1], $2, :, ENABLE=no)
-fi
+])
 
 AM_CONDITIONAL(COND, ENABLED)
 
-if ENABLED ; then
+AS_IF([ENABLED],[
   COND=1
   AC_SUBST(COND)
-fi
+])
 
 m4_popdef([COND])
 m4_popdef([ENABLED])
