@@ -52,14 +52,14 @@
 (MIXER:volume 128)
 (MIXER:play-music background)
 
-(define angle 90)
+(define angle -110)
 
-;; loop until it's done, playing a sound effect every 1500ms
+;; loop until it's done, playing a sound effect every 250ms
 (while (MIXER:playing-music?)
        (let ((ch (MIXER:play-channel fx)))
          (MIXER:set-position ch angle 0))
-       (set! angle (- angle))
-       (SDL:delay 1500))
+       (set! angle (+ 20 angle))
+       (SDL:delay 500))
 
 ;; close the audio and quit SDL
 (MIXER:close-audio)
