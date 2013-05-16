@@ -508,6 +508,11 @@ to x=0, y=0, @var{dst} surface dimensions.  */)
 
 /* flipping */
 
+#define MAKE_DEST_SURFACE(src)                          \
+  SDL_CreateRGBSurface (src->flags, src->w, src->h,     \
+                        16,                             \
+                        0, 0, 0, 0)
+
 PRIMPROC
 (vertical_flip_surface, "vertical-flip-surface", 1, 0, 0,
  (SCM surface),
@@ -528,7 +533,7 @@ Return a new surface created by flipping @var{surface} vertically.  */)
   h = src->h;
 
   /* Create a new surface.  */
-  dst = SDL_CreateRGBSurface (src->flags, w, h, 16, 0, 0, 0, 0);
+  dst = MAKE_DEST_SURFACE (src);
 
   /* Initialize the rects.  */
   srcrect.x = 0;  srcrect.y = 0;    srcrect.w = w;  srcrect.h = 1;
@@ -568,7 +573,7 @@ Return a new surface created by flipping @var{surface} horizontally.  */)
   h = src->h;
 
   /* Create a new surface.  */
-  dst = SDL_CreateRGBSurface (src->flags, w, h, 16, 0, 0, 0, 0);
+  dst = MAKE_DEST_SURFACE (src);
 
   /* Initialize the rects.  */
   srcrect.x = 0;    srcrect.y = 0;  srcrect.w = 1;  srcrect.h = h;

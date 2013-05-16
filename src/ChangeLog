@@ -1,3 +1,10 @@
+2013-05-16  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Add abstraction: MAKE_DEST_SURFACE
+
+	* sdlsurface.c (MAKE_DEST_SURFACE): New macro.
+	(vertical_flip_surface, horizontal_flip_surface): Use it.
+
 2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.4.2
