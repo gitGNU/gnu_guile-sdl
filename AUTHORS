@@ -1,13 +1,9 @@
-Alex Shinn <foof@synthcode.com>
-Vikram Subramanian <vikrams@www.chennailug.org>
-and Joel Smith <joels@mobyfoo.org>
-
-all developed a set of bindings independently and made their first
-public release around the weekend of June 15, 2001.
+Alex Shinn, Vikram Subramanian, and Joel Smith all developed
+a set of bindings independently and made their first public
+release around the weekend of June 15, 2001.
 
 
-Andreas Schiffler <aschiffler@appwares.com>
-in directory src/SDL_gfx/, wrote:
+Andreas Schiffler in directory src/SDL_gfx/, wrote:
   README
   SDL_framerate.c
   SDL_framerate.h
