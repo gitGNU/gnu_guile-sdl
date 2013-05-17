@@ -36,7 +36,7 @@
            (car modes)))))
 
 ;; set the video mode to the dimensions of our rect
-(SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 16
+(SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 8
                     '(SDL_HWSURFACE))
 (let ((gnu-head (SDL:load-image (datafile "gnu-goatee.jpg")))
       (rect (SDL:make-rect 0 0 200 153)))
