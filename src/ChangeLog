@@ -1,5 +1,33 @@
 2013-05-20  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Fix bug: Accept signed integers for some event field setters.
+
+	* sdlevent.c (SNUMBER_SETTER, UNUMBER_SETTER): Split from
+	‘NUMBER_SETTER’, using ‘C_LONG’ and ‘C_ULONG’ respectively.
+	(NUMBER_SETTER): Delete macro.
+	(SNUM2_SETTER, UNUM2_SETTER, NUM2_SETTER): Likewise,
+	using ‘SNUMBER_SETTER’ and ‘UNUM2_SETTER’, respectively.
+	(SNUM2_GETSET, UNUM2_GETSET, NUM2_GETSET): Likewise,
+	using ‘SNUM2_SETTER’ and ‘UNUM2_SETTER’, respectively.
+	(SNUM3_SETTER, UNUM3_SETTER, NUM3_SETTER): Likewise,
+	using ‘SNUMBER_SETTER’ and ‘UNUMBER_SETTER’, respectively.
+	(SNUM3_GETSET, UNUM3_GETSET, NUM3_GETSET): Likewise,
+	using ‘SNUM3_SETTER’ and ‘UNUM3_SETTER’, respectively.
+	(event_motion_xrel, event_motion_yrel, event_jaxis_value)
+	(event_jball_xrel, event_jball_yrel, event_resize_w)
+	(event_resize_h): Use ‘SNUM2_GETSET’.
+	(event_active_gain, event_active_state, event_key_state)
+	(event_motion_state, event_motion_x, event_motion_y)
+	(event_button_button, event_button_state, event_button_x)
+	(event_button_y, event_jaxis_which, event_jaxis_axis)
+	(event_jbutton_which, event_jbutton_button, event_jbutton_state)
+	(event_jball_which, event_jball_ball, event_jhat_which)
+	(event_jhat_hat, event_jhat_value): Use ‘UNUM2_GETSET’.
+	(event_key_keysym_scancode, event_key_keysym_unicode):
+	Use ‘UNUM3_GETSET’.
+
+2013-05-20  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[doc] Fix typo in ‘get-mouse-relative-state’ doc comment.
 
 	* sdlevent.c (get_relative_mouse_state): ...here.

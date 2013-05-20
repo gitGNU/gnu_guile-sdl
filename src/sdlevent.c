@@ -364,7 +364,13 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
                       event_ ## c_frag,                 \
                       event, Event, c_field)
 
-#define NUMBER_SETTER(s_frag, c_frag, c_field)  \
+#define SNUMBER_SETTER(s_frag, c_frag, c_field) \
+  GSDL_NUMBER_SETTER ("event:" s_frag,          \
+                      event_ ## c_frag,         \
+                      event, Event,             \
+                      c_field, C_LONG)
+
+#define UNUMBER_SETTER(s_frag, c_frag, c_field) \
   GSDL_NUMBER_SETTER ("event:" s_frag,          \
                       event_ ## c_frag,         \
                       event, Event,             \
@@ -375,14 +381,23 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
                     a ## _ ## b,                \
                         a.b)
 
-#define NUM2_SETTER(a      ,      b)            \
-  NUMBER_SETTER   (#a   ":set-"  #b "!",        \
-                    a ## _set_ ## b,            \
-                          a.b)
+#define SNUM2_SETTER(a      ,      b)           \
+  SNUMBER_SETTER   (#a   ":set-"  #b "!",       \
+                     a ## _set_ ## b,           \
+                           a.b)
 
-#define NUM2_GETSET(a, b) \
+#define UNUM2_SETTER(a      ,      b)           \
+  UNUMBER_SETTER   (#a   ":set-"  #b "!",       \
+                     a ## _set_ ## b,           \
+                           a.b)
+
+#define SNUM2_GETSET(a, b) \
   NUM2_GETTER (a, b)      \
-  NUM2_SETTER (a, b)
+  SNUM2_SETTER (a, b)
+
+#define UNUM2_GETSET(a, b) \
+  NUM2_GETTER (a, b)      \
+  UNUM2_SETTER (a, b)
 
 
 #define NUM3_GETTER(a    ,    b    ,    c)      \
@@ -390,14 +405,23 @@ and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
                     a ## _ ## b ## _ ## c,      \
                             a.b.c)
 
-#define NUM3_SETTER(a    ,    b      ,      c)          \
-  NUMBER_SETTER   (#a   ":"  #b   ":set-"  #c "!",      \
+#define SNUM3_SETTER(a    ,    b      ,      c)         \
+  SNUMBER_SETTER   (#a   ":"  #b   ":set-"  #c "!",     \
                     a ## _ ## b ## _set_ ## c,          \
                             a.b.c)
 
-#define NUM3_GETSET(a, b, c) \
-  NUM3_GETTER (a, b, c)      \
-  NUM3_SETTER (a, b, c)
+#define UNUM3_SETTER(a    ,    b      ,      c)         \
+  UNUMBER_SETTER   (#a   ":"  #b   ":set-"  #c "!",     \
+                    a ## _ ## b ## _set_ ## c,          \
+                            a.b.c)
+
+#define SNUM3_GETSET(a, b, c) \
+  NUM3_GETTER (a, b, c)       \
+  SNUM3_SETTER (a, b, c)
+
+#define UNUM3_GETSET(a, b, c) \
+  NUM3_GETTER (a, b, c)       \
+  UNUM3_SETTER (a, b, c)
 
 
 #define FLAG_GETTER(s_frag, c_frag, c_field, stash)     \
@@ -423,9 +447,9 @@ ENUM_GETSET ("type",          type,
              type,
              event_type)
 
-NUM2_GETSET (active, gain)
-NUM2_GETSET (active, state)
-NUM2_GETSET (key, state)
+UNUM2_GETSET (active, gain)
+UNUM2_GETSET (active, state)
+UNUM2_GETSET (key, state)
 
 ENUM_GETSET ("key:keysym:sym",        key_keysym_sym,
              "key:keysym:set-sym!", key_keysym_set_sym,
@@ -437,39 +461,39 @@ FLAG_GETSET ("key:keysym:mod",        key_keysym_mod,
              key.keysym.mod,
              event_mod_flags)
 
-NUM3_GETSET (key, keysym, scancode)
-NUM3_GETSET (key, keysym, unicode)
+UNUM3_GETSET (key, keysym, scancode)
+UNUM3_GETSET (key, keysym, unicode)
 
-NUM2_GETSET (motion, state)
-NUM2_GETSET (motion, x)
-NUM2_GETSET (motion, y)
-NUM2_GETSET (motion, xrel)
-NUM2_GETSET (motion, yrel)
+UNUM2_GETSET (motion, state)
+UNUM2_GETSET (motion, x)
+UNUM2_GETSET (motion, y)
+SNUM2_GETSET (motion, xrel)
+SNUM2_GETSET (motion, yrel)
 
-NUM2_GETSET (button, button)
-NUM2_GETSET (button, state)
-NUM2_GETSET (button, x)
-NUM2_GETSET (button, y)
+UNUM2_GETSET (button, button)
+UNUM2_GETSET (button, state)
+UNUM2_GETSET (button, x)
+UNUM2_GETSET (button, y)
 
-NUM2_GETSET (jaxis, which)
-NUM2_GETSET (jaxis, axis)
-NUM2_GETSET (jaxis, value)
+UNUM2_GETSET (jaxis, which)
+UNUM2_GETSET (jaxis, axis)
+SNUM2_GETSET (jaxis, value)
 
-NUM2_GETSET (jbutton, which)
-NUM2_GETSET (jbutton, button)
-NUM2_GETSET (jbutton, state)
+UNUM2_GETSET (jbutton, which)
+UNUM2_GETSET (jbutton, button)
+UNUM2_GETSET (jbutton, state)
 
-NUM2_GETSET (jball, which)
-NUM2_GETSET (jball, ball)
-NUM2_GETSET (jball, xrel)
-NUM2_GETSET (jball, yrel)
+UNUM2_GETSET (jball, which)
+UNUM2_GETSET (jball, ball)
+SNUM2_GETSET (jball, xrel)
+SNUM2_GETSET (jball, yrel)
 
-NUM2_GETSET (jhat, which)
-NUM2_GETSET (jhat, hat)
-NUM2_GETSET (jhat, value)
+UNUM2_GETSET (jhat, which)
+UNUM2_GETSET (jhat, hat)
+UNUM2_GETSET (jhat, value)
 
-NUM2_GETSET (resize, w)
-NUM2_GETSET (resize, h)
+SNUM2_GETSET (resize, w)
+SNUM2_GETSET (resize, h)
 
 #if 0 /* what is this? --ttn */
 NUM2_GETSET (user, code)
