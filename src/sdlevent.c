@@ -877,7 +877,7 @@ PRIMPROC
  (void),
  doc: /***********
 Return the current relative state of the mouse as an alist
-symbolic keys: @code{state}, @code{x} and @code{y}.  */)
+with symbolic keys: @code{state}, @code{x} and @code{y}.  */)
 {
 #define FUNC_NAME s_get_relative_mouse_state
   int buttons, x, y;

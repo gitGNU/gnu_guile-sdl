@@ -1,3 +1,9 @@
+2013-05-20  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[doc] Fix typo in ‘get-mouse-relative-state’ doc comment.
+
+	* sdlevent.c (get_relative_mouse_state): ...here.
+
 2013-05-16  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Preserve surface depth for h/v flipping.
