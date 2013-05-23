@@ -26,37 +26,36 @@
 (SDL:init '(SDL_INIT_VIDEO))
 
 ;; set the video mode to the dimensions of our image
-(SDL:set-video-mode 200 153 16)
+(define screen (SDL:set-video-mode 200 153 16))
 
 ;; load and blit the image
 (let ((gnu-head (SDL:load-image (datafile "gnu-goatee.jpg"))))
-  (SDL:blit-surface gnu-head gnu-rect (SDL:get-video-surface) gnu-rect))
+  (SDL:blit-surface gnu-head gnu-rect screen gnu-rect))
 
 ;; flip the double buffer
-(SDL:flip (SDL:get-video-surface))
+(SDL:flip screen)
 
 ;; wait a half-second, then flip it upside-down
 (SDL:delay 500)
-(let ((upside-down (SDL:vertical-flip-surface (SDL:get-video-surface))))
-  (SDL:blit-surface upside-down gnu-rect (SDL:get-video-surface) gnu-rect))
-(SDL:flip (SDL:get-video-surface))
+(let ((upside-down (SDL:vertical-flip-surface screen)))
+  (SDL:blit-surface upside-down gnu-rect screen gnu-rect))
+(SDL:flip screen)
 
 ;; now flip horizontally
 (SDL:delay 500)
-(let ((left-right (SDL:horizontal-flip-surface (SDL:get-video-surface))))
-  (SDL:blit-surface left-right gnu-rect (SDL:get-video-surface) gnu-rect))
-(SDL:flip (SDL:get-video-surface))
+(let ((left-right (SDL:horizontal-flip-surface screen)))
+  (SDL:blit-surface left-right gnu-rect screen gnu-rect))
+(SDL:flip screen)
 
 ;; ... and finally flip back
 (SDL:delay 500)
-(let ((orig (SDL:vh-flip-surface (SDL:get-video-surface))))
-  (SDL:blit-surface orig gnu-rect (SDL:get-video-surface) gnu-rect))
-(SDL:flip (SDL:get-video-surface))
+(let ((orig (SDL:vh-flip-surface screen)))
+  (SDL:blit-surface orig gnu-rect screen gnu-rect))
+(SDL:flip screen)
 
 ;; round-trip via a .bmp file
 (SDL:delay 500)
-(let ((screen (SDL:get-video-surface))
-      (filename "image.bmp"))
+(let ((filename "image.bmp"))
   (SDL:save-bmp screen filename)
   (SDL:fill-rect screen gnu-rect 0)
   (SDL:update-rect screen gnu-rect)

@@ -1,3 +1,10 @@
+2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v int] Add abstraction: screen
+
+	* image.scm (screen): New var; use it
+	throughout to replace ‘(SDL:get-video-surface)’.
+
 2013-05-17  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Use 8-bit video mode in cursor test.
