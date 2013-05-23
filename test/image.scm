@@ -28,6 +28,13 @@
 ;; set the video mode to the dimensions of our image
 (define screen (SDL:set-video-mode 200 153 32))
 
+(define (check-depth what surface)
+  (let ((exp (SDL:surface:depth screen))
+        (got (SDL:surface:depth surface)))
+    (or (= exp got)
+        (error (fs "~A depth (~A) different than screen (~A)"
+                   what got exp)))))
+
 ;; load and blit the image
 (let ((gnu-head (SDL:load-image (datafile "gnu-goatee.jpg"))))
   (SDL:blit-surface gnu-head gnu-rect screen gnu-rect))
@@ -38,18 +45,21 @@
 ;; wait a half-second, then flip it upside-down
 (SDL:delay 500)
 (let ((upside-down (SDL:vertical-flip-surface screen)))
+  (check-depth 'upside-down upside-down)
   (SDL:blit-surface upside-down gnu-rect screen gnu-rect))
 (SDL:flip screen)
 
 ;; now flip horizontally
 (SDL:delay 500)
 (let ((left-right (SDL:horizontal-flip-surface screen)))
+  (check-depth 'left-right left-right)
   (SDL:blit-surface left-right gnu-rect screen gnu-rect))
 (SDL:flip screen)
 
 ;; ... and finally flip back
 (SDL:delay 500)
 (let ((orig (SDL:vh-flip-surface screen)))
+  (check-depth 'orig orig)
   (SDL:blit-surface orig gnu-rect screen gnu-rect))
 (SDL:flip screen)
 
