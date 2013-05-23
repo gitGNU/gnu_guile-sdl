@@ -23,9 +23,36 @@
 (use-modules ((sdl sdl) #:prefix SDL:)
              ((sdl ttf) #:prefix TTF:))
 
+(define (check-joystick-maybe)
+  (let ((count (SDL:num-joysticks))
+        (joy (SDL:joystick-open)))
+    (and verbose? (fso "joysticks: ~S~%" count))
+    (if (zero? count)
+        (and joy (error "phantom joystick:" joy))
+        (or joy (error "joystick-open failed")))
+    (or (not joy)
+        (SDL:joystick? joy)
+        (error "joystick-open returned something weird:" joy))
+    (and joy
+         (let ((name (SDL:joystick-name joy))
+               (opened? (SDL:joystick-opened? joy))
+               (index (SDL:joystick-index joy))
+               (num-axes (SDL:joystick-num-axes joy))
+               (num-balls (SDL:joystick-num-balls joy))
+               (num-hats (SDL:joystick-num-hats joy))
+               (num-buttons (SDL:joystick-num-buttons joy)))
+           (cond (verbose?
+                  (fso "joystick ~S (~A), index ~A"
+                       name (if opened? 'open 'still-closed!) index)
+                  (fso ", axes ~A balls ~A hats ~A buttons ~A~%"
+                       num-axes num-balls num-hats num-buttons)))))
+    joy))
+
 ;; initialize the SDL video (and event) module
 (let ((res (SDL:init '(SDL_INIT_VIDEO))))
   (and debug? (fso "SDL:init: ~S~%" res)))
+
+(define JOY (check-joystick-maybe))
 
 ;; initialize the font lib
 (let ((res (TTF:ttf-init)))
@@ -128,6 +155,7 @@
 (input-loop (SDL:make-event 0))
 
 ;; quit SDL
+(and JOY (SDL:joystick-close JOY))
 (exit (SDL:quit))
 
 ;;; event.scm ends here

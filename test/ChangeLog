@@ -1,5 +1,12 @@
 2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise some joystick procs.
+
+	* event.scm (check-joystick-maybe): New proc.
+	(JOY): New var.
+
+2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Check returned-surface depth of v/h/vh flipping procs.
 
 	* image.scm (check-depth): New proc; use it for
