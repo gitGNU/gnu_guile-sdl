@@ -60,6 +60,10 @@
       10 (GFX:roto-zoom-surface-xy gnu-head theta magx magy #t)
       100)
 
+;; pure exercise
+(let ((n (SDL:get-ticks)))
+  (and verbose? (fso "INFO: ticks: ~S~%" n)))
+
 ;; quit
 (exit (SDL:quit))
 
