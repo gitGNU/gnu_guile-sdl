@@ -26,14 +26,18 @@
 ;; load the image
 (define gnu-head (SDL:load-image (datafile "gnu-goatee.jpg")))
 
-(define-macro (spin theta-update mag-vars turns roto wait)
+(define-macro (spin theta-update mag-vars turns roto fps)
   ;; the size of our test image
   `(let ((w (SDL:surface:w gnu-head))
          (h (SDL:surface:h gnu-head))
+         (idle (GFX:make-fps-manager ,fps))
          (screen #f))
      ;; set the video mode to the dimensions of our image
      (SDL:set-video-mode w h 16 '(SDL_HWSURFACE))
      (set! screen (SDL:get-video-surface))
+     ;; pure exercise
+     (or (= ,fps (GFX:fps-manager-get idle))
+         (GFX:fps-manager-set! idle ,fps))
      (do ((theta 0 (+ ,theta-update theta)) ,@mag-vars)
          ((>= theta (* ,turns 360)))    ; a few times around
        (let* ((image ,roto)
@@ -45,16 +49,16 @@
          (SDL:fill-rect screen #f #xffff)
          (SDL:blit-surface image #f #f drect)
          (SDL:flip)
-         (SDL:delay ,wait)))))
+         (GFX:fps-manager-delay! idle)))))
 
 (spin 27 ((mag 1.0 (* mag 0.9)))
       3 (GFX:roto-zoom-surface gnu-head theta mag #t)
-      50)
+      20)
 
 (spin (+ 10 (random 17)) ((magx 1.0 (* magx (+ 0.75 (random 0.5))))
                           (magy 1.0 (* magy (+ 0.75 (random 0.5)))))
       10 (GFX:roto-zoom-surface-xy gnu-head theta magx magy #t)
-      10)
+      100)
 
 ;; quit
 (exit (SDL:quit))

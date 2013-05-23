@@ -1,5 +1,13 @@
 2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise fps-manager procs.
+
+	* roto.scm (spin): Take arg ‘fps’ instead of ‘wait’;
+	use an fps-manager to maintain the specified rate.
+	<top-level>: Update calls to ‘spin’.
+
+2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘get-app-state’.
 
 	* event.scm <top-level>: ...here,
