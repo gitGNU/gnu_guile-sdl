@@ -1,3 +1,10 @@
+2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Drop procs: cd-null?, joystick-null?
+
+	* ref.texh (Joystick): Delete @tsin for ‘joystick-null?’.
+	(CDROM): Likewise, for ‘cd-null?’.
+
 2013-03-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.4.2

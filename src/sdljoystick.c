@@ -53,22 +53,6 @@ Return @code{#t} iff @var{obj} is a joystick object.  */)
 
 
 PRIMPROC
-(joystick_null_p, "joystick-null?", 1, 0, 0,
- (SCM joystick),
- doc: /***********
-Return @code{#t} iff @var{joystick} is a NULL joystick.
-[What does that mean? --ttn]  */)
-{
-#define FUNC_NAME s_joystick_null_p
-  ASSERT_JOYSTICK (joystick, 1);
-
-  RETURN_BOOL
-    (! UNPACK_JOYSTICK (joystick));
-#undef FUNC_NAME
-}
-
-
-PRIMPROC
 (num_joysticks, "num-joysticks", 0, 0, 0,
  (void),
  doc: /***********

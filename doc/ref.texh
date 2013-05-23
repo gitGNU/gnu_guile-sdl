@@ -460,8 +460,6 @@ VIDEOEXPOSE   VIDEORESIZE
 
 @tsin i joystick?
 
-@tsin i joystick-null?
-
 @tsin i joystick-name
 
 @tsin i joystick-open
@@ -496,8 +494,6 @@ VIDEOEXPOSE   VIDEORESIZE
 @chapter CDROM
 
 @tsin i cd?
-
-@tsin i cd-null?
 
 @tsin i cd-num-drives
 

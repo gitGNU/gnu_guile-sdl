@@ -1,3 +1,10 @@
+2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Drop procs: cd-null?, joystick-null?
+
+	* sdlcdrom.c (cd_null_p): Delete func.
+	* sdljoystick.c (joystick_null_p): Likewise.
+
 2013-05-20  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Fix bug: Accept signed integers for some event field setters.

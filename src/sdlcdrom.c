@@ -53,22 +53,6 @@ Return @code{#t} iff @var{obj} is a CDROM drive object.  */)
 
 
 PRIMPROC
-(cd_null_p, "cd-null?", 1, 0, 0,
- (SCM cdrom),
- doc: /***********
-Return @code{#t} iff @var{cdrom} is a null pointer.
-[What does that mean? --ttn]  */)
-{
-#define FUNC_NAME s_cd_null_p
-  ASSERT_CDROM (cdrom, 1);
-
-  RETURN_BOOL
-    (! UNPACK_CDROM (cdrom));
-#undef FUNC_NAME
-}
-
-
-PRIMPROC
 (cd_num_drives, "cd-num-drives", 0, 0, 0,
  (),
  doc: /***********
