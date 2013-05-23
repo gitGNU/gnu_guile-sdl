@@ -1,5 +1,11 @@
 2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise some color procs.
+
+	* ttf.scm (rand-color): ...here.
+
+2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘get-ticks’.
 
 	* roto.scm <top-level>: ...here.

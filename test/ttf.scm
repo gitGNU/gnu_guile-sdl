@@ -78,7 +78,14 @@
 
 (define rand-color
   (lambda ()
-    (SDL:make-color (random #xff) (random #xff) (random #xff))))
+    (let ((c (SDL:make-color (random #xff) (random #xff) (random #xff))))
+      (or (SDL:color? c)
+          (error "make-color failed"))
+      (let ((r (SDL:color:r c))
+            (g (SDL:color:g c))
+            (b (SDL:color:b c)))
+        (and verbose? (fso "color: ~A ~A ~A~%" r g b)))
+      c)))
 
 ;; clear the screen
 (SDL:fill-rect (SDL:get-video-surface) test-rect #xffffff)
