@@ -1,5 +1,12 @@
 2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘get-app-state’.
+
+	* event.scm <top-level>: ...here,
+	before reporting event states.
+
+2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise some joystick procs.
 
 	* event.scm (check-joystick-maybe): New proc.

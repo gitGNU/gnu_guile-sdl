@@ -140,6 +140,9 @@
          (display-centered "~A" event-type)
          (input-loop e))))))
 
+;; report app state
+(display-centered "app state: ~S" (SDL:get-app-state))
+
 ;; report event states
 (for-each (lambda (type)
             (display-centered "~A : ~A"
