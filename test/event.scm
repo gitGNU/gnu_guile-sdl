@@ -154,6 +154,9 @@
 ((display-centered-w/height-proc (- (SDL:rect:h test-rect) height 5))
  "(Press Escape to Quit, Space to Toggle Filter)")
 
+;; enable keyboard repeat
+(SDL:enable-key-repeat 250 6)
+
 ;; main loop
 (input-loop (SDL:make-event 0))
 
