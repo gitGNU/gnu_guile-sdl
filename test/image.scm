@@ -26,7 +26,7 @@
 (SDL:init '(SDL_INIT_VIDEO))
 
 ;; set the video mode to the dimensions of our image
-(define screen (SDL:set-video-mode 200 153 16))
+(define screen (SDL:set-video-mode 200 153 32))
 
 ;; load and blit the image
 (let ((gnu-head (SDL:load-image (datafile "gnu-goatee.jpg"))))
