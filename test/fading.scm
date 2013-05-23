@@ -51,8 +51,9 @@
                         (fader/3p 0.420 (canvas) #f bef aft))
       (lambda (init! fade! done!)
         (init!)
-        (let loop ((continue? (fade!)))
-          (and continue? (loop (fade!))))
+        (let loop ()
+          (and (fade!)
+               (loop)))
         (done!)))
     (SDL:delay 420))
   (SDL:fill-rect void #f
