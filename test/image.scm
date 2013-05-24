@@ -90,6 +90,16 @@
       (SDL:delay 40))))
 (SDL:set-clip-rect! screen #f)
 
+;; alpha
+(SDL:delay 200)
+(do ((i 0 (1+ i))
+     (alpha 9 (+ 9 alpha)))
+    ((= 9 i))
+  (SDL:set-alpha! gnu-head 'SDL_SRCALPHA alpha)
+  (SDL:blit-surface gnu-head #f screen)
+  (SDL:flip)
+  (SDL:delay 20))
+
 ;; round-trip via a .bmp file
 (SDL:delay 500)
 (let ((filename "image.bmp"))
