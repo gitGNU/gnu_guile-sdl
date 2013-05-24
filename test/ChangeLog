@@ -1,5 +1,11 @@
 2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v int] Promote video-info dump from DEBUG=1 to VERBOSE=1.
+
+	* rect.scm <top-level>: ...here.
+
+2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check clipping rectangle procs.
 
 	* rect.scm (gnu-head): New var.

@@ -22,9 +22,12 @@
 ;; initialize the SDL video module
 (SDL:init '(SDL_INIT_VIDEO))
 
-(and debug?
-     (for-each (lambda (x) (fso "video-info: ~S~%" x))
-               (SDL:get-video-info)))
+(let ((alist (SDL:get-video-info)))
+  (and verbose?
+       (for-each (lambda (k v)
+                   (fso "~A: ~S~%" k v))
+                 (map car alist)
+                 (map cdr alist))))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect
