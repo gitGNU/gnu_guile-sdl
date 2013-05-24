@@ -89,6 +89,8 @@
       (else (fse "ERROR: Not a surface: ~S~%" screen)
             (exit #f)))
 
+(define fmt (SDL:surface-get-format screen))
+
 ;; get some info on ‘screen’
 (let ((depth (SDL:surface:depth screen))
       (flags (SDL:surface:flags screen)))
@@ -111,7 +113,16 @@
 (do ((i 0 (1+ i)))
     ((= i 20))
   (let ((sample (rand-rect test-rect)))
-    (SDL:fill-rect screen sample (random #xffffff))
+
+    (define (w/random-args n proc)
+      (apply proc fmt (map (lambda (x)
+                             (random #x100))
+                           (iota n))))
+
+    (SDL:fill-rect screen sample (case (modulo i 3)
+                                   ((0) (random #x100))
+                                   ((1) (w/random-args 3 SDL:map-rgb))
+                                   ((2) (w/random-args 4 SDL:map-rgba))))
     (SDL:update-rect screen sample)))
 
 (SDL:delay (* 200 (if *interactive* 10 1)))

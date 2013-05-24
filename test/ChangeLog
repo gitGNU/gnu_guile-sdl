@@ -1,5 +1,12 @@
 2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘map-rgb’, ‘map-rgba’.
+
+	* rect.scm (fmt): New var.
+	<draw some rectangles>: ...here, when choosing random colors.
+
+2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v int] Add abstraction: random-rgba
 
 	* gfx.scm (random-rgba): New proc; use it
