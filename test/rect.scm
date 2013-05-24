@@ -39,6 +39,10 @@
            ;; a list - choose the first mode
            (car modes)))))
 (and debug? (fso "test-rect => ~A~%" test-rect))
+(or (and (SDL:rect? test-rect)
+         (zero? (SDL:rect:x test-rect))
+         (zero? (SDL:rect:y test-rect)))
+    (error "weird test-rect" test-rect))
 
 (set! *random-state* (seed->random-state (current-time)))
 

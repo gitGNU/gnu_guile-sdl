@@ -1,3 +1,10 @@
+2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise some rectangle procs.
+
+	* rect.scm (test-rect): ...here,
+	signalling error if this object is "weird".
+
 2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v int] Elide local var.
