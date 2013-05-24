@@ -22,6 +22,9 @@
 ;; initialize the SDL video module
 (SDL:init '(SDL_INIT_VIDEO))
 
+(let ((name (SDL:video-driver-name)))
+  (and verbose? (fso "INFO: video-driver-name => ~S~%" name)))
+
 (and (SDL:video-mode-ok -1 -1 -1)
      (error "impossible video-mode is \"OK\"!"))
 
