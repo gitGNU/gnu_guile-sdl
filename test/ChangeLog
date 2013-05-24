@@ -1,5 +1,12 @@
 2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check clipping rectangle procs.
+
+	* rect.scm (gnu-head): New var.
+	<clipping rectangle>: ...here, in new section.
+
+2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘toggle-full-screen’.
 
 	* rect.scm <top-level>: ...here.

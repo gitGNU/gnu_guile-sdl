@@ -36,8 +36,8 @@
                    what got exp)))))
 
 ;; load and blit the image
-(let ((gnu-head (SDL:load-image (datafile "gnu-goatee.jpg"))))
-  (SDL:blit-surface gnu-head gnu-rect screen gnu-rect))
+(define gnu-head (SDL:load-image (datafile "gnu-goatee.jpg")))
+(SDL:blit-surface gnu-head gnu-rect screen gnu-rect)
 
 ;; flip the double buffer
 (SDL:flip screen)
@@ -62,6 +62,33 @@
   (check-depth 'orig orig)
   (SDL:blit-surface orig gnu-rect screen gnu-rect))
 (SDL:flip screen)
+
+;; clipping rectangle
+(SDL:delay 500)
+(let ((cr (SDL:get-clip-rect screen)))
+  (or cr (error "get-clip-rect failed to return a rect"))
+  (or (equal? '(200 153 0 0)
+              (map (lambda (proc)
+                     (proc cr))
+                   (list SDL:rect:w
+                         SDL:rect:h
+                         SDL:rect:x
+                         SDL:rect:y)))
+      (error "unexpected clip rect on screen:" cr)))
+(SDL:fill-rect screen #f #x880088)
+(let ((w (SDL:rect:w gnu-rect))
+      (h (SDL:rect:h gnu-rect)))
+  (do ((i 0 (1+ i)))
+      ((= 9 i))
+    (let* ((x (random w))
+           (y (random h)))
+      (SDL:set-clip-rect! screen (SDL:make-rect x y
+                                                (random (- w x))
+                                                (random (- h y))))
+      (SDL:blit-surface gnu-head #f screen)
+      (SDL:flip)
+      (SDL:delay 40))))
+(SDL:set-clip-rect! screen #f)
 
 ;; round-trip via a .bmp file
 (SDL:delay 500)
