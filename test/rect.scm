@@ -22,6 +22,9 @@
 ;; initialize the SDL video module
 (SDL:init '(SDL_INIT_VIDEO))
 
+(and (SDL:video-mode-ok -1 -1 -1)
+     (error "impossible video-mode is \"OK\"!"))
+
 (let ((alist (SDL:get-video-info)))
   (and verbose?
        (for-each (lambda (k v)
