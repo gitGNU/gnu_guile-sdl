@@ -132,6 +132,15 @@
                   randomize-cm!
                   jam!)))
 
+;; futz w/ full screen, maybe
+;; gate on interactive to allow manual intervention on weirdness
+(and *interactive*
+     (let ((res (SDL:toggle-full-screen)))
+       (and verbose? (fso "INFO: toggle-full-screen => ~S~%" res))
+       (SDL:delay 1000)
+       (and res (SDL:toggle-full-screen))
+       (SDL:delay 1000)))
+
 ;; more wm futzing -- do this after pausing to avoid
 ;;                    disconcerting flashing
 (let ((rv (SDL:iconify-window)))
