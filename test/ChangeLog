@@ -1,5 +1,12 @@
 2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v int] Add abstraction: random-rgb
+
+	* gfx.scm (random-rgb): New proc;
+	use it throughout to replace ‘(random #xffffff)’.
+
+2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘set-alpha!’.
 
 	* image.scm <alpha>: ...here, in new section.

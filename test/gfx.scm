@@ -22,6 +22,9 @@
 (use-modules ((sdl sdl) #:prefix SDL:)
              ((sdl gfx) #:prefix GFX:))
 
+(define (random-rgb)
+  (random #x1000000))
+
 ;; initialize SDL video
 (SDL:init '(SDL_INIT_VIDEO))
 
@@ -49,7 +52,7 @@
         (all (map integer->char (iota 256))))
     (define (one char)
       (GFX:draw-character SCREEN (random max-x) (random max-y) char
-                          (+ #xff (ash (random #x1000000) 8))))
+                          (+ #xff (ash (random-rgb) 8))))
     (lambda ()
       (for-each one (list-tail all (random (- 256 (random 256))))))))
 
@@ -146,7 +149,7 @@
       (s16vector-set! x-uv i (random 640))
       (s16vector-set! y-uv i (random 480)))
     (GFX:draw-bezier SCREEN x-uv y-uv 5
-                     (+ #x80 (ash (random #xffffff) 8))))
+                     (+ #x80 (ash (random-rgb) 8))))
   (SDL:flip))
 
 ;; draw horizontal and vertical lines
@@ -154,10 +157,10 @@
       (h (SDL:surface:h SCREEN)))
   (do ((i 0 (1+ i)))
       ((= i h))
-    (GFX:draw-hline SCREEN (random w) (random w) i (random #xffffff)))
+    (GFX:draw-hline SCREEN (random w) (random w) i (random-rgb)))
   (do ((i 0 (1+ i)))
       ((= i w))
-    (GFX:draw-vline SCREEN i (random h) (random h) (random #xffffff)))
+    (GFX:draw-vline SCREEN i (random h) (random h) (random-rgb)))
   (SDL:flip))
 
 ;; draw lines
@@ -187,7 +190,7 @@
            (R  (make-list (1+ steps) r))
            (T  (make-list (1+ steps) t))
            (B  (make-list (1+ steps) b))
-           (d! (line!-proc (random #xffffff))))
+           (d! (line!-proc (random-rgb))))
       (map d! LR T R TB)
       (map d! R TB RL B)
       (map d! RL B L BT)
@@ -207,7 +210,7 @@
      (y-radius 240 (1- y-radius)))
     ((= 200 y-radius))
   (GFX:draw-ellipse SCREEN 320 240 x-radius y-radius
-                    (+ (ash (random #xffffff) 8) 1)
+                    (+ (ash (random-rgb) 8) 1)
                     #t)
   (SDL:flip))
 
@@ -216,7 +219,7 @@
     ((> 70 radius))
   (let ((c! (lambda (x y)
               (GFX:draw-circle SCREEN x y radius
-                               (+ (ash (random #xffffff) 8) 1)
+                               (+ (ash (random-rgb) 8) 1)
                                #t))))
     (c! 100 100)
     (c! 100 380)
@@ -232,7 +235,7 @@
     (let* ((x (random w))
            (y (random h))
            (r (min x (- w x) y (- h y)))
-           (color (ash (random #xffffff) 8))
+           (color (ash (random-rgb) 8))
            (beg (random 360))
            (sub (ash (- (+ beg (random 360)) beg) -4)))
       (do ((i 0 (1+ i)))
@@ -263,7 +266,7 @@
       (s16vector-set! x-uv i (random 640))
       (s16vector-set! y-uv i (random 480)))
     (GFX:draw-polygon SCREEN x-uv y-uv
-                      (+ #x80 (ash (random #xffffff) 8))
+                      (+ #x80 (ash (random-rgb) 8))
                       #t))
   (SDL:flip))
 
@@ -318,7 +321,7 @@
     ((<= 240 rad))
   (GFX:draw-rounded-rectangle
    SCREEN x1 y1 x2 y2
-   rad (+ #x30 (ash (random #xffffff) 8))
+   rad (+ #x30 (ash (random-rgb) 8))
    (zero? (random 8)))
   (SDL:flip))
 
