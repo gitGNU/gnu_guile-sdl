@@ -157,6 +157,15 @@
 ;; enable keyboard repeat
 (SDL:enable-key-repeat 250 6)
 
+;; be grabby, but not for long
+(let ((cur (SDL:grab-input 'query)))
+  (or (eq? 'on (SDL:grab-input 'on))
+      (error "could not grab input"))
+  (or (eq? 'off (SDL:grab-input 'off))
+      (error "could not ungrab input"))
+  (or (eq? cur (SDL:grab-input cur))
+      (error "could not restore grab state")))
+
 ;; main loop
 (input-loop (SDL:make-event 0))
 
