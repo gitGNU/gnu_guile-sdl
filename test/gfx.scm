@@ -25,6 +25,9 @@
 (define (random-rgb)
   (random #x1000000))
 
+(define (random-rgba alpha)
+  (+ alpha (ash (random-rgb) 8)))
+
 ;; initialize SDL video
 (SDL:init '(SDL_INIT_VIDEO))
 
@@ -52,7 +55,7 @@
         (all (map integer->char (iota 256))))
     (define (one char)
       (GFX:draw-character SCREEN (random max-x) (random max-y) char
-                          (+ #xff (ash (random-rgb) 8))))
+                          (random-rgba #xff)))
     (lambda ()
       (for-each one (list-tail all (random (- 256 (random 256))))))))
 
@@ -149,7 +152,7 @@
       (s16vector-set! x-uv i (random 640))
       (s16vector-set! y-uv i (random 480)))
     (GFX:draw-bezier SCREEN x-uv y-uv 5
-                     (+ #x80 (ash (random-rgb) 8))))
+                     (random-rgba #x80)))
   (SDL:flip))
 
 ;; draw horizontal and vertical lines
@@ -210,7 +213,7 @@
      (y-radius 240 (1- y-radius)))
     ((= 200 y-radius))
   (GFX:draw-ellipse SCREEN 320 240 x-radius y-radius
-                    (+ (ash (random-rgb) 8) 1)
+                    (random-rgba 1)
                     #t)
   (SDL:flip))
 
@@ -219,7 +222,7 @@
     ((> 70 radius))
   (let ((c! (lambda (x y)
               (GFX:draw-circle SCREEN x y radius
-                               (+ (ash (random-rgb) 8) 1)
+                               (random-rgba 1)
                                #t))))
     (c! 100 100)
     (c! 100 380)
@@ -235,7 +238,7 @@
     (let* ((x (random w))
            (y (random h))
            (r (min x (- w x) y (- h y)))
-           (color (ash (random-rgb) 8))
+           (color (random-rgba 0))
            (beg (random 360))
            (sub (ash (- (+ beg (random 360)) beg) -4)))
       (do ((i 0 (1+ i)))
@@ -266,7 +269,7 @@
       (s16vector-set! x-uv i (random 640))
       (s16vector-set! y-uv i (random 480)))
     (GFX:draw-polygon SCREEN x-uv y-uv
-                      (+ #x80 (ash (random-rgb) 8))
+                      (random-rgba #x80)
                       #t))
   (SDL:flip))
 
@@ -321,7 +324,7 @@
     ((<= 240 rad))
   (GFX:draw-rounded-rectangle
    SCREEN x1 y1 x2 y2
-   rad (+ #x30 (ash (random-rgb) 8))
+   rad (random-rgba #x30)
    (zero? (random 8)))
   (SDL:flip))
 

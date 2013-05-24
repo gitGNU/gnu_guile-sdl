@@ -1,5 +1,12 @@
 2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v int] Add abstraction: random-rgba
+
+	* gfx.scm (random-rgba): New proc; use it
+	throughout to replace ‘(+ ALPHA (ash (random-rgb) 8))’.
+
+2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v int] Add abstraction: random-rgb
 
 	* gfx.scm (random-rgb): New proc;
