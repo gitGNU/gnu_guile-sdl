@@ -1,3 +1,12 @@
+2013-05-25  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Support both depths 16 and 32 in gfx test.
+
+	* gfx.scm (DEPTH): New var.
+	<initialize the video mode>: Use it.
+	<draw ellipses>: Use constant RGBA if 32 bpp.
+	<draw circles>: Likewise.
+
 2013-05-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Exercise ‘map-rgb’, ‘map-rgba’.

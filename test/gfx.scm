@@ -31,8 +31,10 @@
 ;; initialize SDL video
 (SDL:init '(SDL_INIT_VIDEO))
 
+(define DEPTH 32)                       ; 16 ok, but slower
+
 ;; initialize the video mode
-(SDL:set-video-mode 640 480 16)
+(SDL:set-video-mode 640 480 DEPTH)
 
 (set! *random-state* (seed->random-state (current-time)))
 
@@ -213,7 +215,9 @@
      (y-radius 240 (1- y-radius)))
     ((= 200 y-radius))
   (GFX:draw-ellipse SCREEN 320 240 x-radius y-radius
-                    (random-rgba 1)
+                    (if (= 32 DEPTH)
+                        #x040201
+                        (random-rgba 1))
                     #t)
   (SDL:flip))
 
@@ -222,7 +226,9 @@
     ((> 70 radius))
   (let ((c! (lambda (x y)
               (GFX:draw-circle SCREEN x y radius
-                               (random-rgba 1)
+                               (if (= 32 DEPTH)
+                                   #x040201
+                                   (random-rgba 1))
                                #t))))
     (c! 100 100)
     (c! 100 380)
