@@ -7,6 +7,8 @@ Andreas Schiffler in directory src/SDL_gfx/, wrote:
   README
   SDL_framerate.c
   SDL_framerate.h
+  SDL_gfxBlitFunc.c
+  SDL_gfxBlitFunc.h
   SDL_gfxPrimitives.c
   SDL_gfxPrimitives.h
   SDL_gfxPrimitives_font.h
@@ -14,7 +16,6 @@ Andreas Schiffler in directory src/SDL_gfx/, wrote:
   SDL_imageFilter.h
   SDL_rotozoom.c
   SDL_rotozoom.h
-  nodebug.sh
 
 
 Steven G. Johnson and Matteo Frigo wrote:
