@@ -13,7 +13,7 @@ else d="$GUILE_LIBSITE"
 fi
 
 # Make sure ‘GUILE_LIBSITE’ is sane.
-test x"$VERBOSE" = x || echo GUILE_LIBSITE: $d
+test x"$DEBUG" = x1 && echo GUILE_LIBSITE: $d
 if [ -z "$d" ] || [ ! -d "$d" ]
 then
     echo 'zow: Invalid GUILE_LIBSITE value.'

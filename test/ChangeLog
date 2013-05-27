@@ -1,3 +1,10 @@
+2013-05-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Change env var test driver uses to gate message.
+
+	* zow.in: Display "GUILE_LIBSITE: ..." message
+	only if env var ‘DEBUG’ has precise value "1".
+
 2013-05-25  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Support both depths 16 and 32 in gfx test.
