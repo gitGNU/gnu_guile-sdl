@@ -1,5 +1,13 @@
 2013-05-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Display more info on channels in mixer test.
+
+	* mixer.scm (specs): ...here, distinguishing
+	also the cases where no information is available,
+	and where there are more than two channels.
+
+2013-05-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Add abstraction: info
 
 	* common (info): New proc.

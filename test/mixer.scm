@@ -38,8 +38,11 @@
          (info "Opened audio at ~A Hz ~A bit ~A"
                (assq-ref specs 'freq)
                (logand (assq-ref specs 'format) #xFF)
-               (if (> (assq-ref specs 'channels) 1)
-                   "stereo" "mono")))
+               (case (assq-ref specs 'channels)
+                 ((#f) "(no channel info!)")
+                 ((1) "mono")
+                 ((2) "stereo")
+                 (else (fs "~A channels" (assq-ref specs 'channels))))))
         (else
          (SDL:quit)
          (exit-77 "no mixer specs available"))))
