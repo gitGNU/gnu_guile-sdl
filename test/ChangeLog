@@ -1,5 +1,18 @@
 2013-05-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Add abstraction: info
+
+	* common (info): New proc.
+	* cursor.scm: Use it throughout to
+	replace ‘fso’ conditional on ‘verbose?’.
+	* event.scm: Likewise.
+	* mixer.scm: Likewise.
+	* rect.scm: Likewise.
+	* roto.scm: Likewise.
+	* ttf.scm: Likewise.
+
+2013-05-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Change env var test driver uses to gate message.
 
 	* zow.in: Display "GUILE_LIBSITE: ..." message

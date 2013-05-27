@@ -23,17 +23,16 @@
 (SDL:init '(SDL_INIT_VIDEO))
 
 (let ((name (SDL:video-driver-name)))
-  (and verbose? (fso "INFO: video-driver-name => ~S~%" name)))
+  (info "video-driver-name => ~S" name))
 
 (and (SDL:video-mode-ok -1 -1 -1)
      (error "impossible video-mode is \"OK\"!"))
 
 (let ((alist (SDL:get-video-info)))
-  (and verbose?
-       (for-each (lambda (k v)
-                   (fso "~A: ~S~%" k v))
-                 (map car alist)
-                 (map cdr alist))))
+  (for-each (lambda (k v)
+              (info "~A => ~S" k v))
+            (map car alist)
+            (map cdr alist)))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect
@@ -47,7 +46,7 @@
           (else
            ;; a list - choose the first mode
            (car modes)))))
-(and debug? (fso "test-rect => ~A~%" test-rect))
+(info "test-rect => ~A" test-rect)
 (or (and (SDL:rect? test-rect)
          (zero? (SDL:rect:x test-rect))
          (zero? (SDL:rect:y test-rect)))
@@ -94,20 +93,17 @@
 ;; get some info on ‘screen’
 (let ((depth (SDL:surface:depth screen))
       (flags (SDL:surface:flags screen)))
-  (and verbose? (fso "INFO: ‘screen’ depth ~S flags ~S~%"
-                     depth flags)))
+  (info "‘screen’ depth ~S flags ~S" depth flags))
 
 ;; futz w/ the window-manager
-(let ((info (SDL:get-wm-info))
+(let ((wminfo (SDL:get-wm-info))
       (caption (SDL:get-caption)))
-  (cond (verbose?
-         (fso "INFO: get-wm-info => ~S~%" info)
-         (fso "INFO: get-caption => ~S~%" caption)))
+  (info "get-wm-info => ~S" wminfo)
+  (info "get-caption => ~S" caption)
   (and *interactive* (SDL:delay 1000))
   (SDL:set-caption "and so it goes")
-  (cond (verbose?
-         (fso "INFO: get-wm-info => ~S~%" (SDL:get-wm-info))
-         (fso "INFO: get-caption => ~S~%" (SDL:get-caption)))))
+  (info "get-wm-info => ~S" (SDL:get-wm-info))
+  (info "get-caption => ~S" (SDL:get-caption)))
 
 ;; draw some rectangles filled with random colors
 (do ((i 0 (1+ i)))
@@ -156,7 +152,7 @@
 ;; gate on interactive to allow manual intervention on weirdness
 (and *interactive*
      (let ((res (SDL:toggle-full-screen)))
-       (and verbose? (fso "INFO: toggle-full-screen => ~S~%" res))
+       (info "toggle-full-screen => ~S" res)
        (SDL:delay 1000)
        (and res (SDL:toggle-full-screen))
        (SDL:delay 1000)))
@@ -164,7 +160,7 @@
 ;; more wm futzing -- do this after pausing to avoid
 ;;                    disconcerting flashing
 (let ((rv (SDL:iconify-window)))
-  (and verbose? (fso "INFO: iconify-window => ~S~%" rv))
+  (info "iconify-window => ~S" rv)
   (SDL:delay (* 200 (if *interactive* 10 1))))
 
 ;; quit SDL

@@ -42,6 +42,12 @@
 
 (define verbose? (env-1? "VERBOSE"))
 
+(define info (if verbose?
+                 (lambda (s . args)
+                   (apply fso s args)
+                   (newline))
+                 (lambda ignored #t)))
+
 (define debug? (env-1? "DEBUG"))
 (and debug? (debug-enable 'debug 'backtrace))
 

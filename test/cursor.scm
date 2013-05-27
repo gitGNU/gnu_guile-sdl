@@ -72,15 +72,14 @@
       (if (zero? pad)
           s
           (string-append (make-string pad #\0) s))))
-  (cond (verbose?
-         (fso "gamma-ramp:\tr\tg\tb~%")
-         (do ((i 0 (1+ i)))
-             ((= 256 i))
-           (fso "\t~A\t~A\t~A\t~A~%"
-                (hex2 i)
-                (hex4 (u16vector-ref r i))
-                (hex4 (u16vector-ref g i))
-                (hex4 (u16vector-ref b i)))))))
+  (info "(gamma ramp)\tr\tg\tb")
+  (do ((i 0 (1+ i)))
+      ((= 256 i))
+    (info "\t~A\t~A\t~A\t~A"
+         (hex2 i)
+         (hex4 (u16vector-ref r i))
+         (hex4 (u16vector-ref g i))
+         (hex4 (u16vector-ref b i)))))
 
 (apply spew-ramp (SDL:get-gamma-ramp))
 

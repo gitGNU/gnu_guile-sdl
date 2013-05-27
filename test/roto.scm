@@ -62,7 +62,7 @@
 
 ;; pure exercise
 (let ((n (SDL:get-ticks)))
-  (and verbose? (fso "INFO: ticks: ~S~%" n)))
+  (info "ticks => ~S" n))
 
 ;; quit
 (exit (SDL:quit))

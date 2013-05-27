@@ -35,11 +35,11 @@
 ;; display audio device info
 (let ((specs (MIXER:query-spec)))
   (cond (specs
-         (fso "Opened audio at ~A Hz ~A bit ~A~%"
-              (assq-ref specs 'freq)
-              (logand (assq-ref specs 'format) #xFF)
-              (if (> (assq-ref specs 'channels) 1)
-                  "stereo" "mono")))
+         (info "Opened audio at ~A Hz ~A bit ~A"
+               (assq-ref specs 'freq)
+               (logand (assq-ref specs 'format) #xFF)
+               (if (> (assq-ref specs 'channels) 1)
+                   "stereo" "mono")))
         (else
          (SDL:quit)
          (exit-77 "no mixer specs available"))))

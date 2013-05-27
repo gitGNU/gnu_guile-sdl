@@ -26,7 +26,7 @@
 (define (check-joystick-maybe)
   (let ((count (SDL:num-joysticks))
         (joy (SDL:joystick-open)))
-    (and verbose? (fso "joysticks: ~S~%" count))
+    (info "joysticks count => ~S" count)
     (if (zero? count)
         (and joy (error "phantom joystick:" joy))
         (or joy (error "joystick-open failed")))
@@ -41,11 +41,13 @@
                (num-balls (SDL:joystick-num-balls joy))
                (num-hats (SDL:joystick-num-hats joy))
                (num-buttons (SDL:joystick-num-buttons joy)))
-           (cond (verbose?
-                  (fso "joystick ~S (~A), index ~A"
-                       name (if opened? 'open 'still-closed!) index)
-                  (fso ", axes ~A balls ~A hats ~A buttons ~A~%"
-                       num-axes num-balls num-hats num-buttons)))))
+           (info "joystick ~S (~A), ~A ~A, ~A ~A, ~A ~A, ~A ~A"
+                 name (if opened? 'open 'still-closed!)
+                 'index index
+                 'axes num-axes
+                 'balls num-balls
+                 'hats num-hats
+                 'buttons num-buttons)))
     joy))
 
 ;; initialize the SDL video (and event) module

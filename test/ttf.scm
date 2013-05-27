@@ -53,11 +53,10 @@
       (cond ((zero? (random 2))
              (TTF:font:set-style! font 'TTF_STYLE_UNDERLINE)
              (set! style (TTF:font:style font))))
-      (cond (verbose?
-             (fso "INFO: loaded ~S ~S => ~S~%" filename style font)
-             (for-each (lambda (pair)
-                         (fso "\t(~A) ~S~%" (car pair) (cdr pair)))
-                       etc)))
+      (info "loaded ~S ~S => ~S" filename style font)
+      (for-each (lambda (pair)
+                  (info "\t(~A) ~S" (car pair) (cdr pair)))
+                etc)
       font)))
 
 (define fonts (let* ((filename (datafile "FreeSerifBoldItalic.ttf"))
@@ -88,7 +87,7 @@
       (let ((r (SDL:color:r c))
             (g (SDL:color:g c))
             (b (SDL:color:b c)))
-        (and verbose? (fso "color: ~A ~A ~A~%" r g b)))
+        (info "(color) ~A ~A ~A" r g b))
       c)))
 
 ;; clear the screen
@@ -159,7 +158,7 @@
             (or (and (list? metrics)
                      (= 5 (length metrics)))
                 (error "bad metrics:" metrics))
-            (and verbose? (fso "metrics: ~S~%" metrics))
+            (info "metrics => ~S" metrics)
             (SDL:blit-surface text test-rect screen dst-rect)
             (SDL:update-rect screen dst-rect)
             (loop (1- i) (cdr fonts)))))))
