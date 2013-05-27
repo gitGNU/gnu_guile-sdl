@@ -1,19 +1,20 @@
 Welcome! (or "☡ Guile ∘ SDL ∞")
 ===============================
 
-	This directory contains Guile-SDL, a set of modules that provide
-	bindings for SDL (Simple DirectMedia Layer) to enable Guile
-	programmers to do all the nice things you can do with SDL.
+	Guile-SDL is a set of modules that provide bindings for various
+	Simple DirectMedia Layer (http://www.libsdl.org) libraries.
 
-	Most of the SDL functions have been wrapped with the exception
-	of a few functions that were too C-centric.  The SDL Threads and
-	the Audio functions haven't been included because of the
-	problems with Guile code being run from more than one thread.
-	However audio programming can be done with the module ‘(sdl
-	mixer)’ that requires the SDL_mixer library.
+	Most of the SDL functions are wrapped, with the exception of a
+	few functions that are too C-centric.  The SDL threads, audio
+	and network functions are not included.  However, there are
+	(optionally configured) bindings for SDL_mixer and SDL_ttf.
 
-	Also included is SDL_gfx 2.0.22 (by Andreas Schiffler) and
-	bindings for it.
+	Also included is SDL_gfx 2.0.22 (by Andreas Schiffler) source
+	code (LGPL 2.1) and bindings for it.
+
+	This is alpha code (pre 1.0 release), tested with various,
+	but not all, versions of Guile and SDL.  It may have bugs,
+	and the interfaces may change from version to version.
 
 
 Requirements
@@ -101,5 +102,5 @@ Installation Result
 Reporting Bugs
 ==============
 
-	Please send bug reports to Thien-Thi Nguyen.
+	Please report bugs; ‘./configure --help’ tells where.
 	Alternatively, you can file a report on Savannah.
