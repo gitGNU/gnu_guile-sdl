@@ -1,3 +1,9 @@
+2013-05-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Drop (sdl sdl) proc: string->image
+
+	* ref.texh (Video): Delete @tsin for ‘string->image’.
+
 2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Drop procs: cd-null?, joystick-null?

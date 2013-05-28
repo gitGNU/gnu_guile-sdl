@@ -217,8 +217,6 @@ SDL_foo_OVERLAY, where foo can be:
 
 @tsin i load-image
 
-@tsin i string->image
-
 @tsin i save-bmp
 
 @tsin i set-color-key!

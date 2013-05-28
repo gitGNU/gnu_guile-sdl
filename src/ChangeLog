@@ -1,3 +1,9 @@
+2013-05-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Drop (sdl sdl) proc: string->image
+
+	* sdlsurface.c (string_to_image): Delete func.
+
 2013-05-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Drop procs: cd-null?, joystick-null?

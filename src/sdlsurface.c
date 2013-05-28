@@ -260,28 +260,6 @@ If there are problems, return @code{#f}.  */)
 }
 
 
-/* Experimental: Load an image in one of many formats from a string.  */
-PRIMPROC
-(string_to_image, "string->image", 1, 0, 0,
- (SCM s),
- doc: /***********
-Return a surface made by loading image data from string
-@var{s}.  [WARNING: This procedure is experimental!]  */)
-{
-#define FUNC_NAME s_string_to_image
-  range_t cs;
-  SDL_Surface *rv;
-
-  ASSERT_STRING (s, 1);
-
-  FINANGLE_RAW (s);
-  rv = IMG_Load_RW (SDL_RWFromConstMem (RS (s), RLEN (s)), 0);
-  UNFINANGLE (s);
-  RETURN_NEW_SURFACE (rv);
-#undef FUNC_NAME
-}
-
-
 PRIMPROC
 (save_bmp, "save-bmp", 2, 0, 0,
  (SCM surface,
