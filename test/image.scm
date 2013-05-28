@@ -35,9 +35,12 @@
         (error (fs "~A depth (~A) different than screen (~A)"
                    what got exp)))))
 
+(define (standard-blit! surface)
+  (SDL:blit-surface surface gnu-rect screen gnu-rect))
+
 ;; load and blit the image
 (define gnu-head (SDL:load-image (datafile "gnu-goatee.jpg")))
-(SDL:blit-surface gnu-head gnu-rect screen gnu-rect)
+(standard-blit! gnu-head)
 
 ;; flip the double buffer
 (SDL:flip screen)
@@ -46,21 +49,21 @@
 (SDL:delay 500)
 (let ((upside-down (SDL:vertical-flip-surface screen)))
   (check-depth 'upside-down upside-down)
-  (SDL:blit-surface upside-down gnu-rect screen gnu-rect))
+  (standard-blit! upside-down))
 (SDL:flip screen)
 
 ;; now flip horizontally
 (SDL:delay 500)
 (let ((left-right (SDL:horizontal-flip-surface screen)))
   (check-depth 'left-right left-right)
-  (SDL:blit-surface left-right gnu-rect screen gnu-rect))
+  (standard-blit! left-right))
 (SDL:flip screen)
 
 ;; ... and finally flip back
 (SDL:delay 500)
 (let ((orig (SDL:vh-flip-surface screen)))
   (check-depth 'orig orig)
-  (SDL:blit-surface orig gnu-rect screen gnu-rect))
+  (standard-blit! orig))
 (SDL:flip screen)
 
 ;; clipping rectangle
@@ -96,7 +99,7 @@
      (alpha 9 (+ 9 alpha)))
     ((= 9 i))
   (SDL:set-alpha! gnu-head 'SDL_SRCALPHA alpha)
-  (SDL:blit-surface gnu-head #f screen)
+  (standard-blit! gnu-head)
   (SDL:flip)
   (SDL:delay 20))
 
@@ -107,7 +110,7 @@
   (SDL:fill-rect screen gnu-rect 0)
   (SDL:update-rect screen gnu-rect)
   (SDL:delay 100)
-  (SDL:blit-surface (SDL:load-bmp filename) gnu-rect screen gnu-rect)
+  (standard-blit! (SDL:load-bmp filename))
   (SDL:flip)
   (delete-file filename))
 
