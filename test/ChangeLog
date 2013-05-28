@@ -1,3 +1,10 @@
+2013-05-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise/check ‘get-rgb’, ‘get-rgba’.
+
+	* rect.scm <draw some rectangles>:
+	...here, when choosing random colors.
+
 2013-05-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Display more info on channels in mixer test.

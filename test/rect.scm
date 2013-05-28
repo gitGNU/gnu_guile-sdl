@@ -110,15 +110,27 @@
     ((= i 20))
   (let ((sample (rand-rect test-rect)))
 
-    (define (w/random-args n proc)
-      (apply proc fmt (map (lambda (x)
-                             (random #x100))
-                           (iota n))))
+    (define (w/random-args make unpack n)
+      (let* ((full (apply make fmt (map (lambda (x)
+                                          (random #x100))
+                                        (iota n))))
+             (part (unpack full fmt)))
+        (or (and (pair? part)
+                 (= n (length part)))
+            (error (fs "bad ~A result: ~S"
+                       (procedure-name unpack)
+                       part)))
+        (info "color ~S ~S" full part)
+        full))
 
     (SDL:fill-rect screen sample (case (modulo i 3)
                                    ((0) (random #x100))
-                                   ((1) (w/random-args 3 SDL:map-rgb))
-                                   ((2) (w/random-args 4 SDL:map-rgba))))
+                                   ((1) (w/random-args SDL:map-rgb
+                                                       SDL:get-rgb
+                                                       3))
+                                   ((2) (w/random-args SDL:map-rgba
+                                                       SDL:get-rgba
+                                                       4))))
     (SDL:update-rect screen sample)))
 
 (SDL:delay (* 200 (if *interactive* 10 1)))
