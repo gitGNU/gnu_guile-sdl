@@ -1,5 +1,13 @@
 2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘(sdl mixer) set-music-command’.
+
+	* mixer.scm (set-music-command!): New proc.
+	<play background>: Use ‘set-music-command!’
+	to ensure internal playback.
+
+2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘paused-music?’.
 
 	* mixer.scm <loop>: ...here.

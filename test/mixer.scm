@@ -52,7 +52,14 @@
 (define background (MIXER:load-music (datafile "background.ogg")))
 (define fx (MIXER:load-wave (datafile "fx.ogg")))
 
+(define (set-music-command! command)
+  (let ((res (MIXER:set-music-command command)))
+    (info "(set-music-command ~S) => ~S" command res)
+    (or (zero? res)
+        (error "set-music-command failed"))))
+
 ;; play background
+(set-music-command! #f)
 (MIXER:music-volume 42)
 (MIXER:play-music background)
 
