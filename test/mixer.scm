@@ -75,6 +75,14 @@
          (MIXER:set-position ch angle 0)
          (or (MIXER:playing? ch)
              (error (fs "(playing? ~S) => #f !!!" ch)))
+         (or (not (= 10 angle))
+             (let ((ogg-player (getenv "OGGPLAYER")))
+               (or (not ogg-player)
+                   (string-null? ogg-player)
+                   (and (set-music-command! ogg-player)
+                        (or (zero? (MIXER:play-music (load-music)))
+                            (error (fs "play-music via ‘~A’ failed"
+                                       ogg-player)))))))
          (SDL:delay 500)
          (loop (+ 20 angle)))))
 

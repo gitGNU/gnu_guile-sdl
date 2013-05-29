@@ -1,5 +1,13 @@
 2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Add support for ‘OGGPLAYER=COMMAND’.
+
+	* mixer.scm <loop>: About 65% of the way through the
+	internal playback, check for env var ‘OGGPLAYER’ and if
+	sane, switch to external playback w/ the specified COMMAND.
+
+2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v int] Add abstraction: load-music
 
 	* mixer.scm (load-music): New proc.

@@ -36,6 +36,7 @@ Installation Process
 	  ./configure [--disable-mixer] [--disable-ttf]
 	  make
 	  make check [INTERACTIVE=1] [VERBOSE=1] [DEBUG=1] [NOMMX=1]
+	             [OGGPLAYER=COMMAND]
 	  make install
 	  make installcheck
 
@@ -73,6 +74,19 @@ Installation Process
 
 	If the gfx test segfaults, try running it with ‘NOMMX=1’.
 	(But, it could be a compiler problem, see ‘IMFI_CFLAGS’ above.)
+
+	The mixer test additionally honors ‘OGGPLAYER=COMMAND’, in that
+	case interrupting the normal playback part of the way through and
+	restarting it by synchronously invoking COMMAND with one arg, the
+	name of the Ogg-Vorbis file to play (test/background.ogg).  For
+	example:
+
+	 cd test
+	 echo 'echo 0.8 0.9 1000 0.3 1800 0.25' > bgfx
+	 make check INTERACTIVE=1 OGGPLAYER='play --effects-file bgfx'
+
+	uses play(1) (from http://sourceforge.net/projects/sox) for the
+	mixer test's nefarious purposes...
 
 
 Installation Result
