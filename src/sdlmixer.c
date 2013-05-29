@@ -142,19 +142,19 @@ and @code{channels} (the number of allocated channels).  */)
 
 PRIMPROC
 (mix_load_music, "load-music", 1, 0, 0,
- (SCM file),
+ (SCM filename),
  doc: /***********
-Load a wave or a music (.mod .s3m .it .xm) @var{file}.
-Return a handle to it.  */)
+Load music data (.mod .s3m .it .xm) from @var{filename}.
+Return a new music object if successful, otherwise @code{#f}.  */)
 {
 #define FUNC_NAME s_mix_load_music
-  range_t cfile;
+  range_t cfilename;
   Mix_Music *rv;
 
-  ASSERT_STRING (file, 1);
-  FINANGLE (file);
-  rv = Mix_LoadMUS (RS (file));
-  UNFINANGLE (file);
+  ASSERT_STRING (filename, 1);
+  FINANGLE (filename);
+  rv = Mix_LoadMUS (RS (filename));
+  UNFINANGLE (filename);
 
   RETURN_NEW_MUSIC (rv);
 #undef FUNC_NAME
@@ -163,18 +163,19 @@ Return a handle to it.  */)
 
 PRIMPROC
 (mix_load_wave, "load-wave", 1, 0, 0,
- (SCM file),
+ (SCM filename),
  doc: /***********
-Load a wave @var{file}. Return a handle to it.  */)
+Load wave data from @var{filename}.
+Return a new audio object if succesful, otherwise @code{#f}.  */)
 {
 #define FUNC_NAME s_mix_load_wave
-  range_t cfile;
+  range_t cfilename;
   Mix_Chunk *rv;
 
-  ASSERT_STRING (file, 1);
-  FINANGLE (file);
-  rv = Mix_LoadWAV (RS (file));
-  UNFINANGLE (file);
+  ASSERT_STRING (filename, 1);
+  FINANGLE (filename);
+  rv = Mix_LoadWAV (RS (filename));
+  UNFINANGLE (filename);
 
   RETURN_NEW_AUDIO (rv);
 #undef FUNC_NAME

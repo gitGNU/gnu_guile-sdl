@@ -220,19 +220,20 @@ Unlock previously locked @var{surface}.  */)
 
 PRIMPROC
 (load_bmp, "load-bmp", 1, 0, 0,
- (SCM file),
+ (SCM filename),
  doc: /***********
-Return a surface made by loading the bitmap @var{file}.  */)
+Load bitmap data from @var{filename}.
+Return a new surface if successful, otherwise @code{#f}.  */)
 {
 #define FUNC_NAME s_load_bmp
-  range_t cfile;
+  range_t cfilename;
   SDL_Surface *rv;
 
-  ASSERT_STRING (file, 1);
+  ASSERT_STRING (filename, 1);
 
-  FINANGLE (file);
-  rv = SDL_LoadBMP (RS (file));
-  UNFINANGLE (file);
+  FINANGLE (filename);
+  rv = SDL_LoadBMP (RS (filename));
+  UNFINANGLE (filename);
   RETURN_NEW_SURFACE (rv);
 #undef FUNC_NAME
 }
@@ -241,20 +242,20 @@ Return a surface made by loading the bitmap @var{file}.  */)
 /* Load an image in one of many formats.  */
 PRIMPROC
 (load_image, "load-image", 1, 0, 0,
- (SCM file),
+ (SCM filename),
  doc: /***********
-Return a surface made by loading the image @var{file}.
-If there are problems, return @code{#f}.  */)
+Load image data from @var{filename}.
+Return a new surface if successful, otherwise @code{#f}.  */)
 {
 #define FUNC_NAME s_load_image
-  range_t cfile;
+  range_t cfilename;
   SDL_Surface *rv;
 
-  ASSERT_STRING (file, 1);
+  ASSERT_STRING (filename, 1);
 
-  FINANGLE (file);
-  rv = IMG_Load (RS (file));
-  UNFINANGLE (file);
+  FINANGLE (filename);
+  rv = IMG_Load (RS (filename));
+  UNFINANGLE (filename);
   RETURN_NEW_SURFACE (rv);
 #undef FUNC_NAME
 }
@@ -263,21 +264,21 @@ If there are problems, return @code{#f}.  */)
 PRIMPROC
 (save_bmp, "save-bmp", 2, 0, 0,
  (SCM surface,
-  SCM file),
+  SCM filename),
  doc: /***********
-Save @var{surface} to @var{file} in Windows BMP format.
+Save @var{surface} to @var{filename} in Windows BMP format.
 Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_save_bmp
-  range_t cfile;
+  range_t cfilename;
   int rv;
 
   ASSERT_SURFACE (surface,  1);
-  ASSERT_STRING (file, 2);
+  ASSERT_STRING (filename, 2);
 
-  FINANGLE (file);
-  rv = SDL_SaveBMP (UNPACK_SURFACE (surface), RS (file));
-  UNFINANGLE (file);
+  FINANGLE (filename);
+  rv = SDL_SaveBMP (UNPACK_SURFACE (surface), RS (filename));
+  UNFINANGLE (filename);
   RETURN_TRUE_IF_0 (rv);
 #undef FUNC_NAME
 }

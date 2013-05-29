@@ -1,3 +1,13 @@
+2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Rename arg "file" to "filename".
+
+	That's how GNU likes it (info "(standards) GNU Manuals").
+
+	* sdlmixer.c (mix_load_music, mix_load_wave): ...here;
+	update doc comment accordingly.
+	* sdlsurface.c (load_bmp, load_image, save_bmp): Likewise.
+
 2013-05-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Drop (sdl sdl) proc: string->image
