@@ -1,5 +1,13 @@
 2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[mixer] Support internal playback via ‘set-music-command’.
+
+	* sdlmixer.c (mix_set_music_cmd): If COMMAND is ‘#f’,
+	call ‘Mix_SetMusicCMD’ with ‘NULL’, thereby arranging
+	to use SDL-internal playback routines.
+
+2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Rename arg "file" to "filename".
 
 	That's how GNU likes it (info "(standards) GNU Manuals").

@@ -767,16 +767,22 @@ PRIMPROC
  (SCM command),
  doc: /***********
 Stop music and set external music playback command
-to @var{command}, a string.  */)
+to @var{command}, a string.  As a special case, if @var{command}
+is @code{#f}, arrange to use internal playback, instead.  */)
 {
 #define FUNC_NAME s_mix_set_music_cmd
   range_t ccommand;
   int rv;
 
-  ASSERT_STRING (command, 1);
-  FINANGLE (command);
-  rv = Mix_SetMusicCMD (RS (command));
-  UNFINANGLE (command);
+  if (EXACTLY_FALSEP (command))
+    rv = Mix_SetMusicCMD (NULL);
+  else
+    {
+      ASSERT_STRING (command, 1);
+      FINANGLE (command);
+      rv = Mix_SetMusicCMD (RS (command));
+      UNFINANGLE (command);
+    }
   RETURN_INT (rv);
 #undef FUNC_NAME
 }
