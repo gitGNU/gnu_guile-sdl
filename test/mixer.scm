@@ -47,9 +47,11 @@
          (SDL:quit)
          (exit-77 "no mixer specs available"))))
 
+(define (load-music)
+  (MIXER:load-music (datafile "background.ogg")))
 
 ;; load the files
-(define background (MIXER:load-music (datafile "background.ogg")))
+(define background (load-music))
 (define fx (MIXER:load-wave (datafile "fx.ogg")))
 
 (define (set-music-command! command)

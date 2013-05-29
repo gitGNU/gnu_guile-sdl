@@ -1,5 +1,12 @@
 2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v int] Add abstraction: load-music
+
+	* mixer.scm (load-music): New proc.
+	(background): Use ‘load-music’.
+
+2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘(sdl mixer) set-music-command’.
 
 	* mixer.scm (set-music-command!): New proc.
