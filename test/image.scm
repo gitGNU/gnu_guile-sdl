@@ -45,6 +45,20 @@
 ;; flip the double buffer
 (SDL:flip screen)
 
+;; convert explicitly
+(SDL:delay 100)
+(let* ((orig (SDL:surface-get-format gnu-head))
+       (want (SDL:surface-get-format screen))
+       (correct (SDL:convert-surface gnu-head want)))
+  (info "orig format => ~S" orig)
+  (info "want format => ~S" want)
+  (check-depth 'correct correct)
+  (SDL:fill-rect screen #f #x880088)
+  (SDL:flip)
+  (SDL:delay 100)
+  (standard-blit! correct)
+  (SDL:flip))
+
 ;; wait a half-second, then flip it upside-down
 (SDL:delay 500)
 (let ((upside-down (SDL:vertical-flip-surface screen)))

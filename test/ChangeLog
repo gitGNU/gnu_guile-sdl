@@ -1,3 +1,9 @@
+2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise/check ‘convert-surface’.
+
+	* image.scm <convert explicitly>: New top-level section.
+
 2013-05-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v int] Add abstraction: standard-blit!
