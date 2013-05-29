@@ -53,10 +53,11 @@
 (define fx (MIXER:load-wave (datafile "fx.ogg")))
 
 ;; play background
-(MIXER:volume 128)
+(MIXER:music-volume 42)
 (MIXER:play-music background)
 
 ;; loop until it's done, playing a sound effect every so often
+(MIXER:volume 24)
 (let loop ((angle -110))
   (and (MIXER:playing-music?)
        (let ((ch (MIXER:play-channel fx)))
