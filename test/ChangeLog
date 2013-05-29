@@ -1,5 +1,11 @@
 2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘(sdl mixer) playing?’.
+
+	* mixer.scm <loop>: ...here, for sfx ‘ch’.
+
+2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘convert-surface’.
 
 	* image.scm <convert explicitly>: New top-level section.

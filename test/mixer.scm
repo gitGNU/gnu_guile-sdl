@@ -58,10 +58,12 @@
 
 (define angle -110)
 
-;; loop until it's done, playing a sound effect every 250ms
+;; loop until it's done, playing a sound effect every so often
 (while (MIXER:playing-music?)
        (let ((ch (MIXER:play-channel fx)))
-         (MIXER:set-position ch angle 0))
+         (MIXER:set-position ch angle 0)
+         (or (MIXER:playing? ch)
+             (error (fs "(playing? ~S) => #f !!!" ch))))
        (set! angle (+ 20 angle))
        (SDL:delay 500))
 
