@@ -1,5 +1,11 @@
 2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘paused-music?’.
+
+	* mixer.scm <loop>: ...here.
+
+2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Decrease sfx volume; set music volume, too.
 
 	* mixer.scm <top-level>: ...here.

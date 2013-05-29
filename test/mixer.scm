@@ -60,6 +60,8 @@
 (MIXER:volume 24)
 (let loop ((angle -110))
   (and (MIXER:playing-music?)
+       (or (not (MIXER:paused-music?))
+           (error "(paused-music?) => #t !!!"))
        (let ((ch (MIXER:play-channel fx)))
          (MIXER:set-position ch angle 0)
          (or (MIXER:playing? ch)
