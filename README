@@ -35,10 +35,9 @@ Installation Process
 
 	  ./configure [--disable-mixer] [--disable-ttf]
 	  make
-	  make check [INTERACTIVE=1] [VERBOSE=1] [DEBUG=1] [NOMMX=1]
-	             [OGGPLAYER=COMMAND]
+	  make check [options]
 	  make install
-	  make installcheck
+	  make installcheck [options]
 
 	By default, configuration tries to find the libSDL_mixer and
 	libSDL_ttf libs and headers to build modules (sdl mixer) and
@@ -64,6 +63,19 @@ Installation Process
 	Note (Guile 2): Guile-SDL build, test and use is done strictly
 	w/ ‘GUILE_AUTO_COMPILE=0’ in the environment.  If there are
 	build problems, try that first (w/ a freshly unpacked tarball).
+
+
+Options for "make check"
+========================
+
+	Several options influence what "make check" does:
+	 - INTERACTIVE=1
+	 - VERBOSE=1
+	 - DEBUG=1
+	 - NOMMX=1
+ 	 - OGGPLAYER=COMMAND
+	These can be specified on the command-line, or by modifying
+	the environment and arranging for make(1) to honor env vars.
 
 	By default, "make check" and "make installcheck" run only tests
 	which do not require user interaction.  You can specify
