@@ -1,5 +1,11 @@
 2013-05-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘was-init’.
+
+	* alive.test <all loaded but none initialized>: New section.
+
+2013-05-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘get-error’.
 
 	* alive.test <top-level>: ...here, immediately before exit.
