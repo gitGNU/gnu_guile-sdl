@@ -103,6 +103,11 @@ SDL:flags->number
 (d>> "loading (sdl simple)")
 (use-modules (sdl simple))
 
+(let ((s (SDL:get-error)))
+  (if (string-null? s)
+      (d>> "no errors after all")
+      (error "spurious error:" s)))
+
 (exit #t)
 
 ;;; alive.test ends here
