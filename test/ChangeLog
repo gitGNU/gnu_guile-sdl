@@ -1,5 +1,14 @@
 2013-05-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Display event history; output nicer names.
+
+	* event.scm (scroll-up!, nicer, nice-type, no-5): New procs.
+	(input-loop): Scroll prior to displaying event info;
+	output nicer names.
+	<report event states>: Output nicer type name.
+
+2013-05-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘was-init’.
 
 	* alive.test <all loaded but none initialized>: New section.

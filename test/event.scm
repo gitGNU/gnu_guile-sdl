@@ -94,6 +94,16 @@
         (SDL:blit-surface rendered src-rect screen dst-rect)
         (SDL:flip)))))
 
+(define scroll-up!
+  (let* ((screen (SDL:get-video-surface))
+         (w (SDL:rect:w test-rect))
+         (srect (SDL:make-rect 0 height w (+ top height)))
+         (drect (SDL:make-rect 0 0 w top)))
+    ;; scroll-up!
+    (lambda ()
+      (SDL:blit-surface screen srect
+                        screen drect))))
+
 ;; write text centered on screen
 (define display-centered
   (display-centered-w/height-proc
@@ -109,17 +119,29 @@
 (SDL:set-event-filter ignore-maybe #f)
 (and debug? (fso "event-filter: ~S~%" (SDL:get-event-filter)))
 
+(define (nicer count)
+  (lambda (symbol)
+    (substring (symbol->string symbol) count)))
+
+(define nice-type (nicer 4))
+
+(define no-5 (nicer 5))
+
 ;; event loop
 (define input-loop
   (lambda (e)
     (let* ((next-event (SDL:wait-event e))
-           (event-type (SDL:event:type e)))
+           (event-type (SDL:event:type e))
+           (nice (nice-type event-type)))
+      (scroll-up!)
       (case event-type
         ((SDL_KEYDOWN SDL_KEYUP)
          (let ((sym (SDL:event:key:keysym:sym e))
                (mods (SDL:event:key:keysym:mod e)))
-           (display-centered "~A: ~A ~A" event-type sym mods)
-           (display-centered/next-line "~S" (SDL:get-key-state))
+           (display-centered "~A: ~A ~A" nice
+                             (no-5 sym)
+                             (map no-5 mods))
+           (display-centered/next-line "~A" (map no-5 (SDL:get-key-state)))
            (and (eq? sym 'SDLK_SPACE)
                 (if (SDL:get-event-filter)
                     (SDL:set-event-filter #f #f)
@@ -129,17 +151,17 @@
                (input-loop e))))
         ((SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP)
          (let ((button (SDL:event:button:button e)))
-           (display-centered "~A: ~A" event-type button)
+           (display-centered "~A: ~A" nice button)
            (display-centered/next-line "~S" (SDL:get-key-state)))
          (input-loop e))
         ((SDL_MOUSEMOTION)
          (let ((x (SDL:event:motion:x e))
                (y (SDL:event:motion:y e)))
-           (display-centered "~A: ~Ax~A" event-type x y)
+           (display-centered "~A: ~Ax~A" nice x y)
            (display-centered/next-line "~S" (SDL:get-key-state)))
          (input-loop e))
         (else
-         (display-centered "~A" event-type)
+         (display-centered "~A" nice)
          (input-loop e))))))
 
 ;; report app state
@@ -148,7 +170,8 @@
 ;; report event states
 (for-each (lambda (type)
             (display-centered "~A : ~A"
-                              type (SDL:event-state type 'SDL_QUERY))
+                              (nice-type type)
+                              (SDL:event-state type 'SDL_QUERY))
             (SDL:delay 42))
           (SDL:enumstash-enums SDL:event-types))
 
