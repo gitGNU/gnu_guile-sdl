@@ -72,6 +72,8 @@
        (or (not (MIXER:paused-music?))
            (error "(paused-music?) => #t !!!"))
        (let ((ch (MIXER:play-channel fx)))
+         (or (not (MIXER:paused? ch))
+             (error (fs "(paused? ~S) => #t !!!" ch)))
          (MIXER:set-position ch angle 0)
          (or (MIXER:playing? ch)
              (error (fs "(playing? ~S) => #f !!!" ch)))

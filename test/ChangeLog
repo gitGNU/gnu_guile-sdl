@@ -1,3 +1,9 @@
+2013-05-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise/check ‘(sdl mixer) paused?’.
+
+	* mixer.scm <loop>: ...here.
+
 2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Add support for ‘OGGPLAYER=COMMAND’.
