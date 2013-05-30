@@ -916,9 +916,12 @@ with symbolic keys: @code{state}, @code{x} and @code{y}.  */)
 PRIMPROC
 (button_p, "button?", 1, 0, 0,
  (SCM mask),
+ /* [This proc is lame and will be replaced by one that takes an
+    event and a list of mouse-button symbols. --ttn]  */
  doc: /***********
 Return @code{#t} if buttons specified in @var{mask} (an integer)
-are pressed.  Use 1 for left, 2 for middle and 4 for right,
+are pressed.  Use 1 for left, 2 for middle, 4 for right,
+8 for wheel-up and 16 for wheel-down,
 combined with @code{logior}, to form @var{mask}.  For example,
 a value of 5 specifies both left and right buttons.  */)
 {

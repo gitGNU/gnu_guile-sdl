@@ -1,3 +1,9 @@
+2013-05-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[doc] Mention wheel-up and wheel-down in ‘button?’.
+
+	* sdlevent.c (button_p): ...here, in doc comment.
+
 2013-05-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[mixer] Support internal playback via ‘set-music-command’.
