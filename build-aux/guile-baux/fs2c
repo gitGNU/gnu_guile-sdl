@@ -44,6 +44,8 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 ;;  #:region (BEG END)   -- only scan lines inside BEG-END regexps (strings)
 ;;  #:symrgx SYMRGX      -- symbolic regular expression with
 ;;                          first subexpression the key (see below)
+;;  #:kxform SCHEME      -- how to transform the key
+;;  #:v2mask FORMAT-STR  -- convert the value into a mask with FORMAT-STR
 ;;
 ;; Both #:infile and #:symrgx are required; #:region is optional.
 ;; SYMRGX is a list whose elements are strings, symbols and a single
@@ -63,6 +65,30 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 ;;   (def ws (STRING) ws x)
 ;;
 ;; is very common, SYMRGX recognizes (#t STRING) as equivalent.
+;;
+;; If #:kxform is unspecified, the key is used as-is.
+;; Otherwise, it is a list of elements that specify how to
+;; transform the key, one of:
+;;
+;;  downcase
+;;  upcase
+;;  hyphen
+;;  N
+;;  ("RX" REPLACEMENT[...])
+;;
+;; The first two transforms are self-explanatory.  The ‘hyphen’
+;; transform converts ‘_’ (underscore) to ‘-’ (hyphen).  The
+;; N (an integer) transform discards N chars from the beginning
+;; if N is positive, -N chars from the end if N is negative.
+;; The last transform essentially does ‘s/RX/REPLACEMENT/g’
+;; with REPLACEMENT one or more strings (used literally) and
+;; integers (indicating a submatch; 0 means the entire match).
+;;
+;; If #:v2mask is unspecified, the value is used as-is.
+;; Otherwise, it is a string with a single "~A" that specifies
+;; how the value is to be made into a "mask", usually by applying
+;; a C macro or some expression that involves the C ‘<<’ operator.
+;; For example: "(1 << (~A))" is the classic bit pos to mask op.
 
 ;;; Code:
 
@@ -73,9 +99,11 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                                                   forms<-port))
   #:use-module ((guile-baux temporary-file) #:select (unique-i/o-file-port))
   #:use-module ((srfi srfi-13) #:select (string-join
+                                         string-drop-right
                                          string-concatenate))
   #:use-module ((ice-9 rdelim) #:select (read-line))
-  #:use-module ((ice-9 regex) #:select (match:substring))
+  #:use-module ((ice-9 regex) #:select (match:substring
+                                        regexp-substitute/global))
   #:use-module ((ice-9 popen) #:select (open-output-pipe
                                         open-input-pipe
                                         close-pipe)))
@@ -127,10 +155,58 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
     (close-port p)
     (reverse! rv)))
 
-(define (C-program header found)
+(define (C-program header found qspec)
+
+  (define pretty
+    (cond
+     ((qspec #:kxform)
+      => (lambda (xelems)
+
+           (define (change! old . new)
+             (lambda (s)
+               (apply regexp-substitute/global #f old s
+                      `(pre ,@new post))))
+
+           (define (xform x)
+             (cond ((integer? x)
+                    (if (positive? x)
+                        (lambda (s)
+                          (substring s x))
+                        (lambda (s)
+                          (string-drop-right s (- x)))))
+                   ((pair? x)
+                    (apply change! x))
+                   (else
+                    (case x
+                      ((downcase) string-downcase)
+                      ((upcase) string-upcase)
+                      ((hyphen) (xform '("_" "-")))
+                      (else (fse "WARNING: unrecognized ~S element: ~S"
+                                 #:kxform x)
+                            identity)))))
+
+           (let ((changes (map xform xelems)))
+             (lambda (symbol)
+               (let ((s (symbol->string symbol)))
+                 (for-each (lambda (x!)
+                             (set! s (x! s)))
+                           changes)
+                 (string->symbol s))))))
+     (else
+      identity)))
+
+  (define actual
+    (cond ((qspec #:v2mask)
+           => (lambda (fmt)
+                (lambda (s)
+                  (fs fmt s))))
+          (else
+           identity)))
 
   (define (line s)
-    (fs "printf (\"(#x%08lx\t. ~A)\\n\", ~A);" s s))
+    (fs "printf (\"(#x%08lx\t. ~A)\\n\", ~A);"
+        (pretty s)
+        (actual s)))
 
   (string-join
    `("#include <stdio.h>"
@@ -142,13 +218,13 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
      "}")
    "\n" 'suffix))
 
-(define (sorted who header found)
+(define (sorted who header found qspec)
   (let* ((p (unique-i/o-file-port (fs "./~A.vals-" (basename who))))
          (exe (port-filename p))
          (rv #f))
     (close-port p)
     (let ((p (open-output-pipe (fs "gcc -o ~A -x c -pipe -" exe))))
-      (display (C-program header found) p)
+      (display (C-program header found qspec) p)
       (close-pipe p))
     (let ((p (open-input-pipe exe)))
       (set! rv (sort (forms<-port p)
@@ -189,7 +265,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
            (found (scan-file header
                              (qspec #:symrgx)
                              (qspec #:region)))
-           (linear (sorted specfile header found))
+           (linear (sorted specfile header found qspec))
            (len (length linear)))
       (spew (fs "static unsigned long ~A_values[~A] = {~%  ~A~%};~%~%"
                 nick len

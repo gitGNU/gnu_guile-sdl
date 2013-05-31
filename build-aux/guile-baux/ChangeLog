@@ -1,3 +1,16 @@
+2013-05-31  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build] Add kxform and v2mask support to fs2c.
+
+	* fs2c: Import SRFI 13 ‘string-drop-right’,
+	‘(ice-9 regex) regexp-substitute/global’.
+	(C-program): Take additional arg ‘qspec’.
+	(C-program pretty): New proc.
+	(C-program actual): New proc.
+	(C-program line): Use ‘pretty’ and ‘actual’.
+	(sorted):Take additional arg ‘qspec’; pass it to ‘C-program’.
+	(fs2c/qop): Update call to ‘sorted’.
+
 2011-12-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
 
 	Release: 0.4.0
