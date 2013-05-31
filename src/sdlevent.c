@@ -197,6 +197,7 @@ static valaka_t event_action_eback[] = {
   VALAKA (SDL_GETEVENT)
 };
 
+static SCM event_mb_flags;
 static SCM event_mod_flags;
 static SCM event_mask_flags;
 
@@ -933,6 +934,7 @@ a value of 5 specifies both left and right buttons.  */)
 }
 
 
+#include "mb.c"
 #include "kmod.c"
 #include "evmask.c"
 
@@ -956,6 +958,7 @@ gsdl_init_event (void)
   /* keysyms */
   event_keysym_enum = DEFINE_ENUM ("event-keys", event_keysym_eback);
   event_action_enum = DEFINE_ENUM ("event-actions", event_action_eback);
+  event_mb_flags = btw->make_flagstash (&mb_flagstash);
   event_mod_flags = btw->make_flagstash (&kmod_flagstash);
   event_mask_flags = btw->make_flagstash (&evmask_flagstash);
 

@@ -50,6 +50,7 @@ Makefile.in
 /src/group-stamp
 /src/init.c
 /src/kmod.c
+/src/mb.c
 /src/mixer
 /src/modsup.h
 /src/overlay.c

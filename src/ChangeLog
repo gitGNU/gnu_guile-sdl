@@ -1,3 +1,13 @@
+2013-05-31  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Add mouse-button flagstash.
+
+	* mb.fs: New file.
+	* Makefile.am (FLAGSTASH): Add mb.c.
+	* sdlevent.c (event_mb_flags): New static var.
+	<top-level>: #include "mb.c".
+	(gsdl_init_event): Init ‘event_mb_flags’.
+
 2013-05-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[doc] Mention wheel-up and wheel-down in ‘button?’.
