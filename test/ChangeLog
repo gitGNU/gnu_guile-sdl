@@ -1,5 +1,15 @@
 2013-05-31  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘get-mouse-relative-state’.
+
+	* event.scm (test-rect): Change geometry to 400x600.
+	(display-centered/next-next-line): New proc.
+	(draw-relative-rectangle!): Likewise.
+	(input-loop): Use ‘get-mouse-relative-state’; display
+	its value textually as well as via a relative rectangle.
+
+2013-05-31  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v int] Consolidate ‘get-key-state’ processing.
 
 	* event.scm (input-loop): ...here, and btw

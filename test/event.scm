@@ -61,7 +61,7 @@
   (and debug? (fso "TTF:ttf-init: ~S~%" res)))
 
 ;; get a sample rect size from a list of available modes
-(define test-rect (SDL:make-rect 0 0 600 200))
+(define test-rect (SDL:make-rect 0 0 400 600))
 
 ;; set the video mode to the dimensions of our rect
 (SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 8
@@ -111,6 +111,9 @@
 (define display-centered/next-line
   (display-centered-w/height-proc
    (+ 3 height (half (- (SDL:rect:h test-rect) height)))))
+(define display-centered/next-next-line
+  (display-centered-w/height-proc
+   (+ 3 (ash height 1) (half (- (SDL:rect:h test-rect) height)))))
 
 ;; set the event filter: ignore the mouse every other second
 (define (ignore-maybe event-type)
@@ -118,6 +121,30 @@
             (even? (car (gettimeofday))))))
 (SDL:set-event-filter ignore-maybe #f)
 (and debug? (fso "event-filter: ~S~%" (SDL:get-event-filter)))
+
+(define draw-relative-rectangle!
+  (let* ((screen (SDL:get-video-surface))
+         (cx (half (SDL:rect:w test-rect)))
+         (cy (+ top (half top) 30))
+         (full (SDL:make-rect (- cx 100) (- cy 100) 201 201))
+         (rect (SDL:make-rect cx cy 100 100)))
+    ;; draw-relative-rectangle!
+    (lambda (rx ry)
+      (cond ((positive? rx)
+             (SDL:rect:set-x! rect cx)
+             (SDL:rect:set-w! rect rx))
+            (else
+             (SDL:rect:set-x! rect (+ cx rx))
+             (SDL:rect:set-w! rect (- rx))))
+      (cond ((positive? ry)
+             (SDL:rect:set-y! rect cy)
+             (SDL:rect:set-h! rect ry))
+            (else
+             (SDL:rect:set-y! rect (+ cy ry))
+             (SDL:rect:set-h! rect (- ry))))
+      (SDL:fill-rect screen full #xffffff)
+      (SDL:fill-rect screen rect 0)
+      (SDL:update-rects screen (list full rect)))))
 
 (define (nicer count)
   (lambda (symbol)
@@ -136,6 +163,11 @@
       (scroll-up!)
       (display-centered/next-line
        "~A" (map no-5 (SDL:get-key-state)))
+      (let ((alist (SDL:get-mouse-relative-state)))
+        (draw-relative-rectangle! (assq-ref alist 'x)
+                                  (assq-ref alist 'y))
+        (display-centered/next-next-line
+         "~A" (map cdr alist)))
       (case event-type
         ((SDL_KEYDOWN SDL_KEYUP)
          (let ((sym (SDL:event:key:keysym:sym e))
