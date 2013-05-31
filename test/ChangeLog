@@ -1,3 +1,11 @@
+2013-05-31  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Init joystick subsystem in event test.
+
+	Omission from 2013-05-23, "Exercise some joystick procs".
+
+	* event.scm <init>: Also specify ‘SDL_INIT_JOYSTICK’.
+
 2013-05-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Display event history; output nicer names.

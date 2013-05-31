@@ -51,7 +51,7 @@
     joy))
 
 ;; initialize the SDL video (and event) module
-(let ((res (SDL:init '(SDL_INIT_VIDEO))))
+(let ((res (SDL:init '(SDL_INIT_VIDEO SDL_INIT_JOYSTICK))))
   (and debug? (fso "SDL:init: ~S~%" res)))
 
 (define JOY (check-joystick-maybe))
