@@ -1,5 +1,12 @@
 2013-05-31  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v int] Consolidate ‘get-key-state’ processing.
+
+	* event.scm (input-loop): ...here, and btw
+	spiffing the output to use " -- " instead of ": ".
+
+2013-05-31  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Init joystick subsystem in event test.
 
 	Omission from 2013-05-23, "Exercise some joystick procs".

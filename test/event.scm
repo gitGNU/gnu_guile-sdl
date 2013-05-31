@@ -134,14 +134,17 @@
            (event-type (SDL:event:type e))
            (nice (nice-type event-type)))
       (scroll-up!)
+      (display-centered/next-line
+       "~A" (map no-5 (SDL:get-key-state)))
       (case event-type
         ((SDL_KEYDOWN SDL_KEYUP)
          (let ((sym (SDL:event:key:keysym:sym e))
                (mods (SDL:event:key:keysym:mod e)))
-           (display-centered "~A: ~A ~A" nice
+           (display-centered "~A -- ~A~A" nice
                              (no-5 sym)
-                             (map no-5 mods))
-           (display-centered/next-line "~A" (map no-5 (SDL:get-key-state)))
+                             (if (equal? '(KMOD_NONE) mods)
+                                 ""
+                                 (fs " -- ~A" (map no-5 mods))))
            (and (eq? sym 'SDLK_SPACE)
                 (if (SDL:get-event-filter)
                     (SDL:set-event-filter #f #f)
@@ -151,14 +154,12 @@
                (input-loop e))))
         ((SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP)
          (let ((button (SDL:event:button:button e)))
-           (display-centered "~A: ~A" nice button)
-           (display-centered/next-line "~S" (SDL:get-key-state)))
+           (display-centered "~A -- ~A" nice button))
          (input-loop e))
         ((SDL_MOUSEMOTION)
          (let ((x (SDL:event:motion:x e))
                (y (SDL:event:motion:y e)))
-           (display-centered "~A: ~Ax~A" nice x y)
-           (display-centered/next-line "~S" (SDL:get-key-state)))
+           (display-centered "~A -- ~Ax~A" nice x y))
          (input-loop e))
         (else
          (display-centered "~A" nice)
