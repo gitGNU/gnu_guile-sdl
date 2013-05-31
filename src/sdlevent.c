@@ -878,9 +878,24 @@ only the key modifier flags.  */)
 #undef FUNC_NAME
 }
 
+typedef Uint8 SDLCALL (*getmouse_sdl_fn) (int *x, int *y);
+
 DECLARE_SIMPLE_SYM (state);
 DECLARE_SIMPLE_SYM (x);
 DECLARE_SIMPLE_SYM (y);
+
+static SCM
+getmouse (const char *FUNC_NAME, getmouse_sdl_fn fn)
+{
+  unsigned long buttons;
+  int x, y;
+
+  buttons = fn (&x, &y);
+  RETURN_LIST3
+    (CONS (SYM (state), NUM_ULONG (buttons)),
+     CONS (SYM (x), NUM_LONG (x)),
+     CONS (SYM (y), NUM_LONG (y)));
+}
 
 PRIMPROC
 (get_mouse_state, "get-mouse-state", 0, 0, 0,
@@ -889,13 +904,8 @@ PRIMPROC
 Return the current state of the mouse as an alist with
 symbolic keys: @code{state}, @code{x} and @code{y}.  */)
 {
-#define FUNC_NAME s_get_mouse_state
-  int buttons, x, y;
-  buttons = SDL_GetMouseState (&x, &y);
-  RETURN_LIST3 (CONS (SYM (state), NUM_LONG (buttons)),
-                CONS (SYM (x), NUM_LONG (x)),
-                CONS (SYM (y), NUM_LONG (y)));
-#undef FUNC_NAME
+  return getmouse (s_get_mouse_state,
+                   SDL_GetMouseState);
 }
 
 PRIMPROC
@@ -905,13 +915,8 @@ PRIMPROC
 Return the current relative state of the mouse as an alist
 with symbolic keys: @code{state}, @code{x} and @code{y}.  */)
 {
-#define FUNC_NAME s_get_relative_mouse_state
-  int buttons, x, y;
-  buttons = SDL_GetRelativeMouseState (&x, &y);
-  RETURN_LIST3 (CONS (SYM (state), NUM_LONG (buttons)),
-                CONS (SYM (x), NUM_LONG (x)),
-                CONS (SYM (y), NUM_LONG (y)));
-#undef FUNC_NAME
+  return getmouse (s_get_relative_mouse_state,
+                   SDL_GetRelativeMouseState);
 }
 
 PRIMPROC

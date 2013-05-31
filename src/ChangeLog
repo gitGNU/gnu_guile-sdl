@@ -1,5 +1,14 @@
 2013-05-31  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Consolidate get-mouse{,-relative}-state impls.
+
+	* sdlevent.c (getmouse_sdl_fn): New typedef.
+	(getmouse): New static func.
+	(get_mouse_state): Use ‘getmouse’.
+	(get_relative_mouse_state): Likewise.
+
+2013-05-31  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add mouse-button flagstash.
 
 	* mb.fs: New file.
