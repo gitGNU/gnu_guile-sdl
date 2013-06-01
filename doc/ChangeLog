@@ -1,3 +1,9 @@
+2013-06-01  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[doc] Move ‘(sdl sdl) button?’ into "misc" section.
+
+	* ref.texh (Events): ...here.
+
 2013-05-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Drop (sdl sdl) proc: string->image

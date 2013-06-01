@@ -337,8 +337,6 @@ VIDEOEXPOSE   VIDEORESIZE
 
 @section Buttons
 
-@tsin i button?
-
 @tsin i event:button:button
 
 @tsin i event:button:state
@@ -450,6 +448,8 @@ VIDEOEXPOSE   VIDEORESIZE
 @tsin i get-mouse-state
 
 @tsin i get-mouse-relative-state
+
+@tsin i button?
 
 @node Joystick
 @chapter Joystick
