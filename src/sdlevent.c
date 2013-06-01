@@ -953,9 +953,14 @@ combined with @code{logior}, to form @var{mask}.  For example,
 a value of 5 specifies both left and right buttons.  */)
 {
 #define FUNC_NAME s_button_p
-  ASSERT_INTEGER (mask, 1);
-  RETURN_BOOL
-    (SDL_BUTTON (C_LONG (mask)));
+  unsigned long cmask, buttons;
+
+  ASSERT_ULONG_COPY (mask, 1);
+  if (! cmask)
+    RETURN_FALSE;
+
+  buttons = SDL_GetMouseState (NULL, NULL);
+  RETURN_BOOL (cmask == (cmask & buttons));
 #undef FUNC_NAME
 }
 
