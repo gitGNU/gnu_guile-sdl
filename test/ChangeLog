@@ -1,5 +1,11 @@
 2013-06-01  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add optional arg ‘symbolic’ for mouse state procs.
+
+	* event.scm (input-loop): Specify symbolic mouse state.
+
+2013-06-01  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Fix up some calls to joystick procs.
 
 	Erroneous since inception -- i.e., written w/ bugs and never

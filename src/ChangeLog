@@ -1,5 +1,15 @@
 2013-06-01  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add optional arg ‘symbolic’ for mouse state procs.
+
+	* sdlevent.c (getmouse): Take arg ‘symbolic’;
+	if non-‘#f’, arrange to return a list of symbols
+	for the ‘state’ value.
+	(get_mouse_state, get_relative_mouse_state): Take
+	optional arg ‘symbolic’; pass it to ‘getmouse’.
+
+2013-06-01  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Fix bug: Handle null cdrom and joystick names.
 
 	* sdlcdrom.c (cd_name): Use ‘RETURN_0STR_OR_FALSE’.

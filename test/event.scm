@@ -164,7 +164,7 @@
       (scroll-up!)
       (display-centered/next-line
        "~A" (map no-5 (SDL:get-key-state)))
-      (let ((alist (SDL:get-mouse-relative-state)))
+      (let ((alist (SDL:get-mouse-relative-state #t)))
         (draw-relative-rectangle! (assq-ref alist 'x)
                                   (assq-ref alist 'y))
         (display-centered/next-next-line
