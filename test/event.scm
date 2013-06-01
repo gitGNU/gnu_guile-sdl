@@ -25,8 +25,10 @@
 
 (define (check-joystick-maybe)
   (let ((count (SDL:num-joysticks))
+        (name (SDL:joystick-name))
         (joy (SDL:joystick-open)))
     (info "joysticks count => ~S" count)
+    (info "default joystick name => ~S" name)
     (if (zero? count)
         (and joy (error "phantom joystick:" joy))
         (or joy (error "joystick-open failed")))
@@ -34,14 +36,13 @@
         (SDL:joystick? joy)
         (error "joystick-open returned something weird:" joy))
     (and joy
-         (let ((name (SDL:joystick-name joy))
-               (opened? (SDL:joystick-opened? joy))
+         (let ((opened? (SDL:joystick-opened?))
                (index (SDL:joystick-index joy))
                (num-axes (SDL:joystick-num-axes joy))
                (num-balls (SDL:joystick-num-balls joy))
                (num-hats (SDL:joystick-num-hats joy))
                (num-buttons (SDL:joystick-num-buttons joy)))
-           (info "joystick ~S (~A), ~A ~A, ~A ~A, ~A ~A, ~A ~A"
+           (info "joystick ~S (~A), ~A ~A, ~A ~A, ~A ~A, ~A ~A, ~A ~A"
                  name (if opened? 'open 'still-closed!)
                  'index index
                  'axes num-axes

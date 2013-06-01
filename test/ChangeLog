@@ -1,3 +1,13 @@
+2013-06-01  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Fix up some calls to joystick procs.
+
+	Erroneous since inception -- i.e., written w/ bugs and never
+	tested, ugh -- from 2013-05-23, "Exercise some joystick procs".
+
+	* event.scm (check-joystick-maybe): Call ‘joystick-name’
+	and ‘joystick-opened?’ w/o arg; add 2 ‘~A’ to ‘info’ fmt string.
+
 2013-05-31  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Exercise ‘get-mouse-relative-state’.
