@@ -590,6 +590,18 @@ DECLARE_PF (Surface);
 #define RETURN_0STR(exp) \
   return STRING (exp)
 
+/* Like ‘RETURN_0STR’, but if ‘exp’ evaluates to ‘NULL’,
+   return ‘#f’ instead.  */
+#define RETURN_0STR_OR_FALSE(exp)  do           \
+      {                                         \
+        const char *__p = (exp);                \
+                                                \
+        return __p                              \
+          ? STRING (__p)                        \
+          : BOOL_FALSE;                         \
+      }                                         \
+    while (0)
+
 /* Return various lists of various length.  */
 
 #define RETURN_LIST0 \
