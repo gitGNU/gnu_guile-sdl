@@ -69,18 +69,16 @@ PRIMPROC
  (SCM drive),
  doc: /***********
 Return a human-readable, system-dependent
-identifier (a string) for the CDROM.
+identifier (a string) for the CDROM, or @code{#f}.
 Optional arg @var{drive} is a number specifying which drive.  */)
 {
 #define FUNC_NAME s_cd_name
-  const char *name;
   int cdrive = 0;
 
   if (BOUNDP (drive))
     ASSERT_INT_COPY (drive, 1);
 
-  name = SDL_CDName (cdrive);
-  RETURN_0STR (name);
+  RETURN_0STR_OR_FALSE (SDL_CDName (cdrive));
 #undef FUNC_NAME
 }
 

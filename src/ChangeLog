@@ -1,5 +1,12 @@
 2013-06-01  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Fix bug: Handle null cdrom and joystick names.
+
+	* sdlcdrom.c (cd_name): Use ‘RETURN_0STR_OR_FALSE’.
+	* sdljoystick.c (joystick_name): Likewise.
+
+2013-06-01  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add abstraction: RETURN_0STR_OR_FALSE
 
 	* guile-sdl.h (RETURN_0STR_OR_FALSE): New macro.

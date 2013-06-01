@@ -68,7 +68,7 @@ PRIMPROC
 (joystick_name, "joystick-name", 0, 1, 0,
  (SCM n),
  doc: /***********
-Return the name of the default joystick.
+Return the (string) name of the default joystick, or @code{#f}.
 Optional arg @var{n} specifies which joystick to check.  */)
 {
 #define FUNC_NAME s_joystick_name
@@ -77,7 +77,7 @@ Optional arg @var{n} specifies which joystick to check.  */)
   if (BOUNDP (n))
     ASSERT_LONG_COPY (n, 1);
 
-  RETURN_0STR (SDL_JoystickName (cn));
+  RETURN_0STR_OR_FALSE (SDL_JoystickName (cn));
 #undef FUNC_NAME
 }
 
