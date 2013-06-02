@@ -943,19 +943,36 @@ for @code{get-mouse-state}.  */)
 PRIMPROC
 (button_p, "button?", 1, 0, 0,
  (SCM mask),
- /* [This proc is lame and will be replaced by one that takes an
-    event and a list of mouse-button symbols. --ttn]  */
  doc: /***********
-Return @code{#t} if buttons specified in @var{mask} (an integer)
-are pressed.  Use 1 for left, 2 for middle, 4 for right,
-8 for wheel-up and 16 for wheel-down,
-combined with @code{logior}, to form @var{mask}.  For example,
-a value of 5 specifies both left and right buttons.  */)
+Return @code{#t} if buttons specified in @var{mask} are pressed,
+otherwise @code{#f}.
+@var{mask} is a symbol or a list of symbols from the set returned
+by @code{get-mouse-state}.
+
+For backward compatability, @var{mask} can also be the (integer)
+logior of the buttons, using mapping:
+
+@example
+ 1  left
+ 2  middle
+ 4  right
+ 8  wheel-up
+16  wheel-down
+32  x1
+64  x2
+@end example
+
+For example, a value of 5 specifies both left and right buttons,
+equivalent to @code{(left right)}.  */)
 {
 #define FUNC_NAME s_button_p
   unsigned long cmask, buttons;
 
-  ASSERT_ULONG_COPY (mask, 1);
+  if (INTEGERP (mask))
+    ASSERT_ULONG_COPY (mask, 1);
+  else
+    cmask = GSDL_FLAGS2ULONG (mask, event_mb_flags, 1);
+
   if (! cmask)
     RETURN_FALSE;
 

@@ -1,3 +1,10 @@
+2013-06-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Handle symbolic mask in ‘(sdl sdl) button?’.
+
+	* sdlevent.c (button_p): If MASK is not an integer,
+	try resolving it using the mouse-button flagstash.
+
 2013-06-01  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Fix bug: Actually consult mouse button state in ‘button?’!
