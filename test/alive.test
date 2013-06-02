@@ -103,15 +103,10 @@ SDL:flags->number
 (d>> "loading (sdl simple)")
 (use-modules (sdl simple))
 
-(d>> "all loaded but none initialized")
-(for-each (lambda (sel)
-            (let ((blurb (fs "(was-init '~S) => " sel)))
-              (cond ((SDL:was-init sel)
-                     => (lambda (res)
-                          (error blurb res)))
-                    (else
-                     (d>> " ~A#f" blurb)))))
-          (SDL:flagstash-flags (SDL:flagstash:init)))
+(let ((oops (SDL:was-init '())))
+  (and (pair? oops)
+       (error "all loaded and some initialized:" oops))
+  (d>> "all loaded and none initialized"))
 
 (let ((s (SDL:get-error)))
   (if (string-null? s)
