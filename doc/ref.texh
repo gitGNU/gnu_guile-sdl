@@ -246,10 +246,10 @@ SDL_foo_OVERLAY, where foo can be:
 
 @example
 KMOD_foo, where foo can be:
-RALT        RMETA       RSHIFT      NUM
-LALT        LMETA       LSHIFT      RESERVED
-CAPS        RCTRL       MODE        LCTRL
-NONE
+LSHIFT   LCTRL   LMETA   LALT
+RSHIFT   RCTRL   RMETA   RALT
+
+CAPS   NUM   MODE
 @end example
 
 @tsin i flagstash:event-mask

@@ -19,6 +19,8 @@
 
 kmod "keyboard-modifier"
 #:infile "SDL/SDL_keysym.h"
+#:region ("KMOD_NONE"                   ; these happen to be
+          "KMOD_RESERVED")              ;   nonsensical as well
 #:symrgx (ws? ("KMOD_[A-Z]+") = x)
 
 ;;; kmod.fs ends here

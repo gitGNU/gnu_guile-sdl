@@ -1,5 +1,11 @@
 2013-06-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Drop flags: KMOD_NONE, KMOD_RESERVED
+
+	* kmod.fs (#:region): Specify.
+
+2013-06-04  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	For ulong-to-flags conversion, cons remainder onto rv.
 
 	* sdlenums.c (ulong2flags): Never return ‘#f’;
