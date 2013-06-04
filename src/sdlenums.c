@@ -306,28 +306,31 @@ ulong2flags (unsigned long value, SCM stash)
   int i;
   SCM rv = SCM_EOL;
 
+  /* Is nothing really nothing?  A stash is in descending order, so
+     check the last item to see if 0x0 is legit.  If not, return early;
+     don't bother looking for it and, more importantly, avoid producing
+     a nonsensical "remainder 0" result.  */
+  if (! value
+      && s->val[s->total - 1])
+    return rv;
+
   for (i = 0; i < s->total; i++)
     {
       unsigned long cur = s->val[i];
 
-      if (cur == value)
-        return CONS (s->aka[i].symbol, rv);
       if (cur == (cur & value))
         {
           rv = CONS (s->aka[i].symbol, rv);
           value &= ~cur;
           if (! value)
-            /* If we were to cache the translation, it would be done here.
-               Probably `flagstash_t' needs to include info on disjointness
-               and cache preference/tuning hints first.  */
             return rv;
         }
     }
+
   /* If we get here, that means `value' was not covered by the stash,
      which is not really an exceptional situation, but nonetheless one
-     we should not gloss over (by returning `rv', for example).  We can
-     always add "gsdl_ulong2flags_plus_remainder" later if needed.  */
-  RETURN_FALSE;
+     we should not gloss over (by returning naked `rv', for example).  */
+  return CONS (NUM_ULONG (value), rv);
 }
 
 
@@ -372,7 +375,10 @@ PRIMPROC
 (number_to_flags, "number->flags", 2, 0, 0,
  (SCM stash, SCM number),
  doc: /***********
-Use @var{stash} to convert @var{number} to a list of symbols.  */)
+Use @var{stash} to convert @var{number} to a list of symbols.
+If the flags in @var{stash} are not sufficient to decode
+@var{number}, the first element of the list is the numeric
+remainder.  */)
 {
 #define FUNC_NAME s_number_to_flags
   ASSERT_FLAGSTASH (stash, 1);

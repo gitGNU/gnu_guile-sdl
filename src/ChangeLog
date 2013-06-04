@@ -1,3 +1,11 @@
+2013-06-04  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	For ulong-to-flags conversion, cons remainder onto rv.
+
+	* sdlenums.c (ulong2flags): Never return ‘#f’;
+	instead, if there is a remainder, cons it onto ‘rv’.
+	(number_to_flags): Update doc comment accordingly.
+
 2013-06-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Handle symbolic mask in ‘(sdl sdl) button?’.
