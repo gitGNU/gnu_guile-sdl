@@ -1,3 +1,10 @@
+2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Use u8 vector in leak test.
+
+	* leak.scm: Import SRFI 4 ‘make-u8vector’.
+	(alloc/dealloc-tests): Use ‘make-u8vector’.
+
 2013-06-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v int] Simplify ‘was-init’ check.

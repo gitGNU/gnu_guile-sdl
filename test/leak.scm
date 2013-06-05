@@ -22,6 +22,8 @@
 (cond-expand (guile-2 (exit-77 "Guile 2 does not track freed memory"))
              (else #f))
 
+(use-modules
+ ((srfi srfi-4) #:select (make-u8vector)))
 (use-modules ((sdl sdl) #:prefix SDL:))
 
 (define exit-value #t)
@@ -69,7 +71,7 @@
     ("color" ,(lambda () (SDL:make-color #xaa #x88 #x55)))
     ("joystick" ,SDL:joystick-open)
     ("cd" ,SDL:cd-open)
-    ("cursor" ,(let* ((data (make-vector 16 85))
+    ("cursor" ,(let* ((data (make-u8vector 16 85))
                       (mask data))
                  (lambda ()
                    (SDL:get-cursor)
