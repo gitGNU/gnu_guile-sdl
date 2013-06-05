@@ -20,7 +20,7 @@ Andreas Schiffler in directory src/SDL_gfx/, wrote:
 
 Steven G. Johnson and Matteo Frigo wrote:
   build-aux/ax_check_compiler_flags.m4
-  builx-aux/ax_gcc_x86_cpuid.m4
+  build-aux/ax_gcc_x86_cpuid.m4
 
 
 Primož Peterlin wrote:
