@@ -175,7 +175,7 @@
                (mods (SDL:event:key:keysym:mod e)))
            (display-centered "~A -- ~A~A" nice
                              (no-5 sym)
-                             (if (equal? '(KMOD_NONE) mods)
+                             (if (null? mods)
                                  ""
                                  (fs " -- ~A" (map no-5 mods))))
            (and (eq? sym 'SDLK_SPACE)

@@ -1,5 +1,12 @@
 2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Don't bother w/ ‘KMOD_NONE’.
+
+	* event.scm (input-loop): Check against empty list
+	instead of ‘(KMOD_NONE)’ to detect "no modifiers pressed".
+
+2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Use u8 vector in leak test.
 
 	* leak.scm: Import SRFI 4 ‘make-u8vector’.
