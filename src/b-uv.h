@@ -23,22 +23,9 @@
 #define SELECT_UVEC_PREDICATE(TT)                       \
   SELECT_MODULE_VAR (TT ## v_p, srfi4, #TT "vector?")
 
-#define DEFINE_ANY_TO(TT)                                               \
-SELECT_MODULE_VAR (list_to_ ## TT, srfi4, "list->" #TT "vector");       \
-SCM_SNARF_HERE (static inline SCM                                       \
-scm_any_to_ ## TT ## vector (SCM v)                                     \
-{ return CALL1 (list_to_ ## TT, scm_vector_to_list (v)); })
-
-#define ASSERT_UVEC(tt,obj,n)  do                               \
-    {                                                           \
-      if (VECTORP (obj))                                        \
-        obj = scm_any_to_## tt ##vector (obj);                  \
-      else                                                      \
-        SCM_ASSERT_TYPE                                         \
-          (NOT_FALSEP (scm_## tt ##vector_p (obj)),             \
-           (obj), n, FUNC_NAME, #tt "vector");                  \
-    }                                                           \
-  while (0)
+#define ASSERT_UVEC(tt,obj,n)                                   \
+  SCM_ASSERT_TYPE (NOT_FALSEP (scm_## tt ##vector_p (obj)),     \
+                   (obj), n, FUNC_NAME, #tt "vector")
 
 /* NB: The expansion may have a trailing semicolon!  */
 #if GI_LEVEL_NOT_YET_1_8

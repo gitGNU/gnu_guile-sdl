@@ -30,9 +30,6 @@ SELECT_MODULE_VAR (obtw, sdlsup, "%%Guile-SDL-obtw");
 IMPORT_SRFI4 ();
 SELECT_UVEC_PREDICATE (s16);
 #define scm_s16vector_p(obj)  CALL1 (s16v_p, obj)
-
-/* For backward compatability (EVENTUALLY ZONKABLE).  */
-DEFINE_ANY_TO (s16)
 #endif
 
 DEFINE_STRUCT_AND_COPY_FUNC (s16, Sint16)

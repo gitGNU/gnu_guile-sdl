@@ -1,5 +1,14 @@
 2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Require uvec args; no longer accept normal vectors.
+
+	* sdlgfx.c (s16): Delete ‘DEFINE_ANY_TO’.
+	* sdlvideo.c (u8, u16): Likewise.
+	* b-uv.h (DEFINE_ANY_TO): Delete macro.
+	(ASSERT_UVEC): Rewrite w/o support for normal vector.
+
+2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Collect enum symbols more efficiently.
 
 	Omission from 2011-05-02, "Use single
