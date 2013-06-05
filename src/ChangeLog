@@ -1,5 +1,12 @@
 2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make motion.state access fully symbolic.
+
+	* sdlevent.c (event_motion_state):
+	Use ‘FLAG_GETSET’ and ‘event_mb_flags’.
+
+2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Require uvec args; no longer accept normal vectors.
 
 	* sdlgfx.c (s16): Delete ‘DEFINE_ANY_TO’.

@@ -466,7 +466,10 @@ FLAG_GETSET ("key:keysym:mod",        key_keysym_mod,
 UNUM3_GETSET (key, keysym, scancode)
 UNUM3_GETSET (key, keysym, unicode)
 
-UNUM2_GETSET (motion, state)
+FLAG_GETSET ("motion:state",        motion_state,
+             "motion:set-state!", motion_set_state,
+             motion.state,
+             event_mb_flags)
 UNUM2_GETSET (motion, x)
 UNUM2_GETSET (motion, y)
 SNUM2_GETSET (motion, xrel)
