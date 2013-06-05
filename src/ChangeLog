@@ -1,5 +1,12 @@
 2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Allow for "anonymous" enumstash.
+
+	* sdlenums.c (define_enum): If ‘name’ is NULL,
+	don't do ‘DEFINE_PUBLIC’; instead, make it ‘PERMANENT’.
+
+2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Make motion.state access fully symbolic.
 
 	* sdlevent.c (event_motion_state):

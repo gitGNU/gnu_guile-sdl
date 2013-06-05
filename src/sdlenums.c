@@ -95,7 +95,10 @@ define_enum (const char *name, size_t count, valaka_t *backing)
 
   /* Build and define the enum smob instance.  */
   SCM_NEWSMOB (enumstash, enum_tag, s);
-  DEFINE_PUBLIC (name, enumstash);
+  if (name)
+    DEFINE_PUBLIC (name, enumstash);
+  else
+    enumstash = PERMANENT (enumstash);
   return enumstash;
 }
 
