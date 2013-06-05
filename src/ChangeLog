@@ -1,5 +1,14 @@
 2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make button.button access fully symbolic.
+
+	* sdlevent.c (BUTTON_AKA): New macro.
+	(mb_enum, mb_eback): New static vars.
+	(event_button_button): Use ‘ENUM_GETSET’ and ‘mb_enum’.
+	(gsdl_init_enums): Init ‘mb_enum’.
+
+2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Allow for "anonymous" enumstash.
 
 	* sdlenums.c (define_enum): If ‘name’ is NULL,

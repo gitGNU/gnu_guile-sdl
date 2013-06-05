@@ -23,6 +23,21 @@
 #include <SDL/SDL_events.h>
 
 /* enum/flag types */
+
+#define BUTTON_AKA(val,name)                            \
+  { .value = SDL_BUTTON_ ## val, .aka = { name } }
+static SCM mb_enum;
+static valaka_t mb_eback[] = {
+  BUTTON_AKA (X2,        "x2"),
+  BUTTON_AKA (X1,        "x1"),
+  BUTTON_AKA (WHEELDOWN, "wheel-down"),
+  BUTTON_AKA (WHEELUP,   "wheel-up"),
+  BUTTON_AKA (RIGHT,     "right"),
+  BUTTON_AKA (MIDDLE,    "middle"),
+  BUTTON_AKA (LEFT,      "left")
+};
+#undef BUTTON_AKA
+
 static SCM event_type_enum;
 static valaka_t event_type_eback[] = {
   VALAKA (SDL_ACTIVEEVENT),
@@ -475,7 +490,10 @@ UNUM2_GETSET (motion, y)
 SNUM2_GETSET (motion, xrel)
 SNUM2_GETSET (motion, yrel)
 
-UNUM2_GETSET (button, button)
+ENUM_GETSET ("button:button",        button_button,
+             "button:set-button!", button_set_button,
+             button.button,
+             mb)
 UNUM2_GETSET (button, state)
 UNUM2_GETSET (button, x)
 UNUM2_GETSET (button, y)
@@ -1015,6 +1033,7 @@ gsdl_init_event (void)
 
   /* event states */
   event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);
+  mb_enum = DEFINE_ENUM (NULL, mb_eback);
 
   efi.proc = SCM_BOOL_F;
 
