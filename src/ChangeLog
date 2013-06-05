@@ -1,3 +1,14 @@
+2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Collect enum symbols more efficiently.
+
+	Omission from 2011-05-02, "Use single
+	hash for enums; init from static arrays".
+
+	* sdlenums.c (hfold, acons): Delete static vars.
+	(enumstash_enums): Use the backing aka symbol directly.
+	(gsdl_init_enums): Don't init ‘acons’, ‘hfold’.
+
 2013-06-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Drop flags: KMOD_NONE, KMOD_RESERVED

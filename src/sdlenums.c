@@ -22,9 +22,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static SCM hfold;
-static SCM acons;
-
 static long enum_tag;
 
 typedef struct {
@@ -150,22 +147,15 @@ Return the list of symbols belonging to @var{enumstash}.  */)
 #define FUNC_NAME s_enumstash_enums
   SCM rv;
   enum_struct *enum_type;
+  size_t i;
 
   ASSERT_ENUM (enumstash, 1);
 
   enum_type = UNPACK_ENUM (enumstash);
-  rv = CALL3 (hfold, acons, SCM_EOL, enum_type->table);
-  {
-    SCM ls = rv;
-    while (! NULLP (ls))
-      {
-        SCM k = CAAR (ls);
-
-        SETCAR (ls, SYMBOLP (k) ? k : BOOL_FALSE);
-        ls = CDR (ls);
-      }
-  }
-  return scm_delq (BOOL_FALSE, rv);
+  rv = SCM_EOL;
+  for (i = 0; i < enum_type->count; i++)
+    rv = CONS (enum_type->backing[i].aka.symbol, rv);
+  return rv;
 #undef FUNC_NAME
 }
 
@@ -405,9 +395,6 @@ gsdl_init_enums (void)
            mark_flagstash,
            NULL,
            print_flagstash);
-
-  acons = LOOKUP ("acons");
-  hfold = LOOKUP ("hash-fold");
 
 #include "sdlenums.x"
 }
