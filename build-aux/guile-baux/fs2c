@@ -33,7 +33,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 ;; The FS-SPEC file contents are Scheme forms in the following format:
 ;; First is the symbol NICK, used to form C identifiers.  Next is the
 ;; string PRETTY, used in the external representation of the flagstash
-;; object like so: "sdl-PRETTY-flags".  PRETTY may also be ‘NULL’ if
+;; object like so: "SDL PRETTY flags".  PRETTY may also be ‘NULL’ if
 ;; the object is not exposed to Scheme.  The rest of the forms are
 ;; alternating keywords and values.  These configure how fs2c scans
 ;; for entries.  Entries are extracted by regular expression matching
@@ -284,7 +284,8 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
       (spew (join '("\n" . suffix)
                   (fs "static flagstash_t ~A_flagstash = {" nick)
                   (join ",\n  "
-                        (fs "\"sdl-~A-flags\"" pretty)
+                        ;; Use "~S" to accomodate a string or ‘NULL’.
+                        (fs "  ~S" pretty)
                         (fs "~A" len)
                         (fs "~A_values" nick)
                         (fs "~A_names" nick))
