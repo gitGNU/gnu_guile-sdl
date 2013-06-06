@@ -1,5 +1,13 @@
 2013-06-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Don't bother naming the mouse-button flagstash.
+
+	Omission from 2013-05-31, "Add mouse-button flagstash".
+
+	* mb.fs: Specify ‘NULL’ name.
+
+2013-06-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Change xrep of flagstash objects.
 
 	* sdlenums.c (print_flagstash): Display name as
