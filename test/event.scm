@@ -107,14 +107,12 @@
 
 ;; write text centered on screen
 (define display-centered
-  (display-centered-w/height-proc
-   (half (- (SDL:rect:h test-rect) height))))
+  (display-centered-w/height-proc top))
 (define display-centered/next-line
-  (display-centered-w/height-proc
-   (+ 3 height (half (- (SDL:rect:h test-rect) height)))))
+  (display-centered-w/height-proc (+ 3 height top)))
 (define display-centered/next-next-line
   (display-centered-w/height-proc
-   (+ 3 (ash height 1) (half (- (SDL:rect:h test-rect) height)))))
+   (+ 3 (ash height 1) top)))
 
 ;; set the event filter: ignore the mouse every other second
 (define (ignore-maybe event-type)

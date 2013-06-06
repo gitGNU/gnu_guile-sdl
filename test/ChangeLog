@@ -1,3 +1,11 @@
+2013-06-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v int] Use ‘top’ more.
+
+	* event.scm (display-centered)
+	(display-centered/next-line)
+	(display-centered/next-next-line): ...here.
+
 2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Don't bother w/ ‘KMOD_NONE’.
