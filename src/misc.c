@@ -22,11 +22,9 @@
 #include <SDL/SDL_active.h>
 #include <SDL/SDL_syswm.h>
 
-
-DECLARE_SIMPLE_SYM (mousefocus);
-DECLARE_SIMPLE_SYM (inputfocus);
-DECLARE_SIMPLE_SYM (active);
+static SCM appstate_flags;
 
+
 PRIMPROC
 (get_app_state, "get-app-state", 0, 0, 0,
  (void),
@@ -34,14 +32,7 @@ PRIMPROC
 Return the current state of the application, a list of symbols.
 The list may include: `mousefocus', `inputfocus', `active'.  */)
 {
-  Uint8 state = SDL_GetAppState ();
-  SCM rv = SCM_EOL;
-
-  if (state & SDL_APPMOUSEFOCUS) rv = CONS (SYM (mousefocus), rv);
-  if (state & SDL_APPINPUTFOCUS) rv = CONS (SYM (inputfocus), rv);
-  if (state & SDL_APPACTIVE)     rv = CONS (SYM (active), rv);
-
-  return rv;
+  return btw->ulong2flags (SDL_GetAppState (), appstate_flags);
 }
 
 
@@ -87,9 +78,13 @@ integers).  */)
 }
 
 
+#include "appstate.c"
+
 void
 gsdl_init_misc (void)
 {
+  appstate_flags = btw->make_flagstash (&appstate_flagstash);
+
 #include "misc.x"
 }
 

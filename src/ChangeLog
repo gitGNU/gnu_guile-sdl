@@ -1,5 +1,18 @@
 2013-06-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Add application-state flagstash.
+
+	* appstate.fs: New file.
+	* Makefile.am (FLAGSTASH): Add appstate.c.
+	* misc.c (mousefocus, inputfocus, active):
+	Delete DECLARE_SIMPLE_SYMs
+	(appstate_flags): New static SCM.
+	(get_app_state): Rewrite.
+	<top-level>: #include "appstate.c".
+	(gsdl_init_misc): Init ‘appstate_flags’.
+
+2013-06-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use ‘DECLARE_SIMPLE_SYM’ more.
 
 	* misc.c (gsdl_sym_mousefocus, gsdl_sym_inputfocus)

@@ -43,6 +43,7 @@ Makefile.in
 
 /src/*.exports
 /src/*.tsar
+/src/appstate.c
 /src/config.h
 /src/config.h.in
 /src/evmask.c
