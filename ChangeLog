@@ -1,5 +1,11 @@
 2013-06-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Use field names in ‘flagstash_t’ init form.
+
+	* build-aux/guile-baux/fs2c (fs2c/qop): ...here.
+
+2013-06-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Change xrep of flagstash objects.
 
 	* build-aux/guile-baux/fs2c: Don't hardcode flagstash

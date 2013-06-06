@@ -285,10 +285,10 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                   (fs "static flagstash_t ~A_flagstash = {" nick)
                   (join ",\n  "
                         ;; Use "~S" to accomodate a string or ‘NULL’.
-                        (fs "  ~S" pretty)
-                        (fs "~A" len)
-                        (fs "~A_values" nick)
-                        (fs "~A_names" nick))
+                        (fs "  .name = ~S" pretty)
+                        (fs ".total = ~A" len)
+                        (fs ".val = ~A_values" nick)
+                        (fs ".aka = ~A_names" nick))
                   "};")))
     (close-port op)))
 
