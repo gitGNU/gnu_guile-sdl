@@ -1,3 +1,10 @@
+2013-06-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Use ‘DECLARE_SIMPLE_SYM’ more.
+
+	* misc.c (gsdl_sym_mousefocus, gsdl_sym_inputfocus)
+	(gsdl_sym_active, gsdl_sym_x11): Use ‘DECLARE_SIMPLE_SYM’.
+
 2013-06-05  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Make button.button access fully symbolic.

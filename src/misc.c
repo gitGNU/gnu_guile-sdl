@@ -23,9 +23,9 @@
 #include <SDL/SDL_syswm.h>
 
 
-DECLARE_SYM(mousefocus, "mousefocus");
-DECLARE_SYM(inputfocus, "inputfocus");
-DECLARE_SYM(active, "active");
+DECLARE_SIMPLE_SYM (mousefocus);
+DECLARE_SIMPLE_SYM (inputfocus);
+DECLARE_SIMPLE_SYM (active);
 
 PRIMPROC
 (get_app_state, "get-app-state", 0, 0, 0,
@@ -45,7 +45,7 @@ The list may include: `mousefocus', `inputfocus', `active'.  */)
 }
 
 
-DECLARE_SYM(x11, "x11");
+DECLARE_SIMPLE_SYM (x11);
 
 #define LIST3(a,b,c)  CONS (a, CONS (b, CONS (c, SCM_EOL)))
 
