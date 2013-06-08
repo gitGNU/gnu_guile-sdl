@@ -28,6 +28,7 @@ typedef struct {
   SCM table;
   valaka_t *backing;
   size_t count;
+  const char const *name;
 } enum_struct;
 
 #define ASSERT_ENUM(obj,which) \
@@ -44,6 +45,19 @@ mark_enum (SCM enumstash)
 
   scm_gc_mark (enum_smob->table);
   RETURN_FALSE;
+}
+
+static
+int
+print_enum (SCM smob, SCM port, scm_print_state *ps)
+{
+  enum_struct *stash = UNPACK_ENUM (smob);
+  char buf[64];
+
+  snprintf (buf, 64, "#<%zu SDL %s enums>", stash->count,
+            stash->name ? stash->name : "(anonymous)");
+  scm_puts (buf, port);
+  return 1;                             /* non-zero => ok */
 }
 
 
@@ -81,6 +95,7 @@ define_enum (const char *name, size_t count, valaka_t *backing)
   s = malloc (sizeof (enum_struct));
   s->count = count;
   s->backing = backing;
+  s->name = name;
 
   /* Create the enum hash.  */
   table = MAKE_HASH_TABLE (count);
@@ -393,7 +408,10 @@ gsdl_init_enums (void)
   btw->enum2long = enum2long;
   btw->long2enum = long2enum;
 
-  DEFSMOB (enum_tag, enum_nick, mark_enum, NULL, NULL);
+  DEFSMOB (enum_tag, enum_nick,
+           mark_enum,
+           NULL,
+           print_enum);
 
   DEFSMOB (flagstash_tag, flagstash_nick,
            mark_flagstash,
