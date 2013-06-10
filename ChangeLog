@@ -1,3 +1,9 @@
+2013-06-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[boot] Import Guile-BAUX module ‘text-db-table’.
+
+	* autogen.sh: ...here.
+
 2013-06-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build int] Use field names in ‘flagstash_t’ init form.

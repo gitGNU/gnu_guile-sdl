@@ -17,6 +17,7 @@ snuggle m4 build-aux
 # Guile-BAUX
 
 guile-baux-tool import \
+    text-db-table \
     re-prefixed-site-dirs \
     c2x \
     gen-scheme-wrapper \
