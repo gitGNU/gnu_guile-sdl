@@ -1,3 +1,15 @@
+2013-06-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[doc int] Use Guile-BAUX for ‘fso’ in scripts.
+
+	* Makefile.am (excuse.texi): Prefix mkexcuse invocation w/ $(gx).
+	(coverage.tdt, api.tdt): Likewise, for scan invocation.
+	* mkexcuse: Import ‘(guile-baux common) fso’.
+	(fso): Delete proc.
+	* scan: Import ‘(guile-baux common) fso’.
+	(write-tdt-head): New proc.
+	(write-api, write-coverage): Use ‘write-tdt-head’, ‘fso’.
+
 2013-06-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Drop flags: KMOD_NONE, KMOD_RESERVED

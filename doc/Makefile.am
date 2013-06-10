@@ -25,7 +25,7 @@ guile_sdl_TEXINFOS = $(BUILT_SOURCES)
 SUFFIXES = .texi .texh
 
 excuse.texi: $(srcdir)/notes.tdt
-	$(srcdir)/mkexcuse $< > $@
+	$(gx) $(srcdir)/mkexcuse $< > $@
 
 EXTRA_DIST = ref.texh ef-ref.texh \
  fdl.texi \
@@ -37,12 +37,12 @@ TESTS = cov
 endif ## MAINTAINER_MODE
 
 coverage.tdt: api.tdt
-	$(srcdir)/scan -o $@ --coverage $<
+	$(gx) $(srcdir)/scan -o $@ --coverage $<
 
 INCDIR = /usr/include
 
 api.tdt: $(INCDIR)/SDL/*.h
-	$(srcdir)/scan -o $@ --api $^
+	$(gx) $(srcdir)/scan -o $@ --api $^
 
 CLEANFILES = api.tdt coverage.tdt
 

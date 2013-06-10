@@ -20,14 +20,12 @@ exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(use-modules ((ttn-do zzz various-db) #:select (read-text-db-table
+(use-modules ((guile-baux common) #:select (fso))
+             ((ttn-do zzz various-db) #:select (read-text-db-table
                                                 text-db-table-meta))
              ((ice-9 common-list) #:select (uniq)))
 
 (define *notes* (read-text-db-table (open-input-file (cadr (command-line)))))
-
-(define (fso s . args)
-  (apply simple-format #t s args))
 
 (define (fln s . args)
   (apply fso s args)
