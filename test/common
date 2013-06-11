@@ -48,7 +48,7 @@
                    (newline))
                  (lambda ignored #t)))
 
-(define debug? (env-1? "DEBUG"))
-(and debug? (debug-enable 'debug 'backtrace))
+(and (env-1? "DEBUG")
+     (debug-enable 'debug 'backtrace))
 
 ;;; common ends here

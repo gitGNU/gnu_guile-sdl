@@ -1,5 +1,11 @@
 2013-06-11  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v int] Incorporate ‘debug?’ into unique caller.
+
+	* common: ...here, using ‘(env-1? "DEBUG")’ directly.
+
+2013-06-11  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Convert ‘DEBUG=1’ gates to ‘VERBOSE=1’.
 
 	* alive.test (d>>): Delete proc; use ‘info’ throughout.
