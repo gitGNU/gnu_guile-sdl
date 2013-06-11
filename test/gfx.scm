@@ -62,7 +62,7 @@
       (for-each one (list-tail all (random (- 256 (random 256))))))))
 
 (define mmx? (GFX:imfi-mmx?))
-(and debug? (fso "mmx: ~A~%" (if mmx? 'yes 'no)))
+(info "MMX ~AAVAILABLE" (if mmx? "" "NOT "))
 (and (getenv "NOMMX") (GFX:imfi-mmx? #f))
 
 ;; character (font) stuff and blitting

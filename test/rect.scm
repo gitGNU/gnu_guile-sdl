@@ -37,7 +37,7 @@
 ;; get a sample rect size from a list of available modes
 (define test-rect
   (let ((modes (SDL:list-modes)))
-    (and debug? (fso "hmm: (SDL:list-modes) => ~A~%" modes))
+    (info "(SDL:list-modes) => ~A" modes)
     (cond ((eq? modes #f)
            (error "no supported video modes"))
           ((eq? modes #t)

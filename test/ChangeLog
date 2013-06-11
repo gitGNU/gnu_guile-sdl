@@ -1,5 +1,15 @@
 2013-06-11  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Convert ‘DEBUG=1’ gates to ‘VERBOSE=1’.
+
+	* alive.test (d>>): Delete proc; use ‘info’ throughout.
+	* event.scm: Replace ‘debug?’ + ‘fso’ w/ ‘info’.
+	* gfx.scm: Likewise.
+	* leak.scm: Likewise.
+	* rect.scm: Likewise.
+
+2013-06-11  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Don't gate leak test on ‘DEBUG=1’.
 
 	* leak.scm: ...here.

@@ -27,8 +27,7 @@
 (define exit-value #t)
 
 ;; initialize SDL
-(let ((res (SDL:init '(SDL_INIT_VIDEO))))
-  (and debug? (fso "SDL:init: ~S~%" res)))
+(info "init => ~S" (SDL:init '(SDL_INIT_VIDEO)))
 
 (define LOTS (cond ((getenv "LEAK_LOTS") => string->number)
                    (else #x1000)))
@@ -52,12 +51,12 @@
     (set! fully (malloced))
     (jam! #f)
     (set! final (malloced))
-    (fso "~A:~A\t~A\t+~A\t~A~A~%"
-         title (make-string (- 12 (string-length title)) #\space)
-         start (number->string (- fully start) 16)
-         final (if (= start final)
-                   ""
-                   "\tDIFFERENT!"))
+    (info "~A:~A\t~A\t+~A\t~A~A"
+          title (make-string (- 12 (string-length title)) #\space)
+          start (number->string (- fully start) 16)
+          final (if (= start final)
+                    ""
+                    "\tDIFFERENT!"))
     (set! exit-value (and exit-value (= start final)))
     (malloced)))
 

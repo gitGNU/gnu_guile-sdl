@@ -52,14 +52,12 @@
     joy))
 
 ;; initialize the SDL video (and event) module
-(let ((res (SDL:init '(SDL_INIT_VIDEO SDL_INIT_JOYSTICK))))
-  (and debug? (fso "SDL:init: ~S~%" res)))
+(info "init => ~S" (SDL:init '(SDL_INIT_VIDEO SDL_INIT_JOYSTICK)))
 
 (define JOY (check-joystick-maybe))
 
 ;; initialize the font lib
-(let ((res (TTF:ttf-init)))
-  (and debug? (fso "TTF:ttf-init: ~S~%" res)))
+(info "ttf-init => ~S" (TTF:ttf-init))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect (SDL:make-rect 0 0 400 600))
@@ -119,7 +117,7 @@
   (not (and (eq? 'SDL_MOUSEMOTION event-type)
             (even? (car (gettimeofday))))))
 (SDL:set-event-filter ignore-maybe #f)
-(and debug? (fso "event-filter: ~S~%" (SDL:get-event-filter)))
+(info "get-event-filter => ~S" (SDL:get-event-filter))
 
 (define draw-relative-rectangle!
   (let* ((screen (SDL:get-video-surface))
