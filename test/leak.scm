@@ -17,8 +17,6 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(or debug? (exit-77 "debug only"))
-
 (cond-expand (guile-2 (exit-77 "Guile 2 does not track freed memory"))
              (else #f))
 

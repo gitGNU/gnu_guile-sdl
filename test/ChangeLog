@@ -1,3 +1,9 @@
+2013-06-11  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Don't gate leak test on ‘DEBUG=1’.
+
+	* leak.scm: ...here.
+
 2013-06-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v int] Use ‘top’ more.
