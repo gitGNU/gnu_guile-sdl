@@ -1,0 +1,48 @@
+#!/bin/sh
+# Usage: fnt2c .../SDL_gfx-2.0.18/Fonts/*.fnt
+#
+# Display to stdout some C data structures that describe the
+# (stylistically named) font files listed on the command line.
+#
+# Filenames should be in the form WxHM.fnt, where M is the
+# optional modifier "O" (for oblique) or "B" (for bold), and
+# W and H are integers specifying the width and height.
+#
+# For each file NAME.fnt, raw_NAME is a ‘uint8_t’ array holding
+# the file contents; and fnt_NAME is a ‘struct nwhr’ associating
+# NAME, the width, the height, and raw_NAME.
+#
+# Lastly, display ‘avail’, an array of ‘struct nwhr’ pointing
+# to all of the above-generated data, with the addition of a
+# ‘fnt_default’, which is not defined here.
+
+base ()
+{
+    basename $1 .fnt
+}
+
+one ()
+{
+    name=`base $1`
+    raw="raw_$name"
+    wc -c $1 | sed 's/\(.*\) .*/static const uint8_t '$raw'[\1] = {/'
+    od -An -v -t u1 $1 | sed 's/  */, /g;s/^,//;$!s/$/,/;$a\
+};'
+}
+
+two ()
+{
+    name=`base $1`
+    raw="raw_$name"
+    echo $name | sed 's/^\([0-9]*\)x\([0-9]*\).*/  , { "'$name'", \1, \2, '$raw' }/'
+}
+
+
+for f ; do one $f ; done
+
+echo "const struct nwhr avail[1 + $#] = {"
+echo '    { "8x8", 8, 8, gfxPrimitivesFontdata }'
+for f ; do two $f ; done
+echo '};'
+
+# fnt2c ends here

@@ -30,9 +30,35 @@ IMPORT_MODULE (sdlsup, "(sdl sdl)");
 SELECT_MODULE_VAR (obtw, sdlsup, "%%Guile-SDL-obtw");
 #if ! GI_LEVEL_1_8
 IMPORT_SRFI4 ();
+SELECT_UVEC_PREDICATE (u8);
 SELECT_UVEC_PREDICATE (s16);
+#define scm_u8vector_p(obj)   CALL1 (u8v_p, obj)
 #define scm_s16vector_p(obj)  CALL1 (s16v_p, obj)
+
+SELECT_MODULE_VAR (mk_u8v, srfi4, "make-u8vector");
+SELECT_MODULE_VAR (u8v_x, srfi4, "u8vector-set!");
+#define scm_make_u8vector(len,fill)  CALL2 (mk_u8v, len, fill)
+#define scm_u8vector_set_x(v,i,val)  CALL3 (u8v_x, v, i, val)
+
+static SCM
+scm_take_u8vector (uint8_t *p, size_t len)
+{
+  SCM v = scm_make_u8vector (NUM_ULONG (len), SCM_UNDEFINED);
+  size_t i;
+
+  for (i = 0; i < len; i++)
+    scm_u8vector_set_x (v, NUM_ULONG (i), NUM_ULONG (p[i]));
+
+  REMEMBER (v);
+  return v;
+}
 #endif
+
+DEFINE_STRUCT_AND_COPY_FUNC (u8, Uint8)
+#define ASSERT_UVEC_U8(obj,n)   ASSERT_UVEC (u8,  obj, n)
+#define U8_STUFF(v)             STUFF (u8, v)
+#define GET_U8_PARTICULARS(v)   GET_PARTICULARS (u8, v)
+#define HOWDY_U8(v)             HOWDY (u8, Uint8, v)
 
 DEFINE_STRUCT_AND_COPY_FUNC (s16, Sint16)
 #define ASSERT_UVEC_S16(obj,n)  ASSERT_UVEC (s16, obj, n)
@@ -676,6 +702,150 @@ Set the rotation for glyphs drawn by @code{draw-character} and
 
   gfxPrimitivesSetFontRotation (crotation);
   RETURN_UNSPECIFIED;
+#undef FUNC_NAME
+}
+
+
+
+/*
+ * fonts
+ */
+
+#include <stdint.h>
+
+struct nwhr {
+  const char * const    name;
+  const size_t          width;
+  const size_t          height;
+  const uint8_t * const raw;
+};
+
+#include "SDL_gfx/SDL_gfxPrimitives_font.h"
+#include "sdlgfx-fonts.c"
+#define N_AVAIL  (sizeof (avail) / sizeof (struct nwhr))
+
+#define LIST3(a,b,c)  CONS (a, CONS (b, CONS (c, SCM_EOL)))
+
+
+static SCM builtin_font_names;
+
+PRIMPROC
+(set_font_x, "set-font!", 3, 0, 0,
+ (SCM width, SCM height, SCM data),
+ doc: /***********
+Set the font used by @code{draw-character} and @code{draw-string}.
+@var{width} and @var{height} (integers) specify each glyph's
+dimensions, while @var{data} is a u8 uniform vector specifying the
+bitmap data for all the font glyphs.  @var{data} must have length:@*
+@code{((@var{width} + 7) / 8) * @var{height} * 256}.*/)
+{
+#define FUNC_NAME s_set_font_x
+  U8_STUFF (data);
+  int w, h, len;
+
+  ASSERT_INTEGER (width, 1);
+  ASSERT_INTEGER (height, 2);
+  ASSERT_UVEC_U8 (data, 3);
+
+  if (0 > (w = C_LONG (width)))
+    SCM_OUT_OF_RANGE (1, width);
+  if (0 > (h = C_LONG (height)))
+    SCM_OUT_OF_RANGE (2, height);
+  HOWDY_U8 (data);
+  if (((w + 7) / 8) * h * 256 != (len = VLEN (data)))
+    {
+      LATER (data);
+      SCM_MISC_ERROR ("Invalid (given width ~A, height ~A) data length: ~A",
+                      LIST3 (width, height, NUM_LONG (len)));
+    }
+  gfxPrimitivesSetFont (VBITS (data), w, h);
+  LATER (data);
+  scm_set_car_x (builtin_font_names, data);
+  REMEMBER (data);
+  return SCM_UNSPECIFIED;
+#undef FUNC_NAME
+}
+
+
+PRIMPROC
+(builtin_font, "builtin-font", 0, 1, 0,
+ (SCM name),
+ doc: /***********
+Return font info for builtin font @var{name} (a symbol).
+The value is a list suitable for applying @code{set-font!} to.
+If no such font exists, return @code{#f}.  Available names,
+and the character set (in Emacs jargon) they can display:
+
+@example
+5x7                      cp1252
+5x8                      cp1252
+6x9                      cp1252
+6x10                     cp1252
+6x12                     cp1252
+6x13  6x13B  6x13O       cp1252
+7x13  7x13B  7x13O       cp1252
+7x14  7x14B              cp1252
+8x8                      cp437     ;; the default
+8x13  8x13B  8x13O       cp1252
+9x15  9x15B              cp1252
+9x18  9x18B              cp1252
+10x20                    cp1252
+@end example
+
+Note that the names have the form @samp{WxHM}, where @var{W}
+and @var{H} are width and height, respectively, in pixels,
+and M is the optional modifier, with values @samp{B} for bold,
+and @samp{O} for oblique.
+
+As a special case, if @var{name} is omitted, return instead
+a list of all builtin font names.  */)
+{
+#define FUNC_NAME s_builtin_font
+  SCM rv = BOOL_FALSE;
+  size_t i;
+
+#define PUSH(x)  rv = CONS (x, rv)
+
+  if (UNBOUNDP (name))
+    rv = GC_PROTECT (CDR (builtin_font_names));
+  else
+    {
+      SCM ls;
+      SCM blob = BOOL_FALSE;
+
+      ASSERT_SYMBOL (name, 1);
+      for (i = 0, ls = CDR (builtin_font_names);
+           i < N_AVAIL;
+           i++, ls = CDR (ls))
+        if (EQ (name, CAR (ls)))
+          break;
+      if (N_AVAIL == i)
+        rv = BOOL_FALSE;
+      else
+        {
+          const struct nwhr *a = avail + i;
+          size_t w = a->width, h = a->height;
+          size_t len = ((w + 7) / 8) * h * 256;
+          void *tem = malloc (len)
+                      /* GCMALLOC (len, "builtin gfx font data") */;
+
+          memcpy (tem, a->raw, len);
+          blob = GC_PROTECT (scm_take_u8vector (tem, len));
+          rv = SCM_EOL;
+          PUSH (blob);
+          PUSH (NUM_ULONG (h));
+          PUSH (NUM_ULONG (w));
+          rv = GC_PROTECT (rv);
+        }
+      if (NOT_FALSEP (blob))
+        GC_UNPROTECT (blob);
+      REMEMBER (blob);
+    }
+  if (NOT_FALSEP (rv))
+    GC_UNPROTECT (rv);
+  REMEMBER (rv);
+  return rv;
+#undef PUSH
 #undef FUNC_NAME
 }
 
@@ -1484,6 +1654,16 @@ static
 void
 init_module (void)
 {
+  size_t i = N_AVAIL;
+
+  builtin_font_names = PERMANENT (CONS (BOOL_FALSE, SCM_EOL));
+  while (i)
+    {
+      SCM s = PERMANENT (SYMBOL (avail[--i].name));
+
+      scm_set_cdr_x (builtin_font_names, CONS (s, CDR (builtin_font_names)));
+    }
+
   DEFSMOB (fpsmgr_tag, "SDL-FPS-Manager",
            NULL,
            free_fpsmgr,

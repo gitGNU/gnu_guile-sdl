@@ -18,6 +18,10 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
+(use-modules
+ ((srfi srfi-1) #:select (circular-list))
+ ((ice-9 regex) #:select (string-match))
+ ((ice-9 rdelim) #:select (write-line)))
 (use-modules (srfi srfi-4))
 (use-modules ((sdl sdl) #:prefix SDL:)
              ((sdl gfx) #:prefix GFX:))
@@ -47,6 +51,15 @@
 (SDL:fill-rect SCREEN #f #xffffff)
 (SDL:flip)
 
+(define (wait-for-key!)
+  (let ((e (SDL:make-event)))
+    (let loop ()
+      (SDL:wait-event e)
+      (or (eq? 'SDL_KEYDOWN (SDL:event:type e))
+          (loop)))))
+
+(use-modules (ice-9 common-list))
+
 ;; character (font) stuff prep
 (define draw-characters!
   ;; Although glyph bb is 8x8, the last row and column are always empty.
@@ -54,12 +67,40 @@
   ;; (This is apparent only w/ high iteration count.)
   (let ((max-x (- 640 8 -1))
         (max-y (- 480 8 -1))
+        (fonts-ring (apply circular-list (list-copy (GFX:builtin-font))))
         (all (map integer->char (iota 256))))
     (define (one char)
       (GFX:draw-character SCREEN (random max-x) (random max-y) char
                           (random-rgba #xff)))
+    (info "builtin fonts: ~S~%" (GFX:builtin-font))
+    (for-each (lambda (font-name)
+                (let* ((fnt (GFX:builtin-font font-name))
+                       (w (car fnt))
+                       (h (cadr fnt)))
+                  (info "~A~%~S ~S ~S"
+                        font-name
+                        (car fnt)
+                        (cadr fnt)
+                        (u8vector-length (caddr fnt)))
+                  (apply GFX:set-font! fnt)
+                  (SDL:fill-rect SCREEN #f #xffffff)
+                  (for-each (lambda (n)
+                              (GFX:draw-character
+                               SCREEN
+                               (+ w (* (+ w 5) (remainder n 16)))
+                               (+ h (* (+ h 5) (quotient n 16)))
+                               (integer->char n) #xff))
+                            (iota 256))
+                  (SDL:flip)
+                  (wait-for-key!)))
+              (GFX:builtin-font))
     (lambda ()
+      (cond ((zero? (random 10))
+             (set! fonts-ring (cdr fonts-ring))
+             (apply GFX:set-font! (GFX:builtin-font (car fonts-ring)))))
       (for-each one (list-tail all (random (- 256 (random 256))))))))
+
+(gc)
 
 (define mmx? (GFX:imfi-mmx?))
 (info "MMX ~AAVAILABLE" (if mmx? "" "NOT "))
