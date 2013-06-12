@@ -157,6 +157,17 @@
     (let* ((next-event (SDL:wait-event e))
            (event-type (SDL:event:type e))
            (nice (nice-type event-type)))
+
+      (define (check-updn state)
+        (or (eq? (case event-type
+                   ((SDL_KEYDOWN SDL_MOUSEBUTTONDOWN SDL_JOYBUTTONDOWN)
+                    'pressed)
+                   ((SDL_KEYUP SDL_MOUSEBUTTONUP SDL_JOYBUTTONUP)
+                    'released)
+                   (else #f))
+                 state)
+            (error "unexpected state:" state)))
+
       (scroll-up!)
       (display-centered/next-line
        "~A" (map no-5 (SDL:get-key-state)))
@@ -174,6 +185,7 @@
                              (if (null? mods)
                                  ""
                                  (fs " -- ~A" (map no-5 mods))))
+           (check-updn (SDL:event:key:state e))
            (and (eq? sym 'SDLK_SPACE)
                 (if (SDL:get-event-filter)
                     (SDL:set-event-filter #f #f)
@@ -184,11 +196,19 @@
         ((SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP)
          (let ((button (SDL:event:button:button e)))
            (display-centered "~A -- ~A" nice button))
+         (check-updn (SDL:event:button:state e))
          (input-loop e))
         ((SDL_MOUSEMOTION)
          (let ((x (SDL:event:motion:x e))
                (y (SDL:event:motion:y e)))
            (display-centered "~A -- ~Ax~A" nice x y))
+         (input-loop e))
+        ((SDL_JOYBUTTONDOWN SDL_JOYBUTTONUP)
+         (display-centered "~A -- j~A b~A"
+                           nice
+                           (SDL:event:jbutton:which e)
+                           (SDL:event:jbutton:button e))
+         (check-updn (SDL:event:jbutton:state e))
          (input-loop e))
         (else
          (display-centered "~A" nice)

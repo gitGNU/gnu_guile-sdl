@@ -1,3 +1,13 @@
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise/check key/mbutton/jbutton getters.
+
+	* event.scm (input-loop check-updn): New proc.
+	(input-loop): Check that the state from the getter
+	procs ‘event:key:state’, ‘event:button:state’ and
+	‘event:jbutton:state’ are consistent w/ the event type;
+	exercise also ‘event:jbutton:which’ and ‘event:jbutton:button’.
+
 2013-06-11  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v int] Incorporate ‘debug?’ into unique caller.
