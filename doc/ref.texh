@@ -293,6 +293,9 @@ VIDEOEXPOSE   VIDEORESIZE
 
 @section Keys
 
+The value for @code{event:key:state} and @code{event:key:set-state!}
+is a symbol, one of: @code{released} or @code{pressed}.
+
 @tsin i event:key:keysym:sym
 
 @tsin i event:key:keysym:set-sym!
@@ -337,6 +340,18 @@ VIDEOEXPOSE   VIDEORESIZE
 
 @section Buttons
 
+The value for @code{event:button:button} and @code{event:button:set-button!}
+is a (possibly empty) list of symbols from the set:
+
+@example
+left middle right
+wheel-up wheel-down
+x1 x2
+@end example
+
+The value for @code{event:button:state} and @code{event:button:set-state!}
+is a symbol, one of: @code{released} or @code{pressed}.
+
 @tsin i event:button:button
 
 @tsin i event:button:state
@@ -354,6 +369,22 @@ VIDEOEXPOSE   VIDEORESIZE
 @tsin i event:button:set-y!
 
 @section Joysticks
+
+The value for @code{event:jbutton:state} and @code{event:jbutton:set-state!}
+is a symbol, one of: @code{released} or @code{pressed}.
+
+The value for @code{event:jhat:value} and @code{event:jhat:set-value!}
+is a list of or more symbols from the set:
+
+@example
+centered
+up    down
+left  right
+@end example
+
+@noindent
+Specifying the empty list for @code{event:jhat:set-value!} is
+effectively the same as specifying @code{centered}.
 
 @tsin i event:jaxis:which
 

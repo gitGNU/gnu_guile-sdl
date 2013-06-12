@@ -1,5 +1,11 @@
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[doc] Document procs that return/accept symbolic values.
+
+	* ref.texh (Events): ...here, and name the symbols, too.
+
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[maint] Revamp doc-coverage utility program.
 
 	* scan: Export ‘main’; don't import ‘(scripts PROGRAM)’; drop
