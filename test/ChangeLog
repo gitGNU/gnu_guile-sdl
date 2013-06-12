@@ -1,5 +1,12 @@
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise joystick axis/ball/hat getters.
+
+	* event.scm (input-loop): Exercise the getters for
+	‘SDL_JOYAXISMOTION’, ‘SDL_JOYBALLMOTION’, ‘SDL_JOYHATMOTION’.
+
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check key/mbutton/jbutton getters.
 
 	* event.scm (input-loop check-updn): New proc.

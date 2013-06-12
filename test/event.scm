@@ -210,6 +210,24 @@
                            (SDL:event:jbutton:button e))
          (check-updn (SDL:event:jbutton:state e))
          (input-loop e))
+        ((SDL_JOYAXISMOTION)
+         (display-centered "~A -- j~S a~S ~S" nice
+                           (SDL:event:jaxis:which e)
+                           (SDL:event:jaxis:axis e)
+                           (SDL:event:jaxis:value e))
+         (input-loop e))
+        ((SDL_JOYBALLMOTION)
+         (display-centered "~A -- j~S b~S (~S, ~S)" nice
+                           (SDL:event:jball:which e)
+                           (SDL:event:jball:ball e)
+                           (SDL:event:jball:xrel e)
+                           (SDL:event:jball:yrel e))
+         (input-loop e))
+        ((SDL_JOYHATMOTION)
+         (display-centered "~A -- j~S h~S ~S" nice
+                           (SDL:event:jhat:which e)
+                           (SDL:event:jhat:hat e)
+                           (SDL:event:jhat:value e)))
         (else
          (display-centered "~A" nice)
          (input-loop e))))))
