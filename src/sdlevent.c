@@ -220,6 +220,7 @@ static valaka_t event_action_eback[] = {
 static SCM event_mb_flags;
 static SCM event_mod_flags;
 static SCM event_mask_flags;
+static SCM event_jhpos_flags;
 
 #define ALLOCA_EVENTS(count)  alloca (count * sizeof (SDL_Event))
 
@@ -528,7 +529,10 @@ SNUM2_GETSET (jball, yrel)
 
 UNUM2_GETSET (jhat, which)
 UNUM2_GETSET (jhat, hat)
-UNUM2_GETSET (jhat, value)
+FLAG_GETSET ("jhat:value",        jhat_value,
+             "jhat:set-value!", jhat_set_value,
+             jhat.value,
+             event_jhpos_flags)
 
 SNUM2_GETSET (resize, w)
 SNUM2_GETSET (resize, h)
@@ -1020,6 +1024,7 @@ equivalent to @code{(left right)}.  */)
 
 #include "mb.c"
 #include "kmod.c"
+#include "jhpos.c"
 #include "evmask.c"
 
 /* Initialize glue.  */
@@ -1045,6 +1050,7 @@ gsdl_init_event (void)
   event_mb_flags = btw->make_flagstash (&mb_flagstash);
   event_mod_flags = btw->make_flagstash (&kmod_flagstash);
   event_mask_flags = btw->make_flagstash (&evmask_flagstash);
+  event_jhpos_flags = btw->make_flagstash (&jhpos_flagstash);
 
   /* event states */
   event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);

@@ -1,5 +1,16 @@
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make joystick hat value fully symbolic.
+
+	* jhpos.fs: New file.
+	* Makefile.am (FLAGSTASH): add jhpos.c.
+	* sdlevent.c (event_jhpos_flags): New static var.
+	(event_jhat_value): Use ‘FLAG_GETSET’ and ‘event_jhpos_flags’.
+	<top-level>: #include "jhpos.c".
+	(gsdl_init_event): Init ‘event_jhpos_flags’.
+
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Make key/mbutton/jbutton state fully symbolic.
 
 	* sdlevent.c (updn_enum, updn_eback): New static vars.
