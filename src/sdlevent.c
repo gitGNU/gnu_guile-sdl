@@ -24,6 +24,12 @@
 
 /* enum/flag types */
 
+static SCM updn_enum;
+static valaka_t updn_eback[] = {
+  VAL_AND_AKA (SDL_RELEASED, "released"),
+  VAL_AND_AKA (SDL_PRESSED,  "pressed")
+};
+
 #define BUTTON_AKA(val,name)  VAL_AND_AKA (SDL_BUTTON_ ## val, name)
 static SCM mb_enum;
 static valaka_t mb_eback[] = {
@@ -465,7 +471,11 @@ ENUM_GETSET ("type",          type,
 
 UNUM2_GETSET (active, gain)
 UNUM2_GETSET (active, state)
-UNUM2_GETSET (key, state)
+
+ENUM_GETSET ("key:state",       key_state,
+             "key:set-state!", key_set_state,
+             key.state,
+             updn)
 
 ENUM_GETSET ("key:keysym:sym",        key_keysym_sym,
              "key:keysym:set-sym!", key_keysym_set_sym,
@@ -493,7 +503,10 @@ ENUM_GETSET ("button:button",        button_button,
              "button:set-button!", button_set_button,
              button.button,
              mb)
-UNUM2_GETSET (button, state)
+ENUM_GETSET ("button:state",         button_state,
+             "button:set-state!", button_set_state,
+             button.state,
+             updn)
 UNUM2_GETSET (button, x)
 UNUM2_GETSET (button, y)
 
@@ -503,7 +516,10 @@ SNUM2_GETSET (jaxis, value)
 
 UNUM2_GETSET (jbutton, which)
 UNUM2_GETSET (jbutton, button)
-UNUM2_GETSET (jbutton, state)
+ENUM_GETSET ("jbutton:state",        jbutton_state,
+             "jbutton:set-state!", jbutton_set_state,
+             jbutton.state,
+             updn)
 
 UNUM2_GETSET (jball, which)
 UNUM2_GETSET (jball, ball)
@@ -1033,6 +1049,7 @@ gsdl_init_event (void)
   /* event states */
   event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);
   mb_enum = DEFINE_ENUM (NULL, mb_eback);
+  updn_enum = DEFINE_ENUM (NULL, updn_eback);
 
   efi.proc = SCM_BOOL_F;
 

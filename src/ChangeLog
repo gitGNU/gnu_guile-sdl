@@ -1,5 +1,14 @@
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make key/mbutton/jbutton state fully symbolic.
+
+	* sdlevent.c (updn_enum, updn_eback): New static vars.
+	(event_key_state): Use ‘ENUM_GETSET’ and ‘updn_enum’.
+	(event_button_state, event_jbutton_state): Likewise.
+	(gsdl_init_event): Init ‘updn_enum’.
+
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add abstraction: VAL_AND_AKA
 
 	* guile-sdl.h (VAL_AND_AKA): New macro.
