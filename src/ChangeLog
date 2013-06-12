@@ -1,3 +1,10 @@
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Add abstraction: VAL_AND_AKA
+
+	* guile-sdl.h (VAL_AND_AKA): New macro.
+	* sdlevent.c (BUTTON_AKA): Use ‘VAL_AND_AKA’.
+
 2013-06-08  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Change xrep of enumstash objects.

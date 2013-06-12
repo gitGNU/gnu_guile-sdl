@@ -24,8 +24,7 @@
 
 /* enum/flag types */
 
-#define BUTTON_AKA(val,name)                            \
-  { .value = SDL_BUTTON_ ## val, .aka = { name } }
+#define BUTTON_AKA(val,name)  VAL_AND_AKA (SDL_BUTTON_ ## val, name)
 static SCM mb_enum;
 static valaka_t mb_eback[] = {
   BUTTON_AKA (X2,        "x2"),

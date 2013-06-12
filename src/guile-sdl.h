@@ -368,6 +368,8 @@ typedef struct {
 
 #define VALAKA(x)  { x, { #x } }
 
+#define VAL_AND_AKA(val,rozt)  { .value = val, .aka = { rozt } }
+
 #define enum_nick "SDL-enum"
 
 typedef SCM (define_enum_t) (const char *name, size_t count,
