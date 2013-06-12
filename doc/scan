@@ -39,11 +39,40 @@ exec ${GUILE-guile} -e "(cov scan)" -s $0 "$@" # -*-scheme-*-
 ;;; Code:
 
 (define-module (cov scan)
-  #:use-module (scripts PROGRAM)
-  #:use-module ((guile-baux common) #:select (fso))
-  #:autoload (ice-9 editing-buffer) (editing-buffer)
-  #:autoload (ice-9 pretty-print) (pretty-print)
+  #:export (main)
+  #:use-module ((guile-baux common) #:select (check-hv qop<-args fs fso))
+  #:use-module ((srfi srfi-1) #:select (append-map!
+                                        filter!))
+  #:use-module ((srfi srfi-11) #:select (let-values))
+  #:use-module ((srfi srfi-13) #:select (string-suffix?))
+  #:use-module ((ice-9 rdelim) #:select (read-delimited!))
+  #:use-module ((ice-9 regex) #:select (fold-matches
+                                        match:substring))
   #:autoload (guile-baux text-db-table) (read-text-db-table-records))
+
+(define (interesting regexp sel)
+
+  (define (string<-file filename)
+    (let ((buf (make-string (stat:size (stat filename))))
+          (port (open-input-file filename)))
+      (let loop ((start 0))
+        (and=> (read-delimited! "" buf port 'concat start)
+               (lambda (count)
+                 (loop (+ start count)))))
+      (close-port port)
+      buf))
+
+  (define (accumulate-unique-symbols m acc)
+    (let ((sym (string->symbol (match:substring m sel))))
+      (if (memq sym acc)
+          acc
+          (cons sym acc))))
+
+  (let ((rx (make-regexp regexp)))
+    ;; rv
+    (lambda (filename)
+      (fold-matches rx (string<-file filename)
+                    '() accumulate-unique-symbols))))
 
 (define (write-tdt-head . field-names)
   (fso ";;; ~A -*-scheme-*-~%" (port-filename (current-output-port)))
@@ -55,80 +84,94 @@ exec ${GUILE-guile} -e "(cov scan)" -s $0 "$@" # -*-scheme-*-
                                     field-names))))
 
 (define (write-api headers)
-  (let ((interface '()))
-    (define (add! x)
-      (set! interface (cons x interface)))
-    (define (scan-header header)
-      (editing-buffer (open-input-file header)
-        (toggle-read-only)
-        (goto-char (point-min))
-        (let loop ()
-          (cond ((re-search-forward "DECLSPEC.*SDLCALL \([A-Za-z0-9_]+\)"
-                                    (point-max) #t)
-                 (add! (list (string->symbol (match-string 1))
-                             header))
-                 (loop))))))
-    (for-each scan-header headers)
-    ;; output
-    (write-tdt-head #:name #:source)
-    (for-each (lambda (x)
-                (apply fso "~S ~S~%" x))
-              interface)))
 
-(define *implementation-root*
-  ;; This is another way to say `top-srcdir', but it must be maintained.
-  (dirname (dirname (car (command-line)))))
-(define *implementation-subdirs* '("src"))
+  (define declared (interesting "SDLCALL ([A-Z][A-Za-z0-9_]+)"
+                                1))
+
+  (define (scan-header filename)
+    (map (lambda (name)
+           (list name filename))
+         (declared filename)))
+
+  ;; output
+  (write-tdt-head #:name #:source)
+  (for-each (lambda (x)
+              (apply fso "~S ~S~%" x))
+            (append-map! scan-header headers)))
+
+(define *implementation-root* (in-vicinity (dirname (car (command-line)))
+                                           "../src"))
 
 (define (implementation-files)
-  (let ((rv '()))
-    (define (recurse dir)
-      (let* ((stream (opendir dir))
-             (next (lambda () (readdir stream))))
-        (let loop ((filename (next)))
-          (if (eof-object? filename)
-              (closedir stream)
-              (let ((full (in-vicinity dir filename)))
-                (cond ((member filename '("." "..")))
-                      ((file-is-directory? full)
-                       (recurse full))
-                      ((string=? (substring full (- (string-length full) 2))
-                                 ".c")
-                       (set! rv (cons full rv))))
-                (loop (next)))))))
-    (for-each (lambda (sub)
-                (recurse (in-vicinity *implementation-root* sub)))
-              *implementation-subdirs*)
-    rv))
+
+  (define (sane-readdir stream)
+    (let ((x (readdir stream)))
+      (and (not (eof-object? x))
+           x)))
+
+  (define (directory-files dir)
+    (let ((stream (opendir dir)))
+      (let loop ((acc '()))
+        (cond ((sane-readdir stream)
+               => (lambda (filename)
+                    (loop (cons filename acc))))
+              (else
+               (closedir stream)
+               acc)))))
+
+  (let ((dir *implementation-root*))
+
+    (define (bin filename)
+      (or (member filename '("." ".."))
+          (let ((full (in-vicinity dir filename)))
+            (or
+             ;; single dir since 2008-04, no recursion necessary
+             (file-is-directory? full)
+             ;; only C !
+             (not (string-suffix? ".c" full))
+             ;; foo.c generated from foo.fs
+             (file-exists? (fs "~A.fs" (in-vicinity
+                                        (dirname full)
+                                        (basename full ".c"))))
+             ;; ok
+             full))))
+
+    (filter! string? (map bin (directory-files dir)))))
 
 (define (write-coverage api-filename)
-  (let* ((api (read-text-db-table-records api-filename))
-         (cut (1+ (string-length *implementation-root*)))
-         (bfn (make-object-property))   ; buffer-file-name
-         (bufs (map (lambda (filename)
-                      (editing-buffer (open-input-file filename)
-                        (toggle-read-only)
-                        (let ((cur (current-buffer)))
-                          (set! (bfn cur) (substring filename cut))
-                          cur)))
-                    (implementation-files))))
-    (define (search s)
-      (let ((files '()))
-        (define (add! x)
-          (set! files (cons x files)))
-        (for-each (lambda (buf)
-                    (editing-buffer buf
-                      (goto-char (point-min))
-                      (and (search-forward s (point-max) #t)
-                           (add! (bfn buf)))))
-                  bufs)
-        files))
+
+  (define (api)
+    (map (lambda (ent)
+           (assq-ref ent #:name))
+         (read-text-db-table-records api-filename)))
+
+  (define (reality)
+    (let ((cut (1+ (string-length *implementation-root*)))
+          (filenames (implementation-files)))
+
+      (define (presentable filename)
+        (substring filename cut))
+
+      (define mentioned (interesting "[A-Z][A-Za-z]+_[A-Za-z0-9_]+"
+                                     0))
+
+      (values (map presentable filenames)
+              (map mentioned filenames))))
+
+  (let-values (((filenames mentioned) (reality)))
+
+    (define (search name)
+      (delq! #f (map (lambda (filename mentioned)
+                       (and (memq name mentioned)
+                            filename))
+                     filenames
+                     mentioned)))
+
     ;; output
     (write-tdt-head #:name #:files)
-    (for-each (lambda (ent)
-                (let ((name (assq-ref ent #:name)))
-                  (fso "~S ~S~%" name (search (symbol->string name)))))
-              api)))
+    (for-each (lambda (name)
+                (fso "~S ~S~%" name (search name)))
+              (api))))
 
 (define (scan/qop qop)
   (or (qop 'api) (qop 'coverage)
@@ -141,13 +184,14 @@ exec ${GUILE-guile} -e "(cov scan)" -s $0 "$@" # -*-scheme-*-
   #t)
 
 (define (main args)
-  (HVQC-MAIN args scan/qop
-             '(usage . commentary)
-             '(package . "Guile-SDL")
-             '(version . "0.1")
-             `(option-spec
-               (api)
-               (coverage (value #t) (predicate ,file-exists?))
-               (output (value #t) (single-char #\o)))))
+  (check-hv args '((package . "Guile-SDL")
+                   (version . "0.1")
+                   (help . commentary)))
+  (exit
+   (scan/qop
+    (qop<-args
+     args `((api)
+            (coverage (value #t) (predicate ,file-exists?))
+            (output (value #t) (single-char #\o)))))))
 
 ;;; scan ends here

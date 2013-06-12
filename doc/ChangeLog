@@ -1,5 +1,23 @@
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[maint] Revamp doc-coverage utility program.
+
+	* scan: Export ‘main’; don't import ‘(scripts PROGRAM)’; drop
+	autoload for ‘(ice-9 editing-buffer)’, ‘(ice-9 pretty-print)’;
+	import some more ‘(guile-baux common)’ procs; import SRFI 1
+	‘append-map!’, ‘filter!’; import SRFI 11 ‘let-values’; import
+	SRFI 13 ‘string-suffix?’; import ‘(ice-9 rdelim) read-delimited!’;
+	import ‘(ice-9 regex)’ procs ‘fold-matches’ and ‘match:substring’.
+	(interesting): New proc.
+	(write-api): Rewrite.
+	(*implementation-root*): Update value to $top_srcdir/src.
+	(implementation-files): Rewrite.
+	(write-coverage): Likewise.
+	(main): Don't use ‘HVQC-MAIN’; instead, use
+	‘check-hv’, ‘qop<-args’; call ‘exit’ explicitly.
+
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[doc int] Use Guile-BAUX to read text-db-table files.
 
 	* mkexcuse: Don't import ‘(ttn-do zzz various-db)’ procs;

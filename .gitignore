@@ -66,6 +66,8 @@ Makefile.in
 /test/t99.list
 /test/zow
 
+/doc/api.tdt
+/doc/coverage.tdt
 /doc/ef-ref.texi
 /doc/excuse.texi
 /doc/guile-sdl.info
