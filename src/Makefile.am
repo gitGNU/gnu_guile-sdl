@@ -30,7 +30,7 @@ WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlenums.c misc.c
 FLAGSTASH       = init.c kmod.c video.c palette.c overlay.c evmask.c \
                   mb.c appstate.c jhpos.c
-headers         = guile-sdl.h b-uv.h
+headers         = guile-sdl.h b-uv.h b-values.h
 scheme          = misc-utils.scm simple.scm
 
 modflags        = -avoid-version -export-dynamic -module

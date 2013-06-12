@@ -60,6 +60,10 @@ AC_CHECK_HEADERS([guile/gh.h guile/modsup.h],,,[[
 #include <libguile.h>
 ]])
 
+AC_CHECK_DECLS([scm_values],,,[[
+#include <libguile.h>
+]])
+
 SNUGGLE_GUILE_LIBSITE_DIR([gsdl])
 
 ##----------------------------------------------------------------------------

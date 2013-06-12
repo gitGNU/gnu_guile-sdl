@@ -1,5 +1,12 @@
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Make sure ‘scm_values’ is available.
+
+	* b-values.h: New file.
+	* Makefile.am (headers): Add b-values.h.
+
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Make joystick hat value fully symbolic.
 
 	* jhpos.fs: New file.
