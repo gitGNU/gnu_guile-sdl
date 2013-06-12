@@ -1,5 +1,12 @@
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Make ‘LIST3’ more visible to other code.
+
+	* misc.c (LIST3): Move macro from here...
+	* guile-sdl.h (LIST3): ...to here.
+
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Make sure ‘scm_values’ is available.
 
 	* b-values.h: New file.

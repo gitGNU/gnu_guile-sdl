@@ -151,6 +151,8 @@
   scm_variable_ref (scm_c_module_lookup (module, name))
 #endif
 
+#define LIST3(a,b,c)  CONS ((a), CONS ((b), CONS ((c), SCM_EOL)))
+
 
 /* Abstractions for Scheme objects to C string conversion.  */
 

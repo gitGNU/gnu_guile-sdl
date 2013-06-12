@@ -38,8 +38,6 @@ The list may include: `mousefocus', `inputfocus', `active'.  */)
 
 DECLARE_SIMPLE_SYM (x11);
 
-#define LIST3(a,b,c)  CONS (a, CONS (b, CONS (c, SCM_EOL)))
-
 PRIMPROC
 (get_wm_info, "get-wm-info", 0, 0, 0,
  (void),
