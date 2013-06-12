@@ -1,3 +1,18 @@
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[doc int] Use Guile-BAUX to read text-db-table files.
+
+	* mkexcuse: Don't import ‘(ttn-do zzz various-db)’ procs;
+	instead, import ‘(guile-baux text-db-table) read-text-db-table’,
+	SRFI 11 let-values.
+	(META): New var.
+	(*notes*): Update call to ‘read-text-db-table’; set ‘META’.
+	("Categories"): Use ‘META’ directly.
+	* scan: Don't autoload ‘(ttn-do zzz various-db)’
+	on trigger ‘read-text-db-table’; instead autoload
+	‘(guile-baux text-db-table)’ on trigger ‘read-text-db-table-records’.
+	(write-coverage): Use ‘read-text-db-table-records’.
+
 2013-06-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[doc int] Use Guile-BAUX for ‘fso’ in scripts.

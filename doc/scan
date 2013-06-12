@@ -43,7 +43,7 @@ exec ${GUILE-guile} -e "(cov scan)" -s $0 "$@" # -*-scheme-*-
   #:use-module ((guile-baux common) #:select (fso))
   #:autoload (ice-9 editing-buffer) (editing-buffer)
   #:autoload (ice-9 pretty-print) (pretty-print)
-  #:autoload (ttn-do zzz various-db) (read-text-db-table))
+  #:autoload (guile-baux text-db-table) (read-text-db-table-records))
 
 (define (write-tdt-head . field-names)
   (fso ";;; ~A -*-scheme-*-~%" (port-filename (current-output-port)))
@@ -102,7 +102,7 @@ exec ${GUILE-guile} -e "(cov scan)" -s $0 "$@" # -*-scheme-*-
     rv))
 
 (define (write-coverage api-filename)
-  (let* ((api (read-text-db-table (open-input-file api-filename)))
+  (let* ((api (read-text-db-table-records api-filename))
          (cut (1+ (string-length *implementation-root*)))
          (bfn (make-object-property))   ; buffer-file-name
          (bufs (map (lambda (filename)

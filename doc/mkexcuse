@@ -21,11 +21,15 @@ exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
 ;; Boston, MA  02110-1301  USA
 
 (use-modules ((guile-baux common) #:select (fso))
-             ((ttn-do zzz various-db) #:select (read-text-db-table
-                                                text-db-table-meta))
+             ((guile-baux text-db-table) #:select (read-text-db-table))
+             ((srfi srfi-11) #:select (let-values))
              ((ice-9 common-list) #:select (uniq)))
 
-(define *notes* (read-text-db-table (open-input-file (cadr (command-line)))))
+(define META #f)
+(define *notes* (let-values (((recs meta) (read-text-db-table
+                                           (cadr (command-line)))))
+                  (set! META meta)
+                  recs))
 
 (define (fln s . args)
   (apply fso s args)
@@ -70,7 +74,7 @@ is not significant.
          (newline)
          (for-each (lambda (s)
                      (fln "~A" s))
-                   (assq-ref (text-db-table-meta *notes*) attr))
+                   (assq-ref META attr))
          (newline)
          (fln "@verbatim")
          (let ((col 0))
