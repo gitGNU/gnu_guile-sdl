@@ -482,6 +482,8 @@ effectively the same as specifying @code{centered}.
 
 @tsin i button?
 
+@tsin i mouse-bxy
+
 @node Joystick
 @chapter Joystick
 

@@ -1,5 +1,11 @@
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: mouse-bxy
+
+	* ref.texh (Events): Add @tsin for ‘mouse-bxy’.
+
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[doc] Document procs that return/accept symbolic values.
 
 	* ref.texh (Events): ...here, and name the symbols, too.

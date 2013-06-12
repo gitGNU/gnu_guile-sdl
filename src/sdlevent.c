@@ -21,6 +21,7 @@
 
 #include "guile-sdl.h"
 #include <SDL/SDL_events.h>
+#include "b-values.h"
 
 /* enum/flag types */
 
@@ -1018,6 +1019,34 @@ equivalent to @code{(left right)}.  */)
 
   buttons = SDL_GetMouseState (NULL, NULL);
   RETURN_BOOL (cmask == (cmask & buttons));
+#undef FUNC_NAME
+}
+
+PRIMPROC
+(mouse_bxy, "mouse-bxy", 0, 1, 0,
+ (SCM relative),
+ doc: /***********
+Return three values: a (possibly empty) list of symbols
+representing pressed mouse buttons (like @code{event:button:button}),
+and two integer coordinates @var{x} and @var{y}.
+
+Optional arg @code{relative} non-@code{#f} means the
+coordinates are relative to the last time the underlying
+@code{SDL_GetRelativeMouseState} was called.  */)
+{
+#define FUNC_NAME s_mouse_bxy
+  getmouse_sdl_fn fn;
+  int buttons, x, y;
+
+  UNBOUND_MEANS_FALSE (relative);
+  fn = EXACTLY_FALSEP (relative)
+    ? SDL_GetMouseState
+    : SDL_GetRelativeMouseState;
+
+  buttons = fn (&x, &y);
+  return scm_values (LIST3 (btw->ulong2flags (buttons, event_mb_flags),
+                            NUM_INT (x),
+                            NUM_INT (y)));
 #undef FUNC_NAME
 }
 
