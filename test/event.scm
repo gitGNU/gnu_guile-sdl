@@ -20,6 +20,7 @@
 (or *interactive* (exit-77 "interactive"))
 (or *have-ttf* (exit-77 "ttf disabled"))
 
+(use-modules ((srfi srfi-11) #:select (let-values)))
 (use-modules ((sdl sdl) #:prefix SDL:)
              ((sdl ttf) #:prefix TTF:))
 
@@ -171,11 +172,21 @@
       (scroll-up!)
       (display-centered/next-line
        "~A" (map no-5 (SDL:get-key-state)))
-      (let ((alist (SDL:get-mouse-relative-state #t)))
-        (draw-relative-rectangle! (assq-ref alist 'x)
-                                  (assq-ref alist 'y))
-        (display-centered/next-next-line
-         "~A" (map cdr alist)))
+      (let-values (((buttons x y) (SDL:mouse-bxy #t)))
+        (draw-relative-rectangle! x y)
+        (display-centered/next-next-line "~A ~A ~A" buttons x y)
+        (let* ((alist (SDL:get-mouse-relative-state #t))
+               (gmrs-state (assq-ref alist 'state))
+               (gmrs-x     (assq-ref alist 'x))
+               (gmrs-y     (assq-ref alist 'y)))
+          (or (equal? buttons gmrs-state)
+              (error "mouse-bxy and get-mouse-relative-state disagree:"
+                     (list 'bxy: buttons
+                           'rel: gmrs-state)))
+          (or (zero? gmrs-x)
+              (error "get-mouse-relative-state x non-zero:" gmrs-x))
+          (or (zero? gmrs-y)
+              (error "get-mouse-relative-state y non-zero:" gmrs-y))))
       (case event-type
         ((SDL_KEYDOWN SDL_KEYUP)
          (let ((sym (SDL:event:key:keysym:sym e))

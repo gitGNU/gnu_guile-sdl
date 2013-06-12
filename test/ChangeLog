@@ -1,5 +1,13 @@
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘mouse-bxy’.
+
+	* event.scm: Import SRFI 11 ‘let-values’.
+	(input-loop): Call ‘mouse-bxy’ then ‘get-mouse-relative-state’;
+	check that the buttons match and that the latter x,y are zero.
+
+2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise joystick axis/ball/hat getters.
 
 	* event.scm (input-loop): Exercise the getters for
