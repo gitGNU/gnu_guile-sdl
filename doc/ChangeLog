@@ -1,5 +1,11 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: frames-msf
+
+	* ref.texh (CDROM): Add @tsin for ‘frames-msf’.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl sdl) proc: joystick-ball-xy
 
 	* ref.texh (Joystick): Add @tsin for ‘joystick-ball-xy’.

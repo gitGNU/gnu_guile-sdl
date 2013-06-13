@@ -1,5 +1,13 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: frames-msf
+
+	* sdlcdrom.c: #include "b-values.h".
+	(frames_msf): New PRIMPROC.
+	(cd_frames_to_msf): Document expiration date.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl sdl) proc: joystick-ball-xy
 
 	* sdljoystick.c: #include "b-values.h".

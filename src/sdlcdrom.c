@@ -20,6 +20,7 @@
 
 #include "guile-sdl.h"
 #include <stdio.h>
+#include "b-values.h"
 
 static long cdrom_tag;
 
@@ -448,6 +449,27 @@ Return frames (an integer) computed fr
 }
 
 
+PRIMPROC
+(frames_msf, "frames-msf", 1, 0, 0,
+ (SCM frames),
+ doc: /***********
+Break down @var{frames} (an integer) and return three values:
+@code{minute}, @code{second} and @code{frames} (all integers).  */)
+{
+#define FUNC_NAME s_frames_msf
+  int cframes, m, s, f;
+
+  ASSERT_ULONG_COPY (frames, 1);
+
+  FRAMES_TO_MSF (cframes, &m , &s, &f);
+  RETURN_VALUES3
+    (NUM_ULONG (m),
+     NUM_ULONG (s),
+     NUM_ULONG (f));
+#undef FUNC_NAME
+}
+
+
 DECLARE_SIMPLE_SYM (f);
 DECLARE_SIMPLE_SYM (s);
 DECLARE_SIMPLE_SYM (m);
@@ -456,6 +478,9 @@ PRIMPROC
 (cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
  (SCM frames),
  doc: /***********
+NB: This procedure is obsoleted by @code{frames-msf}
+and @strong{will be removed} after 2013-12-31.
+
 Return a minute/second/frames alist made from
 converting @var{frames} (a number).  */)
 {

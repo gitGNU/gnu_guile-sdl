@@ -562,6 +562,8 @@ effectively the same as specifying @code{centered}.
 
 @tsin i cd-msf->frames
 
+@tsin i frames-msf
+
 @tsin i cd-frames->msf
 
 @node OpenGL
