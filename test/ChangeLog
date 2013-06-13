@@ -1,5 +1,11 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘(sdl sdl) video-cmf’.
+
+	* rect.scm <top-level>: ...here, after checking video mode.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘(sdl sdl) caption-ti’.
 
 	* rect.scm <futz w/ the window-manager>: ...here.

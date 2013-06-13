@@ -28,6 +28,10 @@
 (and (SDL:video-mode-ok -1 -1 -1)
      (error "impossible video-mode is \"OK\"!"))
 
+(call-with-values SDL:video-cmf
+  (lambda (capabilities memory format)
+    (info "video-cmf => ~S / => ~S / => ~S"
+          capabilities memory format)))
 (let ((alist (SDL:get-video-info)))
   (for-each (lambda (k v)
               (info "~A => ~S" k v))
