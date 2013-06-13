@@ -179,6 +179,8 @@ SDL_foo_OVERLAY, where foo can be:
 
 @tsin i set-caption
 
+@tsin i caption-ti
+
 @tsin i get-caption
 
 @tsin i set-icon

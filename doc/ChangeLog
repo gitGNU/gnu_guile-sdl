@@ -1,5 +1,11 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: caption-ti
+
+	* ref.texh (Video): Add @tsin for ‘caption-ti’.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl sdl) proc: cd-nth-track-itlo
 
 	* ref.texh (CDROM): Add @tsin for ‘cd-nth-track-itlo’.

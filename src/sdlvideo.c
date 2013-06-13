@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <SDL/SDL_image.h>
 #include "b-uv.h"
+#include "b-values.h"
 
 #if GI_LEVEL_NOT_YET_1_8
 IMPORT_SRFI4 ();
@@ -1097,6 +1098,24 @@ If @var{icon} is not specified, use @var{title} by default.  */)
 }
 
 
+PRIMPROC
+(caption_ti, "caption-ti", 0, 0, 0,
+ (void),
+ doc: /***********
+Return display-window caption as two values: @code{title}
+and @code{icon} (both strings, or @code{#f} if not set).  */)
+{
+#define FUNC_NAME s_caption_ti
+  char *title, *icon;
+
+  SDL_WM_GetCaption (&title, &icon);
+  RETURN_VALUES2
+    (title ? STRING (title) : BOOL_FALSE,
+     icon  ? STRING (icon)  : BOOL_FALSE);
+#undef FUNC_NAME
+}
+
+
 DECLARE_SIMPLE_SYM (title);
 DECLARE_SIMPLE_SYM (icon);
 
@@ -1104,6 +1123,9 @@ PRIMPROC
 (wm_get_caption, "get-caption", 0, 0, 0,
  (void),
  doc: /***********
+NB: This procedure is obsoleted by @code{caption-ti}
+and @strong{will be removed} after 2013-12-31.
+
 Return an alist with keys @code{title} and @code{icon}
 and values the title-bar and icon name (or @code{#f}) of the display
 window, respectively.  */)

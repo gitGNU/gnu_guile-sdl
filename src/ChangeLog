@@ -1,5 +1,13 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: caption-ti
+
+	* sdlvideo.c: #include "b-values.h".
+	(caption_ti): New PRIMPROC.
+	(wm_get_caption): Document expiration date.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl sdl) proc: cd-nth-track-itlo
 
 	* sdlcdrom.c (gsdl_sym_audio): New DECLARE_SIMPLE_SYM.
