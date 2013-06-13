@@ -35,6 +35,16 @@
 ;; display audio device info
 (let ((specs (MIXER:query-spec)))
   (cond (specs
+           (call-with-values MIXER:device-ffc
+             (lambda (freq format channels)
+               (info "device-ffc => ~S / => ~S (~S) / => ~S"
+                     freq format (logand format #xFF) channels)
+               (or (equal? freq (assq-ref specs 'freq))
+                   (error "discrepency in freq:" freq 'vs spec))
+               (or (equal? format (assq-ref specs 'format))
+                   (error "discrepency in format:" format 'vs spec))
+               (or (equal? channels (assq-ref specs 'channels))
+                   (error "discrepency in channels:" channels 'vs spec))))
          (info "Opened audio at ~A Hz ~A bit ~A"
                (assq-ref specs 'freq)
                (logand (assq-ref specs 'format) #xFF)
