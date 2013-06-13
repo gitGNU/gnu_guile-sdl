@@ -26,4 +26,36 @@ SELECT_MODULE_VAR (values_vvv, values_gu, "values");
 
 #endif  /* !HAVE_DECL_SCM_VALUES */
 
+#define RETURN_VALUES2(a,b)                     \
+  do                                            \
+    {                                           \
+      SCM _rv = LIST2 ((a), (b));               \
+      return scm_values (_rv);                  \
+    }                                           \
+  while (0)
+
+#define RETURN_VALUES3(a,b,c)                   \
+  do                                            \
+    {                                           \
+      SCM _rv = LIST3 ((a), (b), (c));          \
+      return scm_values (_rv);                  \
+    }                                           \
+  while (0)
+
+#define RETURN_VALUES4(a,b,c,d)                 \
+  do                                            \
+    {                                           \
+      SCM _rv = LIST4 ((a), (b), (c), (d));     \
+      return scm_values (_rv);                  \
+    }                                           \
+  while (0)
+
+#define RETURN_VALUES5(a,b,c,d,e)                       \
+  do                                                    \
+    {                                                   \
+      SCM _rv = LIST5 ((a), (b), (c), (d), (e));        \
+      return scm_values (_rv);                          \
+    }                                                   \
+  while (0)
+
 /* b-values.h ends here */

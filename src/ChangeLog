@@ -1,5 +1,12 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Add abstractions: RETURN_VALUES[2345]
+
+	* b-values.h (RETURN_VALUES2, RETURN_VALUES3)
+	(RETURN_VALUES4, RETURN_VALUES5): New macros.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add abstractions: LIST2, LIST4, LIST5; split LIST3.
 
 	* guile-sdl.h (LIST2, LIST4, LIST5): New bifurcations.
