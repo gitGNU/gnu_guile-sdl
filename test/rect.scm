@@ -103,7 +103,13 @@
   (and *interactive* (SDL:delay 1000))
   (SDL:set-caption "and so it goes")
   (info "get-wm-info => ~S" (SDL:get-wm-info))
-  (info "get-caption => ~S" (SDL:get-caption)))
+  (set! caption (SDL:get-caption))
+  (call-with-values SDL:caption-ti
+    (lambda (title icon)
+      (or (equal? (list title icon) (map cdr caption))
+          (error "discrepency in caption-ti:"
+                 (list title icon) 'vs caption))))
+  (info "get-caption => ~S" caption))
 
 ;; draw some rectangles filled with random colors
 (do ((i 0 (1+ i)))

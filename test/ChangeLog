@@ -1,5 +1,11 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘(sdl sdl) caption-ti’.
+
+	* rect.scm <futz w/ the window-manager>: ...here.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check new values-returning ttf procs.
 
 	* ttf.scm (rand-rect): ...here, specifically ‘text-wh’.
