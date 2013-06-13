@@ -595,6 +595,8 @@ TTF_STYLE_foo, where foo can be:
 
 @tsin i font:line-skip
 
+@tsin i font:glyph-xXyYa
+
 @tsin i font:glyph-metrics
 
 @tsin i font:size-text

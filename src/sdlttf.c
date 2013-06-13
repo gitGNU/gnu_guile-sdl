@@ -21,6 +21,7 @@
 #define GUILE_SDL_OPTIONAL_MODULE  1
 #include "guile-sdl.h"
 #include <SDL/SDL_ttf.h>
+#include "b-values.h"
 
 IMPORT_MODULE (sdlsup, "(sdl sdl)");
 SELECT_MODULE_VAR (obtw, sdlsup, "%%Guile-SDL-obtw");
@@ -193,6 +194,34 @@ text for @var{font}.  */)
 }
 
 
+PRIMPROC
+(font_glyph_xXyYa, "font:glyph-xXyYa", 2, 0, 0,
+ (SCM font, SCM ch),
+ doc: /***********
+Return the metrics (dimensions) of a glyph as five values.
+The glyph is a @var{font}-specific rendering of char @var{ch}.
+Values are: @code{minx}, @code{maxx}, @code{miny},
+@code{maxy} and @code{advance} (all integers).  */)
+{
+#define FUNC_NAME s_font_glyph_xXyYa
+  int minx, maxx, miny, maxy, advance;
+
+  ASSERT_TTFONT (font, 1);
+  ASSERT_CHAR (ch, 2);
+
+  TTF_GlyphMetrics (UNPACK_TTFONT (font), C_CHAR (ch),
+                    &minx, &maxx, &miny, &maxy, &advance);
+
+  RETURN_VALUES5
+    (NUM_LONG (minx),
+     NUM_LONG (maxx),
+     NUM_LONG (miny),
+     NUM_LONG (maxy),
+     NUM_LONG (advance));
+#undef FUNC_NAME
+}
+
+
 DECLARE_SIMPLE_SYM (minx);
 DECLARE_SIMPLE_SYM (maxx);
 DECLARE_SIMPLE_SYM (miny);
@@ -203,6 +232,9 @@ PRIMPROC
 (ttf_glyph_metrics, "font:glyph-metrics", 2, 0, 0,
  (SCM font, SCM ch),
  doc: /***********
+NB: This procedure is obsoleted by @code{font:glyph-xXyYa}
+and @strong{will be removed} after 2013-12-31.
+
 Return the metrics (dimensions) of a glyph as an alist.
 The glyph is a @var{font}-specific rendering of char @var{ch}.
 Alist keys are: @code{minx}, @code{maxx}, @code{miny},

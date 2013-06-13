@@ -1,3 +1,9 @@
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	New (sdl ttf) proc: font:glyph-xXyYa
+
+	* ref.texh (TrueType): Add @tsin for ‘font:glyph-xXyYa’.
+
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	New (sdl sdl) proc: mouse-bxy

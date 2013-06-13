@@ -1,5 +1,13 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl ttf) proc: font:glyph-xXyYa
+
+	* sdlttf.c: #include "b-values.h".
+	(font_glyph_xXyYa): New PRIMPROC.
+	(ttf_glyph_metrics): Document expiration date.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use ‘RETURN_VALUES3’ more.
 
 	* sdlevent.c (mouse_bxy): ...here.
