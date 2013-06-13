@@ -599,7 +599,11 @@ TTF_STYLE_foo, where foo can be:
 
 @tsin i font:glyph-metrics
 
+@tsin i text-wh
+
 @tsin i font:size-text
+
+@tsin i utf8-wh
 
 @tsin i font:size-utf8
 

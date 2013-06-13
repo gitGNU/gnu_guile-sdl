@@ -1,5 +1,12 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl ttf) procs: text-wh, utf8-wh
+
+	* sdlttf.c (text_wh, utf8_wh): New PRIMPROCs.
+	(ttf_size_text, ttf_size_utf8): Document expiration date.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl ttf) proc: font:glyph-xXyYa
 
 	* sdlttf.c: #include "b-values.h".

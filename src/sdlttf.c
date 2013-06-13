@@ -258,6 +258,31 @@ Alist keys are: @code{minx}, @code{maxx}, @code{miny},
 }
 
 
+PRIMPROC
+(text_wh, "text-wh", 2, 0, 0,
+ (SCM font, SCM text),
+ doc: /***********
+Return two values: @code{width} and @code{height} (both integers)
+representing the dimensions of the @var{font}-specific rendering
+of the string @var{text}.  */)
+{
+#define FUNC_NAME s_text_wh
+  range_t ctext;
+  int w, h;
+
+  ASSERT_TTFONT (font, 1);
+  ASSERT_STRING (text, 2);
+
+  FINANGLE (text);
+  TTF_SizeText (UNPACK_TTFONT (font), RS (text), &w, &h);
+  UNFINANGLE (text);
+  RETURN_VALUES2
+    (NUM_LONG (w),
+     NUM_LONG (h));
+#undef FUNC_NAME
+}
+
+
 DECLARE_SIMPLE_SYM (w);
 DECLARE_SIMPLE_SYM (h);
 
@@ -265,6 +290,9 @@ PRIMPROC
 (ttf_size_text, "font:size-text", 2, 0, 0,
  (SCM font, SCM text),
  doc: /***********
+NB: This procedure is obsoleted by @code{text-wh}
+and @strong{will be removed} after 2013-12-31.
+
 Return an alist with keys @code{w} and @code{h} and
 corresponding values (numbers) representing the width
 and height of the @var{font}-specific rendering of
@@ -287,9 +315,37 @@ the string @var{text}.  */)
 
 
 PRIMPROC
+(utf8_wh, "utf8-wh", 2, 0, 0,
+ (SCM font, SCM text),
+ doc: /***********
+Return two values: @code{width} and @code{height} (both integers)
+representing the dimensions of the @var{font}-specific rendering
+of the UTF-8 string @var{text}.  */)
+{
+#define FUNC_NAME s_utf8_wh
+  range_t ctext;
+  int w, h;
+
+  ASSERT_TTFONT (font, 1);
+  ASSERT_STRING (text, 2);
+
+  FINANGLE (text);
+  TTF_SizeUTF8 (UNPACK_TTFONT (font), RS (text), &w, &h);
+  UNFINANGLE (text);
+  RETURN_VALUES2
+    (NUM_LONG (w),
+     NUM_LONG (h));
+#undef FUNC_NAME
+}
+
+
+PRIMPROC
 (ttf_size_utf8, "font:size-utf8", 2, 0, 0,
  (SCM font, SCM text),
  doc: /***********
+NB: This procedure is obsoleted by @code{utf8-wh}
+and @strong{will be removed} after 2013-12-31.
+
 Return an alist with keys @code{w} and @code{h} and
 corresponding values (numbers) representing the width
 and height of the @var{font}-specific rendering of

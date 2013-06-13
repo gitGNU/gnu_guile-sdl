@@ -1,5 +1,11 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl ttf) procs: text-wh, utf8-wh
+
+	* ref.texh (TrueType): Add @tsin for ‘text-wh’, ‘utf8-wh’.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl ttf) proc: font:glyph-xXyYa
 
 	* ref.texh (TrueType): Add @tsin for ‘font:glyph-xXyYa’.
