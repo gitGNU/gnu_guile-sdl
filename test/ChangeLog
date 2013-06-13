@@ -1,5 +1,25 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check new values-returning ttf procs.
+
+	* ttf.scm (rand-rect): ...here, specifically ‘text-wh’.
+	(spew-utf-8): ...here, specifically ‘utf8-wh’.
+	(spew-at): ...here, specifically ‘font:glyph-xXyYa’.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise/check ‘(sdl ttf) text-wh’.
+
+	* ttf.scm (rand-rect): ...here.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise/check ‘(sdl ttf) utf8-wh’.
+
+	* ttf.scm (spew-utf-8): ...here.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘(sdl mixer) device-ffc’.
 
 	* mixer.scm <display audio device info>: ...here.
