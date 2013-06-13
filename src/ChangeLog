@@ -1,5 +1,13 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: joystick-ball-xy
+
+	* sdljoystick.c: #include "b-values.h".
+	(joystick_ball_xy): New PRIMPROC.
+	(joystick_get_ball): Document expiration date.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl mixer) proc: device-ffc
 
 	* sdlmixer.c: #include "b-values.h".

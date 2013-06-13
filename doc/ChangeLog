@@ -1,5 +1,11 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: joystick-ball-xy
+
+	* ref.texh (Joystick): Add @tsin for ‘joystick-ball-xy’.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl mixer) proc: device-ffc
 
 	* ref.texh (Audio): Add @tsin for ‘device-ffc’.

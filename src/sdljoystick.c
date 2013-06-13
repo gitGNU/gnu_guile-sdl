@@ -20,6 +20,7 @@
 
 #include "guile-sdl.h"
 #include <stdio.h>
+#include "b-values.h"
 
 static long joystick_tag;
 
@@ -268,6 +269,32 @@ For @var{joystick}, return state of @var{axis}.  */)
 }
 
 
+PRIMPROC
+(joystick_ball_xy, "joystick-ball-xy", 2, 0, 0,
+ (SCM joystick,
+  SCM n),
+ doc: /***********
+Return relative motion of @var{joystick} trackball @var{n}
+as two values: @code{dx} and @code{dy} (both integers).  */)
+{
+#define FUNC_NAME s_joystick_ball_xy
+  SDL_Joystick *joy;
+  int dx, dy;
+
+  ASSERT_JOYSTICK (joystick, 1);
+  ASSERT_INTEGER (n, 2);
+
+  joy = UNPACK_JOYSTICK (joystick);
+  if (0 > SDL_JoystickGetBall (joy, C_LONG (n), &dx, &dy))
+    SCM_MISC_ERROR ("invalid parameter", SCM_EOL);
+
+  RETURN_VALUES2
+    (NUM_LONG (dx),
+     NUM_LONG (dy));
+#undef FUNC_NAME
+}
+
+
 DECLARE_SIMPLE_SYM (dx);
 DECLARE_SIMPLE_SYM (dy);
 
@@ -276,6 +303,9 @@ PRIMPROC
  (SCM joystick,
   SCM n),
  doc: /***********
+NB: This procedure is obsoleted by @code{joystick-ball-xy}
+and @strong{will be removed} after 2013-12-31.
+
 For @var{joystick}, return relative motion of trackball
 @var{n}, as an alist with keys @code{dx} and @code{dy}.
 On error, return @code{#f}.  */)
