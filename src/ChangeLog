@@ -1,5 +1,12 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) procs: pixel-rgb, pixel-rgba
+
+	* sdlvideo.c (pixel_rgb, pixel_rgba): New PRIMPROCs.
+	(get_rgb, get_rgba): Document expiration date.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl sdl) proc: video-cmf
 
 	* sdlvideo.c (video_cmf): New PRIMPROC.

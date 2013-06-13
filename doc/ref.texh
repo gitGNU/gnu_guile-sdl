@@ -145,7 +145,11 @@ SDL_foo_OVERLAY, where foo can be:
 
 @tsin i map-rgba
 
+@tsin i pixel-rgb
+
 @tsin i get-rgb
+
+@tsin i pixel-rgba
 
 @tsin i get-rgba
 

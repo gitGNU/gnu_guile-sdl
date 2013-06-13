@@ -835,6 +835,31 @@ Return the mapped components as an unsigned integer.  */)
 }
 
 
+PRIMPROC
+(pixel_rgb, "pixel-rgb", 2, 0, 0,
+ (SCM pixel,
+  SCM format),
+ doc: /***********
+Return RGB info from @var{pixel} in the specified pixel @var{format}
+as three values: @code{r}, @code{g} and @code{b} (all integers).  */)
+{
+#define FUNC_NAME s_pixel_rgb
+  Uint8 r, g, b;
+
+  ASSERT_INTEGER (pixel, 1);
+  ASSERT_PIXEL_FORMAT (format, 2);
+
+  SDL_GetRGB (C_ULONG (pixel), UNPACK_PIXEL_FORMAT (format),
+              &r, &g, &b);
+
+  RETURN_VALUES3
+    (NUM_ULONG (r),
+     NUM_ULONG (g),
+     NUM_ULONG (b));
+#undef FUNC_NAME
+}
+
+
 DECLARE_SIMPLE_SYM (r);
 DECLARE_SIMPLE_SYM (g);
 DECLARE_SIMPLE_SYM (b);
@@ -845,6 +870,9 @@ PRIMPROC
  (SCM pixel,
   SCM format),
  doc: /***********
+NB: This procedure is obsoleted by @code{pixel-rgb}
+and @strong{will be removed} after 2013-12-31.
+
 Get RGB values from @var{pixel} in the specified pixel
 @var{format}.  Return an alist with keys @code{r}, @code{g}
 and @code{b}, with red, green and blue values (numbers),
@@ -867,9 +895,37 @@ respectively.  */)
 
 
 PRIMPROC
+(pixel_rgba, "pixel-rgba", 2, 0, 0,
+ (SCM pixel, SCM format),
+ doc: /***********
+Return RGBA info from @var{pixel} in the specified pixel @var{format} as
+four values: @code{r}, @code{g}, @code{b} and @code{a} (all integers).  */)
+{
+#define FUNC_NAME s_pixel_rgba
+  Uint8 r, g, b, a;
+
+  ASSERT_INTEGER (pixel, 1);
+  ASSERT_PIXEL_FORMAT (format, 2);
+
+  SDL_GetRGBA (C_ULONG (pixel), UNPACK_PIXEL_FORMAT (format),
+               &r, &g, &b, &a);
+
+  RETURN_VALUES4
+    (NUM_ULONG (r),
+     NUM_ULONG (g),
+     NUM_ULONG (b),
+     NUM_ULONG (a));
+#undef FUNC_NAME
+}
+
+
+PRIMPROC
 (get_rgba, "get-rgba", 2, 0, 0,
  (SCM pixel, SCM format),
  doc: /***********
+NB: This procedure is obsoleted by @code{pixel-rgba}
+and @strong{will be removed} after 2013-12-31.
+
 Get RGBA values from @var{pixel} in the specified pixel
 @var{format}.  Return an alist with keys @code{r}, @code{g},
 @code{b} and @code{a}, with red, green, blue and alpha values
