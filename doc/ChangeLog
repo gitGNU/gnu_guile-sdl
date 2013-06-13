@@ -1,5 +1,11 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[doc] Decruft: Don't mention non-uniform-vector retirement.
+
+	* guile-sdl.texi (Uniform Vectors): ...here.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl sdl) procs: pixel-rgb, pixel-rgba
 
 	* ref.texh (Video): Add @tsin for ‘pixel-rgb’, ‘pixel-rgba’.
