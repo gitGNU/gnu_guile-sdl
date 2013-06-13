@@ -22,6 +22,7 @@
 #define GUILE_SDL_OPTIONAL_MODULE  1
 #include "guile-sdl.h"
 #include <SDL/SDL_mixer.h>
+#include "b-values.h"
 
 IMPORT_MODULE (sdlsup, "(sdl sdl)");
 SELECT_MODULE_VAR (obtw, sdlsup, "%%Guile-SDL-obtw");
@@ -114,6 +115,30 @@ new number of allocated channels.  */)
 #undef FUNC_NAME
 }
 
+
+PRIMPROC
+(device_ffc, "device-ffc", 0, 0, 0,
+ (void),
+ doc: /***********
+Return audio device parameters as three values: @code{frequency} (Hz),
+@code{format} (number of bits) and @code{channels} (number of
+allocated channels).  */)
+{
+#define FUNC_NAME s_device_ffc
+  int freq, channels;
+  Uint16 format;
+
+  if (! Mix_QuerySpec (&freq, &format, &channels))
+    SCM_MISC_ERROR ("audio not open", SCM_EOL);
+
+  RETURN_VALUES3
+    (NUM_LONG (freq),
+     NUM_LONG (format),
+     NUM_LONG (channels));
+#undef FUNC_NAME
+}
+
+
 DECLARE_SIMPLE_SYM (freq);
 DECLARE_SIMPLE_SYM (format);
 DECLARE_SIMPLE_SYM (channels);
@@ -122,6 +147,9 @@ PRIMPROC
 (mix_query_spec, "query-spec", 0, 0, 0,
  (void),
  doc: /***********
+NB: This procedure is obsoleted by @code{device-ffc}
+and @strong{will be removed} after 2013-12-31.
+
 Return audio device parameters as an alist, or @code{#f}
 if the audio has not yet been opened.
 Keys are @code{freq} (frequency), @code{format},

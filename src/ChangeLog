@@ -1,5 +1,13 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl mixer) proc: device-ffc
+
+	* sdlmixer.c: #include "b-values.h".
+	(device_ffc): New PRIMPROC.
+	(mix_query_spec): Document expiration date.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl ttf) procs: text-wh, utf8-wh
 
 	* sdlttf.c (text_wh, utf8_wh): New PRIMPROCs.

@@ -624,6 +624,8 @@ TTF_STYLE_foo, where foo can be:
 
 @tsin i allocated-channels
 
+@tsin i device-ffc
+
 @tsin i query-spec
 
 @tsin i load-music

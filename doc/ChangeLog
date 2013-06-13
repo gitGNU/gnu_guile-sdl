@@ -1,5 +1,11 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl mixer) proc: device-ffc
+
+	* ref.texh (Audio): Add @tsin for ‘device-ffc’.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl ttf) procs: text-wh, utf8-wh
 
 	* ref.texh (TrueType): Add @tsin for ‘text-wh’, ‘utf8-wh’.
