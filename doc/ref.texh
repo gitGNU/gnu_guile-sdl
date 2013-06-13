@@ -544,6 +544,8 @@ effectively the same as specifying @code{centered}.
 
 @tsin i cd-get-cur-frame
 
+@tsin i cd-nth-track-itlo
+
 @tsin i cd-get-nth-track
 
 @tsin i cd-play-tracks

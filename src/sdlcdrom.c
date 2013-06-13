@@ -211,6 +211,40 @@ Return the current frame of the CD in drive @var{cdrom}.  */)
 #undef GETCUR
 
 
+DECLARE_SIMPLE_SYM (audio);
+DECLARE_SIMPLE_SYM (data);
+
+PRIMPROC
+(cd_nth_track_itlo, "cd-nth-track-itlo", 1, 1, 0,
+ (SCM cdrom, SCM n),
+ doc: /***********
+For CD in drive @var{cdrom}, return four values describing track
+@var{n} (zero if unspecified): @code{id}, @code{type}, @code{length}
+and @code{offset}, all integers except for @code{type}, which is
+a symbol, either @code{audio} or @code{data}.  */)
+{
+#define FUNC_NAME s_cd_nth_track_itlo
+  SDL_CD *cd;
+  int cn = 0;
+
+  ASSERT_CDROM (cdrom, 1);
+  cd = UNPACK_CDROM (cdrom);
+
+  if (BOUNDP (n))
+    ASSERT_ULONG_COPY (n, 2);
+
+  SCM_ASSERT_RANGE (2, n, cn < cd->numtracks);
+  RETURN_VALUES4
+    (NUM_LONG (cd->track[cn].id),
+     SDL_AUDIO_TRACK == cd->track[cn].type
+     ? SYM (audio)
+     : SYM (data),
+     NUM_ULONG (cd->track[cn].length),
+     NUM_ULONG (cd->track[cn].offset));
+#undef FUNC_NAME
+}
+
+
 DECLARE_SIMPLE_SYM (offset);
 DECLARE_SIMPLE_SYM (length);
 DECLARE_SIMPLE_SYM (type);
@@ -220,6 +254,9 @@ PRIMPROC
 (cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
  (SCM cdrom, SCM n),
  doc: /***********
+NB: This procedure is obsoleted by @code{cd-nth-track-itlo}
+and @strong{will be removed} after 2013-12-31.
+
 For CD in drive @var{cdrom}, return info on track @var{n}
 as an alist or @code{#f} if there were problems.  */)
 {

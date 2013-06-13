@@ -1,5 +1,14 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: cd-nth-track-itlo
+
+	* sdlcdrom.c (gsdl_sym_audio): New DECLARE_SIMPLE_SYM.
+	(gsdl_sym_data): Likewise.
+	(cd_nth_track_itlo): New PRIMPROC.
+	(cd_get_nth_track): Document expiration date.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl sdl) proc: frames-msf
 
 	* sdlcdrom.c: #include "b-values.h".
