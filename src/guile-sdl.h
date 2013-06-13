@@ -68,6 +68,10 @@
 
 #if GI_LEVEL_NOT_YET_1_8
 #include <guile/gh.h>
+#define LIST2              SCM_LIST2
+#define LIST3              SCM_LIST3
+#define LIST4              SCM_LIST4
+#define LIST5              SCM_LIST5
 #define NULLP(obj)        (gh_null_p (obj))
 #define PAIRP(obj)        (gh_pair_p (obj))
 #define SYMBOLP(obj)      (gh_symbol_p (obj))
@@ -106,6 +110,10 @@
 #define DEFINE_PUBLIC      gh_define
 #define MODULE_LOOKUP      gh_module_lookup
 #else
+#define LIST2              scm_list_2
+#define LIST3              scm_list_3
+#define LIST4              scm_list_4
+#define LIST5              scm_list_5
 #define NULLP(obj)        (scm_is_null (obj))
 #define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
 #define SYMBOLP(obj)      (scm_is_symbol (obj))
@@ -150,8 +158,6 @@
 #define MODULE_LOOKUP(module, name)                     \
   scm_variable_ref (scm_c_module_lookup (module, name))
 #endif
-
-#define LIST3(a,b,c)  CONS ((a), CONS ((b), CONS ((c), SCM_EOL)))
 
 
 /* Abstractions for Scheme objects to C string conversion.  */
@@ -615,43 +621,10 @@ DECLARE_PF (Surface);
 #define _rv_PUSH(x) \
   _rv = CONS ((x), _rv)
 
-#define RETURN_LIST2(a,b)                       \
-  do {                                          \
-    SCM _rv = SCM_EOL;                          \
-    _rv_PUSH (b);                               \
-    _rv_PUSH (a);                               \
-    return _rv;                                 \
-  } while (0)
-
-#define RETURN_LIST3(a,b,c)                     \
-  do {                                          \
-    SCM _rv = SCM_EOL;                          \
-    _rv_PUSH (c);                               \
-    _rv_PUSH (b);                               \
-    _rv_PUSH (a);                               \
-    return _rv;                                 \
-  } while (0)
-
-#define RETURN_LIST4(a,b,c,d)                   \
-  do {                                          \
-    SCM _rv = SCM_EOL;                          \
-    _rv_PUSH (d);                               \
-    _rv_PUSH (c);                               \
-    _rv_PUSH (b);                               \
-    _rv_PUSH (a);                               \
-    return _rv;                                 \
-  } while (0)
-
-#define RETURN_LIST5(a,b,c,d,e)                 \
-  do {                                          \
-    SCM _rv = SCM_EOL;                          \
-    _rv_PUSH (e);                               \
-    _rv_PUSH (d);                               \
-    _rv_PUSH (c);                               \
-    _rv_PUSH (b);                               \
-    _rv_PUSH (a);                               \
-    return _rv;                                 \
-  } while (0)
+#define RETURN_LIST2(a,b)        return LIST2 ((a), (b))
+#define RETURN_LIST3(a,b,c)      return LIST3 ((a), (b), (c))
+#define RETURN_LIST4(a,b,c,d)    return LIST4 ((a), (b), (c), (d))
+#define RETURN_LIST5(a,b,c,d,e)  return LIST5 ((a), (b), (c), (d), (e))
 
 #define RETURN_LIST11(a,b,c,d,e,f,g,h,i,j,k)    \
   do {                                          \

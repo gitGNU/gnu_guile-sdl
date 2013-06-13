@@ -1,3 +1,14 @@
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Add abstractions: LIST2, LIST4, LIST5; split LIST3.
+
+	* guile-sdl.h (LIST2, LIST4, LIST5): New bifurcations.
+	(LIST3): Delete macro; bifurcate instead.
+	(RETURN_LIST2): Use ‘LIST2’.
+	(RETURN_LIST3): Use ‘LIST3’.
+	(RETURN_LIST4): Use ‘LIST4’.
+	(RETURN_LIST5): Use ‘LIST5’.
+
 2013-06-12  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	New (sdl sdl) proc: mouse-bxy
