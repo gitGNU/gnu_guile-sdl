@@ -1,5 +1,11 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use ‘RETURN_VALUES3’ more.
+
+	* sdlevent.c (mouse_bxy): ...here.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add abstractions: RETURN_VALUES[2345]
 
 	* b-values.h (RETURN_VALUES2, RETURN_VALUES3)

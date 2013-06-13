@@ -1044,9 +1044,10 @@ coordinates are relative to the last time the underlying
     : SDL_GetRelativeMouseState;
 
   buttons = fn (&x, &y);
-  return scm_values (LIST3 (btw->ulong2flags (buttons, event_mb_flags),
-                            NUM_INT (x),
-                            NUM_INT (y)));
+  RETURN_VALUES3
+    (btw->ulong2flags (buttons, event_mb_flags),
+     NUM_INT (x),
+     NUM_INT (y));
 #undef FUNC_NAME
 }
 
