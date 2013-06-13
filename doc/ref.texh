@@ -73,6 +73,8 @@ SDL_foo_OVERLAY, where foo can be:
 
 @tsin i get-video-surface
 
+@tsin i video-cmf
+
 @tsin i get-video-info
 
 @tsin i video-driver-name

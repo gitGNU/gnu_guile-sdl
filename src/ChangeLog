@@ -1,5 +1,12 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: video-cmf
+
+	* sdlvideo.c (video_cmf): New PRIMPROC.
+	(get_video_info): Document expiration date.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl sdl) proc: caption-ti
 
 	* sdlvideo.c: #include "b-values.h".

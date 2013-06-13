@@ -281,6 +281,52 @@ DECLARE_SYM (blit_sw,      "blit-sw");
 DECLARE_SYM (blit_sw_CC,   "blit-sw-CC");
 DECLARE_SYM (blit_sw_A,    "blit-sw-A");
 DECLARE_SYM (blit_fill,    "blit-fill");
+
+PRIMPROC
+(video_cmf, "video-cmf", 0, 0, 0,
+ (void),
+ doc: /***********
+Return information about the video hardware as three values:
+@code{capabilities} (list of symbols), @code{memory} (integer),
+and @code{format} (pixel format object).  The @code{capabilities} are:
+
+@example
+hw-available
+wm-available
+blit-hw   blit-hw-CC   blit-hw-A
+blit-sw   blit-sw-CC   blit-sw-A
+blit-fill
+@end example  */)
+{
+#define FUNC_NAME s_video_cmf
+  SCM cap = SCM_EOL;
+  const SDL_VideoInfo *info = SDL_GetVideoInfo ();
+  SCM format;
+
+  SCM_NEWSMOB (format, pixel_format_tag, info->vfmt);
+
+#define TRY(bit)  if (info->bit) cap = CONS (SYM (bit), cap)
+
+  TRY (blit_fill);
+  TRY (blit_sw_A);
+  TRY (blit_sw_CC);
+  TRY (blit_sw);
+  TRY (blit_hw_A);
+  TRY (blit_hw_CC);
+  TRY (blit_hw);
+  TRY (wm_available);
+  TRY (hw_available);
+
+#undef TRY
+
+  RETURN_VALUES3
+    (cap,
+     NUM_ULONG (info->video_mem),
+     format);
+#undef FUNC_NAME
+}
+
+
 DECLARE_SYM (video_mem,    "video-mem");
 DECLARE_SIMPLE_SYM (vfmt);
 
@@ -288,6 +334,9 @@ PRIMPROC
 (get_video_info, "get-video-info", 0, 0, 0,
  (void),
  doc: /***********
+NB: This procedure is obsoleted by @code{video-cmf}
+and @strong{will be removed} after 2013-12-31.
+
 Return information about the video hardware as an alist.
 Keys are: @code{hw-available}, @code{wm-available},
 @code{bit-hw}, @code{blit-hw-CC}, @code{blit-hw-A},

@@ -1,5 +1,11 @@
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: video-cmf
+
+	* ref.texh (Video): Add @tsin for ‘video-cmf’.
+
+2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl sdl) proc: caption-ti
 
 	* ref.texh (Video): Add @tsin for ‘caption-ti’.
