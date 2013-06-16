@@ -72,6 +72,10 @@ SNUGGLE_GUILE_LIBSITE_DIR([gsdl])
 AM_PATH_SDL([1.2.0], :,
             AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 
+dnl Source should always do #include <SDL/foo.h>,
+dnl so we can omit /usr/include/SDL directly.
+SDL_CFLAGS=`echo $SDL_CFLAGS | sed 's|-I */usr/include/SDL/* *||'`
+
 LIBS="$LIBS $SDL_LIBS"
 
 dnl Checks for libraries.
