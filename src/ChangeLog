@@ -1,5 +1,12 @@
 2013-06-16  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Use snuggle/level.h.
+
+	* guile-sdl.h: #include "snuggle/level.h".
+	(GI_LEVEL_NOT_YET_1_8): Use ‘GI_LEVEL_1_8’.
+
+2013-06-16  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[boot] Import SNUGGLE headers.
 
 	* Makefile.am (EXTRA_DIST): Add snuggle.

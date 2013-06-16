@@ -54,17 +54,11 @@
 /* Guile.  */
 
 #include <libguile.h>
+#include "snuggle/level.h"
+
+#define GI_LEVEL_NOT_YET_1_8  (! GI_LEVEL_1_8)
 
 #define PERMANENT  scm_permanent_object
-
-#if  defined (SCM_MAJOR_VERSION)                                \
-  && defined (SCM_MINOR_VERSION)                                \
-  && (2 == SCM_MAJOR_VERSION                                    \
-      || (1 == SCM_MAJOR_VERSION && 8 <= SCM_MINOR_VERSION))
-#define GI_LEVEL_NOT_YET_1_8  0
-#else
-#define GI_LEVEL_NOT_YET_1_8  1
-#endif
 
 #if GI_LEVEL_NOT_YET_1_8
 #include <guile/gh.h>
