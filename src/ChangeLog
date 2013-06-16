@@ -1,5 +1,12 @@
 2013-06-16  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Use snuggle/mkhash.h.
+
+	* sdlenums.c: #include "snuggle/mkhash.h".
+	(REASONABLE_BUCKET_COUNT, MAKE_HASH_TABLE): Delete macros.
+
+2013-06-16  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Use snuggle/finangle.h.
 
 	* sdlgfx.c: #include "snuggle/finangle.h".

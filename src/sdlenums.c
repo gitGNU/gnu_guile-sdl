@@ -21,6 +21,7 @@
 #include "guile-sdl.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "snuggle/mkhash.h"
 
 static long enum_tag;
 
@@ -60,27 +61,6 @@ print_enum (SCM smob, SCM port, scm_print_state *ps)
   return 1;                             /* non-zero => ok */
 }
 
-
-#if GI_LEVEL_NOT_YET_1_8
-
-#define REASONABLE_BUCKET_COUNT(count) \
-  (NUM_INT                             \
-   (((count) <= 11) ? 11               \
-    : (((count) <= 23) ? 23            \
-       : (((count) <= 57) ? 57         \
-          : (((count) <= 113) ? 113    \
-             : (((count) <= 211) ? 211 \
-                : 431))))))
-
-#define MAKE_HASH_TABLE(size) \
-  (scm_make_vector (REASONABLE_BUCKET_COUNT (size), SCM_EOL))
-
-#else  /* !GI_LEVEL_NOT_YET_1_8 */
-
-#define MAKE_HASH_TABLE(size) \
-  scm_c_make_hash_table (size)
-
-#endif /* !GI_LEVEL_NOT_YET_1_8 */
 
 /* Register a C enum.  */
 static SCM
