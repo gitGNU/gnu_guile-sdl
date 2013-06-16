@@ -23,6 +23,7 @@
 #include "guile-sdl.h"
 #include <stdio.h>
 #include <alloca.h>
+#include "snuggle/finangle.h"
 #include "b-uv.h"
 
 IMPORT_MODULE (sdlsup, "(sdl sdl)");

@@ -22,6 +22,7 @@
 #include "guile-sdl.h"
 #include <stdio.h>
 #include <SDL/SDL_image.h>
+#include "snuggle/finangle.h"
 
 static SCM alpha_enums;
 static valaka_t alpha_eback[] = {

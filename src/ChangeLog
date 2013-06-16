@@ -1,5 +1,19 @@
 2013-06-16  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Use snuggle/finangle.h.
+
+	* sdlgfx.c: #include "snuggle/finangle.h".
+	* sdlmixer.c: Likewise.
+	* sdlsurface.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+	* guile-sdl.h (range_t): Delete struct typedef.
+	(RS, RLEN, FINANGLABLE_SCHEME_STRING_FROM_SYMBOL, ROZT_X)
+	(_FINANGLE, REND, NUL_AT_END_X, UNFINANGLE, FINANGLE_RAW)
+	(FINANGLE): Delete macros.
+
+2013-06-16  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Use snuggle/level.h.
 
 	* guile-sdl.h: #include "snuggle/level.h".
