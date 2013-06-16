@@ -12,6 +12,7 @@ set -e
 # SNUGGLE
 
 snuggle m4 build-aux
+snuggle h src/snuggle
 
 ######################################################################
 # Guile-BAUX

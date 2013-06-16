@@ -70,6 +70,7 @@ cmod_LTLIBRARIES = sdl.la gfx.la
 endif
 
 EXTRA_DIST = $(FLAGSTASH:.c=.fs) $(scheme)
+EXTRA_DIST += snuggle
 
 sdlimpl = $(WRAPPER_SOURCES)
 sdl_la_SOURCES = $(sdlimpl) $(headers)

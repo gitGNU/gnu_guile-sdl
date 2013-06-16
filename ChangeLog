@@ -1,5 +1,11 @@
 2013-06-16  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[boot] Import SNUGGLE headers.
+
+	* autogen.sh <SNUGGLE>: ...here.
+
+2013-06-16  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Arrange to omit ‘-I /usr/include/SDL’.
 
 	* configure.ac (SDL_CFLAGS): ...from this AC_SUBST var.
