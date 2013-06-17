@@ -490,11 +490,6 @@ DECLARE_PF (Surface);
       }                                         \
     while (0)
 
-/* Throws.  */
-
-#define THROW_NOT_YET_IMPLEMENTED \
-  SCM_MISC_ERROR ("not yet implemented (sorry)", SCM_EOL)
-
 /* Whole functions.  */
 
 /* number getter and setter */

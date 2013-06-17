@@ -1,5 +1,11 @@
 2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Decruft: Zonk unused macro ‘THROW_NOT_YET_IMPLEMENTED’.
+
+	* guile-sdl.h (THROW_NOT_YET_IMPLEMENTED): Delete macro.
+
+2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Drop abstraction: RETURN_LIST11
 
 	* sdlvideo.c (get_video_info): Build return value directly.
