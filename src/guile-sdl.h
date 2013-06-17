@@ -76,7 +76,6 @@
 #define C_CHAR             gh_scm2char
 #define C_LONG             gh_scm2long
 #define C_DOUBLE           gh_scm2double
-#define VECLENGTH          gh_vector_length
 #define VECREF(vec,idx)    (SCM_VELTS (vec)[idx]) /* ZRSN 2 */
 #define GC_PROTECT         scm_protect_object
 #define GC_UNPROTECT       scm_unprotect_object
@@ -93,7 +92,6 @@
 #define C_CHAR(c)          C_INT (scm_char_to_integer (c))
 #define C_LONG             scm_to_long
 #define C_DOUBLE           scm_to_double
-#define VECLENGTH          scm_c_vector_length
 #define VECREF             scm_c_vector_ref /* ZRSN 2 */
 #define GC_PROTECT         scm_gc_protect_object
 #define GC_UNPROTECT       scm_gc_unprotect_object

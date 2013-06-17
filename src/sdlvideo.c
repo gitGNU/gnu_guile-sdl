@@ -588,7 +588,7 @@ assert_colormap_copy (const char *FUNC_NAME, SCM v, int pos,
                       int *len, SDL_Color *cv)
 {
   if (! VECTORP (v)
-      || 256 < (*len = VECLENGTH (v)))
+      || 256 < (*len = VECTOR_LEN (v)))
     *len = -1;
   else
     {

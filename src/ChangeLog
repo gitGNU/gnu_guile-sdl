@@ -1,5 +1,12 @@
 2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use ‘VECTOR_LEN’ instead of ‘VECLENGTH’.
+
+	* sdlvideo.c (assert_colormap_copy): ...here.
+	* guile-sdl.h (VECLENGTH): Delete macro.
+
+2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Use snuggle/humdrum.h.
 
 	* guile-sdl.h: #include "snuggle/humdrum.h",
