@@ -495,11 +495,6 @@ DECLARE_PF (Surface);
 #define _rv_PUSH(x) \
   _rv = CONS ((x), _rv)
 
-#define RETURN_LIST2(a,b)        return LIST2 ((a), (b))
-#define RETURN_LIST3(a,b,c)      return LIST3 ((a), (b), (c))
-#define RETURN_LIST4(a,b,c,d)    return LIST4 ((a), (b), (c), (d))
-#define RETURN_LIST5(a,b,c,d,e)  return LIST5 ((a), (b), (c), (d), (e))
-
 #define RETURN_LIST11(a,b,c,d,e,f,g,h,i,j,k)    \
   do {                                          \
     SCM _rv = SCM_EOL;                          \

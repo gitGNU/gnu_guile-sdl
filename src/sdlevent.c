@@ -934,7 +934,7 @@ getmouse (const char *FUNC_NAME, SCM symbolic, getmouse_sdl_fn fn)
   UNBOUND_MEANS_FALSE (symbolic);
 
   buttons = fn (&x, &y);
-  RETURN_LIST3
+  return LIST3
     (CONS (SYM (state),
            EXACTLY_FALSEP (symbolic)
            ? NUM_ULONG (buttons)

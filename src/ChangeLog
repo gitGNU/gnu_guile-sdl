@@ -1,5 +1,19 @@
 2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Drop abstractions: RETURN_LIST[2345].
+
+	* sdlcdrom.c: Throughout, use ‘return LIST2’
+	through ‘return LIST5’ directly.
+	* sdlevent.c: Likewise.
+	* sdljoystick.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+	* guile-sdl.h (RETURN_LIST2): Delete macro.
+	(RETURN_LIST3, RETURN_LIST4, RETURN_LIST5): Likewise.
+
+2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Decruft: Zonk unused macro ‘RETURN_LIST0’.
 
 	* guile-sdl.h (RETURN_LIST0): Delete.

@@ -326,7 +326,7 @@ On error, return @code{#f}.  */)
       ret = SDL_JoystickGetBall (joy, C_LONG (n), &dx, &dy);
 
       if (ret != -1)
-        RETURN_LIST2 (CONS (SYM (dx), NUM_LONG (dx)),
+        return LIST2 (CONS (SYM (dx), NUM_LONG (dx)),
                       CONS (SYM (dy), NUM_LONG (dy)));
     }
 

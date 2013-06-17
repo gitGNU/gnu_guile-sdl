@@ -272,7 +272,7 @@ as an alist or @code{#f} if there were problems.  */)
 
   if (cd && (cn < cd->numtracks))
     /* Form an assoc list.  */
-    RETURN_LIST4
+    return LIST4
       (CONS (SYM (id),     NUM_LONG (cd->track[cn].id)),
        CONS (SYM (type),   NUM_LONG (cd->track[cn].type)),
        CONS (SYM (length), NUM_ULONG (cd->track[cn].length)),
@@ -527,7 +527,7 @@ converting @var{frames} (a number).  */)
   ASSERT_ULONG_COPY (frames, 1);
 
   FRAMES_TO_MSF (cframes, &m , &s, &f);
-  RETURN_LIST3 (CONS (SYM (m), NUM_ULONG (m)),
+  return LIST3 (CONS (SYM (m), NUM_ULONG (m)),
                 CONS (SYM (s), NUM_ULONG (s)),
                 CONS (SYM (f), NUM_ULONG (f)));
 #undef FUNC_NAME

@@ -250,7 +250,7 @@ Alist keys are: @code{minx}, @code{maxx}, @code{miny},
   TTF_GlyphMetrics (UNPACK_TTFONT (font), C_CHAR (ch),
                     &minx, &maxx, &miny, &maxy, &advance);
 
-  RETURN_LIST5 (CONS (SYM (minx), NUM_LONG (minx)),
+  return LIST5 (CONS (SYM (minx), NUM_LONG (minx)),
                 CONS (SYM (maxx), NUM_LONG (maxx)),
                 CONS (SYM (miny), NUM_LONG (miny)),
                 CONS (SYM (maxy), NUM_LONG (maxy)),
@@ -309,7 +309,7 @@ the string @var{text}.  */)
   FINANGLE (text);
   TTF_SizeText (UNPACK_TTFONT (font), RS (text), &w, &h);
   UNFINANGLE (text);
-  RETURN_LIST2 (CONS (SYM (w), NUM_LONG (w)),
+  return LIST2 (CONS (SYM (w), NUM_LONG (w)),
                 CONS (SYM (h), NUM_LONG (h)));
 #undef FUNC_NAME
 }
@@ -362,7 +362,7 @@ the utf8 string @var{text}.  */)
   FINANGLE (text);
   TTF_SizeUTF8 (UNPACK_TTFONT (font), RS (text), &w, &h);
   UNFINANGLE (text);
-  RETURN_LIST2 (CONS (gsdl_sym_w, NUM_LONG (w)),
+  return LIST2 (CONS (gsdl_sym_w, NUM_LONG (w)),
                 CONS (gsdl_sym_h, NUM_LONG (h)));
 #undef FUNC_NAME
 }

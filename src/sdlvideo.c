@@ -712,7 +712,7 @@ Return @code{#f} if unsuccessful.  */)
   if (0 > rv)
     RETURN_FALSE;
   else
-    RETURN_LIST3 (r, g, b);
+    return LIST3 (r, g, b);
 
 #undef WRITABLE_VBITS
 #undef GREET
@@ -888,7 +888,7 @@ respectively.  */)
   SDL_GetRGB (C_ULONG (pixel), UNPACK_PIXEL_FORMAT (format),
               &r, &g, &b);
 
-  RETURN_LIST3 (CONS (SYM (r), NUM_ULONG (r)),
+  return LIST3 (CONS (SYM (r), NUM_ULONG (r)),
                 CONS (SYM (g), NUM_ULONG (g)),
                 CONS (SYM (b), NUM_ULONG (b)));
 #undef FUNC_NAME
@@ -941,7 +941,7 @@ Get RGBA values from @var{pixel} in the specified pixel
   SDL_GetRGBA (C_ULONG (pixel), UNPACK_PIXEL_FORMAT (format),
                &r, &g, &b, &a);
 
-  RETURN_LIST4 (CONS (SYM (r), NUM_ULONG (r)),
+  return LIST4 (CONS (SYM (r), NUM_ULONG (r)),
                 CONS (SYM (g), NUM_ULONG (g)),
                 CONS (SYM (b), NUM_ULONG (b)),
                 CONS (SYM (a), NUM_ULONG (a)));
@@ -1240,7 +1240,7 @@ window, respectively.  */)
   char *title, *icon;
 
   SDL_WM_GetCaption (&title, &icon);
-  RETURN_LIST2 (CONS (SYM (title), title ? STRING (title) : BOOL_FALSE),
+  return LIST2 (CONS (SYM (title), title ? STRING (title) : BOOL_FALSE),
                 CONS (SYM (icon),  icon  ? STRING (icon)  : BOOL_FALSE));
 #undef FUNC_NAME
 }

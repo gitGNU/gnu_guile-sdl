@@ -163,7 +163,7 @@ and @code{channels} (the number of allocated channels).  */)
   if (! Mix_QuerySpec (&freq, &format, &channels))
     RETURN_FALSE;
 
-  RETURN_LIST3 (CONS (SYM (freq), NUM_LONG (freq)),
+  return LIST3 (CONS (SYM (freq), NUM_LONG (freq)),
                 CONS (SYM (format), NUM_LONG (format)),
                 CONS (SYM (channels), NUM_LONG (channels)));
 #undef FUNC_NAME
