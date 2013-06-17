@@ -347,21 +347,27 @@ Keys are: @code{hw-available}, @code{wm-available},
 #define FUNC_NAME s_get_video_info
   const SDL_VideoInfo *info = SDL_GetVideoInfo ();
   SCM format;
+  SCM rv = SCM_EOL;
 
   SCM_NEWSMOB (format, pixel_format_tag, info->vfmt);
 
-  RETURN_LIST11
-    (CONS (SYM (hw_available), BOOLEAN (info->hw_available)),
-     CONS (SYM (wm_available), BOOLEAN (info->wm_available)),
-     CONS (SYM (blit_hw),      BOOLEAN (info->blit_hw)),
-     CONS (SYM (blit_hw_CC),   BOOLEAN (info->blit_hw_CC)),
-     CONS (SYM (blit_hw_A),    BOOLEAN (info->blit_hw_A)),
-     CONS (SYM (blit_sw),      BOOLEAN (info->blit_sw)),
-     CONS (SYM (blit_sw_CC),   BOOLEAN (info->blit_sw_CC)),
-     CONS (SYM (blit_sw_A),    BOOLEAN (info->blit_sw_A)),
-     CONS (SYM (blit_fill),    BOOLEAN (info->blit_fill)),
-     CONS (SYM (video_mem),    NUM_ULONG (info->video_mem)),
-     CONS (SYM (vfmt),         format));
+#define PUSHPAIR(a,b)  rv = CONS (CONS (SYM (a), b), rv)
+
+  PUSHPAIR (vfmt,         format);
+  PUSHPAIR (video_mem,    NUM_ULONG (info->video_mem));
+  PUSHPAIR (blit_fill,    BOOLEAN (info->blit_fill));
+  PUSHPAIR (blit_sw_A,    BOOLEAN (info->blit_sw_A));
+  PUSHPAIR (blit_sw_CC,   BOOLEAN (info->blit_sw_CC));
+  PUSHPAIR (blit_sw,      BOOLEAN (info->blit_sw));
+  PUSHPAIR (blit_hw_A,    BOOLEAN (info->blit_hw_A));
+  PUSHPAIR (blit_hw_CC,   BOOLEAN (info->blit_hw_CC));
+  PUSHPAIR (blit_hw,      BOOLEAN (info->blit_hw));
+  PUSHPAIR (wm_available, BOOLEAN (info->wm_available));
+  PUSHPAIR (hw_available, BOOLEAN (info->hw_available));
+
+#undef PUSHPAIR
+
+  return rv;
 #undef FUNC_NAME
 }
 

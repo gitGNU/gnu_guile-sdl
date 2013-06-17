@@ -1,5 +1,12 @@
 2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Drop abstraction: RETURN_LIST11
+
+	* sdlvideo.c (get_video_info): Build return value directly.
+	* guile-sdl.h (_rv_PUSH, RETURN_LIST11): Delete macros.
+
+2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Drop abstractions: RETURN_LIST[2345].
 
 	* sdlcdrom.c: Throughout, use ‘return LIST2’

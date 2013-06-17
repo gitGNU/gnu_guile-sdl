@@ -490,28 +490,6 @@ DECLARE_PF (Surface);
       }                                         \
     while (0)
 
-/* Return various lists of various length.  */
-
-#define _rv_PUSH(x) \
-  _rv = CONS ((x), _rv)
-
-#define RETURN_LIST11(a,b,c,d,e,f,g,h,i,j,k)    \
-  do {                                          \
-    SCM _rv = SCM_EOL;                          \
-    _rv_PUSH (k);                               \
-    _rv_PUSH (j);                               \
-    _rv_PUSH (i);                               \
-    _rv_PUSH (h);                               \
-    _rv_PUSH (g);                               \
-    _rv_PUSH (f);                               \
-    _rv_PUSH (e);                               \
-    _rv_PUSH (d);                               \
-    _rv_PUSH (c);                               \
-    _rv_PUSH (b);                               \
-    _rv_PUSH (a);                               \
-    return _rv;                                 \
-  } while (0)
-
 /* Throws.  */
 
 #define THROW_NOT_YET_IMPLEMENTED \
