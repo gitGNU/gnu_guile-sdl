@@ -1,5 +1,11 @@
 2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Decruft: Zonk unused macro ‘RETURN_LIST0’.
+
+	* guile-sdl.h (RETURN_LIST0): Delete.
+
+2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use ‘VECTOR_LEN’ instead of ‘VECLENGTH’.
 
 	* sdlvideo.c (assert_colormap_copy): ...here.

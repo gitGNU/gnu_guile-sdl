@@ -492,9 +492,6 @@ DECLARE_PF (Surface);
 
 /* Return various lists of various length.  */
 
-#define RETURN_LIST0 \
-  return SCM_EOL
-
 #define _rv_PUSH(x) \
   _rv = CONS ((x), _rv)
 
