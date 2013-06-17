@@ -55,6 +55,7 @@
 
 #include <libguile.h>
 #include "snuggle/level.h"
+#include "snuggle/humdrum.h"
 
 #define GI_LEVEL_NOT_YET_1_8  (! GI_LEVEL_1_8)
 
@@ -62,40 +63,21 @@
 
 /* ZRSN X ≡ ZONKABLE RSN (after #include "snuggle/humdrum.h" serial X) */
 
+#undef VECREF                           /* ZRSN 2 */
 #if GI_LEVEL_NOT_YET_1_8
 #include <guile/gh.h>
 #define LIST2              SCM_LIST2
 #define LIST3              SCM_LIST3
 #define LIST4              SCM_LIST4
 #define LIST5              SCM_LIST5
-#define NULLP(obj)        (gh_null_p (obj))
-#define PAIRP(obj)        (gh_pair_p (obj))
 #define SYMBOLP(obj)      (gh_symbol_p (obj))
 #define INTEGERP(obj)      NOT_FALSEP (scm_integer_p (obj))
 #define VECTORP            gh_vector_p
-#define BOOLEAN            gh_bool2scm
-#define NUM_INT            gh_int2scm
-#define NUM_LONG           gh_long2scm
-#define NUM_ULONG          gh_ulong2scm
-#define SYMBOL             gh_symbol2scm
-#define STRING             gh_str02scm
-#define BSTRING            gh_str2scm   /* ZRSN 1 */
-#define C_BOOL             gh_scm2bool
 #define C_CHAR             gh_scm2char
-#define C_INT              gh_scm2int
 #define C_LONG             gh_scm2long
-#define C_ULONG            gh_scm2ulong
 #define C_DOUBLE           gh_scm2double
-#define EQ                 gh_eq_p
-#define CONS               gh_cons
-#define CAR                gh_car
-#define CDR                gh_cdr
 #define VECLENGTH          gh_vector_length
-#define VECREF(vec,idx)    (SCM_VELTS (vec)[idx])
-#define CALL0              gh_call0
-#define CALL1              gh_call1
-#define CALL2              gh_call2
-#define CALL3              gh_call3
+#define VECREF(vec,idx)    (SCM_VELTS (vec)[idx]) /* ZRSN 2 */
 #define GC_PROTECT         scm_protect_object
 #define GC_UNPROTECT       scm_unprotect_object
 #define DEFINE_PUBLIC      gh_define
@@ -105,34 +87,14 @@
 #define LIST3              scm_list_3
 #define LIST4              scm_list_4
 #define LIST5              scm_list_5
-#define NULLP(obj)        (scm_is_null (obj))
-#define PAIRP(obj)        (scm_is_true (scm_pair_p (obj)))
 #define SYMBOLP(obj)      (scm_is_symbol (obj))
 #define INTEGERP           scm_is_integer
 #define VECTORP            scm_is_vector
-#define BOOLEAN            scm_from_bool
-#define NUM_INT            scm_from_int
-#define NUM_LONG           scm_from_long
-#define NUM_ULONG          scm_from_ulong
-#define SYMBOL             scm_from_locale_symbol
-#define STRING             scm_from_locale_string
-#define BSTRING            scm_from_locale_stringn /* ZRSN 1 */
-#define C_BOOL             scm_to_bool
 #define C_CHAR(c)          C_INT (scm_char_to_integer (c))
-#define C_INT              scm_to_int
 #define C_LONG             scm_to_long
-#define C_ULONG            scm_to_ulong
 #define C_DOUBLE           scm_to_double
-#define EQ                 scm_is_eq
-#define CONS               scm_cons
-#define CAR                scm_car
-#define CDR                scm_cdr
 #define VECLENGTH          scm_c_vector_length
-#define VECREF             scm_c_vector_ref
-#define CALL0              scm_call_0
-#define CALL1              scm_call_1
-#define CALL2              scm_call_2
-#define CALL3              scm_call_3
+#define VECREF             scm_c_vector_ref /* ZRSN 2 */
 #define GC_PROTECT         scm_gc_protect_object
 #define GC_UNPROTECT       scm_gc_unprotect_object
 #define DEFINE_PUBLIC(name,value)  do           \

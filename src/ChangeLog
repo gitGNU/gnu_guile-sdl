@@ -1,5 +1,15 @@
 2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Use snuggle/humdrum.h.
+
+	* guile-sdl.h: #include "snuggle/humdrum.h",
+	but #undef ‘VECREF’ so that can be defined again later.
+	(NULLP, PAIRP, BOOLEAN, NUM_INT, NUM_LONG, NUM_ULONG, SYMBOL)
+	(STRING, BSTRING, C_BOOL, C_INT, C_ULONG, EQ, CONS, CAR, CDR)
+	(CALL0, CALL1, CALL2, CALL3): Delete macros.
+
+2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Decruft: Zonk some unused abstractions.
 
 	* guile-sdl.h (STRINGP): Delete.
