@@ -1,5 +1,17 @@
 2013-06-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make joystick procs signal error if not open.
+
+	* sdljoystick.c (assert_open_joystick): New static func.
+	(ASSERT_FIRST_ARG_OPEN_JOYSTICK): New macro.
+	(joystick_index): Use ‘ASSERT_FIRST_ARG_OPEN_JOYSTICK’.
+	(joystick_num_axes, joystick_num_balls, joystick_num_hats)
+	(joystick_num_buttons, joystick_get_axis, joystick_ball_xy)
+	(joystick_get_ball, joystick_get_hat, joystick_get_button)
+	(joystick_close): Likewise.
+
+2013-06-18  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Use snuggle/defsmob.h.
 
 	* guile-sdl.h: #include "snuggle/defsmob.h".

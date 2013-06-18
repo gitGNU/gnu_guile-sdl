@@ -32,6 +32,21 @@ static long joystick_tag;
 #define UNPACK_JOYSTICK(smob) \
   (SMOBGET (smob, SDL_Joystick *))
 
+static SDL_Joystick *
+assert_open_joystick (const char *FUNC_NAME, SCM obj, int which)
+{
+  SDL_Joystick *joy;
+
+  ASSERT_JOYSTICK (obj, which);
+  if (! (joy = UNPACK_JOYSTICK (obj)))
+    SCM_MISC_ERROR ("joystick not open", SCM_EOL);
+
+  return joy;
+}
+
+#define ASSERT_FIRST_ARG_OPEN_JOYSTICK()                                \
+  SDL_Joystick *joy = assert_open_joystick (FUNC_NAME, joystick, 1)
+
 #define RETURN_NEW_JOYSTICK(x) \
   NEWSMOB_OR_FALSE (joystick_tag, x)
 
@@ -127,15 +142,9 @@ PRIMPROC
 Return the index of @var{joystick}.  */)
 {
 #define FUNC_NAME s_joystick_index
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
 
-  ASSERT_JOYSTICK (joystick, 1);
-
-  joy = UNPACK_JOYSTICK (joystick);
-
-  RETURN_INT (joy
-              ? SDL_JoystickIndex (joy)
-              : -1);
+  RETURN_INT (SDL_JoystickIndex (joy));
 #undef FUNC_NAME
 }
 
@@ -147,15 +156,9 @@ PRIMPROC
 Return the number of axes for @var{joystick}.  */)
 {
 #define FUNC_NAME s_joystick_num_axes
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
 
-  ASSERT_JOYSTICK (joystick, 1);
-
-  joy = UNPACK_JOYSTICK (joystick);
-
-  RETURN_INT (joy
-              ? SDL_JoystickNumAxes (joy)
-              : -1);
+  RETURN_INT (SDL_JoystickNumAxes (joy));
 #undef FUNC_NAME
 }
 
@@ -167,15 +170,9 @@ PRIMPROC
 Return the number trackballs for @var{joystick}.  */)
 {
 #define FUNC_NAME s_joystick_num_balls
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
 
-  ASSERT_JOYSTICK (joystick, 1);
-
-  joy = UNPACK_JOYSTICK (joystick);
-
-  RETURN_INT (joy
-              ? SDL_JoystickNumBalls (joy)
-              : -1);
+  RETURN_INT (SDL_JoystickNumBalls (joy));
 #undef FUNC_NAME
 }
 
@@ -187,15 +184,9 @@ PRIMPROC
 Return the number of hats for @var{joystick}.  */)
 {
 #define FUNC_NAME s_joystick_num_hats
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
 
-  ASSERT_JOYSTICK (joystick, 1);
-
-  joy = UNPACK_JOYSTICK (joystick);
-
-  RETURN_INT (joy
-              ? SDL_JoystickNumHats (joy)
-              : -1);
+  RETURN_INT (SDL_JoystickNumHats (joy));
 #undef FUNC_NAME
 }
 
@@ -207,15 +198,9 @@ PRIMPROC
 Return number of buttons for @var{joystick}.  */)
 {
 #define FUNC_NAME s_joystick_num_buttons
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
 
-  ASSERT_JOYSTICK (joystick, 1);
-
-  joy = UNPACK_JOYSTICK (joystick);
-
-  RETURN_INT (joy
-              ? SDL_JoystickNumButtons (joy)
-              : -1);
+  RETURN_INT (SDL_JoystickNumButtons (joy));
 #undef FUNC_NAME
 }
 
@@ -255,16 +240,11 @@ PRIMPROC
 For @var{joystick}, return state of @var{axis}.  */)
 {
 #define FUNC_NAME s_joystick_get_axis
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
 
-  ASSERT_JOYSTICK (joystick, 1);
   ASSERT_INTEGER (axis, 2);
 
-  joy = UNPACK_JOYSTICK (joystick);
-
-  RETURN_INT (joy
-              ? SDL_JoystickGetAxis (joy, C_LONG (axis))
-              : -1);
+  RETURN_INT (SDL_JoystickGetAxis (joy, C_LONG (axis)));
 #undef FUNC_NAME
 }
 
@@ -278,13 +258,11 @@ Return relative motion of @var{joystick} trackball @var{n}
 as two values: @code{dx} and @code{dy} (both integers).  */)
 {
 #define FUNC_NAME s_joystick_ball_xy
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
   int dx, dy;
 
-  ASSERT_JOYSTICK (joystick, 1);
   ASSERT_INTEGER (n, 2);
 
-  joy = UNPACK_JOYSTICK (joystick);
   if (0 > SDL_JoystickGetBall (joy, C_LONG (n), &dx, &dy))
     SCM_MISC_ERROR ("invalid parameter", SCM_EOL);
 
@@ -308,29 +286,18 @@ and @strong{will be removed} after 2013-12-31.
 
 For @var{joystick}, return relative motion of trackball
 @var{n}, as an alist with keys @code{dx} and @code{dy}.
-On error, return @code{#f}.  */)
+If @var{n} is invalid, return @code{#f}.  */)
 {
 #define FUNC_NAME s_joystick_get_ball
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
   int dx, dy;
 
-  ASSERT_JOYSTICK (joystick, 1);
   ASSERT_INTEGER (n, 2);
 
-  joy = UNPACK_JOYSTICK (joystick);
-
-  if (joy)
-    {
-      int ret;
-
-      ret = SDL_JoystickGetBall (joy, C_LONG (n), &dx, &dy);
-
-      if (ret != -1)
-        return LIST2 (CONS (SYM (dx), NUM_LONG (dx)),
-                      CONS (SYM (dy), NUM_LONG (dy)));
-    }
-
-  RETURN_FALSE;
+  return 0 > SDL_JoystickGetBall (joy, C_LONG (n), &dx, &dy)
+    ? BOOL_FALSE
+    : LIST2 (CONS (SYM (dx), NUM_LONG (dx)),
+             CONS (SYM (dy), NUM_LONG (dy)));
 #undef FUNC_NAME
 }
 
@@ -343,16 +310,11 @@ PRIMPROC
 For @var{joystick}, return state of hat @var{n}.  */)
 {
 #define FUNC_NAME s_joystick_get_hat
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
 
-  ASSERT_JOYSTICK (joystick, 1);
   ASSERT_INTEGER (n, 2);
 
-  joy = UNPACK_JOYSTICK (joystick);
-
-  RETURN_INT (joy
-              ? SDL_JoystickGetHat (joy, C_LONG (n))
-              : -1);
+  RETURN_INT (SDL_JoystickGetHat (joy, C_LONG (n)));
 #undef FUNC_NAME
 }
 
@@ -365,16 +327,11 @@ PRIMPROC
 For @var{joystick}, return state of button @var{n}.  */)
 {
 #define FUNC_NAME s_joystick_get_button
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
 
-  ASSERT_JOYSTICK (joystick, 1);
   ASSERT_INTEGER (n, 2);
 
-  joy = UNPACK_JOYSTICK (joystick);
-
-  RETURN_INT (joy
-              ? SDL_JoystickGetButton (joy, C_LONG (n))
-              : -1);
+  RETURN_INT (SDL_JoystickGetButton (joy, C_LONG (n)));
 #undef FUNC_NAME
 }
 
@@ -386,17 +343,10 @@ PRIMPROC
 Close a previously opened @var{joystick}.  */)
 {
 #define FUNC_NAME s_joystick_close
-  SDL_Joystick *joy;
+  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
 
-  ASSERT_JOYSTICK (joystick, 1);
-  joy = UNPACK_JOYSTICK (joystick);
-
-  if (joy)
-    {
-      SDL_JoystickClose (joy);
-      SMOBSET (joystick, NULL);
-    }
-
+  SDL_JoystickClose (joy);
+  SMOBSET (joystick, NULL);
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
