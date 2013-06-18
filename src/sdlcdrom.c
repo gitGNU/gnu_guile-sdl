@@ -32,6 +32,21 @@ static long cdrom_tag;
 #define UNPACK_CDROM(smob) \
   (SMOBGET (smob, SDL_CD *))
 
+static SDL_CD *
+assert_open_cdrom (const char *FUNC_NAME, SCM obj, int which)
+{
+  SDL_CD *cd;
+
+  ASSERT_CDROM (obj, which);
+  if (! (cd = UNPACK_CDROM (obj)))
+    SCM_MISC_ERROR ("cdrom not open", SCM_EOL);
+
+  return cd;
+}
+
+#define ASSERT_FIRST_ARG_OPEN_CDROM()                   \
+  SDL_CD *cd = assert_open_cdrom (FUNC_NAME, cdrom, 1)
+
 #define RETURN_NEW_CDROM(x) \
   NEWSMOB_OR_FALSE (cdrom_tag, x)
 
@@ -122,16 +137,9 @@ as a symbol, one of: @code{TRAYEMTPY}, @code{STOPPED},
 @code{PLAYING}, @code{PAUSED} or @code{ERROR}.  */)
 {
 #define FUNC_NAME s_cd_status
-  SDL_CD *cd;
-  int ret = CD_ERROR;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
 
-  ASSERT_CDROM (cdrom, 1);
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    ret = SDL_CDStatus (cd);
-
-  switch (ret)
+  switch (SDL_CDStatus (cd))
     {
     case CD_TRAYEMPTY: return SYM (TRAYEMPTY);
     case CD_STOPPED:   return SYM (STOPPED);
@@ -150,27 +158,19 @@ PRIMPROC
 Return @code{#t} iff there is a CD in drive @var{cdrom}.  */)
 {
 #define FUNC_NAME s_cd_in_drive_p
-  SDL_CD *cd;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
 
-  ASSERT_CDROM (cdrom, 1);
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    RETURN_BOOL (CD_INDRIVE (SDL_CDStatus (cd)));
-  else
-    RETURN_FALSE;
+  RETURN_BOOL (CD_INDRIVE (SDL_CDStatus (cd)));
 #undef FUNC_NAME
 }
 
 
 #define GETCUR(field)                           \
   do {                                          \
-    SDL_CD *cd;                                 \
+    ASSERT_FIRST_ARG_OPEN_CDROM ();             \
     int ret = -1;                               \
                                                 \
-    ASSERT_CDROM (cdrom, 1);                    \
-    if ((cd = UNPACK_CDROM (cdrom))             \
-        && CD_TRAYEMPTY != SDL_CDStatus (cd))   \
+    if (CD_TRAYEMPTY != SDL_CDStatus (cd))      \
       ret = cd->field;                          \
     RETURN_INT (ret);                           \
   } while (0)
@@ -224,11 +224,8 @@ and @code{offset}, all integers except for @code{type}, which is
 a symbol, either @code{audio} or @code{data}.  */)
 {
 #define FUNC_NAME s_cd_nth_track_itlo
-  SDL_CD *cd;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
   int cn = 0;
-
-  ASSERT_CDROM (cdrom, 1);
-  cd = UNPACK_CDROM (cdrom);
 
   if (BOUNDP (n))
     ASSERT_ULONG_COPY (n, 2);
@@ -261,11 +258,8 @@ For CD in drive @var{cdrom}, return info on track @var{n}
 as an alist or @code{#f} if there were problems.  */)
 {
 #define FUNC_NAME s_cd_get_nth_track
-  SDL_CD *cd;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
   int cn = 0;
-
-  ASSERT_CDROM (cdrom, 1);
-  cd = UNPACK_CDROM (cdrom);
 
   if (BOUNDP (n))
     ASSERT_ULONG_COPY (n, 2);
@@ -301,28 +295,19 @@ tracks, and should only be called after calling
 Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_play_tracks
-  SDL_CD *cd;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
   int cstart_track = 0, cstart_frame = 0, cn_tracks = 1, cn_frames = -1;
-  int ret = -1;
-
-  ASSERT_CDROM (cdrom, 1);
 
   IF_BOUND_ASSERT_ULONG_COPY (start_track, 2);
   IF_BOUND_ASSERT_ULONG_COPY (start_frame, 3);
   IF_BOUND_ASSERT_ULONG_COPY (n_tracks, 4);
   IF_BOUND_ASSERT_ULONG_COPY (n_frames, 5);
   if (0 > cn_frames)
-    {
-      cd = UNPACK_CDROM (cdrom);
-      cn_frames = cd->track[cstart_track + cn_tracks - 1].length;
-    }
+    cn_frames = cd->track[cstart_track + cn_tracks - 1].length;
 
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    ret = SDL_CDPlayTracks (cd, cstart_track, cstart_frame, cn_tracks, cn_frames);
-
-  RETURN_TRUE_IF_0 (ret);
+  RETURN_TRUE_IF_0
+    (SDL_CDPlayTracks (cd, cstart_track, cstart_frame,
+                       cn_tracks, cn_frames));
 #undef FUNC_NAME
 }
 
@@ -337,19 +322,14 @@ Play CD in drive @var{cdrom} from @var{start} frame for
 @var{length} frames.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_play
-  SDL_CD *cd;
-  int ret = -1;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
 
-  ASSERT_CDROM (cdrom, 1);
   ASSERT_INTEGER (start, 2);
   ASSERT_INTEGER (length, 3);
 
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    ret = SDL_CDPlay (cd, C_ULONG (start), C_ULONG (length));
-
-  RETURN_TRUE_IF_0 (ret);
+  RETURN_TRUE_IF_0
+    (SDL_CDPlay (cd, C_ULONG (start),
+                 C_ULONG (length)));
 #undef FUNC_NAME
 }
 
@@ -361,16 +341,10 @@ PRIMPROC
 Pause the CD in drive @var{cdrom}.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_pause
-  SDL_CD *cd;
-  int ret = -1;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
 
-  ASSERT_CDROM (cdrom, 1);
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    ret = SDL_CDPause (cd);
-
-  RETURN_TRUE_IF_0 (ret);
+  RETURN_TRUE_IF_0
+    (SDL_CDPause (cd));
 #undef FUNC_NAME
 }
 
@@ -383,16 +357,10 @@ Resume (unpause) the CD in drive @var{cdrom}.
 Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_resume
-  SDL_CD *cd;
-  int ret = -1;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
 
-  ASSERT_CDROM (cdrom, 1);
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    ret = SDL_CDResume (cd);
-
-  RETURN_TRUE_IF_0 (ret);
+  RETURN_TRUE_IF_0
+    (SDL_CDResume (cd));
 #undef FUNC_NAME
 }
 
@@ -404,16 +372,10 @@ PRIMPROC
 Stop the CD in drive @var{cdrom}.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_stop
-  SDL_CD *cd;
-  int ret = -1;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
 
-  ASSERT_CDROM (cdrom, 1);
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    ret = SDL_CDStop (cd);
-
-  RETURN_TRUE_IF_0 (ret);
+  RETURN_TRUE_IF_0
+    (SDL_CDStop (cd));
 #undef FUNC_NAME
 }
 
@@ -425,16 +387,10 @@ PRIMPROC
 Eject the CD from drive @var{cdrom}.  Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_cd_eject
-  SDL_CD *cd;
-  int ret = -1;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
 
-  ASSERT_CDROM (cdrom, 1);
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    ret = SDL_CDEject (cd);
-
-  RETURN_TRUE_IF_0 (ret);
+  RETURN_TRUE_IF_0
+    (SDL_CDEject (cd));
 #undef FUNC_NAME
 }
 
@@ -446,17 +402,10 @@ PRIMPROC
 Close the drive @var{cdrom}.  */)
 {
 #define FUNC_NAME s_cd_close
-  SDL_CD *cd;
+  ASSERT_FIRST_ARG_OPEN_CDROM ();
 
-  ASSERT_CDROM (cdrom, 1);
-  cd = UNPACK_CDROM (cdrom);
-
-  if (cd)
-    {
-      SDL_CDClose (cd);
-      SMOBSET (cdrom, NULL);
-    }
-
+  SDL_CDClose (cd);
+  SMOBSET (cdrom, NULL);
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }

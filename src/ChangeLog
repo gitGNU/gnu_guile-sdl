@@ -1,5 +1,16 @@
 2013-06-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make cdrom procs signal error if not open.
+
+	* sdlcdrom.c (assert_open_cdrom): New static func.
+	(ASSERT_FIRST_ARG_OPEN_CDROM): New macro.
+	(cd_status): Use ‘ASSERT_FIRST_ARG_OPEN_CDROM’.
+	(cd_in_drive_p, cd_nth_track_itlo, cd_get_nth_track)
+	(cd_play_tracks, cd_play, cd_pause, cd_resume, cd_stop)
+	(cd_eject, cd_close): Likewise.
+
+2013-06-18  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Make joystick procs signal error if not open.
 
 	* sdljoystick.c (assert_open_joystick): New static func.
