@@ -1,3 +1,10 @@
+2013-06-18  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build int] Use snuggle/defsmob.h.
+
+	* guile-sdl.h: #include "snuggle/defsmob.h".
+	(DEFSMOB, GCMALLOC, GCFREE, GCRV): Delete macros.
+
 2013-06-17  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Decruft: Zonk unused macro ‘THROW_NOT_YET_IMPLEMENTED’.
