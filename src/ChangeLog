@@ -1,5 +1,13 @@
 2013-06-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Decruft: Don't do manual ‘NULL’ checking in ‘cd-open’.
+
+	Macro ‘RETURN_NEW_CDROM’ via ‘NEWSMOB_OR_FALSE’ handles that.
+
+	* sdlcdrom.c (cd_open): ...here.
+
+2013-06-18  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Make cdrom procs signal error if not open.
 
 	* sdlcdrom.c (assert_open_cdrom): New static func.

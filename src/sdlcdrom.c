@@ -107,17 +107,12 @@ If the drive is unavailable, return @code{#f}.
 Optional arg @var{drive} is a number specifying which drive.  */)
 {
 #define FUNC_NAME s_cd_open
-  SDL_CD *cd;
   int cdrive = 0;
 
   if (BOUNDP (drive))
     ASSERT_INT_COPY (drive, 1);
 
-  cd = SDL_CDOpen (cdrive);
-  if (! cd)
-    RETURN_FALSE;
-  else
-    RETURN_NEW_CDROM (cd);
+  RETURN_NEW_CDROM (SDL_CDOpen (cdrive));
 #undef FUNC_NAME
 }
 
