@@ -270,8 +270,6 @@ typedef struct flagstash {
 
 #define VAL_AND_AKA(val,rozt)  { .value = val, .aka = { rozt } }
 
-#define enum_nick "SDL-enum"
-
 typedef SCM (define_enum_t) (const char *name, size_t count,
                              valaka_t *backing);
 
@@ -290,8 +288,6 @@ typedef SCM (long2enum_t) (long value, SCM enum_type);
   btw->enum2long ((enums), (table), (pos), FUNC_NAME)
 
 /* flags (constants typically used as a logical or'ed group) */
-
-#define flagstash_nick "SDL-flagstash"
 
 typedef unsigned long (flags2ulong_t) (SCM flags, SCM table,
                                        int pos, const char *func);

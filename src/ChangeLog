@@ -1,5 +1,13 @@
 2013-06-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Move {enum,flagstash}_nick out of header.
+
+	* guile-sdl.h (enum_nick, flagstash_nick):
+	Move these #define:s from here...
+	* sdlenums.c (enum_nick, flagstash_nick): ...to here.
+
+2013-06-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Gather {enum,flag}stash (et al) struct defs in one place.
 
 	* sdlenums.c (enum_struct): Move struct/typedef from here...

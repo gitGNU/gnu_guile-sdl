@@ -23,6 +23,8 @@
 #include <stdio.h>
 #include "snuggle/mkhash.h"
 
+#define enum_nick "SDL-enum"
+
 static long enum_tag;
 
 #define ASSERT_ENUM(obj,which) \
@@ -189,6 +191,8 @@ if it does not belong to @var{enumstash}.  */)
 
 
 /* flagstash smob */
+
+#define flagstash_nick "SDL-flagstash"
 
 static unsigned long int flagstash_tag;
 
