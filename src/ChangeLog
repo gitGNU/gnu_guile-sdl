@@ -1,3 +1,11 @@
+2013-06-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Gather {enum,flag}stash (et al) struct defs in one place.
+
+	* sdlenums.c (enum_struct): Move struct/typedef from here...
+	* guile-sdl.h (enum_struct): ...to here.
+	(flagstash_t): Move struct/typedef earlier in file; nfc.
+
 2013-06-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Decruft: Don't do manual ‘NULL’ checking in ‘cd-open’.

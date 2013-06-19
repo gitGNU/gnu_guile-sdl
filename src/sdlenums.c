@@ -25,13 +25,6 @@
 
 static long enum_tag;
 
-typedef struct {
-  SCM table;
-  valaka_t *backing;
-  size_t count;
-  const char const *name;
-} enum_struct;
-
 #define ASSERT_ENUM(obj,which) \
   ASSERT_SMOB (obj, enum, which)
 

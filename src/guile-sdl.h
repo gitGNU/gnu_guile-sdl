@@ -251,6 +251,21 @@ typedef struct {
   aka_t aka;
 } valaka_t;
 
+typedef struct {
+  SCM table;
+  valaka_t *backing;
+  size_t count;
+  const char const *name;
+} enum_struct;
+
+typedef struct flagstash {
+  const char const *name;
+  const size_t total;
+  const unsigned long const *val;
+  aka_t *aka;
+  SCM ht;
+} flagstash_t;
+
 #define VALAKA(x)  { x, { #x } }
 
 #define VAL_AND_AKA(val,rozt)  { .value = val, .aka = { rozt } }
@@ -285,14 +300,6 @@ typedef SCM (ulong2flags_t) (unsigned long value, SCM stash);
 
 #define GSDL_FLAGS2ULONG(flags,table,pos) \
   btw->flags2ulong ((flags), (table), (pos), FUNC_NAME)
-
-typedef struct flagstash {
-  const char const *name;
-  const size_t total;
-  const unsigned long const *val;
-  aka_t *aka;
-  SCM ht;
-} flagstash_t;
 
 typedef SCM (make_flagstash_t) (flagstash_t *stash);
 
