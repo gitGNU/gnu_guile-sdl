@@ -18,6 +18,7 @@ snuggle h src/snuggle
 # Guile-BAUX
 
 guile-baux-tool import \
+    pascal-pool \
     text-db-table \
     re-prefixed-site-dirs \
     c2x \
