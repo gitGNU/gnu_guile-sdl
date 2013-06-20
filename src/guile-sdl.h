@@ -301,6 +301,9 @@ typedef SCM (ulong2flags_t) (unsigned long value, SCM stash);
 
 typedef SCM (make_flagstash_t) (flagstash_t *stash);
 
+#define MAKE_FLAGSTASH(nick)                    \
+  btw->make_flagstash (& nick ## _flagstash)
+
 /* Symbols.  */
 
 #define DECLARE_SYM(frag,string) \

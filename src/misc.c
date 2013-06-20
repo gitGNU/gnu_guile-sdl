@@ -81,7 +81,7 @@ integers).  */)
 void
 gsdl_init_misc (void)
 {
-  appstate_flags = btw->make_flagstash (&appstate_flagstash);
+  appstate_flags = MAKE_FLAGSTASH (appstate);
 
 #include "misc.x"
 }

@@ -1,5 +1,16 @@
 2013-06-20  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Add abstraction: MAKE_FLAGSTASH
+
+	* guile-sdl.h (MAKE_FLAGSTASH): New macro.
+	* misc.c (gsdl_init_misc): Use ‘MAKE_FLAGSTASH’.
+	* sdl.c (init_module): Likewise.
+	* sdlevent.c (gsdl_init_event): Likewise.
+	* sdlttf.c (init_module): Likewise.
+	* sdlvideo.c (gsdl_init_video): Likewise.
+
+2013-06-20  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add abstraction: SYMBOLN
 
 	* guile-sdl.h (SYMBOLN): New macro, bifurcated.

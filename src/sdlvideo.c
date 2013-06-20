@@ -1366,13 +1366,13 @@ gsdl_init_video (void)
            NULL);
 
   /* video flags */
-  btw->video_flags = btw->make_flagstash (&vid_flagstash);
+  btw->video_flags = MAKE_FLAGSTASH (vid);
 
   /* palette flags */
-  palette_flags = btw->make_flagstash (&pal_flagstash);
+  palette_flags = MAKE_FLAGSTASH (pal);
 
   /* yuv overlay formats */
-  gsdl_overlay_formats = btw->make_flagstash (&ov_flagstash);
+  gsdl_overlay_formats = MAKE_FLAGSTASH (ov);
 
   /* GL constants */
   gl_enums = DEFINE_ENUM ("gl-enums", gl_eback);

@@ -198,7 +198,7 @@ init_module (void)
   gsdl_init_enums ();
 
   /* Init flags.  */
-  init_flags = btw->make_flagstash (&init_flagstash);
+  init_flags = MAKE_FLAGSTASH (init);
 
 #include "sdl.x"
 
