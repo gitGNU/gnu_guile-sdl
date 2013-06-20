@@ -227,16 +227,22 @@ print_flagstash (SCM smob, SCM port, scm_print_state *ps)
 static SCM
 make_flagstash (flagstash_t *stash)
 {
+  const uint8_t *pool = stash->pool;
   size_t i;
   SCM ht, smob;
+
+  if (! (stash->linear = malloc (stash->total * sizeof (SCM))))
+    abort ();
 
   ht = GC_PROTECT (MAKE_HASH_TABLE (stash->total));
   for (i = 0; i < stash->total; i++)
     {
-      aka_t *aka = stash->aka + i;
+      uint8_t len = *pool;
+      SCM *sym = stash->linear + i;
 
-      aka->symbol = PERMANENT (SYMBOL (aka->rozt));
-      scm_hashq_set_x (ht, aka->symbol, NUM_INT (i));
+      *sym = GC_PROTECT (SYMBOLN ((char *) ++pool, len));
+      scm_hashq_set_x (ht, GC_UNPROTECT (*sym), NUM_INT (i));
+      pool += len;
     }
   stash->ht = ht;
   SCM_NEWSMOB (smob, flagstash_tag, stash);
@@ -306,7 +312,7 @@ ulong2flags (unsigned long value, SCM stash)
 
       if (cur == (cur & value))
         {
-          rv = CONS (s->aka[i].symbol, rv);
+          rv = CONS (s->linear[i], rv);
           value &= ~cur;
           if (! value)
             return rv;
@@ -338,7 +344,7 @@ a flagstash object, in unspecified order.  */)
   cstash = UNPACK_FLAGSTASH (stash);
 
   for (i = 0; i < cstash->total; i++)
-    rv = CONS (cstash->aka[i].symbol, rv);
+    rv = CONS (cstash->linear[i], rv);
   return rv;
 #undef FUNC_NAME
 }

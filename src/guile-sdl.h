@@ -264,7 +264,8 @@ typedef struct flagstash {
   const char const *name;
   const size_t total;
   const unsigned long const *val;
-  aka_t *aka;
+  const uint8_t *pool;
+  SCM *linear;
   SCM ht;
 } flagstash_t;
 

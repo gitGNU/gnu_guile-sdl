@@ -99,6 +99,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
   #:use-module ((guile-baux forms-from) #:select (forms<-file
                                                   forms<-port))
   #:use-module ((guile-baux temporary-file) #:select (unique-i/o-file-port))
+  #:use-module ((guile-baux pascal-pool) #:select (pascal-pool))
   #:use-module ((srfi srfi-13) #:select (string-join
                                          string-drop-right
                                          string-concatenate))
@@ -205,7 +206,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
            identity)))
 
   (define (line s)
-    (fs "printf (\"(#x%08lx\t. ~A)\\n\", ~A);"
+    (fs "printf (\"(#x%08lx\t. \\\"~A\\\")\\n\", ~A);"
         (pretty s)
         (actual s)))
 
@@ -274,13 +275,11 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                                     (fs "0x~A" (number->string n 16)))
                                   (map car linear))
                              ",\n  ")))
-      (spew (fs "static aka_t ~A_names[~A] = {~%  ~A~%};~%~%"
-                nick len
-                (string-join (map (lambda (sym)
-                                    (fs "{ ~S }"
-                                        (symbol->string sym)))
-                                  (map cdr linear))
-                             ",\n  ")))
+      (spew (pascal-pool (map cdr linear)
+                         'uint8_t (fs "~A_names" nick)
+                         'essential
+                         'numeric))
+      (spew "\n")
       (spew (join '("\n" . suffix)
                   (fs "static flagstash_t ~A_flagstash = {" nick)
                   (join ",\n  "
@@ -288,7 +287,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                         (fs "  .name = ~S" pretty)
                         (fs ".total = ~A" len)
                         (fs ".val = ~A_values" nick)
-                        (fs ".aka = ~A_names" nick))
+                        (fs ".pool = ~A_names" nick))
                   "};")))
     (close-port op)))
 

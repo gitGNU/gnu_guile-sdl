@@ -1,5 +1,17 @@
 2013-06-20  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use Pascal string pool for flagstash init.
+
+	* guile-sdl.h (flagstash_t): Drop member ‘aka’;
+	add members ‘pool’ and ‘linear’.
+	* sdlenums.c (make_flagstash): Allocate ‘stash->linear’;
+	init from ‘stash->pool’; save to ‘stash->linear’; don't
+	use ‘PERMANENT’; instead, use ‘GC_PROTECT’, ‘GC_UNPROTECT’.
+	(ulong2flags): Consult ‘s->linear’.
+	(flagstash_flags): Consult ‘cstash->linear’.
+
+2013-06-20  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add abstraction: MAKE_FLAGSTASH
 
 	* guile-sdl.h (MAKE_FLAGSTASH): New macro.
