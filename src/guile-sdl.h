@@ -79,6 +79,7 @@
 #define VECREF(vec,idx)    (SCM_VELTS (vec)[idx]) /* ZRSN 2 */
 #define GC_PROTECT         scm_protect_object
 #define GC_UNPROTECT       scm_unprotect_object
+#define SYMBOLN(p,len)     CAR (scm_intern (p, len)) /* ZRSN 4 */
 #define DEFINE_PUBLIC      gh_define
 #define MODULE_LOOKUP      gh_module_lookup
 #else
@@ -95,6 +96,7 @@
 #define VECREF             scm_c_vector_ref /* ZRSN 2 */
 #define GC_PROTECT         scm_gc_protect_object
 #define GC_UNPROTECT       scm_gc_unprotect_object
+#define SYMBOLN            scm_from_locale_symboln /* ZRSN 4 */
 #define DEFINE_PUBLIC(name,value)  do           \
     {                                           \
       scm_c_define (name, value);               \

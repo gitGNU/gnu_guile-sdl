@@ -1,3 +1,9 @@
+2013-06-20  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Add abstraction: SYMBOLN
+
+	* guile-sdl.h (SYMBOLN): New macro, bifurcated.
+
 2013-06-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Move {enum,flagstash}_nick out of header.
