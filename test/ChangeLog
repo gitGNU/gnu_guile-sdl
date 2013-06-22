@@ -1,3 +1,21 @@
+2013-06-22  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v int] Don't use (sdl ttf) for event test.
+
+	Relying on optional components
+	to test core features is unwise.
+
+	* event.scm: Don't check ‘*have-ttf*’;
+	don't import ‘(sdl ttf)’ procs;
+	instead, import ‘(sdl gfx)’ procs w/ prefix ‘GFX:’;
+	don't to ‘ttf-init’.
+	(font): Delete.
+	(height): Hardcode to 10 (font height 8 plus 2 pixels).
+	(white): Delete.
+	(WHITE): New constant integer.
+	(display-centered-w/height-proc): Also precompute ‘full-width’
+	and ‘screen’; use ‘(sdl gfx) draw-string’ for rendering.
+
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Exercise ‘(sdl sdl) video-cmf’.

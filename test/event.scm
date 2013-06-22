@@ -18,11 +18,10 @@
 ;; Boston, MA  02110-1301  USA
 
 (or *interactive* (exit-77 "interactive"))
-(or *have-ttf* (exit-77 "ttf disabled"))
 
 (use-modules ((srfi srfi-11) #:select (let-values)))
 (use-modules ((sdl sdl) #:prefix SDL:)
-             ((sdl ttf) #:prefix TTF:))
+             ((sdl gfx) #:prefix GFX:))
 
 (define (check-joystick-maybe)
   (let ((count (SDL:num-joysticks))
@@ -57,9 +56,6 @@
 
 (define JOY (check-joystick-maybe))
 
-;; initialize the font lib
-(info "ttf-init => ~S" (TTF:ttf-init))
-
 ;; get a sample rect size from a list of available modes
 (define test-rect (SDL:make-rect 0 0 400 600))
 
@@ -67,31 +63,25 @@
 (SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 8
                     '(SDL_HWSURFACE SDL_DOUBLEBUF))
 
-;; load a font file
-(define font (TTF:load-font (datafile "FreeSansBold.ttf") 16))
-
 ;; presize some stuff
-(define height (TTF:font:height font))
+(define height 10)
 (define top (half (- (SDL:rect:h test-rect) height)))
 
 ;; color to write in
-(define white (SDL:make-color #xff #xff #xff))
+(define WHITE #xFFFFFFFF)
 
 ;; proc to write text centered on screen at a certain vertical position
 (define (display-centered-w/height-proc y)
-  (let ((text-rect (SDL:make-rect 0 y (SDL:rect:w test-rect) height)))
+  (let ((text-rect (SDL:make-rect 0 y (SDL:rect:w test-rect) height))
+        (full-width (SDL:rect:w test-rect))
+        (screen (SDL:get-video-surface)))
     ;; rv
     (lambda (fstr . args)
       (let* ((text (apply fs fstr args))
-             (rendered (TTF:render-text font text white #t))
-             (dimensions (TTF:font:size-text font text))
-             (width (assq-ref dimensions 'w))
-             (screen (SDL:get-video-surface))
-             (left (half (- (SDL:rect:w test-rect) width)))
-             (dst-rect (SDL:make-rect left y width height))
-             (src-rect (SDL:make-rect 0 0 width height)))
+             (width (* 8 (string-length text)))
+             (left (half (- full-width width))))
         (SDL:fill-rect screen text-rect 0)
-        (SDL:blit-surface rendered src-rect screen dst-rect)
+        (GFX:draw-string screen left y text WHITE)
         (SDL:flip)))))
 
 (define scroll-up!
