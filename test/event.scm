@@ -238,6 +238,7 @@
 
 ;; report event states
 (for-each (lambda (type)
+            (scroll-up!)
             (display-centered "~A : ~A"
                               (nice-type type)
                               (SDL:event-state type 'SDL_QUERY))

@@ -1,5 +1,11 @@
 2013-06-22  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Scroll up so that app/event states are readable.
+
+	* event.scm <report event states>: ...here.
+
+2013-06-22  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v int] Don't use (sdl ttf) for event test.
 
 	Relying on optional components
