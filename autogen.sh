@@ -9,14 +9,10 @@
 set -e
 
 ######################################################################
-# SNUGGLE
-
-snuggle m4 build-aux
-snuggle h src/snuggle
-
-######################################################################
 # Guile-BAUX
 
+guile-baux-tool snuggle m4 build-aux
+guile-baux-tool snuggle h src/snuggle
 guile-baux-tool import \
     pascal-pool \
     text-db-table \

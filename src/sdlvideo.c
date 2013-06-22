@@ -602,7 +602,7 @@ assert_colormap_copy (const char *FUNC_NAME, SCM v, int pos,
 
       for (i = 0; i < *len; i++)
         {
-          SCM elem = VECREF (v, i);
+          SCM elem = VECTOR_REF (v, i);
 
           if (! COLOR_P (elem))
             {

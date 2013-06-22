@@ -1,3 +1,13 @@
+2013-06-22  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[boot] Use Guile-BAUX for SNUGGLE files.
+
+	* sdlvideo.c (assert_colormap_copy): Use ‘VECTOR_REF’.
+	* guile-sdh.h (LIST2, LIST3, LIST4, LIST5, SYMBOLP)
+	(INTEGERP, VECTORP, C_CHAR, C_LONG, C_DOUBLE, VECREF)
+	(GC_PROTECT, GC_UNPROTECT, SYMBOLN, DEFINE_PUBLIC)
+	(MODULE_LOOKUP): Delete macros and ‘#define’s.
+
 2013-06-20  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Use Pascal string pool for flagstash init.

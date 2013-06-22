@@ -46,7 +46,6 @@ It lives in the repo but is not included in the distribution.
 *** GNU Guile (see [[portability]] above)
 *** SDL 1.2
 *** [[http://www.gnuvola.org/software/guile-baux/][Guile-BAUX]]
-*** [[http://www.gnuvola.org/software/snuggle/][SNUGGLE]]
 
 * coding standards
 *** C code: indent -nut

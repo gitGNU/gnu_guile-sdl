@@ -61,52 +61,6 @@
 
 #define PERMANENT  scm_permanent_object
 
-/* ZRSN X ≡ ZONKABLE RSN (after #include "snuggle/humdrum.h" serial X) */
-
-#undef VECREF                           /* ZRSN 2 */
-#if GI_LEVEL_NOT_YET_1_8
-#include <guile/gh.h>
-#define LIST2              SCM_LIST2
-#define LIST3              SCM_LIST3
-#define LIST4              SCM_LIST4
-#define LIST5              SCM_LIST5
-#define SYMBOLP(obj)      (gh_symbol_p (obj))
-#define INTEGERP(obj)      NOT_FALSEP (scm_integer_p (obj))
-#define VECTORP            gh_vector_p
-#define C_CHAR             gh_scm2char
-#define C_LONG             gh_scm2long
-#define C_DOUBLE           gh_scm2double
-#define VECREF(vec,idx)    (SCM_VELTS (vec)[idx]) /* ZRSN 2 */
-#define GC_PROTECT         scm_protect_object
-#define GC_UNPROTECT       scm_unprotect_object
-#define SYMBOLN(p,len)     CAR (scm_intern (p, len)) /* ZRSN 4 */
-#define DEFINE_PUBLIC      gh_define
-#define MODULE_LOOKUP      gh_module_lookup
-#else
-#define LIST2              scm_list_2
-#define LIST3              scm_list_3
-#define LIST4              scm_list_4
-#define LIST5              scm_list_5
-#define SYMBOLP(obj)      (scm_is_symbol (obj))
-#define INTEGERP           scm_is_integer
-#define VECTORP            scm_is_vector
-#define C_CHAR(c)          C_INT (scm_char_to_integer (c))
-#define C_LONG             scm_to_long
-#define C_DOUBLE           scm_to_double
-#define VECREF             scm_c_vector_ref /* ZRSN 2 */
-#define GC_PROTECT         scm_gc_protect_object
-#define GC_UNPROTECT       scm_gc_unprotect_object
-#define SYMBOLN            scm_from_locale_symboln /* ZRSN 4 */
-#define DEFINE_PUBLIC(name,value)  do           \
-    {                                           \
-      scm_c_define (name, value);               \
-      scm_c_export (name, NULL);                \
-    }                                           \
-  while (0)
-#define MODULE_LOOKUP(module, name)                     \
-  scm_variable_ref (scm_c_module_lookup (module, name))
-#endif
-
 
 #ifdef HAVE_GUILE_MODSUP_H
 #include <guile/modsup.h>

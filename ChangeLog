@@ -1,3 +1,10 @@
+2013-06-22  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[boot] Use Guile-BAUX for SNUGGLE files.
+
+	* autogen.sh: Don't invoke "snuggle EXT DIR";
+	instead, invoke "guile-baux-tool snuggle EXT DIR".
+
 2013-06-20  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[boot] Import Guile-BAUX module ‘pascal-pool’.
