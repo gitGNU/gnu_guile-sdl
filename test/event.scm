@@ -235,6 +235,11 @@
                            (SDL:event:active:gain e)
                            (SDL:event:active:state e))
          (input-loop e))
+        ((SDL_VIDEORESIZE)
+         (display-centered "~A -- ~Sx~S" nice
+                           (SDL:event:resize:w e)
+                           (SDL:event:resize:h e))
+         (input-loop e))
         (else
          (display-centered "~A" nice)
          (input-loop e))))))
