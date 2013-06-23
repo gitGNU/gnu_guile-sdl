@@ -1,3 +1,9 @@
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise ‘SDL_ACTIVEEVENT’ getters.
+
+	* event.scm (input-loop): ...here.
+
 2013-06-22  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Scroll up so that app/event states are readable.
