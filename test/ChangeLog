@@ -1,5 +1,11 @@
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise event:motion:{xrel,yrel,state}.
+
+	* event.scm (input-loop) [MOUSEMOTION]: ...here.
+
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘event:button:x’, ‘event:button:y’.
 
 	* event.scm (input-loop) [MOUSEBUTTONDOWN MOUSEBUTTONUP]: ...here.

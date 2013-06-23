@@ -245,7 +245,10 @@
         ((SDL_MOUSEMOTION)
          (let ((x (SDL:event:motion:x e))
                (y (SDL:event:motion:y e)))
-           (display-centered "~A -- ~Ax~A" nice x y))
+           (display-centered "~A -- ~Ax~A ~S" nice x y
+                             (cons* (SDL:event:motion:xrel e)
+                                    (SDL:event:motion:yrel e)
+                                    (SDL:event:motion:state e))))
          (input-loop e))
         ((SDL_JOYBUTTONDOWN SDL_JOYBUTTONUP)
          (display-centered "~A -- j~A b~A"
