@@ -21,6 +21,7 @@
 
 #include "guile-sdl.h"
 #include <SDL/SDL_events.h>
+#include <SDL/SDL_active.h>
 #include "b-values.h"
 
 /* enum/flag types */
@@ -222,6 +223,7 @@ static SCM event_mb_flags;
 static SCM event_mod_flags;
 static SCM event_mask_flags;
 static SCM event_jhpos_flags;
+static SCM appstate_flags;
 
 #define ALLOCA_EVENTS(count)  alloca (count * sizeof (SDL_Event))
 
@@ -1051,11 +1053,22 @@ coordinates are relative to the last time the underlying
 #undef FUNC_NAME
 }
 
+PRIMPROC
+(get_app_state, "get-app-state", 0, 0, 0,
+ (void),
+ doc: /***********
+Return the current state of the application, a list of symbols.
+The list may include: `mousefocus', `inputfocus', `active'.  */)
+{
+  return btw->ulong2flags (SDL_GetAppState (), appstate_flags);
+}
+
 
 #include "mb.c"
 #include "kmod.c"
 #include "jhpos.c"
 #include "evmask.c"
+#include "appstate.c"
 
 /* Initialize glue.  */
 void
@@ -1086,6 +1099,7 @@ gsdl_init_event (void)
   event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);
   mb_enum = DEFINE_ENUM (NULL, mb_eback);
   updn_enum = DEFINE_ENUM (NULL, updn_eback);
+  appstate_flags = MAKE_FLAGSTASH (appstate);
 
   efi.proc = SCM_BOOL_F;
 

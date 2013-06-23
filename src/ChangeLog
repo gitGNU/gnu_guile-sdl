@@ -1,3 +1,17 @@
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Move ‘get-app-state’ to sdlevent.c.
+
+	* misc.c: Move #include <SDL/SDL_active.h>
+	and #include "appstate.c" from here...
+	(appstate_flags): Move var from here...
+	(get_app_state): Move PRIMPROC from here...
+	(gsdl_init_misc): Move ‘appstate_flags’ init from here...
+	* sdlevent.c: ...to here.
+	(appstate_flags): ...to here.
+	(get_app_state): ...to here.
+	(gsdl_init_event): ...to here.
+
 2013-06-22  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[boot] Use Guile-BAUX for SNUGGLE files.

@@ -19,21 +19,7 @@
  */
 
 #include "guile-sdl.h"
-#include <SDL/SDL_active.h>
 #include <SDL/SDL_syswm.h>
-
-static SCM appstate_flags;
-
-
-PRIMPROC
-(get_app_state, "get-app-state", 0, 0, 0,
- (void),
- doc: /***********
-Return the current state of the application, a list of symbols.
-The list may include: `mousefocus', `inputfocus', `active'.  */)
-{
-  return btw->ulong2flags (SDL_GetAppState (), appstate_flags);
-}
 
 
 DECLARE_SIMPLE_SYM (x11);
@@ -76,13 +62,9 @@ integers).  */)
 }
 
 
-#include "appstate.c"
-
 void
 gsdl_init_misc (void)
 {
-  appstate_flags = MAKE_FLAGSTASH (appstate);
-
 #include "misc.x"
 }
 
