@@ -237,7 +237,9 @@
                (input-loop e))))
         ((SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP)
          (let ((button (SDL:event:button:button e)))
-           (display-centered "~A -- ~A" nice button))
+           (display-centered "~A -- ~A -- ~Ax~A" nice button
+                             (SDL:event:button:x e)
+                             (SDL:event:button:y e)))
          (check-updn (SDL:event:button:state e))
          (input-loop e))
         ((SDL_MOUSEMOTION)

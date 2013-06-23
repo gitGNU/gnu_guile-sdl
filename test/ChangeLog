@@ -1,5 +1,11 @@
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘event:button:x’, ‘event:button:y’.
+
+	* event.scm (input-loop) [MOUSEBUTTONDOWN MOUSEBUTTONUP]: ...here.
+
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘event:key:keysym:unicode’.
 
 	* event.scm (input-loop) [KEYDOWN KEYUP]: ...here.
