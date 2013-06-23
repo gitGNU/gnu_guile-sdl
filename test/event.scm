@@ -214,9 +214,15 @@
       (case event-type
         ((SDL_KEYDOWN SDL_KEYUP)
          (let ((sym (SDL:event:key:keysym:sym e))
-               (mods (SDL:event:key:keysym:mod e)))
-           (display-centered "~A -- ~A -- ~A~A" nice
+               (mods (SDL:event:key:keysym:mod e))
+               (uni (if unicode-enabled
+                        (SDL:event:key:keysym:unicode e)
+                        0)))
+           (display-centered "~A -- ~A~A -- ~A~A" nice
                              (SDL:event:key:keysym:scancode e)
+                             (if (zero? uni)
+                                 ""
+                                 (fs " U+~A" (number->string uni 16)))
                              (no-5 sym)
                              (if (null? mods)
                                  ""

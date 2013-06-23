@@ -1,5 +1,11 @@
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘event:key:keysym:unicode’.
+
+	* event.scm (input-loop) [KEYDOWN KEYUP]: ...here.
+
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘(sdl sdl) enable-unicode’.
 
 	* event.scm (unicode-enabled): New var.
