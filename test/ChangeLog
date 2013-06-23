@@ -1,5 +1,16 @@
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Synthesize events; narrow ‘INTERACTIVE=1’ effect.
+
+	* event.scm: Don't skip if ‘INTERACTIVE=1’.
+	(fake, fake-key-down/up): New procs.
+	<report event states>: Remove delay.
+	<synthesize some events>: New section.
+	<main loop>: Scroll up before calling ‘input-loop’.
+	<quit SDL>: If not ‘INTERACTIVE=1’, delay a bit.
+
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘SDL_VIDEORESIZE’ getters.
 
 	* event.scm (input-loop) [VIDEORESIZE]: ...here.

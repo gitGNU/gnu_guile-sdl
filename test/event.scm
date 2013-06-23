@@ -17,8 +17,6 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(or *interactive* (exit-77 "interactive"))
-
 (use-modules ((srfi srfi-11) #:select (let-values)))
 (use-modules ((sdl sdl) #:prefix SDL:)
              ((sdl gfx) #:prefix GFX:))
@@ -109,6 +107,32 @@
             (even? (car (gettimeofday))))))
 (SDL:set-event-filter ignore-maybe #f)
 (info "get-event-filter => ~S" (SDL:get-event-filter))
+
+(define (fake type . rest)
+  (info "(fake) ~A" type)
+  (let ((ev (SDL:make-event type)))
+    ;; exercise
+    (SDL:event:set-type! ev type)
+    (let loop ((spec rest))
+      (or (null? spec)
+          (let ((setter (car spec))
+                (value (cadr spec)))
+            (info " ~A ~S" (procedure-name setter) value)
+            (setter ev value)
+            (loop (cddr spec)))))
+    (SDL:push-event ev)))
+
+(define (fake-key-down/up mod sym)
+  (define (ok type state)
+    (fake type
+          SDL:event:key:set-state!           state
+          SDL:event:key:keysym:set-mod!      mod
+          SDL:event:key:keysym:set-sym!      sym
+          ;; These two are pure exercise.
+          SDL:event:key:keysym:set-scancode! 0
+          SDL:event:key:keysym:set-unicode!  0))
+  (ok 'SDL_KEYDOWN 'pressed)
+  (ok 'SDL_KEYUP 'released))
 
 (define draw-relative-rectangle!
   (let* ((screen (SDL:get-video-surface))
@@ -252,8 +276,7 @@
             (scroll-up!)
             (display-centered "~A : ~A"
                               (nice-type type)
-                              (SDL:event-state type 'SDL_QUERY))
-            (SDL:delay 42))
+                              (SDL:event-state type 'SDL_QUERY)))
           (SDL:enumstash-enums SDL:event-types))
 
 ;; display an explanatory message
@@ -272,11 +295,82 @@
   (or (eq? cur (SDL:grab-input cur))
       (error "could not restore grab state")))
 
+;; synthesize some events
+(let ((x (half (SDL:rect:w test-rect)))
+      (y (+ top (half top) 30)))
+  (and *interactive* (SDL:delay 420))
+  ;; mouse
+  (SDL:warp-mouse x y)                  ; produces MOUSEMOTION
+  (fake 'SDL_MOUSEBUTTONDOWN
+        SDL:event:button:set-button! 'middle
+        SDL:event:button:set-state!  'pressed
+        SDL:event:button:set-x!      x
+        SDL:event:button:set-y!      y)
+  (fake 'SDL_MOUSEMOTION
+        SDL:event:motion:set-state! 'released
+        SDL:event:motion:set-x!     (1+ x)
+        SDL:event:motion:set-xrel!   1
+        SDL:event:motion:set-y!     (1+ y)
+        SDL:event:motion:set-yrel!   1)
+  (fake 'SDL_MOUSEBUTTONUP
+        SDL:event:button:set-button! 'middle
+        SDL:event:button:set-state!  'released
+        SDL:event:button:set-x!      (1+ x)
+        SDL:event:button:set-y!      (1+ y))
+  ;; keyboard
+  (for-each (lambda (m c)
+              (define (mod prefix)
+                (string->symbol (fs "KMOD_~A~A" prefix m)))
+              (fake-key-down/up (list (mod 'L)
+                                      (mod 'R))
+                                (string->symbol
+                                 (fs "SDLK_~A" c))))
+            (list 'SHIFT 'ALT 'CTRL)
+            (string->list "gnu"))
+  ;; active-ness
+  (let ((cur (delq 'active (SDL:get-app-state))))
+    (fake 'SDL_ACTIVEEVENT
+          SDL:event:active:set-gain!  'lost
+          SDL:event:active:set-state!  cur)
+    (fake 'SDL_ACTIVEEVENT
+          SDL:event:active:set-gain!  'gained
+          SDL:event:active:set-state!  cur))
+  ;; joystick
+  (fake 'SDL_JOYAXISMOTION
+        SDL:event:jaxis:set-which! 0
+        SDL:event:jaxis:set-axis!  42
+        SDL:event:jaxis:set-value! 420)
+  (fake 'SDL_JOYBALLMOTION
+        SDL:event:jball:set-which! 0
+        SDL:event:jball:set-ball!  4
+        SDL:event:jball:set-xrel!  42
+        SDL:event:jball:set-yrel!  420)
+  (fake 'SDL_JOYBUTTONDOWN
+        SDL:event:jbutton:set-which!  0
+        SDL:event:jbutton:set-button! 42
+        SDL:event:jbutton:set-state!  'pressed)
+  (fake 'SDL_JOYBUTTONUP
+        SDL:event:jbutton:set-which!  0
+        SDL:event:jbutton:set-button! 42
+        SDL:event:jbutton:set-state!  'released)
+  (fake 'SDL_JOYHATMOTION
+        SDL:event:jhat:set-which! 0
+        SDL:event:jhat:set-hat!   42
+        SDL:event:jhat:set-value! '(left up))
+  ;; resize
+  (fake 'SDL_VIDEORESIZE
+        SDL:event:resize:set-h! 420
+        SDL:event:resize:set-w! 420)
+  ;; bail if not interactive
+  (or *interactive* (fake-key-down/up '() 'SDLK_ESCAPE)))
+
 ;; main loop
+(scroll-up!)
 (input-loop (SDL:make-event 0))
 
 ;; quit SDL
 (and JOY (SDL:joystick-close JOY))
+(or *interactive* (SDL:delay 420))
 (exit (SDL:quit))
 
 ;;; event.scm ends here
