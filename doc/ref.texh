@@ -294,6 +294,10 @@ VIDEOEXPOSE   VIDEORESIZE
 The value for @code{event:active:gain} and @code{event:active:set-gain!}
 is a symbol, one of: @code{gained} or @code{lost}.
 
+The value for @code{event:active:state} and @code{event:active:set-state!}
+is a (possibly empty) list of symbols from the same set used by
+@code{get-app-state}.
+
 @tsin i event:active:gain
 
 @tsin i event:active:state

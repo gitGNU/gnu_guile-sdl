@@ -1,5 +1,11 @@
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make active state value fully symbolic.
+
+	* sdlevent.c (active_state): Use ‘FLAG_GETSET’ and ‘appstate_flags’.
+
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Make active gain value fully symbolic.
 
 	* sdlevent.c (active_enum): New static SCM.

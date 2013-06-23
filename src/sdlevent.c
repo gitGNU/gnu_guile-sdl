@@ -483,7 +483,10 @@ ENUM_GETSET ("active:gain",        active_gain,
              "active:set-gain!", active_set_gain,
              active.gain,
              active)
-UNUM2_GETSET (active, state)
+FLAG_GETSET ("active:state",        active_state,
+             "active:set-state!", active_set_state,
+             active.state,
+             appstate_flags)
 
 ENUM_GETSET ("key:state",       key_state,
              "key:set-state!", key_set_state,

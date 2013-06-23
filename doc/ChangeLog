@@ -1,5 +1,12 @@
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make active state value fully symbolic.
+
+	* ref.texh (Events): Document possible values
+	for ‘event:active:state’, ‘event:active:set-state!’.
+
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Make active gain value fully symbolic.
 
 	* ref.texh (Events): Document possible values
