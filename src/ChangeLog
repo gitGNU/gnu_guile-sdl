@@ -1,5 +1,14 @@
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make active gain value fully symbolic.
+
+	* sdlevent.c (active_enum): New static SCM.
+	(active_eback): New static ‘valaka_t’ array.
+	(active_gain): Use ‘ENUM_GETSET’ and ‘active_enum’.
+	(gsdl_init_event): Init ‘active_enum’.
+
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Move ‘get-app-state’ to sdlevent.c.
 
 	* misc.c: Move #include <SDL/SDL_active.h>

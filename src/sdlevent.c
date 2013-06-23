@@ -26,6 +26,12 @@
 
 /* enum/flag types */
 
+static SCM active_enum;
+static valaka_t active_eback[] = {
+  VAL_AND_AKA (1, "gained"),
+  VAL_AND_AKA (0, "lost")
+};
+
 static SCM updn_enum;
 static valaka_t updn_eback[] = {
   VAL_AND_AKA (SDL_RELEASED, "released"),
@@ -473,7 +479,10 @@ ENUM_GETSET ("type",          type,
              type,
              event_type)
 
-UNUM2_GETSET (active, gain)
+ENUM_GETSET ("active:gain",        active_gain,
+             "active:set-gain!", active_set_gain,
+             active.gain,
+             active)
 UNUM2_GETSET (active, state)
 
 ENUM_GETSET ("key:state",       key_state,
@@ -1099,6 +1108,7 @@ gsdl_init_event (void)
   event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);
   mb_enum = DEFINE_ENUM (NULL, mb_eback);
   updn_enum = DEFINE_ENUM (NULL, updn_eback);
+  active_enum = DEFINE_ENUM (NULL, active_eback);
   appstate_flags = MAKE_FLAGSTASH (appstate);
 
   efi.proc = SCM_BOOL_F;

@@ -291,6 +291,9 @@ VIDEOEXPOSE   VIDEORESIZE
 
 @section Activity
 
+The value for @code{event:active:gain} and @code{event:active:set-gain!}
+is a symbol, one of: @code{gained} or @code{lost}.
+
 @tsin i event:active:gain
 
 @tsin i event:active:state

@@ -1,3 +1,10 @@
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[sdl] Make active gain value fully symbolic.
+
+	* ref.texh (Events): Document possible values
+	for ‘event:active:gain’, ‘event:active:set-gain!’.
+
 2013-06-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[doc] Decruft: Don't mention non-uniform-vector retirement.
