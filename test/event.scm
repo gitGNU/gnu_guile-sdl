@@ -228,7 +228,8 @@
          (display-centered "~A -- j~S h~S ~S" nice
                            (SDL:event:jhat:which e)
                            (SDL:event:jhat:hat e)
-                           (SDL:event:jhat:value e)))
+                           (SDL:event:jhat:value e))
+         (input-loop e))
         ((SDL_ACTIVEEVENT)
          (display-centered "~A -- ~S ~S" nice
                            (SDL:event:active:gain e)

@@ -1,5 +1,13 @@
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v int] Don't forget to keep looping on joy hat motion event.
+
+	Omission from 2013-06-12, "Exercise joystick axis/ball/hat getters".
+
+	* event.scm (input-loop) [JOYHATMOTION]: ...here.
+
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘SDL_ACTIVEEVENT’ getters.
 
 	* event.scm (input-loop): ...here.
