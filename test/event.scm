@@ -205,7 +205,8 @@
         ((SDL_KEYDOWN SDL_KEYUP)
          (let ((sym (SDL:event:key:keysym:sym e))
                (mods (SDL:event:key:keysym:mod e)))
-           (display-centered "~A -- ~A~A" nice
+           (display-centered "~A -- ~A -- ~A~A" nice
+                             (SDL:event:key:keysym:scancode e)
                              (no-5 sym)
                              (if (null? mods)
                                  ""

@@ -1,5 +1,11 @@
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘event:key:keysym:scancode’.
+
+	* event.scm (input-loop) [KEYDOWN KEYUP]: ...here.
+
+2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Synthesize events; narrow ‘INTERACTIVE=1’ effect.
 
 	* event.scm: Don't skip if ‘INTERACTIVE=1’.
