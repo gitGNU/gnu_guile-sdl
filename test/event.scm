@@ -17,7 +17,8 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(use-modules ((srfi srfi-11) #:select (let-values)))
+(use-modules ((srfi srfi-11) #:select (let-values))
+             ((srfi srfi-13) #:select (string-suffix?)))
 (use-modules ((sdl sdl) #:prefix SDL:)
              ((sdl gfx) #:prefix GFX:))
 
@@ -51,6 +52,15 @@
 
 ;; initialize the SDL video (and event) module
 (info "init => ~S" (SDL:init '(SDL_INIT_VIDEO SDL_INIT_JOYSTICK)))
+
+;; enable unicode
+(define unicode-enabled
+  (let ((try (string-suffix? "UTF-8" (or (getenv "LANG")
+                                         ""))))
+    (info "(enable-unicode)    => ~S"     (SDL:enable-unicode))
+    (info "(enable-unicode ~S) => ~S" try (SDL:enable-unicode try))
+    (info "(enable-unicode)    => ~S"     (SDL:enable-unicode))
+    (SDL:enable-unicode)))
 
 (define JOY (check-joystick-maybe))
 
