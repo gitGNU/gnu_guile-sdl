@@ -1,5 +1,11 @@
 2013-06-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘(sdl sdl) button?’.
+
+	* event.scm (input-loop): ...here.
+
+2013-06-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘set-mod-state’, ‘get-mod-state’, ‘get-mouse-state’.
 
 	* event.scm <mod and mouse state>: New section.

@@ -208,6 +208,9 @@
                (gmrs-state (assq-ref alist 'state))
                (gmrs-x     (assq-ref alist 'x))
                (gmrs-y     (assq-ref alist 'y)))
+          (or (null? buttons)
+              (SDL:button? buttons)
+              (error "mouse-bxy and button? do not agree!"))
           (or (equal? buttons gmrs-state)
               (error "mouse-bxy and get-mouse-relative-state disagree:"
                      (list 'bxy: buttons
