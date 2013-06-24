@@ -1,3 +1,14 @@
+2013-06-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Fix bug: Don't insist on integer arg for ‘set-mod-state’.
+
+	Regression introduced 2003-11-08 (Guile-SDL 0.2.0) during
+	foof-to-ttn transition.  Briefly: 0/ arg type initially exact
+	with type check; 1/ foof changed type to flags and commented
+	out the now-obsolete exact check; 2/ ttn commented in the check.
+
+	* sdlevent.c (set_mod_state): Don't ‘ASSERT_INTEGER’.
+
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Make active state value fully symbolic.

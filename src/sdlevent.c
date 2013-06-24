@@ -927,7 +927,6 @@ a list of symbols.  This does not change the keyboard state,
 only the key modifier flags.  */)
 {
 #define FUNC_NAME s_set_mod_state
-  ASSERT_INTEGER (modstate, 1);
   SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, 1));
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
