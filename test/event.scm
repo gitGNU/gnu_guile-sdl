@@ -118,6 +118,11 @@
 (SDL:set-event-filter ignore-maybe #f)
 (info "get-event-filter => ~S" (SDL:get-event-filter))
 
+;; mod and mouse state
+(SDL:set-mod-state '(KMOD_LALT KMOD_RALT))
+(info "(jammed) mod state => ~S" (SDL:get-mod-state))
+(info "(actual) mouse state => ~S" (SDL:get-mouse-state #t))
+
 (define (fake type . rest)
   (info "(fake) ~A" type)
   (let ((ev (SDL:make-event type)))
