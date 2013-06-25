@@ -75,7 +75,7 @@
 (define test-rect (SDL:make-rect 0 0 400 600))
 
 ;; set the video mode to the dimensions of our rect
-(SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 8
+(SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 32
                     '(SDL_HWSURFACE SDL_DOUBLEBUF))
 
 ;; presize some stuff
@@ -84,6 +84,9 @@
 
 ;; color to write in
 (define WHITE #xFFFFFFFF)
+
+;; color of the relative-rectangle background
+(define relrect-bg #xff0000)
 
 ;; proc to write text centered on screen at a certain vertical position
 (define (display-centered-w/height-proc y)
@@ -222,7 +225,7 @@
             (else
              (SDL:rect:set-y! rect (+ cy ry))
              (SDL:rect:set-h! rect (- ry))))
-      (SDL:fill-rect screen full #xffffff)
+      (SDL:fill-rect screen full relrect-bg)
       (SDL:fill-rect screen rect 0)
       (SDL:update-rects screen (list full rect)))))
 
@@ -291,9 +294,16 @@
                                  (fs " -- ~A" (map no-5 mods))))
            (check-updn (SDL:event:key:state e))
            (and (eq? sym 'SDLK_SPACE)
-                (if (SDL:get-event-filter)
-                    (SDL:set-event-filter #f #f)
-                    (SDL:set-event-filter ignore-maybe #f)))
+                (eq? event-type 'SDL_KEYUP)
+                (begin
+                  (set! relrect-bg
+                        (cond ((SDL:get-event-filter)
+                               (SDL:set-event-filter #f #f)
+                               #x00ff00)
+                              (else
+                               (SDL:set-event-filter ignore-maybe #f)
+                               #xff0000)))
+                  (draw-relative-rectangle! 0 0)))
            (if (eq? sym 'SDLK_ESCAPE)
                #f
                (input-loop e))))

@@ -1,5 +1,15 @@
 2013-06-25  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Indicate active filter via color change.
+
+	* event.scm: <set video mode>: Bump depth to 32.
+	(relrect-bg): New var.
+	(draw-relative-rectangle!): Use ‘relrect-bg’.
+	(input-loop) <SPACE>: Restrict toggling to KEYDOWN; set
+	‘relrect-bg’ to red if filter active, green if inactive.
+
+2013-06-25  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise subsytem init/quit procs.
 
 	* event.scm <init>: Use ‘init-subsystem’.
