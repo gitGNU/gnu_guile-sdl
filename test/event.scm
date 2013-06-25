@@ -57,7 +57,8 @@
                  num-buttons)))))
 
 ;; initialize the SDL video (and event) module
-(info "init => ~S" (SDL:init '(SDL_INIT_VIDEO SDL_INIT_JOYSTICK)))
+(info "init => ~S" (SDL:init 'SDL_INIT_VIDEO))
+(info "joystick init => ~S" (SDL:init-subsystem 'SDL_INIT_JOYSTICK))
 
 ;; enable unicode
 (define unicode-enabled
@@ -453,6 +454,7 @@
 
 ;; quit SDL
 (and JOY (SDL:joystick-close (car JOY)))
+(SDL:quit-subsystem 'SDL_INIT_JOYSTICK)
 (or *interactive* (SDL:delay 420))
 (exit (SDL:quit))
 

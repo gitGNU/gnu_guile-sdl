@@ -1,5 +1,12 @@
 2013-06-25  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise subsytem init/quit procs.
+
+	* event.scm <init>: Use ‘init-subsystem’.
+	<quit>: Use ‘quit-subsystem’.
+
+2013-06-25  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise more joystick procs.
 
 	* event.scm (check-joystick-maybe): Use ‘joystick-event-state’;
