@@ -823,27 +823,21 @@ PRIMPROC
 (event_state, "event-state", 2, 0, 0,
  (SCM type, SCM state),
  doc: /***********
-Query or set event @var{type} to @var{state}.
-@var{type} should be one elements from @code{event-types},
-and likewise @var{state} from @code{event-states}.
-@xref{Enums and Constants}.
-If @var{state} is @code{SDL_QUERY}, return the current
-processing state of the specified event.  */)
+Set or query the state of event @var{type} processing,
+based on @var{state} (a symbol).
+If @var{state} is @code{SDL_QUERY}, return the current state.
+If it is @code{SDL_IGNORE} or @code{SDL_ENABLE},
+disable or enable, respectively, internal event @var{type}
+processing and return @var{state}.  */)
 {
 #define FUNC_NAME s_event_state
-  int ctype, cstate, ret;
+  int ctype = GSDL_ENUM2LONG (type, event_type_enum, 1);
+  int cstate = GSDL_ENUM2LONG (state, event_state_enum, 2);
+  int ret = SDL_EventState (ctype, cstate);
 
-  ctype = GSDL_ENUM2LONG (type, event_type_enum, 1);
-  cstate = GSDL_ENUM2LONG (state, event_state_enum, 2);
-
-  ret = SDL_EventState (ctype, cstate);
-  if (SDL_QUERY == cstate)
-    return btw->long2enum (ret, event_state_enum);
-  else
-    RETURN_UNSPECIFIED;
+  return btw->long2enum (ret, event_state_enum);
 #undef FUNC_NAME
 }
-
 
 PRIMPROC
 (enable_unicode, "enable-unicode", 0, 1, 0,
