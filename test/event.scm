@@ -23,6 +23,7 @@
              ((sdl gfx) #:prefix GFX:))
 
 (define (check-joystick-maybe)
+  (info "joystick awareness => ~S" (SDL:joystick-event-state 'SDL_ENABLE))
   (let ((count (SDL:num-joysticks))
         (name (SDL:joystick-name))
         (joy (SDL:joystick-open)))
@@ -47,8 +48,13 @@
                  'axes num-axes
                  'balls num-balls
                  'hats num-hats
-                 'buttons num-buttons)))
-    joy))
+                 'buttons num-buttons)
+           ;; rv
+           (list joy
+                 num-axes
+                 num-balls
+                 num-hats
+                 num-buttons)))))
 
 ;; initialize the SDL video (and event) module
 (info "init => ~S" (SDL:init '(SDL_INIT_VIDEO SDL_INIT_JOYSTICK)))
@@ -149,6 +155,52 @@
   (ok 'SDL_KEYDOWN 'pressed)
   (ok 'SDL_KEYUP 'released))
 
+(define tickle-joy-spew! (display-centered-w/height-proc
+                          (+ 3 (* 3 height) top)))
+
+(define (tickle-joy! joy num-axes num-balls num-hats num-buttons)
+
+  (define (axis n)
+    (let ((v (SDL:joystick-get-axis joy n)))
+      (and (not (zero? v))
+           (fs "a~A:~A" n v))))
+
+  (define (ball n)
+    (let* ((sel (random num-balls))
+           (alist (SDL:joystick-get-ball joy n))
+           (dx (assq-ref alist 'dx))
+           (dy (assq-ref alist 'dy)))
+      (let-values (((x y) (SDL:joystick-ball-xy joy n)))
+        (or (and (= dx x) (dy y))
+            (error "joystick-{ball-xy,get-ball} mismatch:"
+                   (list 'dx: dx
+                         'dy: dy
+                         'x: x
+                         'y: y)))
+        (and (not (and (zero? x)
+                       (zero? y)))
+             (fs "b~A:~A|~A" n x y)))))
+
+  (define (hat n)
+    (let ((v (SDL:joystick-get-hat joy n)))
+      (and (not (zero? v))
+           (fs "h~A:~A" n v))))
+
+  (define (button n)
+    (and (eq? 'pressed (SDL:joystick-get-button joy n))
+         (fs ":~A" n)))
+
+  (define (interesting)
+    (delq #f (append (map axis (iota num-axes))
+                     (map ball (iota num-balls))
+                     (map hat (iota num-hats))
+                     (map button (iota num-buttons)))))
+
+  (SDL:joystick-update)
+  (let ((ls (interesting)))
+    (or (null? ls)
+        (tickle-joy-spew! "~A" ls))))
+
 (define draw-relative-rectangle!
   (let* ((screen (SDL:get-video-surface))
          (cx (half (SDL:rect:w test-rect)))
@@ -198,6 +250,7 @@
                  state)
             (error "unexpected state:" state)))
 
+      (and JOY (apply tickle-joy! JOY))
       (scroll-up!)
       (display-centered/next-line
        "~A" (map no-5 (SDL:get-key-state)))
@@ -399,7 +452,7 @@
 (input-loop (SDL:make-event 0))
 
 ;; quit SDL
-(and JOY (SDL:joystick-close JOY))
+(and JOY (SDL:joystick-close (car JOY)))
 (or *interactive* (SDL:delay 420))
 (exit (SDL:quit))
 

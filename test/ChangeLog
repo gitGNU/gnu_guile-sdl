@@ -1,3 +1,13 @@
+2013-06-25  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise more joystick procs.
+
+	* event.scm (check-joystick-maybe): Use ‘joystick-event-state’;
+	if available, return a list of joystick object and num-foo counts.
+	(tickle-joy-spew!, tickle-joy!): New procs.
+	(input-loop): If joystick availabe, call ‘tickle-joy!’.
+	<quit SDL>: Update ‘JOY’ access.
+
 2013-06-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Exercise/check ‘(sdl sdl) button?’.
