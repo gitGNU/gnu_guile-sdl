@@ -1113,6 +1113,8 @@ gsdl_init_event (void)
   active_enum = DEFINE_ENUM (NULL, active_eback);
   appstate_flags = MAKE_FLAGSTASH (appstate);
 
+  btw->event_state_enum = event_state_enum;
+
   efi.proc = SCM_BOOL_F;
 
 #include "sdlevent.x"

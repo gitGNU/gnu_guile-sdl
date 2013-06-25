@@ -222,12 +222,21 @@ PRIMPROC
 (joystick_event_state, "joystick-event-state", 1, 0, 0,
  (SCM state),
  doc: /***********
-Set the Joystick event processing model to @var{state}.  */)
+Set or query the state of internal joystick event processing,
+based on @var{state} (a symbol).
+If @var{state} is @code{SDL_QUERY}, return the current state.
+If it is @code{SDL_IGNORE} or @code{SDL_ENABLE},
+disable or enable, respectively, internal joystick
+event processing and return @var{state}.
+When enabled, it is not necessary to call @code{joystick-update}.  */)
 {
 #define FUNC_NAME s_joystick_event_state
-  ASSERT_INTEGER (state, 1);
+#define ESE btw->event_state_enum
+  int cstate = GSDL_ENUM2LONG (state, ESE, 1);
+  int ret = SDL_JoystickEventState (cstate);
 
-  RETURN_INT (SDL_JoystickEventState (C_LONG (state)));
+  return btw->long2enum (ret, ESE);
+#undef ESE
 #undef FUNC_NAME
 }
 

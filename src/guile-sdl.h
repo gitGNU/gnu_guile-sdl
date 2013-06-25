@@ -309,6 +309,9 @@ struct obtw
   SCM video_flags;
   /* Flags used in various sdl{surface,video}.c funcs.  */
 
+  SCM event_state_enum;
+  /* Used in various sdl{event,joystick}.c funcs.  */
+
   make_flagstash_t *make_flagstash;
   flags2ulong_t *flags2ulong;
   ulong2flags_t *ulong2flags;

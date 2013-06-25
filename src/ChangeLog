@@ -1,5 +1,13 @@
 2013-06-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make ‘joystick-event-state’ fully symbolic.
+
+	* guile-sdl.h (struct obtw): Add member ‘event_state_enum’.
+	* sdlevent.c (gsdl_init_event): Init ‘btw->event_state_enum’.
+	* sdljoystick.c (joystick_event_state): Rewrite.
+
+2013-06-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Fix bug: Don't insist on integer arg for ‘set-mod-state’.
 
 	Regression introduced 2003-11-08 (Guile-SDL 0.2.0) during
