@@ -1,5 +1,14 @@
 2013-06-25  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make ‘joystick-get-button’ return a symbol.
+
+	* guile-sdl.h (struct obtw): Add member ‘updn_enum’.
+	* sdlevent.c (gsdl_init_event): Init ‘btw->updn_enum’.
+	* sdljoystick.c (joystick_get_button):
+	Return symbol from set ‘btw->updn_enum’.
+
+2013-06-25  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Return new state for ‘(sdl sdl) event-state’.
 
 	* sdlevent.c (event_state): Rewrite.

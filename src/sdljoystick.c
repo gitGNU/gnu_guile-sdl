@@ -333,14 +333,16 @@ PRIMPROC
  (SCM joystick,
   SCM n),
  doc: /***********
-For @var{joystick}, return state of button @var{n}.  */)
+For @var{joystick}, return state of button @var{n},
+a symbol, one of: @code{released} or @code{pressed}.  */)
 {
 #define FUNC_NAME s_joystick_get_button
   ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
 
   ASSERT_INTEGER (n, 2);
 
-  RETURN_INT (SDL_JoystickGetButton (joy, C_LONG (n)));
+  return btw->long2enum (SDL_JoystickGetButton (joy, C_LONG (n)),
+                         btw->updn_enum);
 #undef FUNC_NAME
 }
 

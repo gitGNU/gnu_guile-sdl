@@ -1108,6 +1108,7 @@ gsdl_init_event (void)
   appstate_flags = MAKE_FLAGSTASH (appstate);
 
   btw->event_state_enum = event_state_enum;
+  btw->updn_enum = updn_enum;
 
   efi.proc = SCM_BOOL_F;
 
