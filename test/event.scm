@@ -23,7 +23,19 @@
              ((sdl gfx) #:prefix GFX:))
 
 (define (check-joystick-maybe)
-  (info "joystick awareness => ~S" (SDL:joystick-event-state 'SDL_ENABLE))
+  (info "joystick polling => ~S"
+        (let* ((ans (SDL:joystick-polling))
+               (raw (SDL:joystick-event-state 'SDL_QUERY))
+               (old (case raw
+                      ((SDL_ENABLE) #t)
+                      ((SDL_IGNORE) #f)
+                      (else (error "WTF:" raw)))))
+          (or (eq? ans old)
+              (error "discrepency:" (list 'ans: ans 'old: old)))
+          ans))
+  (or (SDL:joystick-polling)
+      (SDL:joystick-polling #t)
+      (error "could not enable joystick polling"))
   (let ((count (SDL:num-joysticks))
         (name (SDL:joystick-name))
         (joy (SDL:joystick-open)))
@@ -368,9 +380,20 @@
 ;; report event states
 (for-each (lambda (type)
             (scroll-up!)
-            (display-centered "~A : ~A"
-                              (nice-type type)
-                              (SDL:event-state type 'SDL_QUERY)))
+            (display-centered
+             "~A : ~A"
+             (nice-type type)
+             (let* ((ans (if (SDL:event-type-handling type)
+                             'yes
+                             'no))
+                    (raw (SDL:event-state type 'SDL_QUERY))
+                    (old (case raw
+                           ((SDL_ENABLE) 'yes)
+                           ((SDL_IGNORE) 'no)
+                           (else (error "WTF:" raw)))))
+               (or (eq? ans old)
+                   (error "discrepency:" (list 'ans: ans 'old: old)))
+               ans)))
           (SDL:enumstash-enums SDL:event-types))
 
 ;; display an explanatory message
