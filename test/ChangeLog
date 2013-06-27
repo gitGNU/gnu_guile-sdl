@@ -1,5 +1,12 @@
 2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘display-format-alpha’.
+
+	* image.scm <convert explicitly>: Factor out ‘show!’;
+	add another ‘show!’ invocation using ‘display-format-alpha’.
+
+2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check event queue procs.
 
 	* event.scm <queue interaction>: New section.

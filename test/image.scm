@@ -47,17 +47,22 @@
 
 ;; convert explicitly
 (SDL:delay 100)
-(let* ((orig (SDL:surface-get-format gnu-head))
-       (want (SDL:surface-get-format screen))
-       (correct (SDL:convert-surface gnu-head want)))
+(let ((orig (SDL:surface-get-format gnu-head))
+      (want (SDL:surface-get-format screen)))
+
+  (define (show! correct)
+    (check-depth 'correct correct)
+    (SDL:fill-rect screen #f #x880088)
+    (SDL:flip)
+    (SDL:delay 50)
+    (standard-blit! correct)
+    (SDL:flip)
+    (SDL:delay 50))
+
   (info "orig format => ~S" orig)
   (info "want format => ~S" want)
-  (check-depth 'correct correct)
-  (SDL:fill-rect screen #f #x880088)
-  (SDL:flip)
-  (SDL:delay 100)
-  (standard-blit! correct)
-  (SDL:flip))
+  (show! (SDL:convert-surface gnu-head want))
+  (show! (SDL:display-format-alpha gnu-head)))
 
 ;; wait a half-second, then flip it upside-down
 (SDL:delay 500)
