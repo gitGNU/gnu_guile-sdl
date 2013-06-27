@@ -1,5 +1,11 @@
 2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add proc: joystick-polling
+
+	* ref.texh (Events): Add @tsin for ‘joystick-polling’.
+
+2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add proc: event-type-handling
 
 	* ref.texh (Events): Add @tsin for ‘event-type-handling’.

@@ -1,5 +1,12 @@
 2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add proc: joystick-polling
+
+	* sdljoystick.c (joystick_polling): New PRIMPROC.
+	(joystick_event_state): Mention obsolence in doc comment; nfc.
+
+2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add proc: event-type-handling
 
 	* sdlevent.c (event_type_handling): New PRIMPROC.

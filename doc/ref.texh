@@ -526,6 +526,8 @@ effectively the same as specifying @code{centered}.
 
 @tsin i joystick-update
 
+@tsin i joystick-polling
+
 @tsin i joystick-event-state
 
 @tsin i joystick-get-axis

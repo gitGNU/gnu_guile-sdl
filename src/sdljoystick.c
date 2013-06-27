@@ -219,9 +219,29 @@ Update the state of all Joysticks.  */)
 
 
 PRIMPROC
+(joystick_polling, "joystick-polling", 0, 1, 0,
+ (SCM setting),
+ doc: /***********
+Return @code{#t} if joystick events are polled and queued (such
+that it is unnecessary to ``manually'' call @code{joystick-update}),
+otherwise @code{#f}.
+If @var{setting} is specified, set joystick events polling
+to the truth value of @var{setting} first.  */)
+{
+#define FUNC_NAME s_joystick_polling
+  return BOOLEAN (SDL_ENABLE == SDL_JoystickEventState
+                  (CSTATE_FROM_SETTING (setting)));
+#undef FUNC_NAME
+}
+
+
+PRIMPROC
 (joystick_event_state, "joystick-event-state", 1, 0, 0,
  (SCM state),
  doc: /***********
+NB: This procedure is obsoleted by @code{joystick-polling}
+and @strong{will be removed} after 2013-12-31.
+
 Set or query the state of internal joystick event processing,
 based on @var{state} (a symbol).
 If @var{state} is @code{SDL_QUERY}, return the current state.
