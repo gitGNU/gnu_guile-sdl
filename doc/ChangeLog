@@ -1,3 +1,9 @@
+2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[sdl] Add proc: event-type-handling
+
+	* ref.texh (Events): Add @tsin for ‘event-type-handling’.
+
 2013-06-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Make active state value fully symbolic.

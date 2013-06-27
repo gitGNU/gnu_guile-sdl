@@ -820,9 +820,29 @@ an event type, or @code{#t} if the proc takes an event object.  */)
 }
 
 PRIMPROC
+(event_type_handling, "event-type-handling", 1, 1, 0,
+ (SCM type, SCM setting),
+ doc: /***********
+Return @code{#t} if event @var{type} is recognized and
+queued, or @code{#f} if it is ignored.
+If @var{setting} is specified, set the handling of
+@var{type} to the truth value of @var{setting} first.  */)
+{
+#define FUNC_NAME s_event_type_handling
+  int ctype = GSDL_ENUM2LONG (type, event_type_enum, 1);
+
+  return BOOLEAN (SDL_ENABLE == SDL_EventState
+                  (ctype, CSTATE_FROM_SETTING (setting)));
+#undef FUNC_NAME
+}
+
+PRIMPROC
 (event_state, "event-state", 2, 0, 0,
  (SCM type, SCM state),
  doc: /***********
+NB: This procedure is obsoleted by @code{event-type-handling}
+and @strong{will be removed} after 2013-12-31.
+
 Set or query the state of event @var{type} processing,
 based on @var{state} (a symbol).
 If @var{state} is @code{SDL_QUERY}, return the current state.
