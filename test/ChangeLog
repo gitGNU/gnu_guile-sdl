@@ -1,5 +1,11 @@
 2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check event queue procs.
+
+	* event.scm <queue interaction>: New section.
+
+2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Add another filter state; make SPC cycle the states.
 
 	* event.scm: Use SRFI 1 ‘car+cdr’.

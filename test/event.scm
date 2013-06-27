@@ -495,6 +495,15 @@
   ;; bail if not interactive
   (or *interactive* (fake-key-down/up '() 'SDLK_ESCAPE)))
 
+;; queue interaction
+(SDL:pump-events)
+(let ((count (SDL:peep-events #f 10 'SDL_PEEKEVENT '())))
+  (or (zero? count)
+      (error "pending events not properly masked:"
+             (cons 'count: count))))
+(or (SDL:poll-event)
+    (error "poll-event => #f"))
+
 ;; main loop
 (scroll-up!)
 (input-loop (SDL:make-event 0))
