@@ -512,4 +512,14 @@ PRIMPROC (cname, sname, 2, 0, 0, (SCM lpre, SCM value),                 \
 
 #endif /* !defined (__GUILE_SDL_H) */
 
+
+/* Miscellaneous idioms.  */
+
+#define CSTATE_FROM_SETTING(setting)            \
+  (UNBOUNDP (setting)                           \
+   ? SDL_QUERY                                  \
+   : (EXACTLY_FALSEP (setting)                  \
+      ? SDL_IGNORE                              \
+      : SDL_ENABLE))
+
 /* guile-sdl.h ends here */
