@@ -1,5 +1,17 @@
 2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Add another filter state; make SPC cycle the states.
+
+	* event.scm: Use SRFI 1 ‘car+cdr’.
+	(relrect-bg): Init to ‘#f’.
+	(ignore-maybe): Delete proc.
+	(rat-grata!): New proc; invoke once at top-level
+	instead of setting the event filter there.
+	(input-loop) [SPACE KEYUP]: Use ‘rat-grata!’.
+	<explanatory message>: Update.
+
+2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check new event model procs.
 
 	* event.scm (check-joystick-maybe): Use ‘joystick-polling’;

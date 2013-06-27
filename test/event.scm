@@ -17,7 +17,8 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(use-modules ((srfi srfi-11) #:select (let-values))
+(use-modules ((srfi srfi-1) #:select (car+cdr))
+             ((srfi srfi-11) #:select (let-values))
              ((srfi srfi-13) #:select (string-suffix?)))
 (use-modules ((sdl sdl) #:prefix SDL:)
              ((sdl gfx) #:prefix GFX:))
@@ -98,7 +99,7 @@
 (define WHITE #xFFFFFFFF)
 
 ;; color of the relative-rectangle background
-(define relrect-bg #xff0000)
+(define relrect-bg #f)
 
 ;; proc to write text centered on screen at a certain vertical position
 (define (display-centered-w/height-proc y)
@@ -133,11 +134,30 @@
   (display-centered-w/height-proc
    (+ 3 (ash height 1) top)))
 
-;; set the event filter: ignore the mouse every other second
-(define (ignore-maybe event-type)
-  (not (and (eq? 'SDL_MOUSEMOTION event-type)
-            (even? (car (gettimeofday))))))
-(SDL:set-event-filter ignore-maybe #f)
+;; set the event filter: rat (non)* grata
+(define rat-grata!
+  (let ((idx 0)
+        (all (vector
+              (cons
+               #x00ff00                 ; green
+               #f)
+              (cons
+               #xffff00                 ; yellow
+               (lambda (type)
+                 (not (and (eq? 'SDL_MOUSEMOTION type)
+                           (even? (car (gettimeofday)))))))
+              (cons
+               #xff0000                 ; red
+               (lambda (type)
+                 (not (eq? 'SDL_MOUSEMOTION type)))))))
+    ;; rat-grata!
+    (lambda ()
+      (set! idx (modulo (1+ idx) 3))
+      (let-values (((color proc) (car+cdr (vector-ref all idx))))
+        (set! relrect-bg color)
+        (SDL:set-event-filter proc #f)))))
+
+(rat-grata!)
 (info "get-event-filter => ~S" (SDL:get-event-filter))
 
 ;; mod and mouse state
@@ -308,13 +328,7 @@
            (and (eq? sym 'SDLK_SPACE)
                 (eq? event-type 'SDL_KEYUP)
                 (begin
-                  (set! relrect-bg
-                        (cond ((SDL:get-event-filter)
-                               (SDL:set-event-filter #f #f)
-                               #x00ff00)
-                              (else
-                               (SDL:set-event-filter ignore-maybe #f)
-                               #xff0000)))
+                  (rat-grata!)
                   (draw-relative-rectangle! 0 0)))
            (if (eq? sym 'SDLK_ESCAPE)
                #f
@@ -398,7 +412,7 @@
 
 ;; display an explanatory message
 ((display-centered-w/height-proc (- (SDL:rect:h test-rect) height 5))
- "(Press Escape to Quit, Space to Toggle Filter)")
+ "(Press ESC to Quit, SPC to Cycle Filter)")
 
 ;; enable keyboard repeat
 (SDL:enable-key-repeat 250 6)
