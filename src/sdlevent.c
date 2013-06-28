@@ -976,6 +976,9 @@ PRIMPROC
 (get_mouse_state, "get-mouse-state", 0, 1, 0,
  (SCM symbolic),
  doc: /***********
+NB: This procedure is obsoleted by @code{mouse-bxy}
+and @strong{will be removed} after 2013-12-31.
+
 Return the current state of the mouse as an alist with
 symbolic keys: @code{state}, @code{x} and @code{y}.
 Normally, all values are integers.
@@ -998,6 +1001,9 @@ PRIMPROC
 (get_relative_mouse_state, "get-mouse-relative-state", 0, 1, 0,
  (SCM symbolic),
  doc: /***********
+NB: This procedure is obsoleted by @code{mouse-bxy}
+and @strong{will be removed} after 2013-12-31.
+
 Return the current relative state of the mouse as an alist
 with symbolic keys: @code{state}, @code{x} and @code{y}.
 Optional arg @var{symbolic} has the same effect as
