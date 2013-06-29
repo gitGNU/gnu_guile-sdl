@@ -18,7 +18,7 @@
 ## Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ## Boston, MA  02110-1301  USA
 
-SUBDIRS = SDL_gfx
+SUBDIRS = SDL_gfx k
 
 AM_CPPFLAGS = $(SDL_CFLAGS)
 AM_CFLAGS = $(NORMAL_CFLAGS)
@@ -28,14 +28,16 @@ cmoddir = $(GUILE_LIBSITE)/sdl
 WRAPPER_SOURCES = sdl.c sdlvideo.c sdlsurface.c sdlcdrom.c       \
                   sdlrect.c sdlcolor.c sdljoystick.c sdlevent.c  \
                   sdlenums.c misc.c
-FLAGSTASH       = init.c kmod.c video.c palette.c overlay.c evmask.c \
-                  mb.c appstate.c jhpos.c
 headers         = guile-sdl.h b-uv.h b-values.h
 scheme          = misc-utils.scm simple.scm
 
 modflags        = -avoid-version -export-dynamic -module
 
-BUILT_SOURCES   = $(FLAGSTASH) $(WRAPPER_SOURCES:.c=.x) sdlgfx.x
+BUILT_SOURCES   = k-stamp $(WRAPPER_SOURCES:.c=.x) sdlgfx.x
+
+k-stamp: k
+	cd k && $(MAKE)
+	ls -l k/*c > $@
 
 cmod_DATA = $(scheme)
 noinst_DATA =
@@ -69,7 +71,7 @@ else
 cmod_LTLIBRARIES = sdl.la gfx.la
 endif
 
-EXTRA_DIST = $(FLAGSTASH:.c=.fs) $(scheme)
+EXTRA_DIST = $(scheme)
 EXTRA_DIST += snuggle
 
 sdlimpl = $(WRAPPER_SOURCES)
@@ -81,7 +83,7 @@ gfx_la_LDFLAGS  = $(modflags)
 gfx_la_LIBADD   = SDL_gfx/libSDL_gfx.la \
                   SDL_gfx/libimfi.la
 
-SUFFIXES = .c .fs
+SUFFIXES = .c
 
 gx		= $(top_srcdir)/build-aux/guile-baux/gbaux-do
 snarfcppopts	= $(DEFS) $(DEFAULT_INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS)
@@ -111,9 +113,6 @@ EXTRA_DIST += sdl.tsar
 endif # MAINTAINER_MODE
 
 DISTCLEANFILES = *.x
-
-.fs.c:
-	$(gx) fs2c -o $@ $<
 
 bx = $(top_srcdir)/build-aux
 if LAME
@@ -184,8 +183,7 @@ endif # HAVE_MIXER
 
 if HAVE_TTF
 
-EXTRA_DIST       += ttf.c
-BUILT_SOURCES    += ttf.c sdlttf.x
+BUILT_SOURCES    += sdlttf.x
 if LAME
 cmod_DATA += ttf
 pkglib_LTLIBRARIES += ttf.la

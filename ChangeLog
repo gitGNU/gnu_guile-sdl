@@ -1,3 +1,9 @@
+2013-06-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build int] Move *.fs to k/*.kf.
+
+	* configure.ac (AC_CONFIG_FILES): Add src/k/Makefile.
+
 2013-06-22  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[boot] Use Guile-BAUX for SNUGGLE files.

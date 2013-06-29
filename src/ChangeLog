@@ -1,3 +1,33 @@
+2013-06-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build int] Move *.fs to k/*.kf.
+
+	* k: New directory.
+	* k/appstate.kf: Move here from appstate.fs.
+	* k/evmask.kf: Move here from evmask.fs.
+	* k/init.kf: Move here from init.fs.
+	* k/jhpos.kf: Move here from jhpos.fs.
+	* k/kmod.kf: Move here from kmod.fs.
+	* k/mb.kf: Move here from mb.fs.
+	* k/overlay.kf: Move here from overlay.fs.
+	* k/palette.kf: Move here from palette.fs.
+	* k/ttf.kf: Move here from ttf.fs.
+	* k/video.kf: Move here from video.fs.
+	* k/Makefile.am: New file.
+	* Makefile.am (SUBDIRS): Add k.
+	(FLAGSTASH): Delete var.
+	(BUILT_SOURCES): Remove $(FLAGSTASH); add k-stamp.
+	(k-stamp): New target.
+	(EXTRA_DIST): Remove $(FLAGSTASH:.c=.fs).
+	(SUFFIXES): Remove .fs.
+	(.fs.c): Delete old-style suffix rule.
+	(EXTRA_DIST) [HAVE_TTF]: Remove ttf.c.
+	(BUILT_SOURCES) [HAVE_TTF]: Remove ttf.c.
+	* sdl.c: Update #include:s to use "k/FOO" instead of "FOO".
+	* sdlevent.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+
 2013-06-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Add "obsoleted" blurb for get-mouse{,-relative}-state.

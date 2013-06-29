@@ -1343,9 +1343,9 @@ of grab, one of @code{query} (the default),
 
 
 
-#include "video.c"
-#include "palette.c"
-#include "overlay.c"
+#include "k/video.c"
+#include "k/palette.c"
+#include "k/overlay.c"
 
 void
 gsdl_init_video (void)

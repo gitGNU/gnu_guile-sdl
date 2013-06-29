@@ -1,7 +1,7 @@
 #!/bin/sh
-exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
+exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
 !#
-;;; fs2c --- translate flagstash spec to C code
+;;; k2c --- translate konstant (flocking or peerless) spec to C code
 
 ;; Copyright (C) 2003, 2004, 2005, 2007, 2008, 2011, 2013 Thien-Thi Nguyen
 ;;
@@ -22,7 +22,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 
 ;;; Commentary:
 
-;; Usage: fs2c [OPTIONS] FS-SPEC
+;; Usage: k2c [OPTIONS] FS-SPEC
 ;;
 ;; Write C fragment to stdout derived from the flags scanned from the
 ;; header as specified in file FS-SPEC.  OPTIONS are zero or more of:
@@ -35,7 +35,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 ;; string PRETTY, used in the external representation of the flagstash
 ;; object like so: "SDL PRETTY flags".  PRETTY may also be ‘NULL’ if
 ;; the object is not exposed to Scheme.  The rest of the forms are
-;; alternating keywords and values.  These configure how fs2c scans
+;; alternating keywords and values.  These configure how k2c scans
 ;; for entries.  Entries are extracted by regular expression matching
 ;; of lines (or a region) in a file.
 ;;
@@ -93,7 +93,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
 
 ;;; Code:
 
-(define-module (guile-baux fs2c)
+(define-module (guile-baux k2c)
   #:export (main)
   #:use-module ((guile-baux common) #:select (fs fse die check-hv qop<-args))
   #:use-module ((guile-baux forms-from) #:select (forms<-file
@@ -236,7 +236,7 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
     (delete-file exe)
     rv))
 
-(define (fs2c/qop qop)
+(define (k2c/qop qop)
   (let* ((specfile (if (null? (qop '()))
                        (die #f "missing input file")
                        (car (qop '()))))
@@ -298,8 +298,8 @@ exec ${GUILE-guile} -e '(guile-baux fs2c)' -s $0 "$@" # -*-scheme -*-
                    ;; Guile 1.4.x, but significantly stripped
                    ;; down and specialized for Guile-SDL.
                    (help . commentary)))
-  (fs2c/qop
+  (k2c/qop
    (qop<-args args '((output  (single-char #\o) (value #t))
                      (include (single-char #\I) (value #t))))))
 
-;;; fs2c ends here
+;;; k2c ends here

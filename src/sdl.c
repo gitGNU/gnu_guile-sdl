@@ -185,7 +185,7 @@ Internal procedure; do not use.  */)
 #undef FUNC_NAME
 }
 
-#include "init.c"
+#include "k/init.c"
 
 static
 void

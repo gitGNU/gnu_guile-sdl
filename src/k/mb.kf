@@ -1,4 +1,4 @@
-;;; mb.fs --- mouse buttons                           -*- scheme -*-
+;;; mb.kf --- mouse buttons                           -*- scheme -*-
 
 ;; Copyright (C) 2013 Thien-Thi Nguyen
 ;;
@@ -23,4 +23,4 @@ mb NULL
 #:kxform (11 downcase ("^wheel" 0 "-"))
 #:v2mask "SDL_BUTTON (~A)"
 
-;;; mb.fs ends here
+;;; mb.kf ends here

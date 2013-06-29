@@ -1,4 +1,4 @@
-;;; evmask.fs --- event mask flags                      -*- scheme -*-
+;;; video.kf --- video flags                            -*- scheme -*-
 
 ;; Copyright (C) 2005, 2011 Thien-Thi Nguyen
 ;;
@@ -17,10 +17,10 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-evmask "event-mask"
-#:infile "SDL/SDL_events.h"
-#:region ("define SDL_EVENTMASK"
-          "define SDL_ALLEVENTS")
-#:symrgx (ws ("SDL_[A-Z]+") =)
+vid "video"
+#:infile "SDL/SDL_video.h"
+#:region ("currently supported flags for the SDL_surface"
+          "define SDL_MUSTLOCK")
+#:symrgx (#t "SDL_[A-Z]+")
 
-;;; evmask.fs ends here
+;;; video.kf ends here

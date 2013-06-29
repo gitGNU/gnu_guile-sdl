@@ -511,7 +511,7 @@ Quit the SDL_ttf subsystem.  */)
 
 /* Initialize the ttf subsystem.  */
 
-#include "ttf.c"
+#include "k/ttf.c"
 
 static
 void

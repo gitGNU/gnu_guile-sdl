@@ -1,4 +1,4 @@
-;;; overlay.fs --- overlay flags                        -*- scheme -*-
+;;; palette.kf --- palette flags                        -*- scheme -*-
 
 ;; Copyright (C) 2005, 2011 Thien-Thi Nguyen
 ;;
@@ -17,8 +17,8 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-ov "overlay"
+pal "palette"
 #:infile "SDL/SDL_video.h"
-#:symrgx (#t "SDL_[A-Z0-9]+_OVERLAY")
+#:symrgx (#t "SDL_[A-Z]+PAL")
 
-;;; overlay.fs ends here
+;;; palette.kf ends here

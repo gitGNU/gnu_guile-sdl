@@ -1,3 +1,9 @@
+2013-06-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build int] Move *.fs to k/*.kf.
+
+	* k2c: Rename from fs2c.
+
 2013-06-20  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Use Pascal string pool for flagstash init.

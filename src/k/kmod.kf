@@ -1,6 +1,6 @@
-;;; palette.fs --- palette flags                        -*- scheme -*-
+;;; kmod.kf --- keyboard modifier flags                 -*- scheme -*-
 
-;; Copyright (C) 2005, 2011 Thien-Thi Nguyen
+;; Copyright (C) 2005, 2011, 2013 Thien-Thi Nguyen
 ;;
 ;; This is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -17,8 +17,10 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-pal "palette"
-#:infile "SDL/SDL_video.h"
-#:symrgx (#t "SDL_[A-Z]+PAL")
+kmod "keyboard-modifier"
+#:infile "SDL/SDL_keysym.h"
+#:region ("KMOD_NONE"                   ; these happen to be
+          "KMOD_RESERVED")              ;   nonsensical as well
+#:symrgx (ws? ("KMOD_[A-Z]+") = x)
 
-;;; palette.fs ends here
+;;; kmod.kf ends here

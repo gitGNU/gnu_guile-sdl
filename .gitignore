@@ -43,27 +43,20 @@ Makefile.in
 
 /src/*.exports
 /src/*.tsar
-/src/appstate.c
 /src/config.h
 /src/config.h.in
-/src/evmask.c
 /src/gfx
 /src/group-stamp
-/src/init.c
-/src/jhpos.c
-/src/kmod.c
-/src/mb.c
+/src/k-stamp
 /src/mixer
 /src/modsup.h
-/src/overlay.c
-/src/palette.c
 /src/sdl
 /src/stamp-h1
 /src/ttf
-/src/ttf.c
-/src/video.c
 
 /src/snuggle
+
+/src/k/*.c
 
 /test/.simu
 /test/t99.list

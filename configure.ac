@@ -129,6 +129,7 @@ AC_CONFIG_FILES([
   Makefile
   src/Makefile
   src/SDL_gfx/Makefile
+  src/k/Makefile
   doc/Makefile
   test/Makefile
   test/zow

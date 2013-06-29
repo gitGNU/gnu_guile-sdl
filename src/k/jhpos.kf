@@ -1,6 +1,6 @@
-;;; kmod.fs --- keyboard modifier flags                 -*- scheme -*-
+;;; jhpos.kf --- joystick hat positions                  -*- scheme -*-
 
-;; Copyright (C) 2005, 2011, 2013 Thien-Thi Nguyen
+;; Copyright (C) 2013 Thien-Thi Nguyen
 ;;
 ;; This is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -17,10 +17,9 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-kmod "keyboard-modifier"
-#:infile "SDL/SDL_keysym.h"
-#:region ("KMOD_NONE"                   ; these happen to be
-          "KMOD_RESERVED")              ;   nonsensical as well
-#:symrgx (ws? ("KMOD_[A-Z]+") = x)
+jhpos NULL
+#:infile "SDL/SDL_joystick.h"
+#:symrgx (def ws ("SDL_HAT_[A-Z]+") ws "0x")
+#:kxform (8 downcase)
 
-;;; kmod.fs ends here
+;;; jhpos.kf ends here

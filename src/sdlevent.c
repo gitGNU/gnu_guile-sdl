@@ -1095,11 +1095,11 @@ The list may include: `mousefocus', `inputfocus', `active'.  */)
 }
 
 
-#include "mb.c"
-#include "kmod.c"
-#include "jhpos.c"
-#include "evmask.c"
-#include "appstate.c"
+#include "k/mb.c"
+#include "k/kmod.c"
+#include "k/jhpos.c"
+#include "k/evmask.c"
+#include "k/appstate.c"
 
 /* Initialize glue.  */
 void

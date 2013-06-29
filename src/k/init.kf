@@ -1,4 +1,4 @@
-;;; ttf.fs --- ttf flags                                -*- scheme -*-
+;;; init.kf --- init flags                              -*- scheme -*-
 
 ;; Copyright (C) 2005, 2011 Thien-Thi Nguyen
 ;;
@@ -17,8 +17,8 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-ttf "font-style"
-#:infile "SDL/SDL_ttf.h"
-#:symrgx (#t "TTF_STYLE_[A-Z]+")
+init "init"
+#:infile "SDL/SDL.h"
+#:symrgx (#t "SDL_INIT_[A-Z]+")
 
-;;; ttf.fs ends here
+;;; init.kf ends here
