@@ -22,15 +22,15 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
 
 ;;; Commentary:
 
-;; Usage: k2c [OPTIONS] FS-SPEC
+;; Usage: k2c [OPTIONS] KSPEC
 ;;
-;; Write C fragment to stdout derived from the flags scanned from the
-;; header as specified in file FS-SPEC.  OPTIONS are zero or more of:
+;; Write C fragment to stdout derived from the constants scanned from
+;; the header as specified in file KSPEC.  OPTIONS are zero or more of:
 ;;
 ;;  -o, --output FILE    -- write to FILE instead of stdout
 ;;  -I, --include DIR    -- look in DIR instead of /usr/include
 ;;
-;; The FS-SPEC file contents are Scheme forms in the following format:
+;; The KSPEC file contents are Scheme forms in the following format:
 ;; First is the symbol NICK, used to form C identifiers.  Next is the
 ;; string PRETTY, used in the external representation of the symbol
 ;; set object: "SDL PRETTY symbols".  The rest of the forms are
@@ -100,6 +100,7 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
   #:use-module ((guile-baux temporary-file) #:select (unique-i/o-file-port))
   #:use-module ((guile-baux pascal-pool) #:select (pascal-pool))
   #:use-module ((srfi srfi-13) #:select (string-join
+                                         string-take-right
                                          string-drop-right
                                          string-concatenate))
   #:use-module ((ice-9 rdelim) #:select (read-line))
@@ -219,7 +220,7 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
      "}")
    "\n" 'suffix))
 
-(define (sorted who header found qspec)
+(define (sorted type who header found qspec)
   (let* ((p (unique-i/o-file-port (fs "./~A.vals-" (basename who))))
          (exe (port-filename p))
          (rv #f))
@@ -227,10 +228,13 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
     (let ((p (open-output-pipe (fs "gcc -o ~A -x c -pipe -" exe))))
       (display (C-program header found qspec) p)
       (close-pipe p))
-    (let ((p (open-input-pipe exe)))
+    (let ((p (open-input-pipe exe))
+          (more (case type
+                  ((flocking) >)
+                  ((peerless) <))))
       (set! rv (sort (forms<-port p)
                      (lambda (a b)
-                       (> (car a) (car b)))))
+                       (more (car a) (car b)))))
       (close-pipe p))
     (delete-file exe)
     rv))
@@ -239,6 +243,10 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
   (let* ((specfile (if (null? (qop '()))
                        (die #f "missing input file")
                        (car (qop '()))))
+         (type (case (string->symbol (string-take-right specfile 3))
+                 ((.kf) 'flocking)
+                 ((.kp) 'peerless)
+                 (else (die #f "unrecognized extension: ~A" specfile))))
          (partial (forms<-file specfile))
          (nick (car partial))
          (pretty (cadr partial))
@@ -268,9 +276,12 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
            (found (scan-file header
                              (qspec #:symrgx)
                              (qspec #:region)))
-           (linear (sorted specfile header found qspec))
+           (linear (sorted type specfile header found qspec))
            (len (length linear)))
-      (spew (fs "static unsigned long ~A_values[~A] = {~%  ~A~%};~%~%"
+      (spew (fs "static ~Along ~A_values[~A] = {~%  ~A~%};~%~%"
+                (case type
+                  ((flocking) "unsigned ")
+                  ((peerless) ""))
                 nick len
                 (string-join (map (lambda (n)
                                     (fs "0x~A" (number->string n 16)))
@@ -282,7 +293,11 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
                          'numeric))
       (spew "\n")
       (spew (join '("\n" . suffix)
-                  (fs "static flagstash_t ~A_flagstash = {" nick)
+                  (fs "static ~A = {"
+                      (fs (case type
+                            ((flocking) "flagstash_t ~A_flagstash")
+                            ((peerless) "enum_struct ~A_kp"))
+                          nick))
                   (join ",\n  "
                         (fs "  .ss = { ~A }"
                             (join ", "

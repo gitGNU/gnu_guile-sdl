@@ -1,5 +1,16 @@
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Bifurcate k2c on flocking/peerless "type".
+
+	* k2c: Import SRFI 13 ‘string-take-right’.
+	(sorted): Take arg TYPE; sort ascending
+	for ‘peerless’, descending for ‘flocking’.
+	(k2c/qop): Determine ‘type’ based on filename extension;
+	die if unrecognized; update call to ‘sorted’; bifurcate on
+	‘type’ for C type of ‘values’ and last structure init form.
+
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add abstraction: struct symset
 
 	* k2c (k2c/qop): Update ‘flagstash_t’ generation.
