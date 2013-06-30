@@ -27,9 +27,14 @@
 /* enum/flag types */
 
 static SCM active_enum;
-static valaka_t active_eback[] = {
-  VAL_AND_AKA (1, "gained"),
-  VAL_AND_AKA (0, "lost")
+static long active_values[2] = { 0, 1 };
+static const uint8_t active_names[] = {
+  /* lost */ 4,108,111,115,116,
+  /* gained */ 6,103,97,105,110,101,100
+};
+static enum_struct active_kp = {
+  .ss = { .count = 2, .pool = active_names, .name = "activity-change" },
+  .val = active_values
 };
 
 static SCM updn_enum;
@@ -1130,7 +1135,7 @@ gsdl_init_event (void)
   event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);
   mb_enum = DEFINE_ENUM (NULL, mb_eback);
   updn_enum = DEFINE_ENUM (NULL, updn_eback);
-  active_enum = DEFINE_ENUM (NULL, active_eback);
+  active_enum = btw->register_kp (&active_kp, false);
   appstate_flags = MAKE_FLAGSTASH (appstate);
 
   btw->event_state_enum = event_state_enum;

@@ -1,5 +1,13 @@
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use ‘register_kp’ for "activity changes".
+
+	* sdlevent.c (active_eback): Delete data structure.
+	(active_values, active_names, active_kp): New static data structures.
+	(gsdl_init_event): Use ‘register_kp’ w/ new data structures.
+
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add .val and .linear to ‘enum_struct’; bifurcate.
 
 	* guile-sdl.h (enum_struct): Add members ‘val’, ‘linear’.
