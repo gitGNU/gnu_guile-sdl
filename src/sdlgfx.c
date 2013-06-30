@@ -654,11 +654,15 @@ draw string @var{text} with @var{color} (a number).  */)
 
 
 static SCM frot_enum;
-static valaka_t frot_eback[] = {
-  { 0, { "none" } },
-  { 1, { "clockwise" } },
-  { 2, { "upside-down" } },
-  { 3, { "counter-clockwise" } }
+static const long frot_values[4] = { 0, 1, 2, 3 };
+static const uint8_t frot_names[] = {
+  /* none */ 4,110,111,110,101,
+  /* clockwise */ 9,99,108,111,99,107,119,105,115,101,
+  /* upside-down */ 11,117,112,115,105,100,101,45,100,111,119,110,
+  /* counter-clockwise */ 17,99,111,117,110,116,101,114,45,99,108,111,99,107,119,105,115,101
+};
+static enum_struct frot_kp = {
+  .ss = { .count = 4, .pool = frot_names, .name = "font-rotation" }
 };
 
 PRIMPROC
@@ -1496,7 +1500,7 @@ init_module (void)
   btw = UNPACK_POINTER (CALL0 (obtw));
 
   /* enums */
-  frot_enum = DEFINE_ENUM ("font-rotations", frot_eback);
+  frot_enum = btw->register_kp (&frot_kp, frot_values, true);
 }
 
 MOD_INIT_LINK_THUNK ("sdl gfx", sdl_gfx, init_module)

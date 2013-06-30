@@ -1,5 +1,13 @@
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use ‘register_kp’ for ‘font-rotations’.
+
+	* sdlgfx.c (frot_eback): Delete data structure.
+	(frot_values, frot_names, frot_kp): New static data structures.
+	(init_module): Use ‘register_kp’ w/ new data structures.
+
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add ‘register_kp’.
 
 	* guile-sdl.h: #include <stdbool.h>.
