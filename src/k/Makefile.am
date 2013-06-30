@@ -28,7 +28,8 @@ overlay.kf					\
 palette.kf					\
 video.kf
 
-stdp =
+stdp =						\
+updn.kp
 
 BUILT_SOURCES = $(stdf:.kf=.c) $(stdp:.kp=.c)
 

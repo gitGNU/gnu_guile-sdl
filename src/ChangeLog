@@ -1,5 +1,15 @@
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Generate ‘updn’ init data; use ‘register_kp’.
+
+	* k/updn.kp: New file.
+	* k/Makefile.am (stdp): Add updn.kp.
+	* sdlevent.c: #include "k/updn.c".
+	(updn_eback): Delete data structure.
+	(gsdl_init_event): Use ‘register_kp’ w/ new data structures.
+
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use ‘register_kp’ for "activity changes".
 
 	* sdlevent.c (active_eback): Delete data structure.

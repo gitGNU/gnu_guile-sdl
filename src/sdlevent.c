@@ -38,10 +38,7 @@ static enum_struct active_kp = {
 };
 
 static SCM updn_enum;
-static valaka_t updn_eback[] = {
-  VAL_AND_AKA (SDL_RELEASED, "released"),
-  VAL_AND_AKA (SDL_PRESSED,  "pressed")
-};
+#include "k/updn.c"
 
 #define BUTTON_AKA(val,name)  VAL_AND_AKA (SDL_BUTTON_ ## val, name)
 static SCM mb_enum;
@@ -1134,7 +1131,7 @@ gsdl_init_event (void)
   /* event states */
   event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);
   mb_enum = DEFINE_ENUM (NULL, mb_eback);
-  updn_enum = DEFINE_ENUM (NULL, updn_eback);
+  updn_enum = btw->register_kp (&updn_kp, false);
   active_enum = btw->register_kp (&active_kp, false);
   appstate_flags = MAKE_FLAGSTASH (appstate);
 
