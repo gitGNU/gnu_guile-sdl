@@ -216,8 +216,7 @@ struct symset {
 typedef struct {
   SCM table;
   valaka_t *backing;
-  size_t count;
-  const char const *name;
+  struct symset ss;
 } enum_struct;
 
 typedef struct flagstash {

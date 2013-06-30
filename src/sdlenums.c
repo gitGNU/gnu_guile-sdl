@@ -48,10 +48,11 @@ int
 print_enum (SCM smob, SCM port, scm_print_state *ps)
 {
   enum_struct *stash = UNPACK_ENUM (smob);
+  const struct symset *ss = &stash->ss;
   char buf[64];
 
-  snprintf (buf, 64, "#<%zu SDL %s enums>", stash->count,
-            stash->name ? stash->name : "(anonymous)");
+  snprintf (buf, 64, "#<%zu SDL %s enums>", ss->count,
+            ss->name ? ss->name : "(anonymous)");
   scm_puts (buf, port);
   return 1;                             /* non-zero => ok */
 }
@@ -64,13 +65,13 @@ define_enum (const char *name, size_t count, valaka_t *backing)
   size_t i;
   SCM enumstash, table, sym;
   enum_struct *s;
+  const struct symset ss = { .name = name, .count = count, .pool = NULL };
   valaka_t *b;
 
   /* Create an enum struct to hold our values.  */
   s = malloc (sizeof (enum_struct));
-  s->count = count;
+  memcpy (&s->ss, &ss, sizeof ss);
   s->backing = backing;
-  s->name = name;
 
   /* Create the enum hash.  */
   table = MAKE_HASH_TABLE (count);
@@ -146,7 +147,7 @@ Return the list of symbols belonging to @var{enumstash}.  */)
 
   enum_type = UNPACK_ENUM (enumstash);
   rv = SCM_EOL;
-  for (i = 0; i < enum_type->count; i++)
+  for (i = 0; i < enum_type->ss.count; i++)
     rv = CONS (enum_type->backing[i].aka.symbol, rv);
   return rv;
 #undef FUNC_NAME

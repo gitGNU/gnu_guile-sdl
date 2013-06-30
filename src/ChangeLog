@@ -1,5 +1,13 @@
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use ‘struct symset’ in ‘enum_struct’.
+
+	* guile-sdl.h (enum_struct): Use ‘struct symset’.
+	* sdlenums.c (print_enum): Update access.
+	(define_enum, enumstash_enums): Likewise.
+
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add abstraction: struct symset
 
 	* guile-sdl.h (struct symset): New.
