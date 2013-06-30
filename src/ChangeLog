@@ -1,5 +1,19 @@
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Add .val and .linear to ‘enum_struct’; bifurcate.
+
+	* guile-sdl.h (enum_struct): Add members ‘val’, ‘linear’.
+	(register_kp_t): Remove second arg in func typedef.
+	* sdlenums.c (register_kp): Don't take 2nd arg ‘values’;
+	don't malloc for ‘kp->backing’; instead, init set it ‘NULL’;
+	malloc for ‘kp->linear’; use ‘kp->val’ in loop.
+	(enum2long): If backing is ‘NULL’, fall back to ‘val’.
+	(enumstash_enums, enum_to_number): Likewise.
+	* sdlgfx.c (frot_kp): Init ‘.val’ with ‘frot_values’ directly.
+	(init_module): Update call to ‘register_kp’.
+
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use ‘register_kp’ for ‘font-rotations’.
 
 	* sdlgfx.c (frot_eback): Delete data structure.

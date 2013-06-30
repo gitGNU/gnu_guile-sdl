@@ -60,7 +60,7 @@ print_enum (SCM smob, SCM port, scm_print_state *ps)
 
 /* Register a C enum.  */
 static SCM
-register_kp (enum_struct *kp, const long *values, bool public)
+register_kp (enum_struct *kp, bool public)
 {
   const struct symset *ss = &kp->ss;
   const uint8_t *pool = ss->pool;
@@ -68,18 +68,19 @@ register_kp (enum_struct *kp, const long *values, bool public)
   size_t i;
   SCM ht, smob;
 
-  if (! (kp->backing = malloc (count * sizeof (valaka_t))))
+  kp->backing = NULL;
+  if (! (kp->linear = malloc (count * sizeof (SCM))))
     abort ();
   ht = GC_PROTECT (MAKE_HASH_TABLE (count));
   for (i = 0; i < count; i++)
     {
+      long value = kp->val[i];
       uint8_t len = *pool++;
       SCM sym = GC_PROTECT (SYMBOLN ((char *) pool, len));
-      valaka_t va = { .value = values[i], .aka = { .symbol = sym } };
 
-      memcpy (kp->backing + i, &va, sizeof (va));
+      kp->linear[i] = sym;
       scm_hashq_set_x (ht, sym, NUM_INT (i));
-      scm_hashq_set_x (ht, NUM_LONG (values[i]), sym);
+      scm_hashq_set_x (ht, NUM_LONG (value), sym);
       GC_UNPROTECT (sym);
       pool += len;
     }
@@ -148,12 +149,18 @@ enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
 {
   long result = 0;
   enum_struct *e = UNPACK_ENUM (enumstash);
+  size_t idx;
 
   if (SCM_SYMBOLP (obj))
     {
       obj = lookup (obj, e);
       if (NOT_FALSEP (obj))
-        result = e->backing[C_INT (obj)].value;
+        {
+          idx = C_INT (obj);
+          result = e->backing
+            ? e->backing[idx].value
+            : e->val[idx];
+        }
     }
   else
     {
@@ -189,7 +196,10 @@ Return the list of symbols belonging to @var{enumstash}.  */)
   enum_type = UNPACK_ENUM (enumstash);
   rv = SCM_EOL;
   for (i = 0; i < enum_type->ss.count; i++)
-    rv = CONS (enum_type->backing[i].aka.symbol, rv);
+    rv = CONS (enum_type->backing
+               ? enum_type->backing[i].aka.symbol
+               : enum_type->linear[i],
+               rv);
   return rv;
 #undef FUNC_NAME
 }
@@ -205,6 +215,7 @@ if it does not belong to @var{enumstash}.  */)
 #define FUNC_NAME s_enum_to_number
   enum_struct *e;
   SCM idx;
+  int cidx;
 
   ASSERT_ENUM (enumstash, 1);
   ASSERT_SYMBOL (symbol, 2);
@@ -213,7 +224,10 @@ if it does not belong to @var{enumstash}.  */)
   idx = lookup (symbol, e);
   return EXACTLY_FALSEP (idx)
     ? idx
-    : NUM_INT (e->backing[C_INT (idx)].value);
+    : (cidx = C_INT (idx),
+       NUM_INT (e->backing
+                ? e->backing[cidx].value
+                : e->val[cidx]));
 #undef FUNC_NAME
 }
 

@@ -662,7 +662,8 @@ static const uint8_t frot_names[] = {
   /* counter-clockwise */ 17,99,111,117,110,116,101,114,45,99,108,111,99,107,119,105,115,101
 };
 static enum_struct frot_kp = {
-  .ss = { .count = 4, .pool = frot_names, .name = "font-rotation" }
+  .ss = { .count = 4, .pool = frot_names, .name = "font-rotation" },
+  .val = frot_values
 };
 
 PRIMPROC
@@ -1500,7 +1501,7 @@ init_module (void)
   btw = UNPACK_POINTER (CALL0 (obtw));
 
   /* enums */
-  frot_enum = btw->register_kp (&frot_kp, frot_values, true);
+  frot_enum = btw->register_kp (&frot_kp, true);
 }
 
 MOD_INIT_LINK_THUNK ("sdl gfx", sdl_gfx, init_module)

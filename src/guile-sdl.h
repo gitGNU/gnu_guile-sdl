@@ -215,6 +215,8 @@ struct symset {
 };
 
 typedef struct {
+  const long const *val;
+  SCM *linear;
   SCM table;
   valaka_t *backing;
   struct symset ss;
@@ -231,9 +233,7 @@ typedef struct flagstash {
 
 #define VAL_AND_AKA(val,rozt)  { .value = val, .aka = { rozt } }
 
-typedef SCM (register_kp_t) (enum_struct *kp,
-                             const long *values,
-                             bool public);
+typedef SCM (register_kp_t) (enum_struct *kp, bool public);
 
 typedef SCM (define_enum_t) (const char *name, size_t count,
                              valaka_t *backing);
