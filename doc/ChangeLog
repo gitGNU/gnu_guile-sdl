@@ -1,3 +1,9 @@
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Drop enumstash: gl-enums
+
+	* guile-sdl.texi (Enums and Constants): Delete @defvr for ‘gl-enums’.
+
 2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Add proc: joystick-polling

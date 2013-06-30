@@ -330,10 +330,6 @@ SDL_ALPHA_OPAQUE
 @end example
 @end defvr
 
-@defvr enumstash gl-enums
-Currently unused.
-@end defvr
-
 You can use @code{enumstash-enums} and @code{flagstash-flags} to examine the
 enums and flags encapsulated by these respectively typed objects.  You may
 also use integers where enums/flags are expected, and can convert between the

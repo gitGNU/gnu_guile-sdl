@@ -1,3 +1,9 @@
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Drop enumstash: gl-enums
+
+	* alive.test <all the enum stashes>: Drop ‘gl-enums’.
+
 2013-06-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Exercise ‘display-format-alpha’.

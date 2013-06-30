@@ -1,5 +1,13 @@
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Drop enumstash: gl-enums
+
+	* sdlvideo.c (gl_enums): Delet var.
+	(gl_eback): Delete data structure.
+	(gsdl_init_video): Don't init ‘gl_enums’.
+
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Generate ‘mbut’ init data; use ‘register_kp’.
 
 	* k/mbut.kp: New file.

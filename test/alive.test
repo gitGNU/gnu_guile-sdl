@@ -25,8 +25,7 @@
             SDL:event-types
             SDL:event-keys
             SDL:event-states
-            SDL:alpha-enums
-            SDL:gl-enums)))
+            SDL:alpha-enums)))
   (info "all: ~S" all)
   (for-each (lambda (stash)
               (let* ((symbols (SDL:enumstash-enums stash))

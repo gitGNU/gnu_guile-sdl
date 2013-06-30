@@ -60,22 +60,6 @@ DEFINE_STRUCT_AND_COPY_FUNC (u16, Uint16)
   (SCM_SMOB_PREDICATE (rect_tag, x))
 
 
-static SCM gl_enums;
-static valaka_t gl_eback[] = {
-  VALAKA (SDL_GL_RED_SIZE),
-  VALAKA (SDL_GL_GREEN_SIZE),
-  VALAKA (SDL_GL_BLUE_SIZE),
-  VALAKA (SDL_GL_ALPHA_SIZE),
-  VALAKA (SDL_GL_BUFFER_SIZE),
-  VALAKA (SDL_GL_DOUBLEBUFFER),
-  VALAKA (SDL_GL_DEPTH_SIZE),
-  VALAKA (SDL_GL_STENCIL_SIZE),
-  VALAKA (SDL_GL_ACCUM_RED_SIZE),
-  VALAKA (SDL_GL_ACCUM_GREEN_SIZE),
-  VALAKA (SDL_GL_ACCUM_BLUE_SIZE),
-  VALAKA (SDL_GL_ACCUM_ALPHA_SIZE)
-};
-
 static SCM palette_flags;
 static SCM gsdl_overlay_formats;
 
@@ -1373,9 +1357,6 @@ gsdl_init_video (void)
 
   /* yuv overlay formats */
   gsdl_overlay_formats = MAKE_FLAGSTASH (ov);
-
-  /* GL constants */
-  gl_enums = DEFINE_ENUM ("gl-enums", gl_eback);
 
 #include "sdlvideo.x"
 }
