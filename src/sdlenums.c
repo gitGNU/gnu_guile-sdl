@@ -218,8 +218,7 @@ print_flagstash (SCM smob, SCM port, scm_print_state *ps)
   flagstash_t *stash = UNPACK_FLAGSTASH (smob);
   char buf[64];
 
-  snprintf (buf, 64, "#<%zu SDL %s flags>", stash->total,
-            stash->name ? stash->name : "(anonymous)");
+  snprintf (buf, 64, "#<%zu SDL %s flags>", stash->total, stash->name);
   scm_puts (buf, port);
   return 1;                             /* non-zero => ok */
 }

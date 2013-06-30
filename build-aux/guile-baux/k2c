@@ -32,9 +32,8 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
 ;;
 ;; The FS-SPEC file contents are Scheme forms in the following format:
 ;; First is the symbol NICK, used to form C identifiers.  Next is the
-;; string PRETTY, used in the external representation of the flagstash
-;; object like so: "SDL PRETTY flags".  PRETTY may also be ‘NULL’ if
-;; the object is not exposed to Scheme.  The rest of the forms are
+;; string PRETTY, used in the external representation of the symbol
+;; set object: "SDL PRETTY symbols".  The rest of the forms are
 ;; alternating keywords and values.  These configure how k2c scans
 ;; for entries.  Entries are extracted by regular expression matching
 ;; of lines (or a region) in a file.
@@ -262,6 +261,8 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
       (display s op)
       (force-output op))
 
+    (or (string? pretty)
+        (error "PRETTY not a string:" pretty))
     (let* ((header (in-vicinity (or (qop 'include) "/usr/include")
                                 (qspec #:infile)))
            (found (scan-file header

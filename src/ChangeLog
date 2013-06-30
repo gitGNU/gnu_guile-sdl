@@ -1,5 +1,14 @@
 2013-06-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Require flagstash PRETTY to be a string.
+
+	* k/appstate.kf: Set PRETTY.
+	* k/jhpos.kf: Likewise.
+	* k/mb.kf: Likewise.
+	* sdlenums.c (print_flagstash): Drop "(anonymous)" support.
+
+2013-06-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Move *.fs to k/*.kf.
 
 	* k: New directory.

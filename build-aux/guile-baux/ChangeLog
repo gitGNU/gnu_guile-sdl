@@ -1,5 +1,11 @@
 2013-06-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Require flagstash PRETTY to be a string.
+
+	* k2c (k2c/qop): If PRETTY is not a string, error out.
+
+2013-06-29  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Move *.fs to k/*.kf.
 
 	* k2c: Rename from fs2c.

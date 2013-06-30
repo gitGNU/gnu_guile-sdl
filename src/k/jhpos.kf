@@ -17,7 +17,7 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-jhpos NULL
+jhpos "joystick-hat-position"
 #:infile "SDL/SDL_joystick.h"
 #:symrgx (def ws ("SDL_HAT_[A-Z]+") ws "0x")
 #:kxform (8 downcase)
