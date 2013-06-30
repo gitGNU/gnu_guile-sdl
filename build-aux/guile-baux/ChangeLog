@@ -1,3 +1,9 @@
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Add abstraction: struct symset
+
+	* k2c (k2c/qop): Update ‘flagstash_t’ generation.
+
 2013-06-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build int] Require flagstash PRETTY to be a string.

@@ -207,6 +207,12 @@ typedef struct {
   aka_t aka;
 } valaka_t;
 
+struct symset {
+  const size_t      count;
+  const char const *name;
+  const uint8_t    *pool;
+};
+
 typedef struct {
   SCM table;
   valaka_t *backing;
@@ -215,12 +221,10 @@ typedef struct {
 } enum_struct;
 
 typedef struct flagstash {
-  const char const *name;
-  const size_t total;
   const unsigned long const *val;
-  const uint8_t *pool;
   SCM *linear;
   SCM ht;
+  struct symset ss;
 } flagstash_t;
 
 #define VALAKA(x)  { x, { #x } }

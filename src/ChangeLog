@@ -1,3 +1,12 @@
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Add abstraction: struct symset
+
+	* guile-sdl.h (struct symset): New.
+	(flagstash_t): Use ‘struct symset’.
+	* sdlenums.c (print_flagstash): Update access.
+	(make_flagstash, ulong2flags, flagstash_flags): Likewise.
+
 2013-06-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build int] Require flagstash PRETTY to be a string.

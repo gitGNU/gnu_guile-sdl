@@ -216,9 +216,10 @@ int
 print_flagstash (SCM smob, SCM port, scm_print_state *ps)
 {
   flagstash_t *stash = UNPACK_FLAGSTASH (smob);
+  const struct symset *ss = &stash->ss;
   char buf[64];
 
-  snprintf (buf, 64, "#<%zu SDL %s flags>", stash->total, stash->name);
+  snprintf (buf, 64, "#<%zu SDL %s flags>", ss->count, ss->name);
   scm_puts (buf, port);
   return 1;                             /* non-zero => ok */
 }
@@ -226,15 +227,17 @@ print_flagstash (SCM smob, SCM port, scm_print_state *ps)
 static SCM
 make_flagstash (flagstash_t *stash)
 {
-  const uint8_t *pool = stash->pool;
+  const struct symset *ss = &stash->ss;
+  const uint8_t *pool = ss->pool;
+  size_t count = ss->count;
   size_t i;
   SCM ht, smob;
 
-  if (! (stash->linear = malloc (stash->total * sizeof (SCM))))
+  if (! (stash->linear = malloc (count * sizeof (SCM))))
     abort ();
 
-  ht = GC_PROTECT (MAKE_HASH_TABLE (stash->total));
-  for (i = 0; i < stash->total; i++)
+  ht = GC_PROTECT (MAKE_HASH_TABLE (count));
+  for (i = 0; i < count; i++)
     {
       uint8_t len = *pool;
       SCM *sym = stash->linear + i;
@@ -294,6 +297,7 @@ static SCM
 ulong2flags (unsigned long value, SCM stash)
 {
   flagstash_t *s = UNPACK_FLAGSTASH (stash);
+  size_t count = s->ss.count;
   int i;
   SCM rv = SCM_EOL;
 
@@ -302,10 +306,10 @@ ulong2flags (unsigned long value, SCM stash)
      don't bother looking for it and, more importantly, avoid producing
      a nonsensical "remainder 0" result.  */
   if (! value
-      && s->val[s->total - 1])
+      && s->val[count - 1])
     return rv;
 
-  for (i = 0; i < s->total; i++)
+  for (i = 0; i < count; i++)
     {
       unsigned long cur = s->val[i];
 
@@ -337,12 +341,14 @@ a flagstash object, in unspecified order.  */)
 #define FUNC_NAME s_flagstash_flags
   int i;
   flagstash_t *cstash;
+  size_t count;
   SCM rv = SCM_EOL;
 
   ASSERT_FLAGSTASH (stash, 1);
   cstash = UNPACK_FLAGSTASH (stash);
+  count = cstash->ss.count;
 
-  for (i = 0; i < cstash->total; i++)
+  for (i = 0; i < count; i++)
     rv = CONS (cstash->linear[i], rv);
   return rv;
 #undef FUNC_NAME
