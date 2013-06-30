@@ -40,18 +40,8 @@ static enum_struct active_kp = {
 static SCM updn_enum;
 #include "k/updn.c"
 
-#define BUTTON_AKA(val,name)  VAL_AND_AKA (SDL_BUTTON_ ## val, name)
 static SCM mbut_enum;
-static valaka_t mbut_eback[] = {
-  BUTTON_AKA (X2,        "x2"),
-  BUTTON_AKA (X1,        "x1"),
-  BUTTON_AKA (WHEELDOWN, "wheel-down"),
-  BUTTON_AKA (WHEELUP,   "wheel-up"),
-  BUTTON_AKA (RIGHT,     "right"),
-  BUTTON_AKA (MIDDLE,    "middle"),
-  BUTTON_AKA (LEFT,      "left")
-};
-#undef BUTTON_AKA
+#include "k/mbut.c"
 
 static SCM event_type_enum;
 static valaka_t event_type_eback[] = {
@@ -1130,7 +1120,7 @@ gsdl_init_event (void)
 
   /* event states */
   event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);
-  mbut_enum = DEFINE_ENUM (NULL, mbut_eback);
+  mbut_enum = btw->register_kp (&mbut_kp, false);
   updn_enum = btw->register_kp (&updn_kp, false);
   active_enum = btw->register_kp (&active_kp, false);
   appstate_flags = MAKE_FLAGSTASH (appstate);

@@ -29,6 +29,7 @@ palette.kf					\
 video.kf
 
 stdp =						\
+mbut.kp						\
 updn.kp
 
 BUILT_SOURCES = $(stdf:.kf=.c) $(stdp:.kp=.c)
