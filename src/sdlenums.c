@@ -60,6 +60,47 @@ print_enum (SCM smob, SCM port, scm_print_state *ps)
 
 /* Register a C enum.  */
 static SCM
+register_kp (enum_struct *kp, const long *values, bool public)
+{
+  const struct symset *ss = &kp->ss;
+  const uint8_t *pool = ss->pool;
+  size_t count = ss->count;
+  size_t i;
+  SCM ht, smob;
+
+  if (! (kp->backing = malloc (count * sizeof (valaka_t))))
+    abort ();
+  ht = GC_PROTECT (MAKE_HASH_TABLE (count));
+  for (i = 0; i < count; i++)
+    {
+      uint8_t len = *pool++;
+      SCM sym = GC_PROTECT (SYMBOLN ((char *) pool, len));
+      valaka_t va = { .value = values[i], .aka = { .symbol = sym } };
+
+      memcpy (kp->backing + i, &va, sizeof (va));
+      scm_hashq_set_x (ht, sym, NUM_INT (i));
+      scm_hashq_set_x (ht, NUM_LONG (values[i]), sym);
+      GC_UNPROTECT (sym);
+      pool += len;
+    }
+  kp->table = ht;
+  SCM_NEWSMOB (smob, enum_tag, kp);
+  GC_UNPROTECT (ht);
+
+  if (public)
+    {
+      char buf[64];
+
+      snprintf (buf, 64, "%ss", ss->name);
+      DEFINE_PUBLIC (buf, smob);
+    }
+  else
+    smob = PERMANENT (smob);
+
+  return smob;
+}
+
+static SCM
 define_enum (const char *name, size_t count, valaka_t *backing)
 {
   size_t i;
@@ -393,6 +434,7 @@ gsdl_init_enums (void)
   btw->make_flagstash = make_flagstash;
   btw->flags2ulong = flags2ulong;
   btw->ulong2flags = ulong2flags;
+  btw->register_kp = register_kp;
   btw->define_enum = define_enum;
   btw->enum2long = enum2long;
   btw->long2enum = long2enum;

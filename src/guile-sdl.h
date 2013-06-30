@@ -36,6 +36,7 @@
    Let's see how long this insufferable anti-portability attitude
    stands in the Real World!  :-D  */
 #include <stdint.h>
+#include <stdbool.h>
 #include <SDL/SDL.h>
 
 
@@ -230,6 +231,10 @@ typedef struct flagstash {
 
 #define VAL_AND_AKA(val,rozt)  { .value = val, .aka = { rozt } }
 
+typedef SCM (register_kp_t) (enum_struct *kp,
+                             const long *values,
+                             bool public);
+
 typedef SCM (define_enum_t) (const char *name, size_t count,
                              valaka_t *backing);
 
@@ -319,6 +324,7 @@ struct obtw
   make_flagstash_t *make_flagstash;
   flags2ulong_t *flags2ulong;
   ulong2flags_t *ulong2flags;
+  register_kp_t *register_kp;
   define_enum_t *define_enum;
   enum2long_t *enum2long;
   long2enum_t *long2enum;

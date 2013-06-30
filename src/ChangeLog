@@ -1,5 +1,15 @@
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Add ‘register_kp’.
+
+	* guile-sdl.h: #include <stdbool.h>.
+	(register_kp_t): New func typedef.
+	(struct obtw): Add member ‘register_kp’.
+	* sdlenums.c (register_kp): New static func.
+	(gsdl_init_enums): Init ‘btw->register_kp’.
+
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use ‘struct symset’ in ‘enum_struct’.
 
 	* guile-sdl.h (enum_struct): Use ‘struct symset’.
