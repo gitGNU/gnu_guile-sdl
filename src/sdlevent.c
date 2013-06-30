@@ -41,8 +41,8 @@ static SCM updn_enum;
 #include "k/updn.c"
 
 #define BUTTON_AKA(val,name)  VAL_AND_AKA (SDL_BUTTON_ ## val, name)
-static SCM mb_enum;
-static valaka_t mb_eback[] = {
+static SCM mbut_enum;
+static valaka_t mbut_eback[] = {
   BUTTON_AKA (X2,        "x2"),
   BUTTON_AKA (X1,        "x1"),
   BUTTON_AKA (WHEELDOWN, "wheel-down"),
@@ -520,7 +520,7 @@ SNUM2_GETSET (motion, yrel)
 ENUM_GETSET ("button:button",        button_button,
              "button:set-button!", button_set_button,
              button.button,
-             mb)
+             mbut)
 ENUM_GETSET ("button:state",         button_state,
              "button:set-state!", button_set_state,
              button.state,
@@ -1130,7 +1130,7 @@ gsdl_init_event (void)
 
   /* event states */
   event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);
-  mb_enum = DEFINE_ENUM (NULL, mb_eback);
+  mbut_enum = DEFINE_ENUM (NULL, mbut_eback);
   updn_enum = btw->register_kp (&updn_kp, false);
   active_enum = btw->register_kp (&active_kp, false);
   appstate_flags = MAKE_FLAGSTASH (appstate);

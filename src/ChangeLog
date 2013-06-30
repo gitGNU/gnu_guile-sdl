@@ -1,5 +1,12 @@
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Rename enum ‘mb’ to ‘mbut’.
+
+	* sdlevent.c (mbut_enum): Rename from ‘mb_enum’.
+	(event_button_button, gsdl_init_event): Update accordingly.
+
+2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Generate ‘updn’ init data; use ‘register_kp’.
 
 	* k/updn.kp: New file.
