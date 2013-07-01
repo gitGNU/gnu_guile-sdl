@@ -117,6 +117,7 @@
 (do ((i 0 (1+ i))
      (alpha 9 (+ 9 alpha)))
     ((= 9 i))
+  (SDL:surface-alpha! gnu-head alpha)
   (SDL:set-alpha! gnu-head 'SDL_SRCALPHA alpha)
   (standard-blit! gnu-head)
   (SDL:flip)

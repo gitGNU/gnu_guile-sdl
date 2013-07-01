@@ -1,3 +1,15 @@
+2013-07-01  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Add (sdl sdl) proc: surface-alpha!
+
+	* k/alphalim.kp: New file.
+	* k/Makefile.am (stdp): Add alphalim.kp.
+	* sdlsurface.c (kp_alpha): New static var.
+	(surface_alpha_x): New PRIMPROC.
+	(set_alpha): Add "obsoleted" blurb.
+	<top-level>: #include "k/alphalim.c".
+	(gsdl_init_surface): Init ‘kp_alpha’.
+
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Drop enumstash: gl-enums

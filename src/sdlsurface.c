@@ -24,6 +24,8 @@
 #include <SDL/SDL_image.h>
 #include "snuggle/finangle.h"
 
+static SCM kp_alpha;
+
 static SCM alpha_enums;
 static valaka_t alpha_eback[] = {
   VALAKA (SDL_ALPHA_OPAQUE),
@@ -309,11 +311,50 @@ Set @var{surface} color key as specified by @var{flag}
 
 
 PRIMPROC
+(surface_alpha_x, "surface-alpha!", 2, 1, 0,
+ (SCM surface, SCM alpha, SCM rle),
+ doc: /***********
+Set alpha blending for the entire @var{surface} to @var{alpha}.
+If @var{alpha} is @code{#f}, disable alpha blending.
+Otherwise it should be an integer in the range [0,255]
+or one of the symbols @code{transparent} or @code{opaque}.
+If alpha blending is enabled, optional arg @var{rle} is a
+boolean that enables (true) or disables (false, the default)
+RLE acceleration.
+Return @code{#t} if successful.  */)
+{
+#define FUNC_NAME s_surface_alpha_x
+  Uint32 cflags;
+  Uint8 calpha;
+
+  ASSERT_SURFACE (surface, 1);
+  if (EXACTLY_FALSEP (alpha))
+    cflags = calpha = 0;                /* disable */
+  else
+    {
+      UNBOUND_MEANS_FALSE (rle);
+      cflags = SDL_SRCALPHA | (NOT_FALSEP (rle)
+                               ? SDL_RLEACCEL
+                               : 0);
+      calpha = GSDL_ENUM2LONG (alpha, kp_alpha, 2);
+    }
+
+  RETURN_TRUE_IF_0
+    (SDL_SetAlpha (UNPACK_SURFACE (surface),
+                   cflags, calpha));
+#undef FUNC_NAME
+}
+
+
+PRIMPROC
 (set_alpha, "set-alpha!", 2, 1, 0,
  (SCM surface,
   SCM flag,
   SCM alpha),
  doc: /***********
+NB: This procedure is obsoleted by @code{surface-alpha!}
+and @strong{will be removed} after 2013-12-31.
+
 Adjust whole-@var{surface} alpha as specified by
 @var{flag} (see @code{flagstash:video}) and @var{alpha}
 (one of the @code{alpha-enums}, or a number 0-255).
@@ -589,6 +630,8 @@ both vertically and horizontally.  */)
 
 
 
+#include "k/alphalim.c"
+
 void
 gsdl_init_surface (void)
 {
@@ -601,6 +644,7 @@ gsdl_init_surface (void)
 
   /* alpha constants */
   alpha_enums = DEFINE_ENUM ("alpha-enums", alpha_eback);
+  kp_alpha = btw->register_kp (&alphalim_kp, false);
 }
 
 /* sdlsurface.c ends here */

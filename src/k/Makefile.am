@@ -29,6 +29,7 @@ palette.kf					\
 video.kf
 
 stdp =						\
+alphalim.kp					\
 mbut.kp						\
 updn.kp
 

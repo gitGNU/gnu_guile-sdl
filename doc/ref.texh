@@ -229,6 +229,8 @@ SDL_foo_OVERLAY, where foo can be:
 
 @tsin i set-color-key!
 
+@tsin i surface-alpha!
+
 @tsin i set-alpha!
 
 @tsin i set-clip-rect!
