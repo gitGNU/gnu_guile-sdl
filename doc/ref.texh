@@ -227,6 +227,8 @@ SDL_foo_OVERLAY, where foo can be:
 
 @tsin i save-bmp
 
+@tsin i surface-color-key!
+
 @tsin i set-color-key!
 
 @tsin i surface-alpha!

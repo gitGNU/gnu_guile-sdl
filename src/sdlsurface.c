@@ -288,11 +288,50 @@ Return @code{#t} if successful.  */)
 
 
 PRIMPROC
+(surface_color_key_x, "surface-color-key!", 2, 1, 0,
+ (SCM surface, SCM pixel, SCM rle),
+ doc: /***********
+Set the color key for @var{surface} to @var{pixel}.
+If @var{pixel} is @code{#f}, clear the current color key.
+Otherwise, it should be an integer of the appropriate depth
+for @var{surface} (e.g., in the range [0,65535] for 16 bpp).
+If color key processing is enabled, optional arg @var{rle} is a
+boolean that enables (true) or disables (false, the default)
+RLE acceleration.
+Return @code{#t} if successful.  */)
+{
+#define FUNC_NAME s_surface_color_key_x
+  Uint32 cpixel;
+  Uint8 cflags;
+
+  ASSERT_SURFACE (surface, 1);
+  if (EXACTLY_FALSEP (pixel))
+    cflags = cpixel = 0;                /* disable */
+  else
+    {
+      ASSERT_ULONG_COPY (pixel, 2);
+      UNBOUND_MEANS_FALSE (rle);
+      cflags = SDL_SRCCOLORKEY | (NOT_FALSEP (rle)
+                                  ? SDL_RLEACCEL
+                                  : 0);
+    }
+
+  RETURN_TRUE_IF_0
+    (SDL_SetColorKey (UNPACK_SURFACE (surface),
+                      cflags, cpixel));
+#undef FUNC_NAME
+}
+
+
+PRIMPROC
 (set_color_key, "set-color-key!", 3, 0, 0,
  (SCM surface,
   SCM flag,
   SCM key),
  doc: /***********
+NB: This procedure is obsoleted by @code{surface-color-key!}
+and @strong{will be removed} after 2013-12-31.
+
 Set @var{surface} color key as specified by @var{flag}
 (see @code{flagstash:video}) and @var{key}.  */)
 {
