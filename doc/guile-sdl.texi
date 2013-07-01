@@ -232,16 +232,6 @@ exact C names.
 A particular set of enums is called an @dfn{enumstash}.  Likewise
 @dfn{flagstash} for flags.
 
-@defvr enumstash fading-status
-Returned by @code{fading-music} and @code{fading-channel}.
-@xref{Audio}.
-Values are @code{MIX_@var{foo}}, where @var{foo} can be:
-@example
-FADING_@{IN,OUT@}
-NO_FADING
-@end example
-@end defvr
-
 @defvr enumstash event-types
 First arg to @code{make-event} and to @code{event-state}.  @xref{Events}.
 Values are @code{SDL_@var{foo}}, where @var{foo} can be:

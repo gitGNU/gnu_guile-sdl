@@ -1,5 +1,12 @@
 2013-07-01  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[mixer] Change "fading status" symbols; internalize enumstash.
+
+	* guile-sdl.texi (Enums and Constants):
+	Delete @defvr for enumstash ‘fading-status’.
+
+2013-07-01  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Add (sdl sdl) proc: surface-color-key!
 
 	* ref.texh (Video): Add @tsin for ‘surface-color-key!’.

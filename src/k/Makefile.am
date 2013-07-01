@@ -43,6 +43,11 @@ stdf += ttf.kf
 EXTRA_DIST += ttf.kf
 endif
 
+if HAVE_MIXER
+stdp += fading.kp
+EXTRA_DIST += fading.kp
+endif
+
 SUFFIXES = .c .kf .kp
 
 gx = $(top_srcdir)/build-aux/guile-baux/gbaux-do

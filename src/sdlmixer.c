@@ -30,11 +30,7 @@ SELECT_MODULE_VAR (obtw, sdlsup, "%%Guile-SDL-obtw");
 
 
 static SCM fading_status_enum;
-static valaka_t fading_status_eback[] = {
-  VALAKA (MIX_NO_FADING),
-  VALAKA (MIX_FADING_OUT),
-  VALAKA (MIX_FADING_IN)
-};
+#include "k/fading.c"
 
 #define RETURN_FADINGSTATUS(x)  return btw->long2enum ((x), fading_status_enum)
 
@@ -623,8 +619,8 @@ PRIMPROC
 (mix_fading_music, "fading-music", 0, 0, 0,
  (void),
  doc: /***********
-Return the fading status of the music.
-@xref{Enums and Constants}.  */)
+Return the fading status of the music, one of the symbols:
+@code{no}, @code{out}, @code{in}.  */)
 {
 #define FUNC_NAME s_mix_fading_music
   RETURN_FADINGSTATUS (Mix_FadingMusic ());
@@ -636,9 +632,9 @@ PRIMPROC
 (mix_fading_channel, "fading-channel", 0, 1, 0,
  (SCM which),
  doc: /***********
-Return the fading status of the default channel.
-Optional arg @var{which} selects which channel to check.
-@xref{Enums and Constants}.  */)
+Return the fading status (a symbol, see @code{fading-music})
+of the default channel.
+Optional arg @var{which} selects which channel to check.  */)
 {
 #define FUNC_NAME s_mix_fading_channel
   int cwhich = -1;
@@ -938,7 +934,7 @@ init_module (void)
   btw = UNPACK_POINTER (CALL0 (obtw));
 
   /* enums */
-  fading_status_enum = DEFINE_ENUM ("fading-status", fading_status_eback);
+  fading_status_enum = btw->register_kp (&fading_kp, false);
 }
 
 MOD_INIT_LINK_THUNK ("sdl mixer", sdl_mixer, init_module)
