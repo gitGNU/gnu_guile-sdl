@@ -32,6 +32,7 @@ stdp =						\
 alphalim.kp					\
 alphalimold.kp					\
 evaction.kp					\
+evtypeold.kp					\
 mbut.kp						\
 updn.kp
 

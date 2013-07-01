@@ -44,23 +44,7 @@ static SCM mbut_enum;
 #include "k/mbut.c"
 
 static SCM event_type_enum;
-static valaka_t event_type_eback[] = {
-  VALAKA (SDL_ACTIVEEVENT),
-  VALAKA (SDL_KEYDOWN),
-  VALAKA (SDL_KEYUP),
-  VALAKA (SDL_MOUSEMOTION),
-  VALAKA (SDL_MOUSEBUTTONDOWN),
-  VALAKA (SDL_MOUSEBUTTONUP),
-  VALAKA (SDL_JOYAXISMOTION),
-  VALAKA (SDL_JOYBALLMOTION),
-  VALAKA (SDL_JOYHATMOTION),
-  VALAKA (SDL_JOYBUTTONDOWN),
-  VALAKA (SDL_JOYBUTTONUP),
-  VALAKA (SDL_QUIT),
-  VALAKA (SDL_SYSWMEVENT),
-  VALAKA (SDL_VIDEORESIZE),
-  VALAKA (SDL_USEREVENT)
-};
+#include "k/evtypeold.c"
 
 static SCM event_state_enum;
 static const long evstate_values[] = {
@@ -1112,7 +1096,7 @@ gsdl_init_event (void)
            /* TODO: print_keysym */ NULL);
 
   /* event type constants */
-  event_type_enum = DEFINE_ENUM ("event-types", event_type_eback);
+  event_type_enum = btw->register_kp (&evtypeold_kp, true);
 
   /* keysyms */
   event_keysym_enum = DEFINE_ENUM ("event-keys", event_keysym_eback);
