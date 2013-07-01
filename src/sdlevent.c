@@ -63,14 +63,22 @@ static valaka_t event_type_eback[] = {
 };
 
 static SCM event_state_enum;
-static valaka_t event_state_eback[] = {
-  VALAKA (SDL_QUERY),
-  VALAKA (SDL_IGNORE),
+static const long evstate_values[] = {
+  SDL_QUERY,
+  SDL_IGNORE,
   /* SDL_DISABLE is not mentioned in the associated comment in SDL_events.h
      (SDL 1.2), and moreover, its value is the same as SDL_IGNORE, so we
      tickle the irony bone a bit and don't include it in Guile-SDL.  */
-  /* VALAKA (SDL_DISABLE), */
-  VALAKA (SDL_ENABLE)
+  SDL_ENABLE
+};
+static const uint8_t evstate_names[] = {
+  /* SDL_QUERY */ 9,83,68,76,95,81,85,69,82,89,
+  /* SDL_IGNORE */ 10,83,68,76,95,73,71,78,79,82,69,
+  /* SDL_ENABLE */ 10,83,68,76,95,69,78,65,66,76,69
+};
+static enum_struct evstate_kp = {
+  .ss = { .count = 3, .pool = evstate_names, .name = "event-state" },
+  .val = evstate_values
 };
 
 static SCM event_keysym_enum;
@@ -1119,7 +1127,7 @@ gsdl_init_event (void)
   event_jhpos_flags = MAKE_FLAGSTASH (jhpos);
 
   /* event states */
-  event_state_enum = DEFINE_ENUM ("event-states", event_state_eback);
+  event_state_enum = btw->register_kp (&evstate_kp, true);
   mbut_enum = btw->register_kp (&mbut_kp, false);
   updn_enum = btw->register_kp (&updn_kp, false);
   active_enum = btw->register_kp (&active_kp, false);
