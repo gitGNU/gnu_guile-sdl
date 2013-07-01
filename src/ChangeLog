@@ -1,5 +1,15 @@
 2013-07-01  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Generate ‘alpha_enums’ init data; use ‘register_kp’.
+
+	* k/alphalimold.kp: New file.
+	* k/Makefile.am (stdp): Add alphalimold.kp.
+	* sdlsurface.c (alpha_eback): Delete data structure.
+	<top-level>: #include "k/alphalimold.c".
+	(gsdl_init_surface): Use ‘register_kp’ w/ new data structures.
+
+2013-07-01  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Add (sdl sdl) proc: surface-color-key!
 
 	* sdlsurface.c (surface_color_key_x): New PRIMPROC.

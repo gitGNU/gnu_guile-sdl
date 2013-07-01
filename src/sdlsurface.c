@@ -25,12 +25,7 @@
 #include "snuggle/finangle.h"
 
 static SCM kp_alpha;
-
 static SCM alpha_enums;
-static valaka_t alpha_eback[] = {
-  VALAKA (SDL_ALPHA_OPAQUE),
-  VALAKA (SDL_ALPHA_TRANSPARENT)
-};
 
 
 /* smob functions */
@@ -670,6 +665,7 @@ both vertically and horizontally.  */)
 
 
 #include "k/alphalim.c"
+#include "k/alphalimold.c"
 
 void
 gsdl_init_surface (void)
@@ -682,7 +678,7 @@ gsdl_init_surface (void)
 #include "sdlsurface.x"
 
   /* alpha constants */
-  alpha_enums = DEFINE_ENUM ("alpha-enums", alpha_eback);
+  alpha_enums = btw->register_kp (&alphalimold_kp, true);
   kp_alpha = btw->register_kp (&alphalim_kp, false);
 }
 
