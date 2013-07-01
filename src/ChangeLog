@@ -1,5 +1,18 @@
 2013-07-01  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Generate ‘event_keysym_enum’ init data; use ‘register_kp’.
+
+	This change is not marked "internal" (w/ "[int]" in the title)
+	because the count has increased from 133 to 231.  DWR!  Bloat!
+
+	* k/keysymold.kp: New file.
+	* k/Makefile.am (stdp): Add keysymold.kp.
+	* sdlevent.c: #include "k/keysymold.c".
+	(event_keysym_eback): Delete data structure.
+	(gsdl_init_event): Use ‘register_kp’ w/ new data structures.
+
+2013-07-01  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Generate ‘event_type_enums’ init data; use ‘register_kp’.
 
 	* k/evtypeold.kp: New file.

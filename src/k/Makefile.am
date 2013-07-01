@@ -33,6 +33,7 @@ alphalim.kp					\
 alphalimold.kp					\
 evaction.kp					\
 evtypeold.kp					\
+keysymold.kp					\
 mbut.kp						\
 updn.kp
 
