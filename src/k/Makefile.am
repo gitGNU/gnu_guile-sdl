@@ -31,6 +31,7 @@ video.kf
 stdp =						\
 alphalim.kp					\
 alphalimold.kp					\
+evaction.kp					\
 mbut.kp						\
 updn.kp
 

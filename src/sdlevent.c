@@ -219,11 +219,7 @@ static valaka_t event_keysym_eback[] = {
 };
 
 static SCM event_action_enum;
-static valaka_t event_action_eback[] = {
-  VALAKA (SDL_ADDEVENT),
-  VALAKA (SDL_PEEKEVENT),
-  VALAKA (SDL_GETEVENT)
-};
+#include "k/evaction.c"
 
 static SCM event_mb_flags;
 static SCM event_mod_flags;
@@ -1120,7 +1116,7 @@ gsdl_init_event (void)
 
   /* keysyms */
   event_keysym_enum = DEFINE_ENUM ("event-keys", event_keysym_eback);
-  event_action_enum = DEFINE_ENUM ("event-actions", event_action_eback);
+  event_action_enum = btw->register_kp (&evaction_kp, false);
   event_mb_flags = MAKE_FLAGSTASH (mb);
   event_mod_flags = MAKE_FLAGSTASH (kmod);
   event_mask_flags = MAKE_FLAGSTASH (evmask);
