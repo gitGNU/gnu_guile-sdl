@@ -203,6 +203,7 @@ typedef struct flagstash {
   const unsigned long const *val;
   SCM *linear;
   SCM ht;
+  unsigned long full;
   struct symset ss;
 } flagstash_t;
 

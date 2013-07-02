@@ -251,12 +251,14 @@ make_flagstash (flagstash_t *stash)
   if (! (stash->linear = malloc (count * sizeof (SCM))))
     abort ();
 
+  stash->full = 0;
   ht = GC_PROTECT (MAKE_HASH_TABLE (count));
   for (i = 0; i < count; i++)
     {
       uint8_t len = *pool;
       SCM *sym = stash->linear + i;
 
+      stash->full |= stash->val[i];
       *sym = GC_PROTECT (SYMBOLN ((char *) ++pool, len));
       scm_hashq_set_x (ht, GC_UNPROTECT (*sym), NUM_INT (i));
       pool += len;
@@ -279,6 +281,9 @@ flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
 
   if (EXACTLY_FALSEP (flags) || NULLP (flags))
     return 0;
+
+  if (EXACTLY_TRUEP (flags))
+    return s->full;
 
 #define LOOKUP_IOR(x)  do                               \
     {                                                   \
@@ -374,7 +379,10 @@ PRIMPROC
  (SCM stash, SCM flags),
  doc: /***********
 Use @var{stash} to convert @var{flags} to a number.
-@var{flags} is a list of symbols.  */)
+@var{flags} is a list of symbols;
+or @code{#f}, which is taken as the empty list;
+or @code{#t}, which is taken as the list of all
+possible symbols in @var{stash}.  */)
 {
 #define FUNC_NAME s_flags_to_number
   ASSERT_FLAGSTASH (stash, 1);

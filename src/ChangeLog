@@ -1,5 +1,15 @@
 2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Take ‘#t’ to mean "full set" in flags-to-number conversion.
+
+	* guile-sdl.h (flagstash_t): Add member ‘full’.
+	* sdlenums.c (make_flagstash): Bitwise
+	accumulate all element values into ‘stash->full’.
+	(flags2ulong): If ‘flags’ is true, return the full-set value.
+	(flags_to_number): Update doc comment.
+
+2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Add (sdl sdl) procs: evqueue-{add,peek,get}
 
 	* sdlevent.c (evqueue_add): New PRIMPROC.
