@@ -573,16 +573,14 @@ PRIMPROC
 (push_event, "push-event", 1, 0, 0,
  (SCM event),
  doc: /***********
-Push @var{event} onto the queue.  Return 1 for success,
-0 if the queue was full, -1 for other errors.  */)
+Push @var{event} onto the queue.
+Return @code{#t} on success.  */)
 {
 #define FUNC_NAME s_push_event
-  int result;
-
   ASSERT_EVENT (event, 1);
 
-  result = SDL_PushEvent (UNPACK_EVENT (event));
-  RETURN_INT (result);
+  RETURN_TRUE_IF_0
+    (SDL_PushEvent (UNPACK_EVENT (event)));
 #undef FUNC_NAME
 }
 

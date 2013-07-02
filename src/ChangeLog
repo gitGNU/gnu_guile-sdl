@@ -1,5 +1,11 @@
 2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Fix bug: Make ‘push-event’ return a boolean.
+
+	* sdlevent.c (push_event): Return ‘#t’ on success.
+
+2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Drop abstractions: RETURN_{FALSE,TRUE}
 
 	* guile-sdl.h (RETURN_FALSE, RETURN_TRUE): Delete #define:s.
