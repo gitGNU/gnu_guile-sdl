@@ -1,5 +1,12 @@
 2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check evqueue-{add,peek,get}.
+
+	* event.scm <queue interaction>: ...here, w/ a de- then
+	re-queue using ‘evqueue-peek’, ‘evqueue-get’ and ‘evqueue-add’.
+
+2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Make ‘fake’ event messages easier to read.
 
 	* event.scm (fake): Use TAB to align output.

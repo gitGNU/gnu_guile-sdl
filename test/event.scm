@@ -504,6 +504,17 @@
              (cons 'count: count))))
 (or (SDL:poll-event)
     (error "poll-event => #f"))
+(let* ((count (SDL:evqueue-peek 99 #t))
+       (ls (SDL:evqueue-get count #t))
+       (len (length ls))
+       (ok (= len count)))
+  (info "~A pending events / ~A retrieved"
+        count (if ok 'all (fs "but only ~A" len)))
+  (or ok (error (fs "evqueue-get only retrieved ~A events!" len)))
+  (let ((back (apply SDL:evqueue-add ls)))
+    (info "~A events successfully re-enqueud" back)
+    (or (= count back)
+        (error "evqueue-add rv:" back))))
 
 ;; main loop
 (scroll-up!)
