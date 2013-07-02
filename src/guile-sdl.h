@@ -127,12 +127,6 @@ void scm_init_ ## frag ## _module (void) { func (); }
 #define EXACTLY_FALSEP(x)  (SCM_FALSEP (x))
 #define EXACTLY_TRUEP(x)   (EQ ((x), BOOL_TRUE))
 
-#define SET_FALSE(cvar) \
-  cvar = BOOL_FALSE
-
-#define SET_TRUE(cvar) \
-  cvar = BOOL_TRUE
-
 #define RETURN_FALSE \
   return BOOL_FALSE
 
@@ -184,7 +178,7 @@ void scm_init_ ## frag ## _module (void) { func (); }
 #define BOUNDP(x)    (! SCM_EQ_P (x, SCM_UNDEFINED))
 #define UNBOUNDP(x)    (SCM_EQ_P (x, SCM_UNDEFINED))
 
-#define UNBOUND_MEANS_FALSE(x)  if (UNBOUNDP (x)) SET_FALSE (x)
+#define UNBOUND_MEANS_FALSE(x)  if (UNBOUNDP (x)) x = BOOL_FALSE
 
 #define IF_BOUND_ASSERT_INTEGER_COPY(name,pos,change)   \
   if (BOUNDP (name) && NOT_FALSEP (name))               \

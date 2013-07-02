@@ -1,5 +1,13 @@
 2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Drop abstractions: SET_{FALSE,TRUE}
+
+	* guile-sdl.h (SET_FALSE, SET_TRUE): Delete macros.
+	(UNBOUND_MEANS_FALSE): Use ‘=’ directly.
+	* sdlvideo.c (list_modes): Likewise.
+
+2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Decruft: Remove aka-based machinery; de-bifurcate.
 
 	* guile-sdl.h (aka_t): Delete union typedef.

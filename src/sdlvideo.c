@@ -404,10 +404,10 @@ Return @code{#f} if no modes are available, @code{#t} if all are available.  */)
 
   if (modes == (SDL_Rect**)0)
     /* Return ‘#f’ to signify no resolutions are available.  */
-    SET_FALSE (result);
+    result = BOOL_FALSE;
   else if (modes == (SDL_Rect**)-1)
     /* Return ‘#t’ to signify all resolutions are available.  */
-    SET_TRUE (result);
+    result = BOOL_TRUE;
   else
     {
       int i;
