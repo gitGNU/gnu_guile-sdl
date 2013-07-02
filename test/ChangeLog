@@ -1,5 +1,11 @@
 2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Make ‘fake’ event messages easier to read.
+
+	* event.scm (fake): Use TAB to align output.
+
+2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Check ‘push-event’ rv.
 
 	* event.scm (fake): Error out if ‘push-event’ fails.

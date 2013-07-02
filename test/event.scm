@@ -166,7 +166,7 @@
 (info "(actual) mouse state => ~S" (SDL:get-mouse-state #t))
 
 (define (fake type . rest)
-  (info "(fake) ~A" type)
+  (info "(fake)\t~A" type)
   (let ((ev (SDL:make-event type)))
     ;; exercise
     (SDL:event:set-type! ev type)
@@ -174,7 +174,7 @@
       (or (null? spec)
           (let ((setter (car spec))
                 (value (cadr spec)))
-            (info " ~A ~S" (procedure-name setter) value)
+            (info "\t~A ~S" (procedure-name setter) value)
             (setter ev value)
             (loop (cddr spec)))))
     (or (SDL:push-event ev)
