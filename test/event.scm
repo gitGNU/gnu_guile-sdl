@@ -177,7 +177,8 @@
             (info " ~A ~S" (procedure-name setter) value)
             (setter ev value)
             (loop (cddr spec)))))
-    (SDL:push-event ev)))
+    (or (SDL:push-event ev)
+        (error (fs "could not push ~A event" type)))))
 
 (define (fake-key-down/up mod sym)
   (define (ok type state)

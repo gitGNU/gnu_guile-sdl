@@ -1,3 +1,9 @@
+2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Check ‘push-event’ rv.
+
+	* event.scm (fake): Error out if ‘push-event’ fails.
+
 2013-07-01  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Add (sdl sdl) proc: surface-alpha!
