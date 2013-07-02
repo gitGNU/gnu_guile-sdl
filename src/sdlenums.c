@@ -68,7 +68,6 @@ register_kp (enum_struct *kp, bool public)
   size_t i;
   SCM ht, smob;
 
-  kp->backing = NULL;
   if (! (kp->linear = malloc (count * sizeof (SCM))))
     abort ();
   ht = GC_PROTECT (MAKE_HASH_TABLE (count));
@@ -101,40 +100,6 @@ register_kp (enum_struct *kp, bool public)
   return smob;
 }
 
-static SCM
-define_enum (const char *name, size_t count, valaka_t *backing)
-{
-  size_t i;
-  SCM enumstash, table, sym;
-  enum_struct *s;
-  const struct symset ss = { .name = name, .count = count, .pool = NULL };
-  valaka_t *b;
-
-  /* Create an enum struct to hold our values.  */
-  s = malloc (sizeof (enum_struct));
-  memcpy (&s->ss, &ss, sizeof ss);
-  s->backing = backing;
-
-  /* Create the enum hash.  */
-  table = MAKE_HASH_TABLE (count);
-  for (i = 0; i < count; i++)
-    {
-      b = backing + i;
-      sym = b->aka.symbol = SYMBOL (b->aka.rozt);
-      scm_hashq_set_x (table, sym, NUM_INT (i));
-      scm_hashq_set_x (table, NUM_LONG (b->value), sym);
-    }
-  s->table = table;
-
-  /* Build and define the enum smob instance.  */
-  SCM_NEWSMOB (enumstash, enum_tag, s);
-  if (name)
-    DEFINE_PUBLIC (name, enumstash);
-  else
-    enumstash = PERMANENT (enumstash);
-  return enumstash;
-}
-
 static inline SCM
 lookup (SCM key, enum_struct *e)
 {
@@ -157,9 +122,7 @@ enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
       if (NOT_FALSEP (obj))
         {
           idx = C_INT (obj);
-          result = e->backing
-            ? e->backing[idx].value
-            : e->val[idx];
+          result = e->val[idx];
         }
     }
   else
@@ -196,9 +159,7 @@ Return the list of symbols belonging to @var{enumstash}.  */)
   enum_type = UNPACK_ENUM (enumstash);
   rv = SCM_EOL;
   for (i = 0; i < enum_type->ss.count; i++)
-    rv = CONS (enum_type->backing
-               ? enum_type->backing[i].aka.symbol
-               : enum_type->linear[i],
+    rv = CONS (enum_type->linear[i],
                rv);
   return rv;
 #undef FUNC_NAME
@@ -225,9 +186,7 @@ if it does not belong to @var{enumstash}.  */)
   return EXACTLY_FALSEP (idx)
     ? idx
     : (cidx = C_INT (idx),
-       NUM_INT (e->backing
-                ? e->backing[cidx].value
-                : e->val[cidx]));
+       NUM_INT (e->val[cidx]));
 #undef FUNC_NAME
 }
 
@@ -449,7 +408,6 @@ gsdl_init_enums (void)
   btw->flags2ulong = flags2ulong;
   btw->ulong2flags = ulong2flags;
   btw->register_kp = register_kp;
-  btw->define_enum = define_enum;
   btw->enum2long = enum2long;
   btw->long2enum = long2enum;
 

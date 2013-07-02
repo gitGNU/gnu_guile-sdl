@@ -198,16 +198,6 @@ void scm_init_ ## frag ## _module (void) { func (); }
 
 /* Enums and flagstashes.  */
 
-typedef union {
-  const char const *rozt;
-  SCM symbol;
-} aka_t;
-
-typedef struct {
-  const long int value;
-  aka_t aka;
-} valaka_t;
-
 struct symset {
   const size_t      count;
   const char const *name;
@@ -218,7 +208,6 @@ typedef struct {
   const long const *val;
   SCM *linear;
   SCM table;
-  valaka_t *backing;
   struct symset ss;
 } enum_struct;
 
@@ -229,20 +218,7 @@ typedef struct flagstash {
   struct symset ss;
 } flagstash_t;
 
-#define VALAKA(x)  { x, { #x } }
-
-#define VAL_AND_AKA(val,rozt)  { .value = val, .aka = { rozt } }
-
 typedef SCM (register_kp_t) (enum_struct *kp, bool public);
-
-typedef SCM (define_enum_t) (const char *name, size_t count,
-                             valaka_t *backing);
-
-#define DEFINE_ENUM(name,backing)               \
-  btw->define_enum                              \
-  (name,                                        \
-   sizeof (backing) / sizeof (valaka_t),        \
-   backing)
 
 typedef long (enum2long_t) (SCM s_enum, SCM enum_type,
                             int pos, const char *func);
@@ -325,7 +301,6 @@ struct obtw
   flags2ulong_t *flags2ulong;
   ulong2flags_t *ulong2flags;
   register_kp_t *register_kp;
-  define_enum_t *define_enum;
   enum2long_t *enum2long;
   long2enum_t *long2enum;
 };

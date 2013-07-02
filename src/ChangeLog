@@ -1,3 +1,20 @@
+2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Decruft: Remove aka-based machinery; de-bifurcate.
+
+	* guile-sdl.h (aka_t): Delete union typedef.
+	(valaka_t): Delete struct typdef.
+	(enum_struct): Delete member ‘backing’.
+	(VALAKA, VAL_AND_AKA): Delete macros.
+	(define_enum_t): Delete func typedef.
+	(DEFINE_ENUM): Delete macro.
+	(struct obtw): Delete member ‘define_enum’.
+	* sdlenums.c (register_kp): Don't set ‘kp->backing’.
+	(define_enum): Delete func.
+	(enum2long, enum_to_number): Use ‘e->val’ directly.
+	(enumstash_enums): Use ‘enum_type->linear’ directly.
+	(gsdl_init_enums): Update ‘btw’ init.
+
 2013-07-01  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Generate ‘event_keysym_enum’ init data; use ‘register_kp’.
