@@ -40,7 +40,7 @@ mark_enum (SCM enumstash)
   enum_struct *enum_smob = UNPACK_ENUM (enumstash);
 
   scm_gc_mark (enum_smob->table);
-  RETURN_FALSE;
+  return BOOL_FALSE;
 }
 
 static

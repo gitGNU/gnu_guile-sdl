@@ -1055,7 +1055,7 @@ check_3_surfaces (unsigned char **pa, SDL_Surface *a,
                             &s2, UNPACK_SURFACE (src2), \
                             &d,  UNPACK_SURFACE (dst),  \
                             &len))                      \
-    RETURN_FALSE
+    return BOOL_FALSE
 
 static int
 check_2_surfaces (unsigned char **pa, SDL_Surface *a,
@@ -1085,7 +1085,7 @@ check_2_surfaces (unsigned char **pa, SDL_Surface *a,
   if (0 > check_2_surfaces (&s, UNPACK_SURFACE (src),   \
                             &d, UNPACK_SURFACE (dst),   \
                             &len))                      \
-    RETURN_FALSE
+    return BOOL_FALSE
 
 PRIMPROC
 (imfi_add, "imfi-add", 3, 0, 0,

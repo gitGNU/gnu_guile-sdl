@@ -90,7 +90,7 @@ Return @code{#t}.  */)
 #define FUNC_NAME s_quit
   scm_gc ();
   SDL_Quit ();
-  RETURN_TRUE;
+  return BOOL_TRUE;
 #undef FUNC_NAME
 }
 
@@ -107,7 +107,7 @@ Return @code{#t}.  */)
 #define FUNC_NAME s_quit_subsystem
   scm_gc ();
   SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, 1));
-  RETURN_TRUE;
+  return BOOL_TRUE;
 #undef FUNC_NAME
 }
 

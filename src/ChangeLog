@@ -1,5 +1,19 @@
 2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Drop abstractions: RETURN_{FALSE,TRUE}
+
+	* guile-sdl.h (RETURN_FALSE, RETURN_TRUE): Delete #define:s.
+	(NEWSMOB_OR_FALSE, RETURN_NEW_PF_OR_FALSE): Use ‘return’ directly.
+	* sdl.c: Likewise, throughout.
+	* sdlcdrom.c: Likewise.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+	* sdlmixer.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Drop abstractions: SET_{FALSE,TRUE}
 
 	* guile-sdl.h (SET_FALSE, SET_TRUE): Delete macros.

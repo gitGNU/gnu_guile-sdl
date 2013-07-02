@@ -127,12 +127,6 @@ void scm_init_ ## frag ## _module (void) { func (); }
 #define EXACTLY_FALSEP(x)  (SCM_FALSEP (x))
 #define EXACTLY_TRUEP(x)   (EQ ((x), BOOL_TRUE))
 
-#define RETURN_FALSE \
-  return BOOL_FALSE
-
-#define RETURN_TRUE \
-  return BOOL_TRUE
-
 /* Argument validation.  */
 
 #define ASSERT_TYPE(condition,object,position,expected) \
@@ -343,7 +337,7 @@ DECLARE_PF (Surface);
     if ((__p = (x)))                            \
       SCM_RETURN_NEWSMOB (tag, __p);            \
     else                                        \
-      RETURN_FALSE;                             \
+      return BOOL_FALSE;                        \
   } while (0)
 
 #define RETURN_NEW_PF_OR_FALSE(ACTUAL,LOCALPREFIX,INTERNALP,X)  do      \
@@ -359,7 +353,7 @@ DECLARE_PF (Surface);
           SCM_RETURN_NEWSMOB (LOCALPREFIX ## _tag, pf);                 \
         }                                                               \
       else                                                              \
-        RETURN_FALSE;                                                   \
+        return BOOL_FALSE;                                              \
     }                                                                   \
   while (0)
 

@@ -700,7 +700,7 @@ Return @code{#f} if unsuccessful.  */)
   LATER (g);
   LATER (b);
   if (0 > rv)
-    RETURN_FALSE;
+    return BOOL_FALSE;
   else
     return LIST3 (r, g, b);
 
@@ -979,7 +979,7 @@ to the display format.  Return @code{#f} if not successful.  */)
   csurface = SDL_DisplayFormat (UNPACK_SURFACE (surface));
 
   if (! csurface)
-    RETURN_FALSE;
+    return BOOL_FALSE;
 
   RETURN_NEW_SURFACE (csurface);
 #undef FUNC_NAME
@@ -1002,7 +1002,7 @@ if not successful.  */)
   csurface = SDL_DisplayFormatAlpha (UNPACK_SURFACE (surface));
 
   if (! csurface)
-    RETURN_FALSE;
+    return BOOL_FALSE;
 
   RETURN_NEW_SURFACE (csurface);
 #undef FUNC_NAME

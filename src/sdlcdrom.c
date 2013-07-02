@@ -267,7 +267,7 @@ as an alist or @code{#f} if there were problems.  */)
        CONS (SYM (length), NUM_ULONG (cd->track[cn].length)),
        CONS (SYM (offset), NUM_ULONG (cd->track[cn].offset)));
   else
-    RETURN_FALSE;
+    return BOOL_FALSE;
 #undef FUNC_NAME
 }
 

@@ -894,7 +894,7 @@ equivalent to @code{(left right)}.  */)
     cmask = GSDL_FLAGS2ULONG (mask, event_mb_flags, 1);
 
   if (! cmask)
-    RETURN_FALSE;
+    return BOOL_FALSE;
 
   buttons = SDL_GetMouseState (NULL, NULL);
   RETURN_BOOL (cmask == (cmask & buttons));
