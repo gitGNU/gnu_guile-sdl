@@ -471,6 +471,12 @@ effectively the same as specifying @code{centered}.
 
 @tsin i pump-events
 
+@tsin i evqueue-add
+
+@tsin i evqueue-peek
+
+@tsin i evqueue-get
+
 @tsin i peep-events
 
 @tsin i poll-event

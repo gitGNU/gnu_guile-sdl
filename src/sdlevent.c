@@ -420,9 +420,131 @@ Gather events from input devices and update the event queue.  */)
 }
 
 PRIMPROC
+(evqueue_add, "evqueue-add", 0, 0, 1,
+ (SCM events),
+ doc: /***********
+Add @code{events} to the back of the event queue.
+Return the count of succesfully added events.  */)
+{
+#define FUNC_NAME s_evqueue_add
+  SDL_Event *cevents = NULL;
+  int i, count;
+  SCM ls, head;
+
+  /* Pass 1: Validate argument types and consistency.  */
+  SCM_VALIDATE_LIST_COPYLEN (1, events, count);
+  for (i = 0, ls = events;
+       i < count;
+       i++, ls = CDR (ls))
+    {
+      head = CAR (ls);
+      ASSERT_EVENT (head, 1 + i);
+    }
+
+  /* Pass 2: Allocate the array and copy the events (ugh).  */
+  if (! (cevents = ALLOCA_EVENTS (count)))
+    abort ();
+  for (i = 0, ls = events;
+       i < count;
+       i++, ls = CDR (ls))
+    cevents[i] = *(UNPACK_EVENT (CAR (ls)));
+
+  RETURN_INT
+    (SDL_PeepEvents (cevents, count, SDL_ADDEVENT, 0));
+#undef FUNC_NAME
+}
+
+struct evqueue_do_details {
+  const char            *who;
+  const SDL_eventaction  act;
+  const bool             acc;
+};
+
+static SCM
+evqueue_do (const struct evqueue_do_details *dd, SCM n, SCM mask)
+{
+  const char *FUNC_NAME = dd->who;
+  SDL_Event *got;
+  unsigned long cn, cmask;
+  int count;
+
+  ASSERT_ULONG_COPY (n, 1);
+  cmask = GSDL_FLAGS2ULONG (mask, event_mask_flags, 2);
+
+  if (! (got = ALLOCA_EVENTS (cn))
+      || 0 > (count = SDL_PeepEvents (got, cn, dd->act, cmask)))
+    return BOOL_FALSE;
+
+  if (! dd->acc)
+    RETURN_INT (count);
+  else
+    {
+      SCM ls = SCM_EOL;
+
+      while (count--)
+        {
+          SDL_Event *cev = GCMALLOC_EVENT ();
+          SCM ev;
+
+          *cev = got[count];
+          NEW_EVENT_X (ev, cev);
+          ls = CONS (ev, ls);
+        }
+      return ls;
+    }
+}
+
+PRIMPROC
+(evqueue_peek, "evqueue-peek", 2, 1, 0,
+ (SCM n, SCM mask, SCM accumulate),
+ doc: /***********
+Return a count (less than or equal to @var{n}) of events at
+the front of the event queue that match @var{mask},
+without changing the queue.  Optional arg @var{accumulate} if
+non-@code{#f} means to return the list of matched events, instead.
+If there are errors, return @code{#f}.
+
+See @code{flagstash:event-mask}.  */)
+{
+  const struct evqueue_do_details dd =
+    {
+      .who = s_evqueue_peek,
+      .act = SDL_PEEKEVENT,
+      .acc = BOUNDP (accumulate) && NOT_FALSEP (accumulate)
+    };
+
+  return evqueue_do (&dd, n, mask);
+}
+
+PRIMPROC
+(evqueue_get, "evqueue-get", 2, 0, 0,
+ (SCM n, SCM mask),
+ doc: /***********
+Return a list (of length at most @var{n}) of
+events at the front of the event queue that match
+@var{mask}, removing them from the queue.
+If there are errors, return @code{#f}.
+
+See @code{flagstash:event-mask}.  */)
+{
+  const struct evqueue_do_details dd =
+    {
+      .who = s_evqueue_get,
+      .act = SDL_GETEVENT,
+      .acc = true
+    };
+
+  return evqueue_do (&dd, n, mask);
+}
+
+PRIMPROC
 (peep_events, "peep-events", 4, 0, 0,
  (SCM events, SCM numevents, SCM action, SCM mask),
  doc: /***********
+NB: This procedure is obsoleted by @code{evqueue-add},
+@code{evqueue-peek} and @code{evqueue-get};
+it @strong{will be removed} after 2013-12-31.
+
 Manage the event queue, depending on @var{action}:
 
 @table @code

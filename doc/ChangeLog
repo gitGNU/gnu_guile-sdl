@@ -1,3 +1,10 @@
+2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Add (sdl sdl) procs: evqueue-{add,peek,get}
+
+	* ref.texh (Events): Add @tsin for
+	‘evqueue-add’, ‘evqueue-peek’, ‘evqueue-get’.
+
 2013-07-01  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[mixer] Change "fading status" symbols; internalize enumstash.

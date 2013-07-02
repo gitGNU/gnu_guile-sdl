@@ -1,5 +1,15 @@
 2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Add (sdl sdl) procs: evqueue-{add,peek,get}
+
+	* sdlevent.c (evqueue_add): New PRIMPROC.
+	(evqueue_do_details): New struct.
+	(evqueue_do): New static func.
+	(evqueue_peek, evqueue_get): New PRIMPROCs.
+	(peep_events): Add "obsoleted" blurb.
+
+2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Fix bug: Make ‘push-event’ return a boolean.
 
 	* sdlevent.c (push_event): Return ‘#t’ on success.
