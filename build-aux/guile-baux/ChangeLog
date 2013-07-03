@@ -1,3 +1,9 @@
+2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Do ‘s/enum_struct/kp_t/g’.
+
+	* k2c: ...here.
+
 2013-06-30  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build int] Bifurcate k2c on flocking/peerless "type".

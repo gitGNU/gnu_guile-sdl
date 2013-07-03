@@ -1,3 +1,12 @@
+2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Do ‘s/enum_struct/kp_t/g’.
+
+	* guile-sdl.h: ...here.
+	* sdlenums.c: Likewise.
+	* sdlevent.c: Likewise.
+	* sdlgfx.c: Likewise.
+
 2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Take ‘#t’ to mean "full set" in flags-to-number conversion.

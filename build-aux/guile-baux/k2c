@@ -296,7 +296,7 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
                   (fs "static ~A = {"
                       (fs (case type
                             ((flocking) "flagstash_t ~A_flagstash")
-                            ((peerless) "enum_struct ~A_kp"))
+                            ((peerless) "kp_t ~A_kp"))
                           nick))
                   (join ",\n  "
                         (fs "  .ss = { ~A }"

@@ -197,7 +197,7 @@ typedef struct {
   SCM *linear;
   SCM table;
   struct symset ss;
-} enum_struct;
+} kp_t;
 
 typedef struct flagstash {
   const unsigned long const *val;
@@ -207,7 +207,7 @@ typedef struct flagstash {
   struct symset ss;
 } flagstash_t;
 
-typedef SCM (register_kp_t) (enum_struct *kp, bool public);
+typedef SCM (register_kp_t) (kp_t *kp, bool public);
 
 typedef long (enum2long_t) (SCM s_enum, SCM enum_type,
                             int pos, const char *func);

@@ -31,13 +31,13 @@ static long enum_tag;
   ASSERT_SMOB (obj, enum, which)
 
 #define UNPACK_ENUM(smob) \
-  (SMOBGET (smob, enum_struct *))
+  (SMOBGET (smob, kp_t *))
 
 static
 SCM
 mark_enum (SCM enumstash)
 {
-  enum_struct *enum_smob = UNPACK_ENUM (enumstash);
+  kp_t *enum_smob = UNPACK_ENUM (enumstash);
 
   scm_gc_mark (enum_smob->table);
   return BOOL_FALSE;
@@ -47,7 +47,7 @@ static
 int
 print_enum (SCM smob, SCM port, scm_print_state *ps)
 {
-  enum_struct *stash = UNPACK_ENUM (smob);
+  kp_t *stash = UNPACK_ENUM (smob);
   const struct symset *ss = &stash->ss;
   char buf[64];
 
@@ -60,7 +60,7 @@ print_enum (SCM smob, SCM port, scm_print_state *ps)
 
 /* Register a C enum.  */
 static SCM
-register_kp (enum_struct *kp, bool public)
+register_kp (kp_t *kp, bool public)
 {
   const struct symset *ss = &kp->ss;
   const uint8_t *pool = ss->pool;
@@ -101,7 +101,7 @@ register_kp (enum_struct *kp, bool public)
 }
 
 static inline SCM
-lookup (SCM key, enum_struct *e)
+lookup (SCM key, kp_t *e)
 {
   return scm_hashq_ref (e->table, key, BOOL_FALSE);
 }
@@ -113,7 +113,7 @@ static long
 enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
 {
   long result = 0;
-  enum_struct *e = UNPACK_ENUM (enumstash);
+  kp_t *e = UNPACK_ENUM (enumstash);
   size_t idx;
 
   if (SCM_SYMBOLP (obj))
@@ -151,7 +151,7 @@ Return the list of symbols belonging to @var{enumstash}.  */)
 {
 #define FUNC_NAME s_enumstash_enums
   SCM rv;
-  enum_struct *enum_type;
+  kp_t *enum_type;
   size_t i;
 
   ASSERT_ENUM (enumstash, 1);
@@ -174,7 +174,7 @@ Return the number associated with @var{symbol}, or @code{#f}
 if it does not belong to @var{enumstash}.  */)
 {
 #define FUNC_NAME s_enum_to_number
-  enum_struct *e;
+  kp_t *e;
   SCM idx;
   int cidx;
 
