@@ -1,5 +1,14 @@
 2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Add kp comprehension.
+
+	* k2c (comprehend): New proc.
+	(k2c/qop): Comprehend kp numbers; if ‘classic’, don't output
+	foo_values; if ‘offset’, output only the first number in
+	foo_values; output .classic and .offset init forms in foo_kp.
+
+2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Don't bother specifying len in FOO_values array.
 
 	* k2c (k2c/qop): ...here.

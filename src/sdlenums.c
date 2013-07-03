@@ -73,7 +73,11 @@ register_kp (kp_t *kp, bool public)
   ht = GC_PROTECT (MAKE_HASH_TABLE (count));
   for (i = 0; i < count; i++)
     {
-      long value = kp->val[i];
+      long value = (kp->classic
+                    ? i
+                    : (kp->offset
+                       ? i + kp->val[0]
+                       : kp->val[i]));
       uint8_t len = *pool++;
       SCM sym = GC_PROTECT (SYMBOLN ((char *) pool, len));
 
@@ -122,7 +126,11 @@ enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
       if (NOT_FALSEP (obj))
         {
           idx = C_INT (obj);
-          result = e->val[idx];
+          result = (e->classic
+                    ? idx
+                    : (e->offset
+                       ? idx + e->val[0]
+                       : e->val[idx]));
         }
     }
   else
@@ -183,10 +191,13 @@ if it does not belong to @var{enumstash}.  */)
 
   e = UNPACK_ENUM (enumstash);
   idx = lookup (symbol, e);
-  return EXACTLY_FALSEP (idx)
+  return (EXACTLY_FALSEP (idx)
+          || e->classic)
     ? idx
     : (cidx = C_INT (idx),
-       NUM_INT (e->val[cidx]));
+       NUM_INT (e->offset
+                ? cidx + e->val[0]
+                : e->val[cidx]));
 #undef FUNC_NAME
 }
 

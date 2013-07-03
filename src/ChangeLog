@@ -1,5 +1,22 @@
 2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Add kp comprehension.
+
+	* guile-sdl.h (kp_t): Add members ‘classic’, ‘offset’.
+	* sdlenums.c (register_kp): Update ‘value’
+	computation to handle ‘classic’ and ‘offset’ modes.
+	(enum2long): Likewise, for ‘result’ computation.
+	(enum_to_number): Likewise, for return value.
+	* sdlevent.c (active_values): Delete.
+	(active_kp): Update with ‘val = NULL’,
+	‘classic = true’ and ‘offset = false’.
+	(evstate_kp): Update with both ‘classic’ and ‘offset’ false.
+	* sdlgfx.c (frot_values): Delete.
+	(frot_kp): Update with ‘val = NULL’,
+	‘classic = true’ and ‘offset = false’.
+
+2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Do ‘s/enum_struct/kp_t/g’.
 
 	* guile-sdl.h: ...here.

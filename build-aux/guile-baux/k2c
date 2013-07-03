@@ -239,6 +239,18 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
     (delete-file exe)
     rv))
 
+(define (comprehend ls)
+  (let ((classic (iota (length ls))))
+    (cond ((equal? ls classic)
+           'classic)
+          ((equal? ls (map (let ((first (car ls)))
+                             (lambda (n)
+                               (+ first n)))
+                           classic))
+           'offset)
+          (else
+           #f))))
+
 (define (k2c/qop qop)
   (let* ((specfile (if (null? (qop '()))
                        (die #f "missing input file")
@@ -277,16 +289,23 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
                              (qspec #:symrgx)
                              (qspec #:region)))
            (linear (sorted type specfile header found qspec))
+           (numbers (map car linear))
+           (comp (case type
+                   ((flocking) #f)
+                   ((peerless) (comprehend numbers))))
            (len (length linear)))
-      (spew (fs "static ~Along ~A_values[] = {~%  ~A~%};~%~%"
-                (case type
-                  ((flocking) "unsigned ")
-                  ((peerless) ""))
-                nick
-                (string-join (map (lambda (n)
-                                    (fs "0x~A" (number->string n 16)))
-                                  (map car linear))
-                             ",\n  ")))
+      (or (eq? 'classic comp)
+          (spew (fs "static ~Along ~A_values[] = {~%  ~A~%};~%~%"
+                    (case type
+                      ((flocking) "unsigned ")
+                      ((peerless) ""))
+                    nick
+                    (string-join (map (lambda (n)
+                                        (fs "0x~A" (number->string n 16)))
+                                      (case comp
+                                        ((offset) (list (car numbers)))
+                                        (else numbers)))
+                                 ",\n  "))))
       (spew (pascal-pool (map cdr linear)
                          'uint8_t (fs "~A_names" nick)
                          'essential
@@ -298,13 +317,28 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
                             ((flocking) "flagstash_t ~A_flagstash")
                             ((peerless) "kp_t ~A_kp"))
                           nick))
-                  (join ",\n  "
-                        (fs "  .ss = { ~A }"
-                            (join ", "
-                                  (fs ".count = ~A" len)
-                                  (fs ".pool = ~A_names" nick)
-                                  (fs ".name = ~S" pretty)))
-                        (fs ".val = ~A_values" nick))
+                  (let ((elems
+                         (list (fs "  .ss = { ~A }"
+                                   (join ", "
+                                         (fs ".count = ~A" len)
+                                         (fs ".pool = ~A_names" nick)
+                                         (fs ".name = ~S" pretty)))
+                               (fs ".val = ~A"
+                                   (case comp
+                                     ((classic) 'NULL)
+                                     (else (fs "~A_values" nick)))))))
+
+                    (define (boolean sym)
+                      (fs ".~A = ~A" sym (if (eq? comp sym)
+                                             'true
+                                             'false)))
+
+                    (case type
+                      ((peerless)
+                       (append! elems (list (boolean 'classic)
+                                            (boolean 'offset)))))
+
+                    (apply join ",\n  " elems))
                   "};")))
     (close-port op)))
 

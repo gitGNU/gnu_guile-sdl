@@ -27,14 +27,15 @@
 /* enum/flag types */
 
 static SCM active_enum;
-static long active_values[2] = { 0, 1 };
 static const uint8_t active_names[] = {
   /* lost */ 4,108,111,115,116,
   /* gained */ 6,103,97,105,110,101,100
 };
 static kp_t active_kp = {
   .ss = { .count = 2, .pool = active_names, .name = "activity-change" },
-  .val = active_values
+  .val = NULL,
+  .classic = true,
+  .offset = false
 };
 
 static SCM updn_enum;
@@ -62,7 +63,9 @@ static const uint8_t evstate_names[] = {
 };
 static kp_t evstate_kp = {
   .ss = { .count = 3, .pool = evstate_names, .name = "event-state" },
-  .val = evstate_values
+  .val = evstate_values,
+  .classic = false,
+  .offset = false
 };
 
 static SCM event_keysym_enum;

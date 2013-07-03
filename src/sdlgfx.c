@@ -654,7 +654,6 @@ draw string @var{text} with @var{color} (a number).  */)
 
 
 static SCM frot_enum;
-static const long frot_values[4] = { 0, 1, 2, 3 };
 static const uint8_t frot_names[] = {
   /* none */ 4,110,111,110,101,
   /* clockwise */ 9,99,108,111,99,107,119,105,115,101,
@@ -663,7 +662,9 @@ static const uint8_t frot_names[] = {
 };
 static kp_t frot_kp = {
   .ss = { .count = 4, .pool = frot_names, .name = "font-rotation" },
-  .val = frot_values
+  .val = NULL,
+  .classic = true,
+  .offset = false
 };
 
 PRIMPROC
