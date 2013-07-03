@@ -226,8 +226,12 @@ thus enforcing their "constant" nature and for ease of use in
 @code{case} statements.  Flags, such as the SDL initialization flags
 and video surface flags, are treated as lists of symbols, each
 constant in the flag group that you would @code{or} together in C code
-becoming a symbol in the list.  All such constant symbols retain their
-exact C names.
+becoming a symbol in the list.
+
+Some of these symbols retain their exact C names, while others
+are adapted to better fit Scheme (mostly by removing the @samp{SDL_}
+prefix, changing underscores to hyphens, downcasing, and inserting a
+hyphen between ``words'').
 
 A particular set of enums is called an @dfn{enumstash}.  Likewise
 @dfn{flagstash} for flags.

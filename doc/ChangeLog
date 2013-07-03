@@ -1,3 +1,10 @@
+2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[doc] Back off on "symbols retain their C names".
+
+	* guile-sdl.texi (Enums and Constants): ...here, instead,
+	describing the mix and alteration method in a separate para.
+
 2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Add (sdl sdl) procs: evqueue-{add,peek,get}
