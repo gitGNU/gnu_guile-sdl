@@ -316,7 +316,7 @@
                (uni (if unicode-enabled
                         (SDL:event:key:keysym:unicode e)
                         0)))
-           (display-centered "~A -- ~A~A -- ~A~A" nice
+           (display-centered "~A . ~A~A . ~A~A" nice
                              (SDL:event:key:keysym:scancode e)
                              (if (zero? uni)
                                  ""
@@ -324,7 +324,7 @@
                              (no-5 sym)
                              (if (null? mods)
                                  ""
-                                 (fs " -- ~A" (map no-5 mods))))
+                                 (fs " . ~A" (map no-5 mods))))
            (check-updn (SDL:event:key:state e))
            (and (eq? sym 'SDLK_SPACE)
                 (eq? event-type 'SDL_KEYUP)
@@ -336,7 +336,7 @@
                (input-loop e))))
         ((SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP)
          (let ((button (SDL:event:button:button e)))
-           (display-centered "~A -- ~A -- ~Ax~A" nice button
+           (display-centered "~A . ~A . ~Ax~A" nice button
                              (SDL:event:button:x e)
                              (SDL:event:button:y e)))
          (check-updn (SDL:event:button:state e))
@@ -344,44 +344,44 @@
         ((SDL_MOUSEMOTION)
          (let ((x (SDL:event:motion:x e))
                (y (SDL:event:motion:y e)))
-           (display-centered "~A -- ~Ax~A ~S" nice x y
+           (display-centered "~A . ~Ax~A ~S" nice x y
                              (cons* (SDL:event:motion:xrel e)
                                     (SDL:event:motion:yrel e)
                                     (SDL:event:motion:state e))))
          (input-loop e))
         ((SDL_JOYBUTTONDOWN SDL_JOYBUTTONUP)
-         (display-centered "~A -- j~A b~A"
+         (display-centered "~A . j~A b~A"
                            nice
                            (SDL:event:jbutton:which e)
                            (SDL:event:jbutton:button e))
          (check-updn (SDL:event:jbutton:state e))
          (input-loop e))
         ((SDL_JOYAXISMOTION)
-         (display-centered "~A -- j~S a~S ~S" nice
+         (display-centered "~A . j~S a~S ~S" nice
                            (SDL:event:jaxis:which e)
                            (SDL:event:jaxis:axis e)
                            (SDL:event:jaxis:value e))
          (input-loop e))
         ((SDL_JOYBALLMOTION)
-         (display-centered "~A -- j~S b~S (~S, ~S)" nice
+         (display-centered "~A . j~S b~S (~S, ~S)" nice
                            (SDL:event:jball:which e)
                            (SDL:event:jball:ball e)
                            (SDL:event:jball:xrel e)
                            (SDL:event:jball:yrel e))
          (input-loop e))
         ((SDL_JOYHATMOTION)
-         (display-centered "~A -- j~S h~S ~S" nice
+         (display-centered "~A . j~S h~S ~S" nice
                            (SDL:event:jhat:which e)
                            (SDL:event:jhat:hat e)
                            (SDL:event:jhat:value e))
          (input-loop e))
         ((SDL_ACTIVEEVENT)
-         (display-centered "~A -- ~S ~S" nice
+         (display-centered "~A . ~S ~S" nice
                            (SDL:event:active:gain e)
                            (SDL:event:active:state e))
          (input-loop e))
         ((SDL_VIDEORESIZE)
-         (display-centered "~A -- ~Sx~S" nice
+         (display-centered "~A . ~Sx~S" nice
                            (SDL:event:resize:w e)
                            (SDL:event:resize:h e))
          (input-loop e))
@@ -396,7 +396,7 @@
 (for-each (lambda (type)
             (scroll-up!)
             (display-centered
-             "~A : ~A"
+             "~A . ~A"
              (nice-type type)
              (let* ((ans (if (SDL:event-type-handling type)
                              'yes

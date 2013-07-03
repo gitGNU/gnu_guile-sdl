@@ -1,3 +1,9 @@
+2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Use " . " to separate fields in event test display.
+
+	* event.scm: ...here, throughout.
+
 2013-07-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Exercise/check evqueue-{add,peek,get}.
