@@ -1,5 +1,11 @@
 2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Don't bother specifying len in FOO_values array.
+
+	* k2c (k2c/qop): ...here.
+
+2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Do ‘s/enum_struct/kp_t/g’.
 
 	* k2c: ...here.

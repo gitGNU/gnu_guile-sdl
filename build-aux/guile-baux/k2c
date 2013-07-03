@@ -278,11 +278,11 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
                              (qspec #:region)))
            (linear (sorted type specfile header found qspec))
            (len (length linear)))
-      (spew (fs "static ~Along ~A_values[~A] = {~%  ~A~%};~%~%"
+      (spew (fs "static ~Along ~A_values[] = {~%  ~A~%};~%~%"
                 (case type
                   ((flocking) "unsigned ")
                   ((peerless) ""))
-                nick len
+                nick
                 (string-join (map (lambda (n)
                                     (fs "0x~A" (number->string n 16)))
                                   (map car linear))
