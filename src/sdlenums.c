@@ -105,7 +105,7 @@ register_kp (kp_t *kp, bool public)
 }
 
 static inline SCM
-lookup (SCM key, kp_t *e)
+lookup (SCM key, const kp_t *e)
 {
   return scm_hashq_ref (e->table, key, BOOL_FALSE);
 }
