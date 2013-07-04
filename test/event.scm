@@ -439,7 +439,7 @@
         SDL:event:button:set-x!      x
         SDL:event:button:set-y!      y)
   (fake 'SDL_MOUSEMOTION
-        SDL:event:motion:set-state! 'released
+        SDL:event:motion:set-state! 'wheel-up
         SDL:event:motion:set-x!     (1+ x)
         SDL:event:motion:set-xrel!   1
         SDL:event:motion:set-y!     (1+ y)
