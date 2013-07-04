@@ -64,7 +64,6 @@
   `(("surface" ,(lambda () (SDL:make-surface 123 79 '())))
     ("rectangle" ,(lambda () (SDL:make-rect 0 0 123 79)))
     ("event" ,SDL:make-event)
-    ("keysym" ,SDL:make-keysym)
     ("color" ,(lambda () (SDL:make-color #xaa #x88 #x55)))
     ("joystick" ,SDL:joystick-open)
     ("cd" ,SDL:cd-open)

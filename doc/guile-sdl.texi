@@ -254,7 +254,7 @@ VIDEORESIZE
 @end defvr
 
 @defvr enumstash event-keys
-First arg to @code{make-keysym}.  @xref{Events}.
+@xref{Events}.
 Values are @code{SDLK_@var{foo}}, where @var{foo} can be:
 @example
 a b c d e f g h i j k l m n o p q r s t u v w x y z

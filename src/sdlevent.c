@@ -132,30 +132,6 @@ free_event (SCM event)
 }
 
 
-static long keysym_tag;
-
-#define keysym_nick "SDL-Keysym"
-
-#define ASSERT_KEYSYM(obj,which) \
-  ASSERT_SMOB (obj, keysym, which)
-
-#define UNPACK_KEYSYM(smob) \
-  (SMOBGET (smob, SDL_keysym *))
-
-#define RETURN_NEW_KEYSYM(x) \
-  NEWSMOB_OR_FALSE (keysym_tag, x)
-
-static
-size_t
-free_keysym (SCM keysym)
-{
-  SDL_keysym *ckeysym = UNPACK_KEYSYM (keysym);
-
-  GCFREE (ckeysym, keysym_nick);
-  return GCRV (ckeysym);
-}
-
-
 /* Constructors */
 
 #define GCMALLOC_EVENT()  GCMALLOC (sizeof (SDL_Event), event_nick)
@@ -181,41 +157,6 @@ If omitted, the default is @code{SDL_NOEVENT}.
     event->type = ctype;
 
   RETURN_NEW_EVENT (event);
-#undef FUNC_NAME
-}
-
-PRIMPROC
-(make_keysym, "make-keysym", 0, 2, 0,
- (SCM sym, SCM mod),
- doc: /***********
-Return a new keysym.  Optional args @var{sym} and @var{mod}
-specify one of the @code{event-keys} (@pxref{Enums and Constants})
-and any modifiers (from @code{flasgstash:event-mod}), respectively.  */)
-{
-#define FUNC_NAME s_make_keysym
-  SDL_keysym *keysym;
-
-  if ((keysym = GCMALLOC (sizeof (SDL_keysym), keysym_nick)))
-    {
-      /* Set the sym if given.  */
-      UNBOUND_MEANS_FALSE (sym);
-      if (NOT_FALSEP (sym))
-        {
-          ASSERT_INTEGER (sym, 1);
-          /* keysym->sym = (SDLKey) C_LONG (sym); */
-          keysym->sym = (SDLKey) GSDL_ENUM2LONG (sym, event_keysym_enum, 1);
-        }
-
-      /* Set the mod if given.  */
-      if (BOUNDP (mod))
-        {
-          ASSERT_INTEGER (mod, 2);
-          keysym->mod = (SDLMod) GSDL_FLAGS2ULONG (mod, event_mod_flags, 2);
-        }
-    }
-
-  /* Return the new smob.  */
-  RETURN_NEW_KEYSYM (keysym);
 #undef FUNC_NAME
 }
 
@@ -1078,11 +1019,6 @@ gsdl_init_event (void)
            NULL,
            free_event,
            /* TODO: print_event */ NULL);
-
-  DEFSMOB (keysym_tag, keysym_nick,
-           NULL,
-           free_keysym,
-           /* TODO: print_keysym */ NULL);
 
   /* event type constants */
   event_type_enum = btw->register_kp (&evtypeold_kp, true);

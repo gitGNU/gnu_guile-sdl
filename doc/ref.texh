@@ -287,8 +287,6 @@ VIDEOEXPOSE   VIDEORESIZE
 
 @tsin i make-event
 
-@tsin i make-keysym
-
 @tsin i event:type
 
 @tsin i event:set-type!
