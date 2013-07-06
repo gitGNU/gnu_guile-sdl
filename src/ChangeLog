@@ -1,3 +1,10 @@
+2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[gfx] Accept integer ROTATION for ‘font-rotation!’.
+
+	* sdlgfx.c (font_rotation_x): Don't coerce non-symbol
+	objects to 0; call ‘GSDL_ENUM2LONG’ directly.
+
 2013-07-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Add a ‘const’.

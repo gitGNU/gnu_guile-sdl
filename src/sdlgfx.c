@@ -671,17 +671,19 @@ PRIMPROC
 (font_rotation_x, "font-rotation!", 1, 0, 0,
  (SCM rotation),
  doc: /***********
-Set the rotation for glyphs drawn by @code{draw-character}
-and @code{draw-string} to @var{rotation}, one of the (symbolic)
-elements of enumstash @code{font-rotations}.
-Any other value is taken as @code{none}.  */)
+Set the rotation for glyphs drawn by @code{draw-character} and
+@code{draw-string} to @var{rotation} (an integer or symbol), one of:
+
+@example
+0  none
+1  clockwise
+2  upside-down
+3  counter-clockwise
+@end example  */)
 {
 #define FUNC_NAME s_font_rotation_x
-  int crotation;
+  int crotation = GSDL_ENUM2LONG (rotation, frot_enum, 1);
 
-  crotation = SYMBOLP (rotation)
-    ? GSDL_ENUM2LONG (rotation, frot_enum, 1)
-    : 0;
   gfxPrimitivesSetFontRotation (crotation);
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
