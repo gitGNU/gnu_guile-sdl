@@ -23,6 +23,19 @@
 #include <stdio.h>
 #include "snuggle/mkhash.h"
 
+DECLARE_SYM (nonmember, "non-member-symbol");
+
+static SCM_NORETURN void
+sorry (const char *FUNC_NAME, const char *nick, SCM symbol)
+{
+  SCM args = LIST2 (STRING (nick), symbol);
+
+  scm_error (SYM (nonmember), FUNC_NAME,
+             "invalid ~A: ~A", args, BOOL_FALSE);
+}
+
+#define SORRY(nick,symbol)  sorry (FUNC_NAME, nick, symbol)
+
 #define enum_nick "SDL-enum"
 
 static long enum_tag;
@@ -122,16 +135,16 @@ enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
 
   if (SCM_SYMBOLP (obj))
     {
-      obj = lookup (obj, e);
-      if (NOT_FALSEP (obj))
-        {
-          idx = C_INT (obj);
-          result = (e->classic
-                    ? idx
-                    : (e->offset
-                       ? idx + e->val[0]
-                       : e->val[idx]));
-        }
+      SCM sidx = lookup (obj, e);
+
+      if (EXACTLY_FALSEP (sidx))
+        SORRY (e->ss.name, obj);
+      idx = C_INT (sidx);
+      result = (e->classic
+                ? idx
+                : (e->offset
+                   ? idx + e->val[0]
+                   : e->val[idx]));
     }
   else
     {
@@ -178,26 +191,14 @@ PRIMPROC
  (SCM enumstash,
   SCM symbol),
  doc: /***********
-Return the number associated with @var{symbol}, or @code{#f}
-if it does not belong to @var{enumstash}.  */)
+Return the number in @var{enumstash} associated with @var{symbol}.  */)
 {
 #define FUNC_NAME s_enum_to_number
-  kp_t *e;
-  SCM idx;
-  int cidx;
-
   ASSERT_ENUM (enumstash, 1);
   ASSERT_SYMBOL (symbol, 2);
 
-  e = UNPACK_ENUM (enumstash);
-  idx = lookup (symbol, e);
-  return (EXACTLY_FALSEP (idx)
-          || e->classic)
-    ? idx
-    : (cidx = C_INT (idx),
-       NUM_INT (e->offset
-                ? cidx + e->val[0]
-                : e->val[cidx]));
+  return NUM_INT
+    (GSDL_ENUM2LONG (symbol, enumstash, 2));
 #undef FUNC_NAME
 }
 
@@ -302,8 +303,9 @@ flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
                                                         \
       ASSERT_SYMBOL (x, pos);                           \
       sidx = scm_hashq_ref (s->ht, x, BOOL_FALSE);      \
-      if (NOT_FALSEP (sidx))                            \
-        result |= s->val[C_INT (sidx)];                 \
+      if (EXACTLY_FALSEP (sidx))                        \
+        SORRY (s->ss.name, x);                          \
+      result |= s->val[C_INT (sidx)];                   \
     }                                                   \
   while (0)
 

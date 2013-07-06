@@ -332,6 +332,13 @@ symbol and numeric value with @code{enum->number}, @code{number->enum},
 
 @include ef-ref.texi
 
+@cindex @code{non-member-symbol}, error key
+@cindex error key @code{non-member-symbol}
+Conversion from symbols to numbers (including @code{enum->number} and
+@code{flags->number}) throws an error with key @code{non-member-symbol}
+if the specified symbol is not a member of the respective enumstash or
+flagstash.
+
 @node Create and Make
 @subsection Create and Make
 

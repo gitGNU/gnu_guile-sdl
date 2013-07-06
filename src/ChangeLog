@@ -1,5 +1,16 @@
 2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Detect non-member-symbol and throw error.
+
+	* sdlenums.c (gsdl_sym_nonmember): New DECLARE_SYM.
+	(sorry): New static func.
+	(SORRY): New macro.
+	(enum2long): If symbol is not hashed, throw error.
+	(enum_to_number): Use ‘GSDL_ENUM2LONG’ directly.
+	(flags2long): If symbol is not hashed, throw error.
+
+2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[gfx] Accept integer ROTATION for ‘font-rotation!’.
 
 	* sdlgfx.c (font_rotation_x): Don't coerce non-symbol
