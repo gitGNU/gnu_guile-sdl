@@ -682,7 +682,8 @@ Set the rotation for glyphs drawn by @code{draw-character} and
 @end example  */)
 {
 #define FUNC_NAME s_font_rotation_x
-  int crotation = GSDL_ENUM2LONG (rotation, frot_enum, 1);
+  DECLINIT_SYM2NUM_CC       (1, frot_enum);
+  int crotation = ENUM2LONG (1, rotation);
 
   gfxPrimitivesSetFontRotation (crotation);
   RETURN_UNSPECIFIED;

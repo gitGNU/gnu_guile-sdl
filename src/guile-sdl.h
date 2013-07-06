@@ -207,25 +207,40 @@ typedef struct flagstash {
   struct symset ss;
 } flagstash_t;
 
+/* We use "caller constants" to reduce data motion.
+   Note also the ‘const’ in ‘DECLINIT_SYM2NUM_CC’.  */
+
+typedef struct sym2num_cc {
+  const SCM   stash;
+  const char *who;
+  const int   pos;
+} sym2num_cc_t;
+
+#define DECLINIT_SYM2NUM_CC(POS,STASH)          \
+  const sym2num_cc_t _CC_ ## POS =              \
+    {                                           \
+      .stash = STASH,                           \
+      .who = FUNC_NAME,                         \
+      .pos = POS                                \
+    }
+
 typedef SCM (register_kp_t) (kp_t *kp, bool public);
 
-typedef long (enum2long_t) (SCM s_enum, SCM enum_type,
-                            int pos, const char *func);
+typedef long (enum2long_t) (const sym2num_cc_t *cc, SCM obj);
 
 typedef SCM (long2enum_t) (long value, SCM enum_type);
 
-#define GSDL_ENUM2LONG(enums,table,pos) \
-  btw->enum2long ((enums), (table), (pos), FUNC_NAME)
+#define ENUM2LONG(POS,OBJECT) \
+  btw->enum2long (& _CC_ ## POS, OBJECT)
 
 /* flags (constants typically used as a logical or'ed group) */
 
-typedef unsigned long (flags2ulong_t) (SCM flags, SCM table,
-                                       int pos, const char *func);
+typedef unsigned long (flags2ulong_t) (const sym2num_cc_t *cc, SCM obj);
 
 typedef SCM (ulong2flags_t) (unsigned long value, SCM stash);
 
-#define GSDL_FLAGS2ULONG(flags,table,pos) \
-  btw->flags2ulong ((flags), (table), (pos), FUNC_NAME)
+#define FLAGS2ULONG(POS,OBJECT) \
+  btw->flags2ulong (& _CC_ ## POS, OBJECT)
 
 typedef SCM (make_flagstash_t) (flagstash_t *stash);
 
@@ -455,8 +470,9 @@ PRIMPROC (cname, sname, 2, 0, 0, (SCM lpre, SCM value),                 \
           " to @var{value}, a symbol or integer.")                      \
 {                                                                       \
   const char *FUNC_NAME = s_ ## cname;                                  \
+  DECLINIT_SYM2NUM_CC (1, etype);                                       \
   ASSERT_SMOB (lpre, lpre, 1);                                          \
-  SMOBF (lpre, ctype, field) = GSDL_ENUM2LONG (value, etype, 1);        \
+  SMOBF (lpre, ctype, field) = ENUM2LONG (1, value);                    \
   RETURN_UNSPECIFIED;                                                   \
 }
 
@@ -478,8 +494,9 @@ PRIMPROC (cname, sname, 2, 0, 0, (SCM lpre, SCM value),                 \
           " to @var{value}, a (possibly empty) list of symbols.")       \
 {                                                                       \
   const char *FUNC_NAME = s_ ## cname;                                  \
+  DECLINIT_SYM2NUM_CC (2, stash);                                       \
   ASSERT_SMOB (lpre, lpre, 1);                                          \
-  SMOBF (lpre, ctype, field) = GSDL_FLAGS2ULONG (value, stash, 2);      \
+  SMOBF (lpre, ctype, field) = FLAGS2ULONG (2, value);                  \
   RETURN_UNSPECIFIED;                                                   \
 }
 

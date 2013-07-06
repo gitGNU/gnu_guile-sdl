@@ -77,6 +77,7 @@ further specifies the surface.  Color depth and masks
 are those for the current video surface.  */)
 {
 #define FUNC_NAME s_make_surface
+  DECLINIT_SYM2NUM_CC (3, btw->video_flags);
   Uint32 cflags;
   const SDL_PixelFormat *fmt;
   const SDL_Surface *cur;
@@ -88,7 +89,7 @@ are those for the current video surface.  */)
   fmt = cur ? cur->format : SDL_GetVideoInfo ()->vfmt;
   cflags = (UNBOUNDP (flags)
             ? (cur ? cur->flags : 0)
-            : GSDL_FLAGS2ULONG (flags, btw->video_flags, 3));
+            : FLAGS2ULONG (3, flags));
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
@@ -118,6 +119,8 @@ for SDL_CreateRGBSurface, are: @var{flags}
 (all numbers).  */)
 {
 #define FUNC_NAME s_create_rgb_surface
+
+  DECLINIT_SYM2NUM_CC (1, btw->video_flags);
   Uint32 cflags;
 
   ASSERT_INTEGER (width,  2);
@@ -128,7 +131,7 @@ for SDL_CreateRGBSurface, are: @var{flags}
   ASSERT_INTEGER (bmask,  7);
   ASSERT_INTEGER (amask,  8);
 
-  cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 1);
+  cflags = FLAGS2ULONG (1, flags);
 
   /* Return a newly allocated surface smob.  */
   RETURN_NEW_SURFACE
@@ -331,12 +334,13 @@ Set @var{surface} color key as specified by @var{flag}
 (see @code{flagstash:video}) and @var{key}.  */)
 {
 #define FUNC_NAME s_set_color_key
+  DECLINIT_SYM2NUM_CC (2, btw->video_flags);
   Uint32 cflag;
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_INTEGER (key, 3);
 
-  cflag = GSDL_FLAGS2ULONG (flag, btw->video_flags, 2);
+  cflag = FLAGS2ULONG (2, flag);
 
   RETURN_TRUE_IF_0
     (SDL_SetColorKey (UNPACK_SURFACE (surface), cflag, C_LONG (key)));
@@ -358,6 +362,7 @@ RLE acceleration.
 Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_surface_alpha_x
+  DECLINIT_SYM2NUM_CC (2, kp_alpha);
   Uint32 cflags;
   Uint8 calpha;
 
@@ -370,7 +375,7 @@ Return @code{#t} if successful.  */)
       cflags = SDL_SRCALPHA | (NOT_FALSEP (rle)
                                ? SDL_RLEACCEL
                                : 0);
-      calpha = GSDL_ENUM2LONG (alpha, kp_alpha, 2);
+      calpha = ENUM2LONG (2, alpha);
     }
 
   RETURN_TRUE_IF_0
@@ -396,6 +401,8 @@ Adjust whole-@var{surface} alpha as specified by
 If @var{flag} is @code{#f}, ignore @var{alpha} completely.  */)
 {
 #define FUNC_NAME s_set_alpha
+  DECLINIT_SYM2NUM_CC (2, btw->video_flags);
+  DECLINIT_SYM2NUM_CC (3, alpha_enums);
   Uint32 cflag;
   Uint8 calpha;
 
@@ -412,8 +419,8 @@ If @var{flag} is @code{#f}, ignore @var{alpha} completely.  */)
 
   cflag = (EXACTLY_FALSEP (flag)
            ? 0
-           : GSDL_FLAGS2ULONG (flag, btw->video_flags, 2));
-  calpha = (Uint8) GSDL_ENUM2LONG (alpha, alpha_enums, 3);
+           : FLAGS2ULONG (2, flag));
+  calpha = (Uint8) ENUM2LONG (3, alpha);
 
   RETURN_TRUE_IF_0
     (SDL_SetAlpha (UNPACK_SURFACE (surface),
@@ -479,13 +486,14 @@ surface.  Optional third arg @var{flags} is a list of flags
 (symbols) from the set returned by @code{flagstash:video}.  */)
 {
 #define FUNC_NAME s_convert_surface
+  DECLINIT_SYM2NUM_CC (3, btw->video_flags);
   Uint32 cflags = 0;
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_PIXEL_FORMAT (format, 2);
 
   if (BOUNDP (flags))
-    cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 3);
+    cflags = FLAGS2ULONG (3, flags);
 
   RETURN_NEW_SURFACE
     (SDL_ConvertSurface (UNPACK_SURFACE (surface),

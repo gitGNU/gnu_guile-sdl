@@ -219,6 +219,7 @@ Optional arg @var{display} specifies a surface to use
 instead of creating a new one.  */)
 {
 #define FUNC_NAME s_create_yuv_overlay
+  DECLINIT_SYM2NUM_CC (3, gsdl_overlay_formats);
   Uint32 cformat;
   SDL_Surface *cdisplay;
 
@@ -226,7 +227,7 @@ instead of creating a new one.  */)
   ASSERT_INTEGER (height, 2);
 
   if (SYMBOLP (format))
-    cformat = GSDL_FLAGS2ULONG (format, gsdl_overlay_formats, 3);
+    cformat = FLAGS2ULONG (3, format);
   else
     ASSERT_ULONG_COPY (format, 3);
 
@@ -396,8 +397,10 @@ Return @code{#f} if no modes are available, @code{#t} if all are available.  */)
   UNBOUND_MEANS_FALSE (flags);
   if (NOT_FALSEP (flags))
     {
+      DECLINIT_SYM2NUM_CC (2, btw->video_flags);
+
       ASSERT_INTEGER (flags, 2);
-      cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 2);
+      cflags = FLAGS2ULONG (2, flags);
     }
 
   modes = SDL_ListModes (cformat, cflags);
@@ -439,6 +442,7 @@ indicating the bits-per-pixel of the closest available
 mode supporting @var{width} and @var{height}.  */)
 {
 #define FUNC_NAME s_video_mode_ok
+  DECLINIT_SYM2NUM_CC (4, btw->video_flags);
   Uint32 cflags = 0;
   int result;
 
@@ -447,7 +451,7 @@ mode supporting @var{width} and @var{height}.  */)
   ASSERT_INTEGER (bpp,    3);
 
   if (BOUNDP (flags))
-    cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 4);
+    cflags = FLAGS2ULONG (4, flags);
 
   result = SDL_VideoModeOK (C_LONG (width), C_LONG (height),
                             C_LONG (bpp), cflags);
@@ -466,6 +470,7 @@ Set the SDL video mode with @var{width},
 Return a new surface.  */)
 {
 #define FUNC_NAME s_set_video_mode
+  DECLINIT_SYM2NUM_CC (4, btw->video_flags);
   Uint32 cflags = 0;
 
   ASSERT_INTEGER (width,  1);
@@ -473,7 +478,7 @@ Return a new surface.  */)
   ASSERT_INTEGER (bpp,    3);
 
   if (BOUNDP (flags))
-    cflags = GSDL_FLAGS2ULONG (flags, btw->video_flags, 4);
+    cflags = FLAGS2ULONG (4, flags);
 
   RETURN_INT_SURFACE
     (SDL_SetVideoMode (C_LONG (width), C_LONG (height),
@@ -634,13 +639,14 @@ using @var{flags} (see @code{flagstash:palette}) and
 @var{colors}, a vector of SDL-Colors.  */)
 {
 #define FUNC_NAME s_set_palette
+  DECLINIT_SYM2NUM_CC (2, palette_flags);
   SDL_Color ccolors[256];
   int cflags, length;
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_COLORMAP_COPY (colors, 3, length);
 
-  cflags   = GSDL_FLAGS2ULONG (flags, palette_flags, 2);
+  cflags   = FLAGS2ULONG (2, flags);
   RETURN_BOOL
     (SDL_SetPalette (UNPACK_SURFACE (surface),
                      cflags, ccolors, 0, length));

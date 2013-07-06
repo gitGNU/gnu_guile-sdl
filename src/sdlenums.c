@@ -128,10 +128,11 @@ lookup (SCM key, const kp_t *e)
 /* C level conversions */
 
 static long
-enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
+enum2long (const sym2num_cc_t *cc, SCM obj)
 {
+  const char *FUNC_NAME = cc->who;
   long result = 0;
-  kp_t *e = UNPACK_ENUM (enumstash);
+  kp_t *e = UNPACK_ENUM (cc->stash);
   size_t idx;
 
   if (SCM_SYMBOLP (obj))
@@ -149,7 +150,7 @@ enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
     }
   else
     {
-      ASSERT_INTEGER (obj, pos);
+      ASSERT_INTEGER (obj, cc->pos);
       result = C_LONG (obj);
     }
 
@@ -195,11 +196,13 @@ PRIMPROC
 Return the number in @var{enumstash} associated with @var{symbol}.  */)
 {
 #define FUNC_NAME s_enum_to_number
+  DECLINIT_SYM2NUM_CC (2, enumstash);
+
   ASSERT_ENUM (enumstash, 1);
   ASSERT_SYMBOL (symbol, 2);
 
   return NUM_FASTINT
-    (GSDL_ENUM2LONG (symbol, enumstash, 2));
+    (ENUM2LONG (2, symbol));
 #undef FUNC_NAME
 }
 
@@ -287,9 +290,10 @@ make_flagstash (flagstash_t *stash)
 /* Converting from flags to ulong and back */
 
 static unsigned long
-flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
+flags2ulong (const sym2num_cc_t *cc, SCM flags)
 {
-  flagstash_t *s = UNPACK_FLAGSTASH (stash);
+  const char *FUNC_NAME = cc->who;
+  flagstash_t *s = UNPACK_FLAGSTASH (cc->stash);
   unsigned long result = 0;
 
   if (EXACTLY_FALSEP (flags) || NULLP (flags))
@@ -302,7 +306,7 @@ flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
     {                                                   \
       SCM sidx;                                         \
                                                         \
-      ASSERT_SYMBOL (x, pos);                           \
+      ASSERT_SYMBOL (x, cc->pos);                       \
       sidx = scm_hashq_ref (s->ht, x, BOOL_FALSE);      \
       if (EXACTLY_FALSEP (sidx))                        \
         SORRY (s->ss.name, x);                          \
@@ -399,9 +403,11 @@ or @code{#t}, which is taken as the list of all
 possible symbols in @var{stash}.  */)
 {
 #define FUNC_NAME s_flags_to_number
+  DECLINIT_SYM2NUM_CC (2, stash);
+
   ASSERT_FLAGSTASH (stash, 1);
 
-  RETURN_UINT (GSDL_FLAGS2ULONG (flags, stash, 2));
+  RETURN_UINT (FLAGS2ULONG (2, flags));
 #undef FUNC_NAME
 }
 

@@ -1,5 +1,37 @@
 2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use "caller constants" to reduce enums/flags data motion.
+
+	* guile-sdl.h (sym2num_cc_t): New struct and typedef.
+	(DECLINIT_SYM2NUM_CC): New macro.
+	(enum2long_t): Simplify arglist to ‘sym2num_cc_t *cc’ and ‘obj’.
+	(GSDL_ENUM2LONG): Delete macro.
+	(ENUM2LONG): New macro.
+	(flags2ulong_t): Simplify arglist to ‘sym2num_cc_t *cc’ and ‘obj’.
+	(GSDL_FLAGS2ULONG): Delete macro.
+	(FLAGS2ULONG): New macro.
+	(GSDL_ENUM_SETTER): Use ‘DECLINIT_SYM2NUM_CC’, ‘ENUM2LONG’.
+	(GSDL_FLAG_SETTER): Use ‘DECLINIT_SYM2NUM_CC’, ‘FLAGS2ULONG’.
+	* sdlenums.c (enum2long): Take ‘sym2num_cc_t *cc’ instead of
+	‘enumstash’, ‘pos’, ‘FUNC_NAME’; extract those from ‘cc’.
+	(enum_to_number): Use ‘DECLINIT_SYM2NUM_CC’, ‘ENUM2LONG’.
+	(flags2ulong): Take ‘sym2num_cc_t *cc’ instead of
+	‘stash’, ‘pos’, ‘FUNC_NAME’; extract those from ‘cc’.
+	(flags_to_number): Use ‘DECLINIT_SYM2NUM_CC’, ‘FLAGS2ULONG’.
+	* sdl.c (init, init_subsystem, quit_subsystem, was_init):
+	Use new macros for enums/flags decode.
+	* sdlevent.c (make_event, evqueue_do, peep_events)
+	(event_type_handling, event_state, set_mod_state, button_p): Likewise.
+	* sdlgfx.c (font_rotation_x): Likewise.
+	* sdljoystick.c (joystick_event_state): Likewise.
+	* sdlsurface.c (make_surface, create_rgb_surface, set_color_key)
+	(surface_alpha_x, set_alpha, convert_surface): Likewise.
+	* sdlttf.c (ttf_set_font_style): Likewise.
+	* sdlvideo.c (create_yuv_overlay, list_modes, video_mode_ok)
+	(set_video_mode, set_palette): Likewise.
+
+2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Drop abstraction: GI_LEVEL_NOT_YET_1_8
 
 	* b-uv.h: Throughout, use ‘! GI_LEVEL_1_8’ directly.

@@ -123,11 +123,12 @@ This font style is implemented by modifying the font glyphs, and
 doesn't reflect any inherent properties of the truetype font file.  */)
 {
 #define FUNC_NAME s_ttf_set_font_style
+  DECLINIT_SYM2NUM_CC (2, ttf_flags);
   int cstyle;
 
   ASSERT_TTFONT (font, 1);
 
-  cstyle = GSDL_FLAGS2ULONG (style, ttf_flags, 2);
+  cstyle = FLAGS2ULONG (2, style);
 
   TTF_SetFontStyle (UNPACK_TTFONT (font), cstyle);
   RETURN_UNSPECIFIED;

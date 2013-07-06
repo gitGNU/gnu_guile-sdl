@@ -252,7 +252,8 @@ When enabled, it is not necessary to call @code{joystick-update}.  */)
 {
 #define FUNC_NAME s_joystick_event_state
 #define ESE btw->event_state_enum
-  int cstate = GSDL_ENUM2LONG (state, ESE, 1);
+  DECLINIT_SYM2NUM_CC    (1, ESE);
+  int cstate = ENUM2LONG (1, state);
   int ret = SDL_JoystickEventState (cstate);
 
   return btw->long2enum (ret, ESE);

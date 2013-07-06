@@ -147,11 +147,12 @@ If omitted, the default is @code{SDL_NOEVENT}.
 @xref{Enums and Constants}.  */)
 {
 #define FUNC_NAME s_make_event
+  DECLINIT_SYM2NUM_CC (1, event_type_enum);
   SDL_Event *event;
   int ctype = SDL_NOEVENT;
 
   if (BOUNDP (type))
-    ctype = GSDL_ENUM2LONG (type, event_type_enum, 1);
+    ctype = ENUM2LONG (1, type);
 
   if ((event = GCMALLOC_EVENT ()))
     event->type = ctype;
@@ -408,12 +409,13 @@ static SCM
 evqueue_do (const struct evqueue_do_details *dd, SCM n, SCM mask)
 {
   const char *FUNC_NAME = dd->who;
+  DECLINIT_SYM2NUM_CC (2, event_mask_flags);
   SDL_Event *got;
   unsigned long cn, cmask;
   int count;
 
   ASSERT_ULONG_COPY (n, 1);
-  cmask = GSDL_FLAGS2ULONG (mask, event_mask_flags, 2);
+  cmask = FLAGS2ULONG (2, mask);
 
   if (! (got = ALLOCA_EVENTS (cn))
       || 0 > (count = SDL_PeepEvents (got, cn, dd->act, cmask)))
@@ -507,6 +509,8 @@ matching events instead of a count, removing them from the queue.
 @end table  */)
 {
 #define FUNC_NAME s_peep_events
+  DECLINIT_SYM2NUM_CC (3, event_action_enum);
+  DECLINIT_SYM2NUM_CC (4, event_mask_flags);
   SDL_Event *cevents = NULL;
   SDL_eventaction caction;
   int cnumevents, i, ret = -1;
@@ -514,7 +518,7 @@ matching events instead of a count, removing them from the queue.
   SCM ls = SCM_BOOL_F;
 
   ASSERT_LONG_COPY (numevents, 2);
-  caction = GSDL_ENUM2LONG (action, event_action_enum, 3);
+  caction = ENUM2LONG (3, action);
 
   switch (caction)
     {
@@ -545,7 +549,7 @@ matching events instead of a count, removing them from the queue.
       /* fallthrough */
 
     case SDL_PEEKEVENT:
-      cmask = GSDL_FLAGS2ULONG (mask, event_mask_flags, 4);
+      cmask = FLAGS2ULONG (4, mask);
       ret = SDL_PeepEvents (cevents, cnumevents, caction, cmask);
       if (0 > ret)
         SCM_MISC_ERROR ("badness", SCM_EOL);
@@ -739,7 +743,8 @@ If @var{setting} is specified, set the handling of
 @var{type} to the truth value of @var{setting} first.  */)
 {
 #define FUNC_NAME s_event_type_handling
-  int ctype = GSDL_ENUM2LONG (type, event_type_enum, 1);
+  DECLINIT_SYM2NUM_CC   (1, event_type_enum);
+  int ctype = ENUM2LONG (1, type);
 
   return BOOLEAN (SDL_ENABLE == SDL_EventState
                   (ctype, CSTATE_FROM_SETTING (setting)));
@@ -761,8 +766,10 @@ disable or enable, respectively, internal event @var{type}
 processing and return @var{state}.  */)
 {
 #define FUNC_NAME s_event_state
-  int ctype = GSDL_ENUM2LONG (type, event_type_enum, 1);
-  int cstate = GSDL_ENUM2LONG (state, event_state_enum, 2);
+  DECLINIT_SYM2NUM_CC   (1, event_type_enum);
+  int ctype = ENUM2LONG (1, type);
+  DECLINIT_SYM2NUM_CC    (2, event_state_enum);
+  int cstate = ENUM2LONG (2, state);
   int ret = SDL_EventState (ctype, cstate);
 
   return btw->long2enum (ret, event_state_enum);
@@ -851,7 +858,8 @@ a list of symbols.  This does not change the keyboard state,
 only the key modifier flags.  */)
 {
 #define FUNC_NAME s_set_mod_state
-  SDL_SetModState (GSDL_FLAGS2ULONG (modstate, event_mod_flags, 1));
+  DECLINIT_SYM2NUM_CC          (1, event_mod_flags);
+  SDL_SetModState (FLAGS2ULONG (1, modstate));
   RETURN_UNSPECIFIED;
 #undef FUNC_NAME
 }
@@ -955,7 +963,10 @@ equivalent to @code{(left right)}.  */)
   if (INTEGERP (mask))
     ASSERT_ULONG_COPY (mask, 1);
   else
-    cmask = GSDL_FLAGS2ULONG (mask, event_mb_flags, 1);
+    {
+      DECLINIT_SYM2NUM_CC (1, event_mb_flags);
+      cmask = FLAGS2ULONG (1, mask);
+    }
 
   if (! cmask)
     return BOOL_FALSE;

@@ -60,7 +60,8 @@ Initialize SDL based on configuration flags @var{sel}.
 with @code{SDL_INIT_}.  */)
 {
 #define FUNC_NAME s_init
-  RETURN_INT (SDL_Init (GSDL_FLAGS2ULONG (sel, init_flags, 1)));
+  DECLINIT_SYM2NUM_CC               (1, init_flags);
+  RETURN_INT (SDL_Init (FLAGS2ULONG (1, sel)));
 #undef FUNC_NAME
 }
 
@@ -74,7 +75,8 @@ Initialize the SDL subsystems represented by @var{sel}.
 from the same set useful for @code{init}.  */)
 {
 #define FUNC_NAME s_init_subsystem
-  RETURN_INT (SDL_InitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, 1)));
+  DECLINIT_SYM2NUM_CC                        (1, init_flags);
+  RETURN_INT (SDL_InitSubSystem (FLAGS2ULONG (1, sel)));
 #undef FUNC_NAME
 }
 
@@ -105,8 +107,10 @@ from the same set useful for @code{init}.
 Return @code{#t}.  */)
 {
 #define FUNC_NAME s_quit_subsystem
+  DECLINIT_SYM2NUM_CC (1, init_flags);
+
   scm_gc ();
-  SDL_QuitSubSystem (GSDL_FLAGS2ULONG (sel, init_flags, 1));
+  SDL_QuitSubSystem (FLAGS2ULONG (1, sel));
   return BOOL_TRUE;
 #undef FUNC_NAME
 }
@@ -123,8 +127,9 @@ from the same set useful for @code{init}.  Return a list
 likewise composed.  */)
 {
 #define FUNC_NAME s_was_init
-  return btw->ulong2flags (SDL_WasInit (GSDL_FLAGS2ULONG
-                                        (sel, init_flags, 1)),
+  DECLINIT_SYM2NUM_CC (1, init_flags);
+
+  return btw->ulong2flags (SDL_WasInit (FLAGS2ULONG (1, sel)),
                            init_flags);
 #undef FUNC_NAME
 }
