@@ -31,6 +31,7 @@ video.kf
 stdp =						\
 alphalim.kp					\
 alphalimold.kp					\
+cdstate.kp					\
 evaction.kp					\
 evtypeold.kp					\
 keysymold.kp					\

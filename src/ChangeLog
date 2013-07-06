@@ -1,5 +1,17 @@
 2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Generate CDROM states init data.
+
+	* k/cdstate.kp: New file.
+	* k/Makefile.am (stdp): Add cdstate.kp.
+	* sdlcdrom.c: #include "k/cdstate.c".
+	(cdrom_state): New static var.
+	(TRAYEMTPY, STOPPED, PLAYING, PAUSED, ERROR): Delete symbols.
+	(cd_status): Use ‘btw->long2enum’ and ‘cdromt_state’.
+	(gsdl_init_cdrom): Init ‘cdrom_state’.
+
+2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use "caller constants" to reduce enums/flags data motion.
 
 	* guile-sdl.h (sym2num_cc_t): New struct and typedef.

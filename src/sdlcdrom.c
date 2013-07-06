@@ -22,6 +22,9 @@
 #include <stdio.h>
 #include "b-values.h"
 
+static SCM cdrom_state;
+#include "k/cdstate.c"
+
 static long cdrom_tag;
 
 #define cdrom_nick "SDL-CD"
@@ -117,12 +120,6 @@ Optional arg @var{drive} is a number specifying which drive.  */)
 }
 
 
-DECLARE_SIMPLE_SYM (TRAYEMPTY);
-DECLARE_SIMPLE_SYM (STOPPED);
-DECLARE_SIMPLE_SYM (PLAYING);
-DECLARE_SIMPLE_SYM (PAUSED);
-DECLARE_SIMPLE_SYM (ERROR);
-
 PRIMPROC
 (cd_status, "cd-status", 1, 0, 0,
  (SCM cdrom),
@@ -134,14 +131,7 @@ as a symbol, one of: @code{TRAYEMTPY}, @code{STOPPED},
 #define FUNC_NAME s_cd_status
   ASSERT_FIRST_ARG_OPEN_CDROM ();
 
-  switch (SDL_CDStatus (cd))
-    {
-    case CD_TRAYEMPTY: return SYM (TRAYEMPTY);
-    case CD_STOPPED:   return SYM (STOPPED);
-    case CD_PLAYING:   return SYM (PLAYING);
-    case CD_PAUSED:    return SYM (PAUSED);
-    default:           return SYM (ERROR);
-    }
+  return btw->long2enum (SDL_CDStatus (cd), cdrom_state);
 #undef FUNC_NAME
 }
 
@@ -523,6 +513,8 @@ gsdl_init_cdrom (void)
            NULL,
            free_cd,
            print_cd);
+
+  cdrom_state = btw->register_kp (&cdstate_kp, false);
 
 #include "sdlcdrom.x"
 }
