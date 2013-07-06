@@ -1,3 +1,13 @@
+2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build int] Make sure kp values are not unsigned.
+
+	* k2c (C-program): Take ‘type’.
+	(C program line): For ‘flocking’, do as before;
+	for ‘peerless’, output w/ C format string "%ld".
+	(sorted): Update call to ‘C-program’.
+	(k2c/qop): Output ‘flocking’ values in hex, ‘peerless’ in decimal.
+
 2013-07-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Add kp comprehension.

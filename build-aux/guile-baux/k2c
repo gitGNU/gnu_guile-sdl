@@ -157,7 +157,7 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
     (close-port p)
     (reverse! rv)))
 
-(define (C-program header found qspec)
+(define (C-program type header found qspec)
 
   (define pretty
     (cond
@@ -206,7 +206,10 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
            identity)))
 
   (define (line s)
-    (fs "printf (\"(#x%08lx\t. \\\"~A\\\")\\n\", ~A);"
+    (fs "printf (\"(~A\t. \\\"~A\\\")\\n\", ~A);"
+        (case type
+          ((flocking) "#x%08lx")
+          ((peerless) "%ld"))
         (pretty s)
         (actual s)))
 
@@ -226,7 +229,7 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
          (rv #f))
     (close-port p)
     (let ((p (open-output-pipe (fs "gcc -o ~A -x c -pipe -" exe))))
-      (display (C-program header found qspec) p)
+      (display (C-program type header found qspec) p)
       (close-pipe p))
     (let ((p (open-input-pipe exe))
           (more (case type
@@ -300,12 +303,15 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
                       ((flocking) "unsigned ")
                       ((peerless) ""))
                     nick
-                    (string-join (map (lambda (n)
-                                        (fs "0x~A" (number->string n 16)))
-                                      (case comp
-                                        ((offset) (list (car numbers)))
-                                        (else numbers)))
-                                 ",\n  "))))
+                    (string-join
+                     (map (lambda (n)
+                            (case type
+                              ((flocking) (fs "0x~A" (number->string n 16)))
+                              ((peerless) (fs "~A" n))))
+                          (case comp
+                            ((offset) (list (car numbers)))
+                            (else numbers)))
+                     ",\n  "))))
       (spew (pascal-pool (map cdr linear)
                          'uint8_t (fs "~A_names" nick)
                          'essential
