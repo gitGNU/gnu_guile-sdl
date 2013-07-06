@@ -1,3 +1,10 @@
+2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v int] Don't use ‘(sdl gfx) font-rotations’.
+
+	* gfx.scm <character (font) stuff and blitting>:
+	Use vector of rotation symbols directly; hardcode count.
+
 2013-07-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v int] Fix bug: Specify mouse button for ‘event:motion:set-state!’.
