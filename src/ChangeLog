@@ -1,5 +1,15 @@
 2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use fast integers for enums/flags.
+
+	* src/sdlenums.c: #include "snuggle/fastint.h".
+	(register_kp): Use ‘NUM_FASTINT’.
+	(enum2long): Use ‘C_FASTINT’.
+	(enum_to_number, make_flagstash): Use ‘NUM_FASTINT’.
+	(flags2ulong): Use ‘C_FASTINT’.
+
+2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Detect non-member-symbol and throw error.
 
 	* sdlenums.c (gsdl_sym_nonmember): New DECLARE_SYM.

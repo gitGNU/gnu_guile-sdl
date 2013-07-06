@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "snuggle/mkhash.h"
+#include "snuggle/fastint.h"
 
 DECLARE_SYM (nonmember, "non-member-symbol");
 
@@ -95,8 +96,8 @@ register_kp (kp_t *kp, bool public)
       SCM sym = GC_PROTECT (SYMBOLN ((char *) pool, len));
 
       kp->linear[i] = sym;
-      scm_hashq_set_x (ht, sym, NUM_INT (i));
-      scm_hashq_set_x (ht, NUM_LONG (value), sym);
+      scm_hashq_set_x (ht, sym, NUM_FASTINT (i));
+      scm_hashq_set_x (ht, NUM_FASTINT (value), sym);
       GC_UNPROTECT (sym);
       pool += len;
     }
@@ -139,7 +140,7 @@ enum2long (SCM obj, SCM enumstash, int pos, const char *FUNC_NAME)
 
       if (EXACTLY_FALSEP (sidx))
         SORRY (e->ss.name, obj);
-      idx = C_INT (sidx);
+      idx = C_FASTINT (sidx);
       result = (e->classic
                 ? idx
                 : (e->offset
@@ -197,7 +198,7 @@ Return the number in @var{enumstash} associated with @var{symbol}.  */)
   ASSERT_ENUM (enumstash, 1);
   ASSERT_SYMBOL (symbol, 2);
 
-  return NUM_INT
+  return NUM_FASTINT
     (GSDL_ENUM2LONG (symbol, enumstash, 2));
 #undef FUNC_NAME
 }
@@ -272,7 +273,7 @@ make_flagstash (flagstash_t *stash)
 
       stash->full |= stash->val[i];
       *sym = GC_PROTECT (SYMBOLN ((char *) ++pool, len));
-      scm_hashq_set_x (ht, GC_UNPROTECT (*sym), NUM_INT (i));
+      scm_hashq_set_x (ht, GC_UNPROTECT (*sym), NUM_FASTINT (i));
       pool += len;
     }
   stash->ht = ht;
@@ -305,7 +306,7 @@ flags2ulong (SCM flags, SCM stash, int pos, const char *FUNC_NAME)
       sidx = scm_hashq_ref (s->ht, x, BOOL_FALSE);      \
       if (EXACTLY_FALSEP (sidx))                        \
         SORRY (s->ss.name, x);                          \
-      result |= s->val[C_INT (sidx)];                   \
+      result |= s->val[C_FASTINT (sidx)];               \
     }                                                   \
   while (0)
 
