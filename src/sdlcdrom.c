@@ -25,6 +25,9 @@
 static SCM cdrom_state;
 #include "k/cdstate.c"
 
+static SCM cd_track_type;
+#include "k/cdtracktype.c"
+
 static long cdrom_tag;
 
 #define cdrom_nick "SDL-CD"
@@ -196,9 +199,6 @@ Return the current frame of the CD in drive @var{cdrom}.  */)
 #undef GETCUR
 
 
-DECLARE_SIMPLE_SYM (audio);
-DECLARE_SIMPLE_SYM (data);
-
 PRIMPROC
 (cd_nth_track_itlo, "cd-nth-track-itlo", 1, 1, 0,
  (SCM cdrom, SCM n),
@@ -218,9 +218,7 @@ a symbol, either @code{audio} or @code{data}.  */)
   SCM_ASSERT_RANGE (2, n, cn < cd->numtracks);
   RETURN_VALUES4
     (NUM_LONG (cd->track[cn].id),
-     SDL_AUDIO_TRACK == cd->track[cn].type
-     ? SYM (audio)
-     : SYM (data),
+     btw->long2enum (cd->track[cn].type, cd_track_type),
      NUM_ULONG (cd->track[cn].length),
      NUM_ULONG (cd->track[cn].offset));
 #undef FUNC_NAME
@@ -515,6 +513,7 @@ gsdl_init_cdrom (void)
            print_cd);
 
   cdrom_state = btw->register_kp (&cdstate_kp, false);
+  cd_track_type = btw->register_kp (&cdtracktype_kp, false);
 
 #include "sdlcdrom.x"
 }

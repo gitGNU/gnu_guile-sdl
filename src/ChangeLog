@@ -1,5 +1,17 @@
 2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Generate CD track type init data.
+
+	* k/cdtracktype.kp: New file.
+	* k/Makefile.am (stdp): Add cdtracktype.kp.
+	* sdlcdrom.c: #include "k/cdtracktype.c".
+	(cd_track_type): New static var.
+	(audio, data): Delete symbols.
+	(cd_nth_track_itlo): Use ‘long2num’, ‘cd_track_type’.
+	(gsdl_init_cdrom): Init ‘cd_track_type’.
+
+2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Generate CDROM states init data.
 
 	* k/cdstate.kp: New file.
