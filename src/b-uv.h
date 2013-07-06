@@ -28,7 +28,7 @@
                    (obj), n, FUNC_NAME, #tt "vector")
 
 /* NB: The expansion may have a trailing semicolon!  */
-#if GI_LEVEL_NOT_YET_1_8
+#if ! GI_LEVEL_1_8
 #define DECL_HANDLE_MAYBE
 #else
 #define DECL_HANDLE_MAYBE  scm_t_array_handle handle;
@@ -62,7 +62,7 @@ copy_## TT (struct TT ##_stuff *stuff)                  \
 
 #define STUFF(tt,v)  struct  tt ## _stuff  v ## _stuff
 
-#if GI_LEVEL_NOT_YET_1_8
+#if ! GI_LEVEL_1_8
 
 /* DWR: Abstraction violation!  */
 #define GET_PARTICULARS(tt,v)  do                       \
@@ -73,13 +73,13 @@ copy_## TT (struct TT ##_stuff *stuff)                  \
     }                                                   \
   while (0)
 
-#else  /* !GI_LEVEL_NOT_YET_1_8 */
+#else  /* GI_LEVEL_1_8 */
 
 #define GET_PARTICULARS(tt,v)                           \
   ST (v, elt) = scm_## tt ##vector_elements             \
     (v, &ST (v, handle), &ST (v, len), &ST (v, inc))
 
-#endif  /* !GI_LEVEL_NOT_YET_1_8 */
+#endif  /* GI_LEVEL_1_8 */
 
 /* NB: The cast to ‘Uint16 *’ avoids a "discards qualifiers" warning
    from GCC.  Ideally, SDL_gfx/SDL_gfxPrimitives.h would declare the
@@ -97,7 +97,7 @@ copy_## TT (struct TT ##_stuff *stuff)                  \
     }                                                           \
   while (0)
 
-#if GI_LEVEL_NOT_YET_1_8
+#if ! GI_LEVEL_1_8
 #define LATER(v)
 #else
 #define LATER(v)  scm_array_handle_release (&ST (v, handle))

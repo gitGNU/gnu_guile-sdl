@@ -1,5 +1,14 @@
 2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Drop abstraction: GI_LEVEL_NOT_YET_1_8
+
+	* b-uv.h: Throughout, use ‘! GI_LEVEL_1_8’ directly.
+	* sdlgfx.c: Likewise.
+	* sdlvideo.c: Likewise.
+	* guile-sdl.h (GI_LEVEL_NOT_YET_1_8): Delete #define.
+
+2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use fast integers for enums/flags.
 
 	* src/sdlenums.c: #include "snuggle/fastint.h".

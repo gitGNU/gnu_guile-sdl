@@ -58,8 +58,6 @@
 #include "snuggle/level.h"
 #include "snuggle/humdrum.h"
 
-#define GI_LEVEL_NOT_YET_1_8  (! GI_LEVEL_1_8)
-
 #define PERMANENT  scm_permanent_object
 
 

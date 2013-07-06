@@ -26,7 +26,7 @@
 #include "b-uv.h"
 #include "b-values.h"
 
-#if GI_LEVEL_NOT_YET_1_8
+#if ! GI_LEVEL_1_8
 IMPORT_SRFI4 ();
 SELECT_MODULE_VAR (mk_u16v, srfi4, "make-u16vector");
 SELECT_MODULE_VAR (u16v_x, srfi4, "u16vector-set!");
