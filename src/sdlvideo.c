@@ -62,6 +62,7 @@ DEFINE_STRUCT_AND_COPY_FUNC (u16, Uint16)
 
 static SCM palette_flags;
 static SCM gsdl_overlay_formats;
+static SCM grab_modes;
 
 PRIMPROC
 (get_video_flags, "flagstash:video", 0, 0, 0, (),
@@ -1298,10 +1299,6 @@ Return @code{#t} if successful.  */)
 }
 
 
-DECLARE_SIMPLE_SYM (query);
-DECLARE_SIMPLE_SYM (off);
-DECLARE_SIMPLE_SYM (on);
-
 PRIMPROC
 (wm_grab_input, "grab-input", 0, 1, 0,
  (SCM mode),
@@ -1312,22 +1309,12 @@ of grab, one of @code{query} (the default),
 @code{off} or @code{on}.  */)
 {
 #define FUNC_NAME s_wm_grab_input
-  if (UNBOUNDP (mode))
-    mode = SYM (query);
-  else
-    ASSERT_SYMBOL (mode, 1);
-  if (! (EQ (mode, SYM (query)) ||
-         EQ (mode, SYM (off)) ||
-         EQ (mode, SYM (on))))
-    SCM_MISC_ERROR ("bad mode: ~S", CONS (mode, SCM_EOL));
+  DECLINIT_SYM2NUM_CC (1, grab_modes);
+  int cmode = BOUNDP (mode)
+    ? ENUM2LONG (1, mode)
+    : SDL_GRAB_QUERY;
 
-  return (SDL_GRAB_ON == SDL_WM_GrabInput (EQ (mode, SYM (query))
-                                           ? SDL_GRAB_QUERY
-                                           : (EQ (mode, SYM (on))
-                                              ? SDL_GRAB_ON
-                                              : SDL_GRAB_OFF))
-          ? SYM (on)
-          : SYM (off));
+  return btw->long2enum (SDL_WM_GrabInput (cmode), grab_modes);
 #undef FUNC_NAME
 }
 
@@ -1336,6 +1323,7 @@ of grab, one of @code{query} (the default),
 #include "k/video.c"
 #include "k/palette.c"
 #include "k/overlay.c"
+#include "k/grabmode.c"
 
 void
 gsdl_init_video (void)
@@ -1363,6 +1351,9 @@ gsdl_init_video (void)
 
   /* yuv overlay formats */
   gsdl_overlay_formats = MAKE_FLAGSTASH (ov);
+
+  /* grab modes */
+  grab_modes = btw->register_kp (& grabmode_kp, false);
 
 #include "sdlvideo.x"
 }

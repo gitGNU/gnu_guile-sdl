@@ -35,6 +35,7 @@ cdstate.kp					\
 cdtracktype.kp					\
 evaction.kp					\
 evtypeold.kp					\
+grabmode.kp					\
 keysymold.kp					\
 mbut.kp						\
 updn.kp

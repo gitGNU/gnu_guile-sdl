@@ -1,5 +1,17 @@
 2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use enumstash for grab modes.
+
+	* k/grabmode.c: New file.
+	* k/Makefile.am (stdp): Add grabmode.kp.
+	* sdlvideo.c: #include "k/grabmode.c".
+	(grab_modes): New static var.
+	(query, off, on): Delete symbols.
+	(wm_grab_input): Rewrite.
+	(gsdl_init_video): Init ‘grab_modes’.
+
+2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Generate CD track type init data.
 
 	* k/cdtracktype.kp: New file.
