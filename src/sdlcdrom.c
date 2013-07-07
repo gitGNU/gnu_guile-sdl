@@ -512,8 +512,14 @@ gsdl_init_cdrom (void)
            free_cd,
            print_cd);
 
-  cdrom_state = btw->register_kp (&cdstate_kp, false);
-  cd_track_type = btw->register_kp (&cdtracktype_kp, false);
+  {
+    kp_init_t allp[] = {
+      { &cdrom_state, &cdstate_kp, false },
+      { &cd_track_type, &cdtracktype_kp, false }
+    };
+
+    REGISTER_KP_V (allp);
+  }
 
 #include "sdlcdrom.x"
 }

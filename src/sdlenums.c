@@ -118,6 +118,18 @@ register_kp (kp_t *kp, bool public)
   return smob;
 }
 
+static void
+register_kp_v (size_t count, kp_init_t v[count])
+{
+  size_t i;
+  kp_init_t *e;
+
+  for (i = 0, e = v;
+       i < count;
+       i++, e++)
+    *(e->smob) = register_kp (e->kp, e->public);
+}
+
 static inline SCM
 lookup (SCM key, const kp_t *e)
 {
@@ -435,9 +447,10 @@ gsdl_init_enums (void)
   btw->make_flagstash = make_flagstash;
   btw->flags2ulong = flags2ulong;
   btw->ulong2flags = ulong2flags;
-  btw->register_kp = register_kp;
   btw->enum2long = enum2long;
   btw->long2enum = long2enum;
+
+  btw->register_kp_v = register_kp_v;
 
   DEFSMOB (enum_tag, enum_nick,
            mark_enum,

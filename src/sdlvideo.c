@@ -1352,8 +1352,13 @@ gsdl_init_video (void)
   /* yuv overlay formats */
   gsdl_overlay_formats = MAKE_FLAGSTASH (ov);
 
-  /* grab modes */
-  grab_modes = btw->register_kp (& grabmode_kp, false);
+  {
+    kp_init_t allp[] = {
+      { &grab_modes, &grabmode_kp, false }
+    };
+
+    REGISTER_KP_V (allp);
+  }
 
 #include "sdlvideo.x"
 }

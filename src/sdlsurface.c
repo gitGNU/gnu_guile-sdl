@@ -686,8 +686,14 @@ gsdl_init_surface (void)
 #include "sdlsurface.x"
 
   /* alpha constants */
-  alpha_enums = btw->register_kp (&alphalimold_kp, true);
-  kp_alpha = btw->register_kp (&alphalim_kp, false);
+  {
+    kp_init_t allp[] = {
+      { &alpha_enums, &alphalimold_kp, true },
+      { &kp_alpha, &alphalim_kp, false }
+    };
+
+    REGISTER_KP_V (allp);
+  }
 }
 
 /* sdlsurface.c ends here */

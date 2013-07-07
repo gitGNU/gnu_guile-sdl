@@ -224,7 +224,16 @@ typedef struct sym2num_cc {
       .pos = POS                                \
     }
 
-typedef SCM (register_kp_t) (kp_t *kp, bool public);
+typedef struct {
+  SCM  *smob;
+  kp_t *kp;
+  bool  public;
+} kp_init_t;
+
+typedef void (register_kp_v_t) (size_t count, kp_init_t v[count]);
+
+#define REGISTER_KP_V(var) \
+  btw->register_kp_v (sizeof (var) / sizeof (kp_init_t), var)
 
 typedef long (enum2long_t) (const sym2num_cc_t *cc, SCM obj);
 
@@ -304,9 +313,10 @@ struct obtw
   make_flagstash_t *make_flagstash;
   flags2ulong_t *flags2ulong;
   ulong2flags_t *ulong2flags;
-  register_kp_t *register_kp;
   enum2long_t *enum2long;
   long2enum_t *long2enum;
+
+  register_kp_v_t *register_kp_v;
 };
 
 #if 1 == GUILE_SDL_OPTIONAL_MODULE

@@ -1504,8 +1504,13 @@ init_module (void)
 
   btw = UNPACK_POINTER (CALL0 (obtw));
 
-  /* enums */
-  frot_enum = btw->register_kp (&frot_kp, true);
+  {
+    kp_init_t allp[] = {
+      { &frot_enum, &frot_kp, true }
+    };
+
+    REGISTER_KP_V (allp);
+  }
 }
 
 MOD_INIT_LINK_THUNK ("sdl gfx", sdl_gfx, init_module)

@@ -1,5 +1,26 @@
 2013-07-07  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Register kp as array instead of individually.
+
+	* guile-sdl.h (register_kp_t): Delete func typedef.
+	(kp_init_t): New struct typedef.
+	(register_kp_v_t): New func typedef.
+	(REGISTER_KP_V): New macro.
+	(struct obtw): Delete member ‘register_kp’;
+	add member ‘reigster_kp_v’.
+	* sdlenums.c (register_kp_v): New static func.
+	(gsdl_init_enums): Don't init ‘btw->register_kp’;
+	instead, init ‘btw->register_kp_v’.
+	* sdlcdrom.c (gsdl_init_cdrom): Convert individual calls to
+	‘btw->register_kp’ into a ‘kp_init_t’ array; use ‘REGISTER_KP_V’.
+	* sdlevent.c (gsdl_init_event): Likewise.
+	* sdlgfx.c (init_module): Likewise.
+	* sdlmixer.c (init_module): Likewise.
+	* sdlsurface.c (gsdl_init_surface): Likewise.
+	* sdlvideo.c (gsdl_init_video): Likewise.
+
+2013-07-07  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Change type of possibly-freeable ‘.internalp’ to ‘bool’.
 
 	* guile-sdl.h (DECLARE_PF): ...here.

@@ -1031,22 +1031,25 @@ gsdl_init_event (void)
            free_event,
            /* TODO: print_event */ NULL);
 
-  /* event type constants */
-  event_type_enum = btw->register_kp (&evtypeold_kp, true);
+  /* constants */
+  {
+    kp_init_t allp[] = {
+      { &event_type_enum, &evtypeold_kp, true },
+      { &event_keysym_enum, &keysymold_kp, true },
+      { &event_action_enum, &evaction_kp, false },
+      { &event_state_enum, &evstate_kp, true },
+      { &mbut_enum, &mbut_kp, false },
+      { &updn_enum, &updn_kp, false },
+      { &active_enum, &active_kp, false }
+    };
 
-  /* keysyms */
-  event_keysym_enum = btw->register_kp (&keysymold_kp, true);
-  event_action_enum = btw->register_kp (&evaction_kp, false);
+    REGISTER_KP_V (allp);
+  }
+
   event_mb_flags = MAKE_FLAGSTASH (mb);
   event_mod_flags = MAKE_FLAGSTASH (kmod);
   event_mask_flags = MAKE_FLAGSTASH (evmask);
   event_jhpos_flags = MAKE_FLAGSTASH (jhpos);
-
-  /* event states */
-  event_state_enum = btw->register_kp (&evstate_kp, true);
-  mbut_enum = btw->register_kp (&mbut_kp, false);
-  updn_enum = btw->register_kp (&updn_kp, false);
-  active_enum = btw->register_kp (&active_kp, false);
   appstate_flags = MAKE_FLAGSTASH (appstate);
 
   btw->event_state_enum = event_state_enum;

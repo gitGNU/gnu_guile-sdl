@@ -933,8 +933,13 @@ init_module (void)
 
   btw = UNPACK_POINTER (CALL0 (obtw));
 
-  /* enums */
-  fading_status_enum = btw->register_kp (&fading_kp, false);
+  {
+    kp_init_t allp[] = {
+      { &fading_status_enum, &fading_kp, false }
+    };
+
+    REGISTER_KP_V (allp);
+  }
 }
 
 MOD_INIT_LINK_THUNK ("sdl mixer", sdl_mixer, init_module)
