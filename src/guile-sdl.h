@@ -251,10 +251,15 @@ typedef SCM (ulong2flags_t) (unsigned long value, SCM stash);
 #define FLAGS2ULONG(POS,OBJECT) \
   btw->flags2ulong (& _CC_ ## POS, OBJECT)
 
-typedef SCM (make_flagstash_t) (flagstash_t *stash);
+typedef struct {
+  SCM         *smob;
+  flagstash_t *stash;
+} kf_init_t;
 
-#define MAKE_FLAGSTASH(nick)                    \
-  btw->make_flagstash (& nick ## _flagstash)
+typedef void (register_kf_v_t) (size_t count, kf_init_t v[count]);
+
+#define REGISTER_KF_V(var) \
+  btw->register_kf_v (sizeof (var) / sizeof (kf_init_t), var)
 
 /* Symbols.  */
 
@@ -310,13 +315,13 @@ struct obtw
   SCM updn_enum;
   /* Used in various sdl{event,joystick}.c funcs.  */
 
-  make_flagstash_t *make_flagstash;
   flags2ulong_t *flags2ulong;
   ulong2flags_t *ulong2flags;
   enum2long_t *enum2long;
   long2enum_t *long2enum;
 
   register_kp_v_t *register_kp_v;
+  register_kf_v_t *register_kf_v;
 };
 
 #if 1 == GUILE_SDL_OPTIONAL_MODULE

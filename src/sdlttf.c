@@ -526,7 +526,14 @@ init_module (void)
 #include "sdlttf.x"
 
   btw = UNPACK_POINTER (CALL0 (obtw));
-  ttf_flags = MAKE_FLAGSTASH (ttf);
+
+  {
+    kf_init_t allf[] = {
+      { &ttf_flags, &ttf_flagstash }
+    };
+
+    REGISTER_KF_V (allf);
+  }
 }
 
 MOD_INIT_LINK_THUNK ("sdl ttf", sdl_ttf, init_module)

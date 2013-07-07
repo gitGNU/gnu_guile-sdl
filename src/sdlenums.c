@@ -298,6 +298,18 @@ make_flagstash (flagstash_t *stash)
   return PERMANENT (smob);
 }
 
+static void
+register_kf_v (size_t count, kf_init_t v[count])
+{
+  size_t i;
+  kf_init_t *e;
+
+  for (i = 0, e = v;
+       i < count;
+       i++, e++)
+    *(e->smob) = make_flagstash (e->stash);
+}
+
 
 /* Converting from flags to ulong and back */
 
@@ -444,13 +456,13 @@ remainder.  */)
 void
 gsdl_init_enums (void)
 {
-  btw->make_flagstash = make_flagstash;
   btw->flags2ulong = flags2ulong;
   btw->ulong2flags = ulong2flags;
   btw->enum2long = enum2long;
   btw->long2enum = long2enum;
 
   btw->register_kp_v = register_kp_v;
+  btw->register_kf_v = register_kf_v;
 
   DEFSMOB (enum_tag, enum_nick,
            mark_enum,

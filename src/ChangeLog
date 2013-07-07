@@ -1,5 +1,25 @@
 2013-07-07  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Register kf as array instead of individually.
+
+	* guile-sdl.h (make_flagstash_t): Delete func typedef.
+	(kf_init_t): New struct typedef.
+	(register_kf_v_t): New func typedef.
+	(MAKE_FLAGSTASH): Delete macro.
+	(REGISTER_KF_V): New macro.
+	(struct obtw): Delete member ‘make_flagstash’;
+	add member ‘register_kf_v’.
+	* sdlenums.c (register_kf_v): New static func.
+	(gsdl_init_enums): Don't init ‘btw->make_flagstash’;
+	instead, init ‘btw->register_kf_v’.
+	* sdl.c (init_module): Convert individual calls to
+	‘MAKE_FLAGSTASH’ into a ‘kf_init_t’ array; use ‘REGISTER_KF_V’.
+	* sdlevent.c (gsdl_init_event): Likewise.
+	* sdlttf.c (init_module): Likewise.
+	* sdlvideo.c (gsdl_init_video): Likewise.
+
+2013-07-07  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Register kp as array instead of individually.
 
 	* guile-sdl.h (register_kp_t): Delete func typedef.

@@ -1343,14 +1343,15 @@ gsdl_init_video (void)
            free_yuv_overlay,
            NULL);
 
-  /* video flags */
-  btw->video_flags = MAKE_FLAGSTASH (vid);
+  {
+    kf_init_t allf[] = {
+      { &btw->video_flags, &vid_flagstash },
+      { &palette_flags, &pal_flagstash },
+      { &gsdl_overlay_formats, &ov_flagstash }
+    };
 
-  /* palette flags */
-  palette_flags = MAKE_FLAGSTASH (pal);
-
-  /* yuv overlay formats */
-  gsdl_overlay_formats = MAKE_FLAGSTASH (ov);
+    REGISTER_KF_V (allf);
+  }
 
   {
     kp_init_t allp[] = {

@@ -1045,12 +1045,17 @@ gsdl_init_event (void)
 
     REGISTER_KP_V (allp);
   }
+  {
+    kf_init_t allf[] = {
+      { &event_mb_flags, &mb_flagstash },
+      { &event_mod_flags, &kmod_flagstash },
+      { &event_mask_flags, &evmask_flagstash },
+      { &event_jhpos_flags, &jhpos_flagstash },
+      { &appstate_flags, &appstate_flagstash }
+    };
 
-  event_mb_flags = MAKE_FLAGSTASH (mb);
-  event_mod_flags = MAKE_FLAGSTASH (kmod);
-  event_mask_flags = MAKE_FLAGSTASH (evmask);
-  event_jhpos_flags = MAKE_FLAGSTASH (jhpos);
-  appstate_flags = MAKE_FLAGSTASH (appstate);
+    REGISTER_KF_V (allf);
+  }
 
   btw->event_state_enum = event_state_enum;
   btw->updn_enum = updn_enum;

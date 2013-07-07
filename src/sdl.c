@@ -202,8 +202,13 @@ init_module (void)
   /* Initialize enums first, so we can use them.  */
   gsdl_init_enums ();
 
-  /* Init flags.  */
-  init_flags = MAKE_FLAGSTASH (init);
+  {
+    kf_init_t allf[] = {
+      { &init_flags, &init_flagstash }
+    };
+
+    REGISTER_KF_V (allf);
+  }
 
 #include "sdl.x"
 
