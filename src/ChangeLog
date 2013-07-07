@@ -1,3 +1,13 @@
+2013-07-07  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Change type of possibly-freeable ‘.internalp’ to ‘bool’.
+
+	* guile-sdl.h (DECLARE_PF): ...here.
+	(RETURN_NEW_SURFACE): Use ‘false’.
+	(RETURN_INT_SURFACE): Use ‘true’.
+	* sdlvideo.c (RETURN_NEW_CURSOR): Use ‘false’.
+	(RETURN_INT_CURSOR): Use ‘true’.
+
 2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Use enumstash for grab modes.

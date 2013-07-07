@@ -286,7 +286,7 @@ typedef SCM (make_flagstash_t) (flagstash_t *stash);
 #define DECLARE_PF(ACTUAL)                      \
   typedef struct {                              \
     SDL_ ## ACTUAL *object;                     \
-    int internalp;                              \
+    bool internalp;                             \
   } PF_ ## ACTUAL
 
 struct obtw
@@ -378,8 +378,8 @@ DECLARE_PF (Surface);
 
 #define RETURN_NEW_COLOR(x)         NEWSMOB_OR_FALSE (color_tag, x)
 #define RETURN_NEW_RECT(x)          NEWSMOB_OR_FALSE (rect_tag, x)
-#define RETURN_NEW_SURFACE(x)       RETURN_PF_SURFACE (x, 0)
-#define RETURN_INT_SURFACE(x)       RETURN_PF_SURFACE (x, 1)
+#define RETURN_NEW_SURFACE(x)       RETURN_PF_SURFACE (x, false)
+#define RETURN_INT_SURFACE(x)       RETURN_PF_SURFACE (x, true)
 #define RETURN_NEW_PIXEL_FORMAT(x)  NEWSMOB_OR_FALSE (pixel_format_tag, x)
 
 /* Lots of SDL functions return 0 for true, -1 otherwise.  */

@@ -116,8 +116,8 @@ static long overlay_tag;
 #define RETURN_PF_CURSOR(x,REFP)                        \
   RETURN_NEW_PF_OR_FALSE (Cursor, cursor, REFP, x)
 
-#define RETURN_NEW_CURSOR(x)    RETURN_PF_CURSOR (x, 0)
-#define RETURN_INT_CURSOR(x)    RETURN_PF_CURSOR (x, 1)
+#define RETURN_NEW_CURSOR(x)    RETURN_PF_CURSOR (x, false)
+#define RETURN_INT_CURSOR(x)    RETURN_PF_CURSOR (x, true)
 #define RETURN_NEW_OVERLAY(x)   NEWSMOB_OR_FALSE (overlay_tag, x)
 
 /* smob functions */
