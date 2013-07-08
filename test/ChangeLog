@@ -1,5 +1,11 @@
 2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Make cursor test faster.
+
+	* cursor.scm <gyrate>: Bump delay down to 50 msec.
+
+2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Make conversion procs also accept stash name.
 
 	* alive.test <enums round-trip>: New section.

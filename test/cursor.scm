@@ -88,6 +88,7 @@
   (list->u8vector (map (lambda ignored
                          (random 256))
                        (iota 16))))
+;; gyrate
 (do ((i 0 (1+ i)))
     ((= 50 i))
   (SDL:set-cursor (SDL:create-cursor (random-16) (random-16) 8 16 0 0))
@@ -102,7 +103,7 @@
            (u16vector-set! gt j (random 65536))
            (u16vector-set! bt j (random 65536)))
          (SDL:set-gamma-ramp rt gt bt)))
-  (SDL:delay 100))
+  (SDL:delay 50))
 
 (let* ((data (u8vector 85 85 85 85 85 85 85 85 85 85 85 85 85 85 85 85))
        (mask data)
