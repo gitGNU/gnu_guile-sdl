@@ -104,6 +104,15 @@ SDL:flags->number
        (error "all loaded and some initialized:" oops))
   (info "all loaded and none initialized"))
 
+(let ((all (SDL:kotk)))
+  (info "~A stashes" (length all))
+  (for-each (lambda (stash)
+              (apply info "~A: ~A ~A" stash)
+              (for-each (lambda (ent)
+                          (info "\t~S" ent))
+                        (SDL:kotk (car stash))))
+            all))
+
 (let ((s (SDL:get-error)))
   (if (string-null? s)
       (info "no errors after all")
