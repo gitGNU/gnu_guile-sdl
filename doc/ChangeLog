@@ -1,5 +1,12 @@
 2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make conversion procs also accept stash name.
+
+	* guile-sdl.texi: Add paragraph describing common first arg
+	STASH and the planned retirement for direct objects support.
+
+2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Add (sdl sdl) proc: kotk
 
 	* ef-ref.texh: Add @tsin for ‘kotk’.

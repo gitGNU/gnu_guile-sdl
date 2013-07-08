@@ -1,5 +1,18 @@
 2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make conversion procs also accept stash name.
+
+	* sdlenums.c (resolve_kp): New static func.
+	(RESOLVE_KP, DECLINIT_KP2NUM_CC): New macros.
+	(enum_to_number): Rename arg; use ‘DECLINIT_KP2NUM_CC’.
+	(number_to_enum): Rename arg; use ‘RESOLVE_KP’.
+	(resolve_kf): New static func.
+	(RESOLVE_KF, DECLINIT_KF2NUM_CC): New macros.
+	(flags_to_number): Use ‘DECLINIT_KF2NUM_CC’.
+	(number_to_flags): Use ‘RESOLVE_KF’.
+
+2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add "obsoleted" blurb to FOOstash-FOOs doc.
 
 	* sdlenums.c (enumstash_enums, flagstash_flags): ...here.

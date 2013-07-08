@@ -331,6 +331,12 @@ also use integers where enums/flags are expected, and can convert between the
 symbol and numeric value with @code{enum->number}, @code{number->enum},
 @code{flags->number} and @code{number->flags}.
 
+The conversion procs all take @var{stash} as the first argument,
+a symbol that identifies the particular set of enums/flags.
+For backward compatability, @var{stash} may also be such an object,
+but this support @strong{will be removed} after 2013-12-31, when
+those objects are to be fully internalized.
+
 @include ef-ref.texi
 
 @cindex @code{non-member-symbol}, error key

@@ -1,5 +1,12 @@
 2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Make conversion procs also accept stash name.
+
+	* alive.test <enums round-trip>: New section.
+	<flags round-trip>: Likewise.
+
+2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘kotk’.
 
 	* alive.test: ...here, prior to exercising ‘get-error’.

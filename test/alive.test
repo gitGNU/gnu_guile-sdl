@@ -113,6 +113,18 @@ SDL:flags->number
                         (SDL:kotk (car stash))))
             all))
 
+(info "enums round-trip")
+(let* ((num (SDL:enum->number 'alpha-limit 'opaque))
+       (sym (SDL:number->enum 'alpha-limit num)))
+  (or (eq? 'opaque sym)
+      (error "enums round-trip failed:" (list 'num: num 'sym: sym))))
+
+(info "flags round-trip")
+(let* ((num (SDL:flags->number 'joystick-hat-position '(up right)))
+       (sym (SDL:number->flags 'joystick-hat-position num)))
+  (or (equal? '(up right) sym)
+      (error "flags round-trip failed:" (list 'num: num 'sym: sym))))
+
 (let ((s (SDL:get-error)))
   (if (string-null? s)
       (info "no errors after all")

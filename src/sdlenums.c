@@ -274,17 +274,46 @@ Return the list of symbols belonging to @var{enumstash}.  */)
 #undef FUNC_NAME
 }
 
+static SCM
+resolve_kp (const char *FUNC_NAME, SCM stash)
+{
+  if (SYMBOLP (stash))
+    {
+      kp_t *kp;
+      kref_mb mb = {
+        .who = FUNC_NAME,
+        .p = &kp,
+        .f = NULL
+      };
+      SCM resolved = kref (&mb, stash);
+
+      ASSERT_TYPE (kp, stash, 1, enum_nick);
+      return resolved;
+    }
+
+  ASSERT_ENUM (stash, 1);
+  return stash;
+}
+
+#define RESOLVE_KP(stash)  resolve_kp (FUNC_NAME, stash)
+
+#define DECLINIT_KP2NUM_CC(POS,STASH)           \
+  const sym2num_cc_t _CC_ ## POS =              \
+    {                                           \
+      .stash = RESOLVE_KP (STASH),              \
+      .who = FUNC_NAME,                         \
+      .pos = POS                                \
+    }
+
 PRIMPROC
 (enum_to_number, "enum->number", 2, 0, 0,
- (SCM enumstash,
-  SCM symbol),
+ (SCM stash, SCM symbol),
  doc: /***********
-Return the number in @var{enumstash} associated with @var{symbol}.  */)
+Return the number in @var{stash} associated with @var{symbol}.  */)
 {
 #define FUNC_NAME s_enum_to_number
-  DECLINIT_SYM2NUM_CC (2, enumstash);
+  DECLINIT_KP2NUM_CC (2, stash);
 
-  ASSERT_ENUM (enumstash, 1);
   ASSERT_SYMBOL (symbol, 2);
 
   return NUM_FASTINT
@@ -294,15 +323,15 @@ Return the number in @var{enumstash} associated with @var{symbol}.  */)
 
 PRIMPROC
 (number_to_enum, "number->enum", 2, 0, 0,
- (SCM enumstash, SCM number),
+ (SCM stash, SCM number),
  doc: /***********
 Return the symbol associated with @var{number}, or @code{#f}
-if it does not belong to @var{enumstash}.  */)
+if it does not belong to @var{stash}.  */)
 {
 #define FUNC_NAME s_number_to_enum
-  ASSERT_ENUM (enumstash, 1);
+  stash = RESOLVE_KP (stash);
   ASSERT_INTEGER (number, 2);
-  return lookup (number, UNPACK_ENUM (enumstash));
+  return lookup (number, UNPACK_ENUM (stash));
 #undef FUNC_NAME
 }
 
@@ -494,6 +523,37 @@ a flagstash object, in unspecified order.  */)
 #undef FUNC_NAME
 }
 
+static SCM
+resolve_kf (const char *FUNC_NAME, SCM stash)
+{
+  if (SYMBOLP (stash))
+    {
+      flagstash_t *kf;
+      kref_mb mb = {
+        .who = FUNC_NAME,
+        .f = &kf,
+        .p = NULL
+      };
+      SCM resolved = kref (&mb, stash);
+
+      ASSERT_TYPE (kf, stash, 1, flagstash_nick);
+      return resolved;
+    }
+
+  ASSERT_FLAGSTASH (stash, 1);
+  return stash;
+}
+
+#define RESOLVE_KF(stash)  resolve_kf (FUNC_NAME, stash)
+
+#define DECLINIT_KF2NUM_CC(POS,STASH)           \
+  const sym2num_cc_t _CC_ ## POS =              \
+    {                                           \
+      .stash = RESOLVE_KF (STASH),              \
+      .who = FUNC_NAME,                         \
+      .pos = POS                                \
+    }
+
 PRIMPROC
 (flags_to_number, "flags->number", 2, 0, 0,
  (SCM stash, SCM flags),
@@ -505,9 +565,7 @@ or @code{#t}, which is taken as the list of all
 possible symbols in @var{stash}.  */)
 {
 #define FUNC_NAME s_flags_to_number
-  DECLINIT_SYM2NUM_CC (2, stash);
-
-  ASSERT_FLAGSTASH (stash, 1);
+  DECLINIT_KF2NUM_CC (2, stash);
 
   RETURN_UINT (FLAGS2ULONG (2, flags));
 #undef FUNC_NAME
@@ -523,9 +581,8 @@ If the flags in @var{stash} are not sufficient to decode
 remainder.  */)
 {
 #define FUNC_NAME s_number_to_flags
-  ASSERT_FLAGSTASH (stash, 1);
+  stash = RESOLVE_KF (stash);
   ASSERT_INTEGER (number, 2);
-
   return ulong2flags (C_ULONG (number), stash);
 #undef FUNC_NAME
 }
