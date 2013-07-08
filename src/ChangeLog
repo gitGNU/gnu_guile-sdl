@@ -1,5 +1,11 @@
 2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add "obsoleted" blurb to FOOstash-FOOs doc.
+
+	* sdlenums.c (enumstash_enums, flagstash_flags): ...here.
+
+2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	Add (sdl sdl) proc: kotk
 
 	* Makefile.am (BUILT_SOURCES): Add k-count.h.
