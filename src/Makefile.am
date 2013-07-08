@@ -33,11 +33,17 @@ scheme          = misc-utils.scm simple.scm
 
 modflags        = -avoid-version -export-dynamic -module
 
-BUILT_SOURCES   = k-stamp $(WRAPPER_SOURCES:.c=.x) sdlgfx.x
+BUILT_SOURCES   = k-stamp k-count.h $(WRAPPER_SOURCES:.c=.x) sdlgfx.x
 
 k-stamp: k
 	cd k && $(MAKE)
 	ls -l k/*c > $@
+
+k-count.h: k-stamp
+	printf '#define KOTK_N  (%d + %d)\n' \
+	  `grep -E -e 'static.(flagstash|kp)_t' $(srcdir)/*.c | wc -l` \
+	  `ls -l k/*.c | wc -l` \
+	> $@
 
 cmod_DATA = $(scheme)
 noinst_DATA =
@@ -112,7 +118,7 @@ scheme.tsar: $(scheme)
 EXTRA_DIST += sdl.tsar
 endif # MAINTAINER_MODE
 
-DISTCLEANFILES = *.x
+DISTCLEANFILES = *.x k-count.h
 
 bx = $(top_srcdir)/build-aux
 if LAME

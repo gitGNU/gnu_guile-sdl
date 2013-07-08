@@ -47,6 +47,7 @@ Makefile.in
 /src/config.h.in
 /src/gfx
 /src/group-stamp
+/src/k-count.h
 /src/k-stamp
 /src/mixer
 /src/modsup.h

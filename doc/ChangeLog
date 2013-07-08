@@ -1,3 +1,11 @@
+2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Add (sdl sdl) proc: kotk
+
+	* ef-ref.texh: Add @tsin for ‘kotk’.
+	* guile-sdl.texi (Enums and Constants): Replace mention
+	of ‘enumstash-enums’ and ‘flagstash-flags’ w/ that of ‘kotk’.
+
 2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Detect non-member-symbol and throw error.

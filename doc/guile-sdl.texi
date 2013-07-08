@@ -324,8 +324,9 @@ SDL_ALPHA_OPAQUE
 @end example
 @end defvr
 
-You can use @code{enumstash-enums} and @code{flagstash-flags} to examine the
-enums and flags encapsulated by these respectively typed objects.  You may
+You can use @code{kotk} to examine the enums and flags encapsulated by
+these respectively typed objects.
+You can
 also use integers where enums/flags are expected, and can convert between the
 symbol and numeric value with @code{enum->number}, @code{number->enum},
 @code{flags->number} and @code{number->flags}.

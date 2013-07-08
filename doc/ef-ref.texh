@@ -11,6 +11,8 @@
 
 @tsin m (sdl sdl)
 
+@tsin i kotk
+
 @tsin i enumstash-enums
 
 @tsin i enum->number

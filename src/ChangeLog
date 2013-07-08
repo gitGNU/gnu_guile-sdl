@@ -1,3 +1,23 @@
+2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Add (sdl sdl) proc: kotk
+
+	* Makefile.am (BUILT_SOURCES): Add k-count.h.
+	(k-count.h): New target.
+	(DISTCLEANFILES): Add k-count.h.
+	* sdlenums.c: #include "k-count.h".
+	(enum kdisp): New.
+	(konstants): New static data structure.
+	(note): New static func.
+	(KOTK_DISPOSITION): New macro.
+	(gsdl_sym_enums, gsdl_sym_flags): New DECLARE_SIMPLE_SYMs.
+	(kreb_mb): New struct typedef.
+	(kunpack): New func forward-decl.
+	(kref): New static func.
+	(register_kp, make_flagstash): Use ‘note’.
+	(kunpack): New static func.
+	(kotk): New PRIMPROC.
+
 2013-07-07  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Register kf as array instead of individually.

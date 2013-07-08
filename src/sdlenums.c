@@ -24,6 +24,76 @@
 #include "snuggle/mkhash.h"
 #include "snuggle/fastint.h"
 
+
+/* keeper of the konstants */
+
+#include "k-count.h"
+
+enum kdisp {
+  peerless,
+  flocking
+};
+
+static struct {
+  unsigned long disposition;
+  size_t        count;
+  SCM           all[KOTK_N];
+} konstants;
+
+static void
+note (enum kdisp disp, SCM k)
+{
+  size_t i = konstants.count++;
+
+  if (KOTK_N == i)
+    abort ();
+  konstants.all[i] = k;
+  konstants.disposition |= (disp << i);
+}
+
+#define KOTK_DISPOSITION(i)                     \
+  (konstants.disposition & (1UL << (i))         \
+   ? flocking                                   \
+   : peerless)
+
+DECLARE_SIMPLE_SYM (enums);
+DECLARE_SIMPLE_SYM (flags);
+
+typedef struct {
+  const char   *who;
+  kp_t        **p;
+  flagstash_t **f;
+} kref_mb;
+
+static void kunpack (kp_t **p, flagstash_t **f, size_t i);
+
+static SCM
+kref (kref_mb *mb, SCM name)
+{
+  const char *FUNC_NAME = mb->who;
+  kp_t *kp;
+  flagstash_t *kf;
+  size_t i;
+
+  ASSERT_SYMBOL (name, 1);
+
+  for (i = 0; i < konstants.count; i++)
+    {
+      kunpack (&kp, &kf, i);
+      if (kp && EQ (SYMBOL (kp->ss.name), name))
+        break;
+      if (kf && EQ (SYMBOL (kf->ss.name), name))
+        break;
+    }
+  if (konstants.count == i)
+    SCM_MISC_ERROR ("no such stash: ~A", LIST1 (name));
+
+  if (mb->p) *(mb->p) = kp;
+  if (mb->f) *(mb->f) = kf;
+  return konstants.all[i];
+}
+
+
 DECLARE_SYM (nonmember, "non-member-symbol");
 
 static SCM_NORETURN void
@@ -115,6 +185,7 @@ register_kp (kp_t *kp, bool public)
   else
     smob = PERMANENT (smob);
 
+  note (peerless, smob);
   return smob;
 }
 
@@ -295,6 +366,7 @@ make_flagstash (flagstash_t *stash)
   SCM_NEWSMOB (smob, flagstash_tag, stash);
   GC_UNPROTECT (ht);
 
+  note (flocking, smob);
   return PERMANENT (smob);
 }
 
@@ -449,6 +521,96 @@ remainder.  */)
   ASSERT_INTEGER (number, 2);
 
   return ulong2flags (C_ULONG (number), stash);
+#undef FUNC_NAME
+}
+
+
+static void
+kunpack (kp_t **p, flagstash_t **f, size_t i)
+{
+  SCM k = konstants.all[i];
+
+  switch (KOTK_DISPOSITION (i))
+    {
+    case peerless:
+      *p = UNPACK_ENUM (k);
+      *f = NULL;
+      break;
+    case flocking:
+      *p = NULL;
+      *f = UNPACK_FLAGSTASH (k);
+    }
+}
+
+PRIMPROC
+(kotk, "kotk", 0, 1, 0,
+ (SCM name),
+ doc: /***********
+Return the contents of stash @var{name} (a symbol), as
+an alist with symbolic keys, integer values.
+If @var{name} is omitted, the keys are the names of the all
+the enum- and flagstashes, and the values have the form:
+
+@example
+(N TYPE)
+@end example
+
+@noindent
+where @var{n} is the count of symbols in that stash,
+and @var{type} is a symbol: @code{enums} or @code{flags}.  */)
+{
+#define FUNC_NAME s_kotk
+  kp_t *kp;
+  flagstash_t *kf;
+  int i;
+  SCM k, symbol, rv = SCM_EOL;
+
+#define ACC(KEXP,VEXP)  do                      \
+    {                                           \
+      /* Stash ‘symbol’ for sake of ‘VEXP’.  */ \
+      symbol = KEXP;                            \
+      rv = scm_acons (symbol, VEXP, rv);        \
+    }                                           \
+  while (0)
+
+  if (UNBOUNDP (name))
+    {
+      i = konstants.count;
+      while (i--)
+        {
+          kunpack (&kp, &kf, i);
+          ACC (SYMBOL (kp
+                       ? kp->ss.name
+                       : kf->ss.name),
+               LIST2 (NUM_FASTINT (kp
+                                   ? kp->ss.count
+                                   : kf->ss.count),
+                      (kp
+                       ? SYM (enums)
+                       : SYM (flags))));
+        }
+      return rv;
+    }
+
+  {
+    kref_mb mb = {
+      .who = FUNC_NAME,
+      .p = &kp,
+      .f = &kf
+    };
+
+    k = kref (&mb, name);
+  }
+
+  if (kp)
+    for (i = kp->ss.count; i--;)
+      ACC (kp->linear[i], enum_to_number (k, symbol));
+  else
+    for (i = 0; i < kf->ss.count; i++)
+      ACC (kf->linear[i], flags_to_number (k, symbol));
+
+  return rv;
+#undef ACC
 #undef FUNC_NAME
 }
 
