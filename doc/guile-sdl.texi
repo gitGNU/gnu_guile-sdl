@@ -53,10 +53,10 @@ Texts.  A copy of the license is included in the appendix entitled
 @syncodeindex vr cp
 @syncodeindex fn cp
 
+@ifnottex
 @node Top
 @top The (sdl *) Modules
 
-@ifinfo
 This manual documents Guile-SDL @value{VERSION},
 a package which provides the modules
 @code{(sdl sdl)}, @code{(sdl gfx)}, @code{(sdl ttf)} and @code{(sdl mixer)}
@@ -68,7 +68,7 @@ procedures are provided in the modules @code{(sdl misc-utils)} and
 
 This manual is
 @insertcopying
-@end ifinfo
+@end ifnottex
 
 @menu
 * Introduction::                What is this all about?
