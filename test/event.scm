@@ -409,7 +409,7 @@
                (or (eq? ans old)
                    (error "discrepency:" (list 'ans: ans 'old: old)))
                ans)))
-          (SDL:enumstash-enums SDL:event-types))
+          (map car (SDL:kotk 'event-type)))
 
 ;; display an explanatory message
 ((display-centered-w/height-proc (- (SDL:rect:h test-rect) height 5))
