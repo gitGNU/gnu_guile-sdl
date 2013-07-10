@@ -29,12 +29,15 @@ palette.kf					\
 video.kf
 
 stdp =						\
+active.kp					\
 alphalim.kp					\
 alphalimold.kp					\
 cdstate.kp					\
 cdtracktype.kp					\
 evaction.kp					\
+evstate.kp					\
 evtypeold.kp					\
+frot.kp						\
 grabmode.kp					\
 keysymold.kp					\
 mbut.kp						\

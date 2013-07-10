@@ -1,3 +1,18 @@
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Use k2c to generate all init data.
+
+	* k/active.kp: New file.
+	* k/evstate.kp: New file.
+	* k/frot.kp: New file.
+	* k/Makefile.am (stdp): Add active.kp, evstate.kp, frot.kp.
+	* sdlevent.c: #include "k/active.c"; #include "k/evstate.c".
+	(active_names, active_kp, evstate_values, evstate_names)
+	(evstate_kp): Delete data structures.
+	* sdlgfx.c: #include "k/frot.c".
+	(frot_names, frot_kp): Delete data structures.
+	* Makefile.am (k-count.h): Don't bother grepping ./*.c.
+
 2013-07-08  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Make conversion procs also accept stash name.

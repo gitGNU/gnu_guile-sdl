@@ -27,16 +27,7 @@
 /* enum/flag types */
 
 static SCM active_enum;
-static const uint8_t active_names[] = {
-  /* lost */ 4,108,111,115,116,
-  /* gained */ 6,103,97,105,110,101,100
-};
-static kp_t active_kp = {
-  .ss = { .count = 2, .pool = active_names, .name = "activity-change" },
-  .val = NULL,
-  .classic = true,
-  .offset = false
-};
+#include "k/active.c"
 
 static SCM updn_enum;
 #include "k/updn.c"
@@ -48,25 +39,7 @@ static SCM event_type_enum;
 #include "k/evtypeold.c"
 
 static SCM event_state_enum;
-static const long evstate_values[] = {
-  SDL_QUERY,
-  SDL_IGNORE,
-  /* SDL_DISABLE is not mentioned in the associated comment in SDL_events.h
-     (SDL 1.2), and moreover, its value is the same as SDL_IGNORE, so we
-     tickle the irony bone a bit and don't include it in Guile-SDL.  */
-  SDL_ENABLE
-};
-static const uint8_t evstate_names[] = {
-  /* SDL_QUERY */ 9,83,68,76,95,81,85,69,82,89,
-  /* SDL_IGNORE */ 10,83,68,76,95,73,71,78,79,82,69,
-  /* SDL_ENABLE */ 10,83,68,76,95,69,78,65,66,76,69
-};
-static kp_t evstate_kp = {
-  .ss = { .count = 3, .pool = evstate_names, .name = "event-state" },
-  .val = evstate_values,
-  .classic = false,
-  .offset = false
-};
+#include "k/evstate.c"
 
 static SCM event_keysym_enum;
 #include "k/keysymold.c"

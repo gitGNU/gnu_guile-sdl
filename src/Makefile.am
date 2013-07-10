@@ -40,8 +40,7 @@ k-stamp: k
 	ls -l k/*c > $@
 
 k-count.h: k-stamp
-	printf '#define KOTK_N  (%d + %d)\n' \
-	  `grep -E -e 'static.(flagstash|kp)_t' $(srcdir)/*.c | wc -l` \
+	printf '#define KOTK_N  %d\n' \
 	  `ls -l k/*.c | wc -l` \
 	> $@
 
