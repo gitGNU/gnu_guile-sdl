@@ -1,5 +1,12 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Rewrite ‘ignore-all-event-types-except’.
+
+	* misc-utils.scm (ignore-all-event-types-except):
+	...here, to use ‘event-type-handling’ and ‘kotk’.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use ‘video-cmf’, not ‘get-video-info’.
 
 	* simple.scm (simple-canvas set-bg!): ...here.

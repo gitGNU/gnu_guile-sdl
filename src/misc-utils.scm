@@ -275,19 +275,18 @@
                 s)))
         (else (conv surface))))
 
-;; Arrange to ignore all event types except those in @var{ls} (zero or
-;; more symbols from @code{event-types}).  As a special case, if @var{ls}
+;; Arrange to ignore all event types except those in @var{types}
+;; (@pxref{event-type enums}).  As a special case, if @var{types}
 ;; is @code{#f}, arrange to not ignore any event types (all are enabled).
-;; @xref{Enums and Constants}.
 ;;
-(define (ignore-all-event-types-except . ls)
-  (let ((proc (if (and (not (null? ls)) (not (car ls)))
+(define (ignore-all-event-types-except . types)
+  (let ((proc (if (and (not (null? types)) (not (car types)))
                   (lambda (type)
-                    (SDL:event-state type 'SDL_ENABLE))
+                    (SDL:event-type-handling type #t))
                   (lambda (type)
-                    (or (memq type ls)
-                        (SDL:event-state type 'SDL_IGNORE))))))
-    (for-each proc (SDL:enumstash-enums SDL:event-types))))
+                    (or (memq type types)
+                        (SDL:event-type-handling type #f))))))
+    (for-each proc (map car (SDL:kotk 'event-type)))))
 
 ;; Return three values, each a thunk, that can be used to loop for
 ;; @var{sec} seconds, blitting onto @var{realized} at @var{location} (a
