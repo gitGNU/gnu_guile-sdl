@@ -1495,7 +1495,7 @@ init_module (void)
 
   {
     kp_init_t allp[] = {
-      { &frot_enum, &frot_kp, true }
+      { &frot_enum, &frot_kp, false }
     };
 
     REGISTER_KP_V (allp);

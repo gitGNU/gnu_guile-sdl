@@ -1,5 +1,11 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Internalize enumstash objects.
+
+	* alive.test <all the enum stashes>: Delete section.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Avoid ‘event-types’.
 
 	* event.scm <report event states>: Use ‘kotk’ instead.

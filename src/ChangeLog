@@ -1,5 +1,14 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Internalize enumstash objects.
+
+	* sdlevent.c (gsdl_init_event): Declare non-public
+	‘event_type_enum’, ‘event_keysym_enum’, ‘event_state_enum’.
+	* sdlgfx.c (init_module): Likewise ‘frot_enum’.
+	* sdlsurface.c (gsdl_init_surface): Likewise ‘alpha_enums’.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Rewrite ‘ignore-all-event-types-except’.
 
 	* misc-utils.scm (ignore-all-event-types-except):

@@ -1,5 +1,13 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Internalize enumstash objects.
+
+	* guile-sdl.texi (Enums and Constants): Delete
+	@defvr for ‘event-types’, ‘event-keys’, ‘event-states’.
+	* ref.texh (SDL_gfx): Likewise for ‘font-rotations’.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[doc] Add appendix for stashes.
 
 	* k: New directory.

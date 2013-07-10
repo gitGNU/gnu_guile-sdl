@@ -795,12 +795,6 @@ to the audio device.
 
 @tsin i font-rotation!
 
-@defvr enumstash font-rotations
-Taken by @code{font-rotation!}.
-Values are @code{none} (the default at startup), @code{clockwise},
-@code{counter-clockwise}, @code{upside-down}.
-@end defvr
-
 @section Rotation / Zooming
 
 @tsin i roto-zoom-surface

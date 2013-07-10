@@ -20,25 +20,6 @@
 (info "loading (sdl sdl)")
 (use-modules ((sdl sdl) #:prefix SDL:))
 
-(info "all the enum stashes")
-(let ((all (list
-            SDL:event-types
-            SDL:event-keys
-            SDL:event-states
-            SDL:alpha-enums)))
-  (info "all: ~S" all)
-  (for-each (lambda (stash)
-              (let* ((symbols (SDL:enumstash-enums stash))
-                     (numbers (map (lambda (symbol)
-                                     (SDL:enum->number stash symbol))
-                                   symbols)))
-                (info "~A: ~S" stash (map cons symbols numbers))
-                (or (equal? symbols (map (lambda (n)
-                                           (SDL:number->enum stash n))
-                                         numbers))
-                    (error "enum round-trip failed"))))
-            all))
-
 (info "is SDL:flags->number (C function exposed to Scheme) defined?")
 SDL:flags->number
 
