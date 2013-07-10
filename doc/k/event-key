@@ -1,0 +1,84 @@
+;;; event-key                                       -*- scheme -*-
+
+;; Copyright (C) 2013 Thien-Thi Nguyen
+;;
+;; Permission is granted to copy, distribute and/or modify this document
+;; under the terms of the GNU Free Documentation License, Version 1.3 or
+;; any later version published by the Free Software Foundation; with no
+;; Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+;; Texts.  A copy of the license is included in the appendix entitled
+;; ``GNU Free Documentation License''.
+
+"
+Values are @code{SDLK_@var{foo}}, where @var{foo} can be:
+"
+
+;;;----------------------------------------------------------------------
+"
+a b c d e f g h i j k l m n o p q r s t u v w x y z
+0 1 2 3 4 5 6 7 8 9
+"
+;;
+"
+AMPERSAND   BACKQUOTE   CAPSLOCK   DELETE   END
+ASTERISK    BACKSLASH   CARET      DOLLAR   EQUALS
+AT          BACKSPACE   CLEAR               ESCAPE
+            BREAK       COLON               EURO
+                        COMMA               EXCLAIM
+                        COMPOSE
+"
+;;
+"
+F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15
+"
+;;
+"
+HASH   INSERT
+HELP
+HOME
+"
+;;
+"
+KP0 KP1 KP2 KP3 KP4 KP5 KP6 KP7 KP8 KP9
+"
+;;
+"
+KP_PLUS         KP_EQUALS
+KP_MINUS        KP_PERIOD
+KP_MULTIPLY     KP_ENTER
+KP_DIVIDE
+"
+;;
+"
+LEFT  RIGHT  UP  DOWN
+"
+;;
+"
+LALT  LCTRL  LMETA  LSHIFT  LSUPER
+RALT  RCTRL  RMETA  RSHIFT  RSUPER
+"
+;;
+"
+LEFTBRACKET  RIGHTBRACKET
+LEFTPAREN    RIGHTPAREN
+"
+;;
+"
+LESS  GREATER
+"
+;;
+"
+MENU      PAGEDOWN   QUESTION   SCROLLOCK   TAB
+MINUS     PAGEUP     QUOTE      SEMICOLON
+MODE      PAUSE      QUOTEDBL   SLASH       UNDERSCORE
+NUMLOCK   PERIOD                SPACE       UNDO
+          PLUS       RETURN     SYSREQ
+          POWER
+          PRINT
+"
+;;
+"
+WORLD_0 @r{through} WORLD_95
+"
+
+;;; event-key ends here

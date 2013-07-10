@@ -89,6 +89,7 @@ This manual is
 
 * Excuses::                     Undone Wrapping
 
+* Stashes::                     Sets of numerically-backed symbols.
 * GNU FDL::                     Copying and sharing this documentation.
 * Index::
 @end menu
@@ -413,6 +414,13 @@ Guile-SDL to DTRT?  Questions questions...
 @c ---------------------------------------------------------------------------
 
 @include excuse.texi
+
+@c ---------------------------------------------------------------------------
+@c ---------------------------------------------------------------------------
+@node Stashes
+@appendix Stashes
+
+@include k-ref.texi
 
 @c ---------------------------------------------------------------------------
 @c ---------------------------------------------------------------------------

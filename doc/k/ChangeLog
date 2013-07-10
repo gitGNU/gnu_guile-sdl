@@ -1,0 +1,12 @@
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[doc] Add appendix for stashes.
+
+	* event-key: New file.
+	* overlay: New file.
+
+
+Copyright (C) 2013 Thien-Thi Nguyen
+
+Copying and distribution of this file, with or without modification,
+are permitted provided the copyright notice and this notice are preserved.

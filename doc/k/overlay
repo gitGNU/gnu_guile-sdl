@@ -1,0 +1,26 @@
+;;; overlay                                         -*- scheme -*-
+
+;; Copyright (C) 2013 Thien-Thi Nguyen
+;;
+;; Permission is granted to copy, distribute and/or modify this document
+;; under the terms of the GNU Free Documentation License, Version 1.3 or
+;; any later version published by the Free Software Foundation; with no
+;; Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+;; Texts.  A copy of the license is included in the appendix entitled
+;; ``GNU Free Documentation License''.
+
+"
+Although these should be enums, these are putative flags
+due to a limitation in the implementation@footnote{For
+speed, we use immediate integers (aka @dfn{fixnums})
+for enums, but those are not wide enough on a 32-bit
+system to hold the overlay values.
+Probably this should be rectified prior to release as
+it represents a semi-regression.
+OTOH, it's not like anyone is actually using
+@code{create-yuv-overlay} anyway@dots{}}.
+Procs that use them enforce enums-ish usage, anyway;
+a list of symbols results in an error.
+"
+
+;;; overlay ends here

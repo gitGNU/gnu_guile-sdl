@@ -1,3 +1,15 @@
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[doc] Add appendix for stashes.
+
+	* k: New directory.
+	* kls: New file.
+	* Makefile.am (guile_sdl_TEXINFOS): Add k-ref.texi.
+	(k-ref.texi) [MAINTAINER_MODE]: New target.
+	(EXTRA_DIST) [MAINTAINER_MODE]: Add k, kls.
+	* guile-sdl.texi (Top): Add "Stashes" to menu.
+	(Stashes): New node/appendix.
+
 2013-07-09  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[doc] Fix bug: Use @ifnottex around @top.

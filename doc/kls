@@ -1,0 +1,247 @@
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
+!#
+;; Copyright (C) 2013 Thien-Thi Nguyen
+;;
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 3 of
+;; the License, or (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public
+;; License along with this program; if not, write to the Free
+;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA  02110-1301  USA
+
+;;; Commentary:
+
+;; Usage: kls [-o TEXI] [SPECIAL...]
+;;
+;; Use the data from ../src/k-stamp (NB: hardcoded filename)
+;; to output to TEXI (or stdout if unspecified) formatted Texinfo.
+;; The output consists of two distribution graphs followed by a
+;; series of @defvr, one per stash.
+;;
+;; Normally the @defvr entries simply lists the stash symbols
+;; in three columns (in an @example block).  SPECIAL files modify
+;; this behavior.  Their ‘basename’ should match the name of the
+;; particular stash.  The contents are a series of Scheme forms
+;; (to be ‘read’ in) w/ the usual comment/whitespace support.
+;;
+;; * The first form is BLURB (a string) to be output following
+;;   the @defvr line.
+;;
+;; * The rest of the forms are strings, each to be output in
+;;   a @group block if more than one line, and separated by
+;;   newline.
+;;
+;; All strings undergo ‘string-trim-both’ prior to output.
+
+;;; Code:
+
+(define CL (command-line))
+
+(use-modules
+ ((guile-baux common) #:select (check-hv qop<-args)))
+
+(check-hv CL '((package . "Guile-SDL")
+               (version . "1.0")
+               (help . commentary)))
+
+(let ((qop (qop<-args CL '((output (single-char #\o)
+                                   (value #t))))))
+  (set! CL (qop '()))
+  (set-current-output-port
+   (or (qop 'output open-output-file)
+       (current-output-port))))
+
+(use-modules
+ ((guile-baux forms-from) #:select (forms<-file))
+ ((ice-9 rdelim) #:select (write-line))
+ ((ice-9 format) #:select (format))
+ ((srfi srfi-1) #:select (count split-at append-map))
+ ((srfi srfi-11) #:select (let-values let*-values))
+ ((srfi srfi-13) #:select (string-trim-both)))
+
+(define-macro (FE . args)
+  (let ((proc (car (last-pair args))))
+    `(for-each ,proc ,@(delq proc args))))
+
+(define (fs s . args)
+  (apply format #f s args))
+
+(define (fln s . args)
+  (apply format #t s args)
+  (newline))
+
+(define-macro (@example . body)
+  `(begin
+     (fln "@example")
+     ,@body
+     (fln "@end example")))
+
+(define-macro (@group . body)
+  `(begin
+     (fln "@group")
+     ,@body
+     (fln "@end group")))
+
+(define RAW (sort (forms<-file "../src/k-stamp")
+                  (lambda (a b)
+                    (string<? (symbol->string (caar a))
+                              (symbol->string (caar b))))))
+
+(define ALL (map car RAW))
+
+(define ALL-COUNT (length ALL))
+
+(define (all-stats)
+  (let ((enums (count (lambda (stash)
+                        (eq? 'enums (caddr stash)))
+                      ALL)))
+    (list ALL-COUNT enums (- ALL-COUNT enums))))
+
+(define BIN-SIZE 1)
+
+(define (bin n)
+  (quotient n BIN-SIZE))
+
+(define (diagram scale series)
+  (let ((ht (make-hash-table))
+        (lo 999)
+        (hi 000)
+        (acc '())
+        (len 0)
+        (sum 0))
+
+    (define (binned n)
+      (and (> lo n) (set! lo n))
+      (and (< hi n) (set! hi n))
+      (set! acc (cons n acc))
+      (set! len (1+ len))
+      (set! sum (+ sum n))
+      (bin n))
+
+    (define (scaled n)
+      (inexact->exact
+       ;; Ensure non-empty bar via ‘ceiling’.
+       (ceiling (* scale n))))
+
+    (FE (map binned series)
+        (lambda (bin)
+          (hashq-set! ht bin (1+ (hashq-ref ht bin 0)))))
+
+    (let* ((linear (sort (hash-fold acons '() ht)
+                         (lambda (a b)
+                           (< (car a) (car b)))))
+           (blurbs (cons* (fs "   min: ~A" lo)
+                          (fs "   max: ~A" hi)
+                          (format #f "  mean: ~6F" (/ (* 1.0 sum)
+                                                      len))
+                          (fs "median: ~A"
+                              (let* ((mx (1- (ash len -1)))
+                                     (ls (sort acc <)))
+                                (define (sel i)
+                                  (* 1.0 (list-ref ls i)))
+                                (if (even? len)
+                                    (/ (+ (sel mx)
+                                          (sel (1+ mx)))
+                                       2)
+                                    (sel mx))))
+                          (make-list (- (length linear) 4)
+                                     #f))))
+      (@example
+       (FE (map car linear)
+           (map cdr linear)
+           blurbs
+           (lambda (top count blurb)
+             (format #t "~3D   ~3D ~A~@[~42T  ~A~]~%"
+                     (+ (* BIN-SIZE top) BIN-SIZE)
+                     count
+                     (make-string (scaled count) #\=)
+                     blurb)))))))
+
+(apply fln "There are ~A stashes (~A enums, ~A flags)."
+       (all-stats))
+(newline)
+(fln "Distribution of symbols count (bin size: ~A):"
+     BIN-SIZE)
+(diagram 5.0 (map cadr ALL))
+(newline)
+(fln "Distribution of symbol lengths (bin size: ~A):"
+     BIN-SIZE)
+(diagram 0.5 (map string-length (map symbol->string (append-map cdr RAW))))
+
+(define (normal count symbols)
+  (let* ((width (+ 2 (apply max 15 (map string-length
+                                        (map symbol->string
+                                             symbols)))))
+         (fmt (fs "~~A~~@[~~~AT~~A~~]~~@[~~~AT~~A~~]~~%"
+                  width (* 2 width)))
+         (len (1+ (quotient (1- count) 3)))
+         (extra (modulo count 3))
+         (len1 (if (and (< 2 len)
+                        (= 1 extra))
+                   (1- len)
+                   len))
+         (len2 (- count len len1)))
+
+    (define (ext! cx lenx)
+      (append! cx (make-list (- len lenx) #f)))
+
+    (let*-values (((c0 rest) (split-at symbols len))
+                  ((c1 c2) (split-at rest len1)))
+      (@example
+       (@group
+        (FE c0 (ext! c1 len1) (ext! c2 len2)
+            (lambda (L M R)
+              (format #t fmt L M R))))))))
+
+(define SPECIAL
+  (map (lambda (filename)
+         (cons (string->symbol (basename filename))
+               (forms<-file filename)))
+       CL))
+
+(define (special count symbols)
+
+  (define (out s)
+    (let ((s (string-trim-both s)))
+      (if (string-index s #\newline)
+          (@group (write-line s))
+          (write-line s))))
+
+  (lambda (pre)
+    (fln "~A" (car pre))
+    (if (null? (cdr pre))
+        (normal count symbols)
+        (@example
+         (out (cadr pre))
+         (let loop ((ls (cddr pre)))
+           (or (null? ls)
+               (begin (newline)
+                      (out (car ls))
+                      (loop (cdr ls)))))))))
+
+(FE (map car ALL)
+    (map cadr ALL)
+    (map caddr ALL)
+    (map cdr RAW)
+    (lambda (name count type symbols)
+      (newline)
+      (fln "@anchor{~A ~A}" name type)
+      (fln "@defvr {~A ~A} ~A" count type name)
+      (cond ((assq-ref SPECIAL name)
+             => (special count symbols))
+            (else
+             (normal count symbols)))
+      (fln "@end defvr")))
+
+(close-port (current-output-port))
+
+;;; kls ends here

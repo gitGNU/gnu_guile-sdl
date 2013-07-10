@@ -21,7 +21,7 @@
 BUILT_SOURCES = ref.texi ef-ref.texi excuse.texi
 
 info_TEXINFOS = guile-sdl.texi
-guile_sdl_TEXINFOS = $(BUILT_SOURCES)
+guile_sdl_TEXINFOS = $(BUILT_SOURCES) k-ref.texi
 
 SUFFIXES = .texi .texh
 
@@ -61,6 +61,14 @@ ref.texi: snippets
 ef-ref.texi: snippets
 
 CLEANFILES += snippets
+
+# k
+
+k-ref.texi: ../src/k-stamp k
+	$(gx) $(srcdir)/kls -o $@ `echo $(srcdir)/k/*`
+
+EXTRA_DIST += k kls
+
 endif ## MAINTAINER_MODE
 
 ## Makefile.am ends here
