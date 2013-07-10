@@ -76,7 +76,10 @@
       (set! rect (///-make-rect 0 0 width height))
       rect)
     (define (set-bg! r g b)
-      (set! bg (///-map-rgb (assq-ref (///-get-video-info) 'vfmt) r g b)))
+      (set! bg (///-map-rgb (call-with-values ///-video-cmf
+                              (lambda (cap mem format)
+                                format))
+                            r g b)))
     (setup! w h)
     (set-bg! 0 0 0)
     ;; rv

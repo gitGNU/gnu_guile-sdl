@@ -1,5 +1,11 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use ‘video-cmf’, not ‘get-video-info’.
+
+	* simple.scm (simple-canvas set-bg!): ...here.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[doc] Remove enumstash references in doc comments.
 
 	* sdlevent.c: ...here, throughout, replacing them
