@@ -38,19 +38,15 @@ SDL:flags->number
               (info "~A: ~S" stash (SDL:flagstash-flags stash)))
             all))
 
-(info "find the keyboard mod flags")
-(define *kmod* (SDL:flagstash:event-mod))
-(or *kmod* (error "could not find SDL:mod-flags"))
-
 (info "try SDL:flags->number")
-(let ((n (SDL:flags->number *kmod* '(KMOD_LMETA KMOD_LSHIFT))))
+(let ((n (SDL:flags->number 'keyboard-modifier '(KMOD_LMETA KMOD_LSHIFT))))
   (info "~A" n)
   (or (number? n) (error "SDL:flags->number did not yield a number!"))
   (or (string=? "2001" (number->string n 8))
       (error "SDL:flags->number gave a number but it was wrong!")))
 
 (info "try SDL:number->flags")
-(let ((ls (SDL:number->flags *kmod* #o2001)))
+(let ((ls (SDL:number->flags 'keyboard-modifier #o2001)))
   (info "~S" ls)
   (or (pair? ls) (error "SDL:number->flags did not yield a list!"))
   (or (and-map symbol? ls)
@@ -70,8 +66,7 @@ SDL:flags->number
 (cond (*have-ttf*
        (info "loading (sdl ttf)")
        (use-modules ((sdl ttf) #:prefix TTF:))
-       (let ((styles (TTF:flagstash:ttf)))
-         (info "styles: ~S ~S" styles (SDL:flagstash-flags styles)))))
+       (info "styles: ~S" (map car (SDL:kotk 'font-style)))))
 
 (cond (*have-mixer*
        (info "loading (sdl mixer)")
