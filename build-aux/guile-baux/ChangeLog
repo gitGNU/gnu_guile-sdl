@@ -1,3 +1,15 @@
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build int] Reorganize k2c.
+
+	* k2c (typical-sort): New proc.
+	(sorted): Use ‘typical-sort’.
+	(generate): New proc.
+	(k2c/qop join): Delete internal proc.
+	(k2c/qop spew): Likewise.
+	(k2c/qop from-file): New internal proc.
+	(k2c/qop): Use ‘from-file’, ‘generate’.
+
 2013-07-06  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build int] Make sure kp values are not unsigned.

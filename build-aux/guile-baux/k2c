@@ -223,6 +223,13 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
      "}")
    "\n" 'suffix))
 
+(define (typical-sort type ls)
+  (let ((more (case type
+                ((flocking) >)
+                ((peerless) <))))
+    (sort ls (lambda (a b)
+               (more (car a) (car b))))))
+
 (define (sorted type who header found qspec)
   (let* ((p (unique-i/o-file-port (fs "./~A.vals-" (basename who))))
          (exe (port-filename p))
@@ -231,13 +238,8 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
     (let ((p (open-output-pipe (fs "gcc -o ~A -x c -pipe -" exe))))
       (display (C-program type header found qspec) p)
       (close-pipe p))
-    (let ((p (open-input-pipe exe))
-          (more (case type
-                  ((flocking) >)
-                  ((peerless) <))))
-      (set! rv (sort (forms<-port p)
-                     (lambda (a b)
-                       (more (car a) (car b)))))
+    (let ((p (open-input-pipe exe)))
+      (set! rv (typical-sort type (forms<-port p)))
       (close-pipe p))
     (delete-file exe)
     rv))
@@ -254,6 +256,73 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
           (else
            #f))))
 
+(define (generate nick pretty type linear)
+
+  (define (spew s)
+    (display s)
+    (force-output))
+
+  (define (join how . ls)
+    (let ((sep (if (pair? how) (car how) how))
+          (grammar (if (pair? how) (cdr how) 'infix)))
+      (string-join ls sep grammar)))
+
+  (let* ((numbers (map car linear))
+         (comp (case type
+                 ((flocking) #f)
+                 ((peerless) (comprehend numbers))))
+         (len (length linear)))
+
+    (or (eq? 'classic comp)
+        (spew (fs "static ~Along ~A_values[] = {~%  ~A~%};~%~%"
+                  (case type
+                    ((flocking) "unsigned ")
+                    ((peerless) ""))
+                  nick
+                  (string-join
+                   (map (lambda (n)
+                          (case type
+                            ((flocking) (fs "0x~A" (number->string n 16)))
+                            ((peerless) (fs "~A" n))))
+                        (case comp
+                          ((offset) (list (car numbers)))
+                          (else numbers)))
+                   ",\n  "))))
+    (spew (pascal-pool (map cdr linear)
+                       'uint8_t (fs "~A_names" nick)
+                       'essential
+                       'numeric))
+    (spew "\n")
+    (spew (join '("\n" . suffix)
+                (fs "static ~A = {"
+                    (fs (case type
+                          ((flocking) "flagstash_t ~A_flagstash")
+                          ((peerless) "kp_t ~A_kp"))
+                        nick))
+                (let ((elems
+                       (list (fs "  .ss = { ~A }"
+                                 (join ", "
+                                       (fs ".count = ~A" len)
+                                       (fs ".pool = ~A_names" nick)
+                                       (fs ".name = ~S" pretty)))
+                             (fs ".val = ~A"
+                                 (case comp
+                                   ((classic) 'NULL)
+                                   (else (fs "~A_values" nick)))))))
+
+                  (define (boolean sym)
+                    (fs ".~A = ~A" sym (if (eq? comp sym)
+                                           'true
+                                           'false)))
+
+                  (case type
+                    ((peerless)
+                     (append! elems (list (boolean 'classic)
+                                          (boolean 'offset)))))
+
+                  (apply join ",\n  " elems))
+                "};"))))
+
 (define (k2c/qop qop)
   (let* ((specfile (if (null? (qop '()))
                        (die #f "missing input file")
@@ -262,12 +331,7 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
                  ((.kf) 'flocking)
                  ((.kp) 'peerless)
                  (else (die #f "unrecognized extension: ~A" specfile))))
-         (partial (forms<-file specfile))
-         (nick (car partial))
-         (pretty (cadr partial))
-         (saved-op (current-output-port))
-         (op (or (qop 'output open-output-file)
-                 saved-op)))
+         (partial (forms<-file specfile)))
 
     (define qspec
       (let ((plist (cddr partial)))
@@ -275,78 +339,24 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
         (lambda (kw)
           (and=> (memq kw plist) cadr))))
 
-    (define (join how . ls)
-      (let ((sep (if (pair? how) (car how) how))
-            (grammar (if (pair? how) (cdr how) 'infix)))
-        (string-join ls sep grammar)))
+    (define (from-file header)
+      (sorted type specfile header
+              (scan-file header
+                         (qspec #:symrgx)
+                         (qspec #:region))
+              qspec))
 
-    (define (spew s)
-      (display s op)
-      (force-output op))
+    (let ((linear (from-file (in-vicinity (or (qop 'include)
+                                              "/usr/include")
+                                          (qspec #:infile)))))
 
-    (or (string? pretty)
-        (error "PRETTY not a string:" pretty))
-    (let* ((header (in-vicinity (or (qop 'include) "/usr/include")
-                                (qspec #:infile)))
-           (found (scan-file header
-                             (qspec #:symrgx)
-                             (qspec #:region)))
-           (linear (sorted type specfile header found qspec))
-           (numbers (map car linear))
-           (comp (case type
-                   ((flocking) #f)
-                   ((peerless) (comprehend numbers))))
-           (len (length linear)))
-      (or (eq? 'classic comp)
-          (spew (fs "static ~Along ~A_values[] = {~%  ~A~%};~%~%"
-                    (case type
-                      ((flocking) "unsigned ")
-                      ((peerless) ""))
-                    nick
-                    (string-join
-                     (map (lambda (n)
-                            (case type
-                              ((flocking) (fs "0x~A" (number->string n 16)))
-                              ((peerless) (fs "~A" n))))
-                          (case comp
-                            ((offset) (list (car numbers)))
-                            (else numbers)))
-                     ",\n  "))))
-      (spew (pascal-pool (map cdr linear)
-                         'uint8_t (fs "~A_names" nick)
-                         'essential
-                         'numeric))
-      (spew "\n")
-      (spew (join '("\n" . suffix)
-                  (fs "static ~A = {"
-                      (fs (case type
-                            ((flocking) "flagstash_t ~A_flagstash")
-                            ((peerless) "kp_t ~A_kp"))
-                          nick))
-                  (let ((elems
-                         (list (fs "  .ss = { ~A }"
-                                   (join ", "
-                                         (fs ".count = ~A" len)
-                                         (fs ".pool = ~A_names" nick)
-                                         (fs ".name = ~S" pretty)))
-                               (fs ".val = ~A"
-                                   (case comp
-                                     ((classic) 'NULL)
-                                     (else (fs "~A_values" nick)))))))
+      (define (gen!)
+        (generate (car partial) (cadr partial)
+                  type linear))
 
-                    (define (boolean sym)
-                      (fs ".~A = ~A" sym (if (eq? comp sym)
-                                             'true
-                                             'false)))
-
-                    (case type
-                      ((peerless)
-                       (append! elems (list (boolean 'classic)
-                                            (boolean 'offset)))))
-
-                    (apply join ",\n  " elems))
-                  "};")))
-    (close-port op)))
+      (or (qop 'output (lambda (filename)
+                         (with-output-to-file filename gen!)))
+          (gen!)))))
 
 (define (main args)
   (check-hv args '((package . "Guile-SDL")
