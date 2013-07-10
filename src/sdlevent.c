@@ -114,10 +114,8 @@ PRIMPROC
  (SCM type),
  doc: /***********
 Return a new SDL event.
-Optional arg @var{type} is one of the symbols
-enumerated in the variable @code{event-types}.
-If omitted, the default is @code{SDL_NOEVENT}.
-@xref{Enums and Constants}.  */)
+Optional arg @var{type} is a symbol (@pxref{event-type enums}).
+If omitted, the default is @code{SDL_NOEVENT}.  */)
 {
 #define FUNC_NAME s_make_event
   DECLINIT_SYM2NUM_CC (1, event_type_enum);
@@ -464,7 +462,8 @@ NB: This procedure is obsoleted by @code{evqueue-add},
 @code{evqueue-peek} and @code{evqueue-get};
 it @strong{will be removed} after 2013-12-31.
 
-Manage the event queue, depending on @var{action}:
+Manage the event queue, depending
+on @var{action} (@pxref{event-action enums}):
 
 @table @code
 @item SDL_ADDEVENT
@@ -710,8 +709,8 @@ PRIMPROC
 (event_type_handling, "event-type-handling", 1, 1, 0,
  (SCM type, SCM setting),
  doc: /***********
-Return @code{#t} if event @var{type} is recognized and
-queued, or @code{#f} if it is ignored.
+Return @code{#t} if event @var{type} (@pxref{event-type enums})
+is recognized and queued, or @code{#f} if it is ignored.
 If @var{setting} is specified, set the handling of
 @var{type} to the truth value of @var{setting} first.  */)
 {
@@ -731,8 +730,8 @@ PRIMPROC
 NB: This procedure is obsoleted by @code{event-type-handling}
 and @strong{will be removed} after 2013-12-31.
 
-Set or query the state of event @var{type} processing,
-based on @var{state} (a symbol).
+Set or query the state of event @var{type} (@pxref{event-type enums})
+processing, based on @var{state} (@pxref{event-state enums}).
 If @var{state} is @code{SDL_QUERY}, return the current state.
 If it is @code{SDL_IGNORE} or @code{SDL_ENABLE},
 disable or enable, respectively, internal event @var{type}

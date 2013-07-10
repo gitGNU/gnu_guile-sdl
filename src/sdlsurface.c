@@ -396,8 +396,7 @@ and @strong{will be removed} after 2013-12-31.
 
 Adjust whole-@var{surface} alpha as specified by
 @var{flag} (@pxref{video flags}) and @var{alpha}
-(one of the @code{alpha-enums}, or a number 0-255).
-@xref{Enums and Constants}.
+(@pxref{alpha-enum enums}, or a number 0-255).
 If @var{flag} is @code{#f}, ignore @var{alpha} completely.  */)
 {
 #define FUNC_NAME s_set_alpha
