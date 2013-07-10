@@ -37,7 +37,7 @@ BUILT_SOURCES   = k-stamp k-count.h $(WRAPPER_SOURCES:.c=.x) sdlgfx.x
 
 k-stamp: k
 	cd k && $(MAKE)
-	ls -l k/*c > $@
+	cat k/*.list > $@
 
 k-count.h: k-stamp
 	printf '#define KOTK_N  %d\n' \

@@ -1,5 +1,13 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Generate listing by ‘k2c -o FILE’ side-effect.
+
+	* k2c: Autoload ‘(ice-9 pretty-print)’ on trigger ‘pretty-print’.
+	(k2c/qop btw!): New internal proc.
+	(k2c/qop): If ‘-o FILE’, also write listing to FILE.list.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Support directly-specifying stash contents in k2c.
 
 	* k2c (k2c/qop directly): New internal proc.

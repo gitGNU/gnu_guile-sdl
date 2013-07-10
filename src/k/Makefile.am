@@ -68,5 +68,6 @@ gx = $(top_srcdir)/build-aux/guile-baux/gbaux-do
 	$(gx) k2c -o $@ $<
 
 CLEANFILES = $(BUILT_SOURCES)
+CLEANFILES += *.list
 
 ## Makefile.am ends here

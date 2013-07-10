@@ -30,6 +30,10 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
 ;;  -o, --output FILE    -- write to FILE instead of stdout
 ;;  -I, --include DIR    -- look in DIR instead of /usr/include
 ;;
+;; If output FILE is specified, as a side effect, k2c also writes
+;; to FILE.list (thus producing two files) the form:
+;;  ((NAME COUNT TYPE) SYMBOL ...)
+;;
 ;; The KSPEC file contents are Scheme forms in the following format:
 ;; First is the symbol NICK, used to form C identifiers.  Next is the
 ;; string PRETTY, used in the external representation of the symbol
@@ -109,6 +113,7 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
                                          string-take-right
                                          string-drop-right
                                          string-concatenate))
+  #:autoload (ice-9 pretty-print) (pretty-print)
   #:use-module ((ice-9 rdelim) #:select (read-line))
   #:use-module ((ice-9 regex) #:select (match:substring
                                         regexp-substitute/global))
@@ -365,11 +370,28 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
                                                      "/usr/include")
                                                  (qspec #:infile)))))))
 
+      (define (btw!)
+        (let ((head (list (string->symbol (cadr partial))
+                          (length linear)
+                          (case type
+                            ((peerless) 'enums)
+                            ((flocking) 'flags))))
+              (tail (map (lambda (pair)
+                           (string->symbol (cdr pair)))
+                         (sort linear (lambda (a b)
+                                        ;; nb: ‘type’ independent
+                                        (< (car a)
+                                           (car b)))))))
+          (pretty-print (cons head tail))))
+
       (define (gen!)
         (generate (car partial) (cadr partial)
                   type linear))
 
       (or (qop 'output (lambda (filename)
+                         (with-output-to-file
+                             (fs "~A.list" filename)
+                           btw!)
                          (with-output-to-file filename gen!)))
           (gen!)))))
 

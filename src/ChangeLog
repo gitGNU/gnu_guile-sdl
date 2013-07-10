@@ -1,5 +1,12 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Generate listing by ‘k2c -o FILE’ side-effect.
+
+	* k/Makefile.am (CLEANFILES): Add *.list.
+	* Makefile.am (k-stamp): Concatenate k/*.list to make $@.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use k2c to generate all init data.
 
 	* k/active.kp: New file.

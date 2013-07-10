@@ -58,6 +58,7 @@ Makefile.in
 /src/snuggle
 
 /src/k/*.c
+/src/k/*.list
 
 /test/.simu
 /test/t99.list
