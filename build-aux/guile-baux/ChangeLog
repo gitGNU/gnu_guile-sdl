@@ -1,5 +1,13 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Support directly-specifying stash contents in k2c.
+
+	* k2c (k2c/qop directly): New internal proc.
+	(k2c/qop): If #:direct, process the given
+	ALIST ‘directly’ instead of scanning.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Reorganize k2c.
 
 	* k2c (typical-sort): New proc.

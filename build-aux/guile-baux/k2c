@@ -40,12 +40,18 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
 ;;
 ;; Currently, these keywords are recognized:
 ;;
+;;  #:direct ALIST       -- don't scan; use ALIST directly
 ;;  #:infile RELPATH     -- which header to scan (string)
 ;;  #:region (BEG END)   -- only scan lines inside BEG-END regexps (strings)
 ;;  #:symrgx SYMRGX      -- symbolic regular expression with
 ;;                          first subexpression the key (see below)
 ;;  #:kxform SCHEME      -- how to transform the key
 ;;  #:v2mask FORMAT-STR  -- convert the value into a mask with FORMAT-STR
+;;
+;; If #:direct is specified, ALIST has the form:
+;;  ((INTEGER . SYMBOL) ...)
+;; and no other processing is done (aside from output, obviously).
+;; Otherwise...
 ;;
 ;; Both #:infile and #:symrgx are required; #:region is optional.
 ;; SYMRGX is a list whose elements are strings, symbols and a single
@@ -339,6 +345,12 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
         (lambda (kw)
           (and=> (memq kw plist) cadr))))
 
+    (define (directly raw)
+      (typical-sort type (map cons
+                              (map car raw)
+                              (map symbol->string
+                                   (map cdr raw)))))
+
     (define (from-file header)
       (sorted type specfile header
               (scan-file header
@@ -346,9 +358,12 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
                          (qspec #:region))
               qspec))
 
-    (let ((linear (from-file (in-vicinity (or (qop 'include)
-                                              "/usr/include")
-                                          (qspec #:infile)))))
+    (let ((linear (cond ((qspec #:direct)
+                         => directly)
+                        (else
+                         (from-file (in-vicinity (or (qop 'include)
+                                                     "/usr/include")
+                                                 (qspec #:infile)))))))
 
       (define (gen!)
         (generate (car partial) (cadr partial)
