@@ -1,5 +1,15 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[doc] Remove flagstash:FOO references in doc comments.
+
+	* sdlevent.c: ...here, throughout, replacing them
+	with @xref or @pxref to the appropriate stash.
+	* sdlsurface.c: Likewise.
+	* sdlttf.c: Likewise.
+	* sdlvideo.c: Likewise.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Generate listing by ‘k2c -o FILE’ side-effect.
 
 	* k/Makefile.am (CLEANFILES): Add *.list.

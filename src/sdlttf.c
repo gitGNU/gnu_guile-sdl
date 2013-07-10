@@ -101,7 +101,7 @@ PRIMPROC
 (ttf_get_font_style, "font:style", 1, 0, 0,
  (SCM font),
  doc: /***********
-Return the style of @var{font} (see @code{flagstash:ttf}).
+Return the style of @var{font} (@pxref{font-style flags}).
 This font style is implemented by modifying the font glyphs, and
 doesn't reflect any inherent properties of the truetype font file.  */)
 {
@@ -118,7 +118,7 @@ PRIMPROC
 (ttf_set_font_style, "font:set-style!", 2, 0, 0,
  (SCM font, SCM style),
  doc: /***********
-Set @var{font} style to @var{style} (see @code{flagstash:ttf}).
+Set @var{font} style to @var{style} (@pxref{font-style flags}).
 This font style is implemented by modifying the font glyphs, and
 doesn't reflect any inherent properties of the truetype font file.  */)
 {

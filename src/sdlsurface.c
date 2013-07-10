@@ -72,7 +72,7 @@ PRIMPROC
   SCM flags),
  doc: /***********
 Return a new surface of dimensions @var{width} by @var{height}.
-Optional third arg @var{flags} (see @code{flagstash:video})
+Optional third arg @var{flags} (@pxref{video flags})
 further specifies the surface.  Color depth and masks
 are those for the current video surface.  */)
 {
@@ -113,7 +113,7 @@ PRIMPROC
 Return an empty surface.
 The eight arguments, directly analagous to those
 for SDL_CreateRGBSurface, are: @var{flags}
-(list of symbols, see @code{flagstash:video}),
+(list of symbols, @pxref{video flags}),
 @var{width}, @var{height}, @var{depth}, @var{rmask},
 @var{gmask}, @var{bmask}, @var{amask}
 (all numbers).  */)
@@ -331,7 +331,7 @@ NB: This procedure is obsoleted by @code{surface-color-key!}
 and @strong{will be removed} after 2013-12-31.
 
 Set @var{surface} color key as specified by @var{flag}
-(see @code{flagstash:video}) and @var{key}.  */)
+(@pxref{video flags}) and @var{key}.  */)
 {
 #define FUNC_NAME s_set_color_key
   DECLINIT_SYM2NUM_CC (2, btw->video_flags);
@@ -395,7 +395,7 @@ NB: This procedure is obsoleted by @code{surface-alpha!}
 and @strong{will be removed} after 2013-12-31.
 
 Adjust whole-@var{surface} alpha as specified by
-@var{flag} (see @code{flagstash:video}) and @var{alpha}
+@var{flag} (@pxref{video flags}) and @var{alpha}
 (one of the @code{alpha-enums}, or a number 0-255).
 @xref{Enums and Constants}.
 If @var{flag} is @code{#f}, ignore @var{alpha} completely.  */)
@@ -483,7 +483,7 @@ PRIMPROC
  doc: /***********
 Convert @var{surface} to the same @var{format} as another
 surface.  Optional third arg @var{flags} is a list of flags
-(symbols) from the set returned by @code{flagstash:video}.  */)
+(@pxref{video flags}).  */)
 {
 #define FUNC_NAME s_convert_surface
   DECLINIT_SYM2NUM_CC (3, btw->video_flags);

@@ -423,7 +423,7 @@ without changing the queue.  Optional arg @var{accumulate} if
 non-@code{#f} means to return the list of matched events, instead.
 If there are errors, return @code{#f}.
 
-See @code{flagstash:event-mask}.  */)
+@xref{event-mask flags}.  */)
 {
   const struct evqueue_do_details dd =
     {
@@ -444,7 +444,7 @@ events at the front of the event queue that match
 @var{mask}, removing them from the queue.
 If there are errors, return @code{#f}.
 
-See @code{flagstash:event-mask}.  */)
+@xref{event-mask flags}.  */)
 {
   const struct evqueue_do_details dd =
     {
@@ -474,7 +474,7 @@ Add up to @var{numevents} (an integer) events from
 @item SDL_PEEKEVENT
 Return a count (number less than or equal to @var{numevents})
 of events at the front of the event queue that match @var{mask}
-(see @code{flagstash:event-mask}), without changing the queue.
+(@pxref{event-mask flags}), without changing the queue.
 
 @item SDL_GETEVENT
 Act like for @code{SDL_PEEKEVENT} except return a list of

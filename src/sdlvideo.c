@@ -377,9 +377,9 @@ PRIMPROC
  (SCM format, SCM flags),
  doc: /***********
 Return a list of available screen dimensions for pixel
-@var{format} and @var{flags}.  Format defaults to that for
-the current screen.  Flags default to none
-(see @code{flagstash:video}).
+@var{format} and @var{flags} (@pxref{video flags}).
+Format defaults to that for
+the current screen.  Flags default to none.
 Return @code{#f} if no modes are available, @code{#t} if all are available.  */)
 {
 #define FUNC_NAME s_list_modes
@@ -437,7 +437,7 @@ PRIMPROC
  doc: /***********
 Check to see if a particular video mode is supported.
 Args are @var{width}, @var{height}, @var{bpp} (numbers),
-and @var{flags} (see @code{flagstash:video}).
+and @var{flags} (@pxref{video flags}).
 Return @code{#f} if the mode is not supported, or a number
 indicating the bits-per-pixel of the closest available
 mode supporting @var{width} and @var{height}.  */)
@@ -467,7 +467,7 @@ PRIMPROC
  doc: /***********
 Set the SDL video mode with @var{width},
 @var{height} and bits-per-pixel @var{bpp}.  Optional arg
-@var{flags} (see @code{flagstash:video}) is supported.
+@var{flags} (@pxref{video flags}) is supported.
 Return a new surface.  */)
 {
 #define FUNC_NAME s_set_video_mode
@@ -636,7 +636,7 @@ PRIMPROC
  (SCM surface, SCM flags, SCM colors),
  doc: /***********
 Set the palette of an 8-bit @var{surface}
-using @var{flags} (see @code{flagstash:palette}) and
+using @var{flags} (@pxref{palette flags}) and
 @var{colors}, a vector of SDL-Colors.  */)
 {
 #define FUNC_NAME s_set_palette
