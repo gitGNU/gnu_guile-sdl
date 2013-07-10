@@ -1,5 +1,15 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Drop flagstash:* procs.
+
+	* sdlevent.c (get_event_mod_flags): Delete PRIMPROC.
+	(get_event_mask_flags): Likewise.
+	* sdlttf.c (get_ttf_flags): Likewise.
+	* sdlvideo.c (get_video_flags): Likewise.
+	(get_palette_flags, get_overlay_formats): Likewise.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Internalize enumstash objects.
 
 	* sdlevent.c (gsdl_init_event): Declare non-public

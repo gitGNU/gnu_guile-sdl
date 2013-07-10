@@ -55,26 +55,6 @@ static SCM appstate_flags;
 
 #define ALLOCA_EVENTS(count)  alloca (count * sizeof (SDL_Event))
 
-PRIMPROC
-(get_event_mod_flags, "flagstash:event-mod", 0, 0, 0,
- (void),
- doc: /***********
-Return the flagstash object for event mod flags.
-@xref{Enums and Constants}.  */)
-{
-  return event_mod_flags;
-}
-
-PRIMPROC
-(get_event_mask_flags, "flagstash:event-mask", 0, 0, 0,
- (void),
- doc: /***********
-Return the flagstash object for event mask flags.
-@xref{Enums and Constants}.  */)
-{
-  return event_mask_flags;
-}
-
 
 static long event_tag;
 

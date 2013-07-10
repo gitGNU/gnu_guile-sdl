@@ -1,5 +1,17 @@
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Drop flagstash:* procs.
+
+	* ref.texh (General SDL): Delete @tsin for
+	‘flagstash:init’ and accompanying @example block.
+	(Video): Likewise for ‘flagstash:video’,
+	‘flagstash:palette’, ‘flagstash:overlay’.
+	(Events): Likewise for ‘flagstash:event-mod’,
+	‘flagstash:event-mask’.
+	(TrueType): Likewise for ‘flagstash:ttf’.
+
+2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Internalize enumstash objects.
 
 	* guile-sdl.texi (Enums and Constants): Delete

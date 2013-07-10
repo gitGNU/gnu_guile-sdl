@@ -40,16 +40,6 @@ DECLARE_INIT_THUNK (misc);
 
 static SCM init_flags;
 
-PRIMPROC
-(get_init_flags, "flagstash:init", 0, 0, 0, (),
- doc: /***********
-Return the flagstash object for @code{init} flags.
-@xref{Enums and Constants}.  */)
-{
-  return init_flags;
-}
-
-
 /* Initialization */
 PRIMPROC
 (init, "init", 1, 0, 0,

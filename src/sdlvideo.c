@@ -64,35 +64,6 @@ static SCM palette_flags;
 static SCM gsdl_overlay_formats;
 static SCM grab_modes;
 
-PRIMPROC
-(get_video_flags, "flagstash:video", 0, 0, 0, (),
- doc: /***********
-Return the flagstash object for video flags.
-@xref{Enums and Constants}.  */)
-{
-  return btw->video_flags;
-}
-
-PRIMPROC
-(get_palette_flags, "flagstash:palette", 0, 0, 0, (),
- doc: /***********
-Return the flagstash object for palette flags.
-@xref{Enums and Constants}.  */)
-{
-  return palette_flags;
-}
-
-PRIMPROC
-(get_overlay_formats, "flagstash:overlay", 0, 0, 0, (),
- doc: /***********
-Return the flagstash object for overlay flags.
-(Actually, these are "common overlay formats", not flags.)
-@xref{Enums and Constants}.  */)
-{
-  return gsdl_overlay_formats;
-}
-
-
 
 /* extended SDL_* structures */
 

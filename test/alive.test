@@ -23,21 +23,6 @@
 (info "is SDL:flags->number (C function exposed to Scheme) defined?")
 SDL:flags->number
 
-(info "all the flag stashes")
-(let ((all (list
-            (SDL:flagstash:init)
-            (SDL:flagstash:overlay)
-            (SDL:flagstash:video)
-            (SDL:flagstash:palette)
-            (SDL:flagstash:event-mask)
-            (SDL:flagstash:event-mod))))
-  (info "all: ~S" all)
-  (or (= 6 (length all))
-      (error "unexpected number of flag stashes"))
-  (for-each (lambda (stash)
-              (info "~A: ~S" stash (SDL:flagstash-flags stash)))
-            all))
-
 (info "try SDL:flags->number")
 (let ((n (SDL:flags->number 'keyboard-modifier '(KMOD_LMETA KMOD_LSHIFT))))
   (info "~A" n)

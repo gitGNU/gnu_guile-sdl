@@ -14,15 +14,6 @@
 
 @tsin m (sdl sdl)
 
-@tsin i flagstash:init
-
-@example
-SDL_INIT_foo, where foo can be:
-VIDEO            CDROM            JOYSTICK
-EVERYTHING       EVENTTHREAD      AUDIO
-NOPARACHUTE
-@end example
-
 @tsin i init
 
 @tsin i init-subsystem
@@ -41,31 +32,6 @@ NOPARACHUTE
 
 @node Video
 @chapter Video
-
-@tsin i flagstash:video
-
-@example
-SDL_foo, where foo can be:
-OPENGL       SRCALPHA     ASYNCBLIT
-OPENGLBLIT   NOFRAME      RLEACCEL
-HWPALETTE    RLEACCELOK   SRCCOLORKEY
-HWACCEL      PREALLOC     SWSURFACE
-HWSURFACE    ANYFORMAT    FULLSCREEN
-RESIZABLE    DOUBLEBUF
-@end example
-
-@tsin i flagstash:palette
-
-@example
-SDL_LOGPAL       SDL_PHYSPAL
-@end example
-
-@tsin i flagstash:overlay
-
-@example
-SDL_foo_OVERLAY, where foo can be:
-  YVYU  YUY2  IYUV  YV12  UYVY
-@end example
 
 @tsin i create-cursor
 
@@ -253,37 +219,6 @@ SDL_foo_OVERLAY, where foo can be:
 
 @node Events
 @chapter Events
-
-@tsin i flagstash:event-mod
-
-@example
-KMOD_foo, where foo can be:
-LSHIFT   LCTRL   LMETA   LALT
-RSHIFT   RCTRL   RMETA   RALT
-
-CAPS   NUM   MODE
-@end example
-
-@tsin i flagstash:event-mask
-
-@example
-SDL_fooMASK, where foo can be:
-ACTIVEEVENT
-
-JOYEVENT                    ; logior of 5 SDL_JOY*MASK:
-JOY@{AXIS,BALL,HAT@}MOTION
-JOYBUTTON@{DOWN,UP@}
-
-KEYEVENT                    ; logior of 2 SDL_KEY*MASK:
-KEY@{DOWN,UP@}
-
-MOUSEEVENT                  ; logior of 3 SDL_MOUSE*MASK:
-MOUSEBUTTON@{DOWN,UP@}
-MOUSEMOTION
-
-QUIT          SYSWMEVENT
-VIDEOEXPOSE   VIDEORESIZE
-@end example
 
 @tsin i make-event
 
@@ -602,13 +537,6 @@ effectively the same as specifying @code{centered}.
 
 @node TrueType
 @chapter TrueType
-
-@tsin i flagstash:ttf
-
-@example
-TTF_STYLE_foo, where foo can be:
-  BOLD  NORMAL  UNDERLINE  ITALIC
-@end example
 
 @tsin m (sdl ttf)
 
