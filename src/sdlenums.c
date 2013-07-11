@@ -239,31 +239,6 @@ long2enum (long value, SCM enumstash)
 
 /* Scheme level conversions */
 
-PRIMPROC
-(enumstash_enums, "enumstash-enums", 1, 0, 0,
- (SCM enumstash),
- doc: /***********
-NB: This procedure is obsoleted by @code{kotk}
-and @strong{will be removed} after 2013-12-31.
-
-Return the list of symbols belonging to @var{enumstash}.  */)
-{
-#define FUNC_NAME s_enumstash_enums
-  SCM rv;
-  kp_t *enum_type;
-  size_t i;
-
-  ASSERT_ENUM (enumstash, 1);
-
-  enum_type = UNPACK_ENUM (enumstash);
-  rv = SCM_EOL;
-  for (i = 0; i < enum_type->ss.count; i++)
-    rv = CONS (enum_type->linear[i],
-               rv);
-  return rv;
-#undef FUNC_NAME
-}
-
 static SCM
 resolve_kp (const char *FUNC_NAME, SCM stash)
 {
@@ -486,32 +461,6 @@ ulong2flags (unsigned long value, SCM stash)
 
 
 /* Scheme level conversions */
-
-PRIMPROC
-(flagstash_flags, "flagstash-flags", 1, 0, 0,
- (SCM stash),
- doc: /***********
-NB: This procedure is obsoleted by @code{kotk}
-and @strong{will be removed} after 2013-12-31.
-
-Return a list of all the flags (symbols) in @var{stash},
-a flagstash object, in unspecified order.  */)
-{
-#define FUNC_NAME s_flagstash_flags
-  int i;
-  flagstash_t *cstash;
-  size_t count;
-  SCM rv = SCM_EOL;
-
-  ASSERT_FLAGSTASH (stash, 1);
-  cstash = UNPACK_FLAGSTASH (stash);
-  count = cstash->ss.count;
-
-  for (i = 0; i < count; i++)
-    rv = CONS (cstash->linear[i], rv);
-  return rv;
-#undef FUNC_NAME
-}
 
 static SCM
 resolve_kf (const char *FUNC_NAME, SCM stash)

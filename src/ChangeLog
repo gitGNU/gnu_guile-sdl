@@ -1,5 +1,11 @@
 2013-07-11  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop procs: enumstash-enums, flagstash-flags
+
+	* sdlenums.c (enumstash_enums, flagstash_flags): Delete PRIMPROCs.
+
+2013-07-11  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Decruft: Drop machinery for enumstash object export.
 
 	* sdlcdrom.c (gsdl_init_cdrom): Remove ‘false’ from ‘allp’ init forms.
