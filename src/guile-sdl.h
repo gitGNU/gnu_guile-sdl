@@ -227,7 +227,6 @@ typedef struct sym2num_cc {
 typedef struct {
   SCM  *smob;
   kp_t *kp;
-  bool  public;
 } kp_init_t;
 
 typedef void (register_kp_v_t) (size_t count, kp_init_t v[count]);

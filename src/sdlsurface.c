@@ -687,8 +687,8 @@ gsdl_init_surface (void)
   /* alpha constants */
   {
     kp_init_t allp[] = {
-      { &alpha_enums, &alphalimold_kp, false },
-      { &kp_alpha, &alphalim_kp, false }
+      { &alpha_enums, &alphalimold_kp },
+      { &kp_alpha, &alphalim_kp }
     };
 
     REGISTER_KP_V (allp);

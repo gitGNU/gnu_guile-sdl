@@ -986,13 +986,13 @@ gsdl_init_event (void)
   /* constants */
   {
     kp_init_t allp[] = {
-      { &event_type_enum, &evtypeold_kp, false },
-      { &event_keysym_enum, &keysymold_kp, false },
-      { &event_action_enum, &evaction_kp, false },
-      { &event_state_enum, &evstate_kp, false },
-      { &mbut_enum, &mbut_kp, false },
-      { &updn_enum, &updn_kp, false },
-      { &active_enum, &active_kp, false }
+      { &event_type_enum, &evtypeold_kp },
+      { &event_keysym_enum, &keysymold_kp },
+      { &event_action_enum, &evaction_kp },
+      { &event_state_enum, &evstate_kp },
+      { &mbut_enum, &mbut_kp },
+      { &updn_enum, &updn_kp },
+      { &active_enum, &active_kp }
     };
 
     REGISTER_KP_V (allp);

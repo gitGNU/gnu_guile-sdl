@@ -1326,7 +1326,7 @@ gsdl_init_video (void)
 
   {
     kp_init_t allp[] = {
-      { &grab_modes, &grabmode_kp, false }
+      { &grab_modes, &grabmode_kp }
     };
 
     REGISTER_KP_V (allp);

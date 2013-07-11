@@ -935,7 +935,7 @@ init_module (void)
 
   {
     kp_init_t allp[] = {
-      { &fading_status_enum, &fading_kp, false }
+      { &fading_status_enum, &fading_kp }
     };
 
     REGISTER_KP_V (allp);

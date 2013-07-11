@@ -1,3 +1,18 @@
+2013-07-11  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Decruft: Drop machinery for enumstash object export.
+
+	* sdlcdrom.c (gsdl_init_cdrom): Remove ‘false’ from ‘allp’ init forms.
+	* sdlevent.c (gsdl_init_event): Likewise.
+	* sdlgfx.c (init_module): Likewise.
+	* sdlmixer.c (init_module): Likewise.
+	* sdlsurface.c (gsdl_init_surface): Likewise.
+	* sdlvideo.c (gsdl_init_video): Likewise.
+	* sdlenums.c (register_kp): Don't take arg ‘public’; don't
+	‘DEFINE_PUBLIC’ ever; move ‘PERMANENT’ call to ‘return’ statement.
+	(register_kp_v): Update call to ‘register_kp’.
+	* guile-sdl.h (kp_init_t): Delete member ‘public’.
+
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Drop flagstash:* procs.

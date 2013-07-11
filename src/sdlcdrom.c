@@ -514,8 +514,8 @@ gsdl_init_cdrom (void)
 
   {
     kp_init_t allp[] = {
-      { &cdrom_state, &cdstate_kp, false },
-      { &cd_track_type, &cdtracktype_kp, false }
+      { &cdrom_state, &cdstate_kp },
+      { &cd_track_type, &cdtracktype_kp }
     };
 
     REGISTER_KP_V (allp);

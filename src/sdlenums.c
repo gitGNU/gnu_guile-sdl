@@ -144,7 +144,7 @@ print_enum (SCM smob, SCM port, scm_print_state *ps)
 
 /* Register a C enum.  */
 static SCM
-register_kp (kp_t *kp, bool public)
+register_kp (kp_t *kp)
 {
   const struct symset *ss = &kp->ss;
   const uint8_t *pool = ss->pool;
@@ -175,18 +175,8 @@ register_kp (kp_t *kp, bool public)
   SCM_NEWSMOB (smob, enum_tag, kp);
   GC_UNPROTECT (ht);
 
-  if (public)
-    {
-      char buf[64];
-
-      snprintf (buf, 64, "%ss", ss->name);
-      DEFINE_PUBLIC (buf, smob);
-    }
-  else
-    smob = PERMANENT (smob);
-
   note (peerless, smob);
-  return smob;
+  return PERMANENT (smob);
 }
 
 static void
@@ -198,7 +188,7 @@ register_kp_v (size_t count, kp_init_t v[count])
   for (i = 0, e = v;
        i < count;
        i++, e++)
-    *(e->smob) = register_kp (e->kp, e->public);
+    *(e->smob) = register_kp (e->kp);
 }
 
 static inline SCM
