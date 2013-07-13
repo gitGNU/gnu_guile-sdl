@@ -20,5 +20,6 @@
 ttf "font-style"
 #:infile "SDL/SDL_ttf.h"
 #:symrgx (#t "TTF_STYLE_[A-Z]+")
+#:kxform (10 downcase)
 
 ;;; ttf.kf ends here

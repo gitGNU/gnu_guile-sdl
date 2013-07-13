@@ -51,7 +51,7 @@
                            TTF:font:descent
                            TTF:font:line-skip))))
       (cond ((zero? (random 2))
-             (TTF:font:set-style! font 'TTF_STYLE_UNDERLINE)
+             (TTF:font:set-style! font 'underline)
              (set! style (TTF:font:style font))))
       (info "loaded ~S ~S => ~S" filename style font)
       (for-each (lambda (pair)

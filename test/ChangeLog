@@ -1,3 +1,9 @@
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[ttf] Add ttf.kf #:kxform.
+
+	* ttf.scm (font-loader): Do ‘s/TTF_STYLE_UNDERLINE/underline/’.
+
 2013-07-10  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Drop flagstash:* procs.
