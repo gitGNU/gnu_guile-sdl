@@ -197,6 +197,7 @@ exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
 
     (let*-values (((c0 rest) (split-at symbols len))
                   ((c1 c2) (split-at rest len1)))
+      (newline)
       (@example
        (@group
         (FE c0 (ext! c1 len1) (ext! c2 len2)
@@ -218,16 +219,18 @@ exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
           (write-line s))))
 
   (lambda (pre)
-    (fln "~A" (car pre))
+    (fln "~A" (string-trim-both (car pre)))
     (if (null? (cdr pre))
         (normal count symbols)
-        (@example
-         (out (cadr pre))
-         (let loop ((ls (cddr pre)))
-           (or (null? ls)
-               (begin (newline)
-                      (out (car ls))
-                      (loop (cdr ls)))))))))
+        (begin
+          (newline)
+          (@example
+           (out (cadr pre))
+           (let loop ((ls (cddr pre)))
+             (or (null? ls)
+                 (begin (newline)
+                        (out (car ls))
+                        (loop (cdr ls))))))))))
 
 (FE (map car ALL)
     (map cadr ALL)
