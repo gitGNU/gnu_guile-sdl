@@ -1,3 +1,13 @@
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build] Add "ugh" machinery.
+
+	* ugh: New directory.
+	* ugh/Makefile.am: New file.
+	* ugh/README: New file.
+	* Makefile.am (SUBDIRS): Add ugh.
+	* configure.ac (AC_CONFIG_FILES): Add ugh/Makefile.
+
 2013-06-29  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build int] Move *.fs to k/*.kf.

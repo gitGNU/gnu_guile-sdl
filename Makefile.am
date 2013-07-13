@@ -19,7 +19,7 @@
 
 ACLOCAL_AMFLAGS = -I build-aux
 
-SUBDIRS = src doc test
+SUBDIRS = src doc test ugh
 
 # distribution
 as_is_dirs = build-aux/guile-baux

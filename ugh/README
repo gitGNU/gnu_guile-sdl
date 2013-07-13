@@ -1,0 +1,15 @@
+In Guile-SDL 0.5.0, there was a big renaming of symbols in various
+enums and flags, part of the API overhaul.  This directory contains
+sed scripts that essentially substitute the old symbols with the
+new ones.
+
+Usage is straightforward.  The safe way:
+
+  sed -f SCRIPT FILE > FILE.NEW \
+    && mv -f FILE.NEW FILE
+
+The quick way (requires GNU sed or similar that takes ‘-i’):
+
+  sed -f SCRIPT -i FILE
+
+You can use a series of ‘-f SCRIPT’ arguments, as well.  See sed(1).

@@ -133,6 +133,7 @@ AC_CONFIG_FILES([
   doc/Makefile
   test/Makefile
   test/zow
+  ugh/Makefile
 ])
 
 AC_OUTPUT
