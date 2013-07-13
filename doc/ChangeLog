@@ -1,3 +1,11 @@
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[doc] Fix bug: Label histogram w/ proper range.
+
+	* kls (diagram): If ‘BIN-SIZE’ is 1, show the
+	beginning of range, which is also the end;
+	otherwise, show both beginning and end of range.
+
 2013-07-11  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Drop procs: enumstash-enums, flagstash-flags

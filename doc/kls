@@ -160,8 +160,11 @@ exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
            (map cdr linear)
            blurbs
            (lambda (top count blurb)
-             (format #t "~3D   ~3D ~A~@[~42T  ~A~]~%"
-                     (+ (* BIN-SIZE top) BIN-SIZE)
+             (format #t "~A   ~3D ~A~@[~42T  ~A~]~%"
+                     (let ((beg (* BIN-SIZE top)))
+                       (if (= 1 BIN-SIZE)
+                           (fs "~3D" beg)
+                           (fs "~3D-~3D" beg (+ beg BIN-SIZE -1))))
                      count
                      (make-string (scaled count) #\=)
                      blurb)))))))
@@ -169,12 +172,10 @@ exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
 (apply fln "There are ~A stashes (~A enums, ~A flags)."
        (all-stats))
 (newline)
-(fln "Distribution of symbols count (bin size: ~A):"
-     BIN-SIZE)
+(fln "Distribution of symbols count:")
 (diagram 5.0 (map cadr ALL))
 (newline)
-(fln "Distribution of symbol lengths (bin size: ~A):"
-     BIN-SIZE)
+(fln "Distribution of symbol lengths:")
 (diagram 0.5 (map string-length (map symbol->string (append-map cdr RAW))))
 
 (define (normal count symbols)
