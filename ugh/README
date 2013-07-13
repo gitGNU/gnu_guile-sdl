@@ -13,3 +13,6 @@ The quick way (requires GNU sed or similar that takes ‘-i’):
   sed -f SCRIPT -i FILE
 
 You can use a series of ‘-f SCRIPT’ arguments, as well.  See sed(1).
+
+In any case, proper ordering is important to avoid aliasing problems.
+In particular, it is important to apply evmask.sed BEFORE evtype.sed.
