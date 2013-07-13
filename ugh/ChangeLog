@@ -1,5 +1,12 @@
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add evmask.kf #:kxform.
+
+	* evmask.sed: New file.
+	* Makefile.am (dist_ugh5_DATA): Add evmask.sed.
+
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add init.kf #:kxform.
 
 	* init.sed: New file.

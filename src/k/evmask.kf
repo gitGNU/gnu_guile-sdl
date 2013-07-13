@@ -22,5 +22,11 @@ evmask "event-mask"
 #:region ("define SDL_EVENTMASK"
           "define SDL_ALLEVENTS")
 #:symrgx (ws ("SDL_[A-Z]+") =)
+#:kxform (4 -4 downcase
+            ("event$" "")
+            ("^(sys|video|mouse|joy)" 1 "-")
+            ("(motion|up|down)$" "-" 1)
+            ("--" "-")
+            ("-$" ""))
 
 ;;; evmask.kf ends here

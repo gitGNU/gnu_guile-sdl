@@ -1,4 +1,4 @@
-## Process this file with Automake to create Makefile.in
+# evmask.sed                                 -*- shell-script -*-
 
 # Copyright (C) 2013 Thien-Thi Nguyen
 #
@@ -17,18 +17,23 @@
 # Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 # Boston, MA  02110-1301  USA
 
-ugh5dir = $(pkgdatadir)/0.5
+s/SDL_ACTIVEEVENTMASK/active/g
+s/SDL_KEYDOWNMASK/key-down/g
+s/SDL_KEYUPMASK/key-up/g
+s/SDL_KEYEVENTMASK/key/g
+s/SDL_MOUSEMOTIONMASK/mouse-motion/g
+s/SDL_MOUSEBUTTONDOWNMASK/mouse-button-down/g
+s/SDL_MOUSEBUTTONUPMASK/mouse-button-up/g
+s/SDL_MOUSEEVENTMASK/mouse/g
+s/SDL_JOYAXISMOTIONMASK/joy-axis-motion/g
+s/SDL_JOYBALLMOTIONMASK/joy-ball-motion/g
+s/SDL_JOYHATMOTIONMASK/joy-hat-motion/g
+s/SDL_JOYBUTTONDOWNMASK/joy-button-down/g
+s/SDL_JOYBUTTONUPMASK/joy-button-up/g
+s/SDL_JOYEVENTMASK/joy/g
+s/SDL_QUITMASK/quit/g
+s/SDL_SYSWMEVENTMASK/sys-wm/g
+s/SDL_VIDEORESIZEMASK/video-resize/g
+s/SDL_VIDEOEXPOSEMASK/video-expose/g
 
-dist_ugh5_DATA = README
-dist_ugh5_DATA += overlay.sed
-dist_ugh5_DATA += ttf.sed
-dist_ugh5_DATA += palette.sed
-dist_ugh5_DATA += kmod.sed
-dist_ugh5_DATA += init.sed
-dist_ugh5_DATA += evmask.sed
-
-uninstall-hook:
-	-rmdir $(ugh5dir)
-	-rmdir $(pkgdatadir)
-
-## Makefile.am ends here
+# evmask.sed ends here
