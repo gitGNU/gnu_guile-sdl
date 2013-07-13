@@ -22,6 +22,6 @@ cdstate "cdrom-state"
 #:region ("possible states"
           "CDstatus")
 #:symrgx (ws ("CD_[A-Z]+") ",*")
-#:kxform (3)
+#:kxform (3 downcase ("empty$" "-" 0))
 
 ;;; cdstate.kp ends here

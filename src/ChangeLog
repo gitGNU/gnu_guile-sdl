@@ -1,5 +1,13 @@
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add to #:kxform for ‘cdrom-state’ kp.
+
+	* k/cdstate.kp: ...here.
+	* sdlcdrom.c (cd_status): Don't list symbols;
+	instead, add @pxref to ‘cdrom-state’ enums.
+
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add #:kxform for ‘event-type’ kf.
 
 	* k/evtype.kp: Rename from evtypeold.kp; add #:kxform.

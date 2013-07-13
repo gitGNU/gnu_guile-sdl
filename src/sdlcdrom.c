@@ -128,8 +128,7 @@ PRIMPROC
  (SCM cdrom),
  doc: /***********
 Return the current status of the drive @var{cdrom}
-as a symbol, one of: @code{TRAYEMTPY}, @code{STOPPED},
-@code{PLAYING}, @code{PAUSED} or @code{ERROR}.  */)
+as a symbol (@pxref{cdrom-state enums}).  */)
 {
 #define FUNC_NAME s_cd_status
   ASSERT_FIRST_ARG_OPEN_CDROM ();

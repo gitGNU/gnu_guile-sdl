@@ -1,4 +1,4 @@
-## Process this file with Automake to create Makefile.in
+# cdstate.sed                                 -*- shell-script -*-
 
 # Copyright (C) 2013 Thien-Thi Nguyen
 #
@@ -17,20 +17,10 @@
 # Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 # Boston, MA  02110-1301  USA
 
-ugh5dir = $(pkgdatadir)/0.5
+s/ERROR/error/g
+s/TRAYEMPTY/tray-empty/g
+s/STOPPED/stopped/g
+s/PLAYING/playing/g
+s/PAUSED/paused/g
 
-dist_ugh5_DATA = README
-dist_ugh5_DATA += overlay.sed
-dist_ugh5_DATA += ttf.sed
-dist_ugh5_DATA += palette.sed
-dist_ugh5_DATA += kmod.sed
-dist_ugh5_DATA += init.sed
-dist_ugh5_DATA += evmask.sed
-dist_ugh5_DATA += evtype.sed
-dist_ugh5_DATA += cdstate.sed
-
-uninstall-hook:
-	-rmdir $(ugh5dir)
-	-rmdir $(pkgdatadir)
-
-## Makefile.am ends here
+# cdstate.sed ends here
