@@ -20,5 +20,7 @@
 ov "overlay"
 #:infile "SDL/SDL_video.h"
 #:symrgx (#t "SDL_[A-Z0-9]+_OVERLAY")
+#:kxform (4 -8)                         ; don't futz w/ case; see:
+                                        ; http://www.fourcc.org
 
 ;;; overlay.kf ends here

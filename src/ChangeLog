@@ -1,3 +1,9 @@
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[sdl] Add overlay.kf #:kxform.
+
+	* k/overlay.kf: ...here.
+
 2013-07-11  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Drop procs: enumstash-enums, flagstash-flags

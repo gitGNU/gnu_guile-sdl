@@ -1,4 +1,4 @@
-## Process this file with Automake to create Makefile.in
+# overlay.sed                                 -*- shell-script -*-
 
 # Copyright (C) 2013 Thien-Thi Nguyen
 #
@@ -17,13 +17,6 @@
 # Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 # Boston, MA  02110-1301  USA
 
-ugh5dir = $(pkgdatadir)/0.5
+s/SDL_\([A-Za-z0-9][A-Za-z0-9]*\)_OVERLAY/\1/
 
-dist_ugh5_DATA = README
-dist_ugh5_DATA += overlay.sed
-
-uninstall-hook:
-	-rmdir $(ugh5dir)
-	-rmdir $(pkgdatadir)
-
-## Makefile.am ends here
+# overlay.sed ends here
