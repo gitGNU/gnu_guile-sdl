@@ -21,7 +21,7 @@
 (use-modules ((sdl sdl) #:prefix SDL:))
 
 ;; initialize the SDL video module
-(SDL:init '(SDL_INIT_VIDEO))
+(SDL:init 'video)
 
 ;; get a sample rect size from a list of available modes
 (define test-rect

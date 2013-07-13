@@ -1,5 +1,20 @@
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add init.kf #:kxform.
+
+	* cursor.scm: Throughout, use new init symbols.
+	* event.scm: Likewise.
+	* gfx.scm: Likewise.
+	* image.scm: Likewise.
+	* leak.scm: Likewise.
+	* mixer.scm: Likewise.
+	* opengl.scm: Likewise.
+	* rect.scm: Likewise.
+	* roto.scm: Likewise.
+	* ttf.scm: Likewise.
+
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add kmod.kf #:kxform.
 
 	* alive.test: Throughout, use new kmod symbols.

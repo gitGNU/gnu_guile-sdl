@@ -132,7 +132,7 @@ backwards, and escape or q to quit.
              (srfi srfi-2))
 
 ;; initialize the video subsystem
-(SDL:init '(SDL_INIT_VIDEO))
+(SDL:init 'video)
 
 ;; directory to search for images in
 (define image-dir "/usr/share/pixmaps/")

@@ -1,4 +1,4 @@
-## Process this file with Automake to create Makefile.in
+# init.sed                                 -*- shell-script -*-
 
 # Copyright (C) 2013 Thien-Thi Nguyen
 #
@@ -17,17 +17,13 @@
 # Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 # Boston, MA  02110-1301  USA
 
-ugh5dir = $(pkgdatadir)/0.5
+s/SDL_INIT_TIMER/timer/g
+s/SDL_INIT_AUDIO/audio/g
+s/SDL_INIT_VIDEO/video/g
+s/SDL_INIT_CDROM/cdrom/g
+s/SDL_INIT_JOYSTICK/joystick/g
+s/SDL_INIT_EVERYTHING/everything/g
+s/SDL_INIT_NOPARACHUTE/no-parachute/g
+s/SDL_INIT_EVENTTHREAD/event-thread/g
 
-dist_ugh5_DATA = README
-dist_ugh5_DATA += overlay.sed
-dist_ugh5_DATA += ttf.sed
-dist_ugh5_DATA += palette.sed
-dist_ugh5_DATA += kmod.sed
-dist_ugh5_DATA += init.sed
-
-uninstall-hook:
-	-rmdir $(ugh5dir)
-	-rmdir $(pkgdatadir)
-
-## Makefile.am ends here
+# init.sed ends here

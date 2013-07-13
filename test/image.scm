@@ -23,7 +23,7 @@
 (define gnu-rect (SDL:make-rect 0 0 200 153))
 
 ;; initialize the SDL video module
-(SDL:init '(SDL_INIT_VIDEO))
+(SDL:init 'video)
 
 ;; set the video mode to the dimensions of our image
 (define screen (SDL:set-video-mode 200 153 32))

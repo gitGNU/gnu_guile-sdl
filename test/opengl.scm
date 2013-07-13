@@ -21,7 +21,7 @@
              (opengl opengl))
 
 ;; initialize the SDL video module
-(sdl-init '(SDL_INIT_VIDEO))
+(sdl-init 'video)
 
 ;; get a sample rect size from a list of available modes
 (define test-rect

@@ -1,5 +1,13 @@
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add init.kf #:kxform.
+
+	* k/init.kf: ...here.
+	* sdl.c (init): Update doc comment.
+	* simple.scm (simple-canvas): Use new init symbols.
+
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add kmod.kf #:kxform.
 
 	* k/kmod.kf: ...here.

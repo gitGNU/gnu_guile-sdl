@@ -21,7 +21,7 @@
              ((sdl gfx) #:prefix GFX:))
 
 ;; initialize the SDL video module
-(SDL:init '(SDL_INIT_VIDEO))
+(SDL:init 'video)
 
 ;; load the image
 (define gnu-head (SDL:load-image (datafile "gnu-goatee.jpg")))

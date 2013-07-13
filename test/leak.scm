@@ -27,7 +27,7 @@
 (define exit-value #t)
 
 ;; initialize SDL
-(info "init => ~S" (SDL:init '(SDL_INIT_VIDEO)))
+(info "init => ~S" (SDL:init 'video))
 
 (define LOTS (cond ((getenv "LEAK_LOTS") => string->number)
                    (else #x1000)))

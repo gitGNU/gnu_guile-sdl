@@ -29,7 +29,7 @@
   (+ alpha (ash (random-rgb) 8)))
 
 ;; initialize SDL video
-(SDL:init '(SDL_INIT_VIDEO))
+(SDL:init 'video)
 
 (define DEPTH 32)                       ; 16 ok, but slower
 

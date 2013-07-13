@@ -61,7 +61,7 @@
 ;;
 (define (simple-canvas init? w h bpp . flags)
   (or (not init?)
-      (zero? (///-init '(SDL_INIT_VIDEO)))
+      (zero? (///-init 'video))
       (error "could not init SDL"))
   (let ((canvas #f)
         (rect #f)

@@ -24,7 +24,7 @@
              ((sdl ttf) #:prefix TTF:))
 
 ;; initialize SDL video
-(SDL:init '(SDL_INIT_VIDEO))
+(SDL:init 'video)
 
 ;; initialize the font lib
 (or (zero? (TTF:ttf-init)) (error "could not init font lib"))

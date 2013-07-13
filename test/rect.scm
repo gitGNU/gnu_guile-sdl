@@ -20,7 +20,7 @@
 (use-modules ((sdl sdl) #:prefix SDL:))
 
 ;; initialize the SDL video module
-(SDL:init '(SDL_INIT_VIDEO))
+(SDL:init 'video)
 
 (let ((name (SDL:video-driver-name)))
   (info "video-driver-name => ~S" name))

@@ -27,7 +27,7 @@
              ((sdl mixer) #:prefix MIXER:))
 
 ;; initialize the SDL mixer module
-(SDL:init '(SDL_INIT_AUDIO))
+(SDL:init 'audio)
 
 ;; initialize the audio device
 (MIXER:open-audio)

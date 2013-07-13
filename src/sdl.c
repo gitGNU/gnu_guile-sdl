@@ -45,9 +45,8 @@ PRIMPROC
 (init, "init", 1, 0, 0,
  (SCM sel),
  doc: /***********
-Initialize SDL based on configuration flags @var{sel}.
-@var{sel} is a list of symbols whose names all begin
-with @code{SDL_INIT_}.  */)
+Initialize SDL and the subsystems/configuration
+represented by @var{sel} (@pxref{init flags}).  */)
 {
 #define FUNC_NAME s_init
   DECLINIT_SYM2NUM_CC               (1, init_flags);

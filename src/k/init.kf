@@ -20,5 +20,8 @@
 init "init"
 #:infile "SDL/SDL.h"
 #:symrgx (#t "SDL_INIT_[A-Z]+")
+#:kxform (9 downcase
+            ("^no" 0 "-")
+            ("thread$" "-" 0))
 
 ;;; init.kf ends here
