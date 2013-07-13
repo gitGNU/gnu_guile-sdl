@@ -1,5 +1,11 @@
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[ttf] Add palette.kf #:kxform.
+
+	* k/palette.kf: ...here.
+
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[ttf] Add ttf.kf #:kxform.
 
 	* k/ttf.kf: ...here.

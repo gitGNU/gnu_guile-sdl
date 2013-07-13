@@ -20,5 +20,6 @@
 pal "palette"
 #:infile "SDL/SDL_video.h"
 #:symrgx (#t "SDL_[A-Z]+PAL")
+#:kxform (4 downcase ("pal$" "ical"))
 
 ;;; palette.kf ends here
