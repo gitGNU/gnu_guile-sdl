@@ -144,12 +144,12 @@
               (cons
                #xffff00                 ; yellow
                (lambda (type)
-                 (not (and (eq? 'SDL_MOUSEMOTION type)
+                 (not (and (eq? 'mouse-motion type)
                            (even? (car (gettimeofday)))))))
               (cons
                #xff0000                 ; red
                (lambda (type)
-                 (not (eq? 'SDL_MOUSEMOTION type)))))))
+                 (not (eq? 'mouse-motion type)))))))
     ;; rat-grata!
     (lambda ()
       (set! idx (modulo (1+ idx) 3))
@@ -189,8 +189,8 @@
           ;; These two are pure exercise.
           SDL:event:key:keysym:set-scancode! 0
           SDL:event:key:keysym:set-unicode!  0))
-  (ok 'SDL_KEYDOWN 'pressed)
-  (ok 'SDL_KEYUP 'released))
+  (ok 'key-down 'pressed)
+  (ok 'key-up 'released))
 
 (define tickle-joy-spew! (display-centered-w/height-proc
                           (+ 3 (* 3 height) top)))
@@ -266,7 +266,7 @@
   (lambda (symbol)
     (substring (symbol->string symbol) count)))
 
-(define nice-type (nicer 4))
+(define nice-type symbol->string)
 
 (define no-5 (nicer 5))
 
@@ -279,9 +279,9 @@
 
       (define (check-updn state)
         (or (eq? (case event-type
-                   ((SDL_KEYDOWN SDL_MOUSEBUTTONDOWN SDL_JOYBUTTONDOWN)
+                   ((key-down mouse-button-down joy-button-down)
                     'pressed)
-                   ((SDL_KEYUP SDL_MOUSEBUTTONUP SDL_JOYBUTTONUP)
+                   ((key-up mouse-button-up joy-button-up)
                     'released)
                    (else #f))
                  state)
@@ -310,7 +310,7 @@
           (or (zero? gmrs-y)
               (error "get-mouse-relative-state y non-zero:" gmrs-y))))
       (case event-type
-        ((SDL_KEYDOWN SDL_KEYUP)
+        ((key-down key-up)
          (let ((sym (SDL:event:key:keysym:sym e))
                (mods (SDL:event:key:keysym:mod e))
                (uni (if unicode-enabled
@@ -327,21 +327,21 @@
                                  (fs " . ~A" mods)))
            (check-updn (SDL:event:key:state e))
            (and (eq? sym 'SDLK_SPACE)
-                (eq? event-type 'SDL_KEYUP)
+                (eq? event-type 'key-up)
                 (begin
                   (rat-grata!)
                   (draw-relative-rectangle! 0 0)))
            (if (eq? sym 'SDLK_ESCAPE)
                #f
                (input-loop e))))
-        ((SDL_MOUSEBUTTONDOWN SDL_MOUSEBUTTONUP)
+        ((mouse-button-down mouse-button-up)
          (let ((button (SDL:event:button:button e)))
            (display-centered "~A . ~A . ~Ax~A" nice button
                              (SDL:event:button:x e)
                              (SDL:event:button:y e)))
          (check-updn (SDL:event:button:state e))
          (input-loop e))
-        ((SDL_MOUSEMOTION)
+        ((mouse-motion)
          (let ((x (SDL:event:motion:x e))
                (y (SDL:event:motion:y e)))
            (display-centered "~A . ~Ax~A ~S" nice x y
@@ -349,38 +349,38 @@
                                     (SDL:event:motion:yrel e)
                                     (SDL:event:motion:state e))))
          (input-loop e))
-        ((SDL_JOYBUTTONDOWN SDL_JOYBUTTONUP)
+        ((joy-button-down joy-button-up)
          (display-centered "~A . j~A b~A"
                            nice
                            (SDL:event:jbutton:which e)
                            (SDL:event:jbutton:button e))
          (check-updn (SDL:event:jbutton:state e))
          (input-loop e))
-        ((SDL_JOYAXISMOTION)
+        ((joy-axis-motion)
          (display-centered "~A . j~S a~S ~S" nice
                            (SDL:event:jaxis:which e)
                            (SDL:event:jaxis:axis e)
                            (SDL:event:jaxis:value e))
          (input-loop e))
-        ((SDL_JOYBALLMOTION)
+        ((joy-ball-motion)
          (display-centered "~A . j~S b~S (~S, ~S)" nice
                            (SDL:event:jball:which e)
                            (SDL:event:jball:ball e)
                            (SDL:event:jball:xrel e)
                            (SDL:event:jball:yrel e))
          (input-loop e))
-        ((SDL_JOYHATMOTION)
+        ((joy-hat-motion)
          (display-centered "~A . j~S h~S ~S" nice
                            (SDL:event:jhat:which e)
                            (SDL:event:jhat:hat e)
                            (SDL:event:jhat:value e))
          (input-loop e))
-        ((SDL_ACTIVEEVENT)
+        ((active)
          (display-centered "~A . ~S ~S" nice
                            (SDL:event:active:gain e)
                            (SDL:event:active:state e))
          (input-loop e))
-        ((SDL_VIDEORESIZE)
+        ((video-resize)
          (display-centered "~A . ~Sx~S" nice
                            (SDL:event:resize:w e)
                            (SDL:event:resize:h e))
@@ -433,18 +433,18 @@
   (and *interactive* (SDL:delay 420))
   ;; mouse
   (SDL:warp-mouse x y)                  ; produces MOUSEMOTION
-  (fake 'SDL_MOUSEBUTTONDOWN
+  (fake 'mouse-button-down
         SDL:event:button:set-button! 'middle
         SDL:event:button:set-state!  'pressed
         SDL:event:button:set-x!      x
         SDL:event:button:set-y!      y)
-  (fake 'SDL_MOUSEMOTION
+  (fake 'mouse-motion
         SDL:event:motion:set-state! 'wheel-up
         SDL:event:motion:set-x!     (1+ x)
         SDL:event:motion:set-xrel!   1
         SDL:event:motion:set-y!     (1+ y)
         SDL:event:motion:set-yrel!   1)
-  (fake 'SDL_MOUSEBUTTONUP
+  (fake 'mouse-button-up
         SDL:event:button:set-button! 'middle
         SDL:event:button:set-state!  'released
         SDL:event:button:set-x!      (1+ x)
@@ -461,36 +461,36 @@
             (string->list "gnu"))
   ;; active-ness
   (let ((cur (delq 'active (SDL:get-app-state))))
-    (fake 'SDL_ACTIVEEVENT
+    (fake 'active
           SDL:event:active:set-gain!  'lost
           SDL:event:active:set-state!  cur)
-    (fake 'SDL_ACTIVEEVENT
+    (fake 'active
           SDL:event:active:set-gain!  'gained
           SDL:event:active:set-state!  cur))
   ;; joystick
-  (fake 'SDL_JOYAXISMOTION
+  (fake 'joy-axis-motion
         SDL:event:jaxis:set-which! 0
         SDL:event:jaxis:set-axis!  42
         SDL:event:jaxis:set-value! 420)
-  (fake 'SDL_JOYBALLMOTION
+  (fake 'joy-ball-motion
         SDL:event:jball:set-which! 0
         SDL:event:jball:set-ball!  4
         SDL:event:jball:set-xrel!  42
         SDL:event:jball:set-yrel!  420)
-  (fake 'SDL_JOYBUTTONDOWN
+  (fake 'joy-button-down
         SDL:event:jbutton:set-which!  0
         SDL:event:jbutton:set-button! 42
         SDL:event:jbutton:set-state!  'pressed)
-  (fake 'SDL_JOYBUTTONUP
+  (fake 'joy-button-up
         SDL:event:jbutton:set-which!  0
         SDL:event:jbutton:set-button! 42
         SDL:event:jbutton:set-state!  'released)
-  (fake 'SDL_JOYHATMOTION
+  (fake 'joy-hat-motion
         SDL:event:jhat:set-which! 0
         SDL:event:jhat:set-hat!   42
         SDL:event:jhat:set-value! '(left up))
   ;; resize
-  (fake 'SDL_VIDEORESIZE
+  (fake 'video-resize
         SDL:event:resize:set-h! 420
         SDL:event:resize:set-w! 420)
   ;; bail if not interactive

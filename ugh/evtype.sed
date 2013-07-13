@@ -1,4 +1,4 @@
-## Process this file with Automake to create Makefile.in
+# evtype.sed                                 -*- shell-script -*-
 
 # Copyright (C) 2013 Thien-Thi Nguyen
 #
@@ -17,19 +17,20 @@
 # Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 # Boston, MA  02110-1301  USA
 
-ugh5dir = $(pkgdatadir)/0.5
+s/SDL_ACTIVEEVENT/active/g
+s/SDL_KEYDOWN/key-down/g
+s/SDL_KEYUP/key-up/g
+s/SDL_MOUSEMOTION/mouse-motion/g
+s/SDL_MOUSEBUTTONDOWN/mouse-button-down/g
+s/SDL_MOUSEBUTTONUP/mouse-button-up/g
+s/SDL_JOYAXISMOTION/joy-axis-motion/g
+s/SDL_JOYBALLMOTION/joy-ball-motion/g
+s/SDL_JOYHATMOTION/joy-hat-motion/g
+s/SDL_JOYBUTTONDOWN/joy-button-down/g
+s/SDL_JOYBUTTONUP/joy-button-up/g
+s/SDL_QUIT/quit/g
+s/SDL_SYSWMEVENT/sys-wm/g
+s/SDL_VIDEORESIZE/video-resize/g
+s/SDL_VIDEOEXPOSE/video-expose/g
 
-dist_ugh5_DATA = README
-dist_ugh5_DATA += overlay.sed
-dist_ugh5_DATA += ttf.sed
-dist_ugh5_DATA += palette.sed
-dist_ugh5_DATA += kmod.sed
-dist_ugh5_DATA += init.sed
-dist_ugh5_DATA += evmask.sed
-dist_ugh5_DATA += evtype.sed
-
-uninstall-hook:
-	-rmdir $(ugh5dir)
-	-rmdir $(pkgdatadir)
-
-## Makefile.am ends here
+# evtype.sed

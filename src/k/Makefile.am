@@ -36,7 +36,7 @@ cdstate.kp					\
 cdtracktype.kp					\
 evaction.kp					\
 evstate.kp					\
-evtypeold.kp					\
+evtype.kp					\
 frot.kp						\
 grabmode.kp					\
 keysymold.kp					\

@@ -36,7 +36,7 @@ static SCM mbut_enum;
 #include "k/mbut.c"
 
 static SCM event_type_enum;
-#include "k/evtypeold.c"
+#include "k/evtype.c"
 
 static SCM event_state_enum;
 #include "k/evstate.c"
@@ -986,7 +986,7 @@ gsdl_init_event (void)
   /* constants */
   {
     kp_init_t allp[] = {
-      { &event_type_enum, &evtypeold_kp },
+      { &event_type_enum, &evtype_kp },
       { &event_keysym_enum, &keysymold_kp },
       { &event_action_enum, &evaction_kp },
       { &event_state_enum, &evstate_kp },

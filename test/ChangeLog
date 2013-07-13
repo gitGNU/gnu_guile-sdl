@@ -1,5 +1,11 @@
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add #:kxform for ‘event-type’ kf.
+
+	* event.scm: Throughout, use new event-type symbols.
+
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add init.kf #:kxform.
 
 	* cursor.scm: Throughout, use new init symbols.

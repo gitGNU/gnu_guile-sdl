@@ -1,6 +1,6 @@
-;;; evtypeold.kp --- event types (w/o #:kxform)           -*- scheme -*-
+;;; evtype.kp --- event type                      -*- scheme -*-
 
-;; Copyright (C) 2013 Thien-Thi Nguyen
+;; Copyright (C) 2005, 2011 Thien-Thi Nguyen
 ;;
 ;; This is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -17,10 +17,15 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-evtypeold "event-type"
+evtype "event-type"
 #:infile "SDL/SDL_events.h"
 #:region ("SDL_NOEVENT = 0"
           "SDL_USEREVENT")
 #:symrgx (ws ("SDL_[A-Z]+") ",")
+#:kxform (4 downcase
+            ("event$" "")
+            ("^(sys|video|mouse|joy)" 1 "-")
+            ("(motion|up|down)$" "-" 1)
+            ("--" "-"))
 
-;;; evtypeold.kp ends here
+;;; evtype.kp ends here
