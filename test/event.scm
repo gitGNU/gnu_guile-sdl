@@ -161,7 +161,7 @@
 (info "get-event-filter => ~S" (SDL:get-event-filter))
 
 ;; mod and mouse state
-(SDL:set-mod-state '(KMOD_LALT KMOD_RALT))
+(SDL:set-mod-state '(L-alt R-alt))
 (info "(jammed) mod state => ~S" (SDL:get-mod-state))
 (info "(actual) mouse state => ~S" (SDL:get-mouse-state #t))
 
@@ -324,7 +324,7 @@
                              (no-5 sym)
                              (if (null? mods)
                                  ""
-                                 (fs " . ~A" (map no-5 mods))))
+                                 (fs " . ~A" mods)))
            (check-updn (SDL:event:key:state e))
            (and (eq? sym 'SDLK_SPACE)
                 (eq? event-type 'SDL_KEYUP)
@@ -452,12 +452,12 @@
   ;; keyboard
   (for-each (lambda (m c)
               (define (mod prefix)
-                (string->symbol (fs "KMOD_~A~A" prefix m)))
+                (symbol-append prefix '- m))
               (fake-key-down/up (list (mod 'L)
                                       (mod 'R))
                                 (string->symbol
                                  (fs "SDLK_~A" c))))
-            (list 'SHIFT 'ALT 'CTRL)
+            (list 'shift 'alt 'ctrl)
             (string->list "gnu"))
   ;; active-ness
   (let ((cur (delq 'active (SDL:get-app-state))))

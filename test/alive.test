@@ -24,7 +24,7 @@
 SDL:flags->number
 
 (info "try SDL:flags->number")
-(let ((n (SDL:flags->number 'keyboard-modifier '(KMOD_LMETA KMOD_LSHIFT))))
+(let ((n (SDL:flags->number 'keyboard-modifier '(L-meta L-shift))))
   (info "~A" n)
   (or (number? n) (error "SDL:flags->number did not yield a number!"))
   (or (string=? "2001" (number->string n 8))
@@ -36,8 +36,8 @@ SDL:flags->number
   (or (pair? ls) (error "SDL:number->flags did not yield a list!"))
   (or (and-map symbol? ls)
       (error "SDL:number->flags gave a list with a non-symbol element!"))
-  (or (equal? ls '(KMOD_LMETA KMOD_LSHIFT))
-      (equal? ls '(KMOD_LSHIFT KMOD_LMETA))
+  (or (equal? ls '(L-meta L-shift))
+      (equal? ls '(L-shift L-meta))
       (error "SDL:number->flags gave a list with wrong elements!")))
 
 (let ((count 5))

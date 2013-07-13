@@ -22,5 +22,6 @@ kmod "keyboard-modifier"
 #:region ("KMOD_NONE"                   ; these happen to be
           "KMOD_RESERVED")              ;   nonsensical as well
 #:symrgx (ws? ("KMOD_[A-Z]+") = x)
+#:kxform (5 downcase ("^l" "L-") ("^r" "R-"))
 
 ;;; kmod.kf ends here

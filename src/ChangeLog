@@ -1,5 +1,11 @@
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add kmod.kf #:kxform.
+
+	* k/kmod.kf: ...here.
+
+2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[ttf] Add palette.kf #:kxform.
 
 	* k/palette.kf: ...here.

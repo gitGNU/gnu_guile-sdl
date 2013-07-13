@@ -1,4 +1,4 @@
-## Process this file with Automake to create Makefile.in
+# kmod.sed                                -*- shell-script -*-
 
 # Copyright (C) 2013 Thien-Thi Nguyen
 #
@@ -17,16 +17,16 @@
 # Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 # Boston, MA  02110-1301  USA
 
-ugh5dir = $(pkgdatadir)/0.5
+s/KMOD_LSHIFT/L-shift/g
+s/KMOD_RSHIFT/R-shift/g
+s/KMOD_LCTRL/L-ctrl/g
+s/KMOD_RCTRL/R-ctrl/g
+s/KMOD_LALT/L-alt/g
+s/KMOD_RALT/R-alt/g
+s/KMOD_LMETA/L-meta/g
+s/KMOD_RMETA/R-meta/g
+s/KMOD_NUM/num/g
+s/KMOD_CAPS/caps/g
+s/KMOD_MODE/mode/g
 
-dist_ugh5_DATA = README
-dist_ugh5_DATA += overlay.sed
-dist_ugh5_DATA += ttf.sed
-dist_ugh5_DATA += palette.sed
-dist_ugh5_DATA += kmod.sed
-
-uninstall-hook:
-	-rmdir $(ugh5dir)
-	-rmdir $(pkgdatadir)
-
-## Makefile.am ends here
+# kmod.sed ends here
