@@ -1,4 +1,4 @@
-;;; keysymold.kp --- keysyms (w/o #:kxform)              -*- scheme -*-
+;;; keysym.kp --- keyboard symbol enums                 -*- scheme -*-
 
 ;; Copyright (C) 2013 Thien-Thi Nguyen
 ;;
@@ -17,10 +17,19 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-keysymold "event-key" ; bad name!
+keysym "keysym"
 #:infile "SDL/SDL_keysym.h"
 #:region ("SDLK_FIRST"
 	  "SDLK_LAST")
 #:symrgx (ws ("SDLK_[A-Za-z0-9_]+") ws "=")
+#:kxform (5 downcase
+            ("^[0-9]$" "D-" 0)
+            ("left(bracket|paren)" "L-" 1)
+            ("right(bracket|paren)" "R-" 1)
+            ("l(shift|ctrl|alt|meta|super)$" "L-" 1)
+            ("r(shift|ctrl|alt|meta|super)$" "R-" 1)
+            ("(kp)([0-9])" 1 "-" 2)
+            ("^page" 0 "-")
+            hyphen)
 
-;;; keysymold.kp ends here
+;;; keysym.kp ends here

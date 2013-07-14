@@ -1,5 +1,17 @@
 2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Replace keysymold.kp w/ keysym.kp.
+
+	* k/keysym.kp: New file.
+	* k/keysymold.kp: Delete file.
+	* k/Makefile.am (allp): Replace keysymold.kp w/ keysym.kp.
+	* sdlevent.c: Don't #include "k/keysymold.c";
+	instead, #include "k/keysym.c".
+	(get_key_state): Add @pxref to doc comment; nfc.
+	(gsdl_init_event): Use ‘kysym_kp’, not ‘keysymold_kp’.
+
+2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add video.kf #:kxform.
 
 	* k/video.kf: ...here.

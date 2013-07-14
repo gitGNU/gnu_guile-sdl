@@ -1,5 +1,12 @@
 2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Replace keysymold.kp w/ keysym.kp.
+
+	* event.scm (no-5): Delete proc.
+	(input-loop): Use keysyms directly; use new keysym symbols.
+
+2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add video.kf #:kxform.
 
 	* cursor.scm: Throughout, use new video symbols.

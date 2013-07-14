@@ -29,6 +29,7 @@ dist_ugh5_DATA += evmask.sed
 dist_ugh5_DATA += evtype.sed
 dist_ugh5_DATA += cdstate.sed
 dist_ugh5_DATA += video.sed
+dist_ugh5_DATA += keysym.sed
 
 uninstall-hook:
 	-rmdir $(ugh5dir)

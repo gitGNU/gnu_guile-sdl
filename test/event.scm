@@ -268,8 +268,6 @@
 
 (define nice-type symbol->string)
 
-(define no-5 (nicer 5))
-
 ;; event loop
 (define input-loop
   (lambda (e)
@@ -290,7 +288,7 @@
       (and JOY (apply tickle-joy! JOY))
       (scroll-up!)
       (display-centered/next-line
-       "~A" (map no-5 (SDL:get-key-state)))
+       "~A" (SDL:get-key-state))
       (let-values (((buttons x y) (SDL:mouse-bxy #t)))
         (draw-relative-rectangle! x y)
         (display-centered/next-next-line "~A ~A ~A" buttons x y)
@@ -321,17 +319,17 @@
                              (if (zero? uni)
                                  ""
                                  (fs " U+~A" (number->string uni 16)))
-                             (no-5 sym)
+                             sym
                              (if (null? mods)
                                  ""
                                  (fs " . ~A" mods)))
            (check-updn (SDL:event:key:state e))
-           (and (eq? sym 'SDLK_SPACE)
+           (and (eq? sym 'space)
                 (eq? event-type 'key-up)
                 (begin
                   (rat-grata!)
                   (draw-relative-rectangle! 0 0)))
-           (if (eq? sym 'SDLK_ESCAPE)
+           (if (eq? sym 'escape)
                #f
                (input-loop e))))
         ((mouse-button-down mouse-button-up)
@@ -455,8 +453,7 @@
                 (symbol-append prefix '- m))
               (fake-key-down/up (list (mod 'L)
                                       (mod 'R))
-                                (string->symbol
-                                 (fs "SDLK_~A" c))))
+                                (string->symbol (string c))))
             (list 'shift 'alt 'ctrl)
             (string->list "gnu"))
   ;; active-ness
@@ -494,7 +491,7 @@
         SDL:event:resize:set-h! 420
         SDL:event:resize:set-w! 420)
   ;; bail if not interactive
-  (or *interactive* (fake-key-down/up '() 'SDLK_ESCAPE)))
+  (or *interactive* (fake-key-down/up '() 'escape)))
 
 ;; queue interaction
 (SDL:pump-events)

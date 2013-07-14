@@ -1,5 +1,12 @@
 2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Replace keysymold.kp w/ keysym.kp.
+
+	* keysym.sed: New file.
+	* Makefile.am (dist_ugh5_DATA): Add keysym.sed.
+
+2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add video.kf #:kxform.
 
 	* video.sed: New file.

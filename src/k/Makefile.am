@@ -39,7 +39,7 @@ evstate.kp					\
 evtype.kp					\
 frot.kp						\
 grabmode.kp					\
-keysymold.kp					\
+keysym.kp					\
 mbut.kp						\
 updn.kp
 

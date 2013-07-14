@@ -42,7 +42,7 @@ static SCM event_state_enum;
 #include "k/evstate.c"
 
 static SCM event_keysym_enum;
-#include "k/keysymold.c"
+#include "k/keysym.c"
 
 static SCM event_action_enum;
 #include "k/evaction.c"
@@ -773,7 +773,7 @@ PRIMPROC
 (get_key_state, "get-key-state", 0, 0, 0,
  (),
  doc: /***********
-Return a list of pressed keys (SDLK_* symbols).  */)
+Return a list of pressed keys (@pxref{keysym enums}).  */)
 {
 #define FUNC_NAME s_get_key_state
   Uint8 *keystate;
@@ -987,7 +987,7 @@ gsdl_init_event (void)
   {
     kp_init_t allp[] = {
       { &event_type_enum, &evtype_kp },
-      { &event_keysym_enum, &keysymold_kp },
+      { &event_keysym_enum, &keysym_kp },
       { &event_action_enum, &evaction_kp },
       { &event_state_enum, &evstate_kp },
       { &mbut_enum, &mbut_kp },

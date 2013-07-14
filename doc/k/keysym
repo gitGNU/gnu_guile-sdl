@@ -1,0 +1,85 @@
+;;; keysym                                       -*- scheme -*-
+
+;; Copyright (C) 2013 Thien-Thi Nguyen
+;;
+;; Permission is granted to copy, distribute and/or modify this document
+;; under the terms of the GNU Free Documentation License, Version 1.3 or
+;; any later version published by the Free Software Foundation; with no
+;; Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+;; Texts.  A copy of the license is included in the appendix entitled
+;; ``GNU Free Documentation License''.
+
+"
+Note that digits begin with @code{D-} so that they are
+unambiguously (to @code{read}) symbols.
+"
+
+;;;----------------------------------------------------------------------
+"
+a b c d e f g h i j k l m n o p q r s t u v w x y z
+D-0 @r{@dots{}} D-9
+"
+;;
+"
+ampersand   backquote   capslock   delete   end
+asterisk    backslash   caret      dollar   equals
+at          backspace   clear               escape
+            break       colon               euro
+                        comma               exclaim
+                        compose
+"
+;;
+"
+f1 @r{@dots{}} f15
+"
+;;
+"
+hash   insert
+help
+home
+"
+;;
+"
+kp-0 @r{@dots{}} kp-9
+"
+;;
+"
+kp-plus         kp-equals
+kp-minus        kp-period
+kp-multiply     kp-enter
+kp-divide
+"
+;;
+"
+left  right  up  down
+"
+;;
+"
+L-alt  L-ctrl  L-meta  L-shift  L-super
+R-alt  R-ctrl  R-meta  R-shift  R-super
+"
+;;
+"
+L-bracket  R-bracket
+L-paren    R-paren
+"
+;;
+"
+less  greater
+"
+;;
+"
+menu      pagedown   question   scrollock   tab
+minus     pageup     quote      semicolon
+mode      pause      quotedbl   slash       underscore
+numlock   period                space       undo
+          plus       return     sysreq
+          power
+          print
+"
+;;
+"
+world-0 @r{@dots{}} world-95
+"
+
+;;; keysym ends here
