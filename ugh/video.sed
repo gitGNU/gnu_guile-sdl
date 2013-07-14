@@ -1,4 +1,4 @@
-## Process this file with Automake to create Makefile.in
+# video.sed                                 -*- shell-script -*-
 
 # Copyright (C) 2013 Thien-Thi Nguyen
 #
@@ -17,21 +17,22 @@
 # Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 # Boston, MA  02110-1301  USA
 
-ugh5dir = $(pkgdatadir)/0.5
+s/SDL_SWSURFACE/sw-surface/g
+s/SDL_HWSURFACE/hw-surface/g
+s/SDL_OPENGL/opengl/g
+s/SDL_ASYNCBLIT/async-blit/g
+s/SDL_OPENGLBLIT/opengl-blit/g
+s/SDL_RESIZABLE/resizable/g
+s/SDL_NOFRAME/no-frame/g
+s/SDL_HWACCEL/hw-accel/g
+s/SDL_SRCCOLORKEY/src-colorkey/g
+s/SDL_RLEACCELOK/rle-accel-ok/g
+s/SDL_RLEACCEL/rle-accel/g
+s/SDL_SRCALPHA/src-alpha/g
+s/SDL_PREALLOC/prealloc/g
+s/SDL_ANYFORMAT/any-format/g
+s/SDL_HWPALETTE/hw-palette/g
+s/SDL_DOUBLEBUF/doublebuf/g
+s/SDL_FULLSCREEN/fullscreen/g
 
-dist_ugh5_DATA = README
-dist_ugh5_DATA += overlay.sed
-dist_ugh5_DATA += ttf.sed
-dist_ugh5_DATA += palette.sed
-dist_ugh5_DATA += kmod.sed
-dist_ugh5_DATA += init.sed
-dist_ugh5_DATA += evmask.sed
-dist_ugh5_DATA += evtype.sed
-dist_ugh5_DATA += cdstate.sed
-dist_ugh5_DATA += video.sed
-
-uninstall-hook:
-	-rmdir $(ugh5dir)
-	-rmdir $(pkgdatadir)
-
-## Makefile.am ends here
+# video.sed ends here

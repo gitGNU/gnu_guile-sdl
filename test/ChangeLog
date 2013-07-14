@@ -1,3 +1,13 @@
+2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[sdl] Add video.kf #:kxform.
+
+	* cursor.scm: Throughout, use new video symbols.
+	* event.scm: Likewise.
+	* image.scm: Likewise.
+	* rect.scm: Likewise.
+	* roto.scm: Likewise.
+
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Add #:kxform for ‘event-type’ kf.

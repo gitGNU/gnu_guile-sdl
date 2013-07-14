@@ -89,7 +89,7 @@
 
 ;; set the video mode to the dimensions of our rect
 (SDL:set-video-mode (SDL:rect:w test-rect) (SDL:rect:h test-rect) 32
-                    '(SDL_HWSURFACE SDL_DOUBLEBUF))
+                    '(hw-surface doublebuf))
 
 ;; presize some stuff
 (define height 10)

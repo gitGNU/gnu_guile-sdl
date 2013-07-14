@@ -32,7 +32,7 @@
 ;; @var{w}, @var{h}, and @var{bpp} specify the width, height, and
 ;; bits-per-pixel, respectively.
 ;; @var{flags} are symbols to set the video mode.  If omitted, the
-;; default is @code{SDL_HWSURFACE} and @code{SDL_DOUBLEBUF}.
+;; default is @code{hw-surface} and @code{doublebuf}.
 ;;
 ;; The closure, if called without arguments, returns the video surface.
 ;; Otherwise, the following messages are recognized:
@@ -71,7 +71,7 @@
       (set! h height)
       (set! canvas (///-set-video-mode
                     width height bpp (if (null? flags)
-                                         '(SDL_HWSURFACE SDL_DOUBLEBUF)
+                                         '(hw-surface doublebuf)
                                          flags)))
       (set! rect (///-make-rect 0 0 width height))
       rect)

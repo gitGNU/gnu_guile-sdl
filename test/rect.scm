@@ -87,7 +87,7 @@
 ;; set the video mode to the dimensions of our rect
 (define screen (SDL:set-video-mode (SDL:rect:w test-rect)
                                    (SDL:rect:h test-rect)
-                                   8 '(SDL_HWSURFACE)))
+                                   8 '(hw-surface)))
 (cond ((SDL:surface? screen))
       (else (fse "ERROR: Not a surface: ~S~%" screen)
             (exit #f)))

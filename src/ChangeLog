@@ -1,3 +1,11 @@
+2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[sdl] Add video.kf #:kxform.
+
+	* k/video.kf: ...here.
+	* misc-utils.scm (fader/3p): Use new video symbols.
+	* simple.scm (simple-canvas): Likewise.
+
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Add to #:kxform for ‘cdrom-state’ kp.

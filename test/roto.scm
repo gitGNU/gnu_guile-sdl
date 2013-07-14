@@ -33,7 +33,7 @@
          (idle (GFX:make-fps-manager ,fps))
          (screen #f))
      ;; set the video mode to the dimensions of our image
-     (SDL:set-video-mode w h 16 '(SDL_HWSURFACE))
+     (SDL:set-video-mode w h 16 '(hw-surface))
      (set! screen (SDL:get-video-surface))
      ;; pure exercise
      (or (= ,fps (GFX:fps-manager-get idle))
