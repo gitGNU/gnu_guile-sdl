@@ -1,3 +1,11 @@
+2013-07-16  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Add abstractions: DECLARE_UV_STRUCT, GET_WRITABLE_PARTICULARS
+
+	* b-uv.h (DECLARE_UV_STRUCT): New macro.
+	(DEFINE_STRUCT_AND_COPY_FUNC): Use ‘DECLARE_UV_STRUCT’.
+	(GET_WRITABLE_PARTICULARS): New macro.
+
 2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Replace keysymold.kp w/ keysym.kp.

@@ -34,8 +34,7 @@
 #define DECL_HANDLE_MAYBE  scm_t_array_handle handle;
 #endif
 
-#define DEFINE_STRUCT_AND_COPY_FUNC(TT,TSDL)            \
-                                                        \
+#define DECLARE_UV_STRUCT(TT,TSDL)                      \
 struct TT ##_stuff                                      \
 {                                                       \
   TSDL *bits;                                           \
@@ -43,7 +42,11 @@ struct TT ##_stuff                                      \
   size_t len;                                           \
   ssize_t inc;                                          \
   DECL_HANDLE_MAYBE                                     \
-};                                                      \
+}
+
+#define DEFINE_STRUCT_AND_COPY_FUNC(TT,TSDL)            \
+                                                        \
+DECLARE_UV_STRUCT (TT, TSDL);                           \
                                                         \
 static inline void                                      \
 copy_## TT (struct TT ##_stuff *stuff)                  \
@@ -73,10 +76,17 @@ copy_## TT (struct TT ##_stuff *stuff)                  \
     }                                                   \
   while (0)
 
+#define GET_WRITABLE_PARTICULARS(tt,v)          \
+  GET_PARTICULARS (tt,v)
+
 #else  /* GI_LEVEL_1_8 */
 
 #define GET_PARTICULARS(tt,v)                           \
   ST (v, elt) = scm_## tt ##vector_elements             \
+    (v, &ST (v, handle), &ST (v, len), &ST (v, inc))
+
+#define GET_WRITABLE_PARTICULARS(tt,v)                  \
+  ST (v, elt) = scm_## tt ##vector_writable_elements    \
     (v, &ST (v, handle), &ST (v, len), &ST (v, inc))
 
 #endif  /* GI_LEVEL_1_8 */
