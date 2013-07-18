@@ -1,3 +1,12 @@
+2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Add ‘CONST’ as parameter to ‘DECLARE_UV_STRUCT’.
+
+	* b-uv.h (DECLARE_UV_STRUCT): Take first arg ‘CONST’;
+	replace ‘const’ for member ‘elt’ w/ ‘CONST’.
+	(DEFINE_STRUCT_AND_COPY_FUNC): Explicitly
+	specify ‘const’ to ‘DECLARE_UV_STRUCT’.
+
 2013-07-16  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Add abstractions: DECLARE_UV_STRUCT, GET_WRITABLE_PARTICULARS

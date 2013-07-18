@@ -34,11 +34,11 @@
 #define DECL_HANDLE_MAYBE  scm_t_array_handle handle;
 #endif
 
-#define DECLARE_UV_STRUCT(TT,TSDL)                      \
+#define DECLARE_UV_STRUCT(CONST,TT,TSDL)                \
 struct TT ##_stuff                                      \
 {                                                       \
   TSDL *bits;                                           \
-  const TSDL *elt;                                      \
+  CONST TSDL *elt;                                      \
   size_t len;                                           \
   ssize_t inc;                                          \
   DECL_HANDLE_MAYBE                                     \
@@ -46,7 +46,7 @@ struct TT ##_stuff                                      \
 
 #define DEFINE_STRUCT_AND_COPY_FUNC(TT,TSDL)            \
                                                         \
-DECLARE_UV_STRUCT (TT, TSDL);                           \
+DECLARE_UV_STRUCT (const, TT, TSDL);                    \
                                                         \
 static inline void                                      \
 copy_## TT (struct TT ##_stuff *stuff)                  \
