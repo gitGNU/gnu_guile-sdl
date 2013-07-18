@@ -1,5 +1,13 @@
 2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v int] Avoid ‘uniform-vector-ref’.
+
+	* image.scm: Import SRFI 4 procs for vector reference.
+	<pixel data> (try): Use ‘u8vector-ref’, ‘u16vector-ref’, or
+	‘u32vector-ref’ as appropriate instead of ‘uniform-vector-ref’.
+
+2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	New (sdl sdl) proc: surface-pixels
 
 	* image.scm: Import ‘(sdl misc-utils) exact-truncate’,

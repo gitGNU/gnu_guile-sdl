@@ -21,10 +21,13 @@
 (use-modules ((sdl misc-utils) #:select (exact-truncate)))
 (use-modules ((srfi srfi-4) #:select (u8vector?
                                       u8vector-length
+                                      u8vector-ref
                                       u16vector?
                                       u16vector-length
+                                      u16vector-ref
                                       u32vector?
-                                      u32vector-length)))
+                                      u32vector-length
+                                      u32vector-ref)))
 (use-modules ((ice-9 format) #:select (format)))
 
 ;; the size of our test image
@@ -94,7 +97,12 @@
           (error (fs "unexpected length u~Avector length: ~S"
                      depth len)))
       (for-each (lambda (i)
-                  (info "\t\t~A\t~A" i (hex (uniform-vector-ref v i))))
+                  (info "\t\t~A\t~A" i
+                        (hex ((cond ((u8vector? v) u8vector-ref)
+                                    ((u16vector? v) u16vector-ref)
+                                    ((u32vector? v) u32vector-ref)
+                                    (else #f))
+                              v i))))
                 interesting)
       (SDL:delay 20)))
 
