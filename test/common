@@ -51,4 +51,7 @@
 (and (env-1? "DEBUG")
      (debug-enable 'debug 'backtrace))
 
+(define (hex n)
+  (number->string n 16))
+
 ;;; common ends here

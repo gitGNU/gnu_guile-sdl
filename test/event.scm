@@ -318,7 +318,7 @@
                              (SDL:event:key:keysym:scancode e)
                              (if (zero? uni)
                                  ""
-                                 (fs " U+~A" (number->string uni 16)))
+                                 (fs " U+~A" (hex uni)))
                              sym
                              (if (null? mods)
                                  ""

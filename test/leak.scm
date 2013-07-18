@@ -53,7 +53,7 @@
     (set! final (malloced))
     (info "~A:~A\t~A\t+~A\t~A~A"
           title (make-string (- 12 (string-length title)) #\space)
-          start (number->string (- fully start) 16)
+          start (hex (- fully start))
           final (if (= start final)
                     ""
                     "\tDIFFERENT!"))

@@ -1,3 +1,12 @@
+2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v int] Add abstraction: hex
+
+	* common (hex): New proc.
+	* cursor.scm (spew-ramp hex): Delete proc.
+	* event.scm (input-loop): Use ‘hex’.
+	* leak.scm (check-alloc/dealloc): Likewise.
+
 2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Replace keysymold.kp w/ keysym.kp.

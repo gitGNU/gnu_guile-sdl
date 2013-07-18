@@ -59,8 +59,6 @@
 (SDL:show-cursor #t)
 
 (define (spew-ramp r g b)
-  (define (hex n)
-    (number->string n 16))
   (define (hex2 n)
     (let ((s (hex n)))
       (if (> 2 (string-length s))
