@@ -657,6 +657,8 @@ Each table is a u16 uniform vector of length 256.
 Return @code{#f} if unsuccessful.  */)
 {
 #define FUNC_NAME s_get_gamma_ramp
+  DECLARE_UV_STRUCT (/* not const */, u16, Uint16);
+
   U16_STUFF (r); SCM r;
   U16_STUFF (g); SCM g;
   U16_STUFF (b); SCM b;
@@ -665,8 +667,8 @@ Return @code{#f} if unsuccessful.  */)
 
 #define GREET(v)                                        \
   v = scm_make_u16vector (table_size, SCM_UNDEFINED);   \
-  GET_U16_PARTICULARS (v)
-#define WRITABLE_VBITS(v)  (Uint16 *) ST (v, elt)
+  GET_WRITABLE_PARTICULARS (u16, v)
+#define WRITABLE_VBITS(v)  ST (v, elt)
 
   GREET (r);
   GREET (g);

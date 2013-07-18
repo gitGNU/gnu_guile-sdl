@@ -1,5 +1,13 @@
 2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use non-‘const’ uv struct variant instead of cast.
+
+	* sdlvideo.c (get_gamma_ramp): Declare writable ‘u16_struct’.
+	(get_gamma_ramp GREET): Use ‘GET_WRITABLE_PARTICULARS’.
+	(get_gamma_ramp WRITABLE_VBITS): Remove cast to ‘Uint16 *’.
+
+2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Add ‘CONST’ as parameter to ‘DECLARE_UV_STRUCT’.
 
 	* b-uv.h (DECLARE_UV_STRUCT): Take first arg ‘CONST’;
