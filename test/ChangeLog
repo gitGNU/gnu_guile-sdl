@@ -1,5 +1,14 @@
 2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: surface-pixels
+
+	* image.scm: Import ‘(sdl misc-utils) exact-truncate’,
+	SRFI 4 procs, ‘(ice-9 format) format’.
+	<load and blit image>: Add ‘info’ call.
+	<pixel data>: New section to exercise ‘surface-pixels’.
+
+2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v int] Add abstraction: hex
 
 	* common (hex): New proc.

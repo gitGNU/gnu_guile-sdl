@@ -1,5 +1,16 @@
 2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	New (sdl sdl) proc: surface-pixels
+
+	* sdlsurface.c: #include "b-uv.h".
+	(srfi4) [! GI_LEVEL_1_8]: New module object.
+	(mk_u8v, mk_u16v, mk_u32v) [! GI_LEVEL_1_8]: New proc objects.
+	(scm_make_u8vector, scm_make_u16vector)
+	(scm_make_u32vector) [! GI_LEVEL_1_8]: New macros.
+	(surface_pixels): New PRIMPROC.
+
+2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use non-‘const’ uv struct variant instead of cast.
 
 	* sdlvideo.c (get_gamma_ramp): Declare writable ‘u16_struct’.

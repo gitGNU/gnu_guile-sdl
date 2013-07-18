@@ -18,6 +18,14 @@
 ;; Boston, MA  02110-1301  USA
 
 (use-modules ((sdl sdl) #:prefix SDL:))
+(use-modules ((sdl misc-utils) #:select (exact-truncate)))
+(use-modules ((srfi srfi-4) #:select (u8vector?
+                                      u8vector-length
+                                      u16vector?
+                                      u16vector-length
+                                      u32vector?
+                                      u32vector-length)))
+(use-modules ((ice-9 format) #:select (format)))
 
 ;; the size of our test image
 (define gnu-rect (SDL:make-rect 0 0 200 153))
@@ -40,6 +48,64 @@
 
 ;; load and blit the image
 (define gnu-head (SDL:load-image (datafile "gnu-goatee.jpg")))
+(info "gnu-head => ~S" gnu-head)
+
+;; pixel data
+(let* ((w (SDL:surface:w gnu-head))
+       (h (SDL:surface:h gnu-head))
+       (exp-len (* w h))
+       (interesting (map (lambda (n)
+                           (exact-truncate (* 0.1 n exp-len)))
+                         (iota 10))))
+
+  (define (resampled depth)
+    (let ((rv (apply SDL:create-rgb-surface
+                     #f w h
+                     (assq depth '((8 #x03
+                                      #x0c
+                                      #x30
+                                      #xc0)
+                                   (16 #x000f
+                                       #x00f0
+                                       #x0f00
+                                       #xf000)
+                                   (24 #x000000ff
+                                       #x0000ff00
+                                       #x00ff0000
+                                       #x00000000)
+                                   (32 #x000000ff
+                                       #x0000ff00
+                                       #x00ff0000
+                                       #xff000000))))))
+      (SDL:blit-surface gnu-head #f rv)
+      (standard-blit! rv)
+      (SDL:flip)
+      rv))
+
+  (define (try depth)
+    (let* ((stage (resampled depth))
+           (v (SDL:surface-pixels stage))
+           (len (cond ((u8vector? v) (u8vector-length v))
+                      ((u16vector? v) (u16vector-length v))
+                      ((u32vector? v) (u32vector-length v))
+                      (else #f))))
+      (info "~Sbpp, ~A elems" depth (or len 'unavailable))
+      (or (eqv? len exp-len)
+          (error (fs "unexpected length u~Avector length: ~S"
+                     depth len)))
+      (for-each (lambda (i)
+                  (info "\t\t~A\t~A" i (hex (uniform-vector-ref v i))))
+                interesting)
+      (SDL:delay 20)))
+
+  (let ((v (SDL:surface-pixels gnu-head #t)))
+    (info "squashed, len:\t~S" (if (u8vector? v)
+                                   (u8vector-length v)
+                                   'unavailable)))
+  (try 8)
+  (try 16)
+  (try 24)
+  (try 32))
 (standard-blit! gnu-head)
 
 ;; flip the double buffer

@@ -23,6 +23,17 @@
 #include <stdio.h>
 #include <SDL/SDL_image.h>
 #include "snuggle/finangle.h"
+#include "b-uv.h"
+
+#if ! GI_LEVEL_1_8
+IMPORT_SRFI4 ();
+SELECT_MODULE_VAR (mk_u8v,  srfi4, "make-u8vector");
+SELECT_MODULE_VAR (mk_u16v, srfi4, "make-u16vector");
+SELECT_MODULE_VAR (mk_u32v, srfi4, "make-u32vector");
+#define scm_make_u8vector(len,fill)   CALL2 (mk_u8v,  len, fill)
+#define scm_make_u16vector(len,fill)  CALL2 (mk_u16v, len, fill)
+#define scm_make_u32vector(len,fill)  CALL2 (mk_u32v, len, fill)
+#endif
 
 static SCM kp_alpha;
 static SCM alpha_enums;
@@ -666,6 +677,88 @@ both vertically and horizontally.  */)
 #define FUNC_NAME s_vh_flip_surface
   SCM temp = vertical_flip_surface (surface);
   return horizontal_flip_surface (temp);
+#undef FUNC_NAME
+}
+
+
+PRIMPROC
+(surface_pixels, "surface-pixels", 1, 1, 0,
+ (SCM surface, SCM squash),
+ doc: /***********
+Return pixel data of @var{surface} as a new uniform vector.
+The uvec has type @code{u8}, @code{u16} or @code{u32}, corresponding
+to the @var{surface} depth, with @var{height} x @var{width} elements.
+A 24bpp surface --- @var{depth-in-bytes} of 3 --- is expanded (per pixel)
+to @code{u32}, leaving the high nybble clear.
+
+Optional arg @var{squash} non-@code{#f} means to
+return a u8vector regardless of @var{surface} depth,
+with @var{height} x @var{width} x @var{depth-in-bytes} elements.  */)
+{
+#define FUNC_NAME s_surface_pixels
+  DECLARE_UV_STRUCT (/* not const */, u8,  Uint8);
+  DECLARE_UV_STRUCT (/* not const */, u16, Uint16);
+  DECLARE_UV_STRUCT (/* not const */, u32, Uint32);
+
+  SDL_Surface *src;
+  size_t len, bypp, sz;
+  SCM rv = SCM_EOL;
+
+  ASSERT_SURFACE (surface, 1);
+  src = UNPACK_SURFACE (surface);
+  len = src->w * src->h;
+  bypp = src->format->BytesPerPixel;
+  sz = len * bypp;
+  if (! (1 <= bypp && bypp <= 4))
+    SCM_MISC_ERROR ("invalid depth: ~S", LIST1 (surface));
+
+#define PREP(TT,COUNT)                          \
+  STUFF (TT, rv);                               \
+  rv = scm_make_ ## TT ## vector                \
+    (NUM_ULONG (COUNT), SCM_UNDEFINED);         \
+  GET_WRITABLE_PARTICULARS (TT, rv)
+
+#define DIRECT(TT,COUNT,ALLOC)  do                      \
+    {                                                   \
+      PREP (TT, COUNT);                                 \
+      memcpy (ST (rv, elt), src->pixels, ALLOC);        \
+      LATER (rv);                                       \
+    }                                                   \
+  while (0)
+
+#define SNARF(TT)  DIRECT (TT, len, sz)
+
+  /* Do it!  */
+  if (BOUNDP (squash) && NOT_FALSEP (squash))
+    DIRECT (u8, sz, sz);
+  else
+    switch (bypp)
+      {
+      case 4: SNARF (u32); break;
+      case 2: SNARF (u16); break;
+      case 1: SNARF (u8);  break;
+      case 3:
+        {
+          size_t i, lsbidx = SDL_LIL_ENDIAN == SDL_BYTEORDER ? 0 : 2;
+          const uint8_t *rp;
+          uint32_t *wp;
+
+          PREP (u32, len);
+          for (i = 0, rp = src->pixels, wp = ST (rv, elt);
+               i < len;
+               i++, rp += bypp, wp++)
+            *wp = ((rp[2 - lsbidx] << 16)
+                   | (rp[1]        << 8)
+                   | (rp[lsbidx]   << 0));
+          LATER (rv);
+        }
+      }
+
+  return rv;
+
+#undef SNARF
+#undef DIRECT
+#undef PREP
 #undef FUNC_NAME
 }
 
