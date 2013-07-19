@@ -1,6 +1,6 @@
 ;;; opengl.scm --- simple opengl test
 
-;; Copyright (C) 2003 Thien-Thi Nguyen
+;; Copyright (C) 2003, 2013 Thien-Thi Nguyen
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
