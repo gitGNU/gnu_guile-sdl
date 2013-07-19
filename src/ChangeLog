@@ -1,3 +1,14 @@
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[int] Use 32-bit flags in ‘surface-color-key!’.
+
+	This is a bug but not marked "fix bug" because pre-release,
+	from original commit, caught luckily by inspection -- at this
+	time there is no straightforward way to determine a surface's
+	color key if any.
+
+	* sdlsurface.c (surface_color_key_x): Use ‘Uint32’ for ‘cflags’.
+
 2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	New (sdl sdl) proc: surface-pixels

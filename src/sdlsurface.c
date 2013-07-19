@@ -311,7 +311,7 @@ Return @code{#t} if successful.  */)
 {
 #define FUNC_NAME s_surface_color_key_x
   Uint32 cpixel;
-  Uint8 cflags;
+  Uint32 cflags;
 
   ASSERT_SURFACE (surface, 1);
   if (EXACTLY_FALSEP (pixel))
