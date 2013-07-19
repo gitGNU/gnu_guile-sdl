@@ -1,5 +1,13 @@
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘pixel-rgb’, ‘pixel-rgba’.
+
+	* rect.scm <draw some rectangles filled with random colors>:
+	Also use ‘pixel-rgb’ and ‘pixel-rgba’ to "values" unpack
+	the numeric value; compare against the "non-values" variant.
+
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise color-key procs.
 
 	* image.scm <pixel data>: Use ‘surface-color-key!’ to

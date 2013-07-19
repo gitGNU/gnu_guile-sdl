@@ -120,26 +120,32 @@
     ((= i 20))
   (let ((sample (rand-rect test-rect)))
 
-    (define (w/random-args make unpack n)
+    (define (w/random-args make unpack vunpack n)
       (let* ((full (apply make fmt (map (lambda (x)
                                           (random #x100))
                                         (iota n))))
+             (vpart (call-with-values (lambda () (vunpack full fmt))
+                      list))
              (part (unpack full fmt)))
         (or (and (pair? part)
                  (= n (length part)))
             (error (fs "bad ~A result: ~S"
                        (procedure-name unpack)
                        part)))
-        (info "color ~S ~S" full part)
+        (info "color ~S ~S ~S" full vpart part)
+        (or (equal? vpart (map cdr part))
+            (error "discrepency between part and vpart!"))
         full))
 
     (SDL:fill-rect screen sample (case (modulo i 3)
                                    ((0) (random #x100))
                                    ((1) (w/random-args SDL:map-rgb
                                                        SDL:get-rgb
+                                                       SDL:pixel-rgb
                                                        3))
                                    ((2) (w/random-args SDL:map-rgba
                                                        SDL:get-rgba
+                                                       SDL:pixel-rgba
                                                        4))))
     (SDL:update-rect screen sample)))
 
