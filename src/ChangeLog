@@ -1,5 +1,11 @@
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Use ‘surface-alpha!’ more.
+
+	* misc-utils.scm (fader/3p): ...here, instead of ‘set-alpha!’.
+
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use 32-bit flags in ‘surface-color-key!’.
 
 	This is a bug but not marked "fix bug" because pre-release,

@@ -346,7 +346,7 @@
                        (= alpha new-a))
                 (begin (set! alpha new-a)
                        (SDL:blit-surface one #f base loc)
-                       (SDL:set-alpha! two 'src-alpha alpha)
+                       (SDL:surface-alpha! two alpha)
                        (SDL:blit-surface two #f base loc)
                        (show)
                        (or (< alpha 255)
