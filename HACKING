@@ -4,29 +4,34 @@ This file is both a guide for newcomers and a todo list for oldstayers.
 It lives in the repo but is not included in the distribution.
 
 * ongoing (some of which may go into the next release)
+*** [[elisp:(dired%20"/usr/include/SDL")][/usr/include/SDL/*.h]] coverage
+***** inspection (read-only access)
+******* surface [[file:/usr/include/SDL/SDL_video.h::SDL_MUSTLOCK][SDL_MUSTLOCK]] (see also [[pixels%20as%20leased%20array][pixels as leased array]])
+******* surface color-key / alpha (value: #f (disabled), or numeric)
+******* ? SDL_Surface as Scheme struct
+******* ? [[file:/usr/include/SDL/SDL_video.h::struct.SDL_PixelFormat][pixel-format]] details (‘Uint8’ → Scheme struct not possible)
+***** mixer
+******* hooks
+******* effects
+***** opengl
 *** use pre-installed SDL_gfx if sufficiently functional
     (alternatively, use the subset that is functional)
-*** comment code (audience: intermediate scheme programmer)
-*** make ‘set-colors!’ take optional arg ‘first’
-*** likewise ‘set-palette’ (hmm, why does this not end in "!"?)
-*** programming practice review
+*** pixels as leased array
+    IWBN to have something like ‘(call-with-pixels SPEC PROC)’
+    where SPEC is either SURFACE or (SURFACE RECT) and PROC
+    is called with one arg, LEASED-ARRAY.  A LEASED-ARRAY is
+    an array of u8, u16, u32 directly backed by the ‘.pixels’.
+    SURFACE is locked (if necessary) around the call.
+*** programming practice
+***** comment code (audience: intermediate scheme programmer)
 ***** return values
 ******* smob safety
 ******* 0-means-success
 ******* consistency
-*** /usr/include/SDL/*.h coverage
-***** mixer
-******* hooks
-******* effects
-*** ? opengl
-*** ? interop w/ other event loops (fastevents, etc)
-*** error handling cleanup
-***** document policy
-***** cases: NULL, -1, etc
-*** many small modules: (sdl modules cdrom)
-*** ? third-party post-install extension framework
-*** performance tweaking
-*** ? gnulib
+***** error handling cleanup
+******* document policy
+******* cases: NULL, -1, etc
+***** ? gnulib
 
 * portability
   |-----------+-----------+-------+-----|
@@ -38,7 +43,7 @@ It lives in the repo but is not included in the distribution.
   | 1.4.1.127 | n/a       | yes   | yes |
   |     1.8.7 | yes       | yes   | yes |
   |     2.0.6 | n/a       | yes   | yes |
-  |     2.0.7 | maybe     | yes   | yes |
+  |     2.0.7 | yes       | yes   | yes |
   |-----------+-----------+-------+-----|
 
 * bootstrap tools
