@@ -1,5 +1,12 @@
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add optional arg START to colormap procs.
+
+	* rect.scm <futz w/ the colormap>: Call ‘set-palette’
+	and ‘set-colors!’ with random START index.
+
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘set-palette’.
 
 	* rect.scm <futz w/ the colormap> (jam! pal!): New internal proc.

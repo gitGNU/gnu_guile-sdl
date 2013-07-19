@@ -1,5 +1,13 @@
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Add optional arg START to colormap procs.
+
+	* sdlvideo.c (set_colors, set_palette): Take additional
+	arg ‘start’; validate it as integer [0,255] and pass it
+	to the underlying libSDL func as arg FIRSTCOLOR.
+
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[int] Use ‘surface-alpha!’ more.
 
 	* misc-utils.scm (fader/3p): ...here, instead of ‘set-alpha!’.

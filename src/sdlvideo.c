@@ -582,46 +582,60 @@ assert_colormap_copy (const char *FUNC_NAME, SCM v, int pos,
 
 
 PRIMPROC
-(set_colors, "set-colors!", 2, 0, 0,
- (SCM surface, SCM colors),
+(set_colors, "set-colors!", 2, 1, 0,
+ (SCM surface, SCM colors, SCM start),
  doc: /***********
 Set a portion of the colormap for the 8-bit @var{surface}
-using @var{colors}, a vector of SDL-Colors.  */)
+using @var{colors}, a vector of SDL-Colors.
+Optional arg @var{start} (an integer in the range [0,255])
+specifies the portion to be modified.  It defaults to 0.  */)
 {
 #define FUNC_NAME s_set_colors
   SDL_Color ccolors[256];
-  int length;
+  int length, cstart = 0;
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_COLORMAP_COPY (colors, 2, length);
+  if (BOUNDP (start))
+    {
+      ASSERT_ULONG_COPY (start, 3);
+      SCM_ASSERT_RANGE (4, start, cstart < 256);
+    }
 
   RETURN_BOOL
     (SDL_SetColors (UNPACK_SURFACE (surface),
-                    ccolors, 0, length));
+                    ccolors, cstart, length));
 #undef FUNC_NAME
 }
 
 
 PRIMPROC
-(set_palette, "set-palette", 3, 0, 0,
- (SCM surface, SCM flags, SCM colors),
+(set_palette, "set-palette", 3, 1, 0,
+ (SCM surface, SCM flags, SCM colors, SCM start),
  doc: /***********
 Set the palette of an 8-bit @var{surface}
 using @var{flags} (@pxref{palette flags}) and
-@var{colors}, a vector of SDL-Colors.  */)
+@var{colors}, a vector of SDL-Colors.
+Optional arg @var{start} (an integer in the range [0,255])
+specifies the portion to be modified.  It defaults to 0.  */)
 {
 #define FUNC_NAME s_set_palette
   DECLINIT_SYM2NUM_CC (2, palette_flags);
   SDL_Color ccolors[256];
-  int cflags, length;
+  int cflags, length, cstart = 0;
 
   ASSERT_SURFACE (surface, 1);
   ASSERT_COLORMAP_COPY (colors, 3, length);
+  if (BOUNDP (start))
+    {
+      ASSERT_ULONG_COPY (start, 4);
+      SCM_ASSERT_RANGE (4, start, cstart < 256);
+    }
 
   cflags   = FLAGS2ULONG (2, flags);
   RETURN_BOOL
     (SDL_SetPalette (UNPACK_SURFACE (surface),
-                     cflags, ccolors, 0, length));
+                     cflags, ccolors, cstart, length));
 #undef FUNC_NAME
 }
 

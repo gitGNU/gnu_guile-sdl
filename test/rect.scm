@@ -166,7 +166,7 @@
         (SDL:color:set-b! elem (random 256)))))
   (define (jam!)
     (define (pal! flags)
-      (SDL:set-palette screen flags cm)
+      (SDL:set-palette screen flags cm (random 256))
       (SDL:delay 30))
     (pal! 'physical)
     (randomize-cm!)
@@ -174,7 +174,7 @@
     (randomize-cm!)
     (pal! '(physical logical))
     (randomize-cm!)
-    (SDL:set-colors! screen cm)
+    (SDL:set-colors! screen cm (random 256))
     (SDL:delay 200))
   ;; do it
   (for-each (lambda (thunk)
