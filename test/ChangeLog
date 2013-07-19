@@ -1,3 +1,11 @@
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise color-key procs.
+
+	* image.scm <pixel data>: Use ‘surface-color-key!’ to
+	set the color key prior to gyrations and ‘set-color-key!’
+	to clear it afterwards.
+
 2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v int] Avoid ‘uniform-vector-ref’.

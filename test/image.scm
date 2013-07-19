@@ -54,6 +54,7 @@
 (info "gnu-head => ~S" gnu-head)
 
 ;; pixel data
+(SDL:surface-color-key! gnu-head #xFEFEFE #t)
 (let* ((w (SDL:surface:w gnu-head))
        (h (SDL:surface:h gnu-head))
        (exp-len (* w h))
@@ -114,6 +115,7 @@
   (try 16)
   (try 24)
   (try 32))
+(SDL:set-color-key! gnu-head #f 0) ; aka (SDL:surface-color-key! gnu-head #f)
 (standard-blit! gnu-head)
 
 ;; flip the double buffer
