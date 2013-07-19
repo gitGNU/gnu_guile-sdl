@@ -1,5 +1,11 @@
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘lock-surface’, ‘unlock-surface’.
+
+	* image.scm <locking>: ...here, in new section.
+
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘pixel-rgb’, ‘pixel-rgba’.
 
 	* rect.scm <draw some rectangles filled with random colors>:

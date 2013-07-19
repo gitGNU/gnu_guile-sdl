@@ -188,6 +188,10 @@
       (SDL:delay 40))))
 (SDL:set-clip-rect! screen #f)
 
+;; locking
+(info "lock-surface => ~S" (SDL:lock-surface gnu-head))
+(info "unlock-surface => ~S" (SDL:unlock-surface gnu-head))
+
 ;; alpha
 (SDL:delay 200)
 (do ((i 0 (1+ i))
