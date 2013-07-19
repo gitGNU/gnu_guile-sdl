@@ -1,5 +1,12 @@
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘set-palette’.
+
+	* rect.scm <futz w/ the colormap> (jam! pal!): New internal proc.
+	<futz w/ the colormap> (jam!): Use ‘pal!’.
+
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘lock-surface’, ‘unlock-surface’.
 
 	* image.scm <locking>: ...here, in new section.
