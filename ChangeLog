@@ -1,3 +1,9 @@
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Release: 0.5.0
+
+	* configure.ac (AC_INIT): Bump version to "0.5.0" for release.
+
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build] Add "ugh" machinery.

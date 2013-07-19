@@ -1,3 +1,7 @@
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Release: 0.5.0
+
 2013-07-13  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[doc] Mention sub/super-set nature of event-{mask,type}.

@@ -1,3 +1,7 @@
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Release: 0.5.0
+
 2013-07-14  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Replace keysymold.kp w/ keysym.kp.

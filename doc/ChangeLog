@@ -1,3 +1,7 @@
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Release: 0.5.0
+
 2013-07-18  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	New (sdl sdl) proc: surface-pixels

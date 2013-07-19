@@ -1,5 +1,9 @@
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Release: 0.5.0
+
+2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Add optional arg START to colormap procs.
 
 	* sdlvideo.c (set_colors, set_palette): Take additional
