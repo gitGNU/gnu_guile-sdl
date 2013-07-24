@@ -4,583 +4,583 @@ See the end for copying conditions.
 
 - 0.5.0 | 2013-07-19
 
-	WARNING: There are several entries marked "[BI]",
-	which stands for "backward incompatible".
+  WARNING: There are several entries marked "[BI]",
+  which stands for "backward incompatible".
 
   - planned retirement
 
     - 2013-12-31 -- procs that return an alist
 
-	These procs return an alist, which burdens the caller w/ the
-	destructuring / decode dance:
+      These procs return an alist, which burdens the caller w/ the
+      destructuring / decode dance:
 
-	 (sdl sdl) cd-get-nth-track
-	 (sdl sdl) cd-frames->msf
-	 (sdl sdl) joystick-get-ball
-	 (sdl mixer) query-spec
-	 (sdl ttf) font:glyph-metrics
-	 (sdl ttf) font:size-text
-	 (sdl ttf) font:size-utf8
-	 (sdl sdl) get-video-info
-	 (sdl sdl) get-rgb
-	 (sdl sdl) get-rgba
-	 (sdl sdl) get-caption
-	 (sdl sdl) get-mouse-state
-	 (sdl sdl) get-mouse-relative-state
+       (sdl sdl) cd-get-nth-track
+       (sdl sdl) cd-frames->msf
+       (sdl sdl) joystick-get-ball
+       (sdl mixer) query-spec
+       (sdl ttf) font:glyph-metrics
+       (sdl ttf) font:size-text
+       (sdl ttf) font:size-utf8
+       (sdl sdl) get-video-info
+       (sdl sdl) get-rgb
+       (sdl sdl) get-rgba
+       (sdl sdl) get-caption
+       (sdl sdl) get-mouse-state
+       (sdl sdl) get-mouse-relative-state
 
-	See "new procs returning values" below for their replacements.
+      See "new procs returning values" below for their replacements.
 
     - 2013-12-31 -- procs that query/set event processing model
 
-	These procs query or set the processing model of the specified
-	type or joystick, respectively:
+      These procs query or set the processing model of the specified
+      type or joystick, respectively:
 
-	 (sdl sdl) event-state
-	 (sdl sdl) joystick-event-state
+       (sdl sdl) event-state
+       (sdl sdl) joystick-event-state
 
-	For uniformity, they have undergone interface changes in this
-	release (see below) but even so, their interface suffers from
-	under-understanding and over-engineering that is difficult to
-	back out of.  So it goes; we (will) bail.
+      For uniformity, they have undergone interface changes in this
+      release (see below) but even so, their interface suffers from
+      under-understanding and over-engineering that is difficult to
+      back out of.  So it goes; we (will) bail.
 
-	See "new event model procs" below for their replacements.
+      See "new event model procs" below for their replacements.
 
     - 2013-12-31 -- ‘(sdl sdl) set-alpha!’
 
-	The calling convention for this proc is fugly beyond belief.
-	Its replacement is ‘surface-alpha!’ (see below).
+      The calling convention for this proc is fugly beyond belief.
+      Its replacement is ‘surface-alpha!’ (see below).
 
     - 2013-12-31 -- ‘(sdl sdl) set-color-key!’
 
-	Like ‘set-alpha!’, this proc exists and persists w/o beauty.
-	Its replacement is ‘surface-color-key!’ (see below).
+      Like ‘set-alpha!’, this proc exists and persists w/o beauty.
+      Its replacement is ‘surface-color-key!’ (see below).
 
     - 2013-12-31 -- ‘(sdl sdl) peep-events’
 
-	Yet another unshapen mess, grody to the max.  Die, die, die!
-	See "new event queue procs" below for its replacement.
+      Yet another unshapen mess, grody to the max.  Die, die, die!
+      See "new event queue procs" below for its replacement.
 
   - bugfixes
 
     - ‘non-member-symbol’ detected and error thrown
 
-	All procs that take SYMBOL (enums or flags), or a list of SYMBOL
-	(flags) now throw ‘non-member-symbol’ if SYMBOL is not a member
-	of the respective enumstash or flagstash.  Previously, such
-	symbols were silently ignored.  E.g., given:
+      All procs that take SYMBOL (enums or flags), or a list of SYMBOL
+      (flags) now throw ‘non-member-symbol’ if SYMBOL is not a member
+      of the respective enumstash or flagstash.  Previously, such
+      symbols were silently ignored.  E.g., given:
 
-	 (define (ugh)
-	   (flags->number
-	    (flagstash:event-mask)
-	    '(SDL_MOUSEMOTIONMASK
-	      x
-	      SDL_KEYDOWNMASK)))
+       (define (ugh)
+         (flags->number
+          (flagstash:event-mask)
+          '(SDL_MOUSEMOTIONMASK
+            x
+            SDL_KEYDOWNMASK)))
 
-	Behavior was:
+      Behavior was:
 
-	 (event:type (make-event 'foo))
-	 => #f
+       (event:type (make-event 'foo))
+       => #f
 
-	 (ugh)
-	 => 20
+       (ugh)
+       => 20
 
-	Behavior now:
+      Behavior now:
 
-	 (event:type (make-event 'foo))
-	 error-> ERROR: In procedure make-event:
-	 error-> ERROR: invalid event-type: foo
+       (event:type (make-event 'foo))
+       error-> ERROR: In procedure make-event:
+       error-> ERROR: invalid event-type: foo
 
-	 (ugh)
-	 error-> ERROR: In procedure flags->number:
-	 error-> ERROR: invalid event-mask: x
+       (ugh)
+       error-> ERROR: In procedure flags->number:
+       error-> ERROR: invalid event-mask: x
 
-	This change is marked not "[BI]" because although ‘enum->number’
-	and ‘flags->number’ can no longer be used as-is for probing,
-	that is an unlikely (bordering on nonsensical) usage.
+      This change is marked not "[BI]" because although ‘enum->number’
+      and ‘flags->number’ can no longer be used as-is for probing,
+      that is an unlikely (bordering on nonsensical) usage.
 
     - ‘(sdl sdl) push-event’ returns boolean
 
-	Previously this proc returned an integer, incorrectly documented
-	as "1 for success, 0 for queue full, -1 for other errors" (the
-	underlying SDL func returns 0 on success, -1 on error).  Now, it
-	returns ‘#t’ on success, and ‘#f’ otherwise.
+      Previously this proc returned an integer, incorrectly documented
+      as "1 for success, 0 for queue full, -1 for other errors" (the
+      underlying SDL func returns 0 on success, -1 on error).  Now, it
+      returns ‘#t’ on success, and ‘#f’ otherwise.
 
     - ‘(sdl sdl) set-mod-state’ does not insist on integer arg
 
-	Regression introduced 2003-11-08 (Guile-SDL 0.2.0) during
-	foof-to-ttn transition.  Briefly: 0/ arg type initially exact
-	with type check; 1/ foof changed type to flags and commented
-	out now-obsolete type check; 2/ ttn commented in the check;
-	3/ test coverage lacking until this release.  Ugh, so it goes.
+      Regression introduced 2003-11-08 (Guile-SDL 0.2.0) during
+      foof-to-ttn transition.  Briefly: 0/ arg type initially exact
+      with type check; 1/ foof changed type to flags and commented
+      out now-obsolete type check; 2/ ttn commented in the check;
+      3/ test coverage lacking until this release.  Ugh, so it goes.
 
     - [BI] flags dropped: ‘KMOD_NONE’, ‘KMOD_RESERVED’
 
-	These were part of ‘flagstash:event-mod’, though they should
-	never have been.  Since ‘KMOD_RESERVED’ is never generated by
-	SDL, its removal has little import.  OTOH, code that currently
-	checks for "no key modifiers pressed" against ‘(KMOD_NONE)’ (a
-	list of one symbol) needs to now check against the empty list.
+      These were part of ‘flagstash:event-mod’, though they should
+      never have been.  Since ‘KMOD_RESERVED’ is never generated by
+      SDL, its removal has little import.  OTOH, code that currently
+      checks for "no key modifiers pressed" against ‘(KMOD_NONE)’ (a
+      list of one symbol) needs to now check against the empty list.
 
     - ‘number->flags’ et al always return a list, never ‘#f’
 
-	Previously, if the given integer was not covered by the flags,
-	‘number->flags’ would return ‘#f’, losing information.  Now,
-	that non-zero "remainder" is consed onto the returned list, at
-	the head.  For example, given the hypothetical flagstash ‘foo’:
+      Previously, if the given integer was not covered by the flags,
+      ‘number->flags’ would return ‘#f’, losing information.  Now,
+      that non-zero "remainder" is consed onto the returned list, at
+      the head.  For example, given the hypothetical flagstash ‘foo’:
 
-	 1 -- a
-	 2 -- b
-	 4 -- c
+       1 -- a
+       2 -- b
+       4 -- c
 
-	then:
-	                          was        now
-	 (number->flags  0 foo)   => #f      => ()
-	 (number->flags  5 foo)   => (a c)   => (a c)
-	 (number->flags 13 foo)   => #f      => (8 a c)
+      then:
+                                was        now
+       (number->flags  0 foo)   => #f      => ()
+       (number->flags  5 foo)   => (a c)   => (a c)
+       (number->flags 13 foo)   => #f      => (8 a c)
 
-	The underlying mechanism of ‘number->flags’ is shared w/ these
-	procs:
+      The underlying mechanism of ‘number->flags’ is shared w/ these
+      procs:
 
-	 (sdl sdl) was-init
-	 (sdl sdl) get-mod-state
-	 (sdl sdl) get-mouse-state               ; see below
-	 (sdl sdl) get-mouse-relative-state      ; see below
-	 (sdl ttf) font:style
+       (sdl sdl) was-init
+       (sdl sdl) get-mod-state
+       (sdl sdl) get-mouse-state               ; see below
+       (sdl sdl) get-mouse-relative-state      ; see below
+       (sdl ttf) font:style
 
-	They, too, now always return a list, never ‘#f’.
+      They, too, now always return a list, never ‘#f’.
 
     - negative integers for some event field-setter procs
 
-	These event field-setter procs now accept negative integers:
+      These event field-setter procs now accept negative integers:
 
-	 event:motion:set-xrel!
-	 event:motion:set-yrel!
-	 event:jaxis:set-value!
-	 event:jball:set-xrel!
-	 event:jball:set-yrel!
-	 event:resize:set-w!
-	 event:resize:set-h!
+       event:motion:set-xrel!
+       event:motion:set-yrel!
+       event:jaxis:set-value!
+       event:jball:set-xrel!
+       event:jball:set-yrel!
+       event:resize:set-w!
+       event:resize:set-h!
 
-	Previously, they would signal error for integers less than zero.
-	Note that the latter two are for excruciating fidelity w/ the
-	SDL C struct; synthesizing a resize event w/ negative width or
-	height is probably Not Universally Appreciated.  YMMV.  YHBW.
+      Previously, they would signal error for integers less than zero.
+      Note that the latter two are for excruciating fidelity w/ the
+      SDL C struct; synthesizing a resize event w/ negative width or
+      height is probably Not Universally Appreciated.  YMMV.  YHBW.
 
     - ‘cd-name’ and ‘joystick-name’ can return ‘#f’
 
-	Previously, these (sdl sdl) procs would segfault if SDL returned
-	a null cdrom or joystick name, respectively.  Now, they return
-	‘#f’ in that case.
+      Previously, these (sdl sdl) procs would segfault if SDL returned
+      a null cdrom or joystick name, respectively.  Now, they return
+      ‘#f’ in that case.
 
     - fixes to ‘(sdl sdl) button?’
 
       - all buttons documented
 
-	This was a long-standing documentation omission.
+        This was a long-standing documentation omission.
 
       - works as documented
 
-	Since the beginning, this proc failed to actually consult the
-	mouse button state, returning a non-sensical result.  Now it
-	calls (the C equivalent of) ‘get-mouse-state’ internally.
+        Since the beginning, this proc failed to actually consult the
+        mouse button state, returning a non-sensical result.  Now it
+        calls (the C equivalent of) ‘get-mouse-state’ internally.
 
     - ‘cd-null?’ and ‘joystick-null?’ dropped
 
-	These procs serve no purpose.  The cdrom object and the joystick
-	object are never "null"; if errors occur in their construction,
-	the respective procs ‘cd-open’ and ‘joystick-open’ return ‘#f’.
+      These procs serve no purpose.  The cdrom object and the joystick
+      object are never "null"; if errors occur in their construction,
+      the respective procs ‘cd-open’ and ‘joystick-open’ return ‘#f’.
 
-	See also "procs signal error if cdrom/joystick not open" below.
+      See also "procs signal error if cdrom/joystick not open" below.
 
     - ‘string->image’ dropped
 
-	This was an experiment.  The bug fixed in its removal is the
-	ignorance of just how unsuitable Scheme strings are for binary
-	data.  Something like it might well return in the future.
+      This was an experiment.  The bug fixed in its removal is the
+      ignorance of just how unsuitable Scheme strings are for binary
+      data.  Something like it might well return in the future.
 
     - ‘(sdl sdl) gl-enums’ dropped
 
-	This was unused, and inappropriately named.  Something like it
-	will return along w/ other features to support OpenGL, someday.
+      This was unused, and inappropriately named.  Something like it
+      will return along w/ other features to support OpenGL, someday.
 
     - ‘(sdl sdl) make-keysym’ dropped
 
-	This was useless, buggy (suffering from the same mishandling as
-	‘set-mod-state’, above), and gratuitous (no underlying SDL func).
-	It was a bug to maintain it for this long.
+      This was useless, buggy (suffering from the same mishandling as
+      ‘set-mod-state’, above), and gratuitous (no underlying SDL func).
+      It was a bug to maintain it for this long.
 
   - procs require uvec arg(s), no longer accept normal vectors
 
-	As pre-announced in Guile-SDL 0.4.0 (2011-12-15) NEWS, the
-	following procs now require their arg(s) to be uniform vectors:
+    As pre-announced in Guile-SDL 0.4.0 (2011-12-15) NEWS, the
+    following procs now require their arg(s) to be uniform vectors:
 
-	 (sdl gfx) draw-polygon             s16
-	 (sdl gfx) draw-aa-polygon          s16
-	 (sdl gfx) draw-textured-polygon    s16
-	 (sdl gfx) draw-bezier              s16
-	 (sdl sdl) create-cursor            u8
-	 (sdl sdl) set-gamma-ramp           u16
+     (sdl gfx) draw-polygon             s16
+     (sdl gfx) draw-aa-polygon          s16
+     (sdl gfx) draw-textured-polygon    s16
+     (sdl gfx) draw-bezier              s16
+     (sdl sdl) create-cursor            u8
+     (sdl sdl) set-gamma-ramp           u16
 
-	A normal vector now results in a wrong-type-arg error.
+    A normal vector now results in a wrong-type-arg error.
 
   - horizontal / vertical flipping preserves surface depth
 
-	Previously, ‘horizontal-flip-surface’, ‘vertical-flip-surface’
-	and ‘vh-flip-surface’ always returned a new surface w/ depth 16.
-	Now, the depth is the same as that of the source surface.
+    Previously, ‘horizontal-flip-surface’, ‘vertical-flip-surface’
+    and ‘vh-flip-surface’ always returned a new surface w/ depth 16.
+    Now, the depth is the same as that of the source surface.
 
   - ‘(sdl sdl) event-state’ returns new state
 
-	Previously, the return value was specified only on query.
-	Now, it is specified for all cases.
+    Previously, the return value was specified only on query.
+    Now, it is specified for all cases.
 
   - ‘(sdl mixer) set-music-command’ now takes ‘#f’ also
 
-	Normally, the string arg ‘command’ to ‘set-music-command’
-	specifies the external command to use for subsequent music load
-	and playback.  As a special case, you can now specify ‘#f’ as
-	the command to revert (or ensure) internal playback routines
-	use.
+    Normally, the string arg ‘command’ to ‘set-music-command’
+    specifies the external command to use for subsequent music load
+    and playback.  As a special case, you can now specify ‘#f’ as
+    the command to revert (or ensure) internal playback routines
+    use.
 
   - symbolic "mouse button"
 
-	The mouse buttons are symbols in the set:
+    The mouse buttons are symbols in the set:
 
-	 left middle right
-	 wheel-up wheel-down
-	 x1 x2
+     left middle right
+     wheel-up wheel-down
+     x1 x2
 
-	The latter two are "extended buttons" probably, for the fully
-	fondle-able fist friend (groan).
+    The latter two are "extended buttons" probably, for the fully
+    fondle-able fist friend (groan).
 
     - new proc: ‘(sdl sdl) mouse-bxy’
 
-	This obsoletes both ‘get-mouse-state’ and
-	‘get-mouse-relative-state’.
+      This obsoletes both ‘get-mouse-state’ and
+      ‘get-mouse-relative-state’.
 
     - mouse state procs can return symbolic state
 
-	Normally, the ‘state’ value in the alist returned by
-	‘get-mouse-state’ and ‘get-mouse-relative-state’ is an integer.
-	These procs now take an optional arg which, if non-‘#f’, means
-	to return instead a (possibly empty) list of mouse buttons.
+      Normally, the ‘state’ value in the alist returned by
+      ‘get-mouse-state’ and ‘get-mouse-relative-state’ is an integer.
+      These procs now take an optional arg which, if non-‘#f’, means
+      to return instead a (possibly empty) list of mouse buttons.
 
     - [BI] motion state get/set
 
-	Previously, ‘event:motion:state’ and ‘event:motion:set-state!’
-	returned and accepted an integer value, respectively.  Now the
-	value is symbolic (list for getter, single symbol or list for
-	setter), from the set of mouse buttons.
+      Previously, ‘event:motion:state’ and ‘event:motion:set-state!’
+      returned and accepted an integer value, respectively.  Now the
+      value is symbolic (list for getter, single symbol or list for
+      setter), from the set of mouse buttons.
 
     - [BI] button button get/set
 
-	Previously, ‘event:button:button’ and ‘event:button:set-button!’
-	returned and accepted an integer value, respectively.  Now the
-	value is a symbol, from the set of mouse buttons.
+      Previously, ‘event:button:button’ and ‘event:button:set-button!’
+      returned and accepted an integer value, respectively.  Now the
+      value is a symbol, from the set of mouse buttons.
 
   - [BI] ‘(sdl sdl) get-app-state’ rv symbolic
 
-	This proc now returns a possibly empty list of symbols from the
-	set: ‘mousefocus’, ‘inputfocus’, ‘active’.
+    This proc now returns a possibly empty list of symbols from the
+    set: ‘mousefocus’, ‘inputfocus’, ‘active’.
 
   - [BI] active event gain/state fully symbolic
 
-	The procs ‘event:active:gain’ and ‘event:active:set-gain!’ now
-	return and accept, respectively, a symbol, one of: ‘gained’ or
-	‘lost’.
+    The procs ‘event:active:gain’ and ‘event:active:set-gain!’ now
+    return and accept, respectively, a symbol, one of: ‘gained’ or
+    ‘lost’.
 
-	The procs ‘event:active:gain’ and ‘event:active:set-gain!’ now
-	return and accept, respectively, a list of symbols from the same
-	set as ‘get-app-state’ (above).
+    The procs ‘event:active:gain’ and ‘event:active:set-gain!’ now
+    return and accept, respectively, a list of symbols from the same
+    set as ‘get-app-state’ (above).
 
   - [BI] key/mbutton/jbutton state fully symbolic
 
-	These getter and setter procs:
+    These getter and setter procs:
 
-	 event:key:state      event:key:set-state!
-	 event:button:state   event:button:set-state!
-	 event:jbutton:state  event:jbutton:set-state!
+     event:key:state      event:key:set-state!
+     event:button:state   event:button:set-state!
+     event:jbutton:state  event:jbutton:set-state!
 
-	now return and accept, respectively, a symbolic state, one of:
-	‘released’ or ‘pressed’.  Likewise for ‘joystick-get-button’.
+    now return and accept, respectively, a symbolic state, one of:
+    ‘released’ or ‘pressed’.  Likewise for ‘joystick-get-button’.
 
   - [BI] ‘(sdl sdl) joystick-event-state’ fully symbolic
 
-	This proc now takes and returns a single symbol of the set:
-	‘SDL_QUERY’, ‘SDL_IGNORE’, ‘SDL_ENABLE’.
+    This proc now takes and returns a single symbol of the set:
+    ‘SDL_QUERY’, ‘SDL_IGNORE’, ‘SDL_ENABLE’.
 
   - [BI] joystick hat position fully symbolic
 
-	The procs ‘event:jhat:value’ and ‘event:jhat:set-value!’ now
-	return and accept, respectively, a list of one or two symbols
-	from the set: ‘centered’, ‘up’, ‘right’, ‘down’, ‘left’.  The
-	four two-symbol cases are permutations of the vertical and
-	horizontal symbols.
+    The procs ‘event:jhat:value’ and ‘event:jhat:set-value!’ now
+    return and accept, respectively, a list of one or two symbols
+    from the set: ‘centered’, ‘up’, ‘right’, ‘down’, ‘left’.  The
+    four two-symbol cases are permutations of the vertical and
+    horizontal symbols.
 
   - [BI] procs signal error if cdrom/joystick not open
 
-	These ‘(sdl sdl)’ procs used to return -1 or ‘#f’ (i.e., a
-	nonsense value) if given a cdrom or joystick object that has
-	been ‘cd-close’d or ‘joystick-close’d, respectively:
+    These ‘(sdl sdl)’ procs used to return -1 or ‘#f’ (i.e., a
+    nonsense value) if given a cdrom or joystick object that has
+    been ‘cd-close’d or ‘joystick-close’d, respectively:
 
-	 cd-status             joystick-index
-	 cd-in-drive?          joystick-num-axes
-	 cd-get-num-tracks     joystick-num-balls
-	 cd-get-cur-track      joystick-num-hats
-	 cd-get-cur-frame      joystick-num-buttons
-	 cd-get-nth-track      joystick-get-axis
-	 cd-play-tracks        joystick-get-ball
-	 cd-play               joystick-get-hat
-	 cd-pause              joystick-get-button
-	 cd-resume             joystick-close
-	 cd-stop
-	 cd-eject
-	 cd-close
+     cd-status             joystick-index
+     cd-in-drive?          joystick-num-axes
+     cd-get-num-tracks     joystick-num-balls
+     cd-get-cur-track      joystick-num-hats
+     cd-get-cur-frame      joystick-num-buttons
+     cd-get-nth-track      joystick-get-axis
+     cd-play-tracks        joystick-get-ball
+     cd-play               joystick-get-hat
+     cd-pause              joystick-get-button
+     cd-resume             joystick-close
+     cd-stop
+     cd-eject
+     cd-close
 
-	Now they signal "cdrom not open" or "joystick not open"
-	error, respectively.
+    Now they signal "cdrom not open" or "joystick not open"
+    error, respectively.
 
   - [BI] fading-status symbols for ‘(sdl mixer)’ procs changed
 
-	Here is a table showing the previous and current set of possible
-	return values (symbols) for ‘fading-music’ and ‘fading-channel’:
+    Here is a table showing the previous and current set of possible
+    return values (symbols) for ‘fading-music’ and ‘fading-channel’:
 
-	 was: MIX_NO_FADING         now: no
-	      MIX_FADING_OUT             out
-	      MIX_FADING_IN              in
+     was: MIX_NO_FADING         now: no
+          MIX_FADING_OUT             out
+          MIX_FADING_IN              in
 
   - ‘(sdl mixer) fading-status’ dropped
 
-	This enumstash is no longer useful due to the previous change.
-	(The one that holds the new set of symbols is internal.)
+    This enumstash is no longer useful due to the previous change.
+    (The one that holds the new set of symbols is internal.)
 
   - ‘(sdl gfx) font-rotation!’ accepts also integer
 
-	You can specify an integer as well as symbolic ROTATION:
+    You can specify an integer as well as symbolic ROTATION:
 
-	 0  means  none
-	 1  	   clockwise
-	 2  	   upside-down
-	 3  	   counter-clockwise
+     0  means  none
+     1         clockwise
+     2         upside-down
+     3         counter-clockwise
 
-	The behavior w/ other integers is undefined.
+    The behavior w/ other integers is undefined.
 
   - colormap procs accept ‘start’ index
 
-	Previously, ‘set-colors!’ and ‘set-palette’ always modified the
-	colormap starting from index 0.  Now, you can completely specify
-	the portion to modify with additional optional arg ‘start’.
+    Previously, ‘set-colors!’ and ‘set-palette’ always modified the
+    colormap starting from index 0.  Now, you can completely specify
+    the portion to modify with additional optional arg ‘start’.
 
   - new procs returning values
 
-	Here are the multiple-values-returning replacement procs for
-	those that return an alist (see "planned retirement" above):
+    Here are the multiple-values-returning replacement procs for
+    those that return an alist (see "planned retirement" above):
 
-	 (sdl sdl) cd-nth-track-itlo
-	 (sdl sdl) frames-msf
-	 (sdl sdl) joystick-ball-xy
-	 (sdl mixer) device-ffc
-	 (sdl ttf) font:glyph-xXyYa
-	 (sdl ttf) text-wh
-	 (sdl ttf) utf8-wh
-	 (sdl sdl) video-cmf
-	 (sdl sdl) pixel-rgb
-	 (sdl sdl) pixel-rgba
-	 (sdl sdl) caption-ti
-	 (sdl sdl) mouse-bxy (for both get-mouse-state
-	                          and get-mouse-relative-state)
+     (sdl sdl) cd-nth-track-itlo
+     (sdl sdl) frames-msf
+     (sdl sdl) joystick-ball-xy
+     (sdl mixer) device-ffc
+     (sdl ttf) font:glyph-xXyYa
+     (sdl ttf) text-wh
+     (sdl ttf) utf8-wh
+     (sdl sdl) video-cmf
+     (sdl sdl) pixel-rgb
+     (sdl sdl) pixel-rgba
+     (sdl sdl) caption-ti
+     (sdl sdl) mouse-bxy (for both get-mouse-state
+                              and get-mouse-relative-state)
 
-	The names depart from the scheme used by their peers (which is
-	less than beautiful, but so it goes...); the last component is a
-	mnemonic for both the number of values and the values' names.
-	For example: "-wh" implies two values: width and height.
+    The names depart from the scheme used by their peers (which is
+    less than beautiful, but so it goes...); the last component is a
+    mnemonic for both the number of values and the values' names.
+    For example: "-wh" implies two values: width and height.
 
-	For the most part, when the alist returned by the old proc has N
-	entries, the new proc returns N values.  The unique exception is
-	‘video-cmf’, which compresses the nine separate boolean-value
-	entries into a single list of symbols.  See manual.
+    For the most part, when the alist returned by the old proc has N
+    entries, the new proc returns N values.  The unique exception is
+    ‘video-cmf’, which compresses the nine separate boolean-value
+    entries into a single list of symbols.  See manual.
 
-	Some old procs return ‘#f’ if there are problems, rather than an
-	alist.  The new ones signal error, instead.
+    Some old procs return ‘#f’ if there are problems, rather than an
+    alist.  The new ones signal error, instead.
 
-	Lastly, ‘mouse-bxy’ cosolidates two procs.  When all is done
-	(after 2013-12-31), the net change is API shrinkage, yeah!
+    Lastly, ‘mouse-bxy’ cosolidates two procs.  When all is done
+    (after 2013-12-31), the net change is API shrinkage, yeah!
 
   - new event model procs
 
-	The new ‘(sdl sdl)’ procs ‘event-type-handling’ and
-	‘joystick-polling’ query only, by default.  If optional arg
-	SETTING is specified, its truth value is used to enable or
-	disable event TYPE processing and joystick polling,
-	respectively.
+    The new ‘(sdl sdl)’ procs ‘event-type-handling’ and
+    ‘joystick-polling’ query only, by default.  If optional arg
+    SETTING is specified, its truth value is used to enable or
+    disable event TYPE processing and joystick polling,
+    respectively.
 
-	These procs obsolete ‘event-state’ and ‘joystick-event-state’,
-	respectively.
+    These procs obsolete ‘event-state’ and ‘joystick-event-state’,
+    respectively.
 
   - new proc: ‘(sdl sdl) surface-alpha!’
 
-	This obsoletes ‘(sdl sdl) set-alpha!’.
+    This obsoletes ‘(sdl sdl) set-alpha!’.
 
   - new proc: ‘(sdl sdl) surface-color-key!’
 
-	This obsoletes ‘(sdl sdl) set-color-key!’.
+    This obsoletes ‘(sdl sdl) set-color-key!’.
 
   - new keysyms
 
-	The count of keysyms grew by 98 (was 133 now 231).  New:
+    The count of keysyms grew by 98 (was 133 now 231).  New:
 
-	 SDLK_WORLD_0 through SDLK_WORLD_95 (total 96)
-	 SDLK_COMPOSE
-	 SDLK_UNDO
+     SDLK_WORLD_0 through SDLK_WORLD_95 (total 96)
+     SDLK_COMPOSE
+     SDLK_UNDO
 
   - new event queue procs
 
-	The new ‘(sdl sdl)’ procs ‘evqueue-add’, ‘evqueue-peek’ and
-	‘evqueue-get’ provide rationalized interfaces to the underlying
-	‘SDL_PeepEvents’ (i.e., ‘peep-events’, thus obsoleted).  New
-	feature: ‘evqueue-peek’ can return either a list of matching
-	events or a count of them.
+    The new ‘(sdl sdl)’ procs ‘evqueue-add’, ‘evqueue-peek’ and
+    ‘evqueue-get’ provide rationalized interfaces to the underlying
+    ‘SDL_PeepEvents’ (i.e., ‘peep-events’, thus obsoleted).  New
+    feature: ‘evqueue-peek’ can return either a list of matching
+    events or a count of them.
 
   - new proc: ‘(sdl sdl) kotk’
 
-	This is the "keeper of the konstants", which provides a
-	simplified (yet more complete) reflection, obsoleting
-	‘enumstash-enums’ and ‘flagstash-flags’.
+    This is the "keeper of the konstants", which provides a
+    simplified (yet more complete) reflection, obsoleting
+    ‘enumstash-enums’ and ‘flagstash-flags’.
 
   - [BI] conversion procs take stash name
 
-	These procs now accept a stash name (symbol) as their first arg:
+    These procs now accept a stash name (symbol) as their first arg:
 
-	 enum->number
-	 number->enum
-	 flags->number
-	 number->flags
+     enum->number
+     number->enum
+     flags->number
+     number->flags
 
-	You can use ‘(sdl sdl) kotr’ to get a list of stash names.
+    You can use ‘(sdl sdl) kotr’ to get a list of stash names.
 
   - [BI] stash objects dropped
 
-	These elements are now recognized as better maintained internal
-	(as an implementation detail) than exposed to Scheme:
+    These elements are now recognized as better maintained internal
+    (as an implementation detail) than exposed to Scheme:
 
-	 enumstash: (sdl sdl) event-types
-	 enumstash: (sdl sdl) event-keys
-	 enumstash: (sdl sdl) event-states
-	 enumstash: (sdl sdl) alpha-enums
-	 enumstash: (sdl gfx) font-rotations
+     enumstash: (sdl sdl) event-types
+     enumstash: (sdl sdl) event-keys
+     enumstash: (sdl sdl) event-states
+     enumstash: (sdl sdl) alpha-enums
+     enumstash: (sdl gfx) font-rotations
 
-	 proc: (sdl sdl) flagstash:init
-	 proc: (sdl sdl) flagstash:event-mod
-	 proc: (sdl sdl) flagstash:event-mask
-	 proc: (sdl sdl) flagstash:video
-	 proc: (sdl sdl) flagstash:palette
-	 proc: (sdl sdl) flagstash:overlay
-	 proc: (sdl ttf) flagstash:ttf
+     proc: (sdl sdl) flagstash:init
+     proc: (sdl sdl) flagstash:event-mod
+     proc: (sdl sdl) flagstash:event-mask
+     proc: (sdl sdl) flagstash:video
+     proc: (sdl sdl) flagstash:palette
+     proc: (sdl sdl) flagstash:overlay
+     proc: (sdl ttf) flagstash:ttf
 
-	Luckily, there is no loss of introspection; see "conversion
-	procs take stash name" above.  Where you previously used a
-	stash object, you can use its name, instead.  Be aware, though,
-	that these (old) names and the (new) symbolic names have only a
-	passing resemblance.  See "all stashes documented" below.
+    Luckily, there is no loss of introspection; see "conversion
+    procs take stash name" above.  Where you previously used a
+    stash object, you can use its name, instead.  Be aware, though,
+    that these (old) names and the (new) symbolic names have only a
+    passing resemblance.  See "all stashes documented" below.
 
   - ‘#t’ means "full set" for flags
 
-	Previously, to get the aggregate (logior) value a flagstash,
-	you had to do something like:
+    Previously, to get the aggregate (logior) value a flagstash,
+    you had to do something like:
 
-	 (define FS (flagstash:event-mask))
-	 (flags->number FS (flagstash-flags FS))
-	 => 212990 (#x33ffe)
+     (define FS (flagstash:event-mask))
+     (flags->number FS (flagstash-flags FS))
+     => 212990 (#x33ffe)
 
-	Now, you can use use ‘#t’ wherever you would have previously
-	used ‘(flagstash-flags FLAGSTASH)’, to simplify things a bit:
+    Now, you can use use ‘#t’ wherever you would have previously
+    used ‘(flagstash-flags FLAGSTASH)’, to simplify things a bit:
 
-	 (flags->number 'event-mask #t)
-	 => 212990 (#x33ffe)
+     (flags->number 'event-mask #t)
+     => 212990 (#x33ffe)
 
-	Note that this example uses the symbol ‘event-mask’ instead of
-	‘flagstash:event-mask’, which is no longer available (see
-	"conversion procs take stash name" and "stash objects dropped"
-	above).  This "‘#t’ means full set" feature is also available
-	for any proc that takes flags, not just ‘flags->number’.  E.g.:
+    Note that this example uses the symbol ‘event-mask’ instead of
+    ‘flagstash:event-mask’, which is no longer available (see
+    "conversion procs take stash name" and "stash objects dropped"
+    above).  This "‘#t’ means full set" feature is also available
+    for any proc that takes flags, not just ‘flags->number’.  E.g.:
 
-	 (evqueue-peek 99 #t)
+     (evqueue-peek 99 #t)
 
-	returns the count (<= 99) of events in the queue, matching
-	against all of them.
+    returns the count (<= 99) of events in the queue, matching
+    against all of them.
 
   - [BI] ‘(sdl sdl) enumstash-enums’ dropped
   - [BI] ‘(sdl sdl) flagstash-flags’ dropped
 
-	These are underpowered and obsoleted by ‘kotk’ (see above).
+    These are underpowered and obsoleted by ‘kotk’ (see above).
 
   - [BI] enums / flags names decluttered
 
-	Several enumstashes / flagstashes have undergone name
-	decluttering, basically removal of common prefix/suffix,
-	conversion of ‘_’ (underscore) to ‘-’ (hyphen), and other simple
-	transforms to make the symbols blend better with ambiant Scheme.
-	Here is an approximate summary:
+    Several enumstashes / flagstashes have undergone name
+    decluttering, basically removal of common prefix/suffix,
+    conversion of ‘_’ (underscore) to ‘-’ (hyphen), and other simple
+    transforms to make the symbols blend better with ambiant Scheme.
+    Here is an approximate summary:
 
-	 overlay            s/^SDL_//; s/_OVERLAY$//
-	 font-style         s/^TTF_STYLE_//; downcase
-	 palette            s/^SDL_//; s/PAL$/ical/; downcase
-	 keyboard-modifier  s/^KMOD_//; s/^[LR]/\1-/; downcase rest
-	 init               s/^SDL_INIT_//; downcase; add hyphens
-	 event-mask         s/^SDL_//; s/MASK$//; downcase; add hyphens
-	 event-type         s/^SDL_//; downcase; add hyphens
-	 cdrom-state        downcase; add hyphens
-	 video              s/^SDL_//; downcase; add hyphens
-	 keysym             s/^SDLK_//; downcase; add hyphens; etc
-	                    (former name: ‘(sdl sdl) event-keys’)
+     overlay            s/^SDL_//; s/_OVERLAY$//
+     font-style         s/^TTF_STYLE_//; downcase
+     palette            s/^SDL_//; s/PAL$/ical/; downcase
+     keyboard-modifier  s/^KMOD_//; s/^[LR]/\1-/; downcase rest
+     init               s/^SDL_INIT_//; downcase; add hyphens
+     event-mask         s/^SDL_//; s/MASK$//; downcase; add hyphens
+     event-type         s/^SDL_//; downcase; add hyphens
+     cdrom-state        downcase; add hyphens
+     video              s/^SDL_//; downcase; add hyphens
+     keysym             s/^SDLK_//; downcase; add hyphens; etc
+                        (former name: ‘(sdl sdl) event-keys’)
 
-	To ameliorate the pain (somewhat) of tracking these changes in
-	existing code, "make install" also copies to $(pkgdatadir)/0.5 a
-	set of corresponding sed scripts.  See ugh/README.
+    To ameliorate the pain (somewhat) of tracking these changes in
+    existing code, "make install" also copies to $(pkgdatadir)/0.5 a
+    set of corresponding sed scripts.  See ugh/README.
 
-	See also "all stashes documented" below.
+    See also "all stashes documented" below.
 
   - new proc: ‘(sdl sdl) surface-pixels’
 
-	This returns a uniform vector (type u8, u16, u32) of the pixel
-	data for SURFACE, or u8 unconditionally if optional arg SQUASH
-	is non-‘#f’.
+    This returns a uniform vector (type u8, u16, u32) of the pixel
+    data for SURFACE, or u8 unconditionally if optional arg SQUASH
+    is non-‘#f’.
 
   - changes to "make check"
 
     - leak test run unconditionally
 
-	It's not very accurate and adds a few seconds to "make check",
-	but OTOH it's better to notice any weirdness earlier than later.
-	Note that for Guile 2.x, this test is still skipped anyway.
+      It's not very accurate and adds a few seconds to "make check",
+      but OTOH it's better to notice any weirdness earlier than later.
+      Note that for Guile 2.x, this test is still skipped anyway.
 
     - ‘DEBUG=1’ less influential
 
-	Previously, that option enabled certain informative output as
-	well as arranging for "guile --debug" and so forth.  Now, output
-	gating is affected solely by ‘VERBOSE=1’.
+      Previously, that option enabled certain informative output as
+      well as arranging for "guile --debug" and so forth.  Now, output
+      gating is affected solely by ‘VERBOSE=1’.
 
     - new option ‘OGGPLAYER=COMMAND’
 
-	The mixer test (which also requires ‘INTERACTIVE=1’, btw) now
-	consults env var ‘OGGPLAYER’ as well for testing external player
-	support.  See README.
+      The mixer test (which also requires ‘INTERACTIVE=1’, btw) now
+      consults env var ‘OGGPLAYER’ as well for testing external player
+      support.  See README.
 
     - improved coverage and performance
 
-	The count of slighted procs is now 60 (see test/t99-cov).
+      The count of slighted procs is now 60 (see test/t99-cov).
 
-	Additionally, to appease the impatient, the tests run quicker
-	now, in some cases due to reduced iteration counts or pause
-	times, in some cases due to better-matched screen and (working)
-	surface bit depths.  If your system supports MMX, this speed-up
-	is most dramatic for test/gfx.scm (see also var ‘DEPTH’).
+      Additionally, to appease the impatient, the tests run quicker
+      now, in some cases due to reduced iteration counts or pause
+      times, in some cases due to better-matched screen and (working)
+      surface bit depths.  If your system supports MMX, this speed-up
+      is most dramatic for test/gfx.scm (see also var ‘DEPTH’).
 
   - all stashes documented
 
-	Appendix A documents all the stashes, describing their name, the
-	count of symbols they hold, their disposition (either ‘enums’ or
-	‘flags’), and the symbols themselves.
+    Appendix A documents all the stashes, describing their name, the
+    count of symbols they hold, their disposition (either ‘enums’ or
+    ‘flags’), and the symbols themselves.
 
   - bootstrap tools upgraded
     - GNU Automake 1.13.4
@@ -595,32 +595,32 @@ See the end for copying conditions.
 
   - distribution now also .tar.lz
 
-	If you have GNU tar, you can use "tar xf" and it will DTRT.
-	If not, you can use "lzip -dc TARBALL | tar xf -" to unpack.
+    If you have GNU tar, you can use "tar xf" and it will DTRT.
+    If not, you can use "lzip -dc TARBALL | tar xf -" to unpack.
 
   - new support for configure var ‘IMFI_CFLAGS’
 
-	If your cpu supports MMX extensions but your compiler mishandles
-	the assembly in the imagefilter functions (causing a segfault),
-	you can use configure command-line var ‘IMFI_CFLAGS’ to try to
-	work around the problem.  For example, invoking like so:
+    If your cpu supports MMX extensions but your compiler mishandles
+    the assembly in the imagefilter functions (causing a segfault),
+    you can use configure command-line var ‘IMFI_CFLAGS’ to try to
+    work around the problem.  For example, invoking like so:
 
-	$ ./configure         \
-	    CFLAGS='-g -O3'   \
-	    IMFI_CFLAGS='-O1'
+    $ ./configure         \
+        CFLAGS='-g -O3'   \
+        IMFI_CFLAGS='-O1'
 
-	arranges to pass ‘-g -O3 -O1’ to the compiler, which should set
-	the optimization level to one (later option overrides).  Like
-	‘CFLAGS’, this var is marked "special" and remembered for
-	subsequent config.status invocations.
+    arranges to pass ‘-g -O3 -O1’ to the compiler, which should set
+    the optimization level to one (later option overrides).  Like
+    ‘CFLAGS’, this var is marked "special" and remembered for
+    subsequent config.status invocations.
 
-	FWIW, this works for GCC 4.4 on a 32-bit x86 Debian system; no
-	more need for "make check NOMMX=1" here!
+    FWIW, this works for GCC 4.4 on a 32-bit x86 Debian system; no
+    more need for "make check NOMMX=1" here!
 
   - tested w/ Unofficial Guile 1.4.1.127, Guile 1.8.7, Guile 2.0.7
 
-	Under Guile 2, "make check DEBUG=1" skips the leak test because
-	Guile 2 does not track deallocations.
+    Under Guile 2, "make check DEBUG=1" skips the leak test because
+    Guile 2 does not track deallocations.
 
   - bootstrap tools upgraded
     - GNU Automake 1.13.1
@@ -633,23 +633,23 @@ See the end for copying conditions.
 
   - distribution now .tar.xz
 
-	If you have GNU tar, you can use "tar xf" and it will DTRT.
-	If not, you can use "xz -dc TARBALL | tar xf -" to unpack.
+    If you have GNU tar, you can use "tar xf" and it will DTRT.
+    If not, you can use "xz -dc TARBALL | tar xf -" to unpack.
 
   - integer arg no longer accepted for ‘grab-input’
 
-	This was pre-announced in Guile-SDL 0.4.0 (2011-12-15) NEWS.
+    This was pre-announced in Guile-SDL 0.4.0 (2011-12-15) NEWS.
 
   - bugfix: ‘font:glyph-metrics’ Scheme char to C char conversion
 
-	The bug, introduced 2003-11-09, manifested as a mysterious
-	(expecting integer) wrong-type-arg error.  Now fixed, with test.
-	(The test is pretty lame, admittedly.)
+    The bug, introduced 2003-11-09, manifested as a mysterious
+    (expecting integer) wrong-type-arg error.  Now fixed, with test.
+    (The test is pretty lame, admittedly.)
 
   - improved portability
 
-	Tested w/ Guile 2.0.6, 1.8.7, 1.4.1.127.  Apparently 2.0.6
-	sneers at ‘apply-to-args’; wave goodbye to another old friend.
+    Tested w/ Guile 2.0.6, 1.8.7, 1.4.1.127.  Apparently 2.0.6
+    sneers at ‘apply-to-args’; wave goodbye to another old friend.
 
   - bootstrap tools upgrade
     - GNU Autoconf 2.69
@@ -662,259 +662,259 @@ See the end for copying conditions.
 
   - improved portability
 
-	Guile-SDL is now also tested with Guile-1.8.7 on a 64-bit host.
-	It should build and run without any deprecation warnings; if use
-	under ‘GUILE_WARN_DEPRECATED=detailed’ reveals something, please
-	report that as a bug.
+    Guile-SDL is now also tested with Guile-1.8.7 on a 64-bit host.
+    It should build and run without any deprecation warnings; if use
+    under ‘GUILE_WARN_DEPRECATED=detailed’ reveals something, please
+    report that as a bug.
 
-	Notably, for Guile versions that do not support "direct shared-
-	object loading" (i.e., Guile 1.8+), configuration arranges for a
-	module's sofile to be installed in $(libdir)/guile-sdl -- aka
-	$(pkglibdir) -- and its Scheme wrapper (that dynamically loads
-	the sofile and handles ‘define-module’ duties) to be installed in
-	the "normal" site directory.
+    Notably, for Guile versions that do not support "direct shared-
+    object loading" (i.e., Guile 1.8+), configuration arranges for a
+    module's sofile to be installed in $(libdir)/guile-sdl -- aka
+    $(pkglibdir) -- and its Scheme wrapper (that dynamically loads
+    the sofile and handles ‘define-module’ duties) to be installed in
+    the "normal" site directory.
 
-	See new file HACKING for details.
+    See new file HACKING for details.
 
   - validation
 
     - use Free{SansBold,SerifBoldItalic}.ttf for testing
 
-	The testing (distributed but not installed) font files are now
-	FreeSansBold.ttf and FreeSerifBoldItalic.ttf (see AUTHORS).  The
-	file crystal.ttf is no longer included due to doubts about its
-	lineage and licensing.
+      The testing (distributed but not installed) font files are now
+      FreeSansBold.ttf and FreeSerifBoldItalic.ttf (see AUTHORS).  The
+      file crystal.ttf is no longer included due to doubts about its
+      lineage and licensing.
 
     - support for ‘VERBOSE=1’
 
-	By default, "make check" is relatively silent.  You can use
-	"make check VERBOSE=1" to see more information.
+      By default, "make check" is relatively silent.  You can use
+      "make check VERBOSE=1" to see more information.
 
     - support for ‘NOMMX=1’
 
-	You can disable MMX usage dynamically with "make check NOMMX=1".
-	This might be necessary if test/gfx.scm segfaults.  :-/
+      You can disable MMX usage dynamically with "make check NOMMX=1".
+      This might be necessary if test/gfx.scm segfaults.  :-/
 
     - infrastructure upgrade
 
-	Doing "make check" now prepares a "simulated installation"
-	(under test/.simu) for better approximation to a real-world,
-	post-install environment.  It is an approximation only because
-	documentation is not included.
+      Doing "make check" now prepares a "simulated installation"
+      (under test/.simu) for better approximation to a real-world,
+      post-install environment.  It is an approximation only because
+      documentation is not included.
 
-	Tests are now run by a driver program which DTRT, we hope.
-	Also, they have full access to Guile-BAUX modules.
+      Tests are now run by a driver program which DTRT, we hope.
+      Also, they have full access to Guile-BAUX modules.
 
     - support for "make installcheck"
 
-	(You need to "make install" first!)  Since ‘installcheck’
-	piggybacks on ‘check’, it honors ‘INTERACTIVE=1’, etc.
+      (You need to "make install" first!)  Since ‘installcheck’
+      piggybacks on ‘check’, it honors ‘INTERACTIVE=1’, etc.
 
     - tests delay less
 
-	This makes running "make check" less weary for the impatient.
+      This makes running "make check" less weary for the impatient.
 
     - tests explicitly ‘exit’
 
-	Moreover, the exit value is taken from the ‘(sdl sdl) quit’
-	return value.  This helps detect problems earlier.
+      Moreover, the exit value is taken from the ‘(sdl sdl) quit’
+      return value.  This helps detect problems earlier.
 
     - different ‘#:prefix’ for each module
 
-	Previously, some tests would use the same import-prefix for
-	different modules.  Now they are distinct, for clarity.
+      Previously, some tests would use the same import-prefix for
+      different modules.  Now they are distinct, for clarity.
 
     - cursor test ignores ‘INTERACTIVE=1’
 
-	There was really no good reason for it to honor ‘INTERACTIVE=1’
-	in the first place.
+      There was really no good reason for it to honor ‘INTERACTIVE=1’
+      in the first place.
 
     - better coverage, though still incomplete
 
-	The test suite now includes ‘t99-cov’, marked as ‘xfail’.
-	There are still 189 "slighted" procedures.
+      The test suite now includes ‘t99-cov’, marked as ‘xfail’.
+      There are still 189 "slighted" procedures.
 
   - planned retirement: integer arg for ‘grab-input’
 
-	Support for integer ‘mode’ to proc ‘(sdl sdl) grab-input’ WILL BE
-	REMOVED after 2012-05-31, such that an integer ‘mode’ will result
-	in a ‘wrong-type-arg’ error.
+    Support for integer ‘mode’ to proc ‘(sdl sdl) grab-input’ WILL BE
+    REMOVED after 2012-05-31, such that an integer ‘mode’ will result
+    in a ‘wrong-type-arg’ error.
 
-	Migration is straightforward; use a symbol instead of an integer.
-	was: -1     now: query
-	      0          off
-	      1          on
+    Migration is straightforward; use a symbol instead of an integer.
+    was: -1     now: query
+          0          off
+          1          on
 
   - planned retirement: ordinary vector argument(s)
 
-	Some procedures now take uniform vector arguments (see below).
-	For backward compatability with Guile-SDL 0.3.10 and earlier,
-	you can also use an ordinary vector.  This is expensive and less
-	safe, however, so this support WILL BE REMOVED after 2012-12-31.
+    Some procedures now take uniform vector arguments (see below).
+    For backward compatability with Guile-SDL 0.3.10 and earlier,
+    you can also use an ordinary vector.  This is expensive and less
+    safe, however, so this support WILL BE REMOVED after 2012-12-31.
 
-	Luckily, migration is simple: Import module ‘(srfi srfi-4)’ and
-	replace ‘list->vector’ with ‘list->u16vector’, and so on.
+    Luckily, migration is simple: Import module ‘(srfi srfi-4)’ and
+    replace ‘list->vector’ with ‘list->u16vector’, and so on.
 
   - bugfixes
 
-	Backward-incompatible changes are marked with "[I]".
+    Backward-incompatible changes are marked with "[I]".
 
     - distribute ‘SDL_gfx’ LICENSE
 
-	I.e., the GNU LGPL 2.1.
+      I.e., the GNU LGPL 2.1.
 
     - no MMX support if not in "32-bit mode"
 
-	The MMX support (in SDL_gfx) was previously enabled for any
-	processor that reported support for it.  However, the code
-	itself makes use of instructions (e.g., PUSHA, POPA) that are
-	not available in 64-bit mode, so we now don't even bother
-	checking for MMX support for 64-bit processors.
+      The MMX support (in SDL_gfx) was previously enabled for any
+      processor that reported support for it.  However, the code
+      itself makes use of instructions (e.g., PUSHA, POPA) that are
+      not available in 64-bit mode, so we now don't even bother
+      checking for MMX support for 64-bit processors.
 
     - [I] flags are symbols
 
-	Previously the following procs returned a (possibly empty) list
-	of strings.  Now, they return a (possibly empty) list of symbols.
+      Previously the following procs returned a (possibly empty) list
+      of strings.  Now, they return a (possibly empty) list of symbols.
 
-	- (sdl sdl) flagstash-flags
-	- (sdl sdl) number->flags
-	- (sdl sdl) was-init
-	- (sdl sdl) get-mod-state
-	- (sdl sdl) event:key:keysym:mod
-	- (sdl ttf) font:style
+      - (sdl sdl) flagstash-flags
+      - (sdl sdl) number->flags
+      - (sdl sdl) was-init
+      - (sdl sdl) get-mod-state
+      - (sdl sdl) event:key:keysym:mod
+      - (sdl ttf) font:style
 
     - exact bitwise match required in ‘ulong2flags’
 
-	This func, a subroutine of the procs listed above in entry
-	"flags are symbols" (except for ‘flagstash-flags’), used to
-	include a flag in the returned list if any of its constituent
-	bits were set in the original number.  Now, it requires all set
-	bits to match as a condition for inclusion.
+      This func, a subroutine of the procs listed above in entry
+      "flags are symbols" (except for ‘flagstash-flags’), used to
+      include a flag in the returned list if any of its constituent
+      bits were set in the original number.  Now, it requires all set
+      bits to match as a condition for inclusion.
 
     - correct proc name for wrong-type-arg error message
 
-	The following procs used to mis-identify themselves (as another)
-	in the ‘wrong-type-arg’ error message:
+      The following procs used to mis-identify themselves (as another)
+      in the ‘wrong-type-arg’ error message:
 
-	- (sdl mixer) paused?
-	- (sdl sdl) load-image
-	- (sdl sdl) set-gamma-ramp
+      - (sdl mixer) paused?
+      - (sdl sdl) load-image
+      - (sdl sdl) set-gamma-ramp
 
     - allocate enough memory for temp ‘SDL_Color’ array
 
-	Procs ‘set-colors!’ and ‘set-palette’ used to corrupt memory by
-	underallocating a temporary ‘SDL_Color’ array, then overfilling
-	it.  Now, they allocate the right amount.
+      Procs ‘set-colors!’ and ‘set-palette’ used to corrupt memory by
+      underallocating a temporary ‘SDL_Color’ array, then overfilling
+      it.  Now, they allocate the right amount.
 
     - avoid ‘SDL_Surface’ double-free
 
-	Previously, both ‘get-video-surface’ and ‘set-video-mode’ would
-	return a smob whose free func would call ‘SDL_FreeSurface’ on
-	the unpacked ‘SDL_Surface’ object.  This is incorrect because
-	those objects are internal (and moreover currently in use),
-	rather than freshly constructed for hand-off to the user; the
-	smob free func should not call ‘SDL_FreeSurface’ on them.  That
-	is the job for the internal cleanup invoked by ‘(sdl sdl) quit’.
+      Previously, both ‘get-video-surface’ and ‘set-video-mode’ would
+      return a smob whose free func would call ‘SDL_FreeSurface’ on
+      the unpacked ‘SDL_Surface’ object.  This is incorrect because
+      those objects are internal (and moreover currently in use),
+      rather than freshly constructed for hand-off to the user; the
+      smob free func should not call ‘SDL_FreeSurface’ on them.  That
+      is the job for the internal cleanup invoked by ‘(sdl sdl) quit’.
 
-	Now, the ‘SDL-Surface’ smob distinguishes between user and
-	internal, and its free func calls ‘SDL_FreeSurface’ only for
-	user objects.
+      Now, the ‘SDL-Surface’ smob distinguishes between user and
+      internal, and its free func calls ‘SDL_FreeSurface’ only for
+      user objects.
 
     - ‘(sdl sdl) get-caption’ handles ‘NULL’ title, icon
 
-	This used to segfault on ‘NULL’ title or icon.
+      This used to segfault on ‘NULL’ title or icon.
 
   - other changes
 
-	Backward-incompatible changes are marked with "[I]".  For procs
-	that now take uniform vectors, see also the "planned retirement"
-	NEWS entry above.
+    Backward-incompatible changes are marked with "[I]".  For procs
+    that now take uniform vectors, see also the "planned retirement"
+    NEWS entry above.
 
     - [I] arg type-check tightened from ‘exact?’ to ‘integer?’
 
-	Procs that used to accept exact numbers now accept integers
-	only.  This basically means rational numbers are now invalid.
-	Observant tarball-perusers will note that the modules and tests
-	no longer use ‘quotient’.
+      Procs that used to accept exact numbers now accept integers
+      only.  This basically means rational numbers are now invalid.
+      Observant tarball-perusers will note that the modules and tests
+      no longer use ‘quotient’.
 
     - ‘(sdl gfx) imfi-mmx?’ now able to set MMX usage
 
-	This now takes an optional arg ‘setting’ for en-/dis-abling MMX
-	usage at runtime.
+      This now takes an optional arg ‘setting’ for en-/dis-abling MMX
+      usage at runtime.
 
     - embedded ‘SDL_gfx’ upgraded to 2.0.22
 
-	Unfortunately, some MMX-backed procs now routinely segfault.
-	(More unfortunately, the segfault has not been investigated, and
-	was in fact the motivation for extending ‘imfi-mmx?’, as a "make
-	check" workaround.  Masking bugs via feature creep: suboptimal.)
+      Unfortunately, some MMX-backed procs now routinely segfault.
+      (More unfortunately, the segfault has not been investigated, and
+      was in fact the motivation for extending ‘imfi-mmx?’, as a "make
+      check" workaround.  Masking bugs via feature creep: suboptimal.)
 
     - new proc: ‘(sdl gfx) draw-rounded-rectangle’
 
-	This draws a rectangle with rounded corners of specified radius.
+      This draws a rectangle with rounded corners of specified radius.
 
     - new proc: ‘(sdl gfx) draw-thick-line’
 
-	This draws a line of specified thickness (in pixels).
+      This draws a line of specified thickness (in pixels).
 
     - new proc: ‘(sdl gfx) font-rotation!’
 
-	This causes subsequent ‘draw-character’ and ‘draw-string’ calls
-	to render rotated images.  The symbolic specified rotation is
-	one of ‘none’, ‘clockwise’, ‘counter-clockwise’, ‘upside-down’.
+      This causes subsequent ‘draw-character’ and ‘draw-string’ calls
+      to render rotated images.  The symbolic specified rotation is
+      one of ‘none’, ‘clockwise’, ‘counter-clockwise’, ‘upside-down’.
 
     - new enumstash: ‘(sdl gfx) font-rotations’
 
-	This is for ‘font-rotation!’ support.
+      This is for ‘font-rotation!’ support.
 
     - new proc: ‘(sdl misc-utils) exact-truncate’
 
-	This is nothing but ‘(inexact->exact (truncate n))’ plus
-	documentation, support and the special glow from association
-	with other Guile-SDL procs. :-D
+      This is nothing but ‘(inexact->exact (truncate n))’ plus
+      documentation, support and the special glow from association
+      with other Guile-SDL procs. :-D
 
     - ‘#:prefix’ used for import renaming
 
-	All ‘#:renamer’ uses were coincident with ‘symbol-prefix-proc’,
-	so these have been replaced with ‘#:prefix’.  [Insert blurb
-	about ‘symbol-prefix-proc’ regret, here.]
+      All ‘#:renamer’ uses were coincident with ‘symbol-prefix-proc’,
+      so these have been replaced with ‘#:prefix’.  [Insert blurb
+      about ‘symbol-prefix-proc’ regret, here.]
 
     - some ‘(sdl gfx)’ procs take s16 uniform vectors
 
-	Coordinate arguments for these procs can now be s16 uniform
-	vectors.  You can even mix normal w/ s16 (but that's crazy).
-	- draw-polygon
-	- draw-aa-polygon
-	- draw-textured-polygon
-	- draw-bezier
+      Coordinate arguments for these procs can now be s16 uniform
+      vectors.  You can even mix normal w/ s16 (but that's crazy).
+      - draw-polygon
+      - draw-aa-polygon
+      - draw-textured-polygon
+      - draw-bezier
 
     - ‘(sdl sdl) create-cursor’ takes u8 uniform vectors
 
-	The ‘data’ and ‘mask’ arguments can now be u8 uniform vectors.
+      The ‘data’ and ‘mask’ arguments can now be u8 uniform vectors.
 
     - ‘(sdl sdl) set-gamma-ramp’ takes u16 uniform vectors
 
-	The red, green and blue table arguments can now be u16 uniform
-	vectors.
+      The red, green and blue table arguments can now be u16 uniform
+      vectors.
 
     - [I] ‘(sdl sdl) get-gamma-ramp’ now returns list of uvec
 
-	Previously, this proc returned an alist.  Now, it returns a list
-	of three elements, each of which is a u16 uniform vector.
+      Previously, this proc returned an alist.  Now, it returns a list
+      of three elements, each of which is a u16 uniform vector.
 
     - [I] ‘(sdl sdl) show-cursor’ redesigned
 
-	The optional arg is no longer a "toggle enabler" (which didn't
-	seem to be implemented correctly, anyway) but instead a direct
-	"setting".  In other words:
+      The optional arg is no longer a "toggle enabler" (which didn't
+      seem to be implemented correctly, anyway) but instead a direct
+      "setting".  In other words:
 
-	was: show: (or  (show-cursor) (show-cursor #t)) ; buggy?
-	     hide: (and (show-cursor) (show-cursor #t)) ; buggy?
-	     flip: (show-cursor #t)                     ; buggy?
+      was: show: (or  (show-cursor) (show-cursor #t)) ; buggy?
+           hide: (and (show-cursor) (show-cursor #t)) ; buggy?
+           flip: (show-cursor #t)                     ; buggy?
 
-	now: show: (show-cursor #t)
-	     hide: (show-cursor #f)
-	     flip: (show-cursor (not (show-cursor)))
+      now: show: (show-cursor #t)
+           hide: (show-cursor #f)
+           flip: (show-cursor (not (show-cursor)))
 
   - documentation improvements
     - manual license now GNU FDL 1.3
@@ -937,24 +937,24 @@ See the end for copying conditions.
 
   - bugfix: set-position now usable
 
-	This (sdl mixer) proc, introduced in Guile-SDL 0.3.9, now
-	correctly accepts three args, as documented.
+    This (sdl mixer) proc, introduced in Guile-SDL 0.3.9, now
+    correctly accepts three args, as documented.
 
   - MMX detection
 
-	The configure script now detects whether or not the CPU supports
-	MMX instructions and automatically builds with USE_MMX=1 if so.
+    The configure script now detects whether or not the CPU supports
+    MMX instructions and automatically builds with USE_MMX=1 if so.
 
   - (sdl sdl) procs implemented: set-event-filter, get-event-filter
 
-	Previously, these would throw an error saying "not yet
-	implemented (sorry)".  Note that the interface for
-	‘set-event-filter’ is different from before.  This is not a
-	problem since the proc was not useful before, anyway.
+    Previously, these would throw an error saying "not yet
+    implemented (sorry)".  Note that the interface for
+    ‘set-event-filter’ is different from before.  This is not a
+    problem since the proc was not useful before, anyway.
 
   - new (sdl gfx) proc: draw-arc
 
-	This is because the embedded libSDL_gfx is now at version 2.0.18.
+    This is because the embedded libSDL_gfx is now at version 2.0.18.
 
   - maintenance uses autoconf 2.63 and libtool 2.2.6
 
@@ -963,26 +963,26 @@ See the end for copying conditions.
 
   - bugfix for "make uninstall"
 
-	Previously, this left some files in $(GUILE_LIBSITE)/sdl.
-	Now, those files (and that directory) are properly deleted.
+    Previously, this left some files in $(GUILE_LIBSITE)/sdl.
+    Now, those files (and that directory) are properly deleted.
 
   - new (sdl gfx) procs
 
-	These 26 are the image-filter functions that have a C
-	implementation: imfi-mmx?, imfi-add, imfi-mean, imfi-sub,
-	imfi-abs-diff, imfi-mult, imfi-mulnor, imfi-muldiv2,
-	imfi-muldiv4, imfi-logand, imfi-logior, imfi-div, imfi-not,
-	imfi-add-c, imfi-add-c-to-half, imfi-sub-c, imfi-ashr,
-	imfi-lshr, imfi-mul-c, imfi-ashr-mul-c, imfi-bshl, imfi-lshl,
-	imfi-ashl, imfi-binarize, imfi-clip, imfi-normalize-linear.
+    These 26 are the image-filter functions that have a C
+    implementation: imfi-mmx?, imfi-add, imfi-mean, imfi-sub,
+    imfi-abs-diff, imfi-mult, imfi-mulnor, imfi-muldiv2,
+    imfi-muldiv4, imfi-logand, imfi-logior, imfi-div, imfi-not,
+    imfi-add-c, imfi-add-c-to-half, imfi-sub-c, imfi-ashr,
+    imfi-lshr, imfi-mul-c, imfi-ashr-mul-c, imfi-bshl, imfi-lshl,
+    imfi-ashl, imfi-binarize, imfi-clip, imfi-normalize-linear.
 
-	On ttn's computer, (imfi-mmx?) => #f, so the MMX side of things
-	has not been tested.
+    On ttn's computer, (imfi-mmx?) => #f, so the MMX side of things
+    has not been tested.
 
   - new (sdl mixer) procs: set-panning, set-distance, set-position
 
-	Move the sound 'round and 'round;
-	all that's missing is up and down.
+    Move the sound 'round and 'round;
+    all that's missing is up and down.
 
   - public repo: http://www.gnuvola.org/wip/  (guile-sdl)
 
@@ -994,28 +994,28 @@ See the end for copying conditions.
   - new (sdl misc-utils) proc: fader/3p
   - new (sdl misc-utils) proc: toroidal-panner/3p
 
-	These are three-phase exposing variants of ‘fade-loop!’ and
-	‘toroidal-panner’, respectively.  (In fact, the old procs have
-	been rewritten to use the new.)  Three-phase procs return three
-	values, one for each phase of "init", "next" and "done".  This
-	lets caller maintain control for fine(r)-grained scheduling.
-	See manual for an example of the stylized call sequence.
+    These are three-phase exposing variants of ‘fade-loop!’ and
+    ‘toroidal-panner’, respectively.  (In fact, the old procs have
+    been rewritten to use the new.)  Three-phase procs return three
+    values, one for each phase of "init", "next" and "done".  This
+    lets caller maintain control for fine(r)-grained scheduling.
+    See manual for an example of the stylized call sequence.
 
-	NOTE: Both ‘fade-loop!’ and ‘toroidal-panner’ are scheduled for
-	removal by 2008-01-01.  DO NOT RELY ON THEM.
+    NOTE: Both ‘fade-loop!’ and ‘toroidal-panner’ are scheduled for
+    removal by 2008-01-01.  DO NOT RELY ON THEM.
 
   - new (sdl gfx) proc: blit-rgba
   - new (sdl gfx) proc: set-pixel-alpha!
 
-	The latter wraps ‘SDL_gfxSetAlpha’ in the underlying (SDL_gfx)
-	library, but the natural schemified name would clash w/ SDL's,
-	so this was chosen for uniqueness as well as to emphasize its
-	per-pixel nature.
+    The latter wraps ‘SDL_gfxSetAlpha’ in the underlying (SDL_gfx)
+    library, but the natural schemified name would clash w/ SDL's,
+    so this was chosen for uniqueness as well as to emphasize its
+    per-pixel nature.
 
   - docs have more info
 
-	The manual now lists valid values for flagstash:* and *-enums,
-	mined using ‘flagstash-flags’ and ‘enumstash-enums’, respectively.
+    The manual now lists valid values for flagstash:* and *-enums,
+    mined using ‘flagstash-flags’ and ‘enumstash-enums’, respectively.
 
 
 - 0.3.7 | 2007-09-16
@@ -1070,9 +1070,9 @@ See the end for copying conditions.
 
   - change to (sdl misc-utils) proc: copy-surface
 
-	This now takes an optional second arg CLIP, a rectangle which
-	specifies the portion of the surface to copy.  By default (if
-	unspecified or #f), the entire surface is copied.
+    This now takes an optional second arg CLIP, a rectangle which
+    specifies the portion of the surface to copy.  By default (if
+    unspecified or #f), the entire surface is copied.
 
   - implementation for (sdl sdl) proc: get-key-state
 
@@ -1085,14 +1085,14 @@ See the end for copying conditions.
 
   - bugfix: smob memory accounting
 
-	The rectangle, event, color, and cursor smobs used to either
-	fail to free their internal resources, or report an incorrect
-	number as the return value of their "free" function.  This would
-	cause Guile to become confused and, in the worst case, also leak
-	memory (and eventually segfault).
+    The rectangle, event, color, and cursor smobs used to either
+    fail to free their internal resources, or report an incorrect
+    number as the return value of their "free" function.  This would
+    cause Guile to become confused and, in the worst case, also leak
+    memory (and eventually segfault).
 
-	These errors have now been fixed.  The test for them is in file
-	test/leak.scm, which enabled only for "make check DEBUG=1".
+    These errors have now been fixed.  The test for them is in file
+    test/leak.scm, which enabled only for "make check DEBUG=1".
 
   - new (sdl sdl) proc: get-wm-info
 
@@ -1103,42 +1103,42 @@ See the end for copying conditions.
 
   - bugfix: get-clip-rect no longer causes error
 
-	The implementation no longer tries arrange for SDL to write
-	through a NULL pointer; this used to result in the SDL parachute
-	being deployed if present, or a segfault otherwise.
+    The implementation no longer tries arrange for SDL to write
+    through a NULL pointer; this used to result in the SDL parachute
+    being deployed if present, or a segfault otherwise.
 
   - bug exposure change: procs more strict on unsigned types
 
-	The following procs now take care to do unsigned integer
-	conversion directly, instead of signed conversion followed by
-	cast to unsigned.
+    The following procs now take care to do unsigned integer
+    conversion directly, instead of signed conversion followed by
+    cast to unsigned.
 
-	create-rgb-surface
-	map-rgba
-	map-rgb
-	get-rgb
-	warp-mouse
+    create-rgb-surface
+    map-rgba
+    map-rgb
+    get-rgb
+    warp-mouse
 
-	This is part of an ongoing effort to remove/reduce "manual"
-	casting (which may mask bugs) in the codebase.
+    This is part of an ongoing effort to remove/reduce "manual"
+    casting (which may mask bugs) in the codebase.
 
   - new (sdl sdl) proc: get-app-state
 
   - change to (sdl misc-utils) proc: copy-surface
 
-	This now uses ‘convert-surface’ to do one-step copy/conversion,
-	instead of the two-step process used previously.  The SRCALPHA
-	(per-surface flag) handling added in Guile-SDL 0.3.2 has been
-	removed.
+    This now uses ‘convert-surface’ to do one-step copy/conversion,
+    instead of the two-step process used previously.  The SRCALPHA
+    (per-surface flag) handling added in Guile-SDL 0.3.2 has been
+    removed.
 
   - procs which take lists of symbols now handle #f and empty list
 
-	Using these args is now equivalent to specifying 0 (zero) to the
-	underlying SDL function.
+    Using these args is now equivalent to specifying 0 (zero) to the
+    underlying SDL function.
 
   - ‘set-alpha!’ third arg now optional
 
-	If omitted it is taken as #f.
+    If omitted it is taken as #f.
 
   - new chapter in manual: "Excuses (Undone Wrapping)"
 
@@ -1147,72 +1147,72 @@ See the end for copying conditions.
 
   - bugfix: (sdl sdl) proc ‘fill-rect’ handles alpha/red values > 127
 
-	The color used to be extracted as signed instead of unsigned.
-	This caused incorrect out-of-range errors for color values whose
-	high bit (alpha for ABGR, red for RGBA) was set.
+    The color used to be extracted as signed instead of unsigned.
+    This caused incorrect out-of-range errors for color values whose
+    high bit (alpha for ABGR, red for RGBA) was set.
 
   - bugfix: (sdl misc-utils) proc ‘copy-surface’ handles SDL_SRCALPHA
 
-	The proc now takes care to clear this flag (and restore it
-	afterwards) in the source surface around the blit, so that RGB
-	values are copied correctly.  Unfortunately, the actual alpha
-	value is lost due to being unconditionally restored as 255.
+    The proc now takes care to clear this flag (and restore it
+    afterwards) in the source surface around the blit, so that RGB
+    values are copied correctly.  Unfortunately, the actual alpha
+    value is lost due to being unconditionally restored as 255.
 
   - procs moved to (sdl gfx): zoom-surface and roto-zoom-surface
 
-	Side effect of the upgrade described in the next entry.
+    Side effect of the upgrade described in the next entry.
 
   - embedded library upgraded: libSDL_gfx 2.0.13
 
-	This library (by Andreas Schiffler) is the successor to
-	libSDL_gfxPrimitives and libSDL_rotozoom, incorporating their
-	functionality and interfaces, and providing other goodies as
-	well.  The result for Guile-SDL users is that module (sdl gfx)
-	has been augmented w/ the following new procs:
+    This library (by Andreas Schiffler) is the successor to
+    libSDL_gfxPrimitives and libSDL_rotozoom, incorporating their
+    functionality and interfaces, and providing other goodies as
+    well.  The result for Guile-SDL users is that module (sdl gfx)
+    has been augmented w/ the following new procs:
 
-	zoom-surface		;; moved from (sdl sdl)
-	roto-zoom-surface	;; likewise
-	draw-hline		;; rest are completely new
-	draw-vline
-	draw-aa-circle
-	draw-aa-ellipse
-	draw-pie-slice
-	draw-trigon
-	draw-aa-trigon
-	draw-aa-polygon
-	draw-bezier
-	make-fps-manager
-	fps-manager-set!
-	fps-manager-get
-	fps-manager-delay!
+    zoom-surface        ;; moved from (sdl sdl)
+    roto-zoom-surface   ;; likewise
+    draw-hline          ;; rest are completely new
+    draw-vline
+    draw-aa-circle
+    draw-aa-ellipse
+    draw-pie-slice
+    draw-trigon
+    draw-aa-trigon
+    draw-aa-polygon
+    draw-bezier
+    make-fps-manager
+    fps-manager-set!
+    fps-manager-get
+    fps-manager-delay!
 
-	For more info, see new chapter "libSDL_gfx" sections: Graphics
-	Primitives, Rotation / Zooming, and Managing Frame Rate.
+    For more info, see new chapter "libSDL_gfx" sections: Graphics
+    Primitives, Rotation / Zooming, and Managing Frame Rate.
 
 
 - 0.3.1 | 2005-01-08
 
   - bugfix: ‘make-surface’ and ‘create-rgb-surface’ no longer ignore ‘flags’
 
-	These procs used to internally hardcode SDL_HWSURFACE instead of
-	using the ‘flags’ argument.
+    These procs used to internally hardcode SDL_HWSURFACE instead of
+    using the ‘flags’ argument.
 
   - dropped (sdl sdl) proc: scale-surface
 
-	This was never implemented.  Its advertized functionality was
-	also redundant w/ ‘zoom-surface’, which furthermore has the
-	benefit of a more flexible interface.
+    This was never implemented.  Its advertized functionality was
+    also redundant w/ ‘zoom-surface’, which furthermore has the
+    benefit of a more flexible interface.
 
   - print representation for flagstash objects now begins with "#"
 
-	This is to follow the Scheme convention for printing objects
-	that cannot be ‘read’ back in.
+    This is to follow the Scheme convention for printing objects
+    that cannot be ‘read’ back in.
 
   - implementation for (sdl sdl) proc: event-state
   - implementation for (sdl sdl) proc: peep-events
 
-	Previously the interface was available but calling these procs
-	resulted in a "not yet implemented" error.
+    Previously the interface was available but calling these procs
+    resulted in a "not yet implemented" error.
 
   - new (sdl misc-utils) proc: copy-surface
   - new (sdl misc-utils) proc: ignore-all-event-types-except
@@ -1224,67 +1224,67 @@ See the end for copying conditions.
 
   - "guile-tools make-module-catalog" no longer invoked unconditionally
 
-	If your Guile installation does not provide this program, that's
-	ok; Guile-SDL will still build.  However, in that case the
-	wrapper script ‘wily-guile’ may have difficulty finding the
-	pre-installed compiled modules, which will affect "make check",
-	primarily.
+    If your Guile installation does not provide this program, that's
+    ok; Guile-SDL will still build.  However, in that case the
+    wrapper script ‘wily-guile’ may have difficulty finding the
+    pre-installed compiled modules, which will affect "make check",
+    primarily.
 
-	For more info, see file GUILE-FIXES in the distribution directory.
+    For more info, see file GUILE-FIXES in the distribution directory.
 
   - "make install" more graceful for !HAVE_MIXER and !HAVE_TTF
 
-	The "make install" for these subsystems, when disabled (either
-	due to lack of underyling support, or through command-line
-	options to ./configure), used to try to symlink files that were
-	not present (see NEWS for Guile-SDL 0.2.5).
+    The "make install" for these subsystems, when disabled (either
+    due to lack of underyling support, or through command-line
+    options to ./configure), used to try to symlink files that were
+    not present (see NEWS for Guile-SDL 0.2.5).
 
 
 - 0.2.6 | 2004-09-01
 
   - docs cleanup
 
-	The documentation methodology extracts signatures from functions
-	in C source code and thus the variable name of the arguments are
-	the ones displayed (unless overridden).  Previously, the vars
-	were named w/ an "s_" prefix to indicate "scheme value", a mild
-	form of Hungarian notation.  A particularly striking example:
+    The documentation methodology extracts signatures from functions
+    in C source code and thus the variable name of the arguments are
+    the ones displayed (unless overridden).  Previously, the vars
+    were named w/ an "s_" prefix to indicate "scheme value", a mild
+    form of Hungarian notation.  A particularly striking example:
 
-	 - Scheme Procedure: create-rgb-surface s_flags s_width s_height
-		s_depth s_rmask s_gmask s_bmask s_amask
+     - Scheme Procedure: create-rgb-surface s_flags s_width s_height
+        s_depth s_rmask s_gmask s_bmask s_amask
 
-	This has now been changed to read:
+    This has now been changed to read:
 
-	 - Scheme Procedure: create-rgb-surface flags width height depth
-		rmask gmask bmask amask
+     - Scheme Procedure: create-rgb-surface flags width height depth
+        rmask gmask bmask amask
 
-	The signature still occupies two lines -- unavoidable w/ so many
-	arguments -- but the whole is less jarring to read (we hope).
+    The signature still occupies two lines -- unavoidable w/ so many
+    arguments -- but the whole is less jarring to read (we hope).
 
   - info entry now under category "Guile modules"
 
-	It used to be under "Guile".
+    It used to be under "Guile".
 
   - "basics" series finished
 
-	This release concludes the "basics" series which prioritized
-	general methodology refinement over features.  Next series, to
-	be numbered 0.3.x, is for "coverage" (see TODO).
+    This release concludes the "basics" series which prioritized
+    general methodology refinement over features.  Next series, to
+    be numbered 0.3.x, is for "coverage" (see TODO).
 
 
 - 0.2.5 | 2004-07-23
 
   - backward-compatability installation bugfix: libFOO.la symlinks
 
-	To support the venerable "scm_init_FOO_BAR_module" method for
-	loading binary modules in versions of Guile that look for a
-	FOO/libBAR.la, and not simply FOO/BAR.la, appropriately named
-	symlinks are now created for each installed .la file.
+    To support the venerable "scm_init_FOO_BAR_module" method for
+    loading binary modules in versions of Guile that look for a
+    FOO/libBAR.la, and not simply FOO/BAR.la, appropriately named
+    symlinks are now created for each installed .la file.
 
   - bugfix: symbolic return value for ‘fading-music’ and ‘fading-channel’
 
-	These procs used to return an integer.  Now they return a
-	symbol, one of: MIX_NO_FADING, MIX_FADING_OUT, MIX_FADING_IN.
+    These procs used to return an integer.  Now they return a
+    symbol, one of: MIX_NO_FADING, MIX_FADING_OUT, MIX_FADING_IN.
 
   - new (sdl misc-utils) proc: poll-with-push-on-timeout-proc
 
@@ -1295,21 +1295,21 @@ See the end for copying conditions.
 
   - installation change: scheme wrappers eliminated
 
-	The module (sdl sdl) used to be a scheme wrapper for binary
-	module (sdl sdl-sup).  Now it is the binary module itself.
-	See README.  Also, (sdl sdl) no longer provides the procs
-	‘call-with-clip-rect’ and ‘rotate-square’.
+    The module (sdl sdl) used to be a scheme wrapper for binary
+    module (sdl sdl-sup).  Now it is the binary module itself.
+    See README.  Also, (sdl sdl) no longer provides the procs
+    ‘call-with-clip-rect’ and ‘rotate-square’.
 
-	On "make install" if file $(GUILE_SITE)/sdl/sdl.scm exists,
-	it is deleted.  If the dir $(GUILE_SITE)/sdl is empty as a
-	result, it is also deleted.
+    On "make install" if file $(GUILE_SITE)/sdl/sdl.scm exists,
+    it is deleted.  If the dir $(GUILE_SITE)/sdl is empty as a
+    result, it is also deleted.
 
   - new module: (sdl misc-utils)
 
-	Currently this contains the procs ‘call-with-clip-rect’ and
-	‘rotate-square’, both of which used to be available in module
-	(sdl sdl).  The procs are documented in the info pages in a new
-	chapter: "Miscellaneous Utilities".
+    Currently this contains the procs ‘call-with-clip-rect’ and
+    ‘rotate-square’, both of which used to be available in module
+    (sdl sdl).  The procs are documented in the info pages in a new
+    chapter: "Miscellaneous Utilities".
 
 
 - 0.2.3 | 2004-03-06
@@ -1330,116 +1330,116 @@ See the end for copying conditions.
 
   - bug fix: all-but-last optional args now handle #f as "unspecified"
 
-	If a procedure takes optional only one optional arg, that
-	procedure has not changed.
+    If a procedure takes optional only one optional arg, that
+    procedure has not changed.
 
-	If a procedure takes more than one optional arg, all but the
-	last of such args now handle #f the same as being "unspecified".
-	To have the last optional arg be interpreted as "unspecified",
-	simply omit it!
+    If a procedure takes more than one optional arg, all but the
+    last of such args now handle #f the same as being "unspecified".
+    To have the last optional arg be interpreted as "unspecified",
+    simply omit it!
 
-	This change was motivated to allow specification of the last
-	optional arg while "not really specifying" the others.  Here is
-	a list of procedures (and the optional args involved) that were
-	changed, grouped by module:
+    This change was motivated to allow specification of the last
+    optional arg while "not really specifying" the others.  Here is
+    a list of procedures (and the optional args involved) that were
+    changed, grouped by module:
 
     - (sdl mixer)
 
-	open-audio -- freq format chunksize
-	play-channel -- channel loops ticks
-	play-music -- loops
-	volume -- volume
-	expire-channel -- channel
-	fade-out-channel -- which
-	fade-out-group -- tag
+      open-audio -- freq format chunksize
+      play-channel -- channel loops ticks
+      play-music -- loops
+      volume -- volume
+      expire-channel -- channel
+      fade-out-channel -- which
+      fade-out-group -- tag
 
     - (sdl sdl)
 
-	cd-play-tracks -- start-track start-frame n-tracks n-frames
-	cd-msf->frames -- s f
-	make-keysym -- sym
-	roto-zoom-surface -- zoom
-	zoom-surface -- zoomy
-	blit-surface -- srcrect dst dstrect
-	list-modes -- pixel-format flags
+      cd-play-tracks -- start-track start-frame n-tracks n-frames
+      cd-msf->frames -- s f
+      make-keysym -- sym
+      roto-zoom-surface -- zoom
+      zoom-surface -- zoomy
+      blit-surface -- srcrect dst dstrect
+      list-modes -- pixel-format flags
 
   - arity relaxation
 
-	The last arg for some procedures has been made optional.  Code
-	specifying these args still works (backwards-compatible change).
-	Here is a list of procs -- all in module (sdl sdl) -- and their
-	affected args:
+    The last arg for some procedures has been made optional.  Code
+    specifying these args still works (backwards-compatible change).
+    Here is a list of procs -- all in module (sdl sdl) -- and their
+    affected args:
 
-	set-clip-rect -- rect
-	set-caption -- icon
-	video-mode-ok -- flags
+    set-clip-rect -- rect
+    set-caption -- icon
+    video-mode-ok -- flags
 
 
 - 0.2.1 | 2004-01-19
 
-	This is a maintenance release (no user-visible changes).
-	Basically, some sub-optimal C macrology was reworked.
+  This is a maintenance release (no user-visible changes).
+  Basically, some sub-optimal C macrology was reworked.
 
 
 - 0.2.0 | 2003-11-21
 
   - installation change: scheme wrappers for most modules eliminated
 
-	Previously, the modules (sdl mixer), (sdl ttf) and (sdl gfx)
-	were implemented as a combination of a small piece of Scheme
-	code that dlopened a libtool-created shared object library in
-	${libdir}.  Since Guile can recognize certain shared object
-	libraries as modules and load them directly, these Scheme code
-	wrappers are not required and thus are now no longer distributed.
-	Instead, "make install" places the shared object libraries for
-	these modules and their support files in directory:
+    Previously, the modules (sdl mixer), (sdl ttf) and (sdl gfx)
+    were implemented as a combination of a small piece of Scheme
+    code that dlopened a libtool-created shared object library in
+    ${libdir}.  Since Guile can recognize certain shared object
+    libraries as modules and load them directly, these Scheme code
+    wrappers are not required and thus are now no longer distributed.
+    Instead, "make install" places the shared object libraries for
+    these modules and their support files in directory:
 
-		${GUILE_LIBSITE}/sdl/
+      ${GUILE_LIBSITE}/sdl/
 
-	The value of ${GUILE_LIBSITE} is determined by the ‘configure’
-	script.  Also installed in this directory is the compiled module
-	(sdl sdl-sup), an internal module used by all the user-facing
-	modules.  Related to these changes, if the program "guile-tools
-	make-module-catalog" is available, installation invokes it for
-	the ${GUILE_LIBSITE} directory for the compiled modules, and
-	${GUILE_SITE} for module (sdl sdl).  See README for more info.
+    The value of ${GUILE_LIBSITE} is determined by the ‘configure’
+    script.  Also installed in this directory is the compiled module
+    (sdl sdl-sup), an internal module used by all the user-facing
+    modules.  Related to these changes, if the program "guile-tools
+    make-module-catalog" is available, installation invokes it for
+    the ${GUILE_LIBSITE} directory for the compiled modules, and
+    ${GUILE_SITE} for module (sdl sdl).  See README for more info.
 
   - upgrade facility: make {check,clean}-000-libdir
 
-	See README section "Upgrading Tips" for info on how to handle
-	old ${libdir}/libguileSDL* files (from Guile-SDL 0.1.x).
+    See README section "Upgrading Tips" for info on how to handle
+    old ${libdir}/libguileSDL* files (from Guile-SDL 0.1.x).
 
   - "sdl-" prefix dropped
 
-	Procedure names no longer begin with "sdl-".  You can use the
-	#:renamer clause (in ‘use-modules’ and ‘define-module’ forms)
-	to add this back, or possibly choose another prefix.  In this
-	distribution, the tests, examples and documentation use "SDL:".
+    Procedure names no longer begin with "sdl-".  You can use the
+    #:renamer clause (in ‘use-modules’ and ‘define-module’ forms)
+    to add this back, or possibly choose another prefix.  In this
+    distribution, the tests, examples and documentation use "SDL:".
 
   - "make check" now respects INTERACTIVE env var
 
-	Normally "make check" skips tests that require human
-	interaction.  You can do "make check INTERACTIVE=1" to
-	enable running those tests as well.
+    Normally "make check" skips tests that require human
+    interaction.  You can do "make check INTERACTIVE=1" to
+    enable running those tests as well.
 
 
 - maintainership transfer: ttn
 
-	A big thanks goes to Alex Shinn, Vikram Subramanian, and Joel
-	Smith, the original authors of the disparate packages that all
-	came together as Guile-SDL in mid-to-late 2001, for (1) writing
-	the code; (2) pooling their efforts; and (3) passing it on.
+  A big thanks goes to Alex Shinn, Vikram Subramanian, and Joel
+  Smith, the original authors of the disparate packages that all
+  came together as Guile-SDL in mid-to-late 2001, for (1) writing
+  the code; (2) pooling their efforts; and (3) passing it on.
 
 
 - 0.1.7
 
-	Most of the merge complete.  Looking to make some minor clean-up
-	and bugfixes before a 0.2.0 release.
+  Most of the merge complete.  Looking to make some minor clean-up
+  and bugfixes before a 0.2.0 release.
 
 
 - 0.1.0
 
-	This is the very first version of Guile-SDL.
+  This is the very first version of Guile-SDL.
 
 
 Copyright information:
@@ -1461,6 +1461,4 @@ ______________________________________________
 	Local Variables:
 	mode: outline
 	outline-regexp: "\\([ ][ ]\\)*- "
-	fill-column: 72
-	fill-prefix: "\t"
 	End:
