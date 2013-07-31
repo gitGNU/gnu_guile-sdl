@@ -1,3 +1,9 @@
+2013-07-31  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[boot] Use ‘SNUGGLE_CHECK_CLASSIC_HEADERS’.
+
+	* configure.ac: ...here, prior to ‘scm_values’ check.
+
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Release: 0.5.0

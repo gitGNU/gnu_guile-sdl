@@ -56,9 +56,7 @@ AM_COND_IF([LAME],[AC_DEFINE([LAME], 1,
 
 CPPFLAGS="$GUILE_CFLAGS"
 
-AC_CHECK_HEADERS([guile/gh.h guile/modsup.h],,,[[
-#include <libguile.h>
-]])
+SNUGGLE_CHECK_CLASSIC_HEADERS
 
 AC_CHECK_DECLS([scm_values],,,[[
 #include <libguile.h>
