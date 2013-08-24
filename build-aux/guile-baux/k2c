@@ -397,7 +397,12 @@ exec ${GUILE-guile} -e '(guile-baux k2c)' -s $0 "$@" # -*-scheme -*-
 
 (define (main args)
   (check-hv args '((package . "Guile-SDL")
-                   (version . "1.0")
+                   (version . "2.0")
+                   ;; 2.0 -- rename from fs2c
+                   ;;        handle both peerless and flocking
+                   ;;        add #:direct support
+                   ;;        generate .list if writing to file
+                   ;; 1.0 -- initial release
                    ;; Note: This is based on fspec2c 1.2 from
                    ;; Guile 1.4.x, but significantly stripped
                    ;; down and specialized for Guile-SDL.
