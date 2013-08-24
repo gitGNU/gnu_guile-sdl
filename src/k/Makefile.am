@@ -62,10 +62,10 @@ SUFFIXES = .c .kf .kp
 gx = $(top_srcdir)/build-aux/guile-baux/gbaux-do
 
 .kf.c:
-	$(gx) k2c -o $@ $<
+	$(gx) k2c -o $@ $< $(SDLMINUSI)
 
 .kp.c:
-	$(gx) k2c -o $@ $<
+	$(gx) k2c -o $@ $< $(SDLMINUSI)
 
 CLEANFILES = $(BUILT_SOURCES)
 CLEANFILES += *.list

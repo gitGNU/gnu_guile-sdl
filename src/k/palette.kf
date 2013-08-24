@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 pal "palette"
-#:infile "SDL/SDL_video.h"
+#:infile "SDL_video.h"
 #:symrgx (#t "SDL_[A-Z]+PAL")
 #:kxform (4 downcase ("pal$" "ical"))
 

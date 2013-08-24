@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 fading "fading-status"
-#:infile "SDL/SDL_mixer.h"
+#:infile "SDL_mixer.h"
 #:symrgx (ws ("MIX[A-Z_]*_FADING[A-Z_]*") ",*$")
 #:kxform (4 downcase ("_*fading_*" ""))
 

@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 cdtracktype "cd-track-type"
-#:infile "SDL/SDL_cdrom.h"
+#:infile "SDL_cdrom.h"
 #:symrgx (#t ("SDL_[A-Z]+_TRACK") ws "0x")
 #:kxform (4 -6 downcase)
 

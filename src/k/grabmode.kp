@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 grabmode "grab-mode"
-#:infile "SDL/SDL_video.h"
+#:infile "SDL_video.h"
 #:symrgx (ws ("SDL_GRAB_[A-Z]+") ws "=")
 #:kxform (9 downcase)
 

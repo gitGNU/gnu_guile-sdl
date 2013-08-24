@@ -83,6 +83,10 @@ AM_PATH_SDL([1.2.0], :,
 # This is also undesirable when SDL is installed in a non-standard
 # location, or when ‘--with-sdl{,-exec}-prefix=DIR’ is used.
 
+dnl Extract ‘-I DIR’ for the sake of k2c.
+SDLMINUSI=`echo $SDL_CFLAGS | sed 's|\(-I *[[^ ]]*\).*|\1|'`
+AC_SUBST([SDLMINUSI])
+
 LIBS="$LIBS $SDL_LIBS"
 
 dnl Checks for libraries.

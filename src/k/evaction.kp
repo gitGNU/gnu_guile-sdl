@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 evaction "event-action"
-#:infile "SDL/SDL_events.h"
+#:infile "SDL_events.h"
 #:symrgx (ws ("SDL_[A-Z]+EVENT") ",*$")
 
 ;;; evaction.kp ends here

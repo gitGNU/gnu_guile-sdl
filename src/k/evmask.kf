@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 evmask "event-mask"
-#:infile "SDL/SDL_events.h"
+#:infile "SDL_events.h"
 #:region ("define SDL_EVENTMASK"
           "define SDL_ALLEVENTS")
 #:symrgx (ws ("SDL_[A-Z]+") =)

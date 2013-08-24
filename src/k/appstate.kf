@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 appstate "application-state"
-#:infile "SDL/SDL_active.h"
+#:infile "SDL_active.h"
 #:symrgx (#t "SDL_APP[A-Z]+")
 #:kxform (7 downcase)
 

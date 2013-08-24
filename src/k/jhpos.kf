@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 jhpos "joystick-hat-position"
-#:infile "SDL/SDL_joystick.h"
+#:infile "SDL_joystick.h"
 #:symrgx (def ws ("SDL_HAT_[A-Z]+") ws "0x")
 #:kxform (8 downcase)
 

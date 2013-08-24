@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 ttf "font-style"
-#:infile "SDL/SDL_ttf.h"
+#:infile "SDL_ttf.h"
 #:symrgx (#t "TTF_STYLE_[A-Z]+")
 #:kxform (10 downcase)
 

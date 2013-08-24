@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 updn "keyboard/button-state"
-#:infile "SDL/SDL_events.h"
+#:infile "SDL_events.h"
 #:region ("General keyboard/mouse state definitions"
 	  "@}")
 #:symrgx (def ws ("SDL_[A-Z]+") ws "[0-9]")

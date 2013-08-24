@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 keysym "keysym"
-#:infile "SDL/SDL_keysym.h"
+#:infile "SDL_keysym.h"
 #:region ("SDLK_FIRST"
 	  "SDLK_LAST")
 #:symrgx (ws ("SDLK_[A-Za-z0-9_]+") ws "=")

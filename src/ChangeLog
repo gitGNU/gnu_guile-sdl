@@ -1,5 +1,32 @@
 2013-08-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build] Make k2c honor SDL's ‘-I DIR’.
+
+	* k/Makefile.am (.kf.c, .kp.c): Add $(SDLMINUSI) to k2c invocation.
+	* k/alphalim.kp: Remove "SDL/" from ‘#:infile’ value.
+	* k/alphalimold.kp: Likewise.
+	* k/appstate.kf: Likewise.
+	* k/cdstate.kp: Likewise.
+	* k/cdtracktype.kp: Likewise.
+	* k/evaction.kp: Likewise.
+	* k/evmask.kf: Likewise.
+	* k/evtype.kp: Likewise.
+	* k/fading.kp: Likewise.
+	* k/grabmode.kp: Likewise.
+	* k/init.kf: Likewise.
+	* k/jhpos.kf: Likewise.
+	* k/keysym.kp: Likewise.
+	* k/kmod.kf: Likewise.
+	* k/mb.kf: Likewise.
+	* k/mbut.kp: Likewise.
+	* k/overlay.kf: Likewise.
+	* k/palette.kf: Likewise.
+	* k/ttf.kf: Likewise.
+	* k/updn.kp: Likewise.
+	* k/video.kf: Likewise.
+
+2013-08-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Do #include "foo.h" instead of #include <SDL/foo.h>.
 
 	* guile-sdl.h: ...here, for SDL.h.

@@ -18,7 +18,7 @@
 ;; Boston, MA  02110-1301  USA
 
 init "init"
-#:infile "SDL/SDL.h"
+#:infile "SDL.h"
 #:symrgx (#t "SDL_INIT_[A-Z]+")
 #:kxform (9 downcase
             ("^no" 0 "-")

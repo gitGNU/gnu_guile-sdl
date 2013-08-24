@@ -1,5 +1,11 @@
 2013-08-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build] Make k2c honor SDL's ‘-I DIR’.
+
+	* configure.ac (SDLMINUSI): New AC_SUBST.
+
+2013-08-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Do #include "foo.h" instead of #include <SDL/foo.h>.
 
 	* configure.ac (SDL_CFLAGS): No longer arrange
