@@ -21,7 +21,7 @@
 
 #define GUILE_SDL_OPTIONAL_MODULE  1
 #include "guile-sdl.h"
-#include <SDL/SDL_ttf.h>
+#include "SDL_ttf.h"
 #include "snuggle/finangle.h"
 #include "b-values.h"
 

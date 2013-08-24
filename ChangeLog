@@ -1,3 +1,10 @@
+2013-08-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build int] Do #include "foo.h" instead of #include <SDL/foo.h>.
+
+	* configure.ac (SDL_CFLAGS): No longer arrange
+	to omit ‘-I /usr/include/SDL’ from this AC_SUBST var.
+
 2013-07-31  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[boot] Use ‘SNUGGLE_CHECK_CLASSIC_HEADERS’.

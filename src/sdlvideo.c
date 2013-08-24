@@ -21,7 +21,7 @@
 
 #include "guile-sdl.h"
 #include <stdio.h>
-#include <SDL/SDL_image.h>
+#include "SDL_image.h"
 #include "snuggle/finangle.h"
 #include "b-uv.h"
 #include "b-values.h"

@@ -19,7 +19,7 @@
  */
 
 #include "guile-sdl.h"
-#include <SDL/SDL_syswm.h>
+#include "SDL_syswm.h"
 
 
 DECLARE_SIMPLE_SYM (x11);

@@ -1,3 +1,20 @@
+2013-08-24  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build int] Do #include "foo.h" instead of #include <SDL/foo.h>.
+
+	* guile-sdl.h: ...here, for SDL.h.
+	* misc.c: Likewise, for SDL_syswm.h.
+	* sdlevent.c: Likewise, for SDL_events.h, SDL_active.h.
+	* sdlmixer.c: Likewise, for SDL_mixer.h.
+	* sdlrect.c: Likewise, for SDL_image.h.
+	* sdlsurface.c: Likewise, for SDL_image.h.
+	* sdlttf.c: Likewise, for SDL_ttf.h.
+	* sdlvideo.c: Likewise, for SDL_image.h.
+	* SDL_gfx/SDL_framerate.h: Likewise, for SDL.h.
+	* SDL_gfx/SDL_gfxBlitFunc.h: Likewise, for SDL.h, SDL_video.h.
+	* SDL_gfx/SDL_gfxPrimitives.h: Likewise, for SDL.h.
+	* SDL_gfx/SDL_rotozoom.h: Likewise, for SDL.h.
+
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Release: 0.5.0

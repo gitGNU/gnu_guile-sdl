@@ -20,8 +20,8 @@
  */
 
 #include "guile-sdl.h"
-#include <SDL/SDL_events.h>
-#include <SDL/SDL_active.h>
+#include "SDL_events.h"
+#include "SDL_active.h"
 #include "b-values.h"
 
 /* enum/flag types */

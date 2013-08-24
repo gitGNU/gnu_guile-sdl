@@ -20,7 +20,7 @@
 
 #include "guile-sdl.h"
 #include <stdio.h>
-#include <SDL/SDL_image.h>
+#include "SDL_image.h"
 
 /* smob functions */
 

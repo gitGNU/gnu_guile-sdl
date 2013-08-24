@@ -37,7 +37,7 @@
    stands in the Real World!  :-D  */
 #include <stdint.h>
 #include <stdbool.h>
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 
 #define GCC_VERSION  (__GNUC__ * 10000           \

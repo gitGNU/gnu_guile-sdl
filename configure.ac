@@ -70,9 +70,18 @@ SNUGGLE_GUILE_LIBSITE_DIR([gsdl])
 AM_PATH_SDL([1.2.0], :,
             AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 
-dnl Source should always do #include <SDL/foo.h>,
-dnl so we can omit /usr/include/SDL directly.
-SDL_CFLAGS=`echo $SDL_CFLAGS | sed 's|-I */usr/include/SDL/* *||'`
+# <http://wiki.libsdl.org/FAQDevelopment> sez:
+#
+#   The most portable way to include SDL headers is
+#   to use quotes around the header name:
+#     #include "SDL.h"
+#
+# so we don't need to do this:
+#
+#- SDL_CFLAGS=`echo $SDL_CFLAGS | sed 's|-I */usr/include/SDL/* *||'`
+#
+# This is also undesirable when SDL is installed in a non-standard
+# location, or when ‘--with-sdl{,-exec}-prefix=DIR’ is used.
 
 LIBS="$LIBS $SDL_LIBS"
 
