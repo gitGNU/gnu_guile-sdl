@@ -14,3 +14,5 @@ Guile-SDL owes its existence and improvement to:
   ‘guile-tools’ programs to Guile 1.6.x.
 
   Brian Templeton and Andy Wingo, for (Guile) portability ideas.
+
+  David Thompson, for ideas and portability bug reports.
