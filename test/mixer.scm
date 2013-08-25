@@ -19,7 +19,6 @@
 ;; Boston, MA  02110-1301  USA
 
 (or *have-mixer* (exit-77 "mixer disabled"))
-(or *interactive* (exit-77 "interactive"))
 
 ;; simple mixer test
 
@@ -70,9 +69,14 @@
     (or (zero? res)
         (error "set-music-command failed"))))
 
-;; play background
 (set-music-command! #f)
 (MIXER:music-volume 42)
+
+;; The test doesn't actually require user interaction.  However,
+;; it makes noise, which might require user to decrease volume.
+(or *interactive* (exit-77 "interactive"))
+
+;; play background
 (MIXER:play-music background)
 
 ;; loop until it's done, playing a sound effect every so often

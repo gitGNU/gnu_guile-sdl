@@ -1,3 +1,9 @@
+2013-08-25  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Move "bail on non-interactive" as late as possible.
+
+	* mixer.scm: ...immediately prior to making noise.
+
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Release: 0.5.0
