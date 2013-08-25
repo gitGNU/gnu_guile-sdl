@@ -1,3 +1,15 @@
+2013-08-25  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[simple] Fix bug: Autoload ‘(sdl ttf)’.
+
+	This remedies the long-standing assumption that
+	module ‘(sdl ttf)’ would be available always.
+
+	* simple.scm: Change ‘#:use-module’ clause in ‘define-module’
+	form to ‘#:autoload’ clause, w/ triggers ‘ttf-init’, ‘load-font’.
+	(simple-stylus): Use ‘ttf-init’, ‘load-font’,
+	‘render-text’ directly, sans prefix.
+
 2013-08-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build] Make k2c honor SDL's ‘-I DIR’.

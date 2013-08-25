@@ -24,7 +24,8 @@
             simple-stylus
             simple-vpacked-image)
   #:use-module ((sdl sdl) #:prefix ///-)
-  #:use-module ((sdl ttf) #:prefix /T/-)
+  ;; TTF is optional, so don't ‘#:use-module’.
+  #:autoload (sdl ttf) (ttf-init load-font)
   #:use-module ((sdl gfx) #:prefix /G/-))
 
 ;; Return a @dfn{canvas closure} that accepts a few simple messages.
@@ -125,11 +126,11 @@
 ;;
 (define (simple-stylus init? filename size r g b)
   (or (not init?)
-      (/T/-ttf-init)
+      (ttf-init)
       (error "could not init font lib"))
   (let ((font #f) (color #f) (canvas #f))
     (define (set-font! filename size)
-      (set! font (/T/-load-font filename size)))
+      (set! font (load-font filename size)))
     (define (set-color! r g b)
       (set! color (///-make-color r g b)))
     (define (set-canvas! v)
@@ -141,7 +142,7 @@
              (bg (and opt?
                       (not (null? (cdr opts)))
                       (cadr opts))))
-        (/T/-render-text font text color bg)))
+        (render-text font text color bg)))
     (define (write! where . rest)
       (///-blit-surface (apply render rest) #f canvas where))
     (set-font! filename size)
