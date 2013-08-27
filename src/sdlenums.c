@@ -109,7 +109,7 @@ sorry (const char *FUNC_NAME, const char *nick, SCM symbol)
 
 #define enum_nick "SDL-enum"
 
-static long enum_tag;
+static smob_tag_t enum_tag;
 
 #define ASSERT_ENUM(obj,which) \
   ASSERT_SMOB (obj, enum, which)
@@ -305,7 +305,7 @@ if it does not belong to @var{stash}.  */)
 
 #define flagstash_nick "SDL-flagstash"
 
-static unsigned long int flagstash_tag;
+static smob_tag_t flagstash_tag;
 
 #define ASSERT_FLAGSTASH(obj,which) \
   ASSERT_SMOB (obj, flagstash, which)

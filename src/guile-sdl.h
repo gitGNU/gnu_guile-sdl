@@ -304,7 +304,7 @@ typedef void (register_kf_v_t) (size_t count, kf_init_t v[count]);
 
 struct obtw
 {
-  long smob_tags[4];
+  smob_tag_t smob_tags[4];
   /* These are: color, rect, surface, pixel format.  */
 
   SCM video_flags;

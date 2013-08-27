@@ -73,8 +73,8 @@ DECLARE_PF (Cursor);
 
 
 /* tags for SDL smobs */
-static long cursor_tag;
-static long overlay_tag;
+static smob_tag_t cursor_tag;
+static smob_tag_t overlay_tag;
 #define overlay_nick "SDL-Overlay"
 
 #define ASSERT_CURSOR(obj,which)   ASSERT_SMOB (obj, cursor, which)

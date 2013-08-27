@@ -823,7 +823,7 @@ box RGBA or Y information'' and is in 32-bit RGBA format.  */)
 
 #include "SDL_gfx/SDL_framerate.h"
 
-static long fpsmgr_tag;
+static smob_tag_t fpsmgr_tag;
 
 #define fpsmgr_nick "SDL-FPS-Manager"
 

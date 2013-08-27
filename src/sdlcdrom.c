@@ -28,7 +28,7 @@ static SCM cdrom_state;
 static SCM cd_track_type;
 #include "k/cdtracktype.c"
 
-static long cdrom_tag;
+static smob_tag_t cdrom_tag;
 
 #define cdrom_nick "SDL-CD"
 

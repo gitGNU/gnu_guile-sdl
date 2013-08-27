@@ -35,8 +35,8 @@ static SCM fading_status_enum;
 #define RETURN_FADINGSTATUS(x)  return btw->long2enum ((x), fading_status_enum)
 
 
-static long mix_music_tag;
-static long mix_audio_tag;
+static smob_tag_t mix_music_tag;
+static smob_tag_t mix_audio_tag;
 
 #define mix_music_nick "SDL-Music"
 #define mix_audio_nick "SDL-Audio"

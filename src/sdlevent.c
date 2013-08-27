@@ -56,7 +56,7 @@ static SCM appstate_flags;
 #define ALLOCA_EVENTS(count)  alloca (count * sizeof (SDL_Event))
 
 
-static long event_tag;
+static smob_tag_t event_tag;
 
 #define event_nick "SDL-Event"
 

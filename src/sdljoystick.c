@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include "b-values.h"
 
-static long joystick_tag;
+static smob_tag_t joystick_tag;
 
 #define joystick_nick "SDL-Joystick"
 

@@ -32,7 +32,7 @@ SELECT_MODULE_VAR (obtw, sdlsup, "%%Guile-SDL-obtw");
 static SCM ttf_flags;
 
 /* Smob tags.  */
-static long ttf_font_tag;
+static smob_tag_t ttf_font_tag;
 #define ttf_font_nick "SDL-TTF"
 
 #define ASSERT_TTFONT(obj,which) \

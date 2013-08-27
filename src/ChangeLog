@@ -1,3 +1,17 @@
+2013-08-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[slog] Use ‘smob_tag_t’ for smob tags.
+
+	* guile-sdl.h (struct obtw): ...here, for member ‘smob_tags’.
+	* sdlcdrom.c (cdrom_tag): Likewise.
+	* sdlenums.c (enum_tag): Likewise.
+	* sdlevent.c (event_tag): Likewise.
+	* sdlgfx.c (fpsmgr_tag): Likewise.
+	* sdljoystick.c (joystick_tag): Likewise.
+	* sdlmixer.c (mix_music_tag, mix_audio_tag): Likewise.
+	* sdlttf.c (ttf_font_tag): Likewise.
+	* sdlvideo.c (overlay_tag): Likewise.
+
 2013-08-25  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[simple] Fix bug: Autoload ‘(sdl ttf)’.
