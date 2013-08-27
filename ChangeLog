@@ -1,3 +1,10 @@
+2013-08-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build] Require C99 compiler.
+
+	* configure.ac (AC_PROG_CC): Delete.
+	(AC_PROG_CC_C99): New macro call; if not found, error out.
+
 2013-08-24  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build] Make k2c honor SDL's ‘-I DIR’.

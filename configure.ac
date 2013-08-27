@@ -38,7 +38,9 @@ SNUGGLE_SET_SOFIXFLAGS
 LT_PREREQ([2.4.2])
 LT_INIT([dlopen disable-static]) dnl module only
 
-AC_PROG_CC
+AC_PROG_CC_C99
+AS_IF([test x"$ac_cv_prog_cc_c99" = xno],
+[AC_MSG_ERROR([*** C99 compiler not found!])])
 
 AS_IF([test x"$GCC" = xyes],[keepinside='--visibility=hidden'])
 AC_SUBST([keepinside])
