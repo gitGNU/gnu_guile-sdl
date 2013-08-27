@@ -1,5 +1,20 @@
 2013-08-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[int] Declare unused parameters.
+
+	* guile-sdl.h (UNUSED): New #define.
+	* sdlcdrom.c (print_cd): Declare arg ‘pstate’ to be ‘UNUSED’.
+	* sdlcolor.c (print_color): Likewise, for ‘pstate’.
+	* sdlenums.c (print_enum, print_flagstash): Likewise, for ‘ps’.
+	* sdlgfx.c (print_fpsmgr): Likewise, for ‘pstate’.
+	* sdljoystick.c (print_joy): Likewise, for ‘pstate’.
+	* sdlrect.c (print_rect): Likewise, for ‘pstate’.
+	* sdlsurface.c (print_surface): Likewise, for ‘pstate’.
+	* sdlvideo.c (free_pixel_format): Likewise, for ‘pixel_format’.
+	(print_pixel_format): Likewise, for ‘pstate’.
+
+2013-08-27  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[slog] Use ‘smob_tag_t’ for smob tags.
 
 	* guile-sdl.h (struct obtw): ...here, for member ‘smob_tags’.

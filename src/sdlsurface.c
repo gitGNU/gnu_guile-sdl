@@ -58,7 +58,7 @@ free_surface (SCM surface)
 
 static
 int
-print_surface (SCM surface_smob, SCM port, scm_print_state *pstate)
+print_surface (SCM surface_smob, SCM port, UNUSED scm_print_state *pstate)
 {
   SDL_Surface *surface = UNPACK_SURFACE (surface_smob);
   char buf[64], sbuf[64];

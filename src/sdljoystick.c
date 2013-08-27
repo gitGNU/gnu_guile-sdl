@@ -400,7 +400,7 @@ free_joy (SCM joystick)
 
 static
 int
-print_joy (SCM joystick, SCM port, scm_print_state *pstate)
+print_joy (SCM joystick, SCM port, UNUSED scm_print_state *pstate)
 {
   SDL_Joystick *joy = UNPACK_JOYSTICK (joystick);
   char buf[32];

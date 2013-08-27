@@ -480,7 +480,7 @@ free_cd (SCM cdrom)
 
 static
 int
-print_cd (SCM cdrom, SCM port, scm_print_state *pstate)
+print_cd (SCM cdrom, SCM port, UNUSED scm_print_state *pstate)
 {
   SDL_CD *cd = UNPACK_CDROM (cdrom);
   char buf[32], *status;

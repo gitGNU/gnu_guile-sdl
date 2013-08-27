@@ -49,6 +49,12 @@
 #define DSOPRIVATE
 #endif
 
+#if GCC_VERSION >= 20700
+#define UNUSED  __attribute__ ((__unused__))
+#else
+#define UNUSED
+#endif
+
 #define GBO  DSOPRIVATE extern
 
 

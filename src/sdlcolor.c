@@ -33,7 +33,7 @@ free_color (SCM color)
 
 static
 int
-print_color (SCM color, SCM port, scm_print_state *pstate)
+print_color (SCM color, SCM port, UNUSED scm_print_state *pstate)
 {
   SDL_Color *ccolor = UNPACK_COLOR (color);
   char buf[32];

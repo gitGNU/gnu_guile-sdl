@@ -117,7 +117,7 @@ free_yuv_overlay (SCM overlay)
 
 static
 size_t
-free_pixel_format (SCM pixel_format)
+free_pixel_format (UNUSED SCM pixel_format)
 {
   /* Always part of a surface.  */
   return 0;
@@ -125,7 +125,7 @@ free_pixel_format (SCM pixel_format)
 
 static
 int
-print_pixel_format (SCM pixel_format, SCM port, scm_print_state *pstate)
+print_pixel_format (SCM pixel_format, SCM port, UNUSED scm_print_state *pstate)
 {
   SDL_PixelFormat *f = UNPACK_PIXEL_FORMAT (pixel_format);
   char buf[80];

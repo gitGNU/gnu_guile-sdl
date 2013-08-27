@@ -129,7 +129,7 @@ mark_enum (SCM enumstash)
 
 static
 int
-print_enum (SCM smob, SCM port, scm_print_state *ps)
+print_enum (SCM smob, SCM port, UNUSED scm_print_state *ps)
 {
   kp_t *stash = UNPACK_ENUM (smob);
   const struct symset *ss = &stash->ss;
@@ -324,7 +324,7 @@ mark_flagstash (SCM smob)
 
 static
 int
-print_flagstash (SCM smob, SCM port, scm_print_state *ps)
+print_flagstash (SCM smob, SCM port, UNUSED scm_print_state *ps)
 {
   flagstash_t *stash = UNPACK_FLAGSTASH (smob);
   const struct symset *ss = &stash->ss;

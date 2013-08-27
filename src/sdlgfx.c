@@ -842,7 +842,7 @@ free_fpsmgr (SCM fpsmgr)
 
 static
 int
-print_fpsmgr (SCM fpsmgr, SCM port, scm_print_state *pstate)
+print_fpsmgr (SCM fpsmgr, SCM port, UNUSED scm_print_state *pstate)
 {
   FPSmanager *m = UNPACK_FPSMGR (fpsmgr);
   char buf[24];

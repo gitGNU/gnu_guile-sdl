@@ -36,7 +36,7 @@ free_rect (SCM rect)
 
 static
 int
-print_rect (SCM smob, SCM port, scm_print_state *pstate)
+print_rect (SCM smob, SCM port, UNUSED scm_print_state *pstate)
 {
   SDL_Rect *rect = UNPACK_RECT (smob);
   char buf[64];
