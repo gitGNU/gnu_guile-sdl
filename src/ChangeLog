@@ -1,5 +1,12 @@
 2013-09-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[C int] Use ‘bool’ instead of bit-field.
+
+	* guile-sdl.h (kp_t): Change type of
+	members ‘classic’ and ‘offset’ to ‘bool’.
+
+2013-09-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[C int] Futz w/ some types to avoid signed/unsigned warning.
 
 	* sdlenums.c (register_kp): Add local var ‘long ival’.

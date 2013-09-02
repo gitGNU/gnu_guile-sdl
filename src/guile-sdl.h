@@ -200,8 +200,8 @@ typedef struct {
   const long const *val;
   SCM *linear;
   SCM table;
-  int classic:1;                        /* boolean */
-  int offset:1;                         /* boolean */
+  bool classic;
+  bool offset;
   struct symset ss;
 } kp_t;
 
