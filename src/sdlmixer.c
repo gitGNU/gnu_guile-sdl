@@ -91,7 +91,7 @@ those aspects of the device.  Return @code{#t} if successful.  */)
 
   /* Open the audio device.  */
   RETURN_TRUE_IF_0
-    (Mix_OpenAudio (cfreq, MIX_DEFAULT_FORMAT, cchannels, 1024));
+    (Mix_OpenAudio (cfreq, cformat, cchannels, cchunksize));
 #undef FUNC_NAME
 }
 

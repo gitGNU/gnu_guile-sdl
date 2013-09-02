@@ -1,5 +1,11 @@
 2013-09-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[mixer] Fix bug: Use specified params in ‘open-audio’.
+
+	* sdlmixer.c (mix_open_audio): Use specified format and chunksize.
+
+2013-09-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[C int] Use ‘bool’ instead of bit-field.
 
 	* guile-sdl.h (kp_t): Change type of
