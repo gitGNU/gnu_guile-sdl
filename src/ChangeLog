@@ -1,3 +1,11 @@
+2013-09-02  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[C int] Futz w/ some types to avoid signed/unsigned warning.
+
+	* sdlenums.c (register_kp): Add local var ‘long ival’.
+	(enum2long): Change type of ‘idx’ to ‘long’.
+	(ulong2flags, kotk): Change type of ‘i’ to ‘size_t’.
+
 2013-08-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[int] Declare unused parameters.

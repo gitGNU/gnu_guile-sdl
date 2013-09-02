@@ -157,10 +157,14 @@ register_kp (kp_t *kp)
   ht = GC_PROTECT (MAKE_HASH_TABLE (count));
   for (i = 0; i < count; i++)
     {
+      /* A ridiculous variable solely to avoid a GCC "warning: signed
+         and unsigned type in conditional expression [-Wsign-compare]".
+         Maybe there's a better way?  */
+      long ival = i;
       long value = (kp->classic
-                    ? i
+                    ? ival
                     : (kp->offset
-                       ? i + kp->val[0]
+                       ? ival + kp->val[0]
                        : kp->val[i]));
       uint8_t len = *pool++;
       SCM sym = GC_PROTECT (SYMBOLN ((char *) pool, len));
@@ -206,7 +210,7 @@ enum2long (const sym2num_cc_t *cc, SCM obj)
   const char *FUNC_NAME = cc->who;
   long result = 0;
   kp_t *e = UNPACK_ENUM (cc->stash);
-  size_t idx;
+  long idx;
 
   if (SCM_SYMBOLP (obj))
     {
@@ -429,7 +433,7 @@ ulong2flags (unsigned long value, SCM stash)
 {
   flagstash_t *s = UNPACK_FLAGSTASH (stash);
   size_t count = s->ss.count;
-  int i;
+  size_t i;
   SCM rv = SCM_EOL;
 
   /* Is nothing really nothing?  A stash is in descending order, so
@@ -564,7 +568,7 @@ and @var{type} is a symbol: @code{enums} or @code{flags}.  */)
 #define FUNC_NAME s_kotk
   kp_t *kp;
   flagstash_t *kf;
-  int i;
+  size_t i;
   SCM k, symbol, rv = SCM_EOL;
 
 #define ACC(KEXP,VEXP)  do                      \
