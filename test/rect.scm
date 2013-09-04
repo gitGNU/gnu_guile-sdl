@@ -19,7 +19,8 @@
 
 (use-modules
  ((sdl sdl) #:prefix SDL:)
- ((sdl misc-utils) #:select (call-with-clip-rect)))
+ ((sdl misc-utils) #:select (copy-rectangle
+                             call-with-clip-rect)))
 
 ;; initialize the SDL video module
 (SDL:init 'video)
@@ -57,6 +58,20 @@
          (zero? (SDL:rect:x test-rect))
          (zero? (SDL:rect:y test-rect)))
     (error "weird test-rect" test-rect))
+
+(define (same-as-test-rect? rect)
+  (and (SDL:rect? rect)
+       (zero? (SDL:rect:x rect))
+       (zero? (SDL:rect:y rect))
+       (= (SDL:rect:w test-rect)
+          (SDL:rect:w rect))
+       (= (SDL:rect:h test-rect)
+          (SDL:rect:h rect))))
+
+;; copy
+(let ((copy (copy-rectangle test-rect)))
+  (or (same-as-test-rect? copy)
+      (error "weird copy" copy)))
 
 (set! *random-state* (seed->random-state (current-time)))
 

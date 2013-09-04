@@ -1,5 +1,13 @@
 2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘(sdl misc-utils) copy-rectangle’.
+
+	* rect.scm: Import ‘(sdl misc-utils) copy-rectangle’.
+	(same-as-test-rect?): New proc.
+	<copy>: New section.
+
+2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘(sdl misc-utils) call-with-clip-rect’.
 
 	This reverts -- in spirit -- the misguided 2004-05-21,
