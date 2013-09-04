@@ -1,5 +1,12 @@
 2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘(sdl misc-utils) rect<-surface’.
+
+	* rect.scm: Import ‘(sdl misc-utils) rect<-surface’.
+	<from surface>: New section.
+
+2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘(sdl misc-utils) copy-rectangle’.
 
 	* rect.scm: Import ‘(sdl misc-utils) copy-rectangle’.

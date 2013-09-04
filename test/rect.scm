@@ -20,6 +20,7 @@
 (use-modules
  ((sdl sdl) #:prefix SDL:)
  ((sdl misc-utils) #:select (copy-rectangle
+                             rect<-surface
                              call-with-clip-rect)))
 
 ;; initialize the SDL video module
@@ -115,6 +116,11 @@
 (let ((depth (SDL:surface:depth screen))
       (flags (SDL:surface:flags screen)))
   (info "‘screen’ depth ~S flags ~S" depth flags))
+
+;; from surface
+(let ((again (rect<-surface screen)))
+  (or (same-as-test-rect? again)
+      (error "weird ‘rect<-surface’ rv" again)))
 
 ;; futz w/ the window-manager
 (let ((wminfo (SDL:get-wm-info))
