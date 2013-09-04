@@ -1,5 +1,12 @@
 2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise/check ‘(sdl misc-utils) rectangle<-geometry-string’.
+
+	* rect.scm: Import ‘(sdl misc-utils) rectangle<-geometry-string’.
+	<from geom>: New section.
+
+2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘(sdl misc-utils) rectangle-closure’.
 
 	* rect.scm: Import ‘(sdl misc-utils) rectangle-closure’.

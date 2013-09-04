@@ -22,6 +22,7 @@
  ((sdl misc-utils) #:select (copy-rectangle
                              rect<-surface
                              rectangle-closure
+                             rectangle<-geometry-string
                              call-with-clip-rect)))
 
 ;; initialize the SDL video module
@@ -130,6 +131,17 @@
   (let ((components (map rect '(#:x #:y #:w #:h))))
     (or (same-as-test-rect? (apply SDL:make-rect components))
         (error "closure member mismatch" components))))
+
+;; from geom
+(let* ((s (fs "~Ax~A+~A+~A"
+              (SDL:rect:w test-rect)
+              (SDL:rect:h test-rect)
+              (SDL:rect:x test-rect)
+              (SDL:rect:y test-rect)))
+       (yar (rectangle<-geometry-string s)))
+  (info "~S => ~S" s yar)
+  (or (same-as-test-rect? yar)
+      (error "weird" yar)))
 
 ;; futz w/ the window-manager
 (let ((wminfo (SDL:get-wm-info))
