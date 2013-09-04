@@ -2,6 +2,57 @@ Guile-SDL NEWS
 See the end for copying conditions.
 
 
+- 0.5.1 | 2013-09-04
+
+  - bugfixes
+
+    - build honors ‘./configure --with-sdl-prefix=DIR’
+
+      Previously, this option did nothing.  Now, it arranges to
+      consult DIR/include for headers and DIR/lib for shared object
+      libraries.  This is useful for custom SDL installations.
+
+      You can also use ‘--with-sdl-exec-prefix=DIR’ similarly.
+
+    - ‘(sdl simple)’ usable even with ‘--disable-ttf’
+
+      Proc ‘(sdl simple) simple-stylus’ uses procs from ‘(sdl ttf)’,
+      an optionally-built module.  Previously, ‘(sdl simple)’ would
+      load ‘(sdl ttf)’ unconditionally.  Now, it is autoloaded.
+
+      This is to support Guile-SDL configured with ‘--disable-ttf’.
+      In that case ‘(sdl simple)’ can still be loaded for the other
+      procs it provides.  Of course, trying to use ‘simple-stylus’
+      will cause Guile to attempt to load ‘(sdl ttf)’ and fail,
+      perhaps w/ a segfault.  Don't do that!
+
+    - ‘(sdl mixer) open-audio’ respects specified params
+
+      Previously, the parameters ‘format’ and ‘chunksize’, if
+      specified, were ignored in favor of the defaults.  Drat.
+
+  - mixer test bails unless ‘INTERACTIVE=1’, later
+
+    This gives the test a chance to exercise some procs.  The check
+    and exit unless ‘INTERACTIVE=1’ now happen immediately prior to
+    the noise-making section.  Of course, the entire test is still
+    skipped if Guile-SDL is configured w/ ‘--disable-mixer’.
+
+  - C99 compiler required
+
+    The configure script now checks for a C99 compiler and exits
+    errorfully if one is not found.  Actually, the code has for a
+    long time required a C99 compiler; this change just makes its
+    lack obvious more quickly (fail fast).
+
+  - more testing
+
+    The count of slighted procs is now 54 (see test/t99-cov).
+
+  - bootstrap tools upgraded
+    - Guile-BAUX 20130831.1504.5dc1ee3
+
+
 - 0.5.0 | 2013-07-19
 
   WARNING: There are several entries marked "[BI]",

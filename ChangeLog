@@ -1,3 +1,9 @@
+2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Release: 0.5.1
+
+	* configure.ac (AC_INIT): Bump version to "0.5.1" for release.
+
 2013-08-27  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build] Require C99 compiler.

@@ -1,5 +1,9 @@
 2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Release: 0.5.1
+
+2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise ‘(sdl misc-utils) ignore-all-event-types-except’.
 
 	* event.scm: Import  ‘(sdl misc-utils) ignore-all-event-types-except’.

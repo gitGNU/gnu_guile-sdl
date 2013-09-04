@@ -1,3 +1,7 @@
+2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Release: 0.5.1
+
 2013-09-02  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[mixer] Fix bug: Use specified params in ‘open-audio’.
