@@ -21,6 +21,7 @@
  ((sdl sdl) #:prefix SDL:)
  ((sdl misc-utils) #:select (copy-rectangle
                              rect<-surface
+                             rectangle-closure
                              call-with-clip-rect)))
 
 ;; initialize the SDL video module
@@ -121,6 +122,14 @@
 (let ((again (rect<-surface screen)))
   (or (same-as-test-rect? again)
       (error "weird ‘rect<-surface’ rv" again)))
+
+;; closure
+(let ((rect (rectangle-closure test-rect)))
+  (or (eq? test-rect (rect))
+      (error "closure too closed!" (rect)))
+  (let ((components (map rect '(#:x #:y #:w #:h))))
+    (or (same-as-test-rect? (apply SDL:make-rect components))
+        (error "closure member mismatch" components))))
 
 ;; futz w/ the window-manager
 (let ((wminfo (SDL:get-wm-info))
