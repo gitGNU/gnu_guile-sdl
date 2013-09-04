@@ -17,7 +17,9 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA  02110-1301  USA
 
-(use-modules ((sdl sdl) #:prefix SDL:))
+(use-modules
+ ((sdl sdl) #:prefix SDL:)
+ ((sdl misc-utils) #:select (call-with-clip-rect)))
 
 ;; initialize the SDL video module
 (SDL:init 'video)
@@ -137,6 +139,11 @@
             (error "discrepency between part and vpart!"))
         full))
 
+    (call-with-clip-rect
+     (rand-rect test-rect)
+     (lambda ()
+       (SDL:fill-rect screen #f (random #x1000000))
+       (SDL:flip)))
     (SDL:fill-rect screen sample (case (modulo i 3)
                                    ((0) (random #x100))
                                    ((1) (w/random-args SDL:map-rgb

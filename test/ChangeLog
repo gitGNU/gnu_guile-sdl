@@ -1,3 +1,13 @@
+2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[v] Exercise ‘(sdl misc-utils) call-with-clip-rect’.
+
+	This reverts -- in spirit -- the misguided 2004-05-21,
+	"Rewrite to not use `call-with-clip-rect'".
+
+	* rect.scm: Import ‘(sdl misc-utils) call-with-clip-rect’.
+	<draw some rectangles filled with random colors>: Use it.
+
 2013-08-25  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[v] Move "bail on non-interactive" as late as possible.
