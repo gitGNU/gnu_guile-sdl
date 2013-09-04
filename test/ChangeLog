@@ -1,5 +1,15 @@
 2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[v] Exercise ‘(sdl misc-utils) ignore-all-event-types-except’.
+
+	* event.scm: Import  ‘(sdl misc-utils) ignore-all-event-types-except’.
+	<synthesize some events>: Don't simulate ESC keypress here.
+	<queue interaction>: Do ‘scroll-up!’ at end.
+	<fleeting ignorance>: New section.
+	<main loop>: Don't do ‘scroll-up!’.
+
+2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[v] Exercise/check ‘(sdl misc-utils) rectangle<-geometry-string’.
 
 	* rect.scm: Import ‘(sdl misc-utils) rectangle<-geometry-string’.

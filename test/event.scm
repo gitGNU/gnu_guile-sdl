@@ -22,6 +22,7 @@
              ((srfi srfi-13) #:select (string-suffix?)))
 (use-modules ((sdl sdl) #:prefix SDL:)
              ((sdl gfx) #:prefix GFX:))
+(use-modules ((sdl misc-utils) #:select (ignore-all-event-types-except)))
 
 (define (check-joystick-maybe)
   (info "joystick polling => ~S"
@@ -409,10 +410,6 @@
                ans)))
           (map car (SDL:kotk 'event-type)))
 
-;; display an explanatory message
-((display-centered-w/height-proc (- (SDL:rect:h test-rect) height 5))
- "(Press ESC to Quit, SPC to Cycle Filter)")
-
 ;; enable keyboard repeat
 (SDL:enable-key-repeat 250 6)
 
@@ -489,9 +486,7 @@
   ;; resize
   (fake 'video-resize
         SDL:event:resize:set-h! 420
-        SDL:event:resize:set-w! 420)
-  ;; bail if not interactive
-  (or *interactive* (fake-key-down/up '() 'escape)))
+        SDL:event:resize:set-w! 420))
 
 ;; queue interaction
 (SDL:pump-events)
@@ -512,9 +507,21 @@
     (info "~A events successfully re-enqueud" back)
     (or (= count back)
         (error "evqueue-add rv:" back))))
+(scroll-up!)
+
+;; fleeting ignorance
+(let ((blurb! (display-centered-w/height-proc
+               (- (SDL:rect:h test-rect) height 5))))
+  (blurb! "WAIT A (QUARTER) SECOND!")
+  (ignore-all-event-types-except)
+  (SDL:delay 250)
+  (ignore-all-event-types-except #f)
+  (or *interactive*
+      ;; arrange to bail
+      (fake-key-down/up '() 'escape))
+  (blurb! "(Press ESC to Quit, SPC to Cycle Filter)"))
 
 ;; main loop
-(scroll-up!)
 (input-loop (SDL:make-event 0))
 
 ;; quit SDL
