@@ -893,7 +893,7 @@ otherwise @code{#f}.
 @var{mask} is a symbol or a list of symbols from the set returned
 by @code{get-mouse-state}.
 
-For backward compatability, @var{mask} can also be the (integer)
+For backward compatibility, @var{mask} can also be the (integer)
 logior of the buttons, using mapping:
 
 @example

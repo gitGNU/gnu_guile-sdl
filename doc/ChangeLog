@@ -1,3 +1,9 @@
+2013-10-17  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Fix typo: Spell "compatib..." correctly!
+
+	* guile-sdl.texi: Do ‘s/compatab/compatib/g’.
+
 2013-07-19  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Release: 0.5.0

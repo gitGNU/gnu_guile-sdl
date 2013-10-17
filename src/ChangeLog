@@ -1,3 +1,9 @@
+2013-10-17  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	Fix typo: Spell "compatib..." correctly!
+
+	* sdlevent.c: Do ‘s/compatab/compatib/g’.
+
 2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Release: 0.5.1

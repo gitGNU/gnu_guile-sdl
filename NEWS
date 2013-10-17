@@ -799,7 +799,7 @@ See the end for copying conditions.
   - planned retirement: ordinary vector argument(s)
 
     Some procedures now take uniform vector arguments (see below).
-    For backward compatability with Guile-SDL 0.3.10 and earlier,
+    For backward compatibility with Guile-SDL 0.3.10 and earlier,
     you can also use an ordinary vector.  This is expensive and less
     safe, however, so this support WILL BE REMOVED after 2012-12-31.
 
@@ -1105,7 +1105,7 @@ See the end for copying conditions.
   - more slackful: set-clip-rect! now accepts #f for second arg
   - more slackful: cd-get-{num-tracks,cur-track,cur-frame} call cd-status
 
-  - changes with compatability note (see each proc's documentation)
+  - changes with compatibility note (see each proc's documentation)
     - grab-input now takes and returns symbols, one of: query, off, on
 
   - new (sdl sdl) proc: rect?
@@ -1325,7 +1325,7 @@ See the end for copying conditions.
 
 - 0.2.5 | 2004-07-23
 
-  - backward-compatability installation bugfix: libFOO.la symlinks
+  - backward-compatibility installation bugfix: libFOO.la symlinks
 
     To support the venerable "scm_init_FOO_BAR_module" method for
     loading binary modules in versions of Guile that look for a
