@@ -16,3 +16,5 @@ Guile-SDL owes its existence and improvement to:
   Brian Templeton and Andy Wingo, for (Guile) portability ideas.
 
   David Thompson, for ideas and portability bug reports.
+
+  Luca Saiu, for bug report.

@@ -182,7 +182,7 @@ backwards, and escape or q to quit.
 (let handle ((e (SDL:make-event)))
   (if (SDL:wait-event e)
     (case (SDL:event:type e)
-      ((SDL_KEYDOWN)
+      ((key-down)
        (case (SDL:event:key:keysym:sym e)
          ((left backspace)
           (show (prev-image)))
