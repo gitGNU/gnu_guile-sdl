@@ -1,7 +1,6 @@
 /* sdlsurface.c --- SDL Surface functions
  *
- * Copyright (C) 2003, 2004, 2005, 2007, 2008, 2009,
- *   2011, 2013 Thien-Thi Nguyen
+ * Copyright (C) 2003-2005, 2007-2009, 2011, 2013 Thien-Thi Nguyen
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

@@ -1,7 +1,6 @@
 ;;; misc-utils.scm --- grab bag of utility procs
 
-;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009,
-;;               2011, 2013 Thien-Thi Nguyen
+;; Copyright (C) 2004-2009, 2011, 2013 Thien-Thi Nguyen
 ;;
 ;; This is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
