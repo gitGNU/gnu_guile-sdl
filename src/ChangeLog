@@ -1,3 +1,11 @@
+2015-02-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[mixer] Drop ‘(sdl mixer) query-spec’.
+
+	* sdlmixer.c (gsdl_sym_freq, gsdl_sym_format)
+	(gsdl_sym_channels): Delete DECLARE_SIMPLE_SYMs.
+	(mix_query_spec): Delete PRIMPROC.
+
 2013-10-17  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Fix typo: Spell "compatib..." correctly!

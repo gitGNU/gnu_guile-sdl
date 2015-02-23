@@ -588,8 +588,6 @@ effectively the same as specifying @code{centered}.
 
 @tsin i device-ffc
 
-@tsin i query-spec
-
 @tsin i load-music
 
 @tsin i load-wave

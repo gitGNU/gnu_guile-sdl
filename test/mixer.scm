@@ -31,29 +31,15 @@
 (MIXER:open-audio)
 
 ;; display audio device info
-(let ((specs (MIXER:query-spec)))
-  (cond (specs
-           (call-with-values MIXER:device-ffc
-             (lambda (freq format channels)
-               (info "device-ffc => ~S / => ~S (~S) / => ~S"
-                     freq format (logand format #xFF) channels)
-               (or (equal? freq (assq-ref specs 'freq))
-                   (error "discrepency in freq:" freq 'vs spec))
-               (or (equal? format (assq-ref specs 'format))
-                   (error "discrepency in format:" format 'vs spec))
-               (or (equal? channels (assq-ref specs 'channels))
-                   (error "discrepency in channels:" channels 'vs spec))))
-         (info "Opened audio at ~A Hz ~A bit ~A"
-               (assq-ref specs 'freq)
-               (logand (assq-ref specs 'format) #xFF)
-               (case (assq-ref specs 'channels)
-                 ((#f) "(no channel info!)")
-                 ((1) "mono")
-                 ((2) "stereo")
-                 (else (fs "~A channels" (assq-ref specs 'channels))))))
-        (else
-         (SDL:quit)
-         (exit-77 "no mixer specs available"))))
+(call-with-values MIXER:device-ffc
+  (lambda (freq format channels)
+    (info "Opened audio at ~A Hz ~A bit ~A"
+          freq
+          (logand format #xFF)
+          (case channels
+            ((1) "mono")
+            ((2) "stereo")
+            (else (fs "~A channels" channels))))))
 
 (define (load-music)
   (MIXER:load-music (datafile "background.ogg")))

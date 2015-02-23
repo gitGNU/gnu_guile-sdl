@@ -1,3 +1,10 @@
+2015-02-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[mixer] Drop ‘(sdl mixer) query-spec’.
+
+	* mixer.scm <display audio device info>:
+	Don't call ‘query-spec’; use ‘device-ffc’ w/o validation.
+
 2013-09-04  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Release: 0.5.1

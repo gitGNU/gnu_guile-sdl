@@ -1,3 +1,9 @@
+2015-02-23  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[mixer] Drop ‘(sdl mixer) query-spec’.
+
+	* ref.texh (Audio): Delete @tsin for ‘query-spec’.
+
 2014-12-26  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[doc] Fix bug: Use ‘key-down’ in example.

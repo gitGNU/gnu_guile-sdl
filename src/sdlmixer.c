@@ -135,36 +135,6 @@ allocated channels).  */)
 }
 
 
-DECLARE_SIMPLE_SYM (freq);
-DECLARE_SIMPLE_SYM (format);
-DECLARE_SIMPLE_SYM (channels);
-
-PRIMPROC
-(mix_query_spec, "query-spec", 0, 0, 0,
- (void),
- doc: /***********
-NB: This procedure is obsoleted by @code{device-ffc}
-and @strong{will be removed} after 2013-12-31.
-
-Return audio device parameters as an alist, or @code{#f}
-if the audio has not yet been opened.
-Keys are @code{freq} (frequency), @code{format},
-and @code{channels} (the number of allocated channels).  */)
-{
-#define FUNC_NAME s_mix_query_spec
-  int freq, channels;
-  Uint16 format;
-
-  if (! Mix_QuerySpec (&freq, &format, &channels))
-    return BOOL_FALSE;
-
-  return LIST3 (CONS (SYM (freq), NUM_LONG (freq)),
-                CONS (SYM (format), NUM_LONG (format)),
-                CONS (SYM (channels), NUM_LONG (channels)));
-#undef FUNC_NAME
-}
-
-
 PRIMPROC
 (mix_load_music, "load-music", 1, 0, 0,
  (SCM filename),
