@@ -1,3 +1,13 @@
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[ttf] Drop obsolete procs: font:{glyph-metrics,size-{text,utf8}}
+
+	* sdlttf.c (gsdl_sym_minx, gsdl_sym_maxx, gsdl_sym_miny)
+	(gsdl_sym_maxy, gsdl_sym_advance): Delete DECLARE_SIMPLE_SYMs.
+	(ttf_glyph_metrics): Delete PRIMPROC.
+	(gsdl_sym_w, gsdl_sym_h): Delete DECLARE_SIMPLE_SYMs.
+	(ttf_size_text, ttf_size_utf8): Delete PRIMPROCs.
+
 2015-02-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[mixer] Drop ‘(sdl mixer) query-spec’.

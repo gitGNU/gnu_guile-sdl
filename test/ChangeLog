@@ -1,3 +1,12 @@
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[ttf] Drop obsolete procs: font:{glyph-metrics,size-{text,utf8}}
+
+	* ttf.scm (rand-rect): Don't call ‘font:size-text’;
+	use ‘text-wh’ values directly, w/o discrepency check.
+	(rand-color): Likewise for ‘font:size-utf8’ and ‘utf8-wh’.
+	(spew-at): Likewise for ‘font:glyph-metrics’ and ‘font:glyph-xXyYa’.
+
 2015-02-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[mixer] Drop ‘(sdl mixer) query-spec’.

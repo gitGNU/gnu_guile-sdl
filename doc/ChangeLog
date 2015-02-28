@@ -1,3 +1,10 @@
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[ttf] Drop obsolete procs: font:{glyph-metrics,size-{text,utf8}}
+
+	* ref.texh (TrueType): Delete @tsin for ‘font:glyph-metrics’,
+	‘font:size-text’ and ‘font:size-utf8’.
+
 2015-02-23  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[mixer] Drop ‘(sdl mixer) query-spec’.

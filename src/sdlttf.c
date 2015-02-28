@@ -213,42 +213,6 @@ Values are: @code{minx}, @code{maxx}, @code{miny},
 }
 
 
-DECLARE_SIMPLE_SYM (minx);
-DECLARE_SIMPLE_SYM (maxx);
-DECLARE_SIMPLE_SYM (miny);
-DECLARE_SIMPLE_SYM (maxy);
-DECLARE_SIMPLE_SYM (advance);
-
-PRIMPROC
-(ttf_glyph_metrics, "font:glyph-metrics", 2, 0, 0,
- (SCM font, SCM ch),
- doc: /***********
-NB: This procedure is obsoleted by @code{font:glyph-xXyYa}
-and @strong{will be removed} after 2013-12-31.
-
-Return the metrics (dimensions) of a glyph as an alist.
-The glyph is a @var{font}-specific rendering of char @var{ch}.
-Alist keys are: @code{minx}, @code{maxx}, @code{miny},
-@code{maxy} and @code{advance}.  Values are numbers.  */)
-{
-#define FUNC_NAME s_ttf_glyph_metrics
-  int minx, maxx, miny, maxy, advance;
-
-  ASSERT_TTFONT (font, 1);
-  ASSERT_CHAR (ch, 2);
-
-  TTF_GlyphMetrics (UNPACK_TTFONT (font), C_CHAR (ch),
-                    &minx, &maxx, &miny, &maxy, &advance);
-
-  return LIST5 (CONS (SYM (minx), NUM_LONG (minx)),
-                CONS (SYM (maxx), NUM_LONG (maxx)),
-                CONS (SYM (miny), NUM_LONG (miny)),
-                CONS (SYM (maxy), NUM_LONG (maxy)),
-                CONS (SYM (advance), NUM_LONG (advance)));
-#undef FUNC_NAME
-}
-
-
 PRIMPROC
 (text_wh, "text-wh", 2, 0, 0,
  (SCM font, SCM text),
@@ -274,37 +238,6 @@ of the string @var{text}.  */)
 }
 
 
-DECLARE_SIMPLE_SYM (w);
-DECLARE_SIMPLE_SYM (h);
-
-PRIMPROC
-(ttf_size_text, "font:size-text", 2, 0, 0,
- (SCM font, SCM text),
- doc: /***********
-NB: This procedure is obsoleted by @code{text-wh}
-and @strong{will be removed} after 2013-12-31.
-
-Return an alist with keys @code{w} and @code{h} and
-corresponding values (numbers) representing the width
-and height of the @var{font}-specific rendering of
-the string @var{text}.  */)
-{
-#define FUNC_NAME s_ttf_size_text
-  range_t ctext;
-  int w, h;
-
-  ASSERT_TTFONT (font, 1);
-  ASSERT_STRING (text, 2);
-
-  FINANGLE (text);
-  TTF_SizeText (UNPACK_TTFONT (font), RS (text), &w, &h);
-  UNFINANGLE (text);
-  return LIST2 (CONS (SYM (w), NUM_LONG (w)),
-                CONS (SYM (h), NUM_LONG (h)));
-#undef FUNC_NAME
-}
-
-
 PRIMPROC
 (utf8_wh, "utf8-wh", 2, 0, 0,
  (SCM font, SCM text),
@@ -326,34 +259,6 @@ of the UTF-8 string @var{text}.  */)
   RETURN_VALUES2
     (NUM_LONG (w),
      NUM_LONG (h));
-#undef FUNC_NAME
-}
-
-
-PRIMPROC
-(ttf_size_utf8, "font:size-utf8", 2, 0, 0,
- (SCM font, SCM text),
- doc: /***********
-NB: This procedure is obsoleted by @code{utf8-wh}
-and @strong{will be removed} after 2013-12-31.
-
-Return an alist with keys @code{w} and @code{h} and
-corresponding values (numbers) representing the width
-and height of the @var{font}-specific rendering of
-the utf8 string @var{text}.  */)
-{
-#define FUNC_NAME s_ttf_size_utf8
-  range_t ctext;
-  int w, h;
-
-  ASSERT_TTFONT (font, 1);
-  ASSERT_STRING (text, 2);
-
-  FINANGLE (text);
-  TTF_SizeUTF8 (UNPACK_TTFONT (font), RS (text), &w, &h);
-  UNFINANGLE (text);
-  return LIST2 (CONS (gsdl_sym_w, NUM_LONG (w)),
-                CONS (gsdl_sym_h, NUM_LONG (h)));
 #undef FUNC_NAME
 }
 

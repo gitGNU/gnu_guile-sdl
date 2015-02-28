@@ -559,15 +559,9 @@ effectively the same as specifying @code{centered}.
 
 @tsin i font:glyph-xXyYa
 
-@tsin i font:glyph-metrics
-
 @tsin i text-wh
 
-@tsin i font:size-text
-
 @tsin i utf8-wh
-
-@tsin i font:size-utf8
 
 @tsin i render-text
 
