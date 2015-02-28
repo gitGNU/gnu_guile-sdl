@@ -284,50 +284,6 @@ blit-fill
 }
 
 
-DECLARE_SYM (video_mem,    "video-mem");
-DECLARE_SIMPLE_SYM (vfmt);
-
-PRIMPROC
-(get_video_info, "get-video-info", 0, 0, 0,
- (void),
- doc: /***********
-NB: This procedure is obsoleted by @code{video-cmf}
-and @strong{will be removed} after 2013-12-31.
-
-Return information about the video hardware as an alist.
-Keys are: @code{hw-available}, @code{wm-available},
-@code{bit-hw}, @code{blit-hw-CC}, @code{blit-hw-A},
-@code{blit-sw}, @code{blit-sw-CC}, @code{blit-sw-A},
-@code{blit-fill}, @code{video-mem} and @code{vfmt}.  */)
-{
-#define FUNC_NAME s_get_video_info
-  const SDL_VideoInfo *info = SDL_GetVideoInfo ();
-  SCM format;
-  SCM rv = SCM_EOL;
-
-  SCM_NEWSMOB (format, pixel_format_tag, info->vfmt);
-
-#define PUSHPAIR(a,b)  rv = CONS (CONS (SYM (a), b), rv)
-
-  PUSHPAIR (vfmt,         format);
-  PUSHPAIR (video_mem,    NUM_ULONG (info->video_mem));
-  PUSHPAIR (blit_fill,    BOOLEAN (info->blit_fill));
-  PUSHPAIR (blit_sw_A,    BOOLEAN (info->blit_sw_A));
-  PUSHPAIR (blit_sw_CC,   BOOLEAN (info->blit_sw_CC));
-  PUSHPAIR (blit_sw,      BOOLEAN (info->blit_sw));
-  PUSHPAIR (blit_hw_A,    BOOLEAN (info->blit_hw_A));
-  PUSHPAIR (blit_hw_CC,   BOOLEAN (info->blit_hw_CC));
-  PUSHPAIR (blit_hw,      BOOLEAN (info->blit_hw));
-  PUSHPAIR (wm_available, BOOLEAN (info->wm_available));
-  PUSHPAIR (hw_available, BOOLEAN (info->hw_available));
-
-#undef PUSHPAIR
-
-  return rv;
-#undef FUNC_NAME
-}
-
-
 PRIMPROC
 (video_driver_name, "video-driver-name", 0, 0, 0,
  (void),
@@ -844,40 +800,6 @@ as three values: @code{r}, @code{g} and @code{b} (all integers).  */)
 }
 
 
-DECLARE_SIMPLE_SYM (r);
-DECLARE_SIMPLE_SYM (g);
-DECLARE_SIMPLE_SYM (b);
-DECLARE_SIMPLE_SYM (a);
-
-PRIMPROC
-(get_rgb, "get-rgb", 2, 0, 0,
- (SCM pixel,
-  SCM format),
- doc: /***********
-NB: This procedure is obsoleted by @code{pixel-rgb}
-and @strong{will be removed} after 2013-12-31.
-
-Get RGB values from @var{pixel} in the specified pixel
-@var{format}.  Return an alist with keys @code{r}, @code{g}
-and @code{b}, with red, green and blue values (numbers),
-respectively.  */)
-{
-#define FUNC_NAME s_get_rgb
-  Uint8 r, g, b;
-
-  ASSERT_INTEGER (pixel, 1);
-  ASSERT_PIXEL_FORMAT (format, 2);
-
-  SDL_GetRGB (C_ULONG (pixel), UNPACK_PIXEL_FORMAT (format),
-              &r, &g, &b);
-
-  return LIST3 (CONS (SYM (r), NUM_ULONG (r)),
-                CONS (SYM (g), NUM_ULONG (g)),
-                CONS (SYM (b), NUM_ULONG (b)));
-#undef FUNC_NAME
-}
-
-
 PRIMPROC
 (pixel_rgba, "pixel-rgba", 2, 0, 0,
  (SCM pixel, SCM format),
@@ -899,35 +821,6 @@ four values: @code{r}, @code{g}, @code{b} and @code{a} (all integers).  */)
      NUM_ULONG (g),
      NUM_ULONG (b),
      NUM_ULONG (a));
-#undef FUNC_NAME
-}
-
-
-PRIMPROC
-(get_rgba, "get-rgba", 2, 0, 0,
- (SCM pixel, SCM format),
- doc: /***********
-NB: This procedure is obsoleted by @code{pixel-rgba}
-and @strong{will be removed} after 2013-12-31.
-
-Get RGBA values from @var{pixel} in the specified pixel
-@var{format}.  Return an alist with keys @code{r}, @code{g},
-@code{b} and @code{a}, with red, green, blue and alpha values
-(numbers), respectively.  */)
-{
-#define FUNC_NAME s_get_rgba
-  Uint8 r, g, b, a;
-
-  ASSERT_INTEGER (pixel, 1);
-  ASSERT_PIXEL_FORMAT (format, 2);
-
-  SDL_GetRGBA (C_ULONG (pixel), UNPACK_PIXEL_FORMAT (format),
-               &r, &g, &b, &a);
-
-  return LIST4 (CONS (SYM (r), NUM_ULONG (r)),
-                CONS (SYM (g), NUM_ULONG (g)),
-                CONS (SYM (b), NUM_ULONG (b)),
-                CONS (SYM (a), NUM_ULONG (a)));
 #undef FUNC_NAME
 }
 
@@ -1201,30 +1094,6 @@ and @code{icon} (both strings, or @code{#f} if not set).  */)
   RETURN_VALUES2
     (title ? STRING (title) : BOOL_FALSE,
      icon  ? STRING (icon)  : BOOL_FALSE);
-#undef FUNC_NAME
-}
-
-
-DECLARE_SIMPLE_SYM (title);
-DECLARE_SIMPLE_SYM (icon);
-
-PRIMPROC
-(wm_get_caption, "get-caption", 0, 0, 0,
- (void),
- doc: /***********
-NB: This procedure is obsoleted by @code{caption-ti}
-and @strong{will be removed} after 2013-12-31.
-
-Return an alist with keys @code{title} and @code{icon}
-and values the title-bar and icon name (or @code{#f}) of the display
-window, respectively.  */)
-{
-#define FUNC_NAME s_wm_get_caption
-  char *title, *icon;
-
-  SDL_WM_GetCaption (&title, &icon);
-  return LIST2 (CONS (SYM (title), title ? STRING (title) : BOOL_FALSE),
-                CONS (SYM (icon),  icon  ? STRING (icon)  : BOOL_FALSE));
 #undef FUNC_NAME
 }
 

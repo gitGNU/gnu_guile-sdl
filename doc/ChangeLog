@@ -1,5 +1,12 @@
 2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete procs: get-{video-info,rgb,rgba,caption}
+
+	* ref.texh (Video): Delete @tsin for ‘get-video-info’,
+	‘get-rgb’, ‘get-rgba’, ‘get-caption’.
+
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete procs: joystick-{get-ball,event-state}
 
 	* ref.texh (Joystick): Delete @tsin for

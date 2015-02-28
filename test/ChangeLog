@@ -1,5 +1,17 @@
 2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete procs: get-{video-info,rgb,rgba,caption}
+
+	* rect.scm <top-level>: Don't exercise ‘get-video-info’.
+	(<futz w/ the window-manager> ti): New proc.
+	<futz w/ the window-manager>: Don't call ‘get-caption’;
+	use ‘ti’, w/o discrepency check.
+	(<draw some rectangles filled with random colors> w/random-args):
+	No longer take arg UNPACK; use result of VUNPACK directly,
+	w/o discrepency check.  Update callers.
+
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete procs: joystick-{get-ball,event-state}
 
 	* event.scm (check-joystick-maybe): Don't call

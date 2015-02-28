@@ -38,11 +38,6 @@
   (lambda (capabilities memory format)
     (info "video-cmf => ~S / => ~S / => ~S"
           capabilities memory format)))
-(let ((alist (SDL:get-video-info)))
-  (for-each (lambda (k v)
-              (info "~A => ~S" k v))
-            (map car alist)
-            (map cdr alist)))
 
 ;; get a sample rect size from a list of available modes
 (define test-rect
@@ -144,41 +139,31 @@
       (error "weird" yar)))
 
 ;; futz w/ the window-manager
-(let ((wminfo (SDL:get-wm-info))
-      (caption (SDL:get-caption)))
+(let ((wminfo (SDL:get-wm-info)))
+
+  (define (ti)
+    (call-with-values SDL:caption-ti
+      cons))
+
   (info "get-wm-info => ~S" wminfo)
-  (info "get-caption => ~S" caption)
+  (info "title/icon => ~S" (ti))
   (and *interactive* (SDL:delay 1000))
   (SDL:set-caption "and so it goes")
   (info "get-wm-info => ~S" (SDL:get-wm-info))
-  (set! caption (SDL:get-caption))
-  (call-with-values SDL:caption-ti
-    (lambda (title icon)
-      (or (equal? (list title icon) (map cdr caption))
-          (error "discrepency in caption-ti:"
-                 (list title icon) 'vs caption))))
-  (info "get-caption => ~S" caption))
+  (info "title/icon => ~S" (ti)))
 
 ;; draw some rectangles filled with random colors
 (do ((i 0 (1+ i)))
     ((= i 20))
   (let ((sample (rand-rect test-rect)))
 
-    (define (w/random-args make unpack vunpack n)
+    (define (w/random-args make vunpack n)
       (let* ((full (apply make fmt (map (lambda (x)
                                           (random #x100))
                                         (iota n))))
              (vpart (call-with-values (lambda () (vunpack full fmt))
-                      list))
-             (part (unpack full fmt)))
-        (or (and (pair? part)
-                 (= n (length part)))
-            (error (fs "bad ~A result: ~S"
-                       (procedure-name unpack)
-                       part)))
-        (info "color ~S ~S ~S" full vpart part)
-        (or (equal? vpart (map cdr part))
-            (error "discrepency between part and vpart!"))
+                      list)))
+        (info "color ~S ~S" full vpart)
         full))
 
     (call-with-clip-rect
@@ -189,11 +174,9 @@
     (SDL:fill-rect screen sample (case (modulo i 3)
                                    ((0) (random #x100))
                                    ((1) (w/random-args SDL:map-rgb
-                                                       SDL:get-rgb
                                                        SDL:pixel-rgb
                                                        3))
                                    ((2) (w/random-args SDL:map-rgba
-                                                       SDL:get-rgba
                                                        SDL:pixel-rgba
                                                        4))))
     (SDL:update-rect screen sample)))

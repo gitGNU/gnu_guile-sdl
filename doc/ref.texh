@@ -40,8 +40,6 @@
 
 @tsin i video-cmf
 
-@tsin i get-video-info
-
 @tsin i video-driver-name
 
 @tsin i list-modes
@@ -112,11 +110,7 @@
 
 @tsin i pixel-rgb
 
-@tsin i get-rgb
-
 @tsin i pixel-rgba
-
-@tsin i get-rgba
 
 @tsin i fill-rect
 
@@ -151,8 +145,6 @@
 @tsin i set-caption
 
 @tsin i caption-ti
-
-@tsin i get-caption
 
 @tsin i set-icon
 

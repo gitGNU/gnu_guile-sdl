@@ -1,5 +1,18 @@
 2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete procs: get-{video-info,rgb,rgba,caption}
+
+	* sdlvideo.c (gsdl_sym_video_mem): Delete DECLARE_SYM.
+	(gsdl_sym_vfmt): Delete DECLARE_SIMPLE_SYM.
+	(get_video_info): Delete PRIMPROC.
+	(gsdl_sym_r, gsdl_sym_g, gsdl_sym_b, gsdl_sym_a):
+	Delete DECLARE_SIMPLE_SYMs.
+	(get_rgb, get_rgba): Delete PRIMPROCs.
+	(gsdl_sym_title, gsdl_sym_icon): Delete DECLARE_SIMPLE_SYMs.
+	(wm_get_caption): Delete PRIMPROC.
+
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete procs: joystick-{get-ball,event-state}
 
 	* sdljoystick.c (joystick_event_state): Delete PRIMPROC.
