@@ -1,5 +1,12 @@
 2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete procs: joystick-{get-ball,event-state}
+
+	* ref.texh (Joystick): Delete @tsin for
+	‘joystick-event-state’ and ‘joystick-get-ball’.
+
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete procs: cd-{get-nth-track,frames->msf}
 
 	* ref.texh (CDROM): Delete @tsin for ‘cd-get-nth-track’,

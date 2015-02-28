@@ -472,13 +472,9 @@ effectively the same as specifying @code{centered}.
 
 @tsin i joystick-polling
 
-@tsin i joystick-event-state
-
 @tsin i joystick-get-axis
 
 @tsin i joystick-ball-xy
-
-@tsin i joystick-get-ball
 
 @tsin i joystick-get-hat
 

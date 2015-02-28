@@ -1,5 +1,13 @@
 2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete procs: joystick-{get-ball,event-state}
+
+	* event.scm (check-joystick-maybe): Don't call
+	‘joystick-event-state’; use ‘joystick-polling’ directly,
+	w/o discrepency checking.
+
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[ttf] Drop obsolete procs: font:{glyph-metrics,size-{text,utf8}}
 
 	* ttf.scm (rand-rect): Don't call ‘font:size-text’;

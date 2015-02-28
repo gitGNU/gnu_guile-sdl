@@ -26,15 +26,7 @@
 
 (define (check-joystick-maybe)
   (info "joystick polling => ~S"
-        (let* ((ans (SDL:joystick-polling))
-               (raw (SDL:joystick-event-state 'SDL_QUERY))
-               (old (case raw
-                      ((SDL_ENABLE) #t)
-                      ((SDL_IGNORE) #f)
-                      (else (error "WTF:" raw)))))
-          (or (eq? ans old)
-              (error "discrepency:" (list 'ans: ans 'old: old)))
-          ans))
+        (SDL:joystick-polling))
   (or (SDL:joystick-polling)
       (SDL:joystick-polling #t)
       (error "could not enable joystick polling"))

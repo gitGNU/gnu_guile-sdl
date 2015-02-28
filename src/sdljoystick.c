@@ -236,33 +236,6 @@ to the truth value of @var{setting} first.  */)
 
 
 PRIMPROC
-(joystick_event_state, "joystick-event-state", 1, 0, 0,
- (SCM state),
- doc: /***********
-NB: This procedure is obsoleted by @code{joystick-polling}
-and @strong{will be removed} after 2013-12-31.
-
-Set or query the state of internal joystick event processing,
-based on @var{state} (a symbol).
-If @var{state} is @code{SDL_QUERY}, return the current state.
-If it is @code{SDL_IGNORE} or @code{SDL_ENABLE},
-disable or enable, respectively, internal joystick
-event processing and return @var{state}.
-When enabled, it is not necessary to call @code{joystick-update}.  */)
-{
-#define FUNC_NAME s_joystick_event_state
-#define ESE btw->event_state_enum
-  DECLINIT_SYM2NUM_CC    (1, ESE);
-  int cstate = ENUM2LONG (1, state);
-  int ret = SDL_JoystickEventState (cstate);
-
-  return btw->long2enum (ret, ESE);
-#undef ESE
-#undef FUNC_NAME
-}
-
-
-PRIMPROC
 (joystick_get_axis, "joystick-get-axis", 2, 0, 0,
  (SCM joystick,
   SCM axis),
@@ -299,35 +272,6 @@ as two values: @code{dx} and @code{dy} (both integers).  */)
   RETURN_VALUES2
     (NUM_LONG (dx),
      NUM_LONG (dy));
-#undef FUNC_NAME
-}
-
-
-DECLARE_SIMPLE_SYM (dx);
-DECLARE_SIMPLE_SYM (dy);
-
-PRIMPROC
-(joystick_get_ball, "joystick-get-ball", 2, 0, 0,
- (SCM joystick,
-  SCM n),
- doc: /***********
-NB: This procedure is obsoleted by @code{joystick-ball-xy}
-and @strong{will be removed} after 2013-12-31.
-
-For @var{joystick}, return relative motion of trackball
-@var{n}, as an alist with keys @code{dx} and @code{dy}.
-If @var{n} is invalid, return @code{#f}.  */)
-{
-#define FUNC_NAME s_joystick_get_ball
-  ASSERT_FIRST_ARG_OPEN_JOYSTICK ();
-  int dx, dy;
-
-  ASSERT_INTEGER (n, 2);
-
-  return 0 > SDL_JoystickGetBall (joy, C_LONG (n), &dx, &dy)
-    ? BOOL_FALSE
-    : LIST2 (CONS (SYM (dx), NUM_LONG (dx)),
-             CONS (SYM (dy), NUM_LONG (dy)));
 #undef FUNC_NAME
 }
 

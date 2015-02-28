@@ -1,5 +1,13 @@
 2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete procs: joystick-{get-ball,event-state}
+
+	* sdljoystick.c (joystick_event_state): Delete PRIMPROC.
+	(gsdl_sym_dx, gsdl_sym_dy): Delete DECLARE_SIMPLE_SYMs.
+	(joystick_get_ball): Delete PRIMPROC.
+
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete procs: cd-{get-nth-track,frames->msf}
 
 	* sdlcdrom.c (gsdl_sym_offset, gsdl_sym_length)
