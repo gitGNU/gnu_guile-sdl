@@ -224,41 +224,6 @@ a symbol, either @code{audio} or @code{data}.  */)
 }
 
 
-DECLARE_SIMPLE_SYM (offset);
-DECLARE_SIMPLE_SYM (length);
-DECLARE_SIMPLE_SYM (type);
-DECLARE_SIMPLE_SYM (id);
-
-PRIMPROC
-(cd_get_nth_track, "cd-get-nth-track", 1, 1, 0,
- (SCM cdrom, SCM n),
- doc: /***********
-NB: This procedure is obsoleted by @code{cd-nth-track-itlo}
-and @strong{will be removed} after 2013-12-31.
-
-For CD in drive @var{cdrom}, return info on track @var{n}
-as an alist or @code{#f} if there were problems.  */)
-{
-#define FUNC_NAME s_cd_get_nth_track
-  ASSERT_FIRST_ARG_OPEN_CDROM ();
-  int cn = 0;
-
-  if (BOUNDP (n))
-    ASSERT_ULONG_COPY (n, 2);
-
-  if (cd && (cn < cd->numtracks))
-    /* Form an assoc list.  */
-    return LIST4
-      (CONS (SYM (id),     NUM_LONG (cd->track[cn].id)),
-       CONS (SYM (type),   NUM_LONG (cd->track[cn].type)),
-       CONS (SYM (length), NUM_ULONG (cd->track[cn].length)),
-       CONS (SYM (offset), NUM_ULONG (cd->track[cn].offset)));
-  else
-    return BOOL_FALSE;
-#undef FUNC_NAME
-}
-
-
 PRIMPROC
 (cd_play_tracks, "cd-play-tracks", 1, 4, 0,
  (SCM cdrom,
@@ -434,33 +399,6 @@ Break down @var{frames} (an integer) and return three values:
     (NUM_ULONG (m),
      NUM_ULONG (s),
      NUM_ULONG (f));
-#undef FUNC_NAME
-}
-
-
-DECLARE_SIMPLE_SYM (f);
-DECLARE_SIMPLE_SYM (s);
-DECLARE_SIMPLE_SYM (m);
-
-PRIMPROC
-(cd_frames_to_msf, "cd-frames->msf", 1, 0, 0,
- (SCM frames),
- doc: /***********
-NB: This procedure is obsoleted by @code{frames-msf}
-and @strong{will be removed} after 2013-12-31.
-
-Return a minute/second/frames alist made from
-converting @var{frames} (a number).  */)
-{
-#define FUNC_NAME s_cd_frames_to_msf
-  int cframes, m, s, f;
-
-  ASSERT_ULONG_COPY (frames, 1);
-
-  FRAMES_TO_MSF (cframes, &m , &s, &f);
-  return LIST3 (CONS (SYM (m), NUM_ULONG (m)),
-                CONS (SYM (s), NUM_ULONG (s)),
-                CONS (SYM (f), NUM_ULONG (f)));
 #undef FUNC_NAME
 }
 

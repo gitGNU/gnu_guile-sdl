@@ -1,5 +1,12 @@
 2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete procs: cd-{get-nth-track,frames->msf}
+
+	* ref.texh (CDROM): Delete @tsin for ‘cd-get-nth-track’,
+	‘cd-frames->msf’.
+
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[ttf] Drop obsolete procs: font:{glyph-metrics,size-{text,utf8}}
 
 	* ref.texh (TrueType): Delete @tsin for ‘font:glyph-metrics’,

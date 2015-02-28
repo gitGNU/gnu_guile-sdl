@@ -1,5 +1,15 @@
 2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete procs: cd-{get-nth-track,frames->msf}
+
+	* sdlcdrom.c (gsdl_sym_offset, gsdl_sym_length)
+	(gsdl_sym_type, gsdl_sym_id): Delete DECLARE_SIMPLE_SYMs.
+	(cd_get_nth_track): Delete PRIMPROC.
+	(gsdl_sym_f, gsdl_sym_s, gsdl_sym_m): Delete DECLARE_SIMPLE_SYMs.
+	(cd_frames_to_msf): Delete PRIMPROC.
+
+2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[ttf] Drop obsolete procs: font:{glyph-metrics,size-{text,utf8}}
 
 	* sdlttf.c (gsdl_sym_minx, gsdl_sym_maxx, gsdl_sym_miny)

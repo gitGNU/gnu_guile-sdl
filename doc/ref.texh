@@ -509,8 +509,6 @@ effectively the same as specifying @code{centered}.
 
 @tsin i cd-nth-track-itlo
 
-@tsin i cd-get-nth-track
-
 @tsin i cd-play-tracks
 
 @tsin i cd-play
@@ -528,8 +526,6 @@ effectively the same as specifying @code{centered}.
 @tsin i cd-msf->frames
 
 @tsin i frames-msf
-
-@tsin i cd-frames->msf
 
 @node OpenGL
 @chapter OpenGL
