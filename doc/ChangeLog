@@ -1,5 +1,11 @@
 2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete proc: set-alpha!
+
+	* ref.texh (Video): Delete @tsin for ‘set-alpha!’.
+
+2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete procs: get-mouse-{relative-}state
 
 	* ref.texh (Events): Delete @tsin for

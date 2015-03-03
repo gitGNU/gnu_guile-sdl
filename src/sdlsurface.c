@@ -35,7 +35,6 @@ SELECT_MODULE_VAR (mk_u32v, srfi4, "make-u32vector");
 #endif
 
 static SCM kp_alpha;
-static SCM alpha_enums;
 
 
 /* smob functions */
@@ -396,50 +395,6 @@ Return @code{#t} if successful.  */)
 
 
 PRIMPROC
-(set_alpha, "set-alpha!", 2, 1, 0,
- (SCM surface,
-  SCM flag,
-  SCM alpha),
- doc: /***********
-NB: This procedure is obsoleted by @code{surface-alpha!}
-and @strong{will be removed} after 2013-12-31.
-
-Adjust whole-@var{surface} alpha as specified by
-@var{flag} (@pxref{video flags}) and @var{alpha}
-(@pxref{alpha-enum enums}, or a number 0-255).
-If @var{flag} is @code{#f}, ignore @var{alpha} completely.  */)
-{
-#define FUNC_NAME s_set_alpha
-  DECLINIT_SYM2NUM_CC (2, btw->video_flags);
-  DECLINIT_SYM2NUM_CC (3, alpha_enums);
-  Uint32 cflag;
-  Uint8 calpha;
-
-  ASSERT_SURFACE (surface, 1);
-  if (EXACTLY_FALSEP (flag) || NULLP (flag))
-    {
-      flag = SCM_BOOL_F;
-      alpha = SCM_INUM0;
-    }
-  if (UNBOUNDP (alpha))
-    alpha = SCM_INUM0;
-  else
-    ASSERT_INTEGER (alpha, 3);
-
-  cflag = (EXACTLY_FALSEP (flag)
-           ? 0
-           : FLAGS2ULONG (2, flag));
-  calpha = (Uint8) ENUM2LONG (3, alpha);
-
-  RETURN_TRUE_IF_0
-    (SDL_SetAlpha (UNPACK_SURFACE (surface),
-                   cflag,
-                   calpha));
-#undef FUNC_NAME
-}
-
-
-PRIMPROC
 (set_clip_rect, "set-clip-rect!", 1, 1, 0,
  (SCM surface,
   SCM rect),
@@ -764,7 +719,6 @@ with @var{height} x @var{width} x @var{depth-in-bytes} elements.  */)
 
 
 #include "k/alphalim.c"
-#include "k/alphalimold.c"
 
 void
 gsdl_init_surface (void)
@@ -779,7 +733,6 @@ gsdl_init_surface (void)
   /* alpha constants */
   {
     kp_init_t allp[] = {
-      { &alpha_enums, &alphalimold_kp },
       { &kp_alpha, &alphalim_kp }
     };
 

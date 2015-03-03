@@ -190,8 +190,6 @@
 
 @tsin i surface-alpha!
 
-@tsin i set-alpha!
-
 @tsin i set-clip-rect!
 
 @tsin i get-clip-rect

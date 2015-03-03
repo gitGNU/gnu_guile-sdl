@@ -31,7 +31,6 @@ video.kf
 stdp =						\
 active.kp					\
 alphalim.kp					\
-alphalimold.kp					\
 cdstate.kp					\
 cdtracktype.kp					\
 evaction.kp					\

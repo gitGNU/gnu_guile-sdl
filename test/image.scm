@@ -198,7 +198,6 @@
      (alpha 9 (+ 9 alpha)))
     ((= 9 i))
   (SDL:surface-alpha! gnu-head alpha)
-  (SDL:set-alpha! gnu-head 'src-alpha alpha)
   (standard-blit! gnu-head)
   (SDL:flip)
   (SDL:delay 20))

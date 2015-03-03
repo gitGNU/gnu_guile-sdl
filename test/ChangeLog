@@ -1,5 +1,11 @@
 2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete proc: set-alpha!
+
+	* image.scm <alpha>: Don't call ‘set-alpha!’.
+
+2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete procs: get-mouse-{relative-}state
 
 	* event.scm <top-level>: Use ‘mouse-bxy’ directly.

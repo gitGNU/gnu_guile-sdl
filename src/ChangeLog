@@ -1,5 +1,16 @@
 2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete proc: set-alpha!
+
+	* sdlsurface.c (alpha_enums): Delete static var.
+	(set_alpha): Delete PRIMPROC.
+	<top-level>: Don't #include "k/alphalimold.c".
+	(gsdl_init_surface): Remove ‘alpha_enums’ from ‘allp’.
+	* k/Makefile.am (stdp): Remove alphalimold.kp.
+	* k/alphalimold.kp: Delete file.
+
+2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete procs: get-mouse-{relative-}state
 
 	* sdlevent.c (gsdl_sym_state, gsdl_sym_x, gsdl_sym_y):
