@@ -1,5 +1,18 @@
 2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete proc: event-state
+
+	* sdlevent.c (event_state_enum): Delete static var.
+	<top-level>: Don't #include "k/evstate.c".
+	(event_state): Delete PRIMPROC.
+	(gsdl_init_event): Remove ‘event_state_enum’ from ‘allp’;
+	don't init ‘btw->event_state_enum’.
+	* guile-sdl.h (struct obtw): Delete member ‘event_state_enum’.
+	* k/Makefile.am (stdp): Remove evstate.kp.
+	* k/evstate.kp: Delete file.
+
+2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete proc: set-alpha!
 
 	* sdlsurface.c (alpha_enums): Delete static var.

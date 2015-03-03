@@ -37,9 +37,6 @@ static SCM mbut_enum;
 static SCM event_type_enum;
 #include "k/evtype.c"
 
-static SCM event_state_enum;
-#include "k/evstate.c"
-
 static SCM event_keysym_enum;
 #include "k/keysym.c"
 
@@ -703,31 +700,6 @@ If @var{setting} is specified, set the handling of
 }
 
 PRIMPROC
-(event_state, "event-state", 2, 0, 0,
- (SCM type, SCM state),
- doc: /***********
-NB: This procedure is obsoleted by @code{event-type-handling}
-and @strong{will be removed} after 2013-12-31.
-
-Set or query the state of event @var{type} (@pxref{event-type enums})
-processing, based on @var{state} (@pxref{event-state enums}).
-If @var{state} is @code{SDL_QUERY}, return the current state.
-If it is @code{SDL_IGNORE} or @code{SDL_ENABLE},
-disable or enable, respectively, internal event @var{type}
-processing and return @var{state}.  */)
-{
-#define FUNC_NAME s_event_state
-  DECLINIT_SYM2NUM_CC   (1, event_type_enum);
-  int ctype = ENUM2LONG (1, type);
-  DECLINIT_SYM2NUM_CC    (2, event_state_enum);
-  int cstate = ENUM2LONG (2, state);
-  int ret = SDL_EventState (ctype, cstate);
-
-  return btw->long2enum (ret, event_state_enum);
-#undef FUNC_NAME
-}
-
-PRIMPROC
 (enable_unicode, "enable-unicode", 0, 1, 0,
  (SCM enable_p),
  doc: /***********
@@ -922,7 +894,6 @@ gsdl_init_event (void)
       { &event_type_enum, &evtype_kp },
       { &event_keysym_enum, &keysym_kp },
       { &event_action_enum, &evaction_kp },
-      { &event_state_enum, &evstate_kp },
       { &mbut_enum, &mbut_kp },
       { &updn_enum, &updn_kp },
       { &active_enum, &active_kp }
@@ -942,7 +913,6 @@ gsdl_init_event (void)
     REGISTER_KF_V (allf);
   }
 
-  btw->event_state_enum = event_state_enum;
   btw->updn_enum = updn_enum;
 
   efi.proc = SCM_BOOL_F;

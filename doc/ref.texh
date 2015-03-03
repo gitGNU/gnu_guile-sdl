@@ -415,8 +415,6 @@ effectively the same as specifying @code{centered}.
 
 @tsin i event-type-handling
 
-@tsin i event-state
-
 @tsin i enable-unicode
 
 @tsin i enable-key-repeat

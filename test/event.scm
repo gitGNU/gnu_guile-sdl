@@ -377,17 +377,9 @@
             (display-centered
              "~A . ~A"
              (nice-type type)
-             (let* ((ans (if (SDL:event-type-handling type)
-                             'yes
-                             'no))
-                    (raw (SDL:event-state type 'SDL_QUERY))
-                    (old (case raw
-                           ((SDL_ENABLE) 'yes)
-                           ((SDL_IGNORE) 'no)
-                           (else (error "WTF:" raw)))))
-               (or (eq? ans old)
-                   (error "discrepency:" (list 'ans: ans 'old: old)))
-               ans)))
+             (if (SDL:event-type-handling type)
+                 'yes
+                 'no)))
           (map car (SDL:kotk 'event-type)))
 
 ;; enable keyboard repeat

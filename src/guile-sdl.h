@@ -315,7 +315,6 @@ struct obtw
   SCM video_flags;
   /* Flags used in various sdl{surface,video}.c funcs.  */
 
-  SCM event_state_enum;
   SCM updn_enum;
   /* Used in various sdl{event,joystick}.c funcs.  */
 

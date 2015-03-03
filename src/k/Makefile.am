@@ -34,7 +34,6 @@ alphalim.kp					\
 cdstate.kp					\
 cdtracktype.kp					\
 evaction.kp					\
-evstate.kp					\
 evtype.kp					\
 frot.kp						\
 grabmode.kp					\
