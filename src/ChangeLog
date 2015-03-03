@@ -1,5 +1,16 @@
 2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete proc: peep-events
+
+	* sdlevent.c (event_action_enum): Delete static var.
+	<top-level>: Don't #include "k/evaction.c".
+	(peep_events): Delete PRIMPROC.
+	(gsdl_init_event): Remove ‘event_action_enum’ from ‘allp’.
+	* k/Makefile.am (stdp): Remove evaction.kp.
+	* k/evaction.kp: Delete file.
+
+2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete proc: set-color-key!
 
 	* sdlsurface.c (set_color_key): Delete PRIMPROC.

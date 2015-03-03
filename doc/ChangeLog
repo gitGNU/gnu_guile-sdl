@@ -1,5 +1,11 @@
 2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete proc: peep-events
+
+	* ref.texh (Events): Delete @tsin for ‘peep-events’.
+
+2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete proc: set-color-key!
 
 	* ref.texh (Video): Delete @tsin for ‘set-color-key!’.

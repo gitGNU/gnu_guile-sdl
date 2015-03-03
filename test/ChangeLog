@@ -1,5 +1,12 @@
 2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete proc: peep-events
+
+	* event.scm <queue interaction>: Don't call ‘peep-events’;
+	use ‘evqueue-peek’ instead.
+
+2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete proc: set-color-key!
 
 	* image.scm <top-level>: Don't call ‘set-color-key!’;

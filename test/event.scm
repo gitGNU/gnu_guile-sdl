@@ -462,7 +462,7 @@
 
 ;; queue interaction
 (SDL:pump-events)
-(let ((count (SDL:peep-events #f 10 'SDL_PEEKEVENT '())))
+(let ((count (SDL:evqueue-peek 99 #f)))
   (or (zero? count)
       (error "pending events not properly masked:"
              (cons 'count: count))))

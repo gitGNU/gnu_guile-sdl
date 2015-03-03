@@ -40,9 +40,6 @@ static SCM event_type_enum;
 static SCM event_keysym_enum;
 #include "k/keysym.c"
 
-static SCM event_action_enum;
-#include "k/evaction.c"
-
 static SCM event_mb_flags;
 static SCM event_mod_flags;
 static SCM event_mask_flags;
@@ -431,109 +428,6 @@ If there are errors, return @code{#f}.
 }
 
 PRIMPROC
-(peep_events, "peep-events", 4, 0, 0,
- (SCM events, SCM numevents, SCM action, SCM mask),
- doc: /***********
-NB: This procedure is obsoleted by @code{evqueue-add},
-@code{evqueue-peek} and @code{evqueue-get};
-it @strong{will be removed} after 2013-12-31.
-
-Manage the event queue, depending
-on @var{action} (@pxref{event-action enums}):
-
-@table @code
-@item SDL_ADDEVENT
-Add up to @var{numevents} (an integer) events from
-@var{events} (a list) to the back of the event queue.
-
-@item SDL_PEEKEVENT
-Return a count (number less than or equal to @var{numevents})
-of events at the front of the event queue that match @var{mask}
-(@pxref{event-mask flags}), without changing the queue.
-
-@item SDL_GETEVENT
-Act like for @code{SDL_PEEKEVENT} except return a list of
-matching events instead of a count, removing them from the queue.
-@end table  */)
-{
-#define FUNC_NAME s_peep_events
-  DECLINIT_SYM2NUM_CC (3, event_action_enum);
-  DECLINIT_SYM2NUM_CC (4, event_mask_flags);
-  SDL_Event *cevents = NULL;
-  SDL_eventaction caction;
-  int cnumevents, i, ret = -1;
-  Uint32 cmask;
-  SCM ls = SCM_BOOL_F;
-
-  ASSERT_LONG_COPY (numevents, 2);
-  caction = ENUM2LONG (3, action);
-
-  switch (caction)
-    {
-    case SDL_ADDEVENT:
-      /* Do two passes: first to validate argument types and consistency,
-         second to allocate the array and copy the events (ugh).  This will
-         most certainly be re-implemented w/ user-visible uniform vectors.  */
-      SCM_VALIDATE_LIST_COPYLEN (1, events, i);
-      if (cnumevents > i)
-        SCM_MISC_ERROR ("numevents greater than events length",
-                        SCM_EOL);
-      for (i = 0, ls = events;
-           i < cnumevents;
-           i++, ls = CDR (ls))
-        if (! EVENT_P (CAR (ls)))
-          break;
-      ASSERT_TYPE (i == cnumevents, events, 1, "list of SDL-Event");
-      cevents = ALLOCA_EVENTS (cnumevents);
-      for (i = 0, ls = events;
-           i < cnumevents;
-           i++, ls = CDR (ls))
-        cevents[i] = *(UNPACK_EVENT (CAR (ls)));
-      ret = SDL_PeepEvents (cevents, cnumevents, caction, 0);
-      break;
-
-    case SDL_GETEVENT:
-      cevents = ALLOCA_EVENTS (cnumevents);
-      /* fallthrough */
-
-    case SDL_PEEKEVENT:
-      cmask = FLAGS2ULONG (4, mask);
-      ret = SDL_PeepEvents (cevents, cnumevents, caction, cmask);
-      if (0 > ret)
-        SCM_MISC_ERROR ("badness", SCM_EOL);
-      if (cevents)
-        {
-          SDL_Event *cev; SCM ev;
-
-          ls = SCM_EOL;
-          for (i = ret - 1; -1 < i; i--)
-            {
-              cev = GCMALLOC_EVENT ();
-              *cev = cevents[i];
-              NEW_EVENT_X (ev, cev);
-              ls = CONS (ev, ls);
-            }
-        }
-      break;
-
-    default:
-      SCM_MISC_ERROR ("bad action", SCM_EOL);
-    }
-
-  switch (caction)
-    {
-    case SDL_ADDEVENT:
-    case SDL_PEEKEVENT:
-      RETURN_INT (ret);
-    case SDL_GETEVENT:
-      return ls;
-    default:
-      RETURN_UNSPECIFIED;
-    }
-#undef FUNC_NAME
-}
-
-PRIMPROC
 (poll_event, "poll-event", 0, 1, 0,
  (SCM event),
  doc: /***********
@@ -893,7 +787,6 @@ gsdl_init_event (void)
     kp_init_t allp[] = {
       { &event_type_enum, &evtype_kp },
       { &event_keysym_enum, &keysym_kp },
-      { &event_action_enum, &evaction_kp },
       { &mbut_enum, &mbut_kp },
       { &updn_enum, &updn_kp },
       { &active_enum, &active_kp }
