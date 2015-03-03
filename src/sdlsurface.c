@@ -331,33 +331,6 @@ Return @code{#t} if successful.  */)
 
 
 PRIMPROC
-(set_color_key, "set-color-key!", 3, 0, 0,
- (SCM surface,
-  SCM flag,
-  SCM key),
- doc: /***********
-NB: This procedure is obsoleted by @code{surface-color-key!}
-and @strong{will be removed} after 2013-12-31.
-
-Set @var{surface} color key as specified by @var{flag}
-(@pxref{video flags}) and @var{key}.  */)
-{
-#define FUNC_NAME s_set_color_key
-  DECLINIT_SYM2NUM_CC (2, btw->video_flags);
-  Uint32 cflag;
-
-  ASSERT_SURFACE (surface, 1);
-  ASSERT_INTEGER (key, 3);
-
-  cflag = FLAGS2ULONG (2, flag);
-
-  RETURN_TRUE_IF_0
-    (SDL_SetColorKey (UNPACK_SURFACE (surface), cflag, C_LONG (key)));
-#undef FUNC_NAME
-}
-
-
-PRIMPROC
 (surface_alpha_x, "surface-alpha!", 2, 1, 0,
  (SCM surface, SCM alpha, SCM rle),
  doc: /***********

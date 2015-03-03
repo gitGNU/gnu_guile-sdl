@@ -1,5 +1,12 @@
 2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete proc: set-color-key!
+
+	* image.scm <top-level>: Don't call ‘set-color-key!’;
+	use ‘surface-color-key!’ instead.
+
+2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete proc: event-state
 
 	* event.scm <report event states>: Don't call ‘event-state’;

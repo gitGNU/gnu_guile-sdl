@@ -1,5 +1,11 @@
 2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[sdl] Drop obsolete proc: set-color-key!
+
+	* ref.texh (Video): Delete @tsin for ‘set-color-key!’.
+
+2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[sdl] Drop obsolete proc: event-state
 
 	* ref.texh (Events): Delete @tsin for ‘event-state’.

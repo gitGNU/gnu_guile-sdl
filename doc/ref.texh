@@ -186,8 +186,6 @@
 
 @tsin i surface-color-key!
 
-@tsin i set-color-key!
-
 @tsin i surface-alpha!
 
 @tsin i set-clip-rect!
