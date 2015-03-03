@@ -156,7 +156,7 @@
 ;; mod and mouse state
 (SDL:set-mod-state '(L-alt R-alt))
 (info "(jammed) mod state => ~S" (SDL:get-mod-state))
-(info "(actual) mouse state => ~S" (SDL:get-mouse-state #t))
+(info "(actual) mouse bxy => ~S" (call-with-values SDL:mouse-bxy list))
 
 (define (fake type . rest)
   (info "(fake)\t~A" type)
@@ -285,21 +285,9 @@
       (let-values (((buttons x y) (SDL:mouse-bxy #t)))
         (draw-relative-rectangle! x y)
         (display-centered/next-next-line "~A ~A ~A" buttons x y)
-        (let* ((alist (SDL:get-mouse-relative-state #t))
-               (gmrs-state (assq-ref alist 'state))
-               (gmrs-x     (assq-ref alist 'x))
-               (gmrs-y     (assq-ref alist 'y)))
-          (or (null? buttons)
-              (SDL:button? buttons)
-              (error "mouse-bxy and button? do not agree!"))
-          (or (equal? buttons gmrs-state)
-              (error "mouse-bxy and get-mouse-relative-state disagree:"
-                     (list 'bxy: buttons
-                           'rel: gmrs-state)))
-          (or (zero? gmrs-x)
-              (error "get-mouse-relative-state x non-zero:" gmrs-x))
-          (or (zero? gmrs-y)
-              (error "get-mouse-relative-state y non-zero:" gmrs-y))))
+        (or (null? buttons)
+            (SDL:button? buttons)
+            (error "mouse-bxy and button? do not agree!")))
       (case event-type
         ((key-down key-up)
          (let ((sym (SDL:event:key:keysym:sym e))

@@ -429,10 +429,6 @@ effectively the same as specifying @code{centered}.
 
 @tsin i set-mod-state
 
-@tsin i get-mouse-state
-
-@tsin i get-mouse-relative-state
-
 @tsin i button?
 
 @tsin i mouse-bxy

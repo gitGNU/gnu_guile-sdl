@@ -1,3 +1,11 @@
+2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[sdl] Drop obsolete procs: get-mouse-{relative-}state
+
+	* event.scm <top-level>: Use ‘mouse-bxy’ directly.
+	(input-loop): Don't call ‘get-mouse-relative-state’;
+	use ‘mouse-bxy’ directly, w/o discrepency checking.
+
 2015-02-28  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[sdl] Drop obsolete procs: get-{video-info,rgb,rgba,caption}
