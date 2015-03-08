@@ -1,5 +1,9 @@
 2015-03-08  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Release: 0.5.2
+
+2015-03-08  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build] Replace ‘AM_MAINTAINER_MODE’ w/ ‘SNUGGLE_MAINT_MODE’.
 
 	* Makefile.am: Do ‘s/MAINTAINER_MODE/MAINT_MODE/g’.

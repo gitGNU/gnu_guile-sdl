@@ -1,5 +1,11 @@
 2015-03-08  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	Release: 0.5.2
+
+	* configure.ac (AC_INIT): Bump version to "0.5.2" for release.
+
+2015-03-08  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build] Replace ‘AM_MAINTAINER_MODE’ w/ ‘SNUGGLE_MAINT_MODE’.
 
 	* configure.ac (AM_MAINTAINER_MODE): Delete macro call.

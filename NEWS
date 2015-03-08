@@ -2,6 +2,69 @@ Guile-SDL NEWS
 See the end for copying conditions.
 
 
+- 0.5.2 | 2015-03-08
+
+  - bugfixes
+
+    Doc bugs, spelling bugs.
+
+  - dropped procs
+
+    As pre-announced in Guile-SDL 0.5.0 (2013-07-19) NEWS, the
+    following procs have been removed:
+
+     (sdl mixer) query-spec
+     (sdl ttf) font:glyph-metrics
+     (sdl ttf) font:size-text
+     (sdl ttf) font:size-utf8
+     (sdl sdl) cd-get-nth-track
+     (sdl sdl) cd-frames->msf
+     (sdl sdl) joystick-get-ball
+     (sdl sdl) get-video-info
+     (sdl sdl) get-rgb
+     (sdl sdl) get-rgba
+     (sdl sdl) get-caption
+     (sdl sdl) get-mouse-state
+     (sdl sdl) get-mouse-relative-state
+     (sdl sdl) event-state
+     (sdl sdl) joystick-event-state
+     (sdl sdl) set-alpha!
+     (sdl sdl) set-color-key!
+     (sdl sdl) peep-events
+
+  - configuration enables automagic rebuild rules by default
+
+    Previously, modification to a Makefile.am file (for instance)
+    would not trigger rebuild of its associated Makefile.in.  Now,
+    it will.  You can revert to the previous, somewhat unsafe,
+    practice with option ‘configure --disable-maintainer-mode’.
+
+  - sed scripts installed
+
+    Guile-SDL 0.5 introduced many changes that require client code
+    modification, most of which are relatively simple and can be
+    done mechnically.  Towards that end, "make install" also copies
+    to $(pkgdatadir)/0.5 a bunch of sed(1) scripts that you can use
+    on older code.  See ugh/README.
+
+    (Actually, these scripts were installed as of Guile-SDL 0.5.1,
+    but we forgot to write the NEWS entry.)
+
+  - bootstrap tools
+
+    upgraded:
+
+     Guile-BAUX 20150308.1113.0e5bee4
+     GNU Texinfo 5.2
+     GNU Automake 1.15
+     GNU gnulib 2015-03-03 15:48:40
+     GNU Libtool 2.4.6
+
+    as before:
+
+     GNU Autoconf 2.69
+
+
 - 0.5.1 | 2013-09-04
 
   - bugfixes
@@ -1495,7 +1558,7 @@ See the end for copying conditions.
 
 Copyright information:
 
-Copyright (C) 2003-2009, 2011-2013 Thien-Thi Nguyen
+Copyright (C) 2003-2009, 2011-2013, 2015 Thien-Thi Nguyen
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the
