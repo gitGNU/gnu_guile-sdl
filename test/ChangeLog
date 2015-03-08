@@ -2,7 +2,7 @@
 
 	[build] Replace ‘AM_MAINTAINER_MODE’ w/ ‘SNUGGLE_MAINT_MODE’.
 
-	* Makefile.am: Do ‘s/AM_MAINTAINER_MODE/SNUGGLE_MAINT_MODE/g’.
+	* Makefile.am: Do ‘s/MAINTAINER_MODE/MAINT_MODE/g’.
 
 2015-03-03  Thien-Thi Nguyen  <ttn@gnu.org>
 
