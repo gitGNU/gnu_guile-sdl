@@ -22,13 +22,13 @@ AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux])
 AC_CONFIG_HEADERS([src/config.h])
 AM_INIT_AUTOMAKE([1.12.2 gnu serial-tests no-dist-gzip dist-lzip dist-xz])
-AM_MAINTAINER_MODE
 
 AC_ARG_VAR([IMFI_CFLAGS],[
   additional flags for compiling the SDL_gfx imagefilter functions,
   appended to the normal CFLAGS (see README)
 ])
 
+SNUGGLE_MAINT_MODE
 SNUGGLE_SET_SOFIXFLAGS
 
 ##----------------------------------------------------------------------------

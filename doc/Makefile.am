@@ -32,9 +32,9 @@ EXTRA_DIST = ref.texh ef-ref.texh \
  ChangeLog-cov scan notes.tdt \
  cov mkexcuse $(BUILT_SOURCES)
 
-if MAINTAINER_MODE
+if MAINT_MODE
 TESTS = cov
-endif ## MAINTAINER_MODE
+endif ## MAINT_MODE
 
 coverage.tdt: api.tdt
 	$(gx) $(srcdir)/scan -o $@ --coverage $<
@@ -46,7 +46,7 @@ api.tdt: $(INCDIR)/SDL/*.h
 
 CLEANFILES = api.tdt coverage.tdt
 
-if MAINTAINER_MODE
+if MAINT_MODE
 gx = $(top_srcdir)/build-aux/guile-baux/gbaux-do
 tsopts = -c utf-8 -f snippets
 
@@ -68,6 +68,6 @@ k-ref.texi: ../src/k-stamp k
 
 EXTRA_DIST += k kls
 
-endif ## MAINTAINER_MODE
+endif ## MAINT_MODE
 
 ## Makefile.am ends here

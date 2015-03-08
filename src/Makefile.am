@@ -95,7 +95,7 @@ snarfcppopts	= $(DEFS) $(DEFAULT_INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS)
 .c.x:
 	$(gx) c2x -o $@ $< -- $(snarfcppopts)
 
-if MAINTAINER_MODE
+if MAINT_MODE
 coding = -c utf-8
 c_docscan = $(gx) c-tsar $(coding) -f $@ -m
 c_usual_args = update $^ -- $(snarfcppopts)
@@ -114,7 +114,7 @@ scheme.tsar: $(scheme)
 
 # Blech, we need to distribute this to generate the exports file.
 EXTRA_DIST += sdl.tsar
-endif # MAINTAINER_MODE
+endif # MAINT_MODE
 
 DISTCLEANFILES = *.x k-count.h
 
@@ -178,7 +178,7 @@ endif
 mixer_la_SOURCES = sdlmixer.c
 mixer_la_LDFLAGS = $(modflags) -lSDL_mixer
 
-if MAINTAINER_MODE
+if MAINT_MODE
 noinst_DATA += mixer.tsar
 mixer.tsar: $(mixer_la_SOURCES)
 	$(c_docscan) '(sdl mixer)' $(c_usual_args)
@@ -207,7 +207,7 @@ endif
 ttf_la_SOURCES = sdlttf.c
 ttf_la_LDFLAGS = $(modflags) -lSDL_ttf
 
-if MAINTAINER_MODE
+if MAINT_MODE
 noinst_DATA += ttf.tsar
 ttf.tsar: $(ttf_la_SOURCES)
 	$(c_docscan) '(sdl ttf)' $(c_usual_args)
@@ -226,8 +226,8 @@ update-libsite-module-catalog:
 
 ####################################################################### etc
 
-if MAINTAINER_MODE
+if MAINT_MODE
 CLEANFILES = *.tsar
-endif # MAINTAINER_MODE
+endif # MAINT_MODE
 
 ## Makefile.am ends here

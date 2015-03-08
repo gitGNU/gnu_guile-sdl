@@ -53,7 +53,7 @@ $(simu): ../src/group-stamp
 	  FOR_MAKE_CHECK=1			\
 	  prefix="$$top"
 
-if MAINTAINER_MODE
+if MAINT_MODE
 CLEANFILES = t99.list
 check_DATA += t99.list
 XFAIL_TESTS += t99-cov
@@ -61,7 +61,7 @@ TESTS += t99-cov
 
 t99.list: ../doc/snippets
 	> $@ sed -f $(top_srcdir)/build-aux/tsar-names.sed $<
-endif MAINTAINER_MODE
+endif MAINT_MODE
 
 clean-local:
 	-rm -rf $(simu)
