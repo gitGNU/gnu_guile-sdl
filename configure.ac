@@ -12,10 +12,8 @@ dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
 dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 dnl GNU General Public License for more details.
 dnl
-dnl You should have received a copy of the GNU General Public
-dnl License along with this program; if not, write to the Free
-dnl Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-dnl Boston, MA  02110-1301  USA
+dnl You should have received a copy of the GNU General Public License
+dnl along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 AC_INIT([guile-sdl],[0.5.1],[bug-guile-sdl@gnu.org])
 AC_CONFIG_AUX_DIR([build-aux])
