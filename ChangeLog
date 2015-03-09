@@ -1,3 +1,11 @@
+2015-03-09  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build int] Add abstraction: GSDL_BUMMER
+
+	* build-aux/guile-sdl.m4 (GSDL_BUMMER): New AC_DEFUN.
+	* configure.ac: Throughout, use ‘GSDL_BUMMER’
+	instead of stylized ‘AC_MSG_ERROR’ calls.
+
 2015-03-08  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	Release: 0.5.2

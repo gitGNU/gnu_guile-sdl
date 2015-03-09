@@ -1,6 +1,6 @@
 ## guile-sdl.m4 --- some -*-autoconf-*- macros for Guile-SDL
 
-# Copyright (C) 2007, 2013 Thien-Thi Nguyen
+# Copyright (C) 2007, 2013, 2015 Thien-Thi Nguyen
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -16,6 +16,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ##----------------------------------------------------------------------------
+
+# GSDL_BUMMER --- output error message and exit errorfully
+#
+# $1 is SOMETHING
+#
+# Use AC_MSG_ERROR to format output "*** SOMETHING not found!"
+# and exit errorfully.
+#
+AC_DEFUN([GSDL_BUMMER],[AC_MSG_ERROR([*** ]$1[ not found!])])
 
 # GUILE_SDL_OPTLIB --- Handle --disable-FOO for optional libraries
 #

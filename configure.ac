@@ -37,7 +37,7 @@ LT_INIT([dlopen disable-static]) dnl module only
 
 AC_PROG_CC_C99
 AS_IF([test x"$ac_cv_prog_cc_c99" = xno],
-[AC_MSG_ERROR([*** C99 compiler not found!])])
+[GSDL_BUMMER([C99 compiler])])
 
 AS_IF([test x"$GCC" = xyes],[keepinside='--visibility=hidden'])
 AC_SUBST([keepinside])
@@ -67,7 +67,7 @@ SNUGGLE_GUILE_LIBSITE_DIR([gsdl])
 ##: SDL
 
 AM_PATH_SDL([1.2.0], :,
-            AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
+            GSDL_BUMMER([SDL version $SDL_VERSION]))
 
 # <http://wiki.libsdl.org/FAQDevelopment> sez:
 #
@@ -92,7 +92,7 @@ dnl Checks for libraries.
 dnl MUST have SDL_image
 AC_CHECK_LIB(SDL_image, IMG_Load,
  	     LIBS="$LIBS -lSDL_image",
- 	     AC_MSG_ERROR([*** SDL_image library not found!]))
+ 	     GSDL_BUMMER([SDL_image library]))
 
 dnl Bindings for optional libs.
 GUILE_SDL_OPTLIB([mixer],[Mix_OpenAudio])
