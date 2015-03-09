@@ -66,8 +66,7 @@ SNUGGLE_GUILE_LIBSITE_DIR([gsdl])
 ##----------------------------------------------------------------------------
 ##: SDL
 
-AM_PATH_SDL([1.2.0], :,
-            GSDL_BUMMER([SDL version $SDL_VERSION]))
+AM_PATH_SDL([1.2.0],[:],[GSDL_BUMMER([SDL version $SDL_VERSION])])
 
 # <http://wiki.libsdl.org/FAQDevelopment> sez:
 #
@@ -90,9 +89,9 @@ LIBS="$LIBS $SDL_LIBS"
 
 dnl Checks for libraries.
 dnl MUST have SDL_image
-AC_CHECK_LIB(SDL_image, IMG_Load,
- 	     LIBS="$LIBS -lSDL_image",
- 	     GSDL_BUMMER([SDL_image library]))
+AC_CHECK_LIB([SDL_image],[IMG_Load],
+ [LIBS="$LIBS -lSDL_image"],
+ [GSDL_BUMMER([SDL_image library])])
 
 dnl Bindings for optional libs.
 GUILE_SDL_OPTLIB([mixer],[Mix_OpenAudio])

@@ -1,5 +1,11 @@
 2015-03-09  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Dose configure.ac w/ proper M4 quoting.
+
+	* configure.ac: ...here, for SDL proper and SDL_image.
+
+2015-03-09  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Add abstraction: GSDL_BUMMER
 
 	* build-aux/guile-sdl.m4 (GSDL_BUMMER): New AC_DEFUN.
