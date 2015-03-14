@@ -1,6 +1,6 @@
 /* sdlgfx.c --- Additional Graphics functions for Guile SDL
  *
- * Copyright (C) 2003-2005, 2007-2009, 2011, 2013 Thien-Thi Nguyen
+ * Copyright (C) 2003-2005, 2007-2009, 2011, 2013, 2015 Thien-Thi Nguyen
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -58,7 +58,7 @@ DEFINE_STRUCT_AND_COPY_FUNC (s16, Sint16)
  * gfxPrimitives
  */
 
-#include "SDL_gfx/SDL_gfxPrimitives.h"
+#include "SDL_gfxPrimitives.h"
 
 
 PRIMPROC
@@ -682,7 +682,7 @@ Set the rotation for glyphs drawn by @code{draw-character} and
  * rotozoom
  */
 
-#include "SDL_gfx/SDL_rotozoom.h"
+#include "SDL_rotozoom.h"
 
 
 PRIMPROC
@@ -818,7 +818,7 @@ box RGBA or Y information'' and is in 32-bit RGBA format.  */)
  * framerate
  */
 
-#include "SDL_gfx/SDL_framerate.h"
+#include "SDL_framerate.h"
 
 static smob_tag_t fpsmgr_tag;
 
@@ -937,7 +937,7 @@ Request an appropriate delay from FPS manager @var{mgr}.  */)
  * RGBA extras
  */
 
-#include "SDL_gfx/SDL_gfxBlitFunc.h"
+#include "SDL_gfxBlitFunc.h"
 
 
 PRIMPROC
@@ -991,7 +991,7 @@ may be relaxed in the future.  */)
  * image filter
  */
 
-#include "SDL_gfx/SDL_imageFilter.h"
+#include "SDL_imageFilter.h"
 
 PRIMPROC
 (imfi_mmx_p, "imfi-mmx?", 0, 1, 0,
