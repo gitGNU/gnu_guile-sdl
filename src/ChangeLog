@@ -1,5 +1,12 @@
 2015-03-14  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build int] Split ‘SUBDIRS’ assignment into assign + augment.
+
+	* Makefile.am (SUBDIRS): ...here, assigning
+	first ‘k’ and then augmenting it w/ ‘SDL_gfx’.
+
+2015-03-14  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Don't hardcode "SDL_gfx/" in #include directives.
 
 	* Makefile.am (AM_CPPFLAGS): Add ‘-I($srcdir)/SDL_gfx’.

@@ -15,7 +15,8 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-SUBDIRS = SDL_gfx k
+SUBDIRS = k
+SUBDIRS += SDL_gfx
 
 AM_CPPFLAGS = $(SDL_CFLAGS)
 AM_CPPFLAGS += -I$(srcdir)/SDL_gfx
