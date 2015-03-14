@@ -1,5 +1,15 @@
 2015-03-14  Thien-Thi Nguyen  <ttn@gnu.org>
 
+	[build] Support "configure --disable-embedded-gfx".
+
+	* Makefile.am (SUBDIRS, AM_CPPFLAGS):
+	Conditionalize augmenting on conditional var ‘EMBGFX’.
+	(gfx_la_LDFLAGS): Bifurcate on conditional var ‘EMBGFX’,
+	leaving current value w/ ‘EMBGFX’, and adding assignment
+	of simply ‘-lSDL_gfx’ for ‘!EMBGFX’.
+
+2015-03-14  Thien-Thi Nguyen  <ttn@gnu.org>
+
 	[build int] Split ‘SUBDIRS’ assignment into assign + augment.
 
 	* Makefile.am (SUBDIRS): ...here, assigning

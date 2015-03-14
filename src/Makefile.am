@@ -16,10 +16,14 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 SUBDIRS = k
+if EMBGFX
 SUBDIRS += SDL_gfx
+endif
 
 AM_CPPFLAGS = $(SDL_CFLAGS)
+if EMBGFX
 AM_CPPFLAGS += -I$(srcdir)/SDL_gfx
+endif
 AM_CFLAGS = $(NORMAL_CFLAGS)
 
 cmoddir = $(GUILE_LIBSITE)/sdl
@@ -84,8 +88,12 @@ sdl_la_LDFLAGS = $(modflags)
 
 gfx_la_SOURCES  = sdlgfx.c $(headers)
 gfx_la_LDFLAGS  = $(modflags)
+if EMBGFX
 gfx_la_LIBADD   = SDL_gfx/libSDL_gfx.la \
                   SDL_gfx/libimfi.la
+else !EMBGFX
+gfx_la_LIBADD   = -lSDL_gfx
+endif !EMBGFX
 
 SUFFIXES = .c
 

@@ -33,7 +33,7 @@ Installation Process
 	See file INSTALL for generic installation instructions.
 	Briefly:
 
-	  ./configure [--disable-mixer] [--disable-ttf]
+	  ./configure [--disable-{mixer,ttf,embedded-gfx}]
 	  make
 	  make check [options]
 	  make install
@@ -43,6 +43,11 @@ Installation Process
 	libSDL_ttf libs and headers to build modules (sdl mixer) and
 	(sdl ttf), respectively.  If they are not found, these modules
 	will not be installed.
+
+	Also by default, Guile-SDL embeds SDL_gfx in module (sdl gfx).
+	To use the system SDL_gfx (which is then loaded at run time),
+	use configure option ‘--disable-embedded-gfx’, and ignore the
+	following paragraph re ‘IMFI_CFLAGS’ (but see ‘NOMMX=1’ below).
 
 	If your cpu supports MMX but your compiler mishandles the
 	assembly in the imagefilter functions (causing a segfault),

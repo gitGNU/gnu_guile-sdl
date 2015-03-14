@@ -29,6 +29,11 @@ AC_ARG_VAR([IMFI_CFLAGS],[
 SNUGGLE_MAINT_MODE
 SNUGGLE_SET_SOFIXFLAGS
 
+AC_ARG_ENABLE([embedded-gfx],[AC_HELP_STRING([--disable-embedded-gfx],
+[use the system SDL_gfx instead of embedding the one shipped with
+ Guile-SDL (default: use embedded)])],:,[enable_embedded_gfx=yes])
+AM_CONDITIONAL([EMBGFX],[test xyes = x"$enable_embedded_gfx"])
+
 ##----------------------------------------------------------------------------
 ##: compiler
 

@@ -1,3 +1,10 @@
+2015-03-14  Thien-Thi Nguyen  <ttn@gnu.org>
+
+	[build] Support "configure --disable-embedded-gfx".
+
+	* configure.ac (embedded-gfx): New ‘AC_ARG_ENABLE’.
+	(EMBGFX): New ‘AM_CONDITIONAL’.
+
 2015-03-09  Thien-Thi Nguyen  <ttn@gnu.org>
 
 	[build int] Dose configure.ac w/ proper M4 quoting.
